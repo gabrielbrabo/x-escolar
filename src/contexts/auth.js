@@ -1,5 +1,5 @@
 import React, {useState, useEffect, createContext} from 'react'
-import {api, createSessionSchool } from '../Api'
+import {api, createSessionEmployee, createSessionSchool } from '../Api'
 import { useNavigate } from 'react-router-dom'
 
 export const AuthContext = createContext()
@@ -18,10 +18,16 @@ export const AuthProvider = ({children}) => {
 
     useEffect(() => {
         const recoveredSchool = sessionStorage.getItem("id-school")
+        const recoveredEmployee = sessionStorage.getItem("Id_employee")
         const token = sessionStorage.getItem('token')
 
         if(recoveredSchool && token) {
             setUser(JSON.parse(recoveredSchool))
+            api.defaults.headers.Authorization = `Bearer ${token}`
+        }
+
+        if(recoveredEmployee && token) {
+            setUser(JSON.parse(recoveredEmployee))
             api.defaults.headers.Authorization = `Bearer ${token}`
         }
 
@@ -31,7 +37,7 @@ export const AuthProvider = ({children}) => {
     const loginSchool = async (email, password) => {
 
         const response = await createSessionSchool(email, password)
-
+        console.log(response)
         const IdSchool = response.data.id
         const loggedSchool = response.data.email
         const token = response.data.token
@@ -63,6 +69,46 @@ export const AuthProvider = ({children}) => {
         window.location.reload()
         
     }
+
+    const loginEmployee = async (cpf, password) => {
+
+        const response = await createSessionEmployee(cpf, password)
+        console.log(response)
+        const IdEmployee = response.data.id
+        const loggedEmployee = response.data.CPF
+        const token = response.data.token
+        const name = response.data.name
+        const type = response.data.type
+        const position_at_school = response.data.position_at_school
+        const id_school = response.data.id_school
+        const id_matter = response.data.id_matter
+        const id_class = response.data.id_class
+        const id_reporter_cardid_class = response.data.id_reporter_card
+        //const avatar = response.data.avatar
+        sessionStorage.setItem("Id_employee", 
+        JSON.stringify(IdEmployee))
+        sessionStorage.setItem("cpf", loggedEmployee)
+        sessionStorage.setItem("name", name)
+        sessionStorage.setItem("type", type)
+        sessionStorage.setItem("position_at_school", position_at_school)
+        sessionStorage.setItem("id_school", id_school)
+        sessionStorage.setItem("id_matter", id_matter)
+        sessionStorage.setItem("id_class", id_class)
+        sessionStorage.setItem("id_reporter_cardid_class", id_reporter_cardid_class)
+        sessionStorage.setItem("token", token)
+
+        /*if (avatar) {
+            sessionStorage.setItem("avatar", avatar)
+        }*/
+        
+        api.defaults.headers.Authorization = `Bearer ${token}`
+        setUser(loggedEmployee)
+        
+        navigate('/home/employee')
+
+        window.location.reload()
+        
+    }
     
     const logout = () => {
 
@@ -82,6 +128,7 @@ export const AuthProvider = ({children}) => {
                     user,
                     loading,
                     loginSchool,
+                    loginEmployee,
                     logout
                 }
             }

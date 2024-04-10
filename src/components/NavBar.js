@@ -2,6 +2,8 @@ import Styled from 'styled-components';
 
 import React, { useState, useEffect } from "react";
 
+//import { useNavigate } from 'react-router-dom'
+
 const Nav = Styled.div`
     display: flex;
     box-shadow: 2px 0px 5px black;
@@ -21,12 +23,12 @@ const Nav = Styled.div`
 
     .nav__menu {
         align-items: center;
-        min-height: 90vh;
+        min-height: 80vh;
         background: rgb(0, 33, 65);
         flex-direction: column;
         transition: 0.5s ease-in;
-        
         box-shadow: 2px 0px 5px black;
+    
     }
     .nav__active {
         display: flex; 
@@ -52,8 +54,7 @@ const Nav = Styled.div`
     }
     
     .nav__toggler {
-        display: block;
-        cursor: pointer;
+        position: absolute;
     }
     
     @media screen and (max-width: 768px) {
@@ -101,16 +102,24 @@ const NavItem = Styled.div`
     }
 `;
 
+const Menu = Styled.div`
+    display: grid;
+    width: 100%;
+`;
+
 const Icon = Styled.div`
     background-color: #99e7ff;
     height: 6vh;
-    position: absolute;
 `;
 
 function NavBar () {
 
     //const [mobile, setMobile] = useState(false);
 
+    //const navigate = useNavigate()
+    const [type, setType] = useState();
+    const [mobile, setMobile] = useState();
+    const [position_at_school, setPosition_at_school] = useState();
     const [active, setActive] = useState();
     const [icon, setIcon] = useState();
     const navToggle = () => {
@@ -123,16 +132,27 @@ function NavBar () {
             setActive("nav__menu");
             setIcon("nav__toggler");
         }
-
+        
         /*if (icon === "nav__toggler") {
             setIcon("nav__toggler toggle");
         } else setIcon("nav__toggler");*/
     };
     
     useEffect( () => {
-
+        
         //setLoading(true);
-    
+        let Type =  sessionStorage.getItem("type")
+        let position_at_school =  sessionStorage.getItem("position_at_school")
+        //let position =  sessionStorage.getItem("position_at_school")
+        
+        if (Type) {
+            setType(Type)
+        }
+
+        if (position_at_school) {
+            setPosition_at_school(position_at_school)
+        }
+
         if( navigator.userAgent.match(/Android/i)
           || navigator.userAgent.match(/webOS/i)
           || navigator.userAgent.match(/iPhone/i)
@@ -144,6 +164,7 @@ function NavBar () {
     
             setActive("nav__menu")
             setIcon("nav__toggler");
+            setMobile(true)
     
           //setLoading(false);
     
@@ -151,13 +172,14 @@ function NavBar () {
           
             setActive("nav__menu nav__active")
             setIcon("nav__toggler toggle");
+            setMobile(false)
     
           //setLoading(false);
     
         }
+        sessionStorage.setItem("mobile", mobile)
 
-
-    }, [])
+    }, [type, mobile])
 
     return (
         <Nav className='home'>
@@ -165,26 +187,54 @@ function NavBar () {
                 active === "nav__menu nav__active" 
                 && 
                 <Active className={active}>
-                    <NavItem className="nav__item">
-                        <a href="/" className="nav__link">
-                            Home
-                        </a>
-                    </NavItem>
-                    <NavItem className="nav__item">
-                        <a href="#conhecimentos" className="nav__link">
-                            Conhecimentos
-                        </a>
-                    </NavItem>
-                    <NavItem className="nav__item">
-                        <a href="#projetos" className="nav__link">
-                            Projetos
-                        </a>
-                    </NavItem>
-                    <NavItem className="nav__item">
-                        <a href="#contato" className="nav__link">
-                            Contato
-                        </a>
-                    </NavItem>
+                    { 
+                        type === 'school'
+                        &&
+                        <Menu>
+                            <NavItem className="nav__item">
+                                <a href="/home/school" className="nav__link">
+                                    Home
+                                </a>
+                            </NavItem>
+                            <NavItem className="nav__item">
+                                <a href="/employees" className="nav__link">
+                                    Funcionarios
+                                </a>
+                            </NavItem>
+                            <NavItem className="nav__item">
+                                <a href="/student" className="nav__link">
+                                    Alunos
+                                </a>
+                            </NavItem>
+                            <NavItem className="nav__item">
+                                <a href="/" className="nav__link">
+                                    Turmas
+                                </a>
+                            </NavItem>
+                        </Menu>
+                    }
+                    
+                    { 
+                        type === 'employee' && position_at_school === "PROFESSOR"
+                        &&
+                        <Menu>
+                            <NavItem className="nav__item">
+                                <a href="/" className="nav__link">
+                                    Home
+                                </a>
+                            </NavItem>
+                            <NavItem className="nav__item">
+                                <a href="/" className="nav__link">
+                                    Minhas Turmas
+                                </a>
+                            </NavItem>
+                            <NavItem className="nav__item">
+                                <a href="/" className="nav__link">
+                                Meus Alunos
+                                </a>
+                            </NavItem>
+                        </Menu>
+                    }
                 </Active>
             }
             <Icon onClick={navToggle} className={icon}>

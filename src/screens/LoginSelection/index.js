@@ -22,6 +22,10 @@ const LoginSelection = () => {
         navigate('/signin/school')
     }
 
+    const LoginEmployee = () => {
+        navigate('/signin/employee')
+    }
+
     const MessageButtomclick = () => {
         navigate('/signup/school')
     }
@@ -32,7 +36,7 @@ const LoginSelection = () => {
             <Area onClick={LoginInstitution}>
                 <Text>Fazer login como Instituição</Text>
             </Area>
-            <Area>
+            <Area onClick={LoginEmployee}>
                 <Text>Fazer login como Funcionario</Text>
             </Area>
             <Area>

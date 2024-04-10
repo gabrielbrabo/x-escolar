@@ -16,11 +16,11 @@ import {
     SignMessageButtonTextBold 
 }from '../../components/Buttons';
 
-const SignInSchool = () => {
+const SignInEmployee = () => {
 
     const navigate = useNavigate()
-    const {loginSchool} = useContext(AuthContext)
-    const [email, setEmail] = useState('');
+    const {loginEmployee} = useContext(AuthContext)
+    const [cpf, setCpf] = useState('');
     const [password, setPassword] = useState('');
     //const [loading, setLoading] = useState(false);
   
@@ -28,24 +28,24 @@ const SignInSchool = () => {
 
         //setLoading(true);
     
-        loginSchool(email, password)
+        loginEmployee(cpf, password)
     
     }
 
     const MessageButtomclick = () => {
-        navigate('/signup/school')
+        navigate('/')
     }
   
     return (
     <Container>
         <InputArea>
-            <>Email da Instituição de Ensino</>
+            <>CPF</>
             <Area>
                 <Input
                     placeholder="Digite seu email"
-                    value={email}
+                    value={cpf}
                     onChange={
-                      (e) => setEmail(e.target.value)
+                      (e) => setCpf(e.target.value)
                     }
                 />
             </Area>
@@ -69,4 +69,4 @@ const SignInSchool = () => {
     )
 }
   
-export default SignInSchool
+export default SignInEmployee

@@ -14,9 +14,15 @@ function App() {
 
   return (
     <div className="app">
-      <Title>X ESCOLAR</Title>
+      <Title>
+        <h1>X ESCOLAR</h1>
+      </Title>
       <div className="container">
-       {token && <NavBar/>}
+        {
+          token 
+          && 
+          <NavBar/>
+        }
         <AppRoutes/>
       </div>
       

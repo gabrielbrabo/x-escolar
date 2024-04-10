@@ -28,3 +28,17 @@ export const SignMessageButtonTextBold = styled.text`
     font-weight: bold;
     margin-left: 5px;
 `;
+
+export const Btt02 = styled.button`
+    height: 50px;
+    background-color: #268596;
+    border-radius: 10px;
+    border: none;
+    align-items: center;
+    justify-content: center;
+
+    @media screen and (max-width: 768px) {   
+        height: 40px;
+    }
+    
+`;

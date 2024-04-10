@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Title = styled.div`
     width: 100%;
     height: 10vh;
-    font-size: 40px;
+    font-size: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
