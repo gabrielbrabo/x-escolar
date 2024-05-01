@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react'
-import {GetStudent} from '../../Api'
-import {GetClass} from '../../Api'
 import { useNavigate } from 'react-router-dom'
+import {GetClass} from '../../Api'
 
 import {
     Container,
@@ -29,7 +28,8 @@ import {
 const Student = () => {
 
     const navigate = useNavigate()
-    const [student, setStudent] = useState([])
+    const currentYear = new Date().getFullYear();
+    const [year, setYear] = useState([])
     const [Clss, setClss] = useState([])
     const [busca, setBusca] = useState("")
     const [filter, setFilter] = useState()
@@ -37,34 +37,40 @@ const Student = () => {
     useEffect(() => {
         (async () => {
             const idSchool = sessionStorage.getItem("id-school")
-            const response = await GetStudent(JSON.parse(idSchool))
+            //const response = await GetStudent(JSON.parse(idSchool))
             const resClass = await GetClass(JSON.parse(idSchool))
-            setStudent(response.data.data)
+            //setStudent(response.data.data)
             setClss(resClass.data.data)
+
+            const Year = resClass.data.data.map(y => {
+                return y.year
+            }).filter((valor, indice, self) => {
+                return self.indexOf(valor) === indice
+            })
+            setYear(Year)
+            console.log(Year)
         })() 
 	}, [])
-    console.log("clss",Clss)
-    student.sort(function (a, b) {
-        if(a.name < b.name) return -1
-        if(a.name > b.name) return 1
+   
+    Clss.sort(function (a, b) {
+        if(a.serie < b.serie) return -1
+        if(a.serie > b.serie) return 1
         return 0
     })
 
-    if(filter) {
-        console.log('filter', filter)
+    year.sort(function (a, b) {
+        if(a < b) return -1
+        if(a > b) return 1
+        return 0
+    })
+
+    if(!filter) {
+        setFilter(currentYear.toString())
     }
 
-    const NewStudent = async () => {
-        navigate('/new/student')
+    const NewClass = async () => {
+        navigate('/new/class')
     }
-
-    const StudentInformation = async (student) => {
-        sessionStorage.removeItem('StudentInformation')
-        sessionStorage.setItem("StudentInformation", student._id)
-        navigate('/student/info')
-    }
-
-    console.log('res', student)
 
     return (
         <Container>
@@ -73,7 +79,7 @@ const Student = () => {
             </User>
             <Search>
                 <FormSearch>
-                    <label>Buscar Aluno</label>
+                    <label>Buscar Turma</label>
                     <AreaEmp>
                         <InputEmp
                             type="text" 
@@ -86,17 +92,17 @@ const Student = () => {
                     </AreaEmp>
                 </FormSearch>
                 <FormFilter>
-                    <label>Filtra por Turma: </label>
+                    <label>Filtra por Ano: </label>
                     <Select id="position" 
                         value={filter} 
                         onChange={ 
                             (e) => setFilter(e.target.value)
                         }
                     >
-                        <option value="">Todos</option>
+                        <option value=''>{currentYear}</option>
                         {
-                            Clss.map(c => (
-                                <option value={c._id}>{c.serie}</option>
+                            year.map(c => (
+                                <option value={c}>{c}</option>
                             ))
                         }
                     </Select>
@@ -104,32 +110,28 @@ const Student = () => {
             </Search>
             <List>
                 <DivNewEmp>
-                    <Btt02 onClick={NewStudent}>Novo Aluno</Btt02>
+                    <Btt02 onClick={NewClass}>Nova Turma</Btt02>
                 </DivNewEmp>
                 
                 {
-                    student.filter((fil) => {
+                    Clss.filter((fil) => {
                         if(!filter){
                             return (fil)
-                        } else if(fil.id_class === filter) {
+                        }
+                        if(fil.year === filter) {
                             return (fil)
                         }
                         return null
                     }).filter((val) => {
                         if(!busca) {
                             return (val)
-                        } else if(val.name.includes(busca.toUpperCase())) {
+                        } else if(val.serie.includes(busca.toUpperCase())) {
                             return (val)
                         }
                         return null
-                   }).map(student => (
-                        <Emp 
-                            onClick={() => 
-                                StudentInformation(student)
-                            } 
-                            key={student._id} 
-                        >
-                            <Span>{student.name}</Span>
+                   }).map(Clss => (
+                        <Emp key={Clss._id} >
+                            <Span>{Clss.serie}</Span>
                         </Emp>
                     ))
                 }

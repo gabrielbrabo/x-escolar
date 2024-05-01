@@ -36,13 +36,11 @@ export const DivNewEmp = styled.div`
     justify-content: flex-end;
 `;
 export const Emp = styled.div`
-    display: flex;
-    height: 30px;
-    align-items: center;
-    border-top: 1px solid gray;
+    display: grid;
 `;
 export const Span = styled.div`
-    margin-left: 8px;
+    margin-left: 15px;
+    margin-top: 8px;
 `;
 export const FormFilter = styled.div`
     @media screen and (max-width: 768px) {

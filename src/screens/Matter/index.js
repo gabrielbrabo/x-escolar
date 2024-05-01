@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react'
-import {GetStudent} from '../../Api'
-import {GetClass} from '../../Api'
 import { useNavigate } from 'react-router-dom'
+import {GetMatter} from '../../Api'
 
 import {
     Container,
@@ -11,7 +10,7 @@ import {
     Search,
     DivNewEmp, 
     User,
-    FormFilter,
+    //FormFilter,
     FormSearch
    // Input
 } from './style';
@@ -19,52 +18,42 @@ import {
 import {
     AreaEmp,
     InputEmp,
-    Select
+   // Select
 } from '../../components/Inputs'
 
 import {
     Btt02, 
 }from '../../components/Buttons';
 
-const Student = () => {
+const Matter = () => {
 
     const navigate = useNavigate()
-    const [student, setStudent] = useState([])
-    const [Clss, setClss] = useState([])
+    //const currentYear = new Date().getFullYear();
+    //const [year, setYear] = useState([])
+    const [matter, setMatter] = useState([])
     const [busca, setBusca] = useState("")
-    const [filter, setFilter] = useState()
+    //const [filter, setFilter] = useState()
 
     useEffect(() => {
         (async () => {
             const idSchool = sessionStorage.getItem("id-school")
-            const response = await GetStudent(JSON.parse(idSchool))
-            const resClass = await GetClass(JSON.parse(idSchool))
-            setStudent(response.data.data)
-            setClss(resClass.data.data)
+            //const response = await GetStudent(JSON.parse(idSchool))
+            const res = await GetMatter(JSON.parse(idSchool))
+            //setStudent(response.data.data)
+            setMatter(res.data.data)
+            console.log(res)
         })() 
 	}, [])
-    console.log("clss",Clss)
-    student.sort(function (a, b) {
+   
+    matter.sort(function (a, b) {
         if(a.name < b.name) return -1
         if(a.name > b.name) return 1
         return 0
     })
 
-    if(filter) {
-        console.log('filter', filter)
+    const NewMatter = async () => {
+        navigate('/new/matter')
     }
-
-    const NewStudent = async () => {
-        navigate('/new/student')
-    }
-
-    const StudentInformation = async (student) => {
-        sessionStorage.removeItem('StudentInformation')
-        sessionStorage.setItem("StudentInformation", student._id)
-        navigate('/student/info')
-    }
-
-    console.log('res', student)
 
     return (
         <Container>
@@ -73,7 +62,7 @@ const Student = () => {
             </User>
             <Search>
                 <FormSearch>
-                    <label>Buscar Aluno</label>
+                    <label>Buscar Materia</label>
                     <AreaEmp>
                         <InputEmp
                             type="text" 
@@ -85,51 +74,47 @@ const Student = () => {
                         />
                     </AreaEmp>
                 </FormSearch>
-                <FormFilter>
-                    <label>Filtra por Turma: </label>
+                {/*<FormFilter>
+                    <label>Filtra por Ano: </label>
                     <Select id="position" 
                         value={filter} 
                         onChange={ 
                             (e) => setFilter(e.target.value)
                         }
                     >
-                        <option value="">Todos</option>
+                        <option value=''>{currentYear}</option>
                         {
-                            Clss.map(c => (
-                                <option value={c._id}>{c.serie}</option>
+                            year.map(c => (
+                                <option value={c}>{c}</option>
                             ))
                         }
                     </Select>
-                </FormFilter>
+                    </FormFilter>*/}
             </Search>
             <List>
                 <DivNewEmp>
-                    <Btt02 onClick={NewStudent}>Novo Aluno</Btt02>
+                    <Btt02 onClick={NewMatter}>Nova Materia</Btt02>
                 </DivNewEmp>
                 
                 {
-                    student.filter((fil) => {
+                    matter/*.filter((fil) => {
                         if(!filter){
                             return (fil)
-                        } else if(fil.id_class === filter) {
+                        }
+                        if(fil.year === filter) {
                             return (fil)
                         }
                         return null
-                    }).filter((val) => {
+                    })*/.filter((val) => {
                         if(!busca) {
                             return (val)
                         } else if(val.name.includes(busca.toUpperCase())) {
                             return (val)
                         }
                         return null
-                   }).map(student => (
-                        <Emp 
-                            onClick={() => 
-                                StudentInformation(student)
-                            } 
-                            key={student._id} 
-                        >
-                            <Span>{student.name}</Span>
+                   }).map(matter => (
+                        <Emp key={matter._id} >
+                            <Span>{matter.name}</Span>
                         </Emp>
                     ))
                 }
@@ -138,4 +123,4 @@ const Student = () => {
     )
 }
   
-export default Student
+export default Matter

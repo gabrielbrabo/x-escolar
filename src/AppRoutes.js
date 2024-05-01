@@ -16,7 +16,16 @@ import HomeSchool from "./screens/HomeSchool"
 import SignInEmployee from "./screens/SignInEmployee"
 import HomeEmployee from "./screens/HomeEmployee"
 import Employees from "./screens/Employees"
+import NewEmployees from "./screens/NewEmployee"
+import NewStudent from "./screens/NewStudent"
 import Student from "./screens/Student"
+import Class from "./screens/Class"
+import NewClass from "./screens/NewClass"
+import Matter from "./screens/Matter"
+import NewMatter from "./screens/NewMatter"
+import AddMatter from "./screens/AddMatter"
+import StudentInfo from "./screens/StudentInfo"
+import EmployeeInfo from "./screens/EmployeeInfo"
 
 const AppRoutes = () => {
 
@@ -57,9 +66,54 @@ const AppRoutes = () => {
                             <Employees/>
                         </Private>
                     }/>
+                    <Route exact path="/new/employees" element={
+                        <Private>
+                            <NewEmployees/>
+                        </Private>
+                    }/>
+                    <Route exact path="/new/student" element={
+                        <Private>
+                            <NewStudent/>
+                        </Private>
+                    }/>
                     <Route exact path="/student" element={
                         <Private>
                             <Student/>
+                        </Private>
+                    }/>
+                    <Route exact path="/class" element={
+                        <Private>
+                            <Class/>
+                        </Private>
+                    }/>
+                    <Route exact path="/new/class" element={
+                        <Private>
+                            <NewClass/>
+                        </Private>
+                    }/>
+                    <Route exact path="/matter" element={
+                        <Private>
+                            <Matter/>
+                        </Private>
+                    }/>
+                    <Route exact path="/new/matter" element={
+                        <Private>
+                            <NewMatter/>
+                        </Private>
+                    }/>
+                    <Route exact path="/add/matter" element={
+                        <Private>
+                            <AddMatter/>
+                        </Private>
+                    }/>
+                    <Route exact path="/student/info" element={
+                        <Private>
+                            <StudentInfo/>
+                        </Private>
+                    }/>
+                    <Route exact path="/employee/info" element={
+                        <Private>
+                            <EmployeeInfo/>
                         </Private>
                     }/>
                 </Routes>

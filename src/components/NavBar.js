@@ -197,17 +197,22 @@ function NavBar () {
                                 </a>
                             </NavItem>
                             <NavItem className="nav__item">
-                                <a href="/employees" className="nav__link">
-                                    Funcionarios
-                                </a>
-                            </NavItem>
-                            <NavItem className="nav__item">
                                 <a href="/student" className="nav__link">
                                     Alunos
                                 </a>
                             </NavItem>
                             <NavItem className="nav__item">
-                                <a href="/" className="nav__link">
+                                <a href="/employees" className="nav__link">
+                                    Funcionarios
+                                </a>
+                            </NavItem>
+                            <NavItem className="nav__item">
+                                <a href="/matter" className="nav__link">
+                                    Materias
+                                </a>
+                            </NavItem>
+                            <NavItem className="nav__item">
+                                <a href="/class" className="nav__link">
                                     Turmas
                                 </a>
                             </NavItem>

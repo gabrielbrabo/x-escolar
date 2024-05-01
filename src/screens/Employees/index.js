@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
-import {GetEmployees} from '../../Api'
+import { useNavigate } from 'react-router-dom'
+import {GetEmployees, GetMatter} from '../../Api'
 
 import {
     Container,
@@ -26,20 +27,34 @@ import {
 
 const Employees = () => {
 
-    //const navigate = useNavigate()
+    const navigate = useNavigate()
     const [employees, setEmployees] = useState([])
     const [busca, setBusca] = useState("")
     const [filter, setFilter] = useState()
+    const [filterMatter, setFilterMatter] = useState([])
+    //const [matter, setMatter] = useState()
 
     useEffect(() => {
         (async () => {
             const idSchool = sessionStorage.getItem("id-school")
             const response = await GetEmployees(JSON.parse(idSchool))
             setEmployees(response.data.data)
+
+            const res = await GetMatter(JSON.parse(idSchool))
+            //setStudent(response.data.data)
+            setFilterMatter(res.data.data)
+            //console.log(res)
+
         })()       
 	}, [])
 
     employees.sort(function (a, b) {
+        if(a.name < b.name) return -1
+        if(a.name > b.name) return 1
+        return 0
+    })
+
+    filterMatter.sort(function (a, b) {
         if(a.name < b.name) return -1
         if(a.name > b.name) return 1
         return 0
@@ -50,10 +65,18 @@ const Employees = () => {
     }
 
     const NewEmoloyee = async () => {
-    
+        navigate('/new/employees')
     }
 
-    console.log('res', employees)
+    const employeeInformation = async (employee) => {
+        sessionStorage.removeItem('EmployeeInformation')
+        sessionStorage.setItem("EmployeeInformation", employee._id)
+        navigate('/employee/info')
+    }
+
+    //console.log('res', employees)
+
+    //console.log('matter', matter)
 
     return (
         <Container>
@@ -82,12 +105,32 @@ const Employees = () => {
                             (e) => setFilter(e.target.value)
                         }
                     >
-                        <option value="">Selecione</option>
+                        <option value="">Todos</option>
                         <option value="DIRETOR">DIRETOR</option>
                         <option value="GESTOR">GESTOR</option>
                         <option value="PROFESSOR">PROFESSOR</option>
                     </Select>
                 </FormFilter>
+                {
+                  /*  filter === "PROFESSOR"
+                    &&
+                    <FormFilter>
+                        <label>Filtra por Materia: </label>
+                        <Select id="position" 
+                            value={matter} 
+                            onChange={ 
+                                (e) => setMatter(e.target.value)
+                            }
+                        >
+                           <option value=''>Todos</option>
+                        {
+                            filterMatter.map(matter => (
+                                <option value={matter._id}>{matter.name}</option>
+                            ))
+                        }
+                        </Select>
+                    </FormFilter>*/
+                }
             </Search>
             <List>
                 <DivNewEmp>
@@ -102,7 +145,21 @@ const Employees = () => {
                             return (fil)
                         }
                         return null
-                    }).filter((val) => {
+                    })/*.filter((filMttr) => {
+                        if(!matter){
+                            return (filMttr)
+                        } else {
+                            const filMatter = filMttr.id_matter.map((m) => {
+                                if(m === matter) {
+                                    return (filMttr)
+                                } else {
+                                    return (filMttr)
+                                }
+                            })    
+                            console.log("filMatter", filMatter)  
+                            return (filMatter)                    
+                        }
+                    })*/.filter((val) => {
                         if(!busca) {
                             return (val)
                         } else if(val.name.includes(busca.toUpperCase())) {
@@ -110,7 +167,11 @@ const Employees = () => {
                         }
                         return null
                    }).map(employee => (
-                        <Emp key={employee._id} >
+                        <Emp 
+                            onClick={() => 
+                                employeeInformation(employee)
+                            } 
+                            key={employee._id} >
                             <Span>{employee.name}</Span>
                         </Emp>
                     ))

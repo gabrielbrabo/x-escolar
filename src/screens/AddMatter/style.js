@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
     width: 100%;
-    min-height: 90vh;
+    height: 90vh;
     display: flex;
     flex-direction: column;
     background-color: #474a51;
@@ -29,6 +29,8 @@ export const Search = styled.div`
 
 export const List = styled.div`
     border: 1px solid gray;
+    margin-top: 8px;
+    margin-bottom: 8px;
 `;
 export const DivNewEmp = styled.div`
     display: flex;
@@ -51,4 +53,10 @@ export const FormFilter = styled.div`
 `;
 export const FormSearch = styled.div`
     
+`;
+export const AddMatter = styled.div`
+    display: grid;
+    width: 100%;
+    height: 50vh;
+    justify-content: center;
 `;
