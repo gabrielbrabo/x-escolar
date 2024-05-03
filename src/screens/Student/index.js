@@ -29,6 +29,7 @@ import {
 const Student = () => {
 
     const navigate = useNavigate()
+    const currentYear = new Date().getFullYear().toString();
     const [student, setStudent] = useState([])
     const [Clss, setClss] = useState([])
     const [busca, setBusca] = useState("")
@@ -39,11 +40,19 @@ const Student = () => {
             const idSchool = sessionStorage.getItem("id-school")
             const response = await GetStudent(JSON.parse(idSchool))
             const resClass = await GetClass(JSON.parse(idSchool))
+            const Year = resClass.data.data.map(y => {
+                if(y.year === currentYear) {
+                    return y
+                }
+                return undefined
+            }).filter (y => {
+                return y !== undefined;
+            })
             setStudent(response.data.data)
-            setClss(resClass.data.data)
+            setClss(Year)
         })() 
-	}, [])
-    console.log("clss",Clss)
+	}, [ currentYear ])
+    //console.log("clss",Clss)
     student.sort(function (a, b) {
         if(a.name < b.name) return -1
         if(a.name > b.name) return 1
@@ -51,9 +60,23 @@ const Student = () => {
     })
 
     if(filter) {
-        console.log('filter', filter)
+        /*student.map((fil) => {
+            const fltr = fil.id_class.map(f => {
+                if(f === filter) {
+                    return (fil)
+                }
+                return null
+            }).filter (y => {
+                return y !== null;
+            })
+            if(fltr.length > 0) {
+                console.log('fil', fltr)
+                //setFilClass(fltr)
+            }
+            return fltr
+        })*/
     }
-
+    
     const NewStudent = async () => {
         navigate('/new/student')
     }
@@ -64,7 +87,7 @@ const Student = () => {
         navigate('/student/info')
     }
 
-    console.log('res', student)
+    //console.log('res', student)
 
     return (
         <Container>
@@ -111,8 +134,17 @@ const Student = () => {
                     student.filter((fil) => {
                         if(!filter){
                             return (fil)
-                        } else if(fil.id_class === filter) {
-                            return (fil)
+                        } 
+                        const filClass = fil.id_class.map((f) => {
+                            if(f === filter) {
+                                return (fil)
+                            }
+                            return null
+                        }).filter (y => {
+                            return y !== null;
+                        })
+                        if(filClass.length > 0) {
+                            return filClass
                         }
                         return null
                     }).filter((val) => {

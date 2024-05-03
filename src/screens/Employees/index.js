@@ -60,9 +60,9 @@ const Employees = () => {
         return 0
     })
 
-    if(filter) {
+    /*if(filter) {
         console.log('filter', filter)
-    }
+    }*/
 
     const NewEmoloyee = async () => {
         navigate('/new/employees')
