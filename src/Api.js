@@ -22,7 +22,6 @@ export const registerSchool = async (
                 error.response.data.msg
             )
             alert(result)
-            window.location.reload()
         }
     }, [])
 }
@@ -41,7 +40,6 @@ export const createSessionSchool = async (
                 error.response.data.msg
             )
             alert(result)
-            window.location.reload()
         }
     }, [])
 }
@@ -60,7 +58,6 @@ export const createSessionEmployee = async (
                 error.response.data.msg
             )
             alert(result)
-            window.location.reload()
         }
     }, [])
 }
@@ -79,7 +76,6 @@ export const GetEmployees = async (
                 error.response.data.msg
             )
             alert(result)
-            window.location.reload()
         }
     }, [])
 }
@@ -126,7 +122,6 @@ export const GetStudent = async (
                 error.response.data.msg
             )
             alert(result)
-            window.location.reload()
         }
     }, [])
 }
@@ -154,7 +149,7 @@ export const NewStdt = async (
                 error.response.data.msg
             )
             alert(result)
-            window.location.reload()
+            
         }
     }, [])
 }
@@ -182,7 +177,7 @@ export const NewClss = async (
                 error.response.data.msg
             )
             alert(result)
-            window.location.reload()
+            
         }
     }, [])
 }
@@ -201,7 +196,7 @@ export const GetClass = async (
                 error.response.data.msg
             )
             alert(result)
-            window.location.reload()
+            
         }
     }, [])
 }
@@ -220,7 +215,7 @@ export const GetMatter = async (
                 error.response.data.msg
             )
             alert(result)
-            window.location.reload()
+            
         }
     }, [])
 }
@@ -240,7 +235,7 @@ export const NewMttr = async (
                 error.response.data.msg
             )
             alert(result)
-            window.location.reload()
+            
         }
     }, [])
 }
@@ -252,6 +247,49 @@ export const addMttr = async (
     
     return api.post(`/add/matter`, {
         id_employee,
+        id_matter
+    })
+
+    .catch((error) => {
+        if (error) {
+            const result = JSON.stringify(
+                error.response.data.msg
+            )
+            alert(result)
+        }
+    }, [])
+}
+
+export const addStdt = async ( 
+    id_student,
+    id_class
+) => {
+    
+    return api.post(`/add/student`, {
+        id_student,
+        id_class
+    })
+
+    .catch((error) => {
+        if (error) {
+            const result = JSON.stringify(
+                error.response.data.msg
+            )
+            alert(result)
+            window.location.reload()
+        }
+    }, [])
+}
+
+export const addTchr = async ( 
+    id_employee,
+    id_class,
+    id_matter
+) => {
+    
+    return api.post(`/add/teacher`, {
+        id_employee,
+        id_class,
         id_matter
     })
 
@@ -277,7 +315,7 @@ export const StdtInfo = async (
                 error.response.data.msg
             )
             alert(result)
-            window.location.reload()
+            
         }
     }, [])
 }
@@ -294,7 +332,70 @@ export const EmpInfo = async (
                 error.response.data.msg
             )
             alert(result)
-            window.location.reload()
+            
+        }
+    }, [])
+}
+
+export const clssInfo = async ( 
+    id_class
+) => {
+    
+    return api.post(`/class/info/${id_class}`)
+
+    .catch((error) => {
+        if (error) {
+            const result = JSON.stringify(
+                error.response.data.msg
+            )
+            alert(result)
+            
+        }
+    }, [])
+}
+
+export const removeTeacher = async ( 
+    id_teacher,
+    id_class,
+    id_matter,
+    addTeacher
+) => {
+    
+    return api.post(`/remove/teacher`, {
+        id_teacher,
+        id_class,
+        id_matter,
+        addTeacher
+    })
+
+    .catch((error) => {
+        if (error) {
+            const result = JSON.stringify(
+                error.response.data.msg
+            )
+            alert(result)
+           // window.location.reload()
+        }
+    }, [])
+}
+
+export const removeStudent = async ( 
+    id_student,
+    id_class,
+) => {
+    
+    return api.post(`/remove/student`, {
+        id_student,
+        id_class,
+    })
+
+    .catch((error) => {
+        if (error) {
+            const result = JSON.stringify(
+                error.response.data.msg
+            )
+            alert(result)
+           // window.location.reload()
         }
     }, [])
 }

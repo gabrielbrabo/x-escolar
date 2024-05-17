@@ -37,7 +37,6 @@ const Student = () => {
     useEffect(() => {
         (async () => {
             const idSchool = sessionStorage.getItem("id-school")
-            //const response = await GetStudent(JSON.parse(idSchool))
             const resClass = await GetClass(JSON.parse(idSchool))
             //setStudent(response.data.data)
             setClss(resClass.data.data)
@@ -48,7 +47,7 @@ const Student = () => {
                 return self.indexOf(valor) === indice
             })
             setYear(Year)
-            console.log(Year)
+            console.log(resClass.data.data)
         })() 
 	}, [])
    
@@ -70,6 +69,14 @@ const Student = () => {
 
     const NewClass = async () => {
         navigate('/new/class')
+    }
+
+    const classInformation = async (Clss) => {
+        sessionStorage.removeItem('ClassInformation')
+        sessionStorage.setItem("ClassInformation", Clss._id)
+        sessionStorage.removeItem("serieClass")
+        sessionStorage.setItem("serieClass", Clss.serie)
+        navigate('/class/info')
     }
 
     return (
@@ -130,7 +137,12 @@ const Student = () => {
                         }
                         return null
                    }).map(Clss => (
-                        <Emp key={Clss._id} >
+                        <Emp 
+                            onClick={() => 
+                                classInformation(Clss)
+                            }
+                            key={Clss._id} 
+                        >
                             <Span>{Clss.serie}</Span>
                         </Emp>
                     ))

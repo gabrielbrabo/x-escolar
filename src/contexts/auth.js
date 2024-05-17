@@ -38,76 +38,79 @@ export const AuthProvider = ({children}) => {
 
         const response = await createSessionSchool(email, password)
         console.log(response)
-        const IdSchool = response.data.id
-        const loggedSchool = response.data.email
-        const token = response.data.token
-        const name = response.data.name
-        const type = response.data.type
-        const id_employee = response.data.id_employee
-        const id_matter = response.data.id_matter
-        const id_class = response.data.id_class
-        //const avatar = response.data.avatar
-        sessionStorage.setItem("id-school", 
-        JSON.stringify(IdSchool))
-        sessionStorage.setItem("email-school", loggedSchool)
-        sessionStorage.setItem("name-school", name)
-        sessionStorage.setItem("type", type)
-        sessionStorage.setItem("id_employee", id_employee)
-        sessionStorage.setItem("id_matter", id_matter)
-        sessionStorage.setItem("id_class", id_class)
-        sessionStorage.setItem("token", token)
+        if(response) {
+            const IdSchool = response.data.id
+            const loggedSchool = response.data.email
+            const token = response.data.token
+            const name = response.data.name
+            const type = response.data.type
+            const id_employee = response.data.id_employee
+            const id_matter = response.data.id_matter
+            const id_class = response.data.id_class
+            //const avatar = response.data.avatar
+            sessionStorage.setItem("id-school", 
+            JSON.stringify(IdSchool))
+            sessionStorage.setItem("email-school", loggedSchool)
+            sessionStorage.setItem("name-school", name)
+            sessionStorage.setItem("type", type)
+            sessionStorage.setItem("id_employee", id_employee)
+            sessionStorage.setItem("id_matter", id_matter)
+            sessionStorage.setItem("id_class", id_class)
+            sessionStorage.setItem("token", token)
 
-        /*if (avatar) {
-            sessionStorage.setItem("avatar", avatar)
-        }*/
-        
-        api.defaults.headers.Authorization = `Bearer ${token}`
-        setUser(loggedSchool)
-        
-        navigate('/home/school')
+            /*if (avatar) {
+                sessionStorage.setItem("avatar", avatar)
+            }*/
 
-        window.location.reload()
+            api.defaults.headers.Authorization = `Bearer ${token}`
+            setUser(loggedSchool)
+            
+            navigate('/home/school')
+
+            window.location.reload()
+        }
         
     }
 
     const loginEmployee = async (cpf, password) => {
 
         const response = await createSessionEmployee(cpf, password)
+        if(response) {
+            const IdEmployee = response.data.id
+            const loggedEmployee = response.data.CPF
+            const token = response.data.token
+            const name = response.data.name
+            const type = response.data.type
+            const position_at_school = response.data.position_at_school
+            const id_school = response.data.id_school
+            const id_matter = response.data.id_matter
+            const id_class = response.data.id_class
+            const id_reporter_cardid_class = response.data.id_reporter_card
+            //const avatar = response.data.avatar
+            sessionStorage.setItem("Id_employee", 
+            JSON.stringify(IdEmployee))
+            sessionStorage.setItem("cpf", loggedEmployee)
+            sessionStorage.setItem("name", name)
+            sessionStorage.setItem("type", type)
+            sessionStorage.setItem("position_at_school", position_at_school)
+            sessionStorage.setItem("id_school", id_school)
+            sessionStorage.setItem("id_matter", id_matter)
+            sessionStorage.setItem("id_class", id_class)
+            sessionStorage.setItem("id_reporter_cardid_class", id_reporter_cardid_class)
+            sessionStorage.setItem("token", token)
+
+            /*if (avatar) {
+                sessionStorage.setItem("avatar", avatar)
+            }*/
+            
+            api.defaults.headers.Authorization = `Bearer ${token}`
+            setUser(loggedEmployee)
+            
+            navigate('/home/employee')
+
+            window.location.reload()
+        }
         console.log(response)
-        const IdEmployee = response.data.id
-        const loggedEmployee = response.data.CPF
-        const token = response.data.token
-        const name = response.data.name
-        const type = response.data.type
-        const position_at_school = response.data.position_at_school
-        const id_school = response.data.id_school
-        const id_matter = response.data.id_matter
-        const id_class = response.data.id_class
-        const id_reporter_cardid_class = response.data.id_reporter_card
-        //const avatar = response.data.avatar
-        sessionStorage.setItem("Id_employee", 
-        JSON.stringify(IdEmployee))
-        sessionStorage.setItem("cpf", loggedEmployee)
-        sessionStorage.setItem("name", name)
-        sessionStorage.setItem("type", type)
-        sessionStorage.setItem("position_at_school", position_at_school)
-        sessionStorage.setItem("id_school", id_school)
-        sessionStorage.setItem("id_matter", id_matter)
-        sessionStorage.setItem("id_class", id_class)
-        sessionStorage.setItem("id_reporter_cardid_class", id_reporter_cardid_class)
-        sessionStorage.setItem("token", token)
-
-        /*if (avatar) {
-            sessionStorage.setItem("avatar", avatar)
-        }*/
-        
-        api.defaults.headers.Authorization = `Bearer ${token}`
-        setUser(loggedEmployee)
-        
-        navigate('/home/employee')
-
-        window.location.reload()
-        
     }
     
     const logout = () => {

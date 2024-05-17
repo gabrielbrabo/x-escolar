@@ -24,8 +24,13 @@ import NewClass from "./screens/NewClass"
 import Matter from "./screens/Matter"
 import NewMatter from "./screens/NewMatter"
 import AddMatter from "./screens/AddMatter"
+import AddStudent from "./screens/AddStudent"
+import AddTeacher from "./screens/AddTeacher"
 import StudentInfo from "./screens/StudentInfo"
 import EmployeeInfo from "./screens/EmployeeInfo"
+import ClassInfo from "./screens/ClassInfo"
+import RemoveTeacher from "./screens/RemoveTeacher"
+import RemoveStudent from "./screens/RemoveStudent"
 
 const AppRoutes = () => {
 
@@ -106,6 +111,16 @@ const AppRoutes = () => {
                             <AddMatter/>
                         </Private>
                     }/>
+                    <Route exact path="/add/student" element={
+                        <Private>
+                            <AddStudent/>
+                        </Private>
+                    }/>
+                    <Route exact path="/add/teacher" element={
+                        <Private>
+                            <AddTeacher/>
+                        </Private>
+                    }/>
                     <Route exact path="/student/info" element={
                         <Private>
                             <StudentInfo/>
@@ -114,6 +129,21 @@ const AppRoutes = () => {
                     <Route exact path="/employee/info" element={
                         <Private>
                             <EmployeeInfo/>
+                        </Private>
+                    }/>
+                    <Route exact path="/class/info" element={
+                        <Private>
+                            <ClassInfo/>
+                        </Private>
+                    }/>
+                    <Route exact path="/remove/teacher" element={
+                        <Private>
+                            <RemoveTeacher/>
+                        </Private>
+                    }/>
+                    <Route exact path="/remove/student" element={
+                        <Private>
+                            <RemoveStudent/>
                         </Private>
                     }/>
                 </Routes>

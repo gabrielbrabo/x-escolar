@@ -33,7 +33,7 @@ const Nav = Styled.div`
     .nav__active {
         display: flex; 
         background-color: #474a51 ;
-        width: 400px;
+        width: 200px;
     }
     .nav__toggler div {
         width: 2.5rem;
@@ -54,10 +54,12 @@ const Nav = Styled.div`
     }
     
     .nav__toggler {
-        position: absolute;
     }
     
     @media screen and (max-width: 768px) {
+        .nav__toggler {
+            position: absolute;
+        }
         .nav__menu {
             position: absolute;
             width: 100%;
@@ -197,8 +199,8 @@ function NavBar () {
                                 </a>
                             </NavItem>
                             <NavItem className="nav__item">
-                                <a href="/student" className="nav__link">
-                                    Alunos
+                                <a href="/matter" className="nav__link">
+                                    Materias
                                 </a>
                             </NavItem>
                             <NavItem className="nav__item">
@@ -207,13 +209,13 @@ function NavBar () {
                                 </a>
                             </NavItem>
                             <NavItem className="nav__item">
-                                <a href="/matter" className="nav__link">
-                                    Materias
+                                <a href="/class" className="nav__link">
+                                    Turmas
                                 </a>
                             </NavItem>
                             <NavItem className="nav__item">
-                                <a href="/class" className="nav__link">
-                                    Turmas
+                                <a href="/student" className="nav__link">
+                                    Alunos
                                 </a>
                             </NavItem>
                         </Menu>
