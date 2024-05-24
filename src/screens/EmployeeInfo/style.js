@@ -41,3 +41,14 @@ export const Span = styled.div`
     margin-left: 15px;
     margin-top: 8px;
 `;
+export const AddEmp = styled.div`
+    display: flex;
+    margin-right: 10px;
+`;
+export const DivAddEmp = styled.div`
+    height: 30px;
+    display: flex;
+    width: 90%;
+    margin-bottom: 7px;
+    justify-content: flex-end;
+`;

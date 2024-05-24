@@ -34,8 +34,6 @@ export const DivNewEmp = styled.div`
     display: flex;
     height: 0px;
     justify-content: flex-end;
-    margin-left: 4px;
-    margin-right: 4px;
 `;
 export const Emp = styled.div`
     display: flex;
@@ -54,10 +52,21 @@ export const FormFilter = styled.div`
 export const FormSearch = styled.div`
     
 `;
-export const DivAddEmp = styled.div`
-    height: 30px;
-    display: flex;
-    width: 100%;
-    margin-bottom: 7px;
-    justify-content: flex-end;
+export const Add = styled.div`
+    display: grid;
+    min-height: 90vh;
+    width: 90%;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    background-color: black ;
+
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
+   
+`;
+export const AddTeacher = styled.div`
+    display: grid;
+   
 `;

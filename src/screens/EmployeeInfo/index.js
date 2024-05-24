@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-//import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {EmpInfo} from '../../Api'
 
 import {
@@ -10,8 +10,10 @@ import {
     DivInfo,
     Span,
     //Search,
-    //DivNewEmp, 
+    //DivNewEmp,
+    DivAddEmp, 
     User,
+    AddEmp,
     //FormFilter,
     //FormSearch
    // Input
@@ -21,15 +23,15 @@ import {
     AreaEmp,
     InputEmp,
     Select
-} from '../../components/Inputs'
+} from '../../components/Inputs'*/
 
 import {
     Btt02, 
-}from '../../components/Buttons';*/
+}from '../../components/Buttons';
 
 const Student = () => {
 
-    //const navigate = useNavigate()
+    const navigate = useNavigate()
     const currentYear = new Date().getFullYear().toString();
     //const [year, setYear] = useState([])
     const [Clss, setClss] = useState([])
@@ -44,22 +46,22 @@ const Student = () => {
             const res = await EmpInfo(id_employee)
             setEmployee(res.data.data)
             //console.log(res.data.data)
-            const clss = res.data.data.find( res => {
+            const clss = res.data.info.find( res => {
                 return res
-            }).id_class.map( res => {
-                if (res.year === currentYear) {
-                    return (res)   
-                } else {
-                    return null
-                }
-            }).filter( res => {
-                if(! null) {
-                    return (res)
-                } else {
-                    return null
-                }
-            })
-
+                }).map (res => {
+                    if (res.id_class.year === currentYear) {
+                        return (res.id_class)   
+                    } else {
+                        return null
+                    }
+                }).filter( res => {
+                    if(! null) {
+                        return (res)
+                    } else {
+                        return null
+                    }
+                })
+            console.log("cl", clss)
             const mttr = res.data.data.find( res => {
                 return res
             }).id_matter.map( res => {
@@ -81,6 +83,24 @@ const Student = () => {
          
     }, [ currentYear ] )
 
+    const add = () => {
+        const res = employee.find(employee => {
+            return employee
+        })
+        console.log("res", res._id)
+        sessionStorage.removeItem('id_emp')
+        sessionStorage.removeItem('name')
+        sessionStorage.removeItem('tchrnf')
+        sessionStorage.setItem("id_emp", res._id)
+        sessionStorage.setItem("name", res.name)
+        sessionStorage.setItem("tchrnf", res._id)
+        navigate('/add/matter')
+    }
+
+    const Remove = async () => {
+        navigate('/remove/matter')
+    }
+
     console.log("clas", matter)
 
     return (
@@ -99,8 +119,16 @@ const Student = () => {
             }
             {
                 matter.length > 0 
-                &&
+                ?
                 <DivInfo>
+                    <DivAddEmp>
+                        <AddEmp>
+                            <Btt02 onClick={add}>Nova Materia</Btt02>
+                        </AddEmp>
+                        <AddEmp>
+                            <Btt02 onClick={Remove}>Remover</Btt02>
+                        </AddEmp>
+                    </DivAddEmp>
                     <Emp>Materias:</Emp>
                     <Matter>
 
@@ -111,10 +139,22 @@ const Student = () => {
                         }
                     </Matter>
                 </DivInfo>
+                :
+                <DivInfo>
+                    <DivAddEmp>
+                        <AddEmp>
+                            <Btt02 onClick={add}>Nova Materia</Btt02>
+                        </AddEmp>
+                    </DivAddEmp>
+                    <Emp>Materias:</Emp>
+                    <Matter>
+                        <>Sem Materias cadastradas</>
+                    </Matter>
+                </DivInfo>
             }
             {
                 Clss.length > 0
-                &&
+                ?
                 <DivInfo>
                     <Emp>Turmas:</Emp>
                     <Matter>
@@ -124,6 +164,13 @@ const Student = () => {
                                 <Span>{clss.serie},</Span>
                             ))
                         }
+                    </Matter>
+                </DivInfo>
+                :
+                <DivInfo>
+                    <Emp>Turmas:</Emp>
+                    <Matter>
+                        <>Este Professor não esta cadastrado em nenhuma turma vá ate turmas selecione a turma e adicione este professor a uma turma</>
                     </Matter>
                 </DivInfo>
             }

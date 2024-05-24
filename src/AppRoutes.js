@@ -31,6 +31,8 @@ import EmployeeInfo from "./screens/EmployeeInfo"
 import ClassInfo from "./screens/ClassInfo"
 import RemoveTeacher from "./screens/RemoveTeacher"
 import RemoveStudent from "./screens/RemoveStudent"
+import RemoveMatter from "./screens/RemoveMatter"
+import DeleteMatter from "./screens/DeleteMatter"
 
 const AppRoutes = () => {
 
@@ -144,6 +146,16 @@ const AppRoutes = () => {
                     <Route exact path="/remove/student" element={
                         <Private>
                             <RemoveStudent/>
+                        </Private>
+                    }/>
+                    <Route exact path="/remove/matter" element={
+                        <Private>
+                            <RemoveMatter/>
+                        </Private>
+                    }/>
+                    <Route exact path="/delete/matter" element={
+                        <Private>
+                            <DeleteMatter/>
                         </Private>
                     }/>
                 </Routes>

@@ -79,7 +79,13 @@ const Matter = () => {
     }
 
     const Finish = async () => {
-        navigate('/employees')
+        const auth = sessionStorage.getItem("tchrnf")
+        if(auth) {
+            sessionStorage.removeItem('tchrnf')
+            navigate('/employee/info')
+        } else {
+            navigate('/employees')
+        }
     }
 
     return (

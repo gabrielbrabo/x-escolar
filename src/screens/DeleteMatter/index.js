@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
-import {GetMatter} from '../../Api'
+import {GetMatter, deleteMatter} from '../../Api'
 
 import {
     Container,
@@ -8,55 +8,81 @@ import {
     Emp,
     Span,
     Search,
-    DivNewEmp,
-    DivAddEmp, 
+    //DivNewEmp, 
     User,
     //FormFilter,
-    FormSearch
+    FormSearch,
    // Input
+   Add,
+   AddTeacher
 } from './style';
 
 import {
     AreaEmp,
     InputEmp,
-   // Select
+    //Select
 } from '../../components/Inputs'
 
 import {
-    Btt02, 
+    Btt01, 
 }from '../../components/Buttons';
 
-const Matter = () => {
+const Student = () => {
 
     const navigate = useNavigate()
-    //const currentYear = new Date().getFullYear();
-    //const [year, setYear] = useState([])
     const [matter, setMatter] = useState([])
+    //const [serie, setSerie] = useState("")
     const [busca, setBusca] = useState("")
-    //const [filter, setFilter] = useState()
+    //const [name_teacher, setName_Teacher] = useState("")
+    const [name_matter, setName_Matter] = useState("")
+    const [id_matter, setId_Matter] = useState("")
+    //const [id_class, setId_class] = useState("")
 
     useEffect(() => {
         (async () => {
             const idSchool = sessionStorage.getItem("id-school")
-            //const response = await GetStudent(JSON.parse(idSchool))
             const res = await GetMatter(JSON.parse(idSchool))
-            //setStudent(response.data.data)
             setMatter(res.data.data)
-            console.log(res)
         })() 
+        
 	}, [])
    
     matter.sort(function (a, b) {
-        if(a.name < b.name) return -1
-        if(a.name > b.name) return 1
+        if(a.serie < b.serie) return -1
+        if(a.serie > b.serie) return 1
         return 0
     })
 
-    const NewMatter = async () => {
-        navigate('/new/matter')
+    /*year.sort(function (a, b) {
+        if(a < b) return -1
+        if(a > b) return 1
+        return 0
+    })*/
+
+    /*if(!filter) {
+        setFilter(currentYear.toString())
+    }*/
+
+    const SignClick = async () => {
+        const res = await deleteMatter(id_matter)
+        if(res) {
+            alert('Materia Removida com sucesso.')
+            navigate('/matter')
+        }
+        setName_Matter('')
+        
+        console.log("id_matter", id_matter)
     }
-    const DeleteMatter = async () => {
-        navigate('/delete/matter')
+
+    const Remove = async (student) => {
+        setName_Matter(student.name)
+        setId_Matter(student._id)
+        //setName_Teacher(employee.name_teacher)
+    }
+
+    const Return = async () => {
+       // setName_Teacher('')
+       setName_Matter('')
     }
 
     return (
@@ -66,7 +92,7 @@ const Matter = () => {
             </User>
             <Search>
                 <FormSearch>
-                    <label>Buscar Materia</label>
+                    <label>Buscar Turma</label>
                     <AreaEmp>
                         <InputEmp
                             type="text" 
@@ -95,25 +121,11 @@ const Matter = () => {
                     </Select>
                     </FormFilter>*/}
             </Search>
+            <>Selecione a Materia a ser deletada!</>
             <List>
-                <DivAddEmp>
-                    <DivNewEmp>
-                        <Btt02 onClick={NewMatter}>Nova Materia</Btt02>
-                    </DivNewEmp>
-                    <DivNewEmp>
-                        <Btt02 onClick={DeleteMatter}>Apagar Materia</Btt02>
-                    </DivNewEmp>
-                </DivAddEmp>             
+                
                 {
-                    matter/*.filter((fil) => {
-                        if(!filter){
-                            return (fil)
-                        }
-                        if(fil.year === filter) {
-                            return (fil)
-                        }
-                        return null
-                    })*/.filter((val) => {
+                    matter.filter((val) => {
                         if(!busca) {
                             return (val)
                         } else if(val.name.includes(busca.toUpperCase())) {
@@ -121,14 +133,34 @@ const Matter = () => {
                         }
                         return null
                    }).map(matter => (
-                        <Emp key={matter._id} >
+                        <Emp 
+                            onClick={() => 
+                                Remove(matter)
+                            }
+                            key={matter._id} 
+                        >
                             <Span>{matter.name}</Span>
                         </Emp>
                     ))
                 }
             </List>
+            {
+                name_matter
+                &&
+                <Add>
+                    
+                    {
+                        <AddTeacher>
+                            <>Essa Materia sera apaga de todos os Professores e turmas em que ela esta cadastrada</>
+                            <>Tem certeza que deseja remover a Materia {name_matter} ?</>
+                            <Btt01 onClick={SignClick}>Remover</Btt01>
+                        </AddTeacher>
+                    }
+                    <Btt01 onClick={Return}>Voltar</Btt01>
+                </Add>
+            }
         </Container>
     )
 }
   
-export default Matter
+export default Student

@@ -400,6 +400,46 @@ export const removeStudent = async (
     }, [])
 }
 
+export const removeMatter = async ( 
+    id_matter,
+    id_employee,
+) => {
+    
+    return api.post(`/remove/matter`, {
+        id_matter,
+        id_employee,
+    })
+
+    .catch((error) => {
+        if (error) {
+            const result = JSON.stringify(
+                error.response.data.msg
+            )
+            alert(result)
+           // window.location.reload()
+        }
+    }, [])
+}
+
+export const deleteMatter = async ( 
+    id_matter
+) => {
+    
+    return api.post(`/delete/matter`, {
+        id_matter
+    })
+
+    .catch((error) => {
+        if (error) {
+            const result = JSON.stringify(
+                error.response.data.msg
+            )
+            alert(result)
+           // window.location.reload()
+        }
+    }, [])
+}
+
 /*export const getavatar = async () => {
 
     return api.get('/avatar')
