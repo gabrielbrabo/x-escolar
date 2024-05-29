@@ -53,16 +53,6 @@ const Student = () => {
         return 0
     })
 
-    /*year.sort(function (a, b) {
-        if(a < b) return -1
-        if(a > b) return 1
-        return 0
-    })*/
-
-    /*if(!filter) {
-        setFilter(currentYear.toString())
-    }*/
-
     const SignClick = async () => {
         const res = await deleteMatter(id_matter)
         if(res) {
