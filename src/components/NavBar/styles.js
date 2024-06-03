@@ -40,6 +40,9 @@ export const Container = styled.section`
     transform: scale(0.7);
     transition: .7s;
   }
+  a {
+    color: white;
+  }
 
   ${({ isVisible }) => isVisible && css`
     opacity: 1;
