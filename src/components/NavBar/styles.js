@@ -4,7 +4,7 @@ export const Container = styled.section`
   position: absolute;
   backdrop-filter: blur(3px);
   width: 100%;
-  height: 90vh;
+  height: 100%;
   top: 0;
   left: 0;
   right: 0;
@@ -14,8 +14,8 @@ export const Container = styled.section`
   align-items: center;
   justify-content: center;
 
-  background: rgba(17, 18, 17, 0.95);
-  background: linear-gradient(34deg, rgba(25,88,24,0.95) 0%, rgba(17,18,17,0.95) 95%);
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
 
   opacity: 0;
   pointer-events: none;
