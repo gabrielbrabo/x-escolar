@@ -29,6 +29,7 @@ export const Container = styled.header`
       gap: 1rem;
 
       a {
+        color: white;
         font-size: 20px;
         position: relative;
 
