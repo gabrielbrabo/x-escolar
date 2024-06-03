@@ -11,7 +11,10 @@ export const Container = styled.div`
 
 export const InputArea = styled.div`
     border-radius: 20px;
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: 40px;
     background-color: #83D6E3;
 `;
