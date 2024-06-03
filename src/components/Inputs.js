@@ -9,6 +9,10 @@ export const Area = styled.div`
   border-radius: 30px;
   align-items: center;
   justify-content: center; 
+
+  @media screen and (max-width: 768px) {
+    width: 230px;
+  }
 `;
 
 export const Input = styled.input`

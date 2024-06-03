@@ -31,26 +31,26 @@ const LoginSelection = () => {
     }
   
     return (
-      <Container>
-        <InputArea>
-            <Area onClick={LoginInstitution}>
-                <Text>Fazer login como Instituição</Text>
-            </Area>
-            <Area onClick={LoginEmployee}>
-                <Text>Fazer login como Funcionario</Text>
-            </Area>
-            <Area>
-                <Text>Fazer login como Aluno</Text>
-            </Area>
-            <Area>
-                <Text>Fazer login como Pais Resposavel</Text>
-            </Area>
-            <SignMessageButton onClick={MessageButtomclick}>
-                <SignMessageButtonText>Ainda não possui uma conta?</SignMessageButtonText>
-                <SignMessageButtonTextBold>Cadastre uma Instituição!</SignMessageButtonTextBold>
-            </SignMessageButton>
-        </InputArea>
-      </Container>
+        <Container>
+            <InputArea>
+                <Area onClick={LoginInstitution}>
+                    <Text>Fazer login como Instituição</Text>
+                </Area>
+                <Area onClick={LoginEmployee}>
+                    <Text>Fazer login como Funcionario</Text>
+                </Area>
+                <Area>
+                    <Text>Fazer login como Aluno</Text>
+                </Area>
+                <Area>
+                    <Text>Fazer login como Pais Resposavel</Text>
+                </Area>
+                <SignMessageButton onClick={MessageButtomclick}>
+                    <SignMessageButtonText>Ainda não possui uma conta?</SignMessageButtonText>
+                    <SignMessageButtonTextBold>Cadastre uma Instituição!</SignMessageButtonTextBold>
+                </SignMessageButton>
+            </InputArea>
+        </Container>
     )
 }
   

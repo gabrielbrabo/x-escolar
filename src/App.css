@@ -4,6 +4,6 @@
 
 .container {
     display: flex;
-    min-height: 92vh;
+    min-height: 100vh;
     background-color: #474a51 ;
 }
