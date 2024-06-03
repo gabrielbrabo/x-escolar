@@ -4,7 +4,7 @@ export const Container = styled.section`
   position: absolute;
   backdrop-filter: blur(3px);
   width: 100%;
-  height: 100%;
+  height: 0vh;
   top: 0;
   left: 0;
   right: 0;
@@ -46,6 +46,7 @@ export const Container = styled.section`
 
   ${({ isVisible }) => isVisible && css`
     opacity: 1;
+    height: 100%;
     pointer-events: auto;
     transform: translateY(0px);
 
