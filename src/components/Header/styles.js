@@ -44,9 +44,9 @@ export const Container = styled.header`
         }
 
         &:hover {
-          &:before {
-            width: 100%;
-          }
+            &:before {
+                width: 100%;
+            }
         }
       }
     }
@@ -55,9 +55,9 @@ export const Container = styled.header`
     }
 
     @media(max-width: 768px) {
-      .mobile {
-        display: initial;
-      }
+        .mobile {
+            display: initial;
+        }
       > nav {
         display: none;
       }

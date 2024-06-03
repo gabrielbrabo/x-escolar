@@ -31,13 +31,15 @@ export const DivInfo = styled.div`
     justify-content: center;
 `;
 export const Matter = styled.div`
-    display: flex;
-    background-color: #63C2D1;
-    border-radius: 30px;
-    min-height: 100px;
+    min-height: 150px;
+    max-height: 150px;
+    border: 1px solid gray;
     width: 90%;
+    overflow: hidden;
+    overflow-y: scroll;
 `;
 export const Span = styled.div`
+    border-bottom: 1px solid gray;
     margin-left: 15px;
     margin-top: 8px;
 `;
