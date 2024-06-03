@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Btt01 = styled.button`
     height: 50px;
+    width: 80%;
     margin-top: 20px;
     background-color: #268596;
     border-radius: 30px;
