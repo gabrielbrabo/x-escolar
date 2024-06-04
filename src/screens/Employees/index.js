@@ -43,7 +43,7 @@ const Employees = () => {
             const res = await GetMatter(JSON.parse(idSchool))
             //setStudent(response.data.data)
             setFilterMatter(res.data.data)
-            //console.log(res)
+            console.log(response)
 
         })()       
 	}, [])

@@ -17,14 +17,14 @@ export const AuthProvider = ({children}) => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const recoveredSchool = sessionStorage.getItem("id-school")
+        //const recoveredSchool = sessionStorage.getItem("id-school")
         const recoveredEmployee = sessionStorage.getItem("Id_employee")
         const token = sessionStorage.getItem('token')
 
-        if(recoveredSchool && token) {
+        /*if(recoveredSchool && token) {
             setUser(JSON.parse(recoveredSchool))
             api.defaults.headers.Authorization = `Bearer ${token}`
-        }
+        }*/
 
         if(recoveredEmployee && token) {
             setUser(JSON.parse(recoveredEmployee))
@@ -65,7 +65,7 @@ export const AuthProvider = ({children}) => {
             api.defaults.headers.Authorization = `Bearer ${token}`
             setUser(loggedSchool)
             
-            navigate('/home/school')
+            navigate('/first/employee')
 
             window.location.reload()
         }
@@ -93,7 +93,7 @@ export const AuthProvider = ({children}) => {
             sessionStorage.setItem("name", name)
             sessionStorage.setItem("type", type)
             sessionStorage.setItem("position_at_school", position_at_school)
-            sessionStorage.setItem("id_school", id_school)
+            sessionStorage.setItem("id-school", JSON.stringify(id_school))
             sessionStorage.setItem("id_matter", id_matter)
             sessionStorage.setItem("id_class", id_class)
             sessionStorage.setItem("id_reporter_cardid_class", id_reporter_cardid_class)

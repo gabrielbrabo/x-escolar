@@ -30,7 +30,7 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
     <Container isVisible={menuIsVisible}>
       <IoClose size={45} onClick={() => setMenuIsVisible(false)} />
       {
-        type === 'school'
+        position_at_school === "GESTOR"
         &&
         <nav>
           <a href="/home/school" >

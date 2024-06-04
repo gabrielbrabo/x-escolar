@@ -14,7 +14,7 @@ import {
 import {
   /*Area,*/ 
   Input,
-  Select
+ // Select
 }from '../../components/Inputs';
 
 import { 
@@ -29,7 +29,7 @@ const NewEmployee = () => {
   const [idSchool, setIdschool] = useState('');
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');
-  const [position_at_school, setPosition_at_school] = useState()
+  const position_at_school = "GESTOR"
   const [password, setPassword] = useState('');
   const [confirmpassword, setConfirmPassword] = useState('');
 
@@ -60,18 +60,15 @@ const NewEmployee = () => {
     )
 
     if(res){
-      if(position_at_school === 'PROFESSOR'){
-        sessionStorage.removeItem('id_emp')
-        sessionStorage.removeItem('name')
-        sessionStorage.setItem("id_emp", res.data.id_employee)
-        sessionStorage.setItem("name", res.data.name_employee)
-        navigate('/add/matter')
-        // se o cargo for professor navegar 
-        //para a pagina de adiçao de materia 
-        //na qual o professor da aulas
-      } else {
-        navigate('/employees')
-      }
+      sessionStorage.removeItem("id-school")
+      sessionStorage.removeItem("email-school")
+      sessionStorage.removeItem("name-school")
+      sessionStorage.removeItem("type")
+      sessionStorage.removeItem("id_employee")
+      sessionStorage.removeItem("id_matter")
+      sessionStorage.removeItem("id_class")
+      sessionStorage.removeItem("token")
+      navigate('/')
     }
   }
 
@@ -99,7 +96,7 @@ const NewEmployee = () => {
           }
         />
         <label>Cargo: </label>
-        <Select id="position" 
+        {/*<Select id="position" 
           value={position_at_school} 
           onChange={ 
             (e) => setPosition_at_school(e.target.value)
@@ -108,7 +105,7 @@ const NewEmployee = () => {
           <option value="">Selecione</option>
           <option value="GESTOR">GESTOR</option>
           <option value="PROFESSOR">PROFESSOR</option>
-        </Select>
+        </Select>*/}
         <>Senha</>
         <Input
           placeholder="Digite a senha"

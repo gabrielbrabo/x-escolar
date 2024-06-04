@@ -38,12 +38,29 @@ const Student = () => {
     const [employee, setEmployee] = useState([])
     const [matter, setMatter] = useState("")
     //const [filter, setFilter] = useState()
-    console.log(currentYear)
+    const [position_at_school, setPosition_at_school] = useState([]);
+    //console.log('posi', position_at_school)
 
     useEffect(() => {
-        (async () => {
+        (async () => {     
             const id_employee = sessionStorage.getItem("EmployeeInformation")
             const res = await EmpInfo(id_employee)
+            const position_at_school = res.data.data.map( res => {
+                if(res.position_at_school === "GESTOR") {
+                    return res.position_at_school
+                } else {
+                    return null
+                }
+            }).filter( res => {
+                if(! undefined) {
+                    return (res)
+                } else {
+                    return undefined
+                }
+            })
+            if (position_at_school) {
+                setPosition_at_school(position_at_school)
+            } 
             setEmployee(res.data.data)
             //console.log(res.data.data)
             const clss = res.data.info.find( res => {
@@ -102,6 +119,7 @@ const Student = () => {
     }
 
     console.log("clas", matter)
+    console.log('posi', position_at_school)
 
     return (
         <Container>
@@ -118,61 +136,70 @@ const Student = () => {
                 ))
             }
             {
-                matter.length > 0 
-                ?
-                <DivInfo>
-                    <DivAddEmp>
-                        <AddEmp>
-                            <Btt02 onClick={add}>Nova Materia</Btt02>
-                        </AddEmp>
-                        <AddEmp>
-                            <Btt02 onClick={Remove}>Remover</Btt02>
-                        </AddEmp>
-                    </DivAddEmp>
-                    <Emp>Materias:</Emp>
-                    <Matter>
+                position_at_school.length === 0
+                &&
+                <div>
+                    {matter.length > 0 
+                    &&
+                    <DivInfo>
+                        <DivAddEmp>
+                            <AddEmp>
+                                <Btt02 onClick={add}>Nova Materia</Btt02>
+                            </AddEmp>
+                            <AddEmp>
+                                <Btt02 onClick={Remove}>Remover</Btt02>
+                            </AddEmp>
+                        </DivAddEmp>
+                        <Emp>Materias:</Emp>
+                        <Matter>
 
-                        {
-                            matter.map(matter => (
-                                <Span>{matter.name},</Span>
-                            ))
-                        }
-                    </Matter>
-                </DivInfo>
-                :
-                <DivInfo>
-                    <DivAddEmp>
-                        <AddEmp>
-                            <Btt02 onClick={add}>Nova Materia</Btt02>
-                        </AddEmp>
-                    </DivAddEmp>
-                    <Emp>Materias:</Emp>
-                    <Matter>
-                        <>Sem Materias cadastradas</>
-                    </Matter>
-                </DivInfo>
-            }
-            {
-                Clss.length > 0
-                ?
-                <DivInfo>
-                    <Emp>Turmas:</Emp>
-                    <Matter>
+                            {
+                                matter.map(matter => (
+                                    <Span>{matter.name},</Span>
+                                ))
+                            }
+                        </Matter>
+                    </DivInfo>
+                    }
+                    { 
+                        matter.length === 0
+                        &&
+                        <DivInfo>
+                            <DivAddEmp>
+                                <AddEmp>
+                                    <Btt02 onClick={add}>Nova Materia</Btt02>
+                                </AddEmp>
+                            </DivAddEmp>
+                            <Emp>Materias:</Emp>
+                            <Matter>
+                                <>Sem Materias cadastradas</>
+                            </Matter>
+                        </DivInfo>
+                    }
+                    {
 
-                        {
-                            Clss.map(clss => (
-                                <Span>{clss.serie},</Span>
-                            ))
-                        }
-                    </Matter>
-                </DivInfo>
-                :
-                <DivInfo>
-                    <Emp>Turmas:</Emp>
-                    <Matter>
-                        <>Este Professor não esta cadastrado em nenhuma turma vá ate turmas selecione a turma e adicione este professor a uma turma</>
-                    </Matter>
-                </DivInfo>
+                        Clss.length > 0
+                        ?
+                        <DivInfo>
+                            <Emp>Turmas:</Emp>
+                            <Matter>
+
+                                {
+                                    Clss.map(clss => (
+                                        <Span>{clss.serie},</Span>
+                                    ))
+                                }
+                            </Matter>
+                        </DivInfo>
+                        :
+                        <DivInfo>
+                            <Emp>Turmas:</Emp>
+                            <Matter>
+                                <>Este Professor não esta cadastrado em nenhuma turma vá ate turmas selecione a turma e adicione este professor a uma turma</>
+                            </Matter>
+                        </DivInfo>
+                    }
+                </div>
             }
         </Container>
     )

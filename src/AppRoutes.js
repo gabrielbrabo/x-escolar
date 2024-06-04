@@ -17,6 +17,7 @@ import SignInEmployee from "./screens/SignInEmployee"
 import HomeEmployee from "./screens/HomeEmployee"
 import Employees from "./screens/Employees"
 import NewEmployees from "./screens/NewEmployee"
+import FirstEmployee from "./screens/FirstEmployee"
 import NewStudent from "./screens/NewStudent"
 import Student from "./screens/Student"
 import Class from "./screens/Class"
@@ -71,6 +72,11 @@ const AppRoutes = () => {
                     <Route exact path="/employees" element={
                         <Private>
                             <Employees/>
+                        </Private>
+                    }/>
+                    <Route exact path="/first/employee" element={
+                        <Private>
+                            <FirstEmployee/>
                         </Private>
                     }/>
                     <Route exact path="/new/employees" element={

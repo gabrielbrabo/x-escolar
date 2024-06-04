@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import {registerSchool} from '../../Api'
+import { AuthContext, } from '../../contexts/auth'
 
 //import { AuthContext, } from '../../contexts/auth'
 import { useNavigate } from 'react-router-dom'
@@ -22,6 +23,7 @@ import {
 const SignUpSchool = () => {
 
   const navigate = useNavigate()
+  const {loginSchool} = useContext(AuthContext)
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,6 +41,7 @@ const SignUpSchool = () => {
     if (res.data.token){
 
       console.log("res", res.data.token)
+      loginSchool(email, password)
 
     }
 
