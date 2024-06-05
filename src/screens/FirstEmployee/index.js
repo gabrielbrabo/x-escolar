@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { AuthContext, } from '../../contexts/auth'
 
 import {NewEmp} from '../../Api'
 
 //import { AuthContext, } from '../../contexts/auth'
-import { useNavigate } from 'react-router-dom'
+//import { useNavigate } from 'react-router-dom'
 
 import {
   Container,
   InputArea,
-  ToGoBack
+  //ToGoBack
 } from './style';
 
 import {
@@ -19,13 +20,13 @@ import {
 
 import { 
   Btt01,
-  SignMessageButtonText,
-  SignMessageButtonTextBold
+  //SignMessageButtonText,
+  //SignMessageButtonTextBold
 }from '../../components/Buttons';
 
 const NewEmployee = () => {
 
-  const navigate = useNavigate()
+  const {loginEmployee} = useContext(AuthContext)
   const [idSchool, setIdschool] = useState('');
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');
@@ -68,12 +69,8 @@ const NewEmployee = () => {
       sessionStorage.removeItem("id_matter")
       sessionStorage.removeItem("id_class")
       sessionStorage.removeItem("token")
-      navigate('/')
+      loginEmployee(cpf, password)
     }
-  }
-
-  const MessageButtomclick = () => {
-    navigate('/employees')
   }
 
   return (
@@ -123,10 +120,6 @@ const NewEmployee = () => {
           }
         />
         <Btt01 onClick={SignClick}>Cadastra</Btt01>
-        <ToGoBack onClick={MessageButtomclick}>
-          <SignMessageButtonText>Voltar para a</SignMessageButtonText>
-          <SignMessageButtonTextBold>Lista de Funcionarios</SignMessageButtonTextBold>
-        </ToGoBack>
       </InputArea>
     </Container>
   )
