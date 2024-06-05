@@ -26,8 +26,8 @@ const SignUpSchool = () => {
   const {loginSchool} = useContext(AuthContext)
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmpassword, setConfirmPassword] = useState('');
+  const password = "g";
+  const confirmpassword = "g";
 
   const SignClick = async () => {
     
@@ -74,7 +74,7 @@ const SignUpSchool = () => {
               }
           />
         </Area>
-        <>Senha</>
+        {/*<>Senha</>
         <Area>
           <Input
               placeholder="Digite sua senha"
@@ -93,7 +93,7 @@ const SignUpSchool = () => {
                 (e) => setConfirmPassword(e.target.value)
               }
           />
-        </Area>
+        </Area>*/}
         <Btt01 onClick={SignClick}>Cadastra</Btt01>
         <SignMessageButton onClick={MessageButtomclick}>
           <SignMessageButtonText>Já possui uma conta?</SignMessageButtonText>

@@ -18,9 +18,9 @@ const LoginSelection = () => {
 
     const navigate = useNavigate()
 
-    const LoginInstitution = () => {
+    /*const LoginInstitution = () => {
         navigate('/signin/school')
-    }
+    }*/
 
     const LoginEmployee = () => {
         navigate('/signin/employee')
@@ -33,9 +33,9 @@ const LoginSelection = () => {
     return (
         <Container>
             <InputArea>
-                <Area onClick={LoginInstitution}>
+                {/*<Area onClick={LoginInstitution}>
                     <Text>Fazer login como Instituição</Text>
-                </Area>
+                </Area>*/}
                 <Area onClick={LoginEmployee}>
                     <Text>Fazer login como Funcionario</Text>
                 </Area>
