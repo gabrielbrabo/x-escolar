@@ -17,14 +17,14 @@ export const AuthProvider = ({children}) => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        //const recoveredSchool = sessionStorage.getItem("id-school")
+        const recoveredSchool = sessionStorage.getItem("id-school")
         const recoveredEmployee = sessionStorage.getItem("Id_employee")
         const token = sessionStorage.getItem('token')
 
-        /*if(recoveredSchool && token) {
+        if(recoveredSchool && token) {
             setUser(JSON.parse(recoveredSchool))
             api.defaults.headers.Authorization = `Bearer ${token}`
-        }*/
+        }
 
         if(recoveredEmployee && token) {
             setUser(JSON.parse(recoveredEmployee))

@@ -95,8 +95,8 @@ const NewEmployee = () => {
             (e) => setCpf(e.target.value)
           }
         />
-        <label>Cargo: </label>
-        {/*<Select id="position" 
+       {/* <label>Cargo: </label>
+        <Select id="position" 
           value={position_at_school} 
           onChange={ 
             (e) => setPosition_at_school(e.target.value)
