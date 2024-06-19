@@ -132,7 +132,7 @@ const Student = () => {
                         {
                             employee.map(employee => (
                                 <div key = {employee._id}>
-                                    <Span>{employee.name_teacher}: {employee.name_matter}</Span>
+                                    <Span>{employee.name_matter}: {employee.name_teacher}</Span>
                                 </div>
                             ))
                         }

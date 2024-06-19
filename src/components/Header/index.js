@@ -17,7 +17,7 @@ export function Header({ setMenuIsVisible }) {
         }
 
     }, [])
-    
+
     return (
         <Container>
             <section>
@@ -26,21 +26,21 @@ export function Header({ setMenuIsVisible }) {
                     position_at_school === "GESTOR"
                     &&
                     <nav>
-                    <a href="/home/school" >
-                        Home
-                    </a>
-                    <a href="/matter" className="nav__link">
-                        Materias
-                    </a>
-                    <a href="/employees" className="nav__link">
-                        Funcionarios
-                    </a>
-                    <a href="/class" className="nav__link">
-                        Turmas
-                    </a>
-                    <a href="/student" className="nav__link">
-                        Alunos
-                    </a>
+                        <a href="/home/school" >
+                            Home
+                        </a>
+                        <a href="/matter" className="nav__link">
+                            Materias
+                        </a>
+                        <a href="/employees" className="nav__link">
+                            Funcionarios
+                        </a>
+                        <a href="/class" className="nav__link">
+                            Turmas
+                        </a>
+                        <a href="/student" className="nav__link">
+                            Alunos
+                        </a>
                     </nav>
                 }
                 {
@@ -50,11 +50,8 @@ export function Header({ setMenuIsVisible }) {
                         <a href="/home/school" >
                             Home
                         </a>
-                        <a href="/class" className="nav__link">
-                            Turmas
-                        </a>
-                        <a href="/student" className="nav__link">
-                            Alunos
+                        <a href="/myclasses" className="nav__link">
+                            Minhas Turmas
                         </a>
                     </nav>
                 }

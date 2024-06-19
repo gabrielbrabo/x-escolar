@@ -35,6 +35,9 @@ import RemoveStudent from "./screens/RemoveStudent"
 import RemoveMatter from "./screens/RemoveMatter"
 import DeleteMatter from "./screens/DeleteMatter"
 
+import MyClasses from "./screensTeacher/MyClasses"
+import MyClassesInfo from "./screensTeacher/MyClassInfo"
+
 const AppRoutes = () => {
 
     const Private = ({children}) => {
@@ -162,6 +165,17 @@ const AppRoutes = () => {
                     <Route exact path="/delete/matter" element={
                         <Private>
                             <DeleteMatter/>
+                        </Private>
+                    }/>
+
+                    <Route exact path="/myclasses" element={
+                        <Private>
+                            <MyClasses/>
+                        </Private>
+                    }/>
+                    <Route exact path="/myclassesinfo" element={
+                        <Private>
+                            <MyClassesInfo/>
                         </Private>
                     }/>
                 </Routes>

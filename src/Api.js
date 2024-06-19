@@ -440,6 +440,28 @@ export const deleteMatter = async (
     }, [])
 }
 
+export const GetInfoMyClass = async ( 
+    id_class,
+    id_teacher
+) => {
+    
+    return api.post(`/myclass`, {
+        id_class,
+        id_teacher
+    })
+
+    .catch((error) => {
+        if (error) {
+            const result = JSON.stringify(
+                error.response.data.msg
+            )
+            alert(result)
+           // window.location.reload()
+        }
+    }, [])
+}
+
+
 /*export const getavatar = async () => {
 
     return api.get('/avatar')
