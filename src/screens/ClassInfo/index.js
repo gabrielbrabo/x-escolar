@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import {clssInfo} from '../../Api'
 
 import {
@@ -37,11 +37,13 @@ const Student = () => {
     const [employee, setEmployee] = useState([])
     //const [matter, setMatter] = useState("")
     const [stdt, setStdt] = useState([])
+    const {id_class} = useParams();
     console.log(currentYear)
 
     useEffect(() => {
         (async () => {
-            const id_class = sessionStorage.getItem("ClassInformation")
+            console.log('useParamsClass', id_class)
+            //const id_clas = sessionStorage.getItem("ClassInformation")
             const res = await clssInfo(id_class)
             setClss(res.data.data)
             console.log(res.data.data)
@@ -80,14 +82,14 @@ const Student = () => {
             //console.log("matter", matter)
         })()
          
-    }, [  ] )
+    }, [ id_class ] )
 
     const addStudent = async () => {
         navigate('/add/student')
     }
 
     const addTeacher = async () => {
-        navigate('/add/teacher')
+        navigate(`/add/teacher/${id_class}`)
     }
     const RemoveTeacher = async () => {
         navigate('/remove/teacher')

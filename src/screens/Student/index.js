@@ -82,9 +82,9 @@ const Student = () => {
     }
 
     const StudentInformation = async (student) => {
-        sessionStorage.removeItem('StudentInformation')
-        sessionStorage.setItem("StudentInformation", student._id)
-        navigate('/student/info')
+        //sessionStorage.removeItem('StudentInformation')
+        //sessionStorage.setItem("StudentInformation", student._id)
+        navigate(`/student/info/${student._id}`)
     }
 
     //console.log('res', student)

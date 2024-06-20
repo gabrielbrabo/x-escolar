@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-//import { useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import {StdtInfo} from '../../Api'
 
 import {
@@ -34,11 +34,12 @@ const Student = () => {
     const [student, setStudent] = useState([])
     //const [busca, setBusca] = useState("")
     //const [filter, setFilter] = useState()
+    const {id_student} = useParams()
     console.log(currentYear)
 
     useEffect(() => {
         (async () => {
-            const id_student = sessionStorage.getItem("StudentInformation")
+            //const id_student = sessionStorage.getItem("StudentInformation")
             const res = await StdtInfo(id_student)
             setStudent(res.data.data)
             //console.log(res.data.data)
@@ -60,7 +61,7 @@ const Student = () => {
             setClss(clss)
         })()
          
-    }, [ currentYear ] )
+    }, [ currentYear, id_student ] )
 
     console.log("clas", Clss)
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { EmpInfo } from '../../Api'
 
 import {
@@ -39,11 +39,12 @@ const Student = () => {
     const [matter, setMatter] = useState("")
     //const [filter, setFilter] = useState()
     const [position_at_school, setPosition_at_school] = useState([]);
+    const {id_employee} = useParams()
     //console.log('posi', position_at_school)
 
     useEffect(() => {
         (async () => {
-            const id_employee = sessionStorage.getItem("EmployeeInformation")
+            //const id_employee = sessionStorage.getItem("EmployeeInformation")
             const res = await EmpInfo(id_employee)
             const position_at_school = res.data.data.map(res => {
                 if (res.position_at_school === "GESTOR") {
@@ -98,7 +99,7 @@ const Student = () => {
             setMatter(mttr)
         })()
 
-    }, [currentYear])
+    }, [ currentYear, id_employee ])
 
     const add = () => {
         const res = employee.find(employee => {

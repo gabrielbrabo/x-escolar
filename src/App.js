@@ -18,7 +18,7 @@ export function App() {
   return (
     <div className="app">
       <Title>
-        <h1>X ESCOLAR</h1>
+        <h1>ESCOLA X</h1>
       </Title>
       {
         token 

@@ -76,7 +76,7 @@ const Student = () => {
         sessionStorage.setItem("ClassInformation", Clss._id)
         sessionStorage.removeItem("serieClass")
         sessionStorage.setItem("serieClass", Clss.serie)
-        navigate('/class/info')
+        navigate(`/class/info/${Clss._id}`)
     }
 
     return (

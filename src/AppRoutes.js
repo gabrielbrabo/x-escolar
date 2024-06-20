@@ -127,22 +127,22 @@ const AppRoutes = () => {
                             <AddStudent/>
                         </Private>
                     }/>
-                    <Route exact path="/add/teacher" element={
+                    <Route exact path="/add/teacher/:id_class" element={
                         <Private>
                             <AddTeacher/>
                         </Private>
                     }/>
-                    <Route exact path="/student/info" element={
+                    <Route exact path="/student/info/:id_student" element={
                         <Private>
                             <StudentInfo/>
                         </Private>
                     }/>
-                    <Route exact path="/employee/info" element={
+                    <Route exact path="/employee/info/:id_employee" element={
                         <Private>
                             <EmployeeInfo/>
                         </Private>
                     }/>
-                    <Route exact path="/class/info" element={
+                    <Route exact path="/class/info/:id_class" element={
                         <Private>
                             <ClassInfo/>
                         </Private>
@@ -173,7 +173,7 @@ const AppRoutes = () => {
                             <MyClasses/>
                         </Private>
                     }/>
-                    <Route exact path="/myclassesinfo" element={
+                    <Route exact path="/myclassesinfo/:id_class/:id_teacher" element={
                         <Private>
                             <MyClassesInfo/>
                         </Private>

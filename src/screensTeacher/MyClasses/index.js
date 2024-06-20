@@ -36,7 +36,7 @@ const Student = () => {
     //const [year, setYear] = useState([])
     const [Clss, setClss] = useState([])
     //const [employee, setEmployee] = useState([])
-    //const [matter, setMatter] = useState("")
+    //const [id, setId] = useState("")
     const [filter, setFilter] = useState()
     const [busca, setBusca] = useState()
     //console.log('posi', position_at_school)
@@ -92,6 +92,7 @@ const Student = () => {
     }, [currentYear])
 
     const MyClassInformation = (clss) => {
+        const id_teacher = JSON.parse(sessionStorage.getItem("Id_employee"))
         if(clss) {
             const map = Clss.map(res => {
                 if(res.id_class.serie === clss) {
@@ -110,9 +111,7 @@ const Student = () => {
                 }
                 return null
             })
-            sessionStorage.removeItem("MyClassInformation")
-            sessionStorage.setItem("MyClassInfo", map)
-            navigate("/myclassesinfo")
+            navigate(`/myclassesinfo/${map}/${id_teacher}`)
             console.log("clss", map)
         }
     }
