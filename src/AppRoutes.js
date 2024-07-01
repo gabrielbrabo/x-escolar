@@ -37,6 +37,7 @@ import DeleteMatter from "./screens/DeleteMatter"
 
 import MyClasses from "./screensTeacher/MyClasses"
 import MyClassesInfo from "./screensTeacher/MyClassInfo"
+import Attendance from "./screensTeacher/Attendance"
 
 const AppRoutes = () => {
 
@@ -176,6 +177,11 @@ const AppRoutes = () => {
                     <Route exact path="/myclassesinfo/:id_class/:id_teacher" element={
                         <Private>
                             <MyClassesInfo/>
+                        </Private>
+                    }/>
+                    <Route exact path="/attendance" element={
+                        <Private>
+                            <Attendance/>
                         </Private>
                     }/>
                 </Routes>

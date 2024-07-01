@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import {StdtInfo} from '../../Api'
+import { StdtInfo } from '../../Api'
+import Calendar from '../../components/Calendar'
 
 import {
     Container,
@@ -12,7 +13,7 @@ import {
     User,
     //FormFilter,
     //FormSearch
-   // Input
+    // Input
 } from './style';
 
 /*import {
@@ -34,25 +35,26 @@ const Student = () => {
     const [student, setStudent] = useState([])
     //const [busca, setBusca] = useState("")
     //const [filter, setFilter] = useState()
-    const {id_student} = useParams()
+    const { id_student } = useParams()
     console.log(currentYear)
 
     useEffect(() => {
         (async () => {
-            //const id_student = sessionStorage.getItem("StudentInformation")
+            sessionStorage.removeItem('StudentInformation')
+            sessionStorage.setItem("StudentInformation", id_student)
             const res = await StdtInfo(id_student)
             setStudent(res.data.data)
             //console.log(res.data.data)
-            const clss = res.data.data.find( res => {
+            const clss = res.data.data.find(res => {
                 return res
-            }).id_class.map( res => {
+            }).id_class.map(res => {
                 if (res.year === currentYear) {
-                    return (res)   
+                    return (res)
                 } else {
                     return null
                 }
-            }).filter( res => {
-                if(! null) {
+            }).filter(res => {
+                if (! null) {
                     return (res)
                 } else {
                     return null
@@ -60,8 +62,8 @@ const Student = () => {
             })
             setClss(clss)
         })()
-         
-    }, [ currentYear, id_student ] )
+
+    }, [currentYear, id_student])
 
     console.log("clas", Clss)
 
@@ -80,6 +82,8 @@ const Student = () => {
                 ))
             }
 
+            <Calendar />
+
             {
                 Clss.map(clss => (
                     <Emp key={clss._id} >
@@ -93,5 +97,5 @@ const Student = () => {
         </Container>
     )
 }
-  
+
 export default Student

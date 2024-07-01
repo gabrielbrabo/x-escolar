@@ -14,9 +14,10 @@ export const Container = styled.div`
 `;
 export const User = styled.div`
     display: flex;
-    align-items: end;
+    align-items: center;
+    justify-content: space-around;
     width: 100%;
-    height: 6vh;
+    height: 10vh;
 `;
 
 export const Emp = styled.div`
@@ -26,7 +27,6 @@ export const DivInfo = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-top: 25px;
     align-items: center;
     justify-content: center;
 `;

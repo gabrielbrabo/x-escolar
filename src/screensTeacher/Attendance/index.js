@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { EmpInfo } from '../../Api'
+import Calendar from '../../components/Calendar'
 
 import {
     Container,
@@ -161,6 +162,7 @@ const Student = () => {
                 {/*<DivNewEmp>
                     <Btt02 onClick={NewClass}>Nova Turma</Btt02>
                 </DivNewEmp>*/}
+                <Calendar/>
 
                 {
                     Clss.filter((fil) => {

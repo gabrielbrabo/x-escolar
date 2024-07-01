@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import {GetInfoMyClass, clssInfo} from '../../Api'
+import { GetInfoMyClass, clssInfo } from '../../Api'
 
 import {
     Container,
@@ -15,7 +15,7 @@ import {
     User,
     //FormFilter,
     //FormSearch
-   // Input
+    // Input
 } from './style';
 
 /*import {
@@ -24,9 +24,9 @@ import {
     Select
 } from '../../components/Inputs'*/
 
-/*import {
-    Btt02, 
-}from '../../components/Buttons';*/
+import {
+    Btt02,
+} from '../../components/Buttons';
 
 const Student = () => {
 
@@ -34,8 +34,8 @@ const Student = () => {
     const [clss, setClss] = useState([])
     const [NameMatter, setNameMatter] = useState([])
     const [stdt, setStdt] = useState([])
-    const {id_class} = useParams();
-    const {id_teacher} = useParams();
+    const { id_class } = useParams();
+    const { id_teacher } = useParams();
     //console.log(currentYear)
 
     useEffect(() => {
@@ -47,11 +47,11 @@ const Student = () => {
             const resClass = await clssInfo(id_class)
             const res = await GetInfoMyClass(id_class, id_teacher)
             console.log(res.data.data)
-            const student = resClass.data.data.find( res => {
+            const student = resClass.data.data.find(res => {
                 return res
-            }).id_student.map( res => {
+            }).id_student.map(res => {
                 if (res) {
-                    return (res)   
+                    return (res)
                 } else {
                     return null
                 }
@@ -59,19 +59,16 @@ const Student = () => {
             setStdt(student)
             setClss(resClass.data.data)
             setNameMatter(res.data.data)
-            
+
             console.log("matter", res.data.data)
         })()
-         
-    }, [ id_class, id_teacher ] )
+
+    }, [id_class, id_teacher])
 
     console.log("student", stdt)
 
     return (
         <Container>
-            <User>
-
-            </User>
             {
                 clss.map(clss => (
                     <Emp key={clss._id} >
@@ -82,7 +79,10 @@ const Student = () => {
                     </Emp>
                 ))
             }
-            
+            <User>
+                <Btt02>Chamada</Btt02>
+            </User>
+
             {
                 //employee.length > 0                
                 //?
@@ -94,7 +94,7 @@ const Student = () => {
 
                         {
                             NameMatter.map(employee => (
-                                <div key = {employee._id}>
+                                <div key={employee._id}>
                                     <Span>{employee.name_matter}</Span>
                                 </div>
                             ))
@@ -103,29 +103,29 @@ const Student = () => {
                 </DivInfo>
             }
             {
-                stdt.length > 0                
-                ?
-                <DivInfo>
-                    <Emp>Estudantes:</Emp>
-                    <Matter>
-                        {
-                            stdt.map(stdt => (
-                                <Span>{stdt.name}</Span>
-                            ))
-                        }
-                    </Matter>
-                </DivInfo>
-                :
-                <DivInfo>
-                    <Emp>Estudantes:</Emp>
-                    <Matter>
-                        <>Não há nenhum estudantes</>
-                    </Matter>
-                </DivInfo>
+                stdt.length > 0
+                    ?
+                    <DivInfo>
+                        <Emp>Estudantes:</Emp>
+                        <Matter>
+                            {
+                                stdt.map(stdt => (
+                                    <Span>{stdt.name}</Span>
+                                ))
+                            }
+                        </Matter>
+                    </DivInfo>
+                    :
+                    <DivInfo>
+                        <Emp>Estudantes:</Emp>
+                        <Matter>
+                            <>Não há nenhum estudantes</>
+                        </Matter>
+                    </DivInfo>
             }
-           
+
         </Container>
     )
 }
-  
+
 export default Student
