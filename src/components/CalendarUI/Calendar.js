@@ -1,5 +1,9 @@
 import * as React from 'react';
 import dayjs from 'dayjs';
+import DayjsUtils from '@date-io/dayjs'
+import 'dayjs/locale/pt-br';
+import localizedFormat from 'dayjs/plugin/localizedFormat'
+//import ptBR  from 'date-fns/locale/pt-BR'
 import Badge from '@mui/material/Badge';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -7,9 +11,16 @@ import { PickersDay } from '@mui/x-date-pickers/PickersDay';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
 
-import { GetMatter, GetAttendance } from '../Api'
+import { GetMatter, GetAttendance } from '../../Api'
 
 import { IoCheckmarkSharp, IoCloseSharp } from "react-icons/io5";
+
+//import { containerCalendar } from './Styles';
+const diasDaSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
+const monthsPtBr = [
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+];
 
 function fakeFetch( /*date,*/ signal) {
     return new Promise((resolve, reject) => {
@@ -25,7 +36,7 @@ function fakeFetch( /*date,*/ signal) {
         };
     });
 }
-const initialValue = dayjs();
+
 
 function ServerDay(props) {
     const { highlightedDays = [], highlightedDaysF = [], day, outsideCurrentMonth, ...other } = props;
@@ -37,12 +48,13 @@ function ServerDay(props) {
         <Badge
             key={props.day.toString()}
             overlap="circular"
-            badgeContent={isSelected ? <IoCheckmarkSharp color='green' font-size="30px" /> : undefined || isSelectedF ? <IoCloseSharp color='red' font-size="30px" /> : undefined}
+            badgeContent={isSelected ? <IoCheckmarkSharp color='#00fa00' font-size="30px" /> : undefined || isSelectedF ? <IoCloseSharp color='#ff050a' font-size="30px" /> : undefined}
         >
             <PickersDay {...other} outsideCurrentMonth={outsideCurrentMonth} day={day} />
         </Badge>
     );
 }
+const initialValue = dayjs();
 
 export default function DateCalendarServerRequest() {
     const requestAbortController = React.useRef(null);
@@ -55,6 +67,9 @@ export default function DateCalendarServerRequest() {
     const Year = new Date().getFullYear();
     const Month = new Date().getMonth() + 1;
     var [month, setMonth] = React.useState([Month]);
+
+    dayjs.locale('pt-br');
+    dayjs.extend(localizedFormat);
 
     React.useEffect(() => {
         (async () => {
@@ -94,7 +109,7 @@ export default function DateCalendarServerRequest() {
         fetchHighlightedDays(initialValue);
         // abort request on unmount
         return () => requestAbortController.current?.abort();
-    }, [Month, month, Year, id_matter]);
+    }, [ Month, month, Year, id_matter ]);
     console.log("month", month)
 
     const fetchHighlightedDays = (date) => {
@@ -136,7 +151,7 @@ export default function DateCalendarServerRequest() {
     };
 
     return (
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <div>
             <div>
                 Para ver a frequecia selecione uma materia abaixo
                 <div>
@@ -156,15 +171,17 @@ export default function DateCalendarServerRequest() {
                     </select>
                 </div>
             </div>
+
             {
                 id_matter.length > 0
                 &&
-                <div>
+                <LocalizationProvider locale={dayjs.locale('pt-br', { months: monthsPtBr, weekdays: diasDaSemana, })} utils={DayjsUtils} dateAdapter={AdapterDayjs}>
+
                     <DateCalendar
                         defaultValue={initialValue}
                         loading={isLoading}
                         onMonthChange={handleMonthChange}
-                        renderLoading={() => <DayCalendarSkeleton />}
+                        renderLoading={() => <DayCalendarSkeleton color='red' />}
                         slots={{
                             day: ServerDay,
                         }}
@@ -174,12 +191,15 @@ export default function DateCalendarServerRequest() {
                                 highlightedDaysF
                             },
                         }}
+                        views={['day']}
+                        readOnly
                     />
-                    <div onClick={ setDate } >
+                    <div className='exit-frequec' onClick={setDate} >
                         fecha frequecia ^
                     </div>
-                </div>
+
+                </LocalizationProvider>
             }
-        </LocalizationProvider>
+        </div>
     );
 }

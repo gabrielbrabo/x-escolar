@@ -82,7 +82,7 @@ const Matter = () => {
         const auth = sessionStorage.getItem("tchrnf")
         if(auth) {
             sessionStorage.removeItem('tchrnf')
-            navigate('/employee/info')
+            navigate(`/employee/info/${auth}`)
         } else {
             navigate('/employees')
         }

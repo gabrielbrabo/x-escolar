@@ -90,7 +90,7 @@ const Student = () => {
         const res = await removeMatter(id_matter, id_employee)
         if(res) {
             alert('Aluno Removido com sucesso.')
-            navigate('/employee/info')
+            navigate(`/employee/info/${id_employee}`)
         }
         //console.log("id_student", id_student)
         //console.log("id_class", id_class)

@@ -6,7 +6,6 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #474a51 ;
 `;
 
 export const InputArea = styled.div`

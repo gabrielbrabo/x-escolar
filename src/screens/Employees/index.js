@@ -69,8 +69,8 @@ const Employees = () => {
     }
 
     const employeeInformation = async (employee) => {
-        //sessionStorage.removeItem('EmployeeInformation')
-        //sessionStorage.setItem("EmployeeInformation", employee._id)
+        sessionStorage.removeItem('EmployeeInformation')
+        sessionStorage.setItem("EmployeeInformation", employee._id)
         navigate(`/employee/info/${employee._id}`)
     }
 

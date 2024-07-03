@@ -4,7 +4,6 @@ export const Container = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    background-color: #474a51;
     box-shadow: 2px 0px 7px inset black;
 
     @media screen and (max-width: 768px) {
