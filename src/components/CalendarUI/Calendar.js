@@ -15,12 +15,23 @@ import { GetMatter, GetAttendance } from '../../Api'
 
 import { IoCheckmarkSharp, IoCloseSharp } from "react-icons/io5";
 
+import { styled } from '@mui/material/styles';
+
 //import { containerCalendar } from './Styles';
 const diasDaSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
 const monthsPtBr = [
     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
 ];
+
+const StyledDateCalendar = styled(DateCalendar)`
+  & .MuiPickersDay-root {
+    color: white; // Cor dos dias no calendário
+  }
+  & .MuiTypography-root {
+    color: white; // Cor dos dias no calendário
+  }
+`;
 
 function fakeFetch( /*date,*/ signal) {
     return new Promise((resolve, reject) => {
@@ -109,7 +120,7 @@ export default function DateCalendarServerRequest() {
         fetchHighlightedDays(initialValue);
         // abort request on unmount
         return () => requestAbortController.current?.abort();
-    }, [ Month, month, Year, id_matter ]);
+    }, [Month, month, Year, id_matter]);
     console.log("month", month)
 
     const fetchHighlightedDays = (date) => {
@@ -177,11 +188,11 @@ export default function DateCalendarServerRequest() {
                 &&
                 <LocalizationProvider locale={dayjs.locale('pt-br', { months: monthsPtBr, weekdays: diasDaSemana, })} utils={DayjsUtils} dateAdapter={AdapterDayjs}>
 
-                    <DateCalendar
+                    <StyledDateCalendar
                         defaultValue={initialValue}
                         loading={isLoading}
                         onMonthChange={handleMonthChange}
-                        renderLoading={() => <DayCalendarSkeleton color='red' />}
+                        renderLoading={() => <DayCalendarSkeleton />}
                         slots={{
                             day: ServerDay,
                         }}
@@ -193,7 +204,8 @@ export default function DateCalendarServerRequest() {
                         }}
                         views={['day']}
                         readOnly
-                    />
+                    >
+                    </StyledDateCalendar>
                     <div className='exit-frequec' onClick={setDate} >
                         fecha frequecia ^
                     </div>

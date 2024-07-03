@@ -10,7 +10,7 @@ export const Container = styled.div`
     @media screen and (max-width: 768px) {
         box-shadow: 0px 0px 7px inset black;
     }
-    .css-1q04gal-MuiDateCalendar-root {
+    /*.css-1q04gal-MuiDateCalendar-root {
         background-color: black;
         span {
             color: white;
@@ -27,7 +27,7 @@ export const Container = styled.div`
         .css-i5q14k-MuiDayCalendar-header {
             background-color: #292929;
         }
-    }
+    }*/
     .exit-frequec {
         display: flex;
         height: 30px;
