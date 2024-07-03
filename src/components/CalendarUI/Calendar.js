@@ -25,11 +25,24 @@ const monthsPtBr = [
 ];
 
 const StyledDateCalendar = styled(DateCalendar)`
+
   & .MuiPickersDay-root {
     color: white; // Cor dos dias no calendário
   }
   & .MuiTypography-root {
     color: white; // Cor dos dias no calendário
+  }
+  & svg {
+    color: white;
+  }
+  & .MuiPickersCalendarHeader-root {
+    background-color: black;
+  }
+  & .MuiDayCalendar-header {
+    background-color: #292929;
+  }
+  & .MuiPickersSlideTransition-root {
+    background-color: #3D3925;;
   }
 `;
 
