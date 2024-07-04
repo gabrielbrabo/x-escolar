@@ -24,6 +24,9 @@ const monthsPtBr = [
     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
 ];
 
+dayjs.locale('pt-br');
+dayjs.extend(localizedFormat);
+
 const StyledDateCalendar = styled(DateCalendar)`
 
   & .MuiPickersDay-root {
@@ -91,9 +94,6 @@ export default function DateCalendarServerRequest() {
     const Year = new Date().getFullYear();
     const Month = new Date().getMonth() + 1;
     var [month, setMonth] = React.useState([Month]);
-
-    dayjs.locale('pt-br');
-    dayjs.extend(localizedFormat);
 
     React.useEffect(() => {
         (async () => {
@@ -217,6 +217,7 @@ export default function DateCalendarServerRequest() {
                         }}
                         views={['day']}
                         readOnly
+                        months={monthsPtBr}
                     >
                     </StyledDateCalendar>
                     <div className='exit-frequec' onClick={setDate} >
