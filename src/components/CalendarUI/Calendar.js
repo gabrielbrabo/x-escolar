@@ -90,7 +90,6 @@ export default function DateCalendarServerRequest() {
     const [highlightedDaysF, setHighlightedDaysF] = React.useState([]);
     const [matter, setMatter] = React.useState([]);
     const [id_matter, setFilter] = React.useState([]);
-    //const [init, setInit] = React.useState([]);
     const Year = new Date().getFullYear();
     const Month = new Date().getMonth() + 1;
     var [month, setMonth] = React.useState([Month]);
@@ -99,7 +98,6 @@ export default function DateCalendarServerRequest() {
         (async () => {
             const idSchool = sessionStorage.getItem("id-school")
             console.log("id_school", idSchool)
-            //const response = await GetStudent(JSON.parse(idSchool))
             const res = await GetMatter(JSON.parse(idSchool))
             setMatter(res.data.data)
             const id_student = sessionStorage.getItem("StudentInformation")

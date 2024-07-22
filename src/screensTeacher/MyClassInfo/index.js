@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { GetInfoMyClass, clssInfo } from '../../Api'
 
 import {
@@ -30,7 +30,7 @@ import {
 
 const Student = () => {
 
-    //const navigate = useNavigate()
+    const navigate = useNavigate()
     const [clss, setClss] = useState([])
     const [NameMatter, setNameMatter] = useState([])
     const [stdt, setStdt] = useState([])
@@ -60,6 +60,12 @@ const Student = () => {
             setClss(resClass.data.data)
             setNameMatter(res.data.data)
 
+            sessionStorage.removeItem("attendance_ idmatter")
+            sessionStorage.removeItem("selectedDate")
+            sessionStorage.removeItem("day")
+            sessionStorage.removeItem("month")
+            sessionStorage.removeItem("year")
+
             console.log("matter", res.data.data)
         })()
 
@@ -80,7 +86,7 @@ const Student = () => {
                 ))
             }
             <User>
-                <Btt02>Chamada</Btt02>
+                <Btt02 onClick={() => { navigate('/attendance') }}>Chamada</Btt02>
             </User>
 
             {

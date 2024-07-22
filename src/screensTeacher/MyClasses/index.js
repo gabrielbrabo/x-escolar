@@ -111,6 +111,7 @@ const Student = () => {
                 }
                 return null
             })
+            sessionStorage.setItem("class-info", map)
             navigate(`/myclassesinfo/${map}/${id_teacher}`)
             console.log("clss", map)
         }

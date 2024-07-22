@@ -24,7 +24,21 @@ export const Search = styled.div`
     justify-content: space-around;
     width: 100%;
 `;
-
+export const DivInfo = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+`;
+export const Matter = styled.div`
+    min-height: 150px;
+    max-height: 150px;
+    border: 1px solid gray;
+    width: 90%;
+    overflow: hidden;
+    overflow-y: scroll;
+`;
 export const List = styled.div`
     border: 1px solid gray;
 `;
@@ -49,4 +63,11 @@ export const FormFilter = styled.div`
 `;
 export const FormSearch = styled.div`
     
+`;
+export const DivAddEmp = styled.div`
+    height: 30px;
+    display: flex;
+    width: 90%;
+    margin-bottom: 7px;
+    justify-content: flex-end;
 `;

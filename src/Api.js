@@ -485,6 +485,85 @@ export const GetAttendance = async (
         }, [])
 }
 
+export const GetAttendanceFinalized = async (
+    month,
+    year,
+    day,
+    id_class,
+    id_matter
+) => {
+
+    return api.post(`/search/frequency`, {
+        month,
+        year,
+        day,
+        id_class,
+        id_matter
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+export const Attendance = async (
+    day,
+    month,
+    year,
+    status,
+    id_student,
+    id_teacher,
+    id_class,
+    id_matter
+) => {
+
+    return api.post(`/attendance`, {
+        day,
+        month,
+        year,
+        status,
+        id_student,
+        id_teacher,
+        id_class,
+        id_matter
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+export const updateAttendance = async (
+    update_attendance,
+    update_status
+) => {
+
+    return api.post(`/update/frequency`, {
+        update_attendance,
+        update_status
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
 
 /*export const getavatar = async () => {
 
