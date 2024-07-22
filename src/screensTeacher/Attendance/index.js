@@ -29,6 +29,7 @@ import {
 import {
     Btt02,
 } from '../../components/Buttons';
+import LoadingSpinner from '../../components/Loading'
 
 const Student = () => {
 
@@ -46,9 +47,11 @@ const Student = () => {
     const [namestudent, setNamestudent] = useState('')
     const [editingStudent, setEditingStudent] = useState(null); // Estado para aluno em edição
     const [editingStatus, setEditingStatus] = useState('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         (async () => {
+            setLoading(true);
             const id_teacher = sessionStorage.getItem("Id_employee")
             const id_class = sessionStorage.getItem("class-info")
             const Matter = sessionStorage.getItem("attendance_ idmatter")
@@ -94,6 +97,7 @@ const Student = () => {
                 console.log('student', student)
                 console.log("attRealized", attRealized)
             }
+            setLoading(false);
         })()
 
     }, [day, id_matter, month, year])
@@ -108,6 +112,7 @@ const Student = () => {
         console.log("res", res)
     }*/
     const clickRemovedate = () => {
+        setLoading(true)
         sessionStorage.removeItem("selectedDate")
         sessionStorage.removeItem("day")
         sessionStorage.removeItem("month")
@@ -117,8 +122,10 @@ const Student = () => {
         setDay('')
         setMonth('')
         setYear('')
+        setLoading(false)
     }
     const clickRemovematter = () => {
+        setLoading(true)
         sessionStorage.removeItem("attendance_ idmatter")
         sessionStorage.removeItem("selectedDate")
         sessionStorage.removeItem("day")
@@ -130,19 +137,24 @@ const Student = () => {
         setDay('')
         setMonth('')
         setYear('')
+        setLoading(false)
     }
     const click_idMatter = (employee) => {
+        setLoading(true)
         sessionStorage.removeItem("attendance_ idmatter")
         sessionStorage.setItem("attendance_ idmatter", employee.id_matter)
         setclickMatter([])
         setclickMatter(employee.id_matter)
+        setLoading(false)
     }
     const Finalyze = () => {
+        setLoading(true)
         window.history.back()
     }
-    const Presence = async (stdt) => {
+    const handleAttendance = async (stdt, status) => {
         //const id_teacher = sessionStorage.getItem("Id_employee")
-        const status = 'p'
+        setLoading(true)
+        //const status = 'p'
         const id_student = stdt._id
         const res = await Attendance(day, month, year, status, id_student, JSON.parse(id_teacher), id_class, id_matter)
         console.log('chamada', res)
@@ -168,48 +180,20 @@ const Student = () => {
             setStdt(student)
             setChecked(checkedStudent)
         }
+        setLoading(false)
     }
-    const Absence = async (stdt) => {
-        //const id_teacher = sessionStorage.getItem("Id_employee")
-        const status = 'f'
-        const id_student = stdt._id
-        const res = await Attendance(day, month, year, status, id_student, JSON.parse(id_teacher), id_class, id_matter)
-        console.log('chamada', res)
-        if (res) {
-            const resAtt = await GetAttendanceFinalized(month, year, day, id_class, id_matter)
-            const resClass = await clssInfo(id_class)
-            const attRealized = await resAtt.data.data.map(res => {
-                return res.id_student._id
-            })
-            const checkedStudent = await resAtt.data.data.map(res => {
-                return res
-            })
-            const student = await resClass.data.data.find(res => {
-                return res
-            }).id_student.map(res => {
-                return res
-            }).filter(studentId => {
-                if (!attRealized.includes(studentId._id)) {
-                    return studentId
-                }
-                return null
-            })
-            setStdt(student)
-            setChecked(checkedStudent)
-        }
-    }
+    const handlePresenceClick = (stdt) => handleAttendance(stdt, 'p');
+    const handleAbsenceClick = (stdt) => handleAttendance(stdt, 'f');
     const startEditing = (checkedStdt) => {
         setEditingStudent(checkedStdt._id);
         setEditingStatus(checkedStdt.status);
         setNamestudent(checkedStdt)
     };
     const saveEdit = async () => {
-        const update = await updateAttendance(editingStudent, editingStatus)
-        //await handleAttendance(editingStudent, editingStatus);
-        //setEditingStudent(null);
-        //setEditingStatus('');
-        console.log("edit", update)
+        setLoading(true)
+        await updateAttendance(editingStudent, editingStatus)
         window.location.reload()
+        //setLoading(false)
     };
     console.log("selectedDate", selectedDate)
     console.log("matter", id_matter)
@@ -220,51 +204,55 @@ const Student = () => {
 
     return (
         <Container>
-            <User>
+            {loading ?
+                <LoadingSpinner />
+                :
+                <>
+                    <User>
 
-            </User>
-            {
-                id_matter.length <= 0
-                &&
-                <DivInfo>
-                    <DivAddEmp>
-                    </DivAddEmp>
-                    <Emp>Materias em que da aula nessa Turma:</Emp>
-                    <Matter>
+                    </User>
+                    {
+                        id_matter.length <= 0
+                        &&
+                        <DivInfo>
+                            <DivAddEmp>
+                            </DivAddEmp>
+                            <Emp>Materias em que da aula nessa Turma:</Emp>
+                            <Matter>
 
-                        {
-                            matter.map(employee => (
-                                <div onClick={() => click_idMatter(employee)} key={employee._id}>
-                                    <Span>{employee.name_matter}</Span>
-                                </div>
-                            ))
-                        }
-                    </Matter>
-                </DivInfo>
-            }
-            {
-                !selectedDate && id_matter.length > 0
-                &&
-                <DivInfo>
-                    <SelectorDate
-                        setDay={setDay}
-                        setMonth={setMonth}
-                        setYear={setYear}
-                        setSelectedDate={setSelectedDate}
-                    />
-                </DivInfo>
-            }
-            {
-                selectedDate && !editingStudent
-                &&
-                <div>
-                    <Btt02 onClick={clickRemovematter}>
-                        Selecionar outra materia
-                    </Btt02>
-                    <Btt02 onClick={clickRemovedate}>
-                        Selecionar outra data
-                    </Btt02>
-                    {/*<Search>
+                                {
+                                    matter.map(employee => (
+                                        <div onClick={() => click_idMatter(employee)} key={employee._id}>
+                                            <Span>{employee.name_matter}</Span>
+                                        </div>
+                                    ))
+                                }
+                            </Matter>
+                        </DivInfo>
+                    }
+                    {
+                        !selectedDate && id_matter.length > 0
+                        &&
+                        <DivInfo>
+                            <SelectorDate
+                                setDay={setDay}
+                                setMonth={setMonth}
+                                setYear={setYear}
+                                setSelectedDate={setSelectedDate}
+                            />
+                        </DivInfo>
+                    }
+                    {
+                        selectedDate && !editingStudent
+                        &&
+                        <div>
+                            <Btt02 onClick={clickRemovematter}>
+                                Selecionar outra materia
+                            </Btt02>
+                            <Btt02 onClick={clickRemovedate}>
+                                Selecionar outra data
+                            </Btt02>
+                            {/*<Search>
                             <FormSearch>
                                 <label>Buscar Turma</label>
                                 <AreaEmp>
@@ -279,10 +267,10 @@ const Student = () => {
                                 </AreaEmp>
                             </FormSearch>
                         </Search>*/}
-                    <List>
+                            <List>
 
-                        {
-                            stdt/*.filter((val) => {
+                                {
+                                    stdt/*.filter((val) => {
                                     if (!busca) {
                                         return (val)
                                     } else if (val.name.includes(busca.toUpperCase())) {
@@ -290,23 +278,23 @@ const Student = () => {
                                     }
                                     return null
                                 })*/.map(stdt => (
-                                <Emp
-                                    /*onClick={() =>
-                                        classInformation(stdt)
-                                    }*/
-                                    key={stdt._id}
-                                >
-                                    <Span>{stdt.name}</Span>
-                                    <Btt02 onClick={() => Presence(stdt)}>Presença</Btt02>
-                                    <Btt02 onClick={() => Absence(stdt)}>Falta</Btt02>
-                                </Emp>
-                            ))
-                        }
-                    </List>
-                    <List>
+                                        <Emp
+                                            /*onClick={() =>
+                                                classInformation(stdt)
+                                            }*/
+                                            key={stdt._id}
+                                        >
+                                            <Span>{stdt.name}</Span>
+                                            <Btt02 onClick={() => handlePresenceClick(stdt)}>Presença</Btt02>
+                                            <Btt02 onClick={() => handleAbsenceClick(stdt)}>Falta</Btt02>
+                                        </Emp>
+                                    ))
+                                }
+                            </List>
+                            <List>
 
-                        {
-                            checked/*.filter((val) => {
+                                {
+                                    checked/*.filter((val) => {
                                     if (!busca) {
                                         return (val)
                                     } else if (val.name.includes(busca.toUpperCase())) {
@@ -314,49 +302,49 @@ const Student = () => {
                                     }
                                     return null
                                 })*/.map(checkedStdt => (
-                                <Emp
-                                    /*onClick={() =>
-                                        classInformation(stdt)
-                                    }*/
-                                    key={checkedStdt._id}
-                                >
-                                    <Span>{checkedStdt.id_student.name}
-                                        <Btt02 style={{
-                                            backgroundColor: checkedStdt.status === 'P' ? 'green' : 'red'
-                                        }}>
-                                            {checkedStdt.status}
-                                        </Btt02>
-                                    </Span>
-                                    <Btt02 onClick={() => startEditing(checkedStdt)} style={{
-                                        backgroundColor: 'blue'
-                                    }}
-                                    >
-                                        Editar
-                                    </Btt02>
-                                </Emp>
-                            ))
-                        }
-                    </List>
-                    <Btt02 onClick={Finalyze}>
-                        Finalizar Chamada
-                    </Btt02>
-                </div>
-            }
-            {editingStudent && (
-                <div>
-                    <h3>Editando: {namestudent.id_student.name}</h3>
-                    {console.log("editingStudent", namestudent.id_student.name)}
-                    <select
-                        value={editingStatus}
-                        onChange={(e) => setEditingStatus(e.target.value)}
-                    >
-                        <option value="P">Presença</option>
-                        <option value="F">Falta</option>
-                    </select>
-                    <Btt02 onClick={saveEdit}>Salvar</Btt02>
-                    <Btt02 onClick={() => setEditingStudent(null)}>Cancelar</Btt02>
-                </div>
-            )}
+                                        <Emp
+                                            /*onClick={() =>
+                                                classInformation(stdt)
+                                            }*/
+                                            key={checkedStdt._id}
+                                        >
+                                            <Span>{checkedStdt.id_student.name}
+                                                <Btt02 style={{
+                                                    backgroundColor: checkedStdt.status === 'P' ? 'green' : 'red'
+                                                }}>
+                                                    {checkedStdt.status}
+                                                </Btt02>
+                                            </Span>
+                                            <Btt02 onClick={() => startEditing(checkedStdt)} style={{
+                                                backgroundColor: 'blue'
+                                            }}
+                                            >
+                                                Editar
+                                            </Btt02>
+                                        </Emp>
+                                    ))
+                                }
+                            </List>
+                            <Btt02 onClick={Finalyze}>
+                                Finalizar Chamada
+                            </Btt02>
+                        </div>
+                    }
+                    {editingStudent && (
+                        <div>
+                            <h3>Editando: {namestudent.id_student.name}</h3>
+                            {console.log("editingStudent", namestudent.id_student.name)}
+                            <select
+                                value={editingStatus}
+                                onChange={(e) => setEditingStatus(e.target.value)}
+                            >
+                                <option value="P">Presença</option>
+                                <option value="F">Falta</option>
+                            </select>
+                            <Btt02 onClick={saveEdit}>Salvar</Btt02>
+                            <Btt02 onClick={() => setEditingStudent(null)}>Cancelar</Btt02>
+                        </div>
+                    )}</>}
         </Container>
     )
 }
