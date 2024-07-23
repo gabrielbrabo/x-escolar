@@ -28,6 +28,7 @@ import {
 /*import {
     Btt02,
 } from '../../components/Buttons';*/
+import LoadingSpinner from '../../components/Loading'
 
 const Student = () => {
 
@@ -39,10 +40,12 @@ const Student = () => {
     //const [id, setId] = useState("")
     const [filter, setFilter] = useState()
     const [busca, setBusca] = useState()
+    const [loading, setLoading] = useState(false);
     //console.log('posi', position_at_school)
 
     useEffect(() => {
         (async () => {
+            setLoading(true);
             const id_employee = sessionStorage.getItem("Id_employee")
             const res = await EmpInfo(JSON.parse(id_employee))
             //setEmployee(res.data.data)
@@ -87,17 +90,19 @@ const Student = () => {
             })*/
             setClss(clss)
             //setMatter(mttr)
+            setLoading(false);
         })()
 
     }, [currentYear])
 
     const MyClassInformation = (clss) => {
+        setLoading(true);
         const id_teacher = JSON.parse(sessionStorage.getItem("Id_employee"))
-        if(clss) {
+        if (clss) {
             const map = Clss.map(res => {
-                if(res.id_class.serie === clss) {
+                if (res.id_class.serie === clss) {
                     return res.id_class._id
-                } 
+                }
                 return null
             }).filter(res => {
                 if (! null) {
@@ -106,7 +111,7 @@ const Student = () => {
                     return null
                 }
             }).filter((valor, indice, self) => {
-                if(self.indexOf(valor) === indice) {
+                if (self.indexOf(valor) === indice) {
                     return valor
                 }
                 return null
@@ -115,6 +120,7 @@ const Student = () => {
             navigate(`/myclassesinfo/${map}/${id_teacher}`)
             console.log("clss", map)
         }
+        setLoading(false);
     }
 
     /*const Remove = async () => {
@@ -126,84 +132,90 @@ const Student = () => {
 
     return (
         <Container>
-            <User>
-                
-            </User>
-            <Search>
-                <FormSearch>
-                    <label>Buscar Turma</label>
-                    <AreaEmp>
-                        <InputEmp
-                            type="text"
-                            placeholder='Buscar por nome'
-                            value={busca}
-                            onChange={
-                                (e) => setBusca(e.target.value)
-                            }
-                        />
-                    </AreaEmp>
-                </FormSearch>
-                <FormFilter>
-                    <label>Filtra por Turno: </label>
-                    <Select id="position"
-                        value={filter}
-                        onChange={
-                            (e) => setFilter(e.target.value)
-                        }
-                    >
-                        <option value="">Todos</option>
-                        <option value="MATUTINO">MATUTINO</option>
-                        <option value="VESPERTINO">VESPERTINO</option>
-                        <option value="NOTURNO">NOTURNO</option>
-                    </Select>
-                </FormFilter>
-            </Search>
-            <List>
-                {/*<DivNewEmp>
+            {loading ?
+                <LoadingSpinner />
+                :
+                <>
+                    <User>
+
+                    </User>
+                    <Search>
+                        <FormSearch>
+                            <label>Buscar Turma</label>
+                            <AreaEmp>
+                                <InputEmp
+                                    type="text"
+                                    placeholder='Buscar por nome'
+                                    value={busca}
+                                    onChange={
+                                        (e) => setBusca(e.target.value)
+                                    }
+                                />
+                            </AreaEmp>
+                        </FormSearch>
+                        <FormFilter>
+                            <label>Filtra por Turno: </label>
+                            <Select id="position"
+                                value={filter}
+                                onChange={
+                                    (e) => setFilter(e.target.value)
+                                }
+                            >
+                                <option value="">Todos</option>
+                                <option value="MATUTINO">MATUTINO</option>
+                                <option value="VESPERTINO">VESPERTINO</option>
+                                <option value="NOTURNO">NOTURNO</option>
+                            </Select>
+                        </FormFilter>
+                    </Search>
+                    <List>
+                        {/*<DivNewEmp>
                     <Btt02 onClick={NewClass}>Nova Turma</Btt02>
                 </DivNewEmp>*/}
 
-                {
-                    Clss.filter((fil) => {
-                        if (!filter) {
-                            return (fil)
-                        }
-                        if (fil.id_class.shift === filter) {
-                            return (fil)
-                        }
-                        return null
-                    }).filter((val) => {
-                        if (!busca) {
-                            return (val)
-                        } else if (val.id_class.serie.includes(busca.toUpperCase())) {
-                            return (val)
-                        }
-                        return null
-                    }).map(c => {
-                        return c.id_class.serie
-                    }).filter((valor, indice, self) => {
-                        return self.indexOf(valor) === indice
-                    }).map(clss => (
-                        <Emp
-                            onClick={() => 
-                                MyClassInformation(clss)
-                            }
-
-                            /*const clss = cl.map(c => {
-                                    return c.id_class.serie
-                                }).filter((valor, indice, self) => {
-                                    if(self.indexOf(valor) === indice) {
-                                        return valor
+                        {
+                            Clss.filter((fil) => {
+                                if (!filter) {
+                                    return (fil)
+                                }
+                                if (fil.id_class.shift === filter) {
+                                    return (fil)
+                                }
+                                return null
+                            }).filter((val) => {
+                                if (!busca) {
+                                    return (val)
+                                } else if (val.id_class.serie.includes(busca.toUpperCase())) {
+                                    return (val)
+                                }
+                                return null
+                            }).map(c => {
+                                return c.id_class.serie
+                            }).filter((valor, indice, self) => {
+                                return self.indexOf(valor) === indice
+                            }).map(clss => (
+                                <Emp
+                                    onClick={() =>
+                                        MyClassInformation(clss)
                                     }
-                                })*/
-                            key={clss}
-                        >
-                            <Span>{clss}</Span>,
-                            {}
-                        </Emp>
-                    ))
-                }
-            </List>
+
+                                    /*const clss = cl.map(c => {
+                                            return c.id_class.serie
+                                        }).filter((valor, indice, self) => {
+                                            if(self.indexOf(valor) === indice) {
+                                                return valor
+                                            }
+                                        })*/
+                                    key={clss}
+                                >
+                                    <Span>{clss}</Span>,
+                                    { }
+                                </Emp>
+                            ))
+                        }
+                    </List>
+                </>
+            }
         </Container>
     )
 }
