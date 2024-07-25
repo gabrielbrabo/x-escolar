@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import {clssInfo} from '../../Api'
+import { clssInfo } from '../../Api'
 
 import {
     Container,
@@ -15,7 +15,7 @@ import {
     User,
     //FormFilter,
     //FormSearch
-   // Input
+    // Input
 } from './style';
 
 /*import {
@@ -25,10 +25,12 @@ import {
 } from '../../components/Inputs'*/
 
 import {
-    Btt02, 
-}from '../../components/Buttons';
+    Btt02,
+} from '../../components/Buttons';
 
-const Student = () => {
+import LoadingSpinner from '../../components/Loading'
+
+const Cla$$Info = () => {
 
     const navigate = useNavigate()
     const currentYear = new Date().getFullYear().toString();
@@ -37,30 +39,32 @@ const Student = () => {
     const [employee, setEmployee] = useState([])
     //const [matter, setMatter] = useState("")
     const [stdt, setStdt] = useState([])
-    const {id_class} = useParams();
+    const [loading, setLoading] = useState(false);
+    const { id_class } = useParams();
     console.log(currentYear)
 
     useEffect(() => {
         (async () => {
+            setLoading(true);
             console.log('useParamsClass', id_class)
             //const id_clas = sessionStorage.getItem("ClassInformation")
             const res = await clssInfo(id_class)
             setClss(res.data.data)
             console.log(res.data.data)
-            const student = res.data.data.find( res => {
+            const student = res.data.data.find(res => {
                 return res
-            }).id_student.map( res => {
+            }).id_student.map(res => {
                 if (res) {
-                    return (res)   
+                    return (res)
                 } else {
                     return null
                 }
             })
-            const employee = res.data.data.find( res => {
+            const employee = res.data.data.find(res => {
                 return res
-            }).addTeacher.map( res => {
+            }).addTeacher.map(res => {
                 if (res) {
-                    return (res)   
+                    return (res)
                 } else {
                     return (null)
                 }
@@ -80,9 +84,10 @@ const Student = () => {
             //setMatter(matter)
             console.log("id_matter", employee)
             //console.log("matter", matter)
+            setLoading(false);
         })()
-         
-    }, [ id_class ] )
+
+    }, [id_class])
 
     const addStudent = async () => {
         navigate('/add/student')
@@ -102,94 +107,99 @@ const Student = () => {
 
     return (
         <Container>
-            <User>
-
-            </User>
-            {
-                clss.map(clss => (
-                    <Emp key={clss._id} >
-                        <Span>Serie: {clss.serie}</Span>
-                        <Span>Nivel: {clss.level}</Span>
-                        <Span>Turno: {clss.shift}</Span>
-                        <Span>Numero da Sala: {clss.classroom_number}</Span>
-                    </Emp>
-                ))
-            }
-            
-            {
-                employee.length > 0                
-                ?
-                <DivInfo>
-                    <DivAddEmp>
-                        <AddEmp>
-                            <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
-                        </AddEmp>
-                        <AddEmp>
-                            <Btt02 onClick={RemoveTeacher}>Remover</Btt02>
-                        </AddEmp>
-                    </DivAddEmp>
-                    <Emp>Professores:</Emp>
-                    <Matter>
-
-                        {
-                            employee.map(employee => (
-                                <div key = {employee._id}>
-                                    <Span>{employee.name_matter}: {employee.name_teacher}</Span>
-                                </div>
-                            ))
-                        }
-                    </Matter>
-                </DivInfo>
+            {loading ?
+                <LoadingSpinner />
                 :
-                <DivInfo>
-                    <DivAddEmp>
-                        <AddEmp>
-                            <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
-                        </AddEmp>
-                    </DivAddEmp>
-                    <Emp>Professores:</Emp>
-                    <Matter>
-                        <>Não há nenhum Professor</>
-                    </Matter>
-                </DivInfo>
+                <>
+                    <User>
+
+                    </User>
+                    {
+                        clss.map(clss => (
+                            <Emp key={clss._id} >
+                                <Span>Serie: {clss.serie}</Span>
+                                <Span>Nivel: {clss.level}</Span>
+                                <Span>Turno: {clss.shift}</Span>
+                                <Span>Numero da Sala: {clss.classroom_number}</Span>
+                            </Emp>
+                        ))
+                    }
+
+                    {
+                        employee.length > 0
+                            ?
+                            <DivInfo>
+                                <DivAddEmp>
+                                    <AddEmp>
+                                        <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
+                                    </AddEmp>
+                                    <AddEmp>
+                                        <Btt02 onClick={RemoveTeacher}>Remover</Btt02>
+                                    </AddEmp>
+                                </DivAddEmp>
+                                <Emp>Professores:</Emp>
+                                <Matter>
+
+                                    {
+                                        employee.map(employee => (
+                                            <div key={employee._id}>
+                                                <Span>{employee.name_matter}: {employee.name_teacher}</Span>
+                                            </div>
+                                        ))
+                                    }
+                                </Matter>
+                            </DivInfo>
+                            :
+                            <DivInfo>
+                                <DivAddEmp>
+                                    <AddEmp>
+                                        <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
+                                    </AddEmp>
+                                </DivAddEmp>
+                                <Emp>Professores:</Emp>
+                                <Matter>
+                                    <>Não há nenhum Professor</>
+                                </Matter>
+                            </DivInfo>
+                    }
+                    {
+                        stdt.length > 0
+                            ?
+                            <DivInfo>
+                                <DivAddEmp>
+                                    <AddEmp>
+                                        <Btt02 onClick={addStudent}>Add Aluno</Btt02>
+                                    </AddEmp>
+                                    <AddEmp>
+                                        <Btt02 onClick={RemoveStudent}>Remover</Btt02>
+                                    </AddEmp>
+                                </DivAddEmp>
+                                <Emp>Estudantes:</Emp>
+                                <Matter>
+                                    {
+                                        stdt.map(stdt => (
+                                            <Span>{stdt.name}</Span>
+                                        ))
+                                    }
+                                </Matter>
+                            </DivInfo>
+                            :
+                            <DivInfo>
+                                <DivAddEmp>
+                                    <AddEmp>
+                                        <Btt02 onClick={addStudent}>Add Aluno</Btt02>
+                                    </AddEmp>
+                                </DivAddEmp>
+                                <Emp>Estudantes:</Emp>
+                                <Matter>
+                                    <>Não há nenhum estudante</>
+                                </Matter>
+                            </DivInfo>
+                    }
+                </>
             }
-            {
-                stdt.length > 0                
-                ?
-                <DivInfo>
-                    <DivAddEmp>
-                        <AddEmp>
-                            <Btt02 onClick={addStudent}>Add Aluno</Btt02>
-                        </AddEmp>
-                        <AddEmp>
-                            <Btt02 onClick={RemoveStudent}>Remover</Btt02>
-                        </AddEmp>
-                    </DivAddEmp>
-                    <Emp>Estudantes:</Emp>
-                    <Matter>
-                        {
-                            stdt.map(stdt => (
-                                <Span>{stdt.name}</Span>
-                            ))
-                        }
-                    </Matter>
-                </DivInfo>
-                :
-                <DivInfo>
-                    <DivAddEmp>
-                        <AddEmp>
-                            <Btt02 onClick={addStudent}>Add Aluno</Btt02>
-                        </AddEmp>
-                    </DivAddEmp>
-                    <Emp>Estudantes:</Emp>
-                    <Matter>
-                        <>Não há nenhum estudante</>
-                    </Matter>
-                </DivInfo>
-            }
-           
         </Container>
     )
 }
-  
-export default Student
+
+export default Cla$$Info

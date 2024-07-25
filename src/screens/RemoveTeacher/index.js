@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {clssInfo, removeTeacher} from '../../Api'
+import { clssInfo, removeTeacher } from '../../Api'
 
 import {
     Container,
@@ -12,9 +12,9 @@ import {
     User,
     //FormFilter,
     FormSearch,
-   // Input
-   Add,
-   AddTeacher
+    // Input
+    Add,
+    AddTeacher
 } from './style';
 
 import {
@@ -24,10 +24,12 @@ import {
 } from '../../components/Inputs'
 
 import {
-    Btt01, 
-}from '../../components/Buttons';
+    Btt01,
+} from '../../components/Buttons';
 
-const Student = () => {
+import LoadingSpinner from '../../components/Loading'
+
+const RemoveTeacher = () => {
 
     const navigate = useNavigate()
     //const currentYear = new Date().getFullYear();
@@ -40,33 +42,36 @@ const Student = () => {
     const [id_class, setId_class] = useState("")
     const [id_matter, setId_matter] = useState("")
     const [addTeacher, setId_addTeacher] = useState("")
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         (async () => {
+            setLoading(true);
             const id = sessionStorage.getItem("ClassInformation")
             setSerie(sessionStorage.getItem("serieClass"))
             const res = await clssInfo(id)
             //setStudent(response.data.data)
             //setClss(resClass.data.data)
 
-            const employee = res.data.data.find( res => {
+            const employee = res.data.data.find(res => {
                 return res
-            }).addTeacher.map( res => {
+            }).addTeacher.map(res => {
                 if (res) {
-                    return (res)   
+                    return (res)
                 } else {
                     return (null)
                 }
             })
-            
+
             setEmployee(employee)
-        })() 
-        
-	}, [])
-   
+            setLoading(false);
+        })()
+
+    }, [])
+
     employee.sort(function (a, b) {
-        if(a.serie < b.serie) return -1
-        if(a.serie > b.serie) return 1
+        if (a.serie < b.serie) return -1
+        if (a.serie > b.serie) return 1
         return 0
     })
 
@@ -81,49 +86,59 @@ const Student = () => {
     }*/
 
     const SignClick = async () => {
+        setLoading(true);
         const res = await removeTeacher(id_teacher, id_class, id_matter, addTeacher)
-        if(res) {
+        if (res) {
             alert('Professor Removido com sucesso.')
             navigate('/class/info')
         }
         setName_Teacher('')
         setName_Matter('')
+        setLoading(false);
     }
 
     const Remove = async (employee) => {
+        setLoading(true);
         setName_Matter(employee.name_matter)
         setName_Teacher(employee.name_teacher)
         setId_teacher(employee.id_teacher)
         setId_class(employee.id_class)
         setId_matter(employee.id_matter)
         setId_addTeacher(employee._id)
+        setLoading(false);
     }
 
     const Return = async () => {
+        setLoading(true);
         setName_Teacher('')
         setName_Matter('')
+        setLoading(false);
     }
 
     return (
         <Container>
-            <User>
+            {loading ?
+                <LoadingSpinner />
+                :
+                <>
+                    <User>
 
-            </User>
-            <Search>
-                <FormSearch>
-                    <label>Buscar Turma</label>
-                    <AreaEmp>
-                        <InputEmp
-                            type="text" 
-                            placeholder='Buscar por nome'
-                            value={busca} 
-                            onChange={
-                                (e) => setBusca(e.target.value)
-                            }
-                        />
-                    </AreaEmp>
-                </FormSearch>
-                {/*<FormFilter>
+                    </User>
+                    <Search>
+                        <FormSearch>
+                            <label>Buscar Turma</label>
+                            <AreaEmp>
+                                <InputEmp
+                                    type="text"
+                                    placeholder='Buscar por nome'
+                                    value={busca}
+                                    onChange={
+                                        (e) => setBusca(e.target.value)
+                                    }
+                                />
+                            </AreaEmp>
+                        </FormSearch>
+                        {/*<FormFilter>
                     <label>Filtra por Ano: </label>
                     <Select id="position" 
                         value={filter} 
@@ -139,48 +154,50 @@ const Student = () => {
                         }
                     </Select>
                     </FormFilter>*/}
-            </Search>
-            <List>
-                
-                {
-                    employee.filter((val) => {
-                        if(!busca) {
-                            return (val)
-                        } else if(val.name_teacher.includes(busca.toUpperCase())) {
-                            return (val)
+                    </Search>
+                    <List>
+
+                        {
+                            employee.filter((val) => {
+                                if (!busca) {
+                                    return (val)
+                                } else if (val.name_teacher.includes(busca.toUpperCase())) {
+                                    return (val)
+                                }
+                                return null
+                            }).map(employee => (
+                                <Emp
+                                    onClick={() =>
+                                        Remove(employee)
+                                    }
+                                    key={employee._id}
+                                >
+                                    <Span>{employee.name_teacher}: {employee.name_matter}</Span>
+                                </Emp>
+                            ))
                         }
-                        return null
-                   }).map(employee => (
-                        <Emp 
-                            onClick={() => 
-                                Remove(employee)
-                            }
-                            key={employee._id} 
-                        >
-                            <Span>{employee.name_teacher}: {employee.name_matter}</Span>
-                        </Emp>
-                    ))
-                }
-            </List>
-            {
-                name_teacher
-                &&
-                <Add>
-                    
+                    </List>
                     {
-                        <AddTeacher>
-                            <Span>   Professor: {name_teacher}</Span>
-                            <Span>   Materia: {name_matter}</Span>
-                            <Span>   Turma: {serie}</Span>
-                            <>Tem certeza que deseja remover este Professor dessa Turma ?</>
-                            <Btt01 onClick={SignClick}>Remover</Btt01>
-                        </AddTeacher>
+                        name_teacher
+                        &&
+                        <Add>
+
+                            {
+                                <AddTeacher>
+                                    <Span>   Professor: {name_teacher}</Span>
+                                    <Span>   Materia: {name_matter}</Span>
+                                    <Span>   Turma: {serie}</Span>
+                                    <>Tem certeza que deseja remover este Professor dessa Turma ?</>
+                                    <Btt01 onClick={SignClick}>Remover</Btt01>
+                                </AddTeacher>
+                            }
+                            <Btt01 onClick={Return}>Voltar</Btt01>
+                        </Add>
                     }
-                    <Btt01 onClick={Return}>Voltar</Btt01>
-                </Add>
+                </>
             }
         </Container>
     )
 }
-  
-export default Student
+
+export default RemoveTeacher

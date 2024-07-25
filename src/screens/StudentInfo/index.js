@@ -25,6 +25,7 @@ import {
 import {
     Btt02, 
 }from '../../components/Buttons';*/
+import LoadingSpinner from '../../components/Loading'
 
 const Student = () => {
 
@@ -35,11 +36,13 @@ const Student = () => {
     const [student, setStudent] = useState([])
     //const [busca, setBusca] = useState("")
     //const [filter, setFilter] = useState()
+    const [loading, setLoading] = useState(false);
     const { id_student } = useParams()
     console.log(currentYear)
 
     useEffect(() => {
         (async () => {
+            setLoading(true);
             sessionStorage.removeItem('StudentInformation')
             sessionStorage.setItem("StudentInformation", id_student)
             const res = await StdtInfo(id_student)
@@ -61,6 +64,7 @@ const Student = () => {
                 }
             })
             setClss(clss)
+            setLoading(false);
         })()
 
     }, [currentYear, id_student])
@@ -69,30 +73,36 @@ const Student = () => {
 
     return (
         <Container>
-            <User>
+            {loading ?
+                <LoadingSpinner />
+                :
+                <>
+                    <User>
 
-            </User>
-            {
-                student.map(student => (
-                    <Emp key={student._id} >
-                        <Span>Nome: {student.name}</Span>
-                        <Span>RG: {student.rg}</Span>
-                        <Span>RS: {student.registerStudent}</Span>
-                    </Emp>
-                ))
-            }
+                    </User>
+                    {
+                        student.map(student => (
+                            <Emp key={student._id} >
+                                <Span>Nome: {student.name}</Span>
+                                <Span>RG: {student.rg}</Span>
+                                <Span>RS: {student.registerStudent}</Span>
+                            </Emp>
+                        ))
+                    }
 
-            <Calendar />
+                    <Calendar />
 
-            {
-                Clss.map(clss => (
-                    <Emp key={clss._id} >
-                        <Span>Turma: {clss.serie}</Span>
-                        <Span>Nivel: {clss.level}</Span>
-                        <Span>Turno: {clss.shift}</Span>
-                        <Span>Ano: {clss.year}</Span>
-                    </Emp>
-                ))
+                    {
+                        Clss.map(clss => (
+                            <Emp key={clss._id} >
+                                <Span>Turma: {clss.serie}</Span>
+                                <Span>Nivel: {clss.level}</Span>
+                                <Span>Turno: {clss.shift}</Span>
+                                <Span>Ano: {clss.year}</Span>
+                            </Emp>
+                        ))
+                    }
+                </>
             }
         </Container>
     )

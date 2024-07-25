@@ -29,7 +29,9 @@ import {
     Btt02,
 } from '../../components/Buttons';
 
-const Student = () => {
+import LoadingSpinner from '../../components/Loading'
+
+const EmployeeInformation = () => {
 
     const navigate = useNavigate()
     const currentYear = new Date().getFullYear().toString();
@@ -39,11 +41,13 @@ const Student = () => {
     const [matter, setMatter] = useState("")
     //const [filter, setFilter] = useState()
     const [position_at_school, setPosition_at_school] = useState([]);
-    const {id_employee} = useParams()
+    const [loading, setLoading] = useState(false);
+    const { id_employee } = useParams()
     //console.log('posi', position_at_school)
 
     useEffect(() => {
         (async () => {
+            setLoading(true);
             //const id_employee = sessionStorage.getItem("EmployeeInformation")
             const res = await EmpInfo(id_employee)
             const position_at_school = res.data.data.map(res => {
@@ -97,11 +101,13 @@ const Student = () => {
             })
             setClss(clss)
             setMatter(mttr)
+            setLoading(false);
         })()
 
-    }, [ currentYear, id_employee ])
+    }, [currentYear, id_employee])
 
     const add = () => {
+        setLoading(true);
         const res = employee.find(employee => {
             return employee
         })
@@ -113,6 +119,7 @@ const Student = () => {
         sessionStorage.setItem("name", res.name)
         sessionStorage.setItem("tchrnf", res._id)
         navigate('/add/matter')
+        setLoading(false);
     }
 
     const Remove = async () => {
@@ -124,86 +131,92 @@ const Student = () => {
 
     return (
         <Container>
-            <User>
+            {loading ?
+                <LoadingSpinner />
+                :
+                <>
+                    <User>
 
-            </User>
-            {
-                employee.map(employee => (
-                    <Emp key={employee._id} >
-                        <Span>Nome: {employee.name}</Span>
-                        <Span>CPF: {employee.cpf}</Span>
-                        <Span>Função: {employee.position_at_school}</Span>
-                    </Emp>
-                ))
-            }
-            {
-                position_at_school.length === 0
-                &&
-                <div>
-                    {matter.length > 0
-                        &&
-                        <DivInfo>
-                            <DivAddEmp>
-                                <AddEmp>
-                                    <Btt02 onClick={add}>Nova Materia</Btt02>
-                                </AddEmp>
-                                <AddEmp>
-                                    <Btt02 onClick={Remove}>Remover</Btt02>
-                                </AddEmp>
-                            </DivAddEmp>
-                            <Emp>Materias:</Emp>
-                            <Matter>
-
-                                {
-                                    matter.map(matter => (
-                                        <Span>{matter.name},</Span>
-                                    ))
-                                }
-                            </Matter>
-                        </DivInfo>
+                    </User>
+                    {
+                        employee.map(employee => (
+                            <Emp key={employee._id} >
+                                <Span>Nome: {employee.name}</Span>
+                                <Span>CPF: {employee.cpf}</Span>
+                                <Span>Função: {employee.position_at_school}</Span>
+                            </Emp>
+                        ))
                     }
                     {
-                        matter.length === 0
+                        position_at_school.length === 0
                         &&
-                        <DivInfo>
-                            <DivAddEmp>
-                                <AddEmp>
-                                    <Btt02 onClick={add}>Nova Materia</Btt02>
-                                </AddEmp>
-                            </DivAddEmp>
-                            <Emp>Materias:</Emp>
-                            <Matter>
-                                <>Sem Materias cadastradas</>
-                            </Matter>
-                        </DivInfo>
-                    }
-                    {
+                        <div>
+                            {matter.length > 0
+                                &&
+                                <DivInfo>
+                                    <DivAddEmp>
+                                        <AddEmp>
+                                            <Btt02 onClick={add}>Nova Materia</Btt02>
+                                        </AddEmp>
+                                        <AddEmp>
+                                            <Btt02 onClick={Remove}>Remover</Btt02>
+                                        </AddEmp>
+                                    </DivAddEmp>
+                                    <Emp>Materias:</Emp>
+                                    <Matter>
 
-                        Clss.length > 0
-                            ?
-                            <DivInfo>
-                                <Emp>Turmas:</Emp>
-                                <Matter>
+                                        {
+                                            matter.map(matter => (
+                                                <Span>{matter.name},</Span>
+                                            ))
+                                        }
+                                    </Matter>
+                                </DivInfo>
+                            }
+                            {
+                                matter.length === 0
+                                &&
+                                <DivInfo>
+                                    <DivAddEmp>
+                                        <AddEmp>
+                                            <Btt02 onClick={add}>Nova Materia</Btt02>
+                                        </AddEmp>
+                                    </DivAddEmp>
+                                    <Emp>Materias:</Emp>
+                                    <Matter>
+                                        <>Sem Materias cadastradas</>
+                                    </Matter>
+                                </DivInfo>
+                            }
+                            {
 
-                                    {
-                                        Clss.map(clss => (
-                                            <Span>{clss.id_class.serie}: {clss.name_matter}</Span>
-                                        ))
-                                    }
-                                </Matter>
-                            </DivInfo>
-                            :
-                            <DivInfo>
-                                <Emp>Turmas:</Emp>
-                                <Matter>
-                                    <>Este Professor não esta cadastrado em nenhuma turma vá ate turmas selecione a turma e adicione este professor a uma turma</>
-                                </Matter>
-                            </DivInfo>
+                                Clss.length > 0
+                                    ?
+                                    <DivInfo>
+                                        <Emp>Turmas:</Emp>
+                                        <Matter>
+
+                                            {
+                                                Clss.map(clss => (
+                                                    <Span>{clss.id_class.serie}: {clss.name_matter}</Span>
+                                                ))
+                                            }
+                                        </Matter>
+                                    </DivInfo>
+                                    :
+                                    <DivInfo>
+                                        <Emp>Turmas:</Emp>
+                                        <Matter>
+                                            <>Este Professor não esta cadastrado em nenhuma turma vá ate turmas selecione a turma e adicione este professor a uma turma</>
+                                        </Matter>
+                                    </DivInfo>
+                            }
+                        </div>
                     }
-                </div>
+                </>
             }
         </Container>
     )
 }
 
-export default Student
+export default EmployeeInformation;

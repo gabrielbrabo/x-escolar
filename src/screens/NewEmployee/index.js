@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import {NewEmp} from '../../Api'
+import { NewEmp } from '../../Api'
 
 //import { AuthContext, } from '../../contexts/auth'
 import { useNavigate } from 'react-router-dom'
@@ -12,16 +12,18 @@ import {
 } from './style';
 
 import {
-  /*Area,*/ 
+  /*Area,*/
   Input,
   Select
-}from '../../components/Inputs';
+} from '../../components/Inputs';
 
-import { 
+import {
   Btt01,
   SignMessageButtonText,
   SignMessageButtonTextBold
-}from '../../components/Buttons';
+} from '../../components/Buttons';
+
+import LoadingSpinner from '../../components/Loading'
 
 const NewEmployee = () => {
 
@@ -32,35 +34,39 @@ const NewEmployee = () => {
   const [position_at_school, setPosition_at_school] = useState()
   const [password, setPassword] = useState('');
   const [confirmpassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
-        const idSchool = sessionStorage.getItem("id-school")
-        setIdschool(JSON.parse(idSchool))
-    })()       
+      setLoading(true);
+      const idSchool = sessionStorage.getItem("id-school")
+      setIdschool(JSON.parse(idSchool))
+      setLoading(false);
+    })()
   }, [])
 
   const SignClick = async () => {
+    setLoading(true);
     console.log(
       idSchool,
-      name, 
+      name,
       cpf,
       position_at_school,
-      password, 
-      confirmpassword
-    )
-    
-    const res = await NewEmp(
-      idSchool,
-      name, 
-      cpf,
-      position_at_school,
-      password, 
+      password,
       confirmpassword
     )
 
-    if(res){
-      if(position_at_school === 'PROFESSOR'){
+    const res = await NewEmp(
+      idSchool,
+      name,
+      cpf,
+      position_at_school,
+      password,
+      confirmpassword
+    )
+
+    if (res) {
+      if (position_at_school === 'PROFESSOR') {
         sessionStorage.removeItem('id_emp')
         sessionStorage.removeItem('name')
         sessionStorage.setItem("id_emp", res.data.id_employee)
@@ -73,6 +79,7 @@ const NewEmployee = () => {
         navigate('/employees')
       }
     }
+    setLoading(false);
   }
 
   const MessageButtomclick = () => {
@@ -81,8 +88,12 @@ const NewEmployee = () => {
 
   return (
     <Container>
-      <InputArea>
-        <>Nome</>
+      {loading ?
+        <LoadingSpinner />
+        :
+        <>
+          <InputArea>
+            <>Nome</>
             <Input
               placeholder="Digite o nome"
               value={name}
@@ -90,48 +101,50 @@ const NewEmployee = () => {
                 (e) => setName(e.target.value)
               }
             />
-        <>cpf</>
-        <Input
-          placeholder="Digite o cpf"
-          value={cpf}
-          onChange={
-            (e) => setCpf(e.target.value)
-          }
-        />
-        <label>Cargo: </label>
-        <Select id="position" 
-          value={position_at_school} 
-          onChange={ 
-            (e) => setPosition_at_school(e.target.value)
-          }
-        >
-          <option value="">Selecione</option>
-          <option value="GESTOR">GESTOR</option>
-          <option value="PROFESSOR">PROFESSOR</option>
-        </Select>
-        <>Senha</>
-        <Input
-          placeholder="Digite a senha"
-          value={password}
-          onChange={
-            (e) => setPassword(e.target.value)
-          }
-        />
-        <>Confirme Senha</>
-        <Input
-          placeholder="Confirme a senha"
-          value={confirmpassword}
-          onChange={
-            (e) => setConfirmPassword(e.target.value)
-          }
-        />
-        <Btt01 onClick={SignClick}>Cadastra</Btt01>
-        <ToGoBack onClick={MessageButtomclick}>
-          <SignMessageButtonText>Voltar para a</SignMessageButtonText>
-          <SignMessageButtonTextBold>Lista de Funcionarios</SignMessageButtonTextBold>
-        </ToGoBack>
-      </InputArea>
+            <>cpf</>
+            <Input
+              placeholder="Digite o cpf"
+              value={cpf}
+              onChange={
+                (e) => setCpf(e.target.value)
+              }
+            />
+            <label>Cargo: </label>
+            <Select id="position"
+              value={position_at_school}
+              onChange={
+                (e) => setPosition_at_school(e.target.value)
+              }
+            >
+              <option value="">Selecione</option>
+              <option value="GESTOR">GESTOR</option>
+              <option value="PROFESSOR">PROFESSOR</option>
+            </Select>
+            <>Senha</>
+            <Input
+              placeholder="Digite a senha"
+              value={password}
+              onChange={
+                (e) => setPassword(e.target.value)
+              }
+            />
+            <>Confirme Senha</>
+            <Input
+              placeholder="Confirme a senha"
+              value={confirmpassword}
+              onChange={
+                (e) => setConfirmPassword(e.target.value)
+              }
+            />
+            <Btt01 onClick={SignClick}>Cadastra</Btt01>
+            <ToGoBack onClick={MessageButtomclick}>
+              <SignMessageButtonText>Voltar para a</SignMessageButtonText>
+              <SignMessageButtonTextBold>Lista de Funcionarios</SignMessageButtonTextBold>
+            </ToGoBack>
+          </InputArea>
+        </>
+      }
     </Container>
   )
-} 
+}
 export default NewEmployee

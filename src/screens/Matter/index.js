@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {GetMatter} from '../../Api'
+import { GetMatter } from '../../Api'
 
 import {
     Container,
@@ -9,22 +9,24 @@ import {
     Span,
     Search,
     DivNewEmp,
-    DivAddEmp, 
+    DivAddEmp,
     User,
     //FormFilter,
     FormSearch
-   // Input
+    // Input
 } from './style';
 
 import {
     AreaEmp,
     InputEmp,
-   // Select
+    // Select
 } from '../../components/Inputs'
 
 import {
-    Btt02, 
-}from '../../components/Buttons';
+    Btt02,
+} from '../../components/Buttons';
+
+import LoadingSpinner from '../../components/Loading'
 
 const Matter = () => {
 
@@ -33,22 +35,25 @@ const Matter = () => {
     //const [year, setYear] = useState([])
     const [matter, setMatter] = useState([])
     const [busca, setBusca] = useState("")
+    const [loading, setLoading] = useState(false);
     //const [filter, setFilter] = useState()
 
     useEffect(() => {
         (async () => {
+            setLoading(true);
             const idSchool = sessionStorage.getItem("id-school")
             //const response = await GetStudent(JSON.parse(idSchool))
             const res = await GetMatter(JSON.parse(idSchool))
             //setStudent(response.data.data)
             setMatter(res.data.data)
             console.log(res)
-        })() 
-	}, [])
-   
+            setLoading(false);
+        })()
+    }, [])
+
     matter.sort(function (a, b) {
-        if(a.name < b.name) return -1
-        if(a.name > b.name) return 1
+        if (a.name < b.name) return -1
+        if (a.name > b.name) return 1
         return 0
     })
 
@@ -61,24 +66,28 @@ const Matter = () => {
 
     return (
         <Container>
-            <User>
+            {loading ?
+                <LoadingSpinner />
+                :
+                <>
+                    <User>
 
-            </User>
-            <Search>
-                <FormSearch>
-                    <label>Buscar Materia</label>
-                    <AreaEmp>
-                        <InputEmp
-                            type="text" 
-                            placeholder='Buscar por nome'
-                            value={busca} 
-                            onChange={
-                                (e) => setBusca(e.target.value)
-                            }
-                        />
-                    </AreaEmp>
-                </FormSearch>
-                {/*<FormFilter>
+                    </User>
+                    <Search>
+                        <FormSearch>
+                            <label>Buscar Materia</label>
+                            <AreaEmp>
+                                <InputEmp
+                                    type="text"
+                                    placeholder='Buscar por nome'
+                                    value={busca}
+                                    onChange={
+                                        (e) => setBusca(e.target.value)
+                                    }
+                                />
+                            </AreaEmp>
+                        </FormSearch>
+                        {/*<FormFilter>
                     <label>Filtra por Ano: </label>
                     <Select id="position" 
                         value={filter} 
@@ -94,18 +103,18 @@ const Matter = () => {
                         }
                     </Select>
                     </FormFilter>*/}
-            </Search>
-            <List>
-                <DivAddEmp>
-                    <DivNewEmp>
-                        <Btt02 onClick={NewMatter}>Nova Materia</Btt02>
-                    </DivNewEmp>
-                    <DivNewEmp>
-                        <Btt02 onClick={DeleteMatter}>Apagar Materia</Btt02>
-                    </DivNewEmp>
-                </DivAddEmp>             
-                {
-                    matter/*.filter((fil) => {
+                    </Search>
+                    <List>
+                        <DivAddEmp>
+                            <DivNewEmp>
+                                <Btt02 onClick={NewMatter}>Nova Materia</Btt02>
+                            </DivNewEmp>
+                            <DivNewEmp>
+                                <Btt02 onClick={DeleteMatter}>Apagar Materia</Btt02>
+                            </DivNewEmp>
+                        </DivAddEmp>
+                        {
+                            matter/*.filter((fil) => {
                         if(!filter){
                             return (fil)
                         }
@@ -114,21 +123,23 @@ const Matter = () => {
                         }
                         return null
                     })*/.filter((val) => {
-                        if(!busca) {
-                            return (val)
-                        } else if(val.name.includes(busca.toUpperCase())) {
-                            return (val)
+                                if (!busca) {
+                                    return (val)
+                                } else if (val.name.includes(busca.toUpperCase())) {
+                                    return (val)
+                                }
+                                return null
+                            }).map(matter => (
+                                <Emp key={matter._id} >
+                                    <Span>{matter.name}</Span>
+                                </Emp>
+                            ))
                         }
-                        return null
-                   }).map(matter => (
-                        <Emp key={matter._id} >
-                            <Span>{matter.name}</Span>
-                        </Emp>
-                    ))
-                }
-            </List>
+                    </List>
+                </>
+            }
         </Container>
     )
 }
-  
+
 export default Matter

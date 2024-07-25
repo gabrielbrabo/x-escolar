@@ -21,6 +21,7 @@ export const registerSchool = async (
                 const result = JSON.stringify(
                     error.response.data.msg
                 )
+                window.location.reload()
                 alert(result)
             }
         }, [])
@@ -58,6 +59,7 @@ export const createSessionEmployee = async (
                     error.response.data.msg
                 )
                 alert(result)
+                window.location.reload()
             }
         }, [])
 }

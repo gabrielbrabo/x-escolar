@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {GetEmployees, EmpInfo, addTchr} from '../../Api'
+import { GetEmployees, EmpInfo, addTchr } from '../../Api'
 
 import {
     Container,
@@ -15,21 +15,22 @@ import {
     //AddMatter,
     Add,
     AddTeacher,
-   // Input
+    // Input
 } from './style';
 
 import {
     AreaEmp,
     InputEmp,
-   // Select
+    // Select
 } from '../../components/Inputs'
 
 import {
     Btt01,
-   // Btt02 
-}from '../../components/Buttons';
+    // Btt02 
+} from '../../components/Buttons';
+import LoadingSpinner from '../../components/Loading'
 
-const Matter = () => {
+const TeacherAdd = () => {
 
     const navigate = useNavigate()
     //const currentYear = new Date().getFullYear();
@@ -43,10 +44,12 @@ const Matter = () => {
     const [matter, setMatter] = useState([])
     const [name_matter, setName_Matter] = useState("")
     const [id_matter, setId_Matter] = useState("")
+    const [loading, setLoading] = useState(false);
     //const [added] = useState()
 
     useEffect(() => {
         (async () => {
+            setLoading(true);
             const idSchool = sessionStorage.getItem("id-school")
             //const response = await GetStudent(JSON.parse(idSchool))
             const res = await GetEmployees(JSON.parse(idSchool))
@@ -54,16 +57,18 @@ const Matter = () => {
             //setStudent(response.data.data)
             setTeacher(res.data.data)
             console.log(res.data.data)
-        })() 
-	}, [])
-   
+            setLoading(false);
+        })()
+    }, [])
+
     teacher.sort(function (a, b) {
-        if(a.name < b.name) return -1
-        if(a.name > b.name) return 1
+        if (a.name < b.name) return -1
+        if (a.name > b.name) return 1
         return 0
     })
 
     const addTeacher = async (teacher) => {
+        setLoading(true);
         //sessionStorage.removeItem('id_matter')
         //sessionStorage.setItem("id_matter", matter._id)
         //setName_employee(sessionStorage.getItem("name"))
@@ -71,16 +76,16 @@ const Matter = () => {
         setId_employee(teacher._id)
         setSerie(sessionStorage.getItem("serieClass"))
         const res = await EmpInfo(teacher._id)
-        const mttr = await res.data.data.find( res => {
+        const mttr = await res.data.data.find(res => {
             return res
-        }).id_matter.map( res => {
+        }).id_matter.map(res => {
             if (res._id) {
-                return (res)   
+                return (res)
             } else {
                 return (null)
             }
-        }).filter( res => {
-            if(! null) {
+        }).filter(res => {
+            if (! null) {
                 return (res)
             } else {
                 return (null)
@@ -88,21 +93,26 @@ const Matter = () => {
         })
         setMatter(mttr)
         console.log("matter", mttr)
+        setLoading(false);
     }
 
     const SignClick = async () => {
+        setLoading(true);
         const res = await addTchr(id_employee, id_class, id_matter)
-        if(res) {
+        if (res) {
             alert('Professor Adicionado com sucesso.')
             navigate('/class/info')
         }
         setName_teacher('')
         setId_Matter('')
+        setLoading(false);
     }
 
     const AddMttr = async (matter) => {
+        setLoading(true);
         setId_Matter(matter._id)
         setName_Matter(matter.name)
+        setLoading(false);
     }
 
     /*const Finish = async () => {
@@ -110,30 +120,36 @@ const Matter = () => {
     }*/
 
     const Return = async () => {
+        setLoading(true);
         setName_teacher('')
         setId_Matter('')
+        setLoading(false);
     }
 
     return (
         <Container>
-            <User>
+            {loading ?
+                <LoadingSpinner />
+                :
+                <>
+                    <User>
 
-            </User>
-            <Search>
-                <FormSearch>
-                    <label>Buscar Materia</label>
-                    <AreaEmp>
-                        <InputEmp
-                            type="text" 
-                            placeholder='Buscar por nome'
-                            value={busca} 
-                            onChange={
-                                (e) => setBusca(e.target.value)
-                            }
-                        />
-                    </AreaEmp>
-                </FormSearch>
-                {/*<FormFilter>
+                    </User>
+                    <Search>
+                        <FormSearch>
+                            <label>Buscar Materia</label>
+                            <AreaEmp>
+                                <InputEmp
+                                    type="text"
+                                    placeholder='Buscar por nome'
+                                    value={busca}
+                                    onChange={
+                                        (e) => setBusca(e.target.value)
+                                    }
+                                />
+                            </AreaEmp>
+                        </FormSearch>
+                        {/*<FormFilter>
                     <label>Filtra por Ano: </label>
                     <Select id="position" 
                         value={filter} 
@@ -149,91 +165,93 @@ const Matter = () => {
                         }
                     </Select>
                     </FormFilter>*/}
-            </Search>
-            <>Click para adicionar um Professor a Turma</>
-            <List>
-                {/*
+                    </Search>
+                    <>Click para adicionar um Professor a Turma</>
+                    <List>
+                        {/*
                 <DivNewEmp>
                     <Btt02 onClick={NewMatter}>Nova Materia</Btt02>
                 </DivNewEmp>
                 */}
-                
-                {
-                    teacher.filter((val) => {
-                        if(!busca) {
-                            return (val)
-                        } else if(val.name.includes(busca.toUpperCase())) {
-                            return (val)
+
+                        {
+                            teacher.filter((val) => {
+                                if (!busca) {
+                                    return (val)
+                                } else if (val.name.includes(busca.toUpperCase())) {
+                                    return (val)
+                                }
+                                return null
+                            }).filter((fil) => {
+                                if (fil.position_at_school === "PROFESSOR") {
+                                    return (fil)
+                                } else {
+                                    return null
+                                }
+                            }).map(teacher => (
+                                <Emp
+                                    onClick={() =>
+                                        addTeacher(teacher)
+                                    }
+                                    key={teacher._id} >
+                                    <Span>{teacher.name}</Span>
+                                </Emp>
+                            ))
                         }
-                        return null
-                   }).filter((fil) => {
-                        if(fil.position_at_school === "PROFESSOR") {
-                            return (fil)
-                        } else {
-                            return null
-                        }
-                    }).map(teacher => (
-                        <Emp 
-                            onClick={() => 
-                                addTeacher(teacher)
-                            } 
-                            key={teacher._id} >
-                            <Span>{teacher.name}</Span>
-                        </Emp>
-                    ))
-                }
-            </List>
-            {
-                name_teacher
-                &&
-                <Add>
+                    </List>
                     {
-                       /* added === true
-                        ?
-                        <Btt01 onClick={removeMattter}>Adicionar outra Materia para o Professor {name_employee}</Btt01>
-                        :*/
-                        ! id_matter
+                        name_teacher
                         &&
-                        <div>
-                            <>Adicionar {name_teacher} a Turma {serie} </>
-                           { /*<Btt01 onClick={SignClick}>Adicionar</Btt01>*/}
-                        </div>
-                    }
-                    
-                    {
-                        ! id_matter
-                        &&
-                        <div>
-                            <>Click na Materia que o Professor ira atuar nessa Turma</>
+                        <Add>
                             {
-                                matter.map(matter => (
-                                    <Emp 
-                                        onClick={() => 
-                                            AddMttr(matter)
-                                        } 
-                                        key={matter._id} >
-                                        <Span>{matter.name}</Span>
-                                    </Emp>
-                                ))
+                                /* added === true
+                                 ?
+                                 <Btt01 onClick={removeMattter}>Adicionar outra Materia para o Professor {name_employee}</Btt01>
+                                 :*/
+                                !id_matter
+                                &&
+                                <div>
+                                    <>Adicionar {name_teacher} a Turma {serie} </>
+                                    { /*<Btt01 onClick={SignClick}>Adicionar</Btt01>*/}
+                                </div>
                             }
-                        </div>
+
+                            {
+                                !id_matter
+                                &&
+                                <div>
+                                    <>Click na Materia que o Professor ira atuar nessa Turma</>
+                                    {
+                                        matter.map(matter => (
+                                            <Emp
+                                                onClick={() =>
+                                                    AddMttr(matter)
+                                                }
+                                                key={matter._id} >
+                                                <Span>{matter.name}</Span>
+                                            </Emp>
+                                        ))
+                                    }
+                                </div>
+                            }
+                            {
+                                id_matter
+                                &&
+                                <AddTeacher>
+                                    <>Voçê ira Adicionar as seguintes configurações:</>
+                                    <Span>   Professor: {name_teacher}</Span>
+                                    <Span>   Materia: {name_matter}</Span>
+                                    <Span>   Turma: {serie}</Span>
+                                    <Btt01 onClick={SignClick}>Adicionar</Btt01>
+                                </AddTeacher>
+                            }
+                            <Btt01 onClick={Return}>Voltar</Btt01>
+                        </Add>
                     }
-                    {
-                        id_matter
-                        &&
-                        <AddTeacher>
-                            <>Voçê ira Adicionar as seguintes configurações:</>
-                            <Span>   Professor: {name_teacher}</Span>
-                            <Span>   Materia: {name_matter}</Span>
-                            <Span>   Turma: {serie}</Span>
-                            <Btt01 onClick={SignClick}>Adicionar</Btt01>
-                        </AddTeacher>
-                    }
-                    <Btt01 onClick={Return}>Voltar</Btt01>
-                </Add>
+                </>
             }
         </Container>
     )
 }
-  
-export default Matter
+
+export default TeacherAdd;

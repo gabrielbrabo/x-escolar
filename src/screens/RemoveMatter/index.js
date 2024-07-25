@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {EmpInfo, removeMatter} from '../../Api'
+import { EmpInfo, removeMatter } from '../../Api'
 
 import {
     Container,
@@ -12,22 +12,24 @@ import {
     User,
     //FormFilter,
     FormSearch,
-   // Input
-   Add,
-   AddTeacher
+    // Input
+    Add,
+    AddTeacher
 } from './style';
 
 import {
     AreaEmp,
-   // InputEmp,
+    // InputEmp,
     //Select
 } from '../../components/Inputs'
 
 import {
-    Btt01, 
-}from '../../components/Buttons';
+    Btt01,
+} from '../../components/Buttons';
 
-const Student = () => {
+import LoadingSpinner from '../../components/Loading'
+
+const RemoveMatter = () => {
 
     const navigate = useNavigate()
     //const currentYear = new Date().getFullYear();
@@ -41,38 +43,41 @@ const Student = () => {
     const [id_matter, setId_matter] = useState("")
     //const [id_class, setId_class] = useState("")
     const [matter, setMatter] = useState([])
+    const [loading, setLoading] = useState(false);
     //const [addTeacher, setId_addTeacher] = useState("")
 
     useEffect(() => {
         (async () => {
+            setLoading(true);
             const id_employee = sessionStorage.getItem("EmployeeInformation")
             const res = await EmpInfo(id_employee)
             setEmployee(res.data.data)
             setId_employee(id_employee)
             //console.log(res.data.data)
-            const mttr = res.data.data.find( res => {
+            const mttr = res.data.data.find(res => {
                 return res
-            }).id_matter.map( res => {
+            }).id_matter.map(res => {
                 if (res._id) {
-                    return (res)   
+                    return (res)
                 } else {
                     return (null)
                 }
-            }).filter( res => {
-                if(! null) {
+            }).filter(res => {
+                if (! null) {
                     return (res)
                 } else {
                     return (null)
                 }
             })
             setMatter(mttr)
-        })() 
-        
-	}, [])
-   
+            setLoading(false);
+        })()
+
+    }, [])
+
     matter.sort(function (a, b) {
-        if(a.serie < b.serie) return -1
-        if(a.serie > b.serie) return 1
+        if (a.serie < b.serie) return -1
+        if (a.serie > b.serie) return 1
         return 0
     })
 
@@ -87,17 +92,20 @@ const Student = () => {
     }*/
 
     const SignClick = async () => {
+        setLoading(true);
         const res = await removeMatter(id_matter, id_employee)
-        if(res) {
+        if (res) {
             alert('Aluno Removido com sucesso.')
             navigate(`/employee/info/${id_employee}`)
         }
         //console.log("id_student", id_student)
         //console.log("id_class", id_class)
         setName_matter('')
+        setLoading(false);
     }
 
     const Remove = async (matter) => {
+        setLoading(true);
         const nameEmployee = employee.find(emp => {
             return emp
         })
@@ -105,24 +113,31 @@ const Student = () => {
         setName_matter(matter.name)
         setId_matter(matter._id)
         setName_employee(nameEmployee.name)
+        setLoading(false);
     }
 
     const Return = async () => {
+        setLoading(true);
         setName_matter('')
         setName_employee('')
         setId_matter('')
+        setLoading(false);
     }
 
     return (
         <Container>
-            <User>
+            {loading ?
+                <LoadingSpinner />
+                :
+                <>
+                    <User>
 
-            </User>
-            <Search>
-                <FormSearch>
-                    <label>Buscar Turma</label>
-                    <AreaEmp>
-                       {/* <InputEmp
+                    </User>
+                    <Search>
+                        <FormSearch>
+                            <label>Buscar Turma</label>
+                            <AreaEmp>
+                                {/* <InputEmp
                             type="text" 
                             placeholder='Buscar por nome'
                             value={busca} 
@@ -130,9 +145,9 @@ const Student = () => {
                                 (e) => setBusca(e.target.value)
                             }
                         />*/}
-                    </AreaEmp>
-                </FormSearch>
-                {/*<FormFilter>
+                            </AreaEmp>
+                        </FormSearch>
+                        {/*<FormFilter>
                     <label>Filtra por Ano: </label>
                     <Select id="position" 
                         value={filter} 
@@ -148,11 +163,11 @@ const Student = () => {
                         }
                     </Select>
                     </FormFilter>*/}
-            </Search>
-            <List>
-                
-                {
-                    matter/*.filter((val) => {
+                    </Search>
+                    <List>
+
+                        {
+                            matter/*.filter((val) => {
                         if(!busca) {
                             return (val)
                         } else if(val.name.includes(busca.toUpperCase())) {
@@ -160,33 +175,35 @@ const Student = () => {
                         }
                         return null
                    })*/.map(matter => (
-                        <Emp 
-                            onClick={() => 
-                                Remove(matter)
-                            }
-                            key={matter._id} 
-                        >
-                            <Span>{matter.name}</Span>
-                        </Emp>
-                    ))
-                }
-            </List>
-            {
-                name_matter
-                &&
-                <Add>
-                    
+                                <Emp
+                                    onClick={() =>
+                                        Remove(matter)
+                                    }
+                                    key={matter._id}
+                                >
+                                    <Span>{matter.name}</Span>
+                                </Emp>
+                            ))
+                        }
+                    </List>
                     {
-                        <AddTeacher>
-                            <>Tem certeza que deseja remover a Materia {name_matter} do Professor {name_employee} ?</>
-                            <Btt01 onClick={SignClick}>Remover</Btt01>
-                        </AddTeacher>
+                        name_matter
+                        &&
+                        <Add>
+
+                            {
+                                <AddTeacher>
+                                    <>Tem certeza que deseja remover a Materia {name_matter} do Professor {name_employee} ?</>
+                                    <Btt01 onClick={SignClick}>Remover</Btt01>
+                                </AddTeacher>
+                            }
+                            <Btt01 onClick={Return}>Voltar</Btt01>
+                        </Add>
                     }
-                    <Btt01 onClick={Return}>Voltar</Btt01>
-                </Add>
+                </>
             }
         </Container>
     )
 }
-  
-export default Student
+
+export default RemoveMatter
