@@ -12,7 +12,7 @@ import {Header} from './components/Header';
 
 export function App() {
 
-  const token = sessionStorage.getItem("token")
+  const token = localStorage.getItem("token")
   const [menuIsVisible, setMenuIsVisible] = useState(false);
 
   return (

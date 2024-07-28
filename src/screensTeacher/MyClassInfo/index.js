@@ -29,7 +29,7 @@ import {
 } from '../../components/Buttons';
 import LoadingSpinner from '../../components/Loading'
 
-const Student = () => {
+const MyCla$$Info = () => {
 
     const navigate = useNavigate()
     const [clss, setClss] = useState([])
@@ -143,4 +143,4 @@ const Student = () => {
     )
 }
 
-export default Student
+export default MyCla$$Info

@@ -30,7 +30,7 @@ import {
 } from '../../components/Buttons';*/
 import LoadingSpinner from '../../components/Loading'
 
-const Student = () => {
+const MyCla$$ = () => {
 
     const navigate = useNavigate()
     const currentYear = new Date().getFullYear().toString();
@@ -46,7 +46,7 @@ const Student = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
-            const id_employee = sessionStorage.getItem("Id_employee")
+            const id_employee = localStorage.getItem("Id_employee")
             const res = await EmpInfo(JSON.parse(id_employee))
             //setEmployee(res.data.data)
             //console.log(res.data.data)
@@ -97,7 +97,7 @@ const Student = () => {
 
     const MyClassInformation = (clss) => {
         setLoading(true);
-        const id_teacher = JSON.parse(sessionStorage.getItem("Id_employee"))
+        const id_teacher = JSON.parse(localStorage.getItem("Id_employee"))
         if (clss) {
             const map = Clss.map(res => {
                 if (res.id_class.serie === clss) {
@@ -220,4 +220,4 @@ const Student = () => {
     )
 }
 
-export default Student
+export default MyCla$$

@@ -14,6 +14,7 @@ import SignUpSchool from "./screens/SignUpSchool"
 import SignInSchool from "./screens/SignInSchool"
 import HomeSchool from "./screens/HomeSchool"
 import SignInEmployee from "./screens/SignInEmployee"
+import Preload from "./screens/Preload"
 import HomeEmployee from "./screens/HomeEmployee"
 import Employees from "./screens/Employees"
 import NewEmployees from "./screens/NewEmployee"
@@ -59,10 +60,11 @@ const AppRoutes = () => {
         <Router>
             <AuthProvider>
                 <Routes>
-                    <Route exact path="/" element={<LoginSelection/>}/>
+                    <Route exact path="/login/selection" element={<LoginSelection/>}/>
                     <Route exact path="/signup/school" element={<SignUpSchool/>}/>
                     <Route exact path="/signin/school" element={<SignInSchool/>}/>
                     <Route exact path="/signin/employee" element={<SignInEmployee/>}/>
+                    <Route exact path="/" element={<Preload/>}/>
                     <Route exact path="/home/school" element={
                         <Private>
                             <HomeSchool/>

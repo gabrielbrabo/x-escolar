@@ -18,8 +18,8 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const recoveredSchool = sessionStorage.getItem("id-school")
-        const recoveredEmployee = sessionStorage.getItem("Id_employee")
-        const token = sessionStorage.getItem('token')
+        const recoveredEmployee = localStorage.getItem("Id_employee")
+        const token = localStorage.getItem('token')
 
         if (recoveredSchool && token) {
             setUser(JSON.parse(recoveredSchool))

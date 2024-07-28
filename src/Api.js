@@ -64,6 +64,23 @@ export const createSessionEmployee = async (
         }, [])
 }
 
+export const Refresh = async (
+    id
+) => {
+    return api.post('/refresh/employee', {
+        id
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                window.location.reload()
+            }
+        }, [])
+}
+
 export const GetEmployees = async (
     idSchool
 ) => {

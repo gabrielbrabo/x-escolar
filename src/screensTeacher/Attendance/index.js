@@ -31,7 +31,7 @@ import {
 } from '../../components/Buttons';
 import LoadingSpinner from '../../components/Loading'
 
-const Student = () => {
+const IndexAttendance = () => {
 
     //const navigate = useNavigate()
     const [matter, setMatter] = useState([])
@@ -52,7 +52,7 @@ const Student = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
-            const id_teacher = sessionStorage.getItem("Id_employee")
+            const id_teacher = localStorage.getItem("Id_employee")
             const id_class = sessionStorage.getItem("class-info")
             const Matter = sessionStorage.getItem("attendance_ idmatter")
             const selectedDate = sessionStorage.getItem("selectedDate")
@@ -349,4 +349,4 @@ const Student = () => {
     )
 }
 
-export default Student
+export default IndexAttendance

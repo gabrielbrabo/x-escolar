@@ -44,17 +44,17 @@ const SignInEmployee = () => {
             const id_class = response.data.id_class
             const id_reporter_cardid_class = response.data.id_reporter_card
             //const avatar = response.data.avatar
-            sessionStorage.setItem("Id_employee", 
+            localStorage.setItem("Id_employee", 
             JSON.stringify(IdEmployee))
             sessionStorage.setItem("cpf", loggedEmployee)
             sessionStorage.setItem("name", name)
-            sessionStorage.setItem("type", type)
+            localStorage.setItem("type", type)
             sessionStorage.setItem("position_at_school", position_at_school)
             sessionStorage.setItem("id-school", JSON.stringify(id_school))
             sessionStorage.setItem("id_matter", id_matter)
             sessionStorage.setItem("id_class", id_class)
             sessionStorage.setItem("id_reporter_cardid_class", id_reporter_cardid_class)
-            sessionStorage.setItem("token", token)
+            localStorage.setItem("token", token)
 
             /*if (avatar) {
                 sessionStorage.setItem("avatar", avatar)
