@@ -2,27 +2,45 @@ import { Container } from './styles';
 import { IoClose } from 'react-icons/io5';
 import { useEffect, useState } from 'react';
 
+//import { AuthContext, } from '../../contexts/auth'
+
 export function NavBar({ menuIsVisible, setMenuIsVisible }) {
   /*useEffect(() => {
     document.body.style.overflowY = menuIsVisible ? 'hidden' : 'auto';
   }, [menuIsVisible]);*/
+  
   const [position_at_school, setPosition_at_school] = useState();
+  const [name, setname] = useState();
+  //const { logout } = useContext(AuthContext)
 
   useEffect(() => {
     document.body.style.overflowY = menuIsVisible ? 'hidden' : 'auto';
     //setLoading(true);
     let position_at_school = sessionStorage.getItem("position_at_school")
-    //let position =  sessionStorage.getItem("position_at_school")
 
     if (position_at_school) {
+      const name = sessionStorage.getItem("name")
       setPosition_at_school(position_at_school)
+      setname(name)
     }
 
   }, [menuIsVisible])
 
+  const handleLogout = () => {
+    //logout()
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.reload()
+  }
+
   return (
     <Container isVisible={menuIsVisible}>
       <IoClose size={45} onClick={() => setMenuIsVisible(false)} />
+      <div className="user">
+       <div className='name-user'>User: {name}</div>
+       <div className='type-user'>Função: {position_at_school}</div>
+       <button onClick={handleLogout} className='butto-exit'>Sair</button>
+      </div>
       {
         position_at_school === "GESTOR"
         &&

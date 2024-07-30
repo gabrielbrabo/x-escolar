@@ -8,6 +8,33 @@ export const Container = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  .user {
+    display: none;
+  }
+  @media(min-width: 768px) {
+    .user {
+      display: flex;
+      position: absolute;
+      background-color: #a0a0a0;
+      width: 25%;
+      height: 6vh;
+      right: 0rem;
+      align-items: center;
+      padding: 3px;
+      justify-content: space-between;
+      .name-user {
+        font-size: 15px;
+      }
+      .type-user {
+        font-size: 10px;
+      }
+      .butto-exit {
+        width: 50px;
+        height: 30px;
+        top: 0.5rem;
+      }
+    }
+  }
 
   > section {
     gap: 2rem;

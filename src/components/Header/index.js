@@ -5,6 +5,7 @@ import { RiMenu3Fill } from 'react-icons/ri';
 
 export function Header({ setMenuIsVisible }) {
     const [position_at_school, setPosition_at_school] = useState();
+    const [name, setname] = useState();
 
     useEffect(() => {
 
@@ -13,10 +14,19 @@ export function Header({ setMenuIsVisible }) {
         //let position =  sessionStorage.getItem("position_at_school")
 
         if (position_at_school) {
+            const name = sessionStorage.getItem("name")
             setPosition_at_school(position_at_school)
+            setname(name)
         }
 
     }, [])
+
+    const handleLogout = () => {
+        //logout()
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.reload()
+    }
 
     return (
         <Container>
@@ -56,6 +66,13 @@ export function Header({ setMenuIsVisible }) {
                     </nav>
                 }
             </section>
+            <div className="user">
+                <div>
+                    <div className='name-user'>User: {name}</div>
+                    <div className='type-user'>Função: {position_at_school}</div>
+                </div>
+                <button onClick={handleLogout} className='butto-exit'>Sair</button>
+            </div>
 
             <section>
                 <RiMenu3Fill onClick={() => setMenuIsVisible(true)} className="mobile" />

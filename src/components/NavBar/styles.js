@@ -11,6 +11,7 @@ export const Container = styled.section`
   bottom: 0;
   z-index: 5;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
@@ -42,6 +43,28 @@ export const Container = styled.section`
   }
   a {
     color: white;
+  }
+
+  .user {
+    display: grid;
+    position: absolute;
+    background-color: #a0a0a0;
+    width: 95%;
+    height: 10vh;
+    top: 7rem;
+    .name-user {
+      font-size: 20px;
+    }
+    .type-user {
+      font-size: 15px;
+    }
+    .butto-exit {
+      width: 50px;
+      height: 30px;
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+    }
   }
 
   ${({ isVisible }) => isVisible && css`
