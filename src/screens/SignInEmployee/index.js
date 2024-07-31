@@ -6,12 +6,12 @@ import {api, createSessionEmployee} from '../../Api'
 import {
     Container,
     InputArea,
+    Area, 
+    Input,
+    Btt
 } from './style';
 
-import { Area, Input } from '../../components/Inputs';
-
 import {
-    Btt01,
     SignMessageButton,
     SignMessageButtonText,
     SignMessageButtonTextBold
@@ -70,7 +70,7 @@ const SignInEmployee = () => {
     }
 
     const MessageButtomclick = () => {
-        navigate('/')
+        navigate('/signup/school')
     }
 
     return (
@@ -79,6 +79,7 @@ const SignInEmployee = () => {
                 <LoadingSpinner />
                 :
                 <>
+                    <h1>Login</h1>
                     <InputArea>
                         <>CPF</>
                         <Area>
@@ -100,10 +101,10 @@ const SignInEmployee = () => {
                                 }
                             />
                         </Area>
-                        <Btt01 onClick={SignClick}>Login</Btt01>
+                        <Btt onClick={SignClick}>Login</Btt>
                         <SignMessageButton onClick={MessageButtomclick}>
-                            <SignMessageButtonText>Ainda não possui uma conta?</SignMessageButtonText>
-                            <SignMessageButtonTextBold>Cadastre uma Instituição!</SignMessageButtonTextBold>
+                            <SignMessageButtonText></SignMessageButtonText>
+                            <SignMessageButtonTextBold>Selecionar outra forma de Login!</SignMessageButtonTextBold>
                         </SignMessageButton>
                     </InputArea>
                 </>

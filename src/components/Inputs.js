@@ -5,7 +5,7 @@ export const Area = styled.div`
   width: 450px;
   height: 40px;
   margin-bottom: 10px;
-  background-color: #63C2D1;
+  background-color: #ebe7eb;
   border-radius: 30px;
   align-items: center;
   justify-content: center; 
@@ -30,7 +30,7 @@ export const AreaEmp = styled.div`
   display: Flex;
   width: 350px;
   height: 40px;
-  background-color: #63C2D1;
+  background-color: #d0c0d0;
   border-radius: 30px;
   align-items: center;
   justify-content: center; 

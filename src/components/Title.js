@@ -8,6 +8,6 @@ export const Title = styled.div`
     align-items: center;
     justify-content: center;
     background-color: #1C1C1C;
-    color: #83D6E3;
-    box-shadow: 5px 10px red;
+    color: #1465bb;
+    box-shadow: 5px 10px 18px #888888;
 `;

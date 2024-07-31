@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import {
     Container,
     InputArea,
-    Text
+    Text,
+    Area
 } from './style';
 
 import {
@@ -11,8 +12,6 @@ import {
     SignMessageButtonText,
     SignMessageButtonTextBold 
 } from '../../components/Buttons';
-
-import { Area }from '../../components/Inputs';
 
 const LoginSelection = () => {
 
@@ -32,18 +31,16 @@ const LoginSelection = () => {
   
     return (
         <Container>
+            <h1>Como Deseja Acessar</h1>
             <InputArea>
-                {/*<Area onClick={LoginInstitution}>
-                    <Text>Fazer login como Instituição</Text>
-                </Area>*/}
                 <Area onClick={LoginEmployee}>
-                    <Text>Fazer login como Funcionario</Text>
+                    <Text>Acessar como Funcionario</Text>
                 </Area>
                 <Area>
-                    <Text>Fazer login como Aluno</Text>
+                    <Text>Acessar como Aluno</Text>
                 </Area>
                 <Area>
-                    <Text>Fazer login como Pais Resposavel</Text>
+                    <Text>Acessar como Pais Resposavel</Text>
                 </Area>
                 <SignMessageButton onClick={MessageButtomclick}>
                     <SignMessageButtonText>Ainda não possui uma conta?</SignMessageButtonText>
