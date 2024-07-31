@@ -48,6 +48,7 @@ const SignInEmployee = () => {
             JSON.stringify(IdEmployee))
             sessionStorage.setItem("cpf", loggedEmployee)
             sessionStorage.setItem("name", name)
+            localStorage.setItem("name", name)
             localStorage.setItem("type", type)
             localStorage.setItem("position_at_school", position_at_school)
             sessionStorage.setItem("id-school", JSON.stringify(id_school))

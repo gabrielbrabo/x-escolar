@@ -14,7 +14,7 @@ export function Header({ setMenuIsVisible }) {
         //let position =  sessionStorage.getItem("position_at_school")
 
         if (position_at_school) {
-            const name = sessionStorage.getItem("name")
+            const name = localStorage.getItem("name")
             setPosition_at_school(position_at_school)
             setname(name)
         }
