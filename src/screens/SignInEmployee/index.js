@@ -56,6 +56,7 @@ const SignInEmployee = () => {
             sessionStorage.setItem("id_class", id_class)
             sessionStorage.setItem("id_reporter_cardid_class", id_reporter_cardid_class)
             localStorage.setItem("token", token)
+            sessionStorage.setItem("token", token)
 
             /*if (avatar) {
                 sessionStorage.setItem("avatar", avatar)
