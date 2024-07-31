@@ -49,7 +49,7 @@ const SignInEmployee = () => {
             sessionStorage.setItem("cpf", loggedEmployee)
             sessionStorage.setItem("name", name)
             localStorage.setItem("type", type)
-            sessionStorage.setItem("position_at_school", position_at_school)
+            localStorage.setItem("position_at_school", position_at_school)
             sessionStorage.setItem("id-school", JSON.stringify(id_school))
             sessionStorage.setItem("id_matter", id_matter)
             sessionStorage.setItem("id_class", id_class)

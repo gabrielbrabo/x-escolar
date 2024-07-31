@@ -10,7 +10,7 @@ export function Header({ setMenuIsVisible }) {
     useEffect(() => {
 
         //setLoading(true);
-        let position_at_school = sessionStorage.getItem("position_at_school")
+        let position_at_school = localStorage.getItem("position_at_school")
         //let position =  sessionStorage.getItem("position_at_school")
 
         if (position_at_school) {
@@ -30,8 +30,8 @@ export function Header({ setMenuIsVisible }) {
 
     return (
         <Container>
-            <section>
-                {/*<img src={logoImg} alt="Logo"/>*/}
+            <div className="logo">ESCOLA X</div>
+            <section>                
                 {
                     position_at_school === "GESTOR"
                     &&

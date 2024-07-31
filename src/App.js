@@ -6,8 +6,8 @@ import {
   Title,
 } from './components/Title';
 
-import {NavBar} from './components/NavBar';
-import {Header} from './components/Header';
+import { NavBar } from './components/NavBar';
+import { Header } from './components/Header';
 
 
 export function App() {
@@ -17,26 +17,28 @@ export function App() {
 
   return (
     <div className="app">
-      <Title>
-        <h1>ESCOLA X</h1>
-      </Title>
+
       {
-        token 
-          && 
-        <NavBar
-          menuIsVisible={menuIsVisible}
-          setMenuIsVisible={setMenuIsVisible}
-        />
+        token
+          ?
+          <NavBar
+            menuIsVisible={menuIsVisible}
+            setMenuIsVisible={setMenuIsVisible}
+          />
+          :
+          <Title>
+            <h1>ESCOLA X</h1>
+          </Title>
       }
       {
-        token 
-        && 
-        <Header setMenuIsVisible={setMenuIsVisible}/>
+        token
+        &&
+        <Header setMenuIsVisible={setMenuIsVisible} />
       }
       <div className="container">
-        <AppRoutes/>
+        <AppRoutes />
       </div>
-      
+
     </div>
   );
 }

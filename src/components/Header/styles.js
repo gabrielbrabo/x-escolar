@@ -3,22 +3,32 @@ import styled from "styled-components";
 export const Container = styled.header`
   background: #2E332E;
   
-  height: 1vh;
-  padding: 14.5px 64px;
+  height: 4vh;
+  padding: 14px ;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  .logo {
+    display: flex;
+    height: 6vh;
+    width: 20%;
+    font-size: 30px;
+    align-items: center;
+    justify-content: center;
+    color: #83D6E3;
+  }
+
   .user {
     display: none;
   }
+  
   @media(min-width: 768px) {
     .user {
       display: flex;
-      position: absolute;
       background-color: #a0a0a0;
       width: 25%;
       height: 6vh;
-      right: 0rem;
       align-items: center;
       padding: 3px;
       justify-content: space-between;

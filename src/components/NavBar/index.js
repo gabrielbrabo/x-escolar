@@ -16,7 +16,7 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
   useEffect(() => {
     document.body.style.overflowY = menuIsVisible ? 'hidden' : 'auto';
     //setLoading(true);
-    let position_at_school = sessionStorage.getItem("position_at_school")
+    let position_at_school = localStorage.getItem("position_at_school")
 
     if (position_at_school) {
       const name = sessionStorage.getItem("name")
