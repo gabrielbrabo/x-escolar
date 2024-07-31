@@ -19,7 +19,7 @@ export const Container = styled.header`
     color: #83D6E3;
 
     @media(max-width: 768px) {
-      width: 50%;
+      width: 40%;
     }
   }
 
