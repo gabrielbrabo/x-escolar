@@ -17,6 +17,10 @@ export const Container = styled.header`
     align-items: center;
     justify-content: center;
     color: #83D6E3;
+
+    @media(max-width: 768px) {
+      width: 50%;
+    }
   }
 
   .user {
