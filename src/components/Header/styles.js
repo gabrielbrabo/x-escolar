@@ -16,26 +16,47 @@ export const Container = styled.header`
     font-size: 30px;
     align-items: center;
     justify-content: center;
-    color: #83D6E3;
+    color: #1465bb;
 
     @media(max-width: 768px) {
-      width: 40%;
+      width: 50%;
     }
   }
 
-  .user {
+  .container-user {
     display: none;
   }
   
-  @media(min-width: 768px) {
-    .user {
+  @media(min-width: 851px) {
+
+    .container-user {
       display: flex;
-      background-color: #a0a0a0;
+      background-color: ##2E332E;
       width: 25%;
       height: 6vh;
       align-items: center;
       padding: 3px;
       justify-content: space-between;
+
+    .user {
+      color: white;
+    }
+    .name-user {
+      margin: 0px;
+      font-size: 15px;
+    }
+    .type-user {
+      margin: 0;
+      font-size: 10px;
+    }
+    .butto-exit {
+      width: 50px;
+      height: 30px;
+      top: 0.5rem;;
+    }
+  }
+
+    .user {
       .name-user {
         font-size: 15px;
       }
@@ -96,9 +117,10 @@ export const Container = styled.header`
       display: none;
     }
 
-    @media(max-width: 768px) {
+    @media(max-width: 850px) {
         .mobile {
             display: initial;
+            color: white;
         }
       > nav {
         display: none;
@@ -106,7 +128,7 @@ export const Container = styled.header`
     }
   }
 
-  @media(max-width: 768px) {
+  @media(max-width: 850px) {
     padding: 14.5px 16px;
   }
 `;

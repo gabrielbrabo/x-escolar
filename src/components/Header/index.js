@@ -31,7 +31,7 @@ export function Header({ setMenuIsVisible }) {
     return (
         <Container>
             <div className="logo">ESCOLA X</div>
-            <section>                
+            <section>
                 {
                     position_at_school === "GESTOR"
                     &&
@@ -66,10 +66,10 @@ export function Header({ setMenuIsVisible }) {
                     </nav>
                 }
             </section>
-            <div className="user">
-                <div>
-                    <div className='name-user'>User: {name}</div>
-                    <div className='type-user'>Função: {position_at_school}</div>
+            <div className="container-user">
+                <div className='user'>
+                    <p className='name-user'>User: {name}</p>
+                    <p className='type-user'>Função: {position_at_school}</p>
                 </div>
                 <button onClick={handleLogout} className='butto-exit'>Sair</button>
             </div>

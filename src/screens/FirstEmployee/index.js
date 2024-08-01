@@ -9,6 +9,8 @@ import { api, NewEmp, createSessionEmployee } from '../../Api'
 import {
   Container,
   InputArea,
+  Area,
+  Btt
   //ToGoBack
 } from './style';
 
@@ -17,12 +19,6 @@ import {
   Input,
   // Select
 } from '../../components/Inputs';
-
-import {
-  Btt01,
-  //SignMessageButtonText,
-  //SignMessageButtonTextBold
-} from '../../components/Buttons';
 
 import LoadingSpinner from '../../components/Loading'
 
@@ -75,6 +71,7 @@ const FristEmployee = () => {
       sessionStorage.removeItem("id_matter")
       sessionStorage.removeItem("id_class")
       localStorage.removeItem("token")
+      sessionStorage.removeItem("token")
       const response = await createSessionEmployee(cpf, password)
       if (response) {
         const IdEmployee = response.data.id
@@ -92,13 +89,15 @@ const FristEmployee = () => {
           JSON.stringify(IdEmployee))
         sessionStorage.setItem("cpf", loggedEmployee)
         sessionStorage.setItem("name", name)
+        localStorage.setItem("name", name)
         localStorage.setItem("type", type)
-        sessionStorage.setItem("position_at_school", position_at_school)
+        localStorage.setItem("position_at_school", position_at_school)
         sessionStorage.setItem("id-school", JSON.stringify(id_school))
         sessionStorage.setItem("id_matter", id_matter)
         sessionStorage.setItem("id_class", id_class)
         sessionStorage.setItem("id_reporter_cardid_class", id_reporter_cardid_class)
         localStorage.setItem("token", token)
+        sessionStorage.setItem("token", token)
 
         /*if (avatar) {
             sessionStorage.setItem("avatar", avatar)
@@ -117,51 +116,49 @@ const FristEmployee = () => {
         <LoadingSpinner />
         :
         <>
-          <InputArea>
+          <h1>Cadastre um Gestor</h1>
+          <InputArea onSubmit={SignClick}>
             <>Nome</>
-            <Input
-              placeholder="Digite o nome"
-              value={name}
-              onChange={
-                (e) => setName(e.target.value)
-              }
-            />
+            <Area>
+              <Input
+                placeholder="Digite o nome"
+                value={name}
+                onChange={
+                  (e) => setName(e.target.value)
+                }
+              />
+            </Area>
             <>cpf</>
-            <Input
-              placeholder="Digite o cpf"
-              value={cpf}
-              onChange={
-                (e) => setCpf(e.target.value)
-              }
-            />
-            {/* <label>Cargo: </label>
-        <Select id="position" 
-          value={position_at_school} 
-          onChange={ 
-            (e) => setPosition_at_school(e.target.value)
-          }
-        >
-          <option value="">Selecione</option>
-          <option value="GESTOR">GESTOR</option>
-          <option value="PROFESSOR">PROFESSOR</option>
-        </Select>*/}
+            <Area>
+              <Input
+                placeholder="Digite o cpf"
+                value={cpf}
+                onChange={
+                  (e) => setCpf(e.target.value)
+                }
+              />
+            </Area>
             <>Senha</>
-            <Input
-              placeholder="Digite a senha"
-              value={password}
-              onChange={
-                (e) => setPassword(e.target.value)
-              }
-            />
+            <Area>
+              <Input
+                placeholder="Digite a senha"
+                value={password}
+                onChange={
+                  (e) => setPassword(e.target.value)
+                }
+              />
+            </Area>
             <>Confirme Senha</>
-            <Input
-              placeholder="Confirme a senha"
-              value={confirmpassword}
-              onChange={
-                (e) => setConfirmPassword(e.target.value)
-              }
-            />
-            <Btt01 onClick={SignClick}>Cadastra</Btt01>
+            <Area>
+              <Input
+                placeholder="Confirme a senha"
+                value={confirmpassword}
+                onChange={
+                  (e) => setConfirmPassword(e.target.value)
+                }
+              />
+            </Area>
+            <Btt type='submit'>Cadastra</Btt>
           </InputArea>
         </>
       }

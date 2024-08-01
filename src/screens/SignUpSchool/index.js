@@ -10,12 +10,12 @@ import { api, createSessionSchool } from '../../Api'
 import {
   Container,
   InputArea,
+  Area, 
+  Input,
+  Btt
 } from './style';
 
-import { Area, Input } from '../../components/Inputs';
-
 import {
-  Btt01,
   SignMessageButton,
   SignMessageButtonText,
   SignMessageButtonTextBold
@@ -90,7 +90,8 @@ const SignUpSchool = () => {
         <LoadingSpinner />
         :
         <>
-          <InputArea>
+          <h1>Cadastro de Instituição</h1>
+          <InputArea onSubmit={SignClick}>
             <>Nome da Instituição de Ensino</>
             <Area>
               <Input
@@ -131,7 +132,7 @@ const SignUpSchool = () => {
               }
           />
         </Area>*/}
-            <Btt01 onClick={SignClick}>Cadastra</Btt01>
+            <Btt type='submit'>Cadastra</Btt>
             <SignMessageButton onClick={MessageButtomclick}>
               <SignMessageButtonText>Já possui uma conta?</SignMessageButtonText>
               <SignMessageButtonTextBold>Faça o login!</SignMessageButtonTextBold>

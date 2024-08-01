@@ -8,7 +8,7 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
   /*useEffect(() => {
     document.body.style.overflowY = menuIsVisible ? 'hidden' : 'auto';
   }, [menuIsVisible]);*/
-  
+
   const [position_at_school, setPosition_at_school] = useState();
   const [name, setname] = useState();
   //const { logout } = useContext(AuthContext)
@@ -36,10 +36,12 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
   return (
     <Container isVisible={menuIsVisible}>
       <IoClose size={45} onClick={() => setMenuIsVisible(false)} />
-      <div className="user">
-       <div className='name-user'>User: {name}</div>
-       <div className='type-user'>Função: {position_at_school}</div>
-       <button onClick={handleLogout} className='butto-exit'>Sair</button>
+      <div className="container-user">
+        <div className='user'>
+          <p className='name-user'>User: {name}</p>
+          <p className='type-user'>Função: {position_at_school}</p>
+        </div>
+        <button onClick={handleLogout} className='butto-exit'>Sair</button>
       </div>
       {
         position_at_school === "GESTOR"
