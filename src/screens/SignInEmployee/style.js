@@ -9,7 +9,7 @@ export const Container = styled.div`
     flex-direction: column;
 `;
 
-export const InputArea = styled.div`
+export const InputArea = styled.form`
     border-radius: 20px;
     display: flex;
     width: 40%;
@@ -32,7 +32,7 @@ export const InputArea = styled.div`
 
 export const Area = styled.div`
   display: Flex;
-  width: 450px;
+  width: 350px;
   height: 40px;
   margin-bottom: 10px;
   background-color: #ebe7eb;
@@ -41,7 +41,7 @@ export const Area = styled.div`
   justify-content: center; 
 
   @media screen and (max-width: 768px) {
-    width: 350px;
+    width: 330px;
     height: 45px;
   }
 `;

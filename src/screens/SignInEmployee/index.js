@@ -80,7 +80,7 @@ const SignInEmployee = () => {
                 :
                 <>
                     <h1>Login</h1>
-                    <InputArea>
+                    <InputArea onSubmit={SignClick}>
                         <>CPF</>
                         <Area>
                             <Input
@@ -101,7 +101,7 @@ const SignInEmployee = () => {
                                 }
                             />
                         </Area>
-                        <Btt onClick={SignClick}>Login</Btt>
+                        <Btt type='submit'>Login</Btt>
                         <SignMessageButton onClick={MessageButtomclick}>
                             <SignMessageButtonText></SignMessageButtonText>
                             <SignMessageButtonTextBold>Selecionar outra forma de Login!</SignMessageButtonTextBold>
