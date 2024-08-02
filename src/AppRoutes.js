@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 
 import {
-    BrowserRouter as Router,
     Route,
     Routes,
     Navigate
@@ -57,7 +56,7 @@ const AppRoutes = () => {
     }
 
     return (
-        <Router>
+        
             <AuthProvider>
                 <Routes>
                     <Route exact path="/login/selection" element={<LoginSelection/>}/>
@@ -188,7 +187,7 @@ const AppRoutes = () => {
                     }/>
                 </Routes>
             </AuthProvider>
-        </Router>
+        
     )
 }
 
