@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { GetClass } from '../../Api'
-
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { GetClass } from '../../Api';
 import {
     Container,
     List,
@@ -12,119 +11,87 @@ import {
     User,
     FormFilter,
     FormSearch
-    // Input
 } from './style';
-
 import {
     AreaEmp,
     InputEmp,
     Select
-} from '../../components/Inputs'
-
+} from '../../components/Inputs';
 import {
     Btt02,
 } from '../../components/Buttons';
-
-import LoadingSpinner from '../../components/Loading'
+import LoadingSpinner from '../../components/Loading';
 
 const Cla$$ = () => {
-
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const currentYear = new Date().getFullYear();
-    const [year, setYear] = useState([])
-    const [Clss, setClss] = useState([])
-    const [busca, setBusca] = useState("")
-    const [filter, setFilter] = useState()
-    const [loading, setLoading] = useState(false);
+    const [year, setYear] = useState([]);
+    const [Clss, setClss] = useState([]);
+    const [busca, setBusca] = useState("");
+    const [filter, setFilter] = useState(currentYear.toString());
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         (async () => {
-            setLoading(true);
-            const idSchool = sessionStorage.getItem("id-school")
-            const resClass = await GetClass(JSON.parse(idSchool))
-            //setStudent(response.data.data)
-            setClss(resClass.data.data)
+            const idSchool = sessionStorage.getItem("id-school");
+            const resClass = await GetClass(JSON.parse(idSchool));
+            setClss(resClass.data.data);
 
-            const Year = resClass.data.data.map(y => {
-                return y.year
-            }).filter((valor, indice, self) => {
-                return self.indexOf(valor) === indice
-            })
-            setYear(Year)
-            console.log(resClass.data.data)
+            const Year = resClass.data.data
+                .map(y => y.year)
+                .filter((valor, indice, self) => self.indexOf(valor) === indice);
+            setYear(Year);
             setLoading(false);
-        })()
-    }, [])
+        })();
+    }, []);
 
-    Clss.sort(function (a, b) {
-        if (a.serie < b.serie) return -1
-        if (a.serie > b.serie) return 1
-        return 0
-    })
+    Clss.sort((a, b) => (a.serie < b.serie ? -1 : (a.serie > b.serie ? 1 : 0)));
+    year.sort((a, b) => (a < b ? -1 : (a > b ? 1 : 0)));
 
-    year.sort(function (a, b) {
-        if (a < b) return -1
-        if (a > b) return 1
-        return 0
-    })
+    const NewClass = () => {
+        navigate('/new/class');
+    };
 
-    if (!filter) {
+    const classInformation = (Clss) => {
         setLoading(true);
-        setFilter(currentYear.toString())
+        sessionStorage.setItem("ClassInformation", Clss._id);
+        sessionStorage.setItem("serieClass", Clss.serie);
+        navigate(`/class/info/${Clss._id}`);
         setLoading(false);
-    }
-
-    const NewClass = async () => {
-        navigate('/new/class')
-    }
-
-    const classInformation = async (Clss) => {
-        setLoading(true);
-        sessionStorage.removeItem('ClassInformation')
-        sessionStorage.setItem("ClassInformation", Clss._id)
-        sessionStorage.removeItem("serieClass")
-        sessionStorage.setItem("serieClass", Clss.serie)
-        navigate(`/class/info/${Clss._id}`)
-        setLoading(false);
-    }
+    };
 
     return (
         <Container>
-            {loading ?
+            {loading ? (
                 <LoadingSpinner />
-                :
+            ) : (
                 <>
-                    <User>
-
-                    </User>
+                    <User></User>
                     <Search>
                         <FormSearch>
                             <label>Buscar Turma</label>
                             <AreaEmp>
                                 <InputEmp
                                     type="text"
-                                    placeholder='Buscar por nome'
+                                    placeholder="Buscar por nome"
                                     value={busca}
-                                    onChange={
-                                        (e) => setBusca(e.target.value)
-                                    }
+                                    onChange={(e) => setBusca(e.target.value)}
                                 />
                             </AreaEmp>
                         </FormSearch>
                         <FormFilter>
                             <label>Filtra por Ano: </label>
-                            <Select id="position"
+                            <Select
+                                id="position"
                                 value={filter}
-                                onChange={
-                                    (e) => setFilter(e.target.value)
-                                }
+                                onChange={(e) => setFilter(e.target.value)}
                             >
-                                <option value=''>{currentYear}</option>
-                                {
-                                    year.map(c => (
-                                        <option value={c}>{c}</option>
-                                    ))
-                                }
+                                <option value="">{currentYear}</option>
+                                {year.map((c, index) => (
+                                    <option key={index} value={c}>
+                                        {c}
+                                    </option>
+                                ))}
                             </Select>
                         </FormFilter>
                     </Search>
@@ -132,39 +99,21 @@ const Cla$$ = () => {
                         <DivNewEmp>
                             <Btt02 onClick={NewClass}>Nova Turma</Btt02>
                         </DivNewEmp>
-
-                        {
-                            Clss.filter((fil) => {
-                                if (!filter) {
-                                    return (fil)
-                                }
-                                if (fil.year === filter) {
-                                    return (fil)
-                                }
-                                return null
-                            }).filter((val) => {
-                                if (!busca) {
-                                    return (val)
-                                } else if (val.serie.includes(busca.toUpperCase())) {
-                                    return (val)
-                                }
-                                return null
-                            }).map(Clss => (
+                        {Clss.filter((fil) => (!filter || fil.year === filter))
+                            .filter((val) => (!busca || val.serie.includes(busca.toUpperCase())))
+                            .map((Clss) => (
                                 <Emp
-                                    onClick={() =>
-                                        classInformation(Clss)
-                                    }
+                                    onClick={() => classInformation(Clss)}
                                     key={Clss._id}
                                 >
                                     <Span>{Clss.serie}</Span>
                                 </Emp>
-                            ))
-                        }
+                            ))}
                     </List>
                 </>
-            }
+            )}
         </Container>
-    )
-}
+    );
+};
 
-export default Cla$$
+export default Cla$$;
