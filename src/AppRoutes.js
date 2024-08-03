@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-
+import { BrowserRouter as Router } from 'react-router-dom';
 import {
     Route,
     Routes,
@@ -41,153 +41,153 @@ import Attendance from "./screensTeacher/Attendance"
 
 const AppRoutes = () => {
 
-    const Private = ({children}) => {
+    const Private = ({ children }) => {
         const { authenticated, loading } = useContext(AuthContext)
-    
-        if(loading) {
-          return <div className='loading'>Carregando...</div>
+
+        if (loading) {
+            return <div className='loading'>Carregando...</div>
         }
-    
-        if( !authenticated ) {
-          return <Navigate to="/" />
+
+        if (!authenticated) {
+            return <Navigate to="/" />
         }
-    
+
         return children
     }
 
     return (
-        
+        <Router>
             <AuthProvider>
                 <Routes>
-                    <Route exact path="/login/selection" element={<LoginSelection/>}/>
-                    <Route exact path="/signup/school" element={<SignUpSchool/>}/>
-                    <Route exact path="/signin/school" element={<SignInSchool/>}/>
-                    <Route exact path="/signin/employee" element={<SignInEmployee/>}/>
-                    <Route exact path="/" element={<Preload/>}/>
+                    <Route exact path="/login/selection" element={<LoginSelection />} />
+                    <Route exact path="/signup/school" element={<SignUpSchool />} />
+                    <Route exact path="/signin/school" element={<SignInSchool />} />
+                    <Route exact path="/signin/employee" element={<SignInEmployee />} />
+                    <Route exact path="/" element={<Preload />} />
                     <Route exact path="/home/school" element={
                         <Private>
-                            <HomeSchool/>
+                            <HomeSchool />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/home/employee" element={
                         <Private>
-                            <HomeEmployee/>
+                            <HomeEmployee />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/employees" element={
                         <Private>
-                            <Employees/>
+                            <Employees />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/first/employee" element={
                         <Private>
-                            <FirstEmployee/>
+                            <FirstEmployee />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/new/employees" element={
                         <Private>
-                            <NewEmployees/>
+                            <NewEmployees />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/new/student" element={
                         <Private>
-                            <NewStudent/>
+                            <NewStudent />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/student" element={
                         <Private>
-                            <Student/>
+                            <Student />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/class" element={
                         <Private>
-                            <Class/>
+                            <Class />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/new/class" element={
                         <Private>
-                            <NewClass/>
+                            <NewClass />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/matter" element={
                         <Private>
-                            <Matter/>
+                            <Matter />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/new/matter" element={
                         <Private>
-                            <NewMatter/>
+                            <NewMatter />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/add/matter" element={
                         <Private>
-                            <AddMatter/>
+                            <AddMatter />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/add/student" element={
                         <Private>
-                            <AddStudent/>
+                            <AddStudent />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/add/teacher/:id_class" element={
                         <Private>
-                            <AddTeacher/>
+                            <AddTeacher />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/student/info/:id_student" element={
                         <Private>
-                            <StudentInfo/>
+                            <StudentInfo />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/employee/info/:id_employee" element={
                         <Private>
-                            <EmployeeInfo/>
+                            <EmployeeInfo />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/class/info/:id_class" element={
                         <Private>
-                            <ClassInfo/>
+                            <ClassInfo />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/remove/teacher" element={
                         <Private>
-                            <RemoveTeacher/>
+                            <RemoveTeacher />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/remove/student" element={
                         <Private>
-                            <RemoveStudent/>
+                            <RemoveStudent />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/remove/matter" element={
                         <Private>
-                            <RemoveMatter/>
+                            <RemoveMatter />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/delete/matter" element={
                         <Private>
-                            <DeleteMatter/>
+                            <DeleteMatter />
                         </Private>
-                    }/>
+                    } />
 
                     <Route exact path="/myclasses" element={
                         <Private>
-                            <MyClasses/>
+                            <MyClasses />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/myclassesinfo/:id_class/:id_teacher" element={
                         <Private>
-                            <MyClassesInfo/>
+                            <MyClassesInfo />
                         </Private>
-                    }/>
+                    } />
                     <Route exact path="/attendance" element={
                         <Private>
-                            <Attendance/>
+                            <Attendance />
                         </Private>
-                    }/>
+                    } />
                 </Routes>
             </AuthProvider>
-        
+        </Router>
     )
 }
 

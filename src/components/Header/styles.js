@@ -12,10 +12,9 @@ export const Container = styled.header`
   .logo {
     display: flex;
     height: 6vh;
-    width: 20%;
+    width: 15%;
     font-size: 30px;
     align-items: center;
-    justify-content: center;
     color: #1465bb;
 
     @media(max-width: 768px) {
