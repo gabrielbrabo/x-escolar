@@ -6,16 +6,28 @@ import { Title } from './components/Title';
 import { NavBar } from './components/NavBar';
 import { Header } from './components/Header';
 
+const AuthenticatedApp = () => {
+  const [menuIsVisible, setMenuIsVisible] = useState(false);
+  return (
+    <>
+      <NavBar
+        menuIsVisible={menuIsVisible}
+        setMenuIsVisible={setMenuIsVisible}
+      />
+      <Header setMenuIsVisible={setMenuIsVisible} />
+    </>
+  )
+};
+
 export function App() {
   const token = sessionStorage.getItem("token");
-  const [menuIsVisible, setMenuIsVisible] = useState(false);
+  //const [menuIsVisible, setMenuIsVisible] = useState(false);
 
   return (
     <div className="app">
       {token ? (
         <>
-          <NavBar menuIsVisible={menuIsVisible} setMenuIsVisible={setMenuIsVisible} />
-          <Header setMenuIsVisible={setMenuIsVisible} />
+          <AuthenticatedApp />
         </>
       ) : (
         <Title>

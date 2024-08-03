@@ -13,7 +13,7 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
     const userName = localStorage.getItem("name");
 
     setPositionAtSchool(position);
-      setName(userName);
+    setName(userName);
   }, [menuIsVisible]);
 
   const handleLogout = () => {

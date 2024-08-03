@@ -42,6 +42,7 @@ const Cla$$ = () => {
                 .filter((valor, indice, self) => self.indexOf(valor) === indice);
             setYear(Year);
             setLoading(false);
+            console.log(resClass)
         })();
     }, []);
 
