@@ -3,25 +3,27 @@ import { useNavigate } from 'react-router-dom'
 import { GetMatter, addMttr } from '../../Api'
 
 import {
-    Container,
-    List,
-    Emp,
-    Span,
-    Search,
-    User,
-    FormSearch,
-    AddMatter,
-    AreaEmp,
-    InputEmp,
-    Btt01,
-    LoadingSpinner
+    PageContainer,
+    SearchSection,
+    MatterList,
+    MatterItem,
+    MatterName,
+    SearchForm,
+    SearchInputWrapper,
+    SearchInput,
+    AddMatterSection,
+    Button,
+    Message,
+    LoadingSpinner,
+    WarningBox,
+    ActionButtons
 } from './style';
 
 const MatterAdd = () => {
 
     const navigate = useNavigate();
     const [matter, setMatter] = useState([]);
-    const [busca, setBusca] = useState("");
+    const [search, setSearch] = useState("");
     const [idMatter, setIdMatter] = useState("");
     const [idEmployee, setIdEmployee] = useState("");
     const [nameMatter, setNameMatter] = useState("");
@@ -65,6 +67,7 @@ const MatterAdd = () => {
         setAdded(false);
         setNameMatter("");
     }
+
     const handleCancel = async () => {
         setNameMatter("");
     }
@@ -82,65 +85,65 @@ const MatterAdd = () => {
     }
 
     return (
-        <Container>
+        <PageContainer>
             {loading ? (
                 <LoadingSpinner />
             ) : (
                 <>
-                    <User />
-                    <Search>
-                        <FormSearch>
+                    <h1>Materias</h1>
+                    <SearchSection>
+                        <SearchForm>
                             <label>Buscar Matéria</label>
-                            <AreaEmp>
-                                <InputEmp
+                            <SearchInputWrapper>
+                                <SearchInput
                                     type="text"
                                     placeholder='Buscar por nome'
-                                    value={busca}
-                                    onChange={(e) => setBusca(e.target.value)}
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
                                 />
-                            </AreaEmp>
-                        </FormSearch>
-                    </Search>
-                    <p>Clique em uma Matéria abaixo para adicionar ao Professor</p>
-                    <List>
+                            </SearchInputWrapper>
+                        </SearchForm>
+                    </SearchSection>
+                    <Message>Clique em uma Matéria abaixo para adicionar ao Professor</Message>
+                    <MatterList>
                         {matter.filter((val) => {
-                            if (!busca) {
+                            if (!search) {
                                 return val;
-                            } else if (val.name.toUpperCase().includes(busca.toUpperCase())) {
+                            } else if (val.name.toUpperCase().includes(search.toUpperCase())) {
                                 return val;
                             }
                             return null;
                         }).map(matter => (
-                            <Emp
+                            <MatterItem
                                 onClick={() => handleAddMatter(matter)}
                                 key={matter._id}>
-                                <Span>{matter.name}</Span>
-                            </Emp>
+                                <MatterName>{matter.name}</MatterName>
+                            </MatterItem>
                         ))}
-                    </List>
+                    </MatterList>
                     {nameMatter && (
-                        <AddMatter>
-                            {added ? (
-                                <Btt01 onClick={handleRemoveMatter}>
-                                    Adicionar outra Matéria para o Professor {nameEmployee}
-                                </Btt01>
-                            ) : (
-                                <div>
+                        <AddMatterSection>
+                            <WarningBox>
+                                Adicionar {nameMatter} ao professor {nameEmployee}
+                            </WarningBox>
+                            <ActionButtons>
+                                {added ? (
+                                    <Button onClick={handleRemoveMatter}>
+                                        Adicionar outra Matéria para o Professor {nameEmployee}
+                                    </Button>
+                                ) : (
                                     <div>
-                                        <p>Adicionar {nameMatter} ao professor {nameEmployee}</p>
-                                        <Btt01 onClick={handleSignClick}>Adicionar</Btt01>
+                                        <Button onClick={handleSignClick}>Adicionar</Button>
+                                        <Button onClick={handleCancel}>Cancelar</Button>
                                     </div>
-                                    <div>
-                                        <Btt01 onClick={handleCancel}>Cancelar</Btt01>
-                                    </div>
-                                </div>
-                            )}
-                            {added && <Btt01 onClick={handleFinish}>Finalizar cadastro</Btt01>}
-                        </AddMatter>
+                                )}
+                                {added && <Button onClick={handleFinish}>Finalizar cadastro</Button>}
+                            </ActionButtons>
+                        </AddMatterSection>
                     )}
                 </>
             )}
-        </Container>
+        </PageContainer>
     )
 }
 

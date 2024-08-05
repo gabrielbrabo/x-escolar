@@ -1,26 +1,62 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    @media (max-width: 768px) {
-        padding: 10px;
-    }
+export const PageContainer = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
 
-export const List = styled.div`
+export const SearchSection = styled.div`
   width: 100%;
   max-width: 600px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-bottom: 20px;
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
 `;
 
-export const Emp = styled.div`
+export const SearchForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+export const SearchInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const SearchInput = styled.input`
+  width: 90%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
+`;
+
+export const MatterList = styled.div`
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+`;
+
+export const MatterItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -37,44 +73,54 @@ export const Emp = styled.div`
   }
 `;
 
-export const Span = styled.span`
+export const MatterName = styled.span`
   font-size: 16px;
   @media (max-width: 768px) {
     font-size: 14px;
   }
 `;
 
-export const Search = styled.div`
+export const AddMatterSection = styled.div`
   width: 100%;
+  min-height: 100%;
   max-width: 600px;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
   flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.8);
   gap: 10px;
-  margin-bottom: 20px;
-`;
-
-export const FormSearch = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-
-export const AreaEmp = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-export const InputEmp = styled.input`
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  margin-top: 20px;
   @media (max-width: 768px) {
-    padding: 8px;
+    max-width: 100%;
   }
 `;
 
-export const Btt01 = styled.button`
+export const WarningBox = styled.div`
+  padding: 15px;
+  background-color: #ffeb3b;
+  color: #333;
+  border-radius: 4px;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 16px;
+  @media (max-width: 768px) {
+    padding: 12px;
+    font-size: 14px;
+  }
+`;
+
+export const ActionButtons = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+
+export const Button = styled.button`
   width: 100%;
   padding: 15px;
   background-color: #4caf50;
@@ -93,22 +139,13 @@ export const Btt01 = styled.button`
   }
 `;
 
-export const AddMatter = styled.div`
-  width: 100%;
-  height: 100%;
-  max-width: 600px;
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-  z-index: 9999;
-  background: white;
-`;
-
-export const User = styled.div`
-  margin-bottom: 20px;
+export const Message = styled.h2`
+  font-size: 16px;
+  margin: 10px 0;
+  @media (max-width: 768px) {
+    font-size: 14px;
+    margin: 8px 0;
+  }
 `;
 
 export const LoadingSpinner = styled.div`
