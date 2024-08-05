@@ -9,21 +9,21 @@ import {
     Span,
     Search,
     DivNewEmp,
-    User,
     FormFilter,
-    FormSearch
-    // Input
+    FormSearch,
+    Area,
+    Select,
+    InputEmp,
+    Btt02
 } from './style';
 
-import {
-    AreaEmp,
+/*import {
     InputEmp,
-    Select
 } from '../../components/Inputs'
 
 import {
     Btt02,
-} from '../../components/Buttons';
+} from '../../components/Buttons';*/
 
 import LoadingSpinner from '../../components/Loading'
 
@@ -90,22 +90,19 @@ const Employees = () => {
                 <LoadingSpinner />
                 :
                 <>
-                    <User>
-
-                    </User>
                     <Search>
                         <FormSearch>
                             <label>Buscar Funcionario</label>
-                            <AreaEmp>
+                            <Area>
                                 <InputEmp
                                     type="text"
-                                    placeholder='Buscar por nome'
+                                    placeholder='Buscar'
                                     value={busca}
                                     onChange={
                                         (e) => setBusca(e.target.value)
                                     }
                                 />
-                            </AreaEmp>
+                            </Area>
                         </FormSearch>
                         <FormFilter>
                             <label>Filtra por cargo: </label>
@@ -121,26 +118,6 @@ const Employees = () => {
                                 <option value="PROFESSOR">PROFESSOR</option>
                             </Select>
                         </FormFilter>
-                        {
-                            /*  filter === "PROFESSOR"
-                              &&
-                              <FormFilter>
-                                  <label>Filtra por Materia: </label>
-                                  <Select id="position" 
-                                      value={matter} 
-                                      onChange={ 
-                                          (e) => setMatter(e.target.value)
-                                      }
-                                  >
-                                     <option value=''>Todos</option>
-                                  {
-                                      filterMatter.map(matter => (
-                                          <option value={matter._id}>{matter.name}</option>
-                                      ))
-                                  }
-                                  </Select>
-                              </FormFilter>*/
-                        }
                     </Search>
                     <List>
                         <DivNewEmp>

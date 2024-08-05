@@ -84,7 +84,7 @@ const SignInEmployee = () => {
                         <>CPF</>
                         <Area>
                             <Input
-                                placeholder="Digite seu email"
+                                placeholder="Digite seu CPF"
                                 value={cpf}
                                 onChange={
                                     (e) => setCpf(e.target.value)

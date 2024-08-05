@@ -1,52 +1,166 @@
 import styled from 'styled-components';
 
+// Container principal para a página de empregados
 export const Container = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 2px 0px 7px inset black;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f5f5f5;
 
-    @media screen and (max-width: 768px) {
-        box-shadow: 0px 0px 7px inset black;
-    }
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
-export const User = styled.div`
-    display: flex;
-    align-items: end;
-    width: 100%;
-    height: 6vh;
-`;
-export const Search = styled.div`
-    display: flex;
-    align-items: center;
-    padding-bottom: 8px;
-    padding-top: 8px;
-    justify-content: space-around;
-    width: 100%;
+export const ContainerEmp = styled.div`
+    width: 90%;
 `;
 
+// Estilo para a lista de empregados
 export const List = styled.div`
-    border: 1px solid gray;
+  width: 80%;
+  margin-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    margin-top: 10px;
+    width: 95%;
+  }
 `;
-export const DivNewEmp = styled.div`
-    display: flex;
-    height: 0px;
-    justify-content: flex-end;
-`;
+
+// Estilo para cada empregado na lista
 export const Emp = styled.div`
-    display: flex;
-    height: 30px;
-    align-items: center;
-    border-top: 1px solid gray;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  margin: 10px 0px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  cursor: pointer;
+  &:hover {
+    background-color: #f0f0f0;
+  }
+
+  @media (max-width: 768px) {
+    padding: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
-export const Span = styled.div`
-    margin-left: 8px;
+
+// Estilo para o nome do empregado
+export const Span = styled.span`
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
 `;
-export const FormFilter = styled.div`
-    @media screen and (max-width: 768px) {
-        display: grid;
-    }
+
+// Container para as seções de busca e filtro
+export const Search = styled.div`
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
 `;
+
+// Container para o formulário de busca
 export const FormSearch = styled.div`
-    
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
+
+// Container para o formulário de filtro
+export const FormFilter = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-top: 10px;
+  }
+`;
+
+// Área para o input de busca
+export const Area = styled.div`
+  margin-top: 10px;
+`;
+
+// Estilo para o select de filtro
+export const Select = styled.select`
+  margin-top: 10px;
+  width: 95%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+`;
+
+// Botão para adicionar novo empregado
+export const DivNewEmp = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
+`;
+
+// Exportando os componentes InputEmp e Btt02 do mesmo arquivo de estilo
+export const InputEmp = styled.input`
+  padding: 10px;
+  width: 95%;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+`;
+
+export const Btt02 = styled.button`
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  &:hover {
+    background-color: #0056b3;
+  }
+
+  @media (max-width: 768px) {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
 `;
