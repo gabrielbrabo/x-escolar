@@ -126,8 +126,11 @@ export const Select = styled.select`
 // Botão para adicionar novo empregado
 export const DivNewEmp = styled.div`
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: 20px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
 
   @media (max-width: 768px) {
     justify-content: center;

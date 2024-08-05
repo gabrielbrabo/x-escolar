@@ -119,10 +119,10 @@ const Employees = () => {
                             </Select>
                         </FormFilter>
                     </Search>
+                    <DivNewEmp>
+                        <Btt02 onClick={NewEmoloyee}>Novo Funcionario</Btt02>
+                    </DivNewEmp>
                     <List>
-                        <DivNewEmp>
-                            <Btt02 onClick={NewEmoloyee}>Novo Funcionario</Btt02>
-                        </DivNewEmp>
 
                         {
                             employees.filter((fil) => {
@@ -132,21 +132,7 @@ const Employees = () => {
                                     return (fil)
                                 }
                                 return null
-                            })/*.filter((filMttr) => {
-                        if(!matter){
-                            return (filMttr)
-                        } else {
-                            const filMatter = filMttr.id_matter.map((m) => {
-                                if(m === matter) {
-                                    return (filMttr)
-                                } else {
-                                    return (filMttr)
-                                }
-                            })    
-                            console.log("filMatter", filMatter)  
-                            return (filMatter)                    
-                        }
-                    })*/.filter((val) => {
+                            }).filter((val) => {
                                 if (!busca) {
                                     return (val)
                                 } else if (val.name.includes(busca.toUpperCase())) {

@@ -8,195 +8,138 @@ import {
     Emp,
     Span,
     Search,
-    //DivNewEmp, 
     User,
-    //FormFilter,
     FormSearch,
-    AddMatter
-    // Input
-} from './style';
-
-import {
+    AddMatter,
     AreaEmp,
     InputEmp,
-    // Select
-} from '../../components/Inputs'
-
-import {
     Btt01,
-    // Btt02 
-} from '../../components/Buttons';
-import LoadingSpinner from '../../components/Loading'
+    LoadingSpinner
+} from './style';
 
 const MatterAdd = () => {
 
-    const navigate = useNavigate()
-    //const currentYear = new Date().getFullYear();
-    //const [year, setYear] = useState([])
-    const [matter, setMatter] = useState([])
-    const [busca, setBusca] = useState("")
-    const [id_matter, setId_matter] = useState("")
-    const [id_employee, setId_employee] = useState("")
-    const [name_matter, setName_matter] = useState("")
-    const [name_employee, setName_employee] = useState("")
-    const [added, setAdded] = useState()
+    const navigate = useNavigate();
+    const [matter, setMatter] = useState([]);
+    const [busca, setBusca] = useState("");
+    const [idMatter, setIdMatter] = useState("");
+    const [idEmployee, setIdEmployee] = useState("");
+    const [nameMatter, setNameMatter] = useState("");
+    const [nameEmployee, setNameEmployee] = useState("");
+    const [added, setAdded] = useState(false);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         (async () => {
             setLoading(true);
-            const idSchool = sessionStorage.getItem("id-school")
-            //const response = await GetStudent(JSON.parse(idSchool))
-            const res = await GetMatter(JSON.parse(idSchool))
-            //setStudent(response.data.data)
-            setMatter(res.data.data)
-            console.log(res)
-            setLoading(false)
-        })()
-    }, [])
+            const idSchool = sessionStorage.getItem("id-school");
+            const res = await GetMatter(JSON.parse(idSchool));
+            setMatter(res.data.data);
+            setLoading(false);
+        })();
+    }, []);
 
-    matter.sort(function (a, b) {
-        if (a.name < b.name) return -1
-        if (a.name > b.name) return 1
-        return 0
-    })
+    matter.sort((a, b) => a.name.localeCompare(b.name));
 
-    const addMatter = async (matter) => {
+    const handleAddMatter = async (matter) => {
         setLoading(true);
-        sessionStorage.removeItem('id_matter')
-        sessionStorage.setItem("id_matter", matter._id)
-        setName_employee(sessionStorage.getItem("name"))
-        setName_matter(matter.name)
-        setId_matter(matter._id)
-        setId_employee(sessionStorage.getItem("id_emp"))
-        setLoading(false)
-    }
-
-    const SignClick = async () => {
-        setLoading(true);
-        const res = await addMttr(id_employee, id_matter)
-        if (res) {
-            alert('Materia adicionada com sucesso.')
-            setAdded(true)
-        }
-        console.log(res)
+        sessionStorage.setItem("id_matter", matter._id);
+        setNameEmployee(sessionStorage.getItem("name"));
+        setNameMatter(matter.name);
+        setIdMatter(matter._id);
+        setIdEmployee(sessionStorage.getItem("id_emp"));
         setLoading(false);
     }
-    const removeMattter = async () => {
-        setAdded(false)
+
+    const handleSignClick = async () => {
+        setLoading(true);
+        const res = await addMttr(idEmployee, idMatter);
+        if (res) {
+            alert('Matéria adicionada com sucesso.');
+            setAdded(true);
+        }
+        setLoading(false);
     }
 
-    const Finish = async () => {
+    const handleRemoveMatter = async () => {
+        setAdded(false);
+        setNameMatter("");
+    }
+    const handleCancel = async () => {
+        setNameMatter("");
+    }
+
+    const handleFinish = async () => {
         setLoading(true);
-        const auth = sessionStorage.getItem("tchrnf")
+        const auth = sessionStorage.getItem("tchrnf");
         if (auth) {
-            sessionStorage.removeItem('tchrnf')
-            navigate(`/employee/info/${auth}`)
+            sessionStorage.removeItem('tchrnf');
+            navigate(`/employee/info/${auth}`);
         } else {
-            navigate('/employees')
+            navigate('/employees');
         }
         setLoading(false);
     }
 
     return (
         <Container>
-            {loading ?
+            {loading ? (
                 <LoadingSpinner />
-                :
+            ) : (
                 <>
-                    <User>
-
-                    </User>
+                    <User />
                     <Search>
                         <FormSearch>
-                            <label>Buscar Materia</label>
+                            <label>Buscar Matéria</label>
                             <AreaEmp>
                                 <InputEmp
                                     type="text"
                                     placeholder='Buscar por nome'
                                     value={busca}
-                                    onChange={
-                                        (e) => setBusca(e.target.value)
-                                    }
+                                    onChange={(e) => setBusca(e.target.value)}
                                 />
                             </AreaEmp>
                         </FormSearch>
-                        {/*<FormFilter>
-                    <label>Filtra por Ano: </label>
-                    <Select id="position" 
-                        value={filter} 
-                        onChange={ 
-                            (e) => setFilter(e.target.value)
-                        }
-                    >
-                        <option value=''>{currentYear}</option>
-                        {
-                            year.map(c => (
-                                <option value={c}>{c}</option>
-                            ))
-                        }
-                    </Select>
-                    </FormFilter>*/}
                     </Search>
-                    <>Click em uma Materia abaixo para adicionar ao Professor</>
+                    <p>Clique em uma Matéria abaixo para adicionar ao Professor</p>
                     <List>
-                        {/*
-                <DivNewEmp>
-                    <Btt02 onClick={NewMatter}>Nova Materia</Btt02>
-                </DivNewEmp>
-                */}
-
-                        {
-                            matter/*.filter((fil) => {
-                        if(!filter){
-                            return (fil)
-                        }
-                        if(fil.year === filter) {
-                            return (fil)
-                        }
-                        return null
-                    })*/.filter((val) => {
-                                if (!busca) {
-                                    return (val)
-                                } else if (val.name.includes(busca.toUpperCase())) {
-                                    return (val)
-                                }
-                                return null
-                            }).map(matter => (
-                                <Emp
-                                    onClick={() =>
-                                        addMatter(matter)
-                                    }
-                                    key={matter._id} >
-                                    <Span>{matter.name}</Span>
-                                </Emp>
-                            ))
-                        }
+                        {matter.filter((val) => {
+                            if (!busca) {
+                                return val;
+                            } else if (val.name.toUpperCase().includes(busca.toUpperCase())) {
+                                return val;
+                            }
+                            return null;
+                        }).map(matter => (
+                            <Emp
+                                onClick={() => handleAddMatter(matter)}
+                                key={matter._id}>
+                                <Span>{matter.name}</Span>
+                            </Emp>
+                        ))}
                     </List>
-                    {
-                        name_matter
-                        &&
+                    {nameMatter && (
                         <AddMatter>
-                            {
-                                added === true
-                                    ?
-                                    <Btt01 onClick={removeMattter}>Adicionar outra Materia para o Professor {name_employee}</Btt01>
-                                    :
+                            {added ? (
+                                <Btt01 onClick={handleRemoveMatter}>
+                                    Adicionar outra Matéria para o Professor {nameEmployee}
+                                </Btt01>
+                            ) : (
+                                <div>
                                     <div>
-                                        <>Adicionar {name_matter} ao professor {name_employee} </>
-                                        <Btt01 onClick={SignClick}>Adicionar</Btt01>
+                                        <p>Adicionar {nameMatter} ao professor {nameEmployee}</p>
+                                        <Btt01 onClick={handleSignClick}>Adicionar</Btt01>
                                     </div>
-                            }
-
-                            {
-                                added === true
-                                &&
-                                <Btt01 onClick={Finish}>Finalizar cadastro</Btt01>
-                            }
+                                    <div>
+                                        <Btt01 onClick={handleCancel}>Cancelar</Btt01>
+                                    </div>
+                                </div>
+                            )}
+                            {added && <Btt01 onClick={handleFinish}>Finalizar cadastro</Btt01>}
                         </AddMatter>
-                    }
+                    )}
                 </>
-            }
+            )}
         </Container>
     )
 }

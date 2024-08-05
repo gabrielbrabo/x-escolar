@@ -1,150 +1,125 @@
 import React, { useState, useEffect } from 'react';
-
-import { NewEmp } from '../../Api'
-
-//import { AuthContext, } from '../../contexts/auth'
-import { useNavigate } from 'react-router-dom'
-
+import { NewEmp } from '../../Api';
+import { useNavigate } from 'react-router-dom';
 import {
   Container,
   InputArea,
-  ToGoBack
-} from './style';
-
-import {
-  /*Area,*/
+  ToGoBack,
+  Label,
   Input,
-  Select
-} from '../../components/Inputs';
-
-import {
+  Select,
   Btt01,
   SignMessageButtonText,
-  SignMessageButtonTextBold
-} from '../../components/Buttons';
-
-import LoadingSpinner from '../../components/Loading'
+  SignMessageButtonTextBold,
+  ErrorMessage
+} from './style';
+import LoadingSpinner from '../../components/Loading';
 
 const NewEmployee = () => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [idSchool, setIdschool] = useState('');
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');
-  const [position_at_school, setPosition_at_school] = useState()
+  const [positionAtSchool, setPositionAtSchool] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmpassword, setConfirmPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    (async () => {
+    const fetchSchoolId = async () => {
       setLoading(true);
-      const idSchool = sessionStorage.getItem("id-school")
-      setIdschool(JSON.parse(idSchool))
+      const idSchool = sessionStorage.getItem("id-school");
+      setIdschool(JSON.parse(idSchool));
       setLoading(false);
-    })()
-  }, [])
+    };
+    fetchSchoolId();
+  }, []);
 
-  const SignClick = async () => {
+  const signClick = async () => {
     setLoading(true);
-    console.log(
-      idSchool,
-      name,
-      cpf,
-      position_at_school,
-      password,
-      confirmpassword
-    )
-
     const res = await NewEmp(
       idSchool,
       name,
       cpf,
-      position_at_school,
+      positionAtSchool,
       password,
-      confirmpassword
-    )
+      confirmPassword
+    );
 
     if (res) {
-      if (position_at_school === 'PROFESSOR') {
-        sessionStorage.removeItem('id_emp')
-        sessionStorage.removeItem('name')
-        sessionStorage.setItem("id_emp", res.data.id_employee)
-        sessionStorage.setItem("name", res.data.name_employee)
-        navigate('/add/matter')
-        // se o cargo for professor navegar 
-        //para a pagina de adiçao de materia 
-        //na qual o professor da aulas
+      if (positionAtSchool === 'PROFESSOR') {
+        sessionStorage.removeItem('id_emp');
+        sessionStorage.removeItem('name');
+        sessionStorage.setItem("id_emp", res.data.id_employee);
+        sessionStorage.setItem("name", res.data.name_employee);
+        navigate('/add/matter');
       } else {
-        navigate('/employees')
+        navigate('/employees');
       }
+    } else {
+      setErrorMessage('Erro ao cadastrar. Verifique os dados e tente novamente.');
     }
     setLoading(false);
-  }
+  };
 
-  const MessageButtomclick = () => {
-    navigate('/employees')
-  }
+  const messageButtonClick = () => {
+    navigate('/employees');
+  };
 
   return (
     <Container>
-      {loading ?
+      {loading ? (
         <LoadingSpinner />
-        :
-        <>
-          <InputArea>
-            <>Nome</>
-            <Input
-              placeholder="Digite o nome"
-              value={name}
-              onChange={
-                (e) => setName(e.target.value)
-              }
-            />
-            <>cpf</>
-            <Input
-              placeholder="Digite o cpf"
-              value={cpf}
-              onChange={
-                (e) => setCpf(e.target.value)
-              }
-            />
-            <label>Cargo: </label>
-            <Select id="position"
-              value={position_at_school}
-              onChange={
-                (e) => setPosition_at_school(e.target.value)
-              }
-            >
-              <option value="">Selecione</option>
-              <option value="GESTOR">GESTOR</option>
-              <option value="PROFESSOR">PROFESSOR</option>
-            </Select>
-            <>Senha</>
-            <Input
-              placeholder="Digite a senha"
-              value={password}
-              onChange={
-                (e) => setPassword(e.target.value)
-              }
-            />
-            <>Confirme Senha</>
-            <Input
-              placeholder="Confirme a senha"
-              value={confirmpassword}
-              onChange={
-                (e) => setConfirmPassword(e.target.value)
-              }
-            />
-            <Btt01 onClick={SignClick}>Cadastra</Btt01>
-            <ToGoBack onClick={MessageButtomclick}>
-              <SignMessageButtonText>Voltar para a</SignMessageButtonText>
-              <SignMessageButtonTextBold>Lista de Funcionarios</SignMessageButtonTextBold>
-            </ToGoBack>
-          </InputArea>
-        </>
-      }
+      ) : (
+        <InputArea>
+          <h1>Cadastro de Funcionario</h1>
+          <Label>Nome</Label>
+          <Input
+            placeholder="Digite o nome"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Label>CPF</Label>
+          <Input
+            placeholder="Digite o CPF"
+            value={cpf}
+            onChange={(e) => setCpf(e.target.value)}
+          />
+          <Label>Cargo</Label>
+          <Select
+            id="position"
+            value={positionAtSchool}
+            onChange={(e) => setPositionAtSchool(e.target.value)}
+          >
+            <option value="">Selecione</option>
+            <option value="GESTOR">GESTOR</option>
+            <option value="PROFESSOR">PROFESSOR</option>
+          </Select>
+          <Label>Senha</Label>
+          <Input
+            placeholder="Digite a senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+          />
+          <Label>Confirme a Senha</Label>
+          <Input
+            placeholder="Confirme a senha"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            type="password"
+          />
+          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+          <Btt01 onClick={signClick}>Cadastrar</Btt01>
+          <ToGoBack onClick={messageButtonClick}>
+            <SignMessageButtonText>Voltar para a</SignMessageButtonText>
+            <SignMessageButtonTextBold>Lista de Funcionários</SignMessageButtonTextBold>
+          </ToGoBack>
+        </InputArea>
+      )}
     </Container>
-  )
-}
-export default NewEmployee
+  );
+};
+
+export default NewEmployee;
