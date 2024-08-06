@@ -64,9 +64,9 @@ export const Matter = styled.div`
 
 export const DivAddEmp = styled.div`
   display: flex;
-  justify-content: space-evenly;
-  gap: 70px;
-  margin-top: 10px;
+  justify-content: flex-end;
+  width: 100%;
+  gap: 40px;
   margin-bottom: 20px;
   @media (max-width: 768px) {
   }

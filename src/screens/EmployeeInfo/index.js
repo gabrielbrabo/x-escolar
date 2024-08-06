@@ -142,6 +142,7 @@ const EmployeeInformation = () => {
                     {position_at_school.length === 0 && (
                         <>
                             <DivInfo>
+                                <Emp>Materias:</Emp>
                                 <DivAddEmp>
                                     <AddEmp>
                                         <Btt02 onClick={add}>Nova Materia</Btt02>
@@ -152,7 +153,6 @@ const EmployeeInformation = () => {
                                         </AddEmp>
                                     )}
                                 </DivAddEmp>
-                                <Emp>Materias:</Emp>
                                 <Matter>
                                     {matter.length > 0 ? (
                                         matter.map(matter => (
