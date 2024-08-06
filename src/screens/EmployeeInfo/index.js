@@ -146,9 +146,9 @@ const EmployeeInformation = () => {
 
                                     </ProfilePhoto>
                                     < ProfileInfo>
-                                        <Span>Nome: {emp.name}</Span>
+                                        <Span>{emp.name}</Span>
+                                        <Span>{emp.position_at_school}</Span>
                                         <Span>CPF: {emp.cpf}</Span>
-                                        <Span>Função: {emp.position_at_school}</Span>
                                     </ProfileInfo>
                                 </Pro>
                                 <DivButtomEdit>

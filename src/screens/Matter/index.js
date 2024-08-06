@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { GetMatter } from '../../Api'
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { GetMatter } from '../../Api';
 
 import {
     Container,
@@ -10,136 +10,85 @@ import {
     Search,
     DivNewEmp,
     DivAddEmp,
-    User,
-    //FormFilter,
-    FormSearch
-    // Input
-} from './style';
-
-import {
+    FormSearch,
+    Btt02,
     AreaEmp,
     InputEmp,
-    // Select
-} from '../../components/Inputs'
+} from './style';
 
-import {
-    Btt02,
-} from '../../components/Buttons';
-
-import LoadingSpinner from '../../components/Loading'
+import LoadingSpinner from '../../components/Loading';
 
 const Matter = () => {
-
-    const navigate = useNavigate()
-    //const currentYear = new Date().getFullYear();
-    //const [year, setYear] = useState([])
-    const [matter, setMatter] = useState([])
-    const [busca, setBusca] = useState("")
+    const navigate = useNavigate();
+    const [matter, setMatter] = useState([]);
+    const [busca, setBusca] = useState("");
     const [loading, setLoading] = useState(false);
-    //const [filter, setFilter] = useState()
 
     useEffect(() => {
         (async () => {
             setLoading(true);
-            const idSchool = sessionStorage.getItem("id-school")
-            //const response = await GetStudent(JSON.parse(idSchool))
-            const res = await GetMatter(JSON.parse(idSchool))
-            //setStudent(response.data.data)
-            setMatter(res.data.data)
-            console.log(res)
+            const idSchool = sessionStorage.getItem("id-school");
+            const res = await GetMatter(JSON.parse(idSchool));
+            setMatter(res.data.data);
             setLoading(false);
-        })()
-    }, [])
+        })();
+    }, []);
 
-    matter.sort(function (a, b) {
-        if (a.name < b.name) return -1
-        if (a.name > b.name) return 1
-        return 0
-    })
+    matter.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
 
     const NewMatter = async () => {
-        navigate('/new/matter')
-    }
+        navigate('/new/matter');
+    };
+
     const DeleteMatter = async () => {
-        navigate('/delete/matter')
-    }
+        navigate('/delete/matter');
+    };
 
     return (
         <Container>
-            {loading ?
+            {loading ? (
                 <LoadingSpinner />
-                :
+            ) : (
                 <>
-                    <User>
-
-                    </User>
+                    <h1>Materias</h1>
                     <Search>
                         <FormSearch>
-                            <label>Buscar Materia</label>
+                            <label>Buscar Matéria</label>
                             <AreaEmp>
                                 <InputEmp
                                     type="text"
-                                    placeholder='Buscar por nome'
+                                    placeholder="Buscar por nome"
                                     value={busca}
-                                    onChange={
-                                        (e) => setBusca(e.target.value)
-                                    }
+                                    onChange={(e) => setBusca(e.target.value)}
                                 />
                             </AreaEmp>
                         </FormSearch>
-                        {/*<FormFilter>
-                    <label>Filtra por Ano: </label>
-                    <Select id="position" 
-                        value={filter} 
-                        onChange={ 
-                            (e) => setFilter(e.target.value)
-                        }
-                    >
-                        <option value=''>{currentYear}</option>
-                        {
-                            year.map(c => (
-                                <option value={c}>{c}</option>
-                            ))
-                        }
-                    </Select>
-                    </FormFilter>*/}
                     </Search>
                     <List>
                         <DivAddEmp>
                             <DivNewEmp>
-                                <Btt02 onClick={NewMatter}>Nova Materia</Btt02>
+                                <Btt02 onClick={NewMatter}>Nova Matéria</Btt02>
                             </DivNewEmp>
                             <DivNewEmp>
-                                <Btt02 onClick={DeleteMatter}>Apagar Materia</Btt02>
+                                <Btt02 onClick={DeleteMatter}>Apagar Matéria</Btt02>
                             </DivNewEmp>
                         </DivAddEmp>
-                        {
-                            matter/*.filter((fil) => {
-                        if(!filter){
-                            return (fil)
-                        }
-                        if(fil.year === filter) {
-                            return (fil)
-                        }
-                        return null
-                    })*/.filter((val) => {
-                                if (!busca) {
-                                    return (val)
-                                } else if (val.name.includes(busca.toUpperCase())) {
-                                    return (val)
-                                }
-                                return null
-                            }).map(matter => (
-                                <Emp key={matter._id} >
+                        {matter
+                            .filter((val) => {
+                                if (!busca) return val;
+                                if (val.name.toUpperCase().includes(busca.toUpperCase())) return val;
+                                return null;
+                            })
+                            .map((matter) => (
+                                <Emp key={matter._id}>
                                     <Span>{matter.name}</Span>
                                 </Emp>
-                            ))
-                        }
+                            ))}
                     </List>
                 </>
-            }
+            )}
         </Container>
-    )
-}
+    );
+};
 
-export default Matter
+export default Matter;
