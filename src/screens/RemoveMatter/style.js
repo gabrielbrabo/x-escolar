@@ -1,71 +1,114 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    width: 100%;
-    min-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 2px 0px 7px inset black;
-
-    @media screen and (max-width: 768px) {
-        box-shadow: 0px 0px 7px inset black;
-    }
-`;
-export const User = styled.div`
-    display: flex;
-    align-items: end;
-    width: 100%;
-    height: 6vh;
-`;
-export const Search = styled.div`
-    display: flex;
-    align-items: center;
-    padding-bottom: 8px;
-    padding-top: 8px;
-    justify-content: space-around;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
 
 export const List = styled.div`
-    border: 1px solid gray;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 20px;
 `;
-export const DivNewEmp = styled.div`
-    display: flex;
-    height: 0px;
-    justify-content: flex-end;
-`;
-export const Emp = styled.div`
-    display: flex;
-    height: 30px;
-    align-items: center;
-    border-top: 1px solid gray;
-`;
-export const Span = styled.div`
-    margin-left: 8px;
-`;
-export const FormFilter = styled.div`
-    @media screen and (max-width: 768px) {
-        display: grid;
-    }
-`;
-export const FormSearch = styled.div`
-    
-`;
-export const Add = styled.div`
-    display: grid;
-    min-height: 90vh;
-    width: 90%;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    background-color: black ;
 
-    @media screen and (max-width: 768px) {
-        width: 100%;
-    }
-   
+export const Emp = styled.div`
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
 `;
+
+export const Span = styled.span`
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80%;
+  @media (max-width: 768px) {
+    font-size: 14px;
+    max-width: 70%;
+  }
+`;
+
+export const Search = styled.div`
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 20px;
+`;
+
+export const FormSearch = styled.form`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  label {
+    margin-bottom: 5px;
+  }
+`;
+
+export const AreaEmp = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const Add = styled.div`
+    display: flex;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  margin-top: 20px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.8);
+`;
+export const Button = styled.div`
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+    gap: 10px;
+`;
+
 export const AddTeacher = styled.div`
-    display: grid;
-   
+  margin-bottom: 20px;
+`;
+
+export const Btt01 = styled.button`
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #c9302c;
+  }
+  @media (max-width: 768px) {
+    padding: 8px 16px;
+  }
+`;
+export const ButtonCancel = styled.div`
+  display: flex;
+  position: absolute;
+  bottom: 60px;
+  justify-content: center;
+  align-items: flex-end;
+`;
+export const LoadingSpinnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 `;

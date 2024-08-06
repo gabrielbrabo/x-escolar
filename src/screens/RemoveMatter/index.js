@@ -7,25 +7,12 @@ import {
     List,
     Emp,
     Span,
-    Search,
-    //DivNewEmp, 
-    User,
-    //FormFilter,
-    FormSearch,
-    // Input
     Add,
-    AddTeacher
-} from './style';
-
-import {
-    AreaEmp,
-    // InputEmp,
-    //Select
-} from '../../components/Inputs'
-
-import {
+    AddTeacher,
+    Button,
     Btt01,
-} from '../../components/Buttons';
+    ButtonCancel
+} from './style';
 
 import LoadingSpinner from '../../components/Loading'
 
@@ -123,6 +110,9 @@ const RemoveMatter = () => {
         setId_matter('')
         setLoading(false);
     }
+    const Cancel = async () => {
+        navigate(-1); 
+    }
 
     return (
         <Container>
@@ -130,51 +120,11 @@ const RemoveMatter = () => {
                 <LoadingSpinner />
                 :
                 <>
-                    <User>
-
-                    </User>
-                    <Search>
-                        <FormSearch>
-                            <label>Buscar Turma</label>
-                            <AreaEmp>
-                                {/* <InputEmp
-                            type="text" 
-                            placeholder='Buscar por nome'
-                            value={busca} 
-                            onChange={
-                                (e) => setBusca(e.target.value)
-                            }
-                        />*/}
-                            </AreaEmp>
-                        </FormSearch>
-                        {/*<FormFilter>
-                    <label>Filtra por Ano: </label>
-                    <Select id="position" 
-                        value={filter} 
-                        onChange={ 
-                            (e) => setFilter(e.target.value)
-                        }
-                    >
-                        <option value=''>{currentYear}</option>
-                        {
-                            year.map(c => (
-                                <option value={c}>{c}</option>
-                            ))
-                        }
-                    </Select>
-                    </FormFilter>*/}
-                    </Search>
+                    <h1>Materias</h1>
                     <List>
 
                         {
-                            matter/*.filter((val) => {
-                        if(!busca) {
-                            return (val)
-                        } else if(val.name.includes(busca.toUpperCase())) {
-                            return (val)
-                        }
-                        return null
-                   })*/.map(matter => (
+                            matter.map(matter => (
                                 <Emp
                                     onClick={() =>
                                         Remove(matter)
@@ -194,14 +144,19 @@ const RemoveMatter = () => {
                             {
                                 <AddTeacher>
                                     <>Tem certeza que deseja remover a Materia {name_matter} do Professor {name_employee} ?</>
-                                    <Btt01 onClick={SignClick}>Remover</Btt01>
+                                    <Button>
+                                        <Btt01 onClick={SignClick}>Remover</Btt01>
+                                        <Btt01 onClick={Return}>Voltar</Btt01>
+                                    </Button>
                                 </AddTeacher>
                             }
-                            <Btt01 onClick={Return}>Voltar</Btt01>
                         </Add>
                     }
                 </>
             }
+            <ButtonCancel>
+                <Btt01 onClick={Cancel}>Cancelar</Btt01>
+            </ButtonCancel>
         </Container>
     )
 }
