@@ -5,12 +5,18 @@ import { EmpInfo } from '../../Api'
 import {
     Container,
     Emp,
+    EmployeeInfo,
+    ProfileInfo,
+    DivButtomEdit,
+    TitleInfo,
+    Pro,
     Matter,
     DivInfo,
     Span,
     DivAddEmp,
     AddEmp,
     Btt02,
+    ProfilePhoto,
     LoadingSpinnerContainer,
 } from './style';
 
@@ -134,15 +140,27 @@ const EmployeeInformation = () => {
                 <div>
                     {employee.map(emp => (
                         <Emp key={emp._id}>
-                            <Span>Nome: {emp.name}</Span>
-                            <Span>CPF: {emp.cpf}</Span>
-                            <Span>Função: {emp.position_at_school}</Span>
+                            <EmployeeInfo>
+                                <Pro>
+                                    <ProfilePhoto>
+
+                                    </ProfilePhoto>
+                                    < ProfileInfo>
+                                        <Span>Nome: {emp.name}</Span>
+                                        <Span>CPF: {emp.cpf}</Span>
+                                        <Span>Função: {emp.position_at_school}</Span>
+                                    </ProfileInfo>
+                                </Pro>
+                                <DivButtomEdit>
+                                    <Btt02>Editar</Btt02>
+                                </DivButtomEdit>
+                            </EmployeeInfo>
                         </Emp>
                     ))}
                     {position_at_school.length === 0 && (
                         <>
                             <DivInfo>
-                                <Emp>Materias:</Emp>
+                                <TitleInfo>Materias:</TitleInfo>
                                 <DivAddEmp>
                                     <AddEmp>
                                         <Btt02 onClick={add}>Nova Materia</Btt02>
@@ -164,7 +182,7 @@ const EmployeeInformation = () => {
                                 </Matter>
                             </DivInfo>
                             <DivInfo>
-                                <Emp>Turmas:</Emp>
+                                <TitleInfo>Turmas:</TitleInfo>
                                 <Matter>
                                     {Clss.length > 0 ? (
                                         Clss.map(clss => (

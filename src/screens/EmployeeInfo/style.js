@@ -7,13 +7,43 @@ export const Container = styled.div`
   padding-bottom: 20px;
   padding-left: 15%;
   padding-right: 15%;
-  align-items: center;
   @media (max-width: 768px) {
     padding: 10px;
   }
 `;
 
 export const Emp = styled.div`
+  width: 90%; 
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 20px;
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
+`;
+export const ProfilePhoto= styled.div`
+    width: 100px;
+    height: 120px;
+    background-color: red;
+`;
+export const Pro = styled.div`
+    gap: 20px;
+    display: flex;
+`;
+export const ProfileInfo = styled.div`
+    display: grid;
+`;
+export const EmployeeInfo = styled.div`
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+`;
+export const DivButtomEdit = styled.div`
+`;
+
+export const TitleInfo = styled.div`
   width: 90%;
   background-color: #f9f9f9;
   border-radius: 8px;
