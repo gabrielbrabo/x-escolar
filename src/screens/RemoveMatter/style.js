@@ -101,8 +101,7 @@ export const Btt01 = styled.button`
 `;
 export const ButtonCancel = styled.div`
   display: flex;
-  position: absolute;
-  bottom: 60px;
+  margin-top: 30px;
   justify-content: center;
   align-items: flex-end;
 `;
