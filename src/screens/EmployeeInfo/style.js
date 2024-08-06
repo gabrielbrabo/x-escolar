@@ -54,6 +54,9 @@ export const ProfileInfo = styled.div`
   overflow: hidden;
 
   @media (max-width: 760px) {
+    max-width: 190px;
+  }
+  @media (max-width: 350px) {
     max-width: 142px;
   }
 `;
