@@ -49,12 +49,15 @@ export const ProfilePhoto = styled.div`
 
 export const ProfileInfo = styled.div`
   display: flex;
-  max-width: 400px;
+  max-width: 420px;
   flex-direction: column;
   overflow: hidden;
 
+  @media (max-width: 820px) {
+    max-width: 350px;
+  }
   @media (max-width: 760px) {
-    max-width: 190px;
+    max-width: 200px;
   }
   @media (max-width: 350px) {
     max-width: 142px;
