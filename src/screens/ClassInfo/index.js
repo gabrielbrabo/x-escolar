@@ -12,21 +12,15 @@ import {
     //Search,
     DivAddEmp,
     AddEmp,
-    User,
+    ContainerDivs,
+    TitleInfo,
+    DivButtomEdit,
+    ProfileInfo,
+    Btt02
     //FormFilter,
     //FormSearch
     // Input
 } from './style';
-
-/*import {
-    AreaEmp,
-    InputEmp,
-    Select
-} from '../../components/Inputs'*/
-
-import {
-    Btt02,
-} from '../../components/Buttons';
 
 import LoadingSpinner from '../../components/Loading'
 
@@ -110,25 +104,63 @@ const Cla$$Info = () => {
             {loading ?
                 <LoadingSpinner />
                 :
-                <>
-                    <User>
-
-                    </User>
+                <ContainerDivs>
                     {
                         clss.map(clss => (
                             <Emp key={clss._id} >
-                                <Span>Serie: {clss.serie}</Span>
-                                <Span>Nivel: {clss.level}</Span>
-                                <Span>Turno: {clss.shift}</Span>
-                                <Span>Numero da Sala: {clss.classroom_number}</Span>
+                                <ProfileInfo>
+                                    <Span>Serie: {clss.serie}</Span>
+                                    <Span>Nivel: {clss.level}</Span>
+                                    <Span>Turno: {clss.shift}</Span>
+                                    <Span>Numero da Sala: {clss.classroom_number}</Span>
+                                </ProfileInfo>
+                                <DivButtomEdit>
+                                    <Btt02>Editar</Btt02>
+                                </DivButtomEdit>
                             </Emp>
                         ))
+                    }
+
+                    {
+                        stdt.length > 0
+                            ?
+                            <DivInfo>
+                                <TitleInfo>Estudantes:</TitleInfo>
+                                <DivAddEmp>
+                                    <AddEmp>
+                                        <Btt02 onClick={addStudent}>Add Aluno</Btt02>
+                                    </AddEmp>
+                                    <AddEmp>
+                                        <Btt02 onClick={RemoveStudent}>Remover</Btt02>
+                                    </AddEmp>
+                                </DivAddEmp>
+                                <Matter>
+                                    {
+                                        stdt.map(stdt => (
+                                            <Span>{stdt.name}</Span>
+                                        ))
+                                    }
+                                </Matter>
+                            </DivInfo>
+                            :
+                            <DivInfo>
+                                <TitleInfo>Estudantes:</TitleInfo>
+                                <DivAddEmp>
+                                    <AddEmp>
+                                        <Btt02 onClick={addStudent}>Add Aluno</Btt02>
+                                    </AddEmp>
+                                </DivAddEmp>
+                                <Matter>
+                                    <>Não há nenhum estudante</>
+                                </Matter>
+                            </DivInfo>
                     }
 
                     {
                         employee.length > 0
                             ?
                             <DivInfo>
+                                <TitleInfo>Professores:</TitleInfo>
                                 <DivAddEmp>
                                     <AddEmp>
                                         <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
@@ -137,7 +169,6 @@ const Cla$$Info = () => {
                                         <Btt02 onClick={RemoveTeacher}>Remover</Btt02>
                                     </AddEmp>
                                 </DivAddEmp>
-                                <Emp>Professores:</Emp>
                                 <Matter>
 
                                     {
@@ -151,52 +182,18 @@ const Cla$$Info = () => {
                             </DivInfo>
                             :
                             <DivInfo>
+                                <TitleInfo>Professores:</TitleInfo>
                                 <DivAddEmp>
                                     <AddEmp>
                                         <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
                                     </AddEmp>
                                 </DivAddEmp>
-                                <Emp>Professores:</Emp>
                                 <Matter>
                                     <>Não há nenhum Professor</>
                                 </Matter>
                             </DivInfo>
                     }
-                    {
-                        stdt.length > 0
-                            ?
-                            <DivInfo>
-                                <DivAddEmp>
-                                    <AddEmp>
-                                        <Btt02 onClick={addStudent}>Add Aluno</Btt02>
-                                    </AddEmp>
-                                    <AddEmp>
-                                        <Btt02 onClick={RemoveStudent}>Remover</Btt02>
-                                    </AddEmp>
-                                </DivAddEmp>
-                                <Emp>Estudantes:</Emp>
-                                <Matter>
-                                    {
-                                        stdt.map(stdt => (
-                                            <Span>{stdt.name}</Span>
-                                        ))
-                                    }
-                                </Matter>
-                            </DivInfo>
-                            :
-                            <DivInfo>
-                                <DivAddEmp>
-                                    <AddEmp>
-                                        <Btt02 onClick={addStudent}>Add Aluno</Btt02>
-                                    </AddEmp>
-                                </DivAddEmp>
-                                <Emp>Estudantes:</Emp>
-                                <Matter>
-                                    <>Não há nenhum estudante</>
-                                </Matter>
-                            </DivInfo>
-                    }
-                </>
+                </ContainerDivs>
             }
         </Container>
     )

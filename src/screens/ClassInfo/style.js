@@ -1,55 +1,201 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    width: 100%;
-    min-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 2px 0px 7px inset black;
-
-    @media screen and (max-width: 768px) {
-        box-shadow: 0px 0px 7px inset black;
-    }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
+
+export const ContainerDivs = styled.div`
+  width: 92%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  padding: 20px;
+  @media (max-width: 1200px) {
+    max-width: 90%;
+  }
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
+`;
+
 export const User = styled.div`
-    display: flex;
-    align-items: end;
-    width: 100%;
-    height: 6vh;
+  /* Estilos para o componente User */
+`;
+
+export const Search = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+export const FormSearch = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+export const AreaEmp = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const InputEmp = styled.input`
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
+`;
+
+export const FormFilter = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+export const Select = styled.select`
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
+`;
+
+export const List = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+export const DivNewEmp = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+`;
+
+export const DivButtomEdit = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+`;
+
+export const Btt02 = styled.button`
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #0056b3;
+  }
+  @media (max-width: 768px) {
+    padding: 8px 16px;
+  }
 `;
 
 export const Emp = styled.div`
-    display: grid;
-`;
-export const DivInfo = styled.div`
-    display: flex;
-    flex-direction: column;
     width: 100%;
-    margin-top: 25px;
-    align-items: center;
-    justify-content: center;
-`;
-export const Matter = styled.div`
-    min-height: 150px;
-    max-height: 150px;
-    border: 1px solid gray;
-    width: 90%;
-    overflow: hidden;
-    overflow-y: scroll;
-`;
-export const Span = styled.div`
-border-bottom: 1px solid gray;
-    margin-left: 15px;
-    margin-top: 8px;
-`;
-export const AddEmp = styled.div`
+    max-width: 600px;
     display: flex;
-    margin-right: 10px;
+    justify-content: space-between;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  &:hover {
+    transform: translateY(-5px);
+  }
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
 `;
+
+export const ProfileInfo = styled.div`
+    min-width: 50%;
+  max-width: 420px;
+  overflow: hidden;
+`;
+
+export const Span = styled.span`
+  display: block;
+  margin-bottom: 10px;
+  font-size: 16px;
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+`;
+
+export const DivInfo = styled.div`
+  width: 100%;
+  max-width: 600px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
+`;
+
+export const TitleInfo = styled.h2`
+  font-size: 18px;
+  margin-bottom: 15px;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
+`;
+
 export const DivAddEmp = styled.div`
-    height: 30px;
-    display: flex;
-    width: 90%;
-    margin-bottom: 7px;
-    justify-content: flex-end;
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+`;
+
+export const AddEmp = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+export const Matter = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  span {
+    font-size: 16px;
+    @media (max-width: 768px) {
+      font-size: 14px;
+    }
+  }
+`;
+
+export const LoadingSpinner = styled.div`
+  /* Estilos para o spinner de carregamento */
 `;

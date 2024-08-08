@@ -16,6 +16,8 @@ import {
     Message,
     LoadingSpinner,
     WarningBox,
+    Btt01,
+    ButtonCancel,
     ActionButtons
 } from './style';
 
@@ -84,6 +86,10 @@ const MatterAdd = () => {
         setLoading(false);
     }
 
+    const Cancel = async () => {
+        navigate(-1); 
+    }
+
     return (
         <PageContainer>
             {loading ? (
@@ -143,6 +149,9 @@ const MatterAdd = () => {
                     )}
                 </>
             )}
+            <ButtonCancel>
+                <Btt01 onClick={Cancel}>Cancelar</Btt01>
+            </ButtonCancel>
         </PageContainer>
     )
 }

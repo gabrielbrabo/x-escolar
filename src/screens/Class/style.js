@@ -1,52 +1,139 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 2px 0px 7px inset black;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
+`;
 
-    @media screen and (max-width: 768px) {
-        box-shadow: 0px 0px 7px inset black;
-    }
+export const ContainerDivs = styled.div`
+  width: 92%;
+  max-width: 600px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  padding: 20px;
+  @media (max-width: 1200px) {
+    padding: 10px;
+  }
 `;
+
 export const User = styled.div`
-    display: flex;
-    align-items: end;
-    width: 100%;
-    height: 6vh;
+  /* Estilos para o componente User */
 `;
+
 export const Search = styled.div`
-    display: flex;
-    align-items: center;
-    padding-bottom: 8px;
-    padding-top: 8px;
-    justify-content: space-around;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+export const FormSearch = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+export const AreaEmp = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const InputEmp = styled.input`
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
+`;
+
+export const FormFilter = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+export const Select = styled.select`
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
 `;
 
 export const List = styled.div`
-    border: 1px solid gray;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
+
 export const DivNewEmp = styled.div`
-    display: flex;
-    height: 0px;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 `;
+
+export const Btt02 = styled.button`
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #0056b3;
+  }
+  @media (max-width: 768px) {
+    padding: 8px 16px;
+  }
+`;
+
 export const Emp = styled.div`
-    display: flex;
-    height: 30px;
-    align-items: center;
-    border-top: 1px solid gray;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  &:hover {
+    transform: translateY(-5px);
+  }
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
 `;
-export const Span = styled.div`
-    margin-left: 8px;
+
+export const Span = styled.span`
+  display: block;
+  margin-bottom: 10px;
+  font-size: 16px;
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `;
-export const FormFilter = styled.div`
-    @media screen and (max-width: 768px) {
-        display: grid;
-    }
+
+export const LoadingSpinnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 `;
-export const FormSearch = styled.div`
-    
+
+export const LoadingSpinner = styled.div`
+  /* Estilos para o spinner de carregamento */
 `;

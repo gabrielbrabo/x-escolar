@@ -8,18 +8,22 @@ import {
     Span,
     Search,
     DivNewEmp,
-    User,
     FormFilter,
-    FormSearch
+    FormSearch,
+    AreaEmp,
+    InputEmp,
+    Select,
+    Btt02,
+    ContainerDivs
 } from './style';
-import {
+/*import {
     AreaEmp,
     InputEmp,
     Select
 } from '../../components/Inputs';
 import {
     Btt02,
-} from '../../components/Buttons';
+} from '../../components/Buttons';*/
 import LoadingSpinner from '../../components/Loading';
 
 const Cla$$ = () => {
@@ -66,8 +70,7 @@ const Cla$$ = () => {
             {loading ? (
                 <LoadingSpinner />
             ) : (
-                <>
-                    <User></User>
+                <ContainerDivs>
                     <Search>
                         <FormSearch>
                             <label>Buscar Turma</label>
@@ -111,7 +114,7 @@ const Cla$$ = () => {
                                 </Emp>
                             ))}
                     </List>
-                </>
+                </ContainerDivs>
             )}
         </Container>
     );

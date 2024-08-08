@@ -18,6 +18,7 @@ import {
     Btt02,
     ProfilePhoto,
     LoadingSpinnerContainer,
+    ContainerDivs
 } from './style';
 
 /*import {
@@ -137,7 +138,7 @@ const EmployeeInformation = () => {
                     <LoadingSpinner />
                 </LoadingSpinnerContainer>
             ) : (
-                <div>
+                <ContainerDivs>
                     {employee.map(emp => (
                         <Emp key={emp._id}>
                             <EmployeeInfo>
@@ -195,7 +196,7 @@ const EmployeeInformation = () => {
                             </DivInfo>
                         </>
                     )}
-                </div>
+                </ContainerDivs>
             )}
         </Container>
     );
