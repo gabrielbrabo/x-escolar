@@ -16,11 +16,16 @@ import {
     TitleInfo,
     DivButtomEdit,
     ProfileInfo,
-    Btt02
+    Btt02,
+    DivShowMatter,
+    ButtonCancel,
+    Btt01
     //FormFilter,
     //FormSearch
     // Input
 } from './style';
+
+import { TiArrowDownThick, TiArrowUpThick } from "react-icons/ti";
 
 import LoadingSpinner from '../../components/Loading'
 
@@ -34,6 +39,8 @@ const Cla$$Info = () => {
     //const [matter, setMatter] = useState("")
     const [stdt, setStdt] = useState([])
     const [loading, setLoading] = useState(false);
+    const [showStudent, setShowStudent] = useState(false);
+    const [showTeacher, setShowTeacher] = useState(false);
     const { id_class } = useParams();
     console.log(currentYear)
 
@@ -126,21 +133,33 @@ const Cla$$Info = () => {
                             ?
                             <DivInfo>
                                 <TitleInfo>Estudantes:</TitleInfo>
-                                <DivAddEmp>
-                                    <AddEmp>
-                                        <Btt02 onClick={addStudent}>Add Aluno</Btt02>
-                                    </AddEmp>
-                                    <AddEmp>
-                                        <Btt02 onClick={RemoveStudent}>Remover</Btt02>
-                                    </AddEmp>
-                                </DivAddEmp>
-                                <Matter>
-                                    {
-                                        stdt.map(stdt => (
-                                            <Span>{stdt.name}</Span>
-                                        ))
-                                    }
-                                </Matter>
+                                {!showStudent &&
+                                    <DivShowMatter>
+                                        <Btt02 onClick={() => { setShowStudent(true) }}>Ver Alunos <TiArrowDownThick fontSize={'17px'} /></Btt02>
+                                    </DivShowMatter>
+                                }
+                                {showStudent &&
+                                    <>
+                                        <DivAddEmp>
+                                            <AddEmp>
+                                                <Btt02 onClick={addStudent}>Add Aluno</Btt02>
+                                            </AddEmp>
+                                            <AddEmp>
+                                                <Btt02 onClick={RemoveStudent}>Remover</Btt02>
+                                            </AddEmp>
+                                        </DivAddEmp>
+                                        <Matter>
+                                            {
+                                                stdt.map(stdt => (
+                                                    <Span>{stdt.name}</Span>
+                                                ))
+                                            }
+                                        </Matter>
+                                        <DivShowMatter>
+                                            <Btt02 onClick={() => { setShowStudent(false) }}>Fecha<TiArrowUpThick fontSize={'17px'} /></Btt02>
+                                        </DivShowMatter>
+                                    </>
+                                }
                             </DivInfo>
                             :
                             <DivInfo>
@@ -161,24 +180,36 @@ const Cla$$Info = () => {
                             ?
                             <DivInfo>
                                 <TitleInfo>Professores:</TitleInfo>
-                                <DivAddEmp>
-                                    <AddEmp>
-                                        <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
-                                    </AddEmp>
-                                    <AddEmp>
-                                        <Btt02 onClick={RemoveTeacher}>Remover</Btt02>
-                                    </AddEmp>
-                                </DivAddEmp>
-                                <Matter>
+                                {!showTeacher &&
+                                    <DivShowMatter>
+                                        <Btt02 onClick={() => { setShowTeacher(true) }}>Ver Professores <TiArrowDownThick fontSize={'17px'} /></Btt02>
+                                    </DivShowMatter>
+                                }
+                                {showTeacher &&
+                                    <>
+                                        <DivAddEmp>
+                                            <AddEmp>
+                                                <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
+                                            </AddEmp>
+                                            <AddEmp>
+                                                <Btt02 onClick={RemoveTeacher}>Remover</Btt02>
+                                            </AddEmp>
+                                        </DivAddEmp>
+                                        <Matter>
 
-                                    {
-                                        employee.map(employee => (
-                                            <div key={employee._id}>
-                                                <Span>{employee.name_matter}: {employee.name_teacher}</Span>
-                                            </div>
-                                        ))
-                                    }
-                                </Matter>
+                                            {
+                                                employee.map(employee => (
+                                                    <div key={employee._id}>
+                                                        <Span>{employee.name_matter}: {employee.name_teacher}</Span>
+                                                    </div>
+                                                ))
+                                            }
+                                        </Matter>
+                                        <DivShowMatter>
+                                            <Btt02 onClick={() => { setShowTeacher(false) }}>Fecha<TiArrowUpThick fontSize={'17px'} /></Btt02>
+                                        </DivShowMatter>
+                                    </>
+                                }
                             </DivInfo>
                             :
                             <DivInfo>
@@ -193,6 +224,9 @@ const Cla$$Info = () => {
                                 </Matter>
                             </DivInfo>
                     }
+                    <ButtonCancel>
+                        <Btt01 >Remover Funcionario</Btt01>
+                    </ButtonCancel>
                 </ContainerDivs>
             }
         </Container>

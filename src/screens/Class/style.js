@@ -83,7 +83,7 @@ export const List = styled.div`
 
 export const DivNewEmp = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   margin-bottom: 20px;
 `;
 

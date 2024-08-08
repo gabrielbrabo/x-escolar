@@ -90,7 +90,7 @@ const Cla$$ = () => {
                                 value={filter}
                                 onChange={(e) => setFilter(e.target.value)}
                             >
-                                <option value="">{currentYear}</option>
+                                <option value="">Todos{/*currentYear*/}</option>
                                 {year.map((c, index) => (
                                     <option key={index} value={c}>
                                         {c}
