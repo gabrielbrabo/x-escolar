@@ -225,7 +225,7 @@ const Cla$$Info = () => {
                             </DivInfo>
                     }
                     <ButtonCancel>
-                        <Btt01 >Remover Funcionario</Btt01>
+                        <Btt01 >Remover Turma</Btt01>
                     </ButtonCancel>
                 </ContainerDivs>
             }
