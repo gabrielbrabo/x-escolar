@@ -91,6 +91,7 @@ export const DivButtomEdit = styled.div`
 export const DivInfo = styled.div`
   width: 92%;
   max-width: 600px;
+  min-height: 120px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -141,13 +142,14 @@ export const Matter = styled.div`
 
 export const DivAddEmp = styled.div`
   display: flex;
+  width: 100%;
+  justify-content: flex-end;
   gap: 10px;
   margin-top: 20px;
   margin-bottom: 20px;
 `;
 
 export const AddEmp = styled.div`
-  flex: 1;
   display: flex;
   justify-content: center;
 `;
@@ -174,6 +176,32 @@ export const Btt02 = styled.button`
   @media (max-width: 768px) {
     padding: 8px 16px;
   }
+`;
+export const Btt01 = styled.button`
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #c9302c;
+  }
+  @media (max-width: 768px) {
+    padding: 8px 16px;
+  }
+`;
+export const ButtonCancel = styled.div`
+  display: flex;
+  margin-top: 90px;
+  justify-content: center;
+  align-items: flex-end;
+`;
+
+export const DivShowMatter = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 export const LoadingSpinnerContainer = styled.div`

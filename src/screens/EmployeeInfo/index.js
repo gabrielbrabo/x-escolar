@@ -18,8 +18,13 @@ import {
     Btt02,
     ProfilePhoto,
     LoadingSpinnerContainer,
-    ContainerDivs
+    ContainerDivs,
+    DivShowMatter,
+    ButtonCancel,
+    Btt01
 } from './style';
+
+import { TiArrowDownThick, TiArrowUpThick  } from "react-icons/ti";
 
 /*import {
     AreaEmp,
@@ -44,6 +49,8 @@ const EmployeeInformation = () => {
     //const [filter, setFilter] = useState()
     const [position_at_school, setPosition_at_school] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [showMatter, setShowMatter] = useState(false);
+    const [showClass, setShowClass] = useState(false);
     const { id_employee } = useParams()
     //console.log('posi', position_at_school)
 
@@ -162,40 +169,67 @@ const EmployeeInformation = () => {
                         <>
                             <DivInfo>
                                 <TitleInfo>Materias:</TitleInfo>
-                                <DivAddEmp>
-                                    <AddEmp>
-                                        <Btt02 onClick={add}>Nova Materia</Btt02>
-                                    </AddEmp>
-                                    {matter.length > 0 && (
-                                        <AddEmp>
-                                            <Btt02 onClick={Remove}>Remover</Btt02>
-                                        </AddEmp>
-                                    )}
-                                </DivAddEmp>
-                                <Matter>
-                                    {matter.length > 0 ? (
-                                        matter.map(matter => (
-                                            <Span key={matter._id}>{matter.name},</Span>
-                                        ))
-                                    ) : (
-                                        <Span>Sem Materias cadastradas</Span>
-                                    )}
-                                </Matter>
+                                {!showMatter &&
+                                    <DivShowMatter>
+                                        <Btt02 onClick={() => { setShowMatter(true) }}>Ver Materias <TiArrowDownThick fontSize={'17px'} /></Btt02>
+                                    </DivShowMatter>
+                                }
+                                {showMatter &&
+                                    <>
+                                        <DivAddEmp>
+                                            <AddEmp>
+                                                <Btt02 onClick={add}>Nova Materia</Btt02>
+                                            </AddEmp>
+                                            {matter.length > 0 && (
+                                                <AddEmp>
+                                                    <Btt02 onClick={Remove}>Remover</Btt02>
+                                                </AddEmp>
+                                            )}
+                                        </DivAddEmp>
+                                        <Matter>
+                                            {matter.length > 0 ? (
+                                                matter.map(matter => (
+                                                    <Span key={matter._id}>{matter.name},</Span>
+                                                ))
+                                            ) : (
+                                                <Span>Sem Materias cadastradas</Span>
+                                            )}
+                                        </Matter>
+                                        <DivShowMatter>
+                                            <Btt02 onClick={() => { setShowMatter(false) }}>Fecha Materias <TiArrowUpThick fontSize={'17px'}  /></Btt02>
+                                        </DivShowMatter>
+                                    </>
+                                }
                             </DivInfo>
                             <DivInfo>
                                 <TitleInfo>Turmas:</TitleInfo>
-                                <Matter>
-                                    {Clss.length > 0 ? (
-                                        Clss.map(clss => (
-                                            <Span key={clss.id_class._id}>{clss.id_class.serie}: {clss.name_matter}</Span>
-                                        ))
-                                    ) : (
-                                        <Span>Este Professor não esta cadastrado em nenhuma turma vá ate turmas selecione a turma e adicione este professor a uma turma</Span>
-                                    )}
-                                </Matter>
+                                {!showClass &&
+                                    <DivShowMatter>
+                                        <Btt02 onClick={() => { setShowClass(true) }}>Ver Turmas <TiArrowDownThick fontSize={'17px'}  /></Btt02>
+                                    </DivShowMatter>
+                                }
+                                {showClass &&
+                                    <>
+                                        <Matter>
+                                            {Clss.length > 0 ? (
+                                                Clss.map(clss => (
+                                                    <Span key={clss.id_class._id}>{clss.id_class.serie}: {clss.name_matter}</Span>
+                                                ))
+                                            ) : (
+                                                <Span>Este Professor não esta cadastrado em nenhuma turma vá ate turmas selecione a turma e adicione este professor a uma turma</Span>
+                                            )}
+                                        </Matter>
+                                        <DivShowMatter>
+                                            <Btt02 onClick={() => { setShowClass(false) }}> Fecha Turmas <TiArrowUpThick fontSize={'17px'} /></Btt02>
+                                        </DivShowMatter>
+                                    </>
+                                }
                             </DivInfo>
                         </>
                     )}
+                    <ButtonCancel>
+                        <Btt01 >Remover Funcionario</Btt01>
+                    </ButtonCancel>
                 </ContainerDivs>
             )}
         </Container>
