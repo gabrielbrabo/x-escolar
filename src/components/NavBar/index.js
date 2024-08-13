@@ -7,6 +7,7 @@ import {
   ProfileInfo,
   ProfilePhoto,
   Pro,
+  Name,
   Span,
   DivButtomEdit,
   Btt02,
@@ -40,7 +41,7 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
           <Pro>
             <ProfilePhoto />
             <ProfileInfo>
-              <Span>{name}</Span>
+              <Name>{name}</Name>
               <Span>{positionAtSchool}</Span>
             </ProfileInfo>
           </Pro>

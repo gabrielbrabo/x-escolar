@@ -115,10 +115,18 @@ export const ProfileInfo = styled.div`
   }
 `;
 
+export const Name = styled.span`
+  display: block;
+  margin-bottom: 5px;
+  font-size: 17px;
+  color: #333;
+
+  
+`;
 export const Span = styled.span`
   display: block;
   margin-bottom: 5px;
-  font-size: 16px;
+  font-size: 10px;
   color: #333;
 
   @media (max-width: 768px) {
