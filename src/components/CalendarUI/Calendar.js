@@ -8,14 +8,15 @@ import Badge from '@mui/material/Badge';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { PickersDay } from '@mui/x-date-pickers/PickersDay';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+//import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
 
 import { GetMatter, GetAttendance } from '../../Api'
 
 import { IoCheckmarkSharp, IoCloseSharp } from "react-icons/io5";
 
-import { styled } from '@mui/material/styles';
+//import { styled } from '@mui/material/styles';
+import { StyledContainer, StyledDateCalendar, ExitButton, SelectContainer, Label, Select } from './Styles';
 
 //import { containerCalendar } from './Styles';
 const diasDaSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
@@ -27,7 +28,7 @@ const monthsPtBr = [
 dayjs.locale('pt-br');
 dayjs.extend(localizedFormat);
 
-const StyledDateCalendar = styled(DateCalendar)`
+/*const StyledDateCalendar = styled(DateCalendar)`
 
   & .MuiPickersDay-root {
     color: white; // Cor dos dias no calendário
@@ -47,7 +48,7 @@ const StyledDateCalendar = styled(DateCalendar)`
   & .MuiPickersSlideTransition-root {
     background-color: #3D3925;;
   }
-`;
+`;*/
 
 function fakeFetch( /*date,*/ signal) {
     return new Promise((resolve, reject) => {
@@ -173,12 +174,11 @@ export default function DateCalendarServerRequest() {
     };
 
     return (
-        <div>
-            <div>
-                Para ver a frequecia selecione uma materia abaixo
+        <StyledContainer>
+            <SelectContainer>
+               <Label> Para ver a frequecia selecione uma materia abaixo </Label>
                 <div>
-                    <label>  </label>
-                    <select id="position"
+                    <Select id="position"
                         value={id_matter}
                         onChange={
                             (e) => setFilter(e.target.value)
@@ -190,9 +190,9 @@ export default function DateCalendarServerRequest() {
                                 <option value={c._id}>{c.name}</option>
                             ))
                         }
-                    </select>
+                    </Select>
                 </div>
-            </div>
+            </SelectContainer>
 
             {
                 id_matter.length > 0
@@ -218,12 +218,12 @@ export default function DateCalendarServerRequest() {
                         months={monthsPtBr}
                     >
                     </StyledDateCalendar>
-                    <div className='exit-frequec' onClick={setDate} >
+                    <ExitButton className='exit-frequec' onClick={setDate} >
                         fecha frequecia ^
-                    </div>
+                    </ExitButton>
 
                 </LocalizationProvider>
             }
-        </div>
+        </StyledContainer>
     );
 }

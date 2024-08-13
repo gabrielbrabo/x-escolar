@@ -8,22 +8,28 @@ import {
     //List,
     Emp,
     Span,
-    //Search,
-    //DivNewEmp, 
-    User,
+    ContainerDivs,
+    Pro,
+    ProfilePhoto,
+    ProfileInfo,
+    EmployeeInfo,
+    DivButtomEdit,
+    Btt02,
+    Btt01,
+    ButtonCancel
     //FormFilter,
     //FormSearch
     // Input
 } from './style';
 
 /*import {
-    AreaEmp,
-    InputEmp,
-    Select
+AreaEmp,
+InputEmp,
+Select
 } from '../../components/Inputs'
 
 import {
-    Btt02, 
+Btt02, 
 }from '../../components/Buttons';*/
 import LoadingSpinner from '../../components/Loading'
 
@@ -77,31 +83,44 @@ const Student = () => {
                 <LoadingSpinner />
                 :
                 <>
-                    <User>
+                    <ContainerDivs>
+                        {
+                            student.map(student => (
+                                <Emp key={student._id} >
+                                    <EmployeeInfo>
+                                        <Pro>
+                                            <ProfilePhoto>
 
-                    </User>
-                    {
-                        student.map(student => (
-                            <Emp key={student._id} >
-                                <Span>Nome: {student.name}</Span>
-                                <Span>RG: {student.rg}</Span>
-                                <Span>RS: {student.registerStudent}</Span>
-                            </Emp>
-                        ))
-                    }
+                                            </ProfilePhoto>
+                                            < ProfileInfo>
+                                                <Span>Nome: {student.name}</Span>
+                                                <Span>RG: {student.rg}</Span>
+                                                <Span>RS: {student.registerStudent}</Span>
+                                            </ProfileInfo>
+                                        </Pro>
+                                        <DivButtomEdit>
+                                            <Btt02>Editar</Btt02>
+                                        </DivButtomEdit>
+                                    </EmployeeInfo>
+                                </Emp>
+                            ))
+                        }
 
-                    <Calendar />
-
-                    {
-                        Clss.map(clss => (
-                            <Emp key={clss._id} >
-                                <Span>Turma: {clss.serie}</Span>
-                                <Span>Nivel: {clss.level}</Span>
-                                <Span>Turno: {clss.shift}</Span>
-                                <Span>Ano: {clss.year}</Span>
-                            </Emp>
-                        ))
-                    }
+                        {
+                            Clss.map(clss => (
+                                <Emp key={clss._id} >
+                                    <Span>Turma: {clss.serie}</Span>
+                                    <Span>Nivel: {clss.level}</Span>
+                                    <Span>Turno: {clss.shift}</Span>
+                                    <Span>Ano: {clss.year}</Span>
+                                </Emp>
+                            ))
+                        }
+                        <Calendar />
+                    </ContainerDivs>
+                    <ButtonCancel>
+                        <Btt01 >Remover Funcionario</Btt01>
+                    </ButtonCancel>
                 </>
             }
         </Container>
