@@ -1,52 +1,123 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const Container = styled.div`
-    width: 100%;
     display: flex;
     flex-direction: column;
-    box-shadow: 2px 0px 7px inset black;
-
-    @media screen and (max-width: 768px) {
-        box-shadow: 0px 0px 7px inset black;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    @media (max-width: 768px) {
+        padding: 10px;
     }
 `;
-export const User = styled.div`
-    display: flex;
-    align-items: end;
-    width: 100%;
-    height: 6vh;
+
+export const ContainerDivs = styled.div`
+  width: 92%;
+  max-width: 600px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  padding: 20px;
+  @media (max-width: 1200px) {
+    padding: 10px;
+  }
 `;
+
 export const Search = styled.div`
+   display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+export const FormSearch = styled.div`
     display: flex;
+    flex-direction: column;
+`;
+
+export const AreaEmp = styled.div`
+display: flex;
+align-items: center;
+flex-direction: column;
+width: 100%;
+    margin-top: 5px;
+`;
+
+export const InputEmp = styled.input`
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 92%;
+`;
+
+export const FormFilter = styled.div`
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    padding-bottom: 8px;
-    padding-top: 8px;
-    justify-content: space-around;
-    width: 100%;
+
+    @media (max-width: 768px) {
+    }
+`;
+
+export const Select = styled.select`
+    padding: 10px;
+    border-radius: 5px;
+    width: 92%;
+    border: 1px solid #ccc;
 `;
 
 export const List = styled.div`
-    border: 1px solid gray;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
+
 export const DivNewEmp = styled.div`
-    display: flex;
-    height: 0px;
-    justify-content: flex-end;
+    align-self: flex-end;
+    margin-bottom: 10px;
 `;
-export const Emp = styled.div`
-    display: flex;
-    height: 30px;
-    align-items: center;
-    border-top: 1px solid gray;
-`;
-export const Span = styled.div`
-    margin-left: 8px;
-`;
-export const FormFilter = styled.div`
-    @media screen and (max-width: 768px) {
-        display: grid;
+
+export const Btt02 = styled.button`
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+        background-color: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+        width: 100%;
     }
 `;
-export const FormSearch = styled.div`
-    
+
+export const Emp = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+        background-color: #f5f5f5;
+    }
+`;
+
+export const Span = styled.span`
+    flex: 1;
+    text-align: left;
+    font-size: 16px;
 `;

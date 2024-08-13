@@ -10,13 +10,17 @@ import {
     Span,
     Search,
     DivNewEmp,
-    User,
     FormFilter,
-    FormSearch
+    FormSearch,
+    AreaEmp,
+    InputEmp,
+    Btt02,
+    Select,
+    ContainerDivs
     // Input
 } from './style';
 
-import {
+/*import {
     AreaEmp,
     InputEmp,
     Select
@@ -24,7 +28,7 @@ import {
 
 import {
     Btt02,
-} from '../../components/Buttons';
+} from '../../components/Buttons';*/
 
 import LoadingSpinner from '../../components/Loading'
 
@@ -101,10 +105,7 @@ const Student = () => {
             {loading ?
                 <LoadingSpinner />
                 :
-                <>
-                    <User>
-
-                    </User>
+                <ContainerDivs>
                     <Search>
                         <FormSearch>
                             <label>Buscar Aluno</label>
@@ -177,7 +178,7 @@ const Student = () => {
                             ))
                         }
                     </List>
-                </>
+                </ContainerDivs>
             }
         </Container>
     )
