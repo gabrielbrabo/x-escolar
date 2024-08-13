@@ -8,20 +8,25 @@ import { useNavigate } from 'react-router-dom'
 import {
   Container,
   InputArea,
-  ToGoBack
+  Btt01,
+  SignMessageButtonText,
+  SignMessageButtonTextBold,
+  Input,
+  ToGoBack,
+  ContainerDivs
 } from './style';
 
-import {
-  /*Area,*/
+/*import {
+  /*Area,
   Input,
-  /*Select*/
+  /*Select
 } from '../../components/Inputs';
 
 import {
   Btt01,
   SignMessageButtonText,
   SignMessageButtonTextBold
-} from '../../components/Buttons';
+} from '../../components/Buttons';*/
 
 import LoadingSpinner from '../../components/Loading'
 
@@ -82,6 +87,8 @@ const NewStudent = () => {
         <LoadingSpinner />
         :
         <>
+        <h1>Cadastro de Aluno</h1>
+        <ContainerDivs>
           <InputArea>
             <>Nome</>
             <Input
@@ -121,6 +128,7 @@ const NewStudent = () => {
               <SignMessageButtonTextBold>Lista de Alunos</SignMessageButtonTextBold>
             </ToGoBack>
           </InputArea>
+        </ContainerDivs>
         </>
       }
     </Container>
