@@ -12,18 +12,21 @@ import {
     Search,
     //DivNewEmp,
     //DivAddEmp,
-    User,
     //AddEmp,
     FormFilter,
-    FormSearch
+    FormSearch,
+    AreaEmp,
+    InputEmp,
+    Select,
+    ContainerDivs
     // Input
 } from './style';
 
-import {
+/*import {
     AreaEmp,
     InputEmp,
     Select
-} from '../../components/Inputs'
+} from '../../components/Inputs'*/
 
 /*import {
     Btt02,
@@ -135,10 +138,7 @@ const MyCla$$ = () => {
             {loading ?
                 <LoadingSpinner />
                 :
-                <>
-                    <User>
-
-                    </User>
+                <ContainerDivs>
                     <Search>
                         <FormSearch>
                             <label>Buscar Turma</label>
@@ -169,10 +169,6 @@ const MyCla$$ = () => {
                         </FormFilter>
                     </Search>
                     <List>
-                        {/*<DivNewEmp>
-                    <Btt02 onClick={NewClass}>Nova Turma</Btt02>
-                </DivNewEmp>*/}
-
                         {
                             Clss.filter((fil) => {
                                 if (!filter) {
@@ -214,7 +210,7 @@ const MyCla$$ = () => {
                             ))
                         }
                     </List>
-                </>
+                </ContainerDivs>
             }
         </Container>
     )
