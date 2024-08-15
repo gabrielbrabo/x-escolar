@@ -1,55 +1,118 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const Container = styled.div`
     width: 100%;
     min-height: 90vh;
     display: flex;
     flex-direction: column;
-    box-shadow: 2px 0px 7px inset black;
-
-    @media screen and (max-width: 768px) {
-        box-shadow: 0px 0px 7px inset black;
-    }
-`;
-export const User = styled.div`
-    display: flex;
     align-items: center;
-    justify-content: space-around;
-    width: 100%;
-    height: 10vh;
 `;
 
-export const Emp = styled.div`
-    display: grid;
-`;
-export const DivInfo = styled.div`
+export const ContainerDivs = styled.div`
+    width: 100%;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    padding: 20px;
     align-items: center;
+    gap: 20px;
+
+    @media (max-width: 768px) {
+        width: 92%;
+    }
+`;
+
+export const ClassDetails = styled.div`
+    background-color: #fff;
+    width: 600px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    @media (max-width: 768px) {
+        width: 92%;
+    }
+`
+
+export const ClassInfo = styled.span`
+    font-size: 18px;
+    color: #333;
+`
+
+export const ButtonContainer = styled.div`
+    display: flex;
     justify-content: center;
-`;
-export const Matter = styled.div`
-    min-height: 150px;
-    max-height: 150px;
-    border: 1px solid gray;
-    width: 90%;
-    overflow: hidden;
-    overflow-y: scroll;
-`;
-export const Span = styled.div`
-border-bottom: 1px solid gray;
-    margin-left: 15px;
-    margin-top: 8px;
-`;
-export const AddEmp = styled.div`
-    display: flex;
-    margin-right: 10px;
-`;
-export const DivAddEmp = styled.div`
-    height: 30px;
-    display: flex;
-    width: 90%;
-    margin-bottom: 7px;
-    justify-content: flex-end;
-`;
+    margin: 20px 0;
+
+    button {
+        background-color: #28a745;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+
+        &:hover {
+            background-color: #218838;
+        }
+    }
+`
+
+export const MatterSection = styled.div`
+    background-color: #fff;
+    width: 600px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    h2 {
+        margin-bottom: 15px;
+        font-size: 20px;
+        color: #555;
+    }
+
+    @media (max-width: 768px) {
+        width: 92%;
+    }
+`
+
+export const MatterItem = styled.div`
+    font-size: 16px;
+    color: #333;
+    padding: 8px 0;
+`
+
+export const StudentSection = styled.div`
+    background-color: #fff;
+    width: 600px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    h2 {
+        margin-bottom: 15px;
+        font-size: 20px;
+        color: #555;
+    }
+
+    @media (max-width: 768px) {
+        width: 92%;
+    }
+`
+
+export const StudentItem = styled.div`
+    font-size: 16px;
+    color: #333;
+    padding: 8px 0;
+`
+
+export const InfoText = styled.div`
+    font-size: 16px;
+    color: #888;
+    padding: 8px 0;
+    text-align: center;
+`

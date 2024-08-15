@@ -4,18 +4,15 @@ import { GetInfoMyClass, clssInfo } from '../../Api'
 
 import {
     Container,
-    //List,
-    Emp,
-    Matter,
-    DivInfo,
-    Span,
-    //Search,
-    DivAddEmp,
-    //AddEmp,
-    User,
-    //FormFilter,
-    //FormSearch
-    // Input
+    ClassDetails,
+    ClassInfo,
+    ButtonContainer,
+    MatterSection,
+    MatterItem,
+    StudentSection,
+    StudentItem,
+    InfoText,
+    ContainerDivs
 } from './style';
 
 /*import {
@@ -24,9 +21,9 @@ import {
     Select
 } from '../../components/Inputs'*/
 
-import {
+/*import {
     Btt02,
-} from '../../components/Buttons';
+} from '../../components/Buttons';*/
 import LoadingSpinner from '../../components/Loading'
 
 const MyCla$$Info = () => {
@@ -82,62 +79,49 @@ const MyCla$$Info = () => {
             {loading ?
                 <LoadingSpinner />
                 :
-                <>
+                <ContainerDivs>
                     {
                         clss.map(clss => (
-                            <Emp key={clss._id} >
-                                <Span>Serie: {clss.serie}</Span>
-                                <Span>Nivel: {clss.level}</Span>
-                                <Span>Turno: {clss.shift}</Span>
-                                <Span>Numero da Sala: {clss.classroom_number}</Span>
-                            </Emp>
+                            <ClassDetails key={clss._id} >
+                                <ClassInfo>Serie: {clss.serie}</ClassInfo>
+                                <ClassInfo>Nivel: {clss.level}</ClassInfo>
+                                <ClassInfo>Turno: {clss.shift}</ClassInfo>
+                                <ClassInfo>Numero da Sala: {clss.classroom_number}</ClassInfo>
+                            </ClassDetails>
                         ))
                     }
-                    <User>
-                        <Btt02 onClick={() => { navigate('/attendance') }}>Chamada</Btt02>
-                    </User>
-
+                    <ButtonContainer>
+                        <button onClick={() => { navigate('/attendance') }}>Chamada</button>
+                    </ButtonContainer>
+                    <StudentSection>
+                        <h2>Estudantes</h2>
+                        {stdt.length > 0 ? (
+                            stdt.map(stdt => (
+                                <StudentItem>{stdt.name}</StudentItem>
+                            ))
+                        )
+                        :
+                            (
+                                <InfoText>Não há nenhum estudante</InfoText>
+                            )
+                        }
+                    </StudentSection>
                     {
                         //employee.length > 0                
                         //?
-                        <DivInfo>
-                            <DivAddEmp>
-                            </DivAddEmp>
-                            <Emp>Materias em que da aula nessa Turma:</Emp>
-                            <Matter>
+                        <MatterSection>
+                            <h2>Materias</h2>
 
-                                {
-                                    NameMatter.map(employee => (
-                                        <div key={employee._id}>
-                                            <Span>{employee.name_matter}</Span>
-                                        </div>
-                                    ))
-                                }
-                            </Matter>
-                        </DivInfo>
+                            {
+                                NameMatter.map(employee => (
+                                    <div key={employee._id}>
+                                        <MatterItem>{employee.name_matter}</MatterItem>
+                                    </div>
+                                ))
+                            }
+                        </MatterSection>
                     }
-                    {
-                        stdt.length > 0
-                            ?
-                            <DivInfo>
-                                <Emp>Estudantes:</Emp>
-                                <Matter>
-                                    {
-                                        stdt.map(stdt => (
-                                            <Span>{stdt.name}</Span>
-                                        ))
-                                    }
-                                </Matter>
-                            </DivInfo>
-                            :
-                            <DivInfo>
-                                <Emp>Estudantes:</Emp>
-                                <Matter>
-                                    <>Não há nenhum estudantes</>
-                                </Matter>
-                            </DivInfo>
-                    }
-                </>
+                </ContainerDivs>
             }
         </Container>
     )
