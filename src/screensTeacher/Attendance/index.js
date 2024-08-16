@@ -10,10 +10,15 @@ import {
     Matter,
     DivInfo,
     Span,
+    ContainerDivs,
+    Btt02,
+    DivInfoDate,
+    ContainerStudent,
+    DivButton,
+    EditContainer,
+    SpanChecked,
     //Search,
     //DivNewEmp,
-    DivAddEmp,
-    User,
     //AddEmp,
     //FormFilter,
     //FormSearch
@@ -26,9 +31,9 @@ import {
     // Select
 } from '../../components/Inputs'
 
-import {
+/*import {
     Btt02,
-} from '../../components/Buttons';
+} from '../../components/Buttons';*/
 import LoadingSpinner from '../../components/Loading'
 
 const IndexAttendance = () => {
@@ -207,17 +212,12 @@ const IndexAttendance = () => {
             {loading ?
                 <LoadingSpinner />
                 :
-                <>
-                    <User>
-
-                    </User>
+                <ContainerDivs>
                     {
                         id_matter.length <= 0
                         &&
                         <DivInfo>
-                            <DivAddEmp>
-                            </DivAddEmp>
-                            <Emp>Materias em que da aula nessa Turma:</Emp>
+                            <h3>Selecione uma Materia</h3>
                             <Matter>
 
                                 {
@@ -233,51 +233,33 @@ const IndexAttendance = () => {
                     {
                         !selectedDate && id_matter.length > 0
                         &&
-                        <DivInfo>
+                        <DivInfoDate>
+                            <h3>Selecione uma Data</h3>
                             <SelectorDate
                                 setDay={setDay}
                                 setMonth={setMonth}
                                 setYear={setYear}
                                 setSelectedDate={setSelectedDate}
                             />
-                        </DivInfo>
+                        </DivInfoDate>
                     }
                     {
                         selectedDate && !editingStudent
                         &&
-                        <div>
-                            <Btt02 onClick={clickRemovematter}>
-                                Selecionar outra materia
-                            </Btt02>
-                            <Btt02 onClick={clickRemovedate}>
-                                Selecionar outra data
-                            </Btt02>
-                            {/*<Search>
-                            <FormSearch>
-                                <label>Buscar Turma</label>
-                                <AreaEmp>
-                                    <InputEmp
-                                        type="text"
-                                        placeholder='Buscar por nome'
-                                        value={busca}
-                                        onChange={
-                                            (e) => setBusca(e.target.value)
-                                        }
-                                    />
-                                </AreaEmp>
-                            </FormSearch>
-                        </Search>*/}
+                        <ContainerStudent>
+                            <h2>Chamada</h2>
+                            <DivButton>
+                                <Btt02 onClick={clickRemovematter}>
+                                    Selecionar outra materia
+                                </Btt02>
+                                <Btt02 onClick={clickRemovedate}>
+                                    Selecionar outra data
+                                </Btt02>
+                            </DivButton>
                             <List>
 
                                 {
-                                    stdt/*.filter((val) => {
-                                    if (!busca) {
-                                        return (val)
-                                    } else if (val.name.includes(busca.toUpperCase())) {
-                                        return (val)
-                                    }
-                                    return null
-                                })*/.map(stdt => (
+                                    stdt.map(stdt => (
                                         <Emp
                                             /*onClick={() =>
                                                 classInformation(stdt)
@@ -285,36 +267,25 @@ const IndexAttendance = () => {
                                             key={stdt._id}
                                         >
                                             <Span>{stdt.name}</Span>
-                                            <Btt02 onClick={() => handlePresenceClick(stdt)}>Presença</Btt02>
-                                            <Btt02 onClick={() => handleAbsenceClick(stdt)}>Falta</Btt02>
+                                            <Btt02 onClick={() => handlePresenceClick(stdt)} style={{backgroundColor: 'green'}}>Presença</Btt02>
+                                            <Btt02 onClick={() => handleAbsenceClick(stdt)} style={{backgroundColor: 'red'}}>Falta</Btt02>
                                         </Emp>
                                     ))
                                 }
                             </List>
                             <List>
-
                                 {
-                                    checked/*.filter((val) => {
-                                    if (!busca) {
-                                        return (val)
-                                    } else if (val.name.includes(busca.toUpperCase())) {
-                                        return (val)
-                                    }
-                                    return null
-                                })*/.map(checkedStdt => (
+                                    checked.map(checkedStdt => (
                                         <Emp
-                                            /*onClick={() =>
-                                                classInformation(stdt)
-                                            }*/
                                             key={checkedStdt._id}
                                         >
-                                            <Span>{checkedStdt.id_student.name}
+                                            <SpanChecked>{checkedStdt.id_student.name}
                                                 <Btt02 style={{
                                                     backgroundColor: checkedStdt.status === 'P' ? 'green' : 'red'
                                                 }}>
                                                     {checkedStdt.status}
                                                 </Btt02>
-                                            </Span>
+                                            </SpanChecked>
                                             <Btt02 onClick={() => startEditing(checkedStdt)} style={{
                                                 backgroundColor: 'blue'
                                             }}
@@ -328,10 +299,10 @@ const IndexAttendance = () => {
                             <Btt02 onClick={Finalyze}>
                                 Finalizar Chamada
                             </Btt02>
-                        </div>
+                        </ContainerStudent>
                     }
                     {editingStudent && (
-                        <div>
+                        <EditContainer>
                             <h3>Editando: {namestudent.id_student.name}</h3>
                             {console.log("editingStudent", namestudent.id_student.name)}
                             <select
@@ -343,8 +314,10 @@ const IndexAttendance = () => {
                             </select>
                             <Btt02 onClick={saveEdit}>Salvar</Btt02>
                             <Btt02 onClick={() => setEditingStudent(null)}>Cancelar</Btt02>
-                        </div>
-                    )}</>}
+                        </EditContainer>
+                    )}
+                </ContainerDivs>
+            }
         </Container>
     )
 }
