@@ -17,6 +17,7 @@ import {
     DivButton,
     EditContainer,
     SpanChecked,
+    DataSelected,
     //Search,
     //DivNewEmp,
     //AddEmp,
@@ -40,6 +41,7 @@ const IndexAttendance = () => {
 
     //const navigate = useNavigate()
     const [matter, setMatter] = useState([])
+    const [Namematter, setNameMatter] = useState([])
     const [id_matter, setclickMatter] = useState([])
     const [id_class, setId_class] = useState([])
     const [id_teacher, setId_teacher] = useState([])
@@ -144,12 +146,13 @@ const IndexAttendance = () => {
         setYear('')
         setLoading(false)
     }
-    const click_idMatter = (employee) => {
+    const click_idMatter = (matter) => {
         setLoading(true)
         sessionStorage.removeItem("attendance_ idmatter")
-        sessionStorage.setItem("attendance_ idmatter", employee.id_matter)
+        sessionStorage.setItem("attendance_ idmatter", matter.id_matter)
         setclickMatter([])
-        setclickMatter(employee.id_matter)
+        setclickMatter(matter.id_matter)
+        setNameMatter(matter.name_matter)
         setLoading(false)
     }
     const Finalyze = () => {
@@ -221,9 +224,9 @@ const IndexAttendance = () => {
                             <Matter>
 
                                 {
-                                    matter.map(employee => (
-                                        <div onClick={() => click_idMatter(employee)} key={employee._id}>
-                                            <Span>{employee.name_matter}</Span>
+                                    matter.map(matter => (
+                                        <div onClick={() => click_idMatter(matter)} key={matter._id}>
+                                            <Span>{matter.name_matter}</Span>
                                         </div>
                                     ))
                                 }
@@ -248,6 +251,10 @@ const IndexAttendance = () => {
                         &&
                         <ContainerStudent>
                             <h2>Chamada</h2>
+                            <DataSelected>
+                                <p>Materia: {Namematter}</p>
+                                <p>Data: {day}/{month}/{year}</p>
+                            </DataSelected>
                             <DivButton>
                                 <Btt02 onClick={clickRemovematter}>
                                     Selecionar outra materia
@@ -267,8 +274,8 @@ const IndexAttendance = () => {
                                             key={stdt._id}
                                         >
                                             <Span>{stdt.name}</Span>
-                                            <Btt02 onClick={() => handlePresenceClick(stdt)} style={{backgroundColor: 'green'}}>Presença</Btt02>
-                                            <Btt02 onClick={() => handleAbsenceClick(stdt)} style={{backgroundColor: 'red'}}>Falta</Btt02>
+                                            <Btt02 onClick={() => handlePresenceClick(stdt)} style={{ backgroundColor: 'green' }}>Presença</Btt02>
+                                            <Btt02 onClick={() => handleAbsenceClick(stdt)} style={{ backgroundColor: 'red' }}>Falta</Btt02>
                                         </Emp>
                                     ))
                                 }

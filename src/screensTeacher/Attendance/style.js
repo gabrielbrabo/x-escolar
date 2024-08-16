@@ -26,6 +26,9 @@ export const ContainerStudent = styled.div`
     border-radius: 5px;
     background-color: #f9f9f9;
 `;
+export const DataSelected = styled.div`
+   width: 100%;
+`;
 export const DivButton = styled.div`
     width: 100%;
     padding-top: 30px;
