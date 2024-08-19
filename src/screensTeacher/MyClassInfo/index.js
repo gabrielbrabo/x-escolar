@@ -92,6 +92,7 @@ const MyCla$$Info = () => {
                     }
                     <ButtonContainer>
                         <button onClick={() => { navigate('/attendance') }}>Chamada</button>
+                        <button onClick={() => { navigate('/attendance') }}>Add Notas</button>
                     </ButtonContainer>
                     <StudentSection>
                         <h2>Estudantes</h2>

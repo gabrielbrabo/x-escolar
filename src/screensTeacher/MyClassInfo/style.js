@@ -9,7 +9,6 @@ export const Container = styled.div`
 `;
 
 export const ContainerDivs = styled.div`
-    width: 100%;
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -45,6 +44,7 @@ export const ButtonContainer = styled.div`
     display: flex;
     justify-content: center;
     margin: 20px 0;
+    gap: 20px;
 
     button {
         background-color: #28a745;
