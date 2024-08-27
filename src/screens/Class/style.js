@@ -74,6 +74,7 @@ export const Select = styled.select`
 export const List = styled.div`
   display: flex;
   flex-direction: column;
+  min-height: 40%
   gap: 20px;
   background-color: #f9f9f9;
   padding: 20px;

@@ -108,7 +108,6 @@ export const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 180px;
-  overflow: hidden;
 
   @media (max-width: 768px) {
     max-width: 150px;
@@ -124,7 +123,8 @@ export const Name = styled.span`
   
 `;
 export const Span = styled.span`
-  display: block;
+  white-space: nowrap;
+  display: inline-block;
   margin-bottom: 5px;
   font-size: 10px;
   color: #333;

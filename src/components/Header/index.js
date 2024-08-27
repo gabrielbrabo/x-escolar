@@ -16,12 +16,15 @@ import {
 export function Header({ setMenuIsVisible }) {
     const [position_at_school, setPosition_at_school] = useState();
     const [name, setname] = useState();
+    const [school, setSchool] = useState(null);
 
     useEffect(() => {
         const position_at_school = localStorage.getItem("position_at_school");
         const name = localStorage.getItem("name");
+        const School = sessionStorage.getItem('School');
         setPosition_at_school(position_at_school);
         setname(name);
+        setSchool(School);
     }, []);
 
     const handleLogout = () => {
@@ -34,10 +37,10 @@ export function Header({ setMenuIsVisible }) {
         <Container>
             <div className="logo">ESCOLA X</div>
             <section className="desktop-nav">
-                {position_at_school === "GESTOR" && (
+                {position_at_school === "SECRETARIO" && (
                     <nav>
                         <a href="/home/school">Home</a>
-                        <a href="/matter" className="nav__link">Matérias</a>
+                        <a href="/matter" className="nav__link">Disciplinas</a>
                         <a href="/employees" className="nav__link">Funcionários</a>
                         <a href="/class" className="nav__link">Turmas</a>
                         <a href="/student" className="nav__link">Alunos</a>
@@ -57,6 +60,7 @@ export function Header({ setMenuIsVisible }) {
                         <ProfileInfo>
                             <Name>{name}</Name>
                             <Span>{position_at_school}</Span>
+                            <Span>{school}</Span>
                         </ProfileInfo>
                     </Pro>
                     <DivButtomEdit>

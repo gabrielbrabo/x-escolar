@@ -8,7 +8,7 @@ import {
     Container,
 } from './style';
 
-import { api, Refresh } from '../../Api'
+import { api, Refresh, NameSchool } from '../../Api'
 
 import LoadingSpinner from '../../components/Loading'
 
@@ -36,6 +36,9 @@ const Preload = () => {
                     const id_class = response.data.id_class
                     const id_reporter_cardid_class = response.data.id_reporter_card
                     //const avatar = response.data.avatar
+                    const nameSchool = await NameSchool(id_school)
+                    console.log("nameSchool", nameSchool)
+                    sessionStorage.setItem("School", nameSchool.data.data)
                     localStorage.setItem("Id_employee",
                         JSON.stringify(IdEmployee))
                     sessionStorage.setItem("cpf", loggedEmployee)

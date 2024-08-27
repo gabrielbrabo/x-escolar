@@ -51,16 +51,17 @@ const EmployeeInformation = () => {
     const [loading, setLoading] = useState(false);
     const [showMatter, setShowMatter] = useState(false);
     const [showClass, setShowClass] = useState(false);
+    const [school, setSchool] = useState(null);
     const { id_employee } = useParams()
     //console.log('posi', position_at_school)
 
     useEffect(() => {
         (async () => {
             setLoading(true);
-            //const id_employee = sessionStorage.getItem("EmployeeInformation")
+            const School = sessionStorage.getItem('School');
             const res = await EmpInfo(id_employee)
             const position_at_school = res.data.data.map(res => {
-                if (res.position_at_school === "GESTOR") {
+                if (res.position_at_school === "SECRETARIO") {
                     return res.position_at_school
                 } else {
                     return null
@@ -111,6 +112,7 @@ const EmployeeInformation = () => {
             setClss(clss)
             setMatter(mttr)
             setLoading(false);
+            setSchool(School);
         })()
 
     }, [currentYear, id_employee])
@@ -135,6 +137,10 @@ const EmployeeInformation = () => {
         navigate('/remove/matter')
     }
 
+    const Edit = async () => {
+        navigate('/edit-profile')
+    }
+
     console.log("clas", matter)
     console.log('posi', Clss)
 
@@ -157,10 +163,11 @@ const EmployeeInformation = () => {
                                         <Span>{emp.name}</Span>
                                         <Span>{emp.position_at_school}</Span>
                                         <Span>CPF: {emp.cpf}</Span>
+                                        <Span>{school}</Span>
                                     </ProfileInfo>
                                 </Pro>
                                 <DivButtomEdit>
-                                    <Btt02>Editar</Btt02>
+                                    <Btt02 onClick={Edit}>Editar</Btt02>
                                 </DivButtomEdit>
                             </EmployeeInfo>
                         </Emp>
@@ -168,17 +175,17 @@ const EmployeeInformation = () => {
                     {position_at_school.length === 0 && (
                         <>
                             <DivInfo>
-                                <TitleInfo>Materias:</TitleInfo>
+                                <TitleInfo>Disciplinas:</TitleInfo>
                                 {!showMatter &&
                                     <DivShowMatter>
-                                        <Btt02 onClick={() => { setShowMatter(true) }}>Ver Materias <TiArrowDownThick fontSize={'17px'} /></Btt02>
+                                        <Btt02 onClick={() => { setShowMatter(true) }}>Ver Disciplinas <TiArrowDownThick fontSize={'17px'} /></Btt02>
                                     </DivShowMatter>
                                 }
                                 {showMatter &&
                                     <>
                                         <DivAddEmp>
                                             <AddEmp>
-                                                <Btt02 onClick={add}>Nova Materia</Btt02>
+                                                <Btt02 onClick={add}>Nova Disciplina</Btt02>
                                             </AddEmp>
                                             {matter.length > 0 && (
                                                 <AddEmp>
@@ -192,11 +199,11 @@ const EmployeeInformation = () => {
                                                     <Span key={matter._id}>{matter.name},</Span>
                                                 ))
                                             ) : (
-                                                <Span>Sem Materias cadastradas</Span>
+                                                <Span>Sem Disciplinas cadastradas</Span>
                                             )}
                                         </Matter>
                                         <DivShowMatter>
-                                            <Btt02 onClick={() => { setShowMatter(false) }}>Fecha Materias <TiArrowUpThick fontSize={'17px'}  /></Btt02>
+                                            <Btt02 onClick={() => { setShowMatter(false) }}>Fecha Disciplinas <TiArrowUpThick fontSize={'17px'}  /></Btt02>
                                         </DivShowMatter>
                                     </>
                                 }

@@ -7,20 +7,12 @@ import { useNavigate } from 'react-router-dom'
 import {
   Container,
   InputArea,
-  ToGoBack
-} from './style';
-
-import {
-  /*Area,*/
+  ToGoBack,
   Input,
-  //Select
-} from '../../components/Inputs';
-
-import {
   Btt01,
   SignMessageButtonText,
   SignMessageButtonTextBold
-} from '../../components/Buttons';
+} from './style';
 
 import LoadingSpinner from '../../components/Loading'
 
@@ -61,13 +53,13 @@ const NewMatter = () => {
       } else {
         navigate('/employees')
       }*/
-      navigate('/matter')
+      navigate(-1);
     }
     setLoading(true);
   }
 
   const MessageButtomclick = () => {
-    navigate('/matter')
+    navigate(-1);
   }
 
   return (
@@ -77,46 +69,18 @@ const NewMatter = () => {
         :
         <>
           <InputArea>
-            <>Nome da Materia</>
+            <>Nome da Disciplina</>
             <Input
-              placeholder="Digite o nome da Materia"
+              placeholder="Digite o nome da disciplina"
               value={name}
               onChange={
                 (e) => setName(e.target.value)
               }
             />
-            {/*<>Nivel</>
-        <Input
-          placeholder="Digite o nivel"
-          value={level}
-          onChange={
-            (e) => setLevel(e.target.value)
-          }
-        />
-        <label>Turno: </label>
-        <Select id="position" 
-          value={shift}
-          onChange={ 
-            (e) => setShift(e.target.value)
-          }
-        >
-          <option value="">Selecione</option>
-          <option value="MATUTINO">MATUTINO</option>
-          <option value="VESPERTINO">VESPERTINO</option>
-          <option value="NOTURNO">NOTURNO</option>
-        </Select>
-        <>Numero da Sala</>
-        <Input
-          placeholder="Digite o numero da sala"
-          value={classroom_number}
-          onChange={
-            (e) => setClassroom_number(e.target.value)
-          }
-        />*/}
             <Btt01 onClick={SignClick}>Cadastra</Btt01>
             <ToGoBack onClick={MessageButtomclick}>
               <SignMessageButtonText>Voltar para a</SignMessageButtonText>
-              <SignMessageButtonTextBold>Lista de Materia</SignMessageButtonTextBold>
+              <SignMessageButtonTextBold>Lista de disciplina</SignMessageButtonTextBold>
             </ToGoBack>
           </InputArea>
         </>

@@ -113,8 +113,8 @@ const Employees = () => {
                                 }
                             >
                                 <option value="">Todos</option>
-                                <option value="DIRETOR">DIRETOR</option>
-                                <option value="GESTOR">GESTOR</option>
+                                <option value="DIRETOR/SUPERVISOR">DIRETOR/SUPERVISOR</option>
+                                <option value="SECRETARIO">SECRETARIO</option>
                                 <option value="PROFESSOR">PROFESSOR</option>
                             </Select>
                         </FormFilter>

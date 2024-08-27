@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext, } from '../../contexts/auth'
 
-import { api, NewEmp, createSessionEmployee } from '../../Api'
+import { api, NewEmp, createSessionEmployee, NameSchool } from '../../Api'
 
 //import { AuthContext, } from '../../contexts/auth'
 //import { useNavigate } from 'react-router-dom'
@@ -9,16 +9,12 @@ import { api, NewEmp, createSessionEmployee } from '../../Api'
 import {
   Container,
   InputArea,
-  Area,
-  Btt
+  Label,
+  Input,
+  Btt01,
+  ErrorMessage
   //ToGoBack
 } from './style';
-
-import {
-  /*Area,*/
-  Input,
-  // Select
-} from '../../components/Inputs';
 
 import LoadingSpinner from '../../components/Loading'
 
@@ -28,10 +24,16 @@ const FristEmployee = () => {
   const [idSchool, setIdschool] = useState('');
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');
-  const position_at_school = "GESTOR"
+  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [rg, setRg] = useState('');
+  const [address, setAddress] = useState('');
+  const [cellPhone, setCellPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const position_at_school = "SECRETARIO"
   const [password, setPassword] = useState('');
   const [confirmpassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -42,7 +44,7 @@ const FristEmployee = () => {
     })()
   }, [])
 
-  const SignClick = async () => {
+  const signClick = async () => {
     setLoading(true);
     console.log(
       idSchool,
@@ -56,7 +58,12 @@ const FristEmployee = () => {
     const res = await NewEmp(
       idSchool,
       name,
+      dateOfBirth,
       cpf,
+      rg,
+      email,
+      cellPhone,
+      address,
       position_at_school,
       password,
       confirmpassword
@@ -85,6 +92,8 @@ const FristEmployee = () => {
         const id_class = response.data.id_class
         const id_reporter_cardid_class = response.data.id_reporter_card
         //const avatar = response.data.avatar
+        const nameSchool = await NameSchool(id_school)
+            sessionStorage.setItem("School", nameSchool.data.data)
         localStorage.setItem("Id_employee",
           JSON.stringify(IdEmployee))
         sessionStorage.setItem("cpf", loggedEmployee)
@@ -108,60 +117,117 @@ const FristEmployee = () => {
         window.location.reload()
       }
       setLoading(false);
+    } else {
+      setErrorMessage('Erro ao cadastrar. Verifique os dados e tente novamente.');
     }
+    setLoading(false);
   }
+
+  const maskCPF = (value) => {
+    return value
+      .replace(/\D/g, '') // Remove tudo o que não é dígito
+      .replace(/(\d{3})(\d)/, '$1.$2') // Coloca o primeiro ponto
+      .replace(/(\d{3})(\d)/, '$1.$2') // Coloca o segundo ponto
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2') // Coloca o traço
+      .slice(0, 14); // Limita para 14 caracteres
+  };
+
+  const maskRG = (value) => {
+    return value
+      .replace(/\D/g, '') // Remove tudo o que não é dígito
+  };
+
+  const maskcellPhone = (value) => {
+    return value
+      .replace(/\D/g, '') // Remove tudo o que não é dígito
+  };
+
+  const handleChange = (e) => {
+    setCpf(maskCPF(e.target.value));
+  };
+
+  const handleChangeRg = (e) => {
+    setRg(maskRG(e.target.value));
+  };
+
+  const handleChangecellPhone = (e) => {
+    setCellPhone(maskcellPhone(e.target.value));
+  };
+
   return (
     <Container>
-      {loading ?
+      {loading ? (
         <LoadingSpinner />
-        :
-        <>
-          <h1>Cadastre um Gestor</h1>
-          <InputArea onSubmit={SignClick}>
-            <>Nome</>
-            <Area>
-              <Input
-                placeholder="Digite o nome"
-                value={name}
-                onChange={
-                  (e) => setName(e.target.value)
-                }
-              />
-            </Area>
-            <>cpf</>
-            <Area>
-              <Input
-                placeholder="Digite o cpf"
-                value={cpf}
-                onChange={
-                  (e) => setCpf(e.target.value)
-                }
-              />
-            </Area>
-            <>Senha</>
-            <Area>
-              <Input
-                placeholder="Digite a senha"
-                value={password}
-                onChange={
-                  (e) => setPassword(e.target.value)
-                }
-              />
-            </Area>
-            <>Confirme Senha</>
-            <Area>
-              <Input
-                placeholder="Confirme a senha"
-                value={confirmpassword}
-                onChange={
-                  (e) => setConfirmPassword(e.target.value)
-                }
-              />
-            </Area>
-            <Btt type='submit'>Cadastra</Btt>
-          </InputArea>
-        </>
-      }
+      ) : (
+        <InputArea>
+          <h1>Cadastre um Secretario</h1>
+          <Label>Nome</Label>
+          <Input
+            placeholder="Digite o nome"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Label>Data de Nascimento</Label>
+          <Input
+            placeholder="Data de nascimento"
+            value={dateOfBirth}
+            onChange={(e) => setDateOfBirth(e.target.value)}
+            type='date'
+          />
+          <Label>CPF</Label>
+          <Input
+            placeholder="Digite o CPF"
+            value={cpf}
+            onChange={handleChange}
+            type="text" 
+            maxLength="14"
+          />
+          <Label>RG</Label>
+          <Input
+            placeholder="Digite o RG"
+            value={rg}
+            onChange={handleChangeRg}
+            type="text" 
+          />
+          <Label>Email</Label>
+          <Input
+            placeholder="Digite o Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            type="text" 
+          />
+          <Label>Celular</Label>
+          <Input
+            placeholder="Digite o celular"
+            value={cellPhone}
+            onChange={handleChangecellPhone}
+            type="text" 
+          />
+          <Label>Endereço</Label>
+          <Input
+            placeholder="Rua, bairro, numero"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            type="text" 
+          />
+          <Label>Senha</Label>
+          <Input
+            placeholder="Digite a senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+          />
+          <Label>Confirme a Senha</Label>
+          <Input
+            placeholder="Confirme a senha"
+            value={confirmpassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            type="password"
+          />
+          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+          <Btt01 onClick={signClick}>Cadastrar</Btt01>
+        </InputArea>
+      )}
     </Container>
   )
 }

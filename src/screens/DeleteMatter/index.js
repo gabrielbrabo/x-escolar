@@ -8,24 +8,15 @@ import {
     Emp,
     Span,
     Search,
-    //DivNewEmp, 
-    User,
-    //FormFilter,
     FormSearch,
     // Input
     Add,
-    AddTeacher
-} from './style';
-
-import {
+    AddTeacher,
     AreaEmp,
     InputEmp,
-    //Select
-} from '../../components/Inputs'
-
-import {
     Btt01,
-} from '../../components/Buttons';
+    Buttons,
+} from './style';
 
 import LoadingSpinner from '../../components/Loading'
 
@@ -63,7 +54,7 @@ const DelMatter = () => {
         const res = await deleteMatter(id_matter)
         if (res) {
             alert('Materia Removida com sucesso.')
-            navigate('/matter')
+            navigate(-1);
         }
         setName_Matter('')
 
@@ -92,12 +83,9 @@ const DelMatter = () => {
                 <LoadingSpinner />
                 :
                 <>
-                    <User>
-
-                    </User>
                     <Search>
                         <FormSearch>
-                            <label>Buscar Turma</label>
+                            <label>Buscar Disciplina</label>
                             <AreaEmp>
                                 <InputEmp
                                     type="text"
@@ -109,24 +97,8 @@ const DelMatter = () => {
                                 />
                             </AreaEmp>
                         </FormSearch>
-                        {/*<FormFilter>
-                    <label>Filtra por Ano: </label>
-                    <Select id="position" 
-                        value={filter} 
-                        onChange={ 
-                            (e) => setFilter(e.target.value)
-                        }
-                    >
-                        <option value=''>{currentYear}</option>
-                        {
-                            year.map(c => (
-                                <option value={c}>{c}</option>
-                            ))
-                        }
-                    </Select>
-                    </FormFilter>*/}
                     </Search>
-                    <>Selecione a Materia a ser deletada!</>
+                    <p>Selecione a Disciplina a ser deletada!</p>
                     <List>
 
                         {
@@ -156,12 +128,14 @@ const DelMatter = () => {
 
                             {
                                 <AddTeacher>
-                                    <>Essa Materia sera apaga de todos os Professores e turmas em que ela esta cadastrada</>
-                                    <>Tem certeza que deseja remover a Materia {name_matter} ?</>
-                                    <Btt01 onClick={SignClick}>Remover</Btt01>
+                                    <p>Essa Disciplina sera apaga de todos os Professores e turmas em que ela esta cadastrada</p>
+                                    <p>Tem certeza que deseja remover a Disciplina {name_matter} ?</p>
+                                    <Buttons>
+                                        <Btt01 onClick={SignClick}>Deletar</Btt01>
+                                        <Btt01 onClick={Return}>Voltar</Btt01>
+                                    </Buttons>
                                 </AddTeacher>
                             }
-                            <Btt01 onClick={Return}>Voltar</Btt01>
                         </Add>
                     }
                 </>

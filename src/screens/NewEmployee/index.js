@@ -19,7 +19,12 @@ const NewEmployee = () => {
   const navigate = useNavigate();
   const [idSchool, setIdschool] = useState('');
   const [name, setName] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState('');
   const [cpf, setCpf] = useState('');
+  const [rg, setRg] = useState('');
+  const [email, setEmail] = useState('');
+  const [cellPhone, setCellPhone] = useState('');
+  const [address, setAddress] = useState('');
   const [positionAtSchool, setPositionAtSchool] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -41,7 +46,12 @@ const NewEmployee = () => {
     const res = await NewEmp(
       idSchool,
       name,
+      dateOfBirth,
       cpf,
+      rg,
+      email,
+      cellPhone,
+      address,
       positionAtSchool,
       password,
       confirmPassword
@@ -64,7 +74,38 @@ const NewEmployee = () => {
   };
 
   const messageButtonClick = () => {
-    navigate('/employees');
+    navigate(-1);
+  };
+
+  const maskCPF = (value) => {
+    return value
+      .replace(/\D/g, '') // Remove tudo o que não é dígito
+      .replace(/(\d{3})(\d)/, '$1.$2') // Coloca o primeiro ponto
+      .replace(/(\d{3})(\d)/, '$1.$2') // Coloca o segundo ponto
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2') // Coloca o traço
+      .slice(0, 14); // Limita para 14 caracteres
+  };
+
+  const maskRG = (value) => {
+    return value
+      .replace(/\D/g, '') // Remove tudo o que não é dígito
+  };
+
+  const maskcellPhone = (value) => {
+    return value
+      .replace(/\D/g, '') // Remove tudo o que não é dígito
+  };
+
+  const handleChange = (e) => {
+    setCpf(maskCPF(e.target.value));
+  };
+
+  const handleChangeRg = (e) => {
+    setRg(maskRG(e.target.value));
+  };
+
+  const handleChangecellPhone = (e) => {
+    setCellPhone(maskcellPhone(e.target.value));
   };
 
   return (
@@ -80,11 +121,48 @@ const NewEmployee = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
+          <Label>Data de Nascimento</Label>
+          <Input
+            placeholder="Data de nascimento"
+            value={dateOfBirth}
+            onChange={(e) => setDateOfBirth(e.target.value)}
+            type='date'
+          />
           <Label>CPF</Label>
           <Input
             placeholder="Digite o CPF"
             value={cpf}
-            onChange={(e) => setCpf(e.target.value)}
+            onChange={handleChange}
+            type="text" 
+            maxLength="14"
+          />
+          <Label>RG</Label>
+          <Input
+            placeholder="Digite o RG"
+            value={rg}
+            onChange={handleChangeRg}
+            type="text" 
+          />
+          <Label>Email</Label>
+          <Input
+            placeholder="Digite o Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            type="text" 
+          />
+          <Label>Celular</Label>
+          <Input
+            placeholder="Digite o celular"
+            value={cellPhone}
+            onChange={handleChangecellPhone}
+            type="text" 
+          />
+          <Label>Endereço</Label>
+          <Input
+            placeholder="Rua, bairro, numero"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            type="text" 
           />
           <Label>Cargo</Label>
           <Select
@@ -93,7 +171,8 @@ const NewEmployee = () => {
             onChange={(e) => setPositionAtSchool(e.target.value)}
           >
             <option value="">Selecione</option>
-            <option value="GESTOR">GESTOR</option>
+            <option value="DIRETOR/SUPERVISOR">DIRETOR/SUPERVISOR</option>
+            <option value="SECRETARIO">SECRETARIO</option>
             <option value="PROFESSOR">PROFESSOR</option>
           </Select>
           <Label>Senha</Label>

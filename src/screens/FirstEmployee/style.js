@@ -1,74 +1,116 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    width: 100%;
-    height: 90vh;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 2px 0px 7px inset black;
-    
-    align-items: center;
-
-    @media screen and (max-width: 768px) {
-        justify-content: center;
-        box-shadow: 0px 0px 7px inset black;
-    }
-`;
-
-export const InputArea = styled.form`
-    border-radius: 20px;
-    display: flex;
-    width: 40%;
-    gap: 5px;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background-color: #1465bb;
-    font-size: 20px;
-    color: white;
-
-    @media screen and (max-width: 768px) {
-        width: 70%;
-        padding: 40px;
-        gap: 20px;
-    }
-`;
-
-export const Area = styled.div`
-  display: Flex;
-  width: 350px;
-  height: 40px;
-  margin-bottom: 10px;
-  background-color: #ebe7eb;
-  border-radius: 30px;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
   align-items: center;
-  justify-content: center; 
-
-  @media screen and (max-width: 768px) {
-    width: 330px;
-    height: 45px;
+  padding: 30px;
+    @media (max-width: 768px) {
+        padding: 10px;
+        justify-content: center;
+    }
+  
+  h1 {
+    text-align: center;
   }
 `;
 
-export const Btt = styled.button`
-    height: 50px;
-    width: 80%;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    background-color: #8cfa81;
-    font-size: 20px;
-    border-radius: 30px;
-    border: none;
-    align-items: center;
-    justify-content: center; 
+export const InputArea = styled.div`
+  width: 90%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  @media (max-width: 768px) {
+    padding: 15px;
+    gap: 15px;
+  }
 `;
 
-export const ToGoBack = styled.button`
-    justify-content: center;
-    border: none;
-    margin-top: 20px;
-  
-  
+export const Label = styled.label`
+  align-self: flex-start;
+  font-weight: bold;
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+`;
 
+export const Input = styled.input`
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
+`;
+
+export const Select = styled.select`
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
+`;
+
+export const Btt01 = styled.button`
+  width: 100%;
+  padding: 15px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #45a049;
+  }
+  
+  @media (max-width: 768px) {
+    padding: 12px;
+    font-size: 14px;
+  }
+`;
+
+export const ToGoBack = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  cursor: pointer;
+`;
+
+export const SignMessageButtonText = styled.span`
+  color: #333;
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+`;
+
+export const SignMessageButtonTextBold = styled.span`
+  color: #333;
+  font-weight: bold;
+  margin-left: 5px;
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+`;
+
+export const ErrorMessage = styled.div`
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `;

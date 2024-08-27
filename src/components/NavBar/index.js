@@ -16,15 +16,18 @@ import {
 export function NavBar({ menuIsVisible, setMenuIsVisible }) {
   const [positionAtSchool, setPositionAtSchool] = useState(null);
   const [name, setName] = useState(null);
+  const [school, setSchool] = useState(null);
 
   useEffect(() => {
     document.body.style.overflowY = menuIsVisible ? 'hidden' : 'auto';
 
     const position = localStorage.getItem('position_at_school');
     const userName = localStorage.getItem('name');
+    const School = sessionStorage.getItem('School');
 
     setPositionAtSchool(position);
     setName(userName);
+    setSchool(School);
   }, [menuIsVisible]);
 
   const handleLogout = () => {
@@ -43,6 +46,7 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
             <ProfileInfo>
               <Name>{name}</Name>
               <Span>{positionAtSchool}</Span>
+              <Span>{school}</Span>
             </ProfileInfo>
           </Pro>
           <DivButtomEdit>
@@ -50,10 +54,10 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
           </DivButtomEdit>
         </EmployeeInfo>
       </Emp>
-      {positionAtSchool === 'GESTOR' && (
+      {positionAtSchool === 'SECRETARIO' && (
         <nav>
           <a href="/home/school">Home</a>
-          <a href="/matter" className="nav__link">Matérias</a>
+          <a href="/matter" className="nav__link">Disciplinas</a>
           <a href="/employees" className="nav__link">Funcionários</a>
           <a href="/class" className="nav__link">Turmas</a>
           <a href="/student" className="nav__link">Alunos</a>

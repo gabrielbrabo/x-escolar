@@ -96,10 +96,10 @@ const MatterAdd = () => {
                 <LoadingSpinner />
             ) : (
                 <>
-                    <h1>Materias</h1>
+                    <h1>Disciplinas</h1>
                     <SearchSection>
                         <SearchForm>
-                            <label>Buscar Matéria</label>
+                            <label>Buscar Disciplina</label>
                             <SearchInputWrapper>
                                 <SearchInput
                                     type="text"
@@ -110,7 +110,7 @@ const MatterAdd = () => {
                             </SearchInputWrapper>
                         </SearchForm>
                     </SearchSection>
-                    <Message>Clique em uma Matéria abaixo para adicionar ao Professor</Message>
+                    <Message>Clique em uma Disciplina abaixo para adicionar ao Professor</Message>
                     <MatterList>
                         {matter.filter((val) => {
                             if (!search) {

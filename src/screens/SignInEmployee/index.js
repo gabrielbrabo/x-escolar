@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext, } from '../../contexts/auth'
 import { useNavigate } from 'react-router-dom'
-import {api, createSessionEmployee} from '../../Api'
+import {api, createSessionEmployee, NameSchool} from '../../Api'
 
 import {
     Container,
@@ -44,6 +44,8 @@ const SignInEmployee = () => {
             const id_class = response.data.id_class
             const id_reporter_cardid_class = response.data.id_reporter_card
             //const avatar = response.data.avatar
+            const nameSchool = await NameSchool(id_school)
+            sessionStorage.setItem("School", nameSchool.data.data)
             localStorage.setItem("Id_employee", 
             JSON.stringify(IdEmployee))
             sessionStorage.setItem("cpf", loggedEmployee)

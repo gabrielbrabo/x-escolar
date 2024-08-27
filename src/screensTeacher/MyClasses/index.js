@@ -6,53 +6,31 @@ import {
     Container,
     List,
     Emp,
-    //Matter,
-    //DivInfo,
     Span,
     Search,
-    //DivNewEmp,
-    //DivAddEmp,
-    //AddEmp,
     FormFilter,
     FormSearch,
     AreaEmp,
     InputEmp,
     Select,
     ContainerDivs
-    // Input
 } from './style';
-
-/*import {
-    AreaEmp,
-    InputEmp,
-    Select
-} from '../../components/Inputs'*/
-
-/*import {
-    Btt02,
-} from '../../components/Buttons';*/
 import LoadingSpinner from '../../components/Loading'
 
 const MyCla$$ = () => {
 
     const navigate = useNavigate()
     const currentYear = new Date().getFullYear().toString();
-    //const [year, setYear] = useState([])
     const [Clss, setClss] = useState([])
-    //const [employee, setEmployee] = useState([])
-    //const [id, setId] = useState("")
     const [filter, setFilter] = useState()
     const [busca, setBusca] = useState()
     const [loading, setLoading] = useState(false);
-    //console.log('posi', position_at_school)
 
     useEffect(() => {
         (async () => {
             setLoading(true);
             const id_employee = localStorage.getItem("Id_employee")
             const res = await EmpInfo(JSON.parse(id_employee))
-            //setEmployee(res.data.data)
-            //console.log(res.data.data)
             const clss = res.data.info.find(res => {
                 return res
             }).map(res => {
@@ -68,31 +46,7 @@ const MyCla$$ = () => {
                     return null
                 }
             })
-            /*const cl = clss.map(c => {
-                return c.id_class.serie
-            }).filter((valor, indice, self) => {
-                if(self.indexOf(valor) === indice) {
-                    return valor
-                }
-            })*/
-            //console.log("cl", cl)
-            /*const mttr = res.data.data.find(res => {
-                return res
-            }).id_matter.map(res => {
-                if (res._id) {
-                    return (res)
-                } else {
-                    return (null)
-                }
-            }).filter(res => {
-                if (! null) {
-                    return (res)
-                } else {
-                    return (null)
-                }
-            })*/
             setClss(clss)
-            //setMatter(mttr)
             setLoading(false);
         })()
 
@@ -125,13 +79,6 @@ const MyCla$$ = () => {
         }
         setLoading(false);
     }
-
-    /*const Remove = async () => {
-        navigate('/remove/matter')
-    }*/
-
-    //console.log("clas", matter)
-    //console.log('posi', Clss)
 
     return (
         <Container>
@@ -194,18 +141,9 @@ const MyCla$$ = () => {
                                     onClick={() =>
                                         MyClassInformation(clss)
                                     }
-
-                                    /*const clss = cl.map(c => {
-                                            return c.id_class.serie
-                                        }).filter((valor, indice, self) => {
-                                            if(self.indexOf(valor) === indice) {
-                                                return valor
-                                            }
-                                        })*/
                                     key={clss}
                                 >
-                                    <Span>{clss}</Span>,
-                                    { }
+                                    <Span>{clss}</Span>
                                 </Emp>
                             ))
                         }

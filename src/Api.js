@@ -81,6 +81,22 @@ export const Refresh = async (
         }, [])
 }
 
+export const NameSchool = async (
+    idSchool
+) => {
+    return api.post('/school/index', {
+        idSchool
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
+
 export const GetEmployees = async (
     idSchool
 ) => {
@@ -99,18 +115,78 @@ export const GetEmployees = async (
         }, [])
 }
 
+export const getEmployeeDetails = async (
+    idEmployee
+) => {
+
+    return api.get(`/employee-details/${idEmployee}`)
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
+
+export const updateEmployee = async (
+    idEmployee,
+    name,
+    dateOfBirth,
+    cpf,
+    rg,
+    email,
+    cellPhone,
+    address,
+    position_at_school
+) => {
+
+    return api.post(`/employee-update/${idEmployee}`, {
+        name,
+        dateOfBirth,
+        cpf,
+        rg,
+        email,
+        cellPhone,
+        address,
+        position_at_school
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
+
 export const NewEmp = async (
     idSchool,
     name,
+    dateOfBirth,
     cpf,
+    rg,
+    email,
+    cellPhone,
+    address,
     position_at_school,
     password,
     confirmpassword
 ) => {
 
     return api.post(`/register/employee/${idSchool}`, {
+        idSchool,
         name,
+        dateOfBirth,
         cpf,
+        rg,
+        email,
+        cellPhone,
+        address,
         position_at_school,
         password,
         confirmpassword

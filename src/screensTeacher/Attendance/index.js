@@ -18,23 +18,10 @@ import {
     EditContainer,
     SpanChecked,
     DataSelected,
-    //Search,
-    //DivNewEmp,
-    //AddEmp,
-    //FormFilter,
-    //FormSearch
-    // Input
 } from './style';
 
 import {
-    //AreaEmp,
-    //InputEmp,
-    // Select
 } from '../../components/Inputs'
-
-/*import {
-    Btt02,
-} from '../../components/Buttons';*/
 import LoadingSpinner from '../../components/Loading'
 
 const IndexAttendance = () => {
@@ -114,10 +101,6 @@ const IndexAttendance = () => {
         sessionStorage.setItem("month", month)
         sessionStorage.setItem("year", year)
     }
-    /*const getAttendance = () => {
-        const res = GetAttendanceFinalized( month, year, day, id_class, id_matter )
-        console.log("res", res)
-    }*/
     const clickRemovedate = () => {
         setLoading(true)
         sessionStorage.removeItem("selectedDate")
@@ -160,9 +143,7 @@ const IndexAttendance = () => {
         window.history.back()
     }
     const handleAttendance = async (stdt, status) => {
-        //const id_teacher = sessionStorage.getItem("Id_employee")
         setLoading(true)
-        //const status = 'p'
         const id_student = stdt._id
         const res = await Attendance(day, month, year, status, id_student, JSON.parse(id_teacher), id_class, id_matter)
         console.log('chamada', res)

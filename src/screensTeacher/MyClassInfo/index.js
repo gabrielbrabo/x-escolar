@@ -14,16 +14,6 @@ import {
     InfoText,
     ContainerDivs
 } from './style';
-
-/*import {
-    AreaEmp,
-    InputEmp,
-    Select
-} from '../../components/Inputs'*/
-
-/*import {
-    Btt02,
-} from '../../components/Buttons';*/
 import LoadingSpinner from '../../components/Loading'
 
 const MyCla$$Info = () => {
@@ -42,8 +32,6 @@ const MyCla$$Info = () => {
             setLoading(true);
             console.log('useParamsClass', id_class)
             console.log('useParamsTeacher', id_teacher)
-            //const id_class = sessionStorage.getItem("MyClassInfo")
-            //const id_teacher = sessionStorage.getItem("Id_employee")
             const resClass = await clssInfo(id_class)
             const res = await GetInfoMyClass(id_class, id_teacher)
             console.log(res.data.data)
@@ -108,8 +96,6 @@ const MyCla$$Info = () => {
                         }
                     </StudentSection>
                     {
-                        //employee.length > 0                
-                        //?
                         <MatterSection>
                             <h2>Materias</h2>
 
