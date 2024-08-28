@@ -50,7 +50,7 @@ const Employees = () => {
             console.log(response)
             setLoading(false);
         })()
-    }, [])
+    }, [ ])
 
     employees.sort(function (a, b) {
         if (a.name < b.name) return -1
@@ -79,6 +79,8 @@ const Employees = () => {
         navigate(`/employee/info/${employee._id}`)
         setLoading(false);
     }
+
+    const loggedInEmployeeId = localStorage.getItem("Id_employee");
 
     //console.log('res', employees)
 
@@ -139,6 +141,11 @@ const Employees = () => {
                                     return (val)
                                 }
                                 return null
+                            }).filter((employee) => {
+                               if(employee._id !== JSON.parse(loggedInEmployeeId)) {
+                                    return employee
+                               }
+                               return null
                             }).map(employee => (
                                 <Emp
                                     onClick={() =>
