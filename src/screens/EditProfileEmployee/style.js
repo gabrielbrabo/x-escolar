@@ -33,6 +33,8 @@ export const Select = styled.select`
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  margin-bottom: 25px;
+
   @media (max-width: 768px) {
     padding: 8px;
   }
@@ -46,7 +48,7 @@ export const Btt01 = styled.button`
     color: white;
     cursor: pointer;
     font-size: 16px;
-    margin-bottom: 10px;
+    margin-bottom: 25px;
     
     &:hover {
         background-color: #0056b3;
