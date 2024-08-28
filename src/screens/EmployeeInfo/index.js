@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { EmpInfo } from '../../Api'
+import { EmpInfo, DestroyEmp } from '../../Api'
 
 import {
     Container,
@@ -21,10 +21,15 @@ import {
     ContainerDivs,
     DivShowMatter,
     ButtonCancel,
-    Btt01
+    Btt01,
+    AddMatterSection,
+    WarningBox,
+    Button,
+    ButtonRemove,
+    ActionButtons
 } from './style';
 
-import { TiArrowDownThick, TiArrowUpThick  } from "react-icons/ti";
+import { TiArrowDownThick, TiArrowUpThick } from "react-icons/ti";
 
 /*import {
     AreaEmp,
@@ -52,6 +57,7 @@ const EmployeeInformation = () => {
     const [showMatter, setShowMatter] = useState(false);
     const [showClass, setShowClass] = useState(false);
     const [school, setSchool] = useState(null);
+    const [removeEmp, setRemoveEmp] = useState(false);
     const { id_employee } = useParams()
     //console.log('posi', position_at_school)
 
@@ -141,6 +147,15 @@ const EmployeeInformation = () => {
         navigate('/edit-profile')
     }
 
+    const destroyEmp = async () => {
+        const idEmployee = sessionStorage.getItem("EmployeeInformation")
+        const res = await DestroyEmp(idEmployee)
+        if (res) {
+            navigate(-1);
+        }
+    }
+
+    //const nameEmployee = sessionStorage.getItem("name")
     console.log("clas", matter)
     console.log('posi', Clss)
 
@@ -203,7 +218,7 @@ const EmployeeInformation = () => {
                                             )}
                                         </Matter>
                                         <DivShowMatter>
-                                            <Btt02 onClick={() => { setShowMatter(false) }}>Fecha Disciplinas <TiArrowUpThick fontSize={'17px'}  /></Btt02>
+                                            <Btt02 onClick={() => { setShowMatter(false) }}>Fecha Disciplinas <TiArrowUpThick fontSize={'17px'} /></Btt02>
                                         </DivShowMatter>
                                     </>
                                 }
@@ -212,7 +227,7 @@ const EmployeeInformation = () => {
                                 <TitleInfo>Turmas:</TitleInfo>
                                 {!showClass &&
                                     <DivShowMatter>
-                                        <Btt02 onClick={() => { setShowClass(true) }}>Ver Turmas <TiArrowDownThick fontSize={'17px'}  /></Btt02>
+                                        <Btt02 onClick={() => { setShowClass(true) }}>Ver Turmas <TiArrowDownThick fontSize={'17px'} /></Btt02>
                                     </DivShowMatter>
                                 }
                                 {showClass &&
@@ -235,8 +250,23 @@ const EmployeeInformation = () => {
                         </>
                     )}
                     <ButtonCancel>
-                        <Btt01 >Remover Funcionario</Btt01>
+                        <Btt01 onClick={() => { setRemoveEmp(true) }} >Remover Funcionario</Btt01>
                     </ButtonCancel>
+                    {removeEmp === true && (
+                        <AddMatterSection>
+                            <WarningBox>
+                                {employee.map(emp => (
+                                    <Span>Tem certeza que deseja remover o Usuario: {emp.name}?</Span>
+                                ))}
+                            </WarningBox>
+                            <ActionButtons>
+                                <div>
+                                    <ButtonRemove onClick={destroyEmp} >Remover</ButtonRemove>
+                                    <Button onClick={() => { setRemoveEmp(false) }}>Cancelar</Button>
+                                </div>
+                            </ActionButtons>
+                        </AddMatterSection>
+                    )}
                 </ContainerDivs>
             )}
         </Container>

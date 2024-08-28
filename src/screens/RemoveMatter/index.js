@@ -120,7 +120,7 @@ const RemoveMatter = () => {
                 <LoadingSpinner />
                 :
                 <>
-                    <h1>Materias</h1>
+                    <h1>Disciplinas</h1>
                     <List>
 
                         {
