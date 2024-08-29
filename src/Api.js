@@ -241,7 +241,12 @@ export const GetStudent = async (
 export const NewStdt = async (
     idSchool,
     name,
+    dateOfBirth,
+    cpf,
     rg,
+    cellPhone,
+    cellPhoneOfParentsOrGuardians,
+    address,
     registerStudent,
     password,
     confirmpassword
@@ -249,7 +254,12 @@ export const NewStdt = async (
 
     return api.post(`/register/student/${idSchool}`, {
         name,
+        dateOfBirth,
+        cpf,
         rg,
+        cellPhone,
+        cellPhoneOfParentsOrGuardians,
+        address,
         registerStudent,
         password,
         confirmpassword
