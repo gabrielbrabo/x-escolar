@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { StdtInfo } from '../../Api'
+import { useNavigate, useParams } from 'react-router-dom'
+import { StdtInfo, DestroyStudent } from '../../Api'
 import Calendar from '../../components/CalendarUI/Calendar'
 
 import {
@@ -16,7 +16,12 @@ import {
     DivButtomEdit,
     Btt02,
     Btt01,
-    ButtonCancel
+    ButtonCancel,
+    AddMatterSection,
+    WarningBox,
+    Button,
+    ButtonRemove,
+    ActionButtons
     //FormFilter,
     //FormSearch
     // Input
@@ -35,7 +40,7 @@ import LoadingSpinner from '../../components/Loading'
 
 const Student = () => {
 
-    //const navigate = useNavigate()
+    const navigate = useNavigate()
     const currentYear = new Date().getFullYear().toString();
     //const [year, setYear] = useState([])
     const [Clss, setClss] = useState([])
@@ -43,6 +48,7 @@ const Student = () => {
     //const [busca, setBusca] = useState("")
     //const [filter, setFilter] = useState()
     const [loading, setLoading] = useState(false);
+    const [removeStudent, setRemoveStudent] = useState(false);
     const { id_student } = useParams()
     console.log(currentYear)
 
@@ -74,6 +80,15 @@ const Student = () => {
         })()
 
     }, [currentYear, id_student])
+
+    const destroyStudent = async () => {
+        const idStudent = sessionStorage.getItem("StudentInformation")
+        const res = await DestroyStudent(idStudent)
+        if (res) {
+            alert('Aluno removido com sucesso!')
+            navigate(-1);
+        }
+    }
 
     console.log("clas", Clss)
 
@@ -119,8 +134,23 @@ const Student = () => {
                         <Calendar />
                     </ContainerDivs>
                     <ButtonCancel>
-                        <Btt01 >Remover Funcionario</Btt01>
+                        <Btt01 onClick={() => { setRemoveStudent(true) }}>Remover Funcionario</Btt01>
                     </ButtonCancel>
+                    {removeStudent === true && (
+                        <AddMatterSection>
+                            <WarningBox>
+                                {student.map(student => (
+                                    <Span>Tem certeza que deseja remover o Aluno: {student.name}?</Span>
+                                ))}
+                            </WarningBox>
+                            <ActionButtons>
+                                <div>
+                                    <ButtonRemove onClick={destroyStudent} >Remover</ButtonRemove>
+                                    <Button onClick={() => { setRemoveStudent(false) }}>Cancelar</Button>
+                                </div>
+                            </ActionButtons>
+                        </AddMatterSection>
+                    )}
                 </>
             }
         </Container>

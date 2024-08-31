@@ -147,3 +147,80 @@ export const ButtonCancel = styled.div`
   justify-content: center;
   align-items: flex-end;
 `;
+
+export const AddMatterSection = styled.div`
+  width: 100%;
+  min-height: 100%;
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.8);
+  gap: 10px;
+  margin-top: 20px;
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+`;
+
+export const WarningBox = styled.div`
+  padding: 15px;
+  background-color: #ffeb3b;
+  color: #333;
+  border-radius: 4px;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 16px;
+  @media (max-width: 768px) {
+    padding: 12px;
+    font-size: 14px;
+  }
+`;
+
+export const ActionButtons = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+
+export const Button = styled.button`
+  width: 100%;
+  padding: 15px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  &:hover {
+    background-color: #45a049;
+  }
+  @media (max-width: 768px) {
+    padding: 12px;
+    font-size: 14px;
+  }
+`;
+export const ButtonRemove= styled.button`
+  width: 100%;
+  padding: 15px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  margin: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #c9302c;
+  }
+  @media (max-width: 768px) {
+    padding: 12px;
+    font-size: 14px;
+  }
+`;

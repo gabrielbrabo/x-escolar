@@ -151,6 +151,7 @@ const EmployeeInformation = () => {
         const idEmployee = sessionStorage.getItem("EmployeeInformation")
         const res = await DestroyEmp(idEmployee)
         if (res) {
+            alert('Funcionario removido com sucesso!')
             navigate(-1);
         }
     }

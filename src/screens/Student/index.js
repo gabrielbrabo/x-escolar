@@ -17,18 +17,7 @@ import {
     Btt02,
     Select,
     ContainerDivs
-    // Input
 } from './style';
-
-/*import {
-    AreaEmp,
-    InputEmp,
-    Select
-} from '../../components/Inputs'
-
-import {
-    Btt02,
-} from '../../components/Buttons';*/
 
 import LoadingSpinner from '../../components/Loading'
 
@@ -92,8 +81,6 @@ const Student = () => {
 
     const StudentInformation = async (student) => {
         setLoading(true);
-        //sessionStorage.removeItem('StudentInformation')
-        //sessionStorage.setItem("StudentInformation", student._id)
         navigate(`/student/info/${student._id}`)
         setLoading(false);
     }

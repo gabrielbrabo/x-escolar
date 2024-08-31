@@ -220,6 +220,23 @@ export const DestroyEmp = async (
         }, [])
 }
 
+export const DestroyStudent = async (
+    idStudent,
+) => {
+
+    return api.post(`/destroy-student/${idStudent}`)
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
 export const GetStudent = async (
     idSchool
 ) => {
