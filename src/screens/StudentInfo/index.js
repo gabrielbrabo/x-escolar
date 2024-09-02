@@ -81,6 +81,10 @@ const Student = () => {
 
     }, [currentYear, id_student])
 
+    const Edit = async () => {
+        navigate('/edit-student')
+    }
+
     const destroyStudent = async () => {
         const idStudent = sessionStorage.getItem("StudentInformation")
         const res = await DestroyStudent(idStudent)
@@ -114,7 +118,7 @@ const Student = () => {
                                             </ProfileInfo>
                                         </Pro>
                                         <DivButtomEdit>
-                                            <Btt02>Editar</Btt02>
+                                            <Btt02 onClick={Edit}>Editar</Btt02>
                                         </DivButtomEdit>
                                     </EmployeeInfo>
                                 </Emp>
@@ -134,13 +138,13 @@ const Student = () => {
                         <Calendar />
                     </ContainerDivs>
                     <ButtonCancel>
-                        <Btt01 onClick={() => { setRemoveStudent(true) }}>Remover Funcionario</Btt01>
+                        <Btt01 onClick={() => { setRemoveStudent(true) }}>Remover Estudante</Btt01>
                     </ButtonCancel>
                     {removeStudent === true && (
                         <AddMatterSection>
                             <WarningBox>
                                 {student.map(student => (
-                                    <Span>Tem certeza que deseja remover o Aluno: {student.name}?</Span>
+                                    <Span>Tem certeza que deseja remover {student.name}?</Span>
                                 ))}
                             </WarningBox>
                             <ActionButtons>

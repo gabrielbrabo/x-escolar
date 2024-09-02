@@ -201,7 +201,7 @@ const IndexAttendance = () => {
                         id_matter.length <= 0
                         &&
                         <DivInfo>
-                            <h3>Selecione uma Materia</h3>
+                            <h3>Selecione uma Disciplina</h3>
                             <Matter>
 
                                 {
@@ -233,7 +233,7 @@ const IndexAttendance = () => {
                         <ContainerStudent>
                             <h2>Chamada</h2>
                             <DataSelected>
-                                <p>Materia: {Namematter}</p>
+                                <p>Disciplina: {Namematter}</p>
                                 <p>Data: {day}/{month}/{year}</p>
                             </DataSelected>
                             <DivButton>
@@ -256,7 +256,7 @@ const IndexAttendance = () => {
                                         >
                                             <Span>{stdt.name}</Span>
                                             <Btt02 onClick={() => handlePresenceClick(stdt)} style={{ backgroundColor: 'green' }}>Presença</Btt02>
-                                            <Btt02 onClick={() => handleAbsenceClick(stdt)} style={{ backgroundColor: 'red' }}>Falta</Btt02>
+                                            <Btt02 onClick={() => handleAbsenceClick(stdt)} style={{ backgroundColor: 'red' }}>Ausência</Btt02>
                                         </Emp>
                                     ))
                                 }
@@ -298,7 +298,7 @@ const IndexAttendance = () => {
                                 onChange={(e) => setEditingStatus(e.target.value)}
                             >
                                 <option value="P">Presença</option>
-                                <option value="F">Falta</option>
+                                <option value="F">Ausência</option>
                             </select>
                             <Btt02 onClick={saveEdit}>Salvar</Btt02>
                             <Btt02 onClick={() => setEditingStudent(null)}>Cancelar</Btt02>

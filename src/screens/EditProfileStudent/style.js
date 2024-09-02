@@ -28,18 +28,6 @@ export const Input = styled.input`
     border: 1px solid #ddd;
 `;
 
-export const Select = styled.select`
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 25px;
-
-  @media (max-width: 768px) {
-    padding: 8px;
-  }
-`;
-
 export const Btt01 = styled.button`
     padding: 10px;
     border: none;
@@ -71,4 +59,12 @@ export const SignMessageButtonTextBold = styled.span`
     color: #007bff;
     font-weight: bold;
     margin-left: 5px;
+`;
+export const ErrorMessage = styled.div`
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `;

@@ -36,6 +36,7 @@ import RemoveMatter from "./screens/RemoveMatter"
 import DeleteMatter from "./screens/DeleteMatter"
 
 import EditProfileEmployee from "./screens/EditProfileEmployee"
+import EditProfileStudent from "./screens/EditProfileStudent"
 
 import MyClasses from "./screensTeacher/MyClasses"
 import MyClassesInfo from "./screensTeacher/MyClassInfo"
@@ -94,6 +95,11 @@ const AppRoutes = () => {
                     <Route exact path="/edit-profile" element={
                         <Private>
                             <EditProfileEmployee />
+                        </Private>
+                    } />
+                    <Route exact path="/edit-student" element={
+                        <Private>
+                            <EditProfileStudent/>
                         </Private>
                     } />
                     <Route exact path="/new/student" element={

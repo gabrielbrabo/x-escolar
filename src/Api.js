@@ -164,6 +164,53 @@ export const updateEmployee = async (
         }, [])
 }
 
+export const getStudentDetails = async (
+    idStudent
+) => {
+
+    return api.get(`/student-details/${idStudent}`)
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
+
+export const updateStudent = async (
+    idStudent,
+    name,
+    dateOfBirth,
+    cpf,
+    rg,
+    email,
+    cellPhone,
+    address,
+) => {
+
+    return api.post(`/student-update/${idStudent}`, {
+        name,
+        dateOfBirth,
+        cpf,
+        rg,
+        email,
+        cellPhone,
+        address,
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
+
 export const NewEmp = async (
     idSchool,
     name,
