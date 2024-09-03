@@ -8,26 +8,16 @@ import {
     Emp,
     Span,
     Search,
-    //DivNewEmp, 
-    User,
-    //FormFilter,
     FormSearch,
-    //AddMatter,
     Add,
-    AddTeacher,
-    // Input
-} from './style';
-
-import {
+    Btt01,
     AreaEmp,
     InputEmp,
-    // Select
-} from '../../components/Inputs'
+    Div,
+    Btt02,
+    ButtonCancel,
+} from './style';
 
-import {
-    Btt01,
-    // Btt02 
-} from '../../components/Buttons';
 import LoadingSpinner from '../../components/Loading'
 
 const TeacherAdd = () => {
@@ -101,7 +91,7 @@ const TeacherAdd = () => {
         const res = await addTchr(id_employee, id_class, id_matter)
         if (res) {
             alert('Professor Adicionado com sucesso.')
-            navigate('/class/info')
+            navigate(-1);
         }
         setName_teacher('')
         setId_Matter('')
@@ -126,18 +116,19 @@ const TeacherAdd = () => {
         setLoading(false);
     }
 
+    const Cancel = async () => {
+        navigate(-1);
+    }
+
     return (
         <Container>
             {loading ?
                 <LoadingSpinner />
                 :
                 <>
-                    <User>
-
-                    </User>
                     <Search>
                         <FormSearch>
-                            <label>Buscar Materia</label>
+                            <label>Buscar</label>
                             <AreaEmp>
                                 <InputEmp
                                     type="text"
@@ -149,31 +140,9 @@ const TeacherAdd = () => {
                                 />
                             </AreaEmp>
                         </FormSearch>
-                        {/*<FormFilter>
-                    <label>Filtra por Ano: </label>
-                    <Select id="position" 
-                        value={filter} 
-                        onChange={ 
-                            (e) => setFilter(e.target.value)
-                        }
-                    >
-                        <option value=''>{currentYear}</option>
-                        {
-                            year.map(c => (
-                                <option value={c}>{c}</option>
-                            ))
-                        }
-                    </Select>
-                    </FormFilter>*/}
                     </Search>
                     <>Click para adicionar um Professor a Turma</>
                     <List>
-                        {/*
-                <DivNewEmp>
-                    <Btt02 onClick={NewMatter}>Nova Materia</Btt02>
-                </DivNewEmp>
-                */}
-
                         {
                             teacher.filter((val) => {
                                 if (!busca) {
@@ -210,17 +179,17 @@ const TeacherAdd = () => {
                                  :*/
                                 !id_matter
                                 &&
-                                <div>
+                                <Div>
                                     <>Adicionar {name_teacher} a Turma {serie} </>
                                     { /*<Btt01 onClick={SignClick}>Adicionar</Btt01>*/}
-                                </div>
+                                </Div>
                             }
 
                             {
                                 !id_matter
                                 &&
                                 <div>
-                                    <>Click na Materia que o Professor ira atuar nessa Turma</>
+                                    <>Click abaixo na Disciplina que o Professor ira Lecionar</>
                                     {
                                         matter.map(matter => (
                                             <Emp
@@ -237,19 +206,24 @@ const TeacherAdd = () => {
                             {
                                 id_matter
                                 &&
-                                <AddTeacher>
+                                <Div>
                                     <>Voçê ira Adicionar as seguintes configurações:</>
                                     <Span>   Professor: {name_teacher}</Span>
                                     <Span>   Materia: {name_matter}</Span>
                                     <Span>   Turma: {serie}</Span>
                                     <Btt01 onClick={SignClick}>Adicionar</Btt01>
-                                </AddTeacher>
+                                </Div>
                             }
-                            <Btt01 onClick={Return}>Voltar</Btt01>
+                            <ButtonCancel>
+                                <Btt02 onClick={Return}>Cancelar</Btt02>
+                            </ButtonCancel>
                         </Add>
                     }
                 </>
             }
+            <ButtonCancel>
+                <Btt02 onClick={Cancel}>Cancelar</Btt02>
+            </ButtonCancel>
         </Container>
     )
 }

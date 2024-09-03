@@ -133,3 +133,26 @@ export const Span = styled.span`
     font-size: 14px;
   }
 `;
+
+export const Btt02 = styled.button`
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #c9302c;
+  }
+  @media (max-width: 768px) {
+    padding: 8px 16px;
+  }
+`;
+
+export const ButtonCancel = styled.div`
+  display: flex;
+  margin-top: 30px;
+  justify-content: center;
+  align-items: flex-end;
+`;

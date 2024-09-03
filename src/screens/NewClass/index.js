@@ -60,7 +60,7 @@ const NewClass = () => {
           <InputArea>
             <label>Série</label>
             <Input
-              placeholder="Digite a série"
+              placeholder="Digite a série e numero da truma Ex: 3º ano 01"
               value={serie}
               onChange={(e) => setSerie(e.target.value)}
             />

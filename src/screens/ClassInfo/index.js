@@ -18,11 +18,8 @@ import {
     ProfileInfo,
     Btt02,
     DivShowMatter,
-    ButtonCancel,
-    Btt01
-    //FormFilter,
-    //FormSearch
-    // Input
+    //ButtonCancel,
+    //Btt01
 } from './style';
 
 import { TiArrowDownThick, TiArrowUpThick } from "react-icons/ti";
@@ -224,9 +221,9 @@ const Cla$$Info = () => {
                                 </Matter>
                             </DivInfo>
                     }
-                    <ButtonCancel>
+                   {/* <ButtonCancel>
                         <Btt01 >Remover Turma</Btt01>
-                    </ButtonCancel>
+                    </ButtonCancel>*/}
                 </ContainerDivs>
             }
         </Container>

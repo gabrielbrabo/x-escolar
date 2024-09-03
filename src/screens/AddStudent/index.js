@@ -12,7 +12,9 @@ import {
     Btt01,
     AreaEmp,
     InputEmp,
-    DivButtonAdd
+    DivButtonAdd,
+    Btt02,
+    ButtonCancel,
 } from './style';
 import LoadingSpinner from '../../components/Loading';
 
@@ -71,6 +73,10 @@ const StudentAdd = () => {
         setName_student('');
     };
 
+    const Cancel = async () => {
+        navigate(-1); 
+    }
+
     return (
         <Container>
             {loading ? (
@@ -128,6 +134,9 @@ const StudentAdd = () => {
                     </List>
                 </>
             )}
+            <ButtonCancel>
+                <Btt02 onClick={Cancel}>Cancelar</Btt02>
+            </ButtonCancel>
         </Container>
     );
 };

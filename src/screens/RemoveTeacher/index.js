@@ -8,24 +8,17 @@ import {
     Emp,
     Span,
     Search,
-    //DivNewEmp, 
-    User,
-    //FormFilter,
     FormSearch,
-    // Input
     Add,
-    AddTeacher
-} from './style';
-
-import {
+    Btt01,
     AreaEmp,
     InputEmp,
-    //Select
-} from '../../components/Inputs'
-
-import {
-    Btt01,
-} from '../../components/Buttons';
+    DivButtonAdd,
+    Div,
+    Btt02,
+    Btt03,
+    ButtonCancel,
+} from './style';
 
 import LoadingSpinner from '../../components/Loading'
 
@@ -90,7 +83,7 @@ const RemoveTeacher = () => {
         const res = await removeTeacher(id_teacher, id_class, id_matter, addTeacher)
         if (res) {
             alert('Professor Removido com sucesso.')
-            navigate('/class/info')
+            navigate(-1);
         }
         setName_Teacher('')
         setName_Matter('')
@@ -115,18 +108,19 @@ const RemoveTeacher = () => {
         setLoading(false);
     }
 
+    const Cancel = async () => {
+        navigate(-1); 
+    }
+
     return (
         <Container>
             {loading ?
                 <LoadingSpinner />
                 :
                 <>
-                    <User>
-
-                    </User>
                     <Search>
                         <FormSearch>
-                            <label>Buscar Turma</label>
+                            <label>Buscar</label>
                             <AreaEmp>
                                 <InputEmp
                                     type="text"
@@ -138,22 +132,6 @@ const RemoveTeacher = () => {
                                 />
                             </AreaEmp>
                         </FormSearch>
-                        {/*<FormFilter>
-                    <label>Filtra por Ano: </label>
-                    <Select id="position" 
-                        value={filter} 
-                        onChange={ 
-                            (e) => setFilter(e.target.value)
-                        }
-                    >
-                        <option value=''>{currentYear}</option>
-                        {
-                            year.map(c => (
-                                <option value={c}>{c}</option>
-                            ))
-                        }
-                    </Select>
-                    </FormFilter>*/}
                     </Search>
                     <List>
 
@@ -183,19 +161,24 @@ const RemoveTeacher = () => {
                         <Add>
 
                             {
-                                <AddTeacher>
+                                <Div>
                                     <Span>   Professor: {name_teacher}</Span>
-                                    <Span>   Materia: {name_matter}</Span>
+                                    <Span>   Disciplina: {name_matter}</Span>
                                     <Span>   Turma: {serie}</Span>
                                     <>Tem certeza que deseja remover este Professor dessa Turma ?</>
-                                    <Btt01 onClick={SignClick}>Remover</Btt01>
-                                </AddTeacher>
+                                    <DivButtonAdd>
+                                        <Btt01 onClick={SignClick}>Remover</Btt01>
+                                        <Btt03 onClick={Return}>Voltar</Btt03>
+                                    </DivButtonAdd>
+                                </Div>
                             }
-                            <Btt01 onClick={Return}>Voltar</Btt01>
                         </Add>
                     }
                 </>
             }
+            <ButtonCancel>
+                <Btt02 onClick={Cancel}>Cancelar</Btt02>
+            </ButtonCancel>
         </Container>
     )
 }

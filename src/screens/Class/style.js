@@ -4,6 +4,7 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  min-height: 90vh;
   padding: 20px;
   @media (max-width: 768px) {
     padding: 10px;
@@ -11,10 +12,10 @@ export const Container = styled.div`
 `;
 
 export const ContainerDivs = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 92%;
   max-width: 600px;
-  display: grid;
-  grid-template-columns: 1fr;
   gap: 20px;
   padding: 20px;
   @media (max-width: 1200px) {
@@ -29,6 +30,7 @@ export const User = styled.div`
 export const Search = styled.div`
   display: flex;
   flex-direction: column;
+  height: ;
   gap: 20px;
   background-color: #f9f9f9;
   padding: 20px;
