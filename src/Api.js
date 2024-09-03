@@ -211,6 +211,47 @@ export const updateStudent = async (
         }, [])
 }
 
+export const getClassDetails = async (
+    idClass
+) => {
+
+    return api.get(`/class-details/${idClass}`)
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
+
+export const updateClass = async(
+    cla$$,
+    serie,
+    level,
+    shift,
+    classroom_number,
+) => {
+
+    return api.post(`/class-update/${cla$$}`, {
+        serie,
+        level,
+        shift,
+        classroom_number
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
+
 export const NewEmp = async (
     idSchool,
     name,

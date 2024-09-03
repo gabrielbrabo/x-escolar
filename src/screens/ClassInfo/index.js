@@ -101,6 +101,10 @@ const Cla$$Info = () => {
         navigate('/remove/student')
     }
 
+    const Edit = async () => {
+        navigate('/edit-class')
+    }
+
     console.log("student", stdt)
 
     return (
@@ -119,7 +123,7 @@ const Cla$$Info = () => {
                                     <Span>Numero da Sala: {clss.classroom_number}</Span>
                                 </ProfileInfo>
                                 <DivButtomEdit>
-                                    <Btt02>Editar</Btt02>
+                                    <Btt02 onClick={Edit}>Editar</Btt02>
                                 </DivButtomEdit>
                             </Emp>
                         ))
