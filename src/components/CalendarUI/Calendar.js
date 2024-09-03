@@ -173,6 +173,9 @@ export default function DateCalendarServerRequest() {
         setMonth([Month])
     };
 
+    const countPresences = highlightedDays.length;
+    const countAbsences = highlightedDaysF.length;
+
     return (
         <StyledContainer>
             <SelectContainer>
@@ -198,7 +201,7 @@ export default function DateCalendarServerRequest() {
                 id_matter.length > 0
                 &&
                 <LocalizationProvider locale={dayjs.locale('pt-br', { months: monthsPtBr, weekdays: diasDaSemana, })} utils={DayjsUtils} dateAdapter={AdapterDayjs}>
-
+                    <p><IoCheckmarkSharp color='#00fa00' font-size="30px" />Presenças: {countPresences} | <IoCloseSharp color='#ff050a' font-size="30px" />Ausências: {countAbsences}</p>
                     <StyledDateCalendar
                         defaultValue={initialValue}
                         loading={isLoading}
