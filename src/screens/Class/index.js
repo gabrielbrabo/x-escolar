@@ -16,17 +16,10 @@ import {
     Btt02,
     ContainerDivs
 } from './style';
-/*import {
-    AreaEmp,
-    InputEmp,
-    Select
-} from '../../components/Inputs';
-import {
-    Btt02,
-} from '../../components/Buttons';*/
 import LoadingSpinner from '../../components/Loading';
 
 const Cla$$ = () => {
+    
     const navigate = useNavigate();
     const currentYear = new Date().getFullYear();
     const [year, setYear] = useState([]);

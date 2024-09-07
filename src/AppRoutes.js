@@ -15,6 +15,7 @@ import HomeSchool from "./screens/HomeSchool"
 import SignInEmployee from "./screens/SignInEmployee"
 import Preload from "./screens/Preload"
 import HomeEmployee from "./screens/HomeEmployee"
+import AnnualCalendar from "./screens/AnnualCalendar"
 import Employees from "./screens/Employees"
 import NewEmployees from "./screens/NewEmployee"
 import FirstEmployee from "./screens/FirstEmployee"
@@ -38,6 +39,8 @@ import DeleteMatter from "./screens/DeleteMatter"
 import EditProfileEmployee from "./screens/EditProfileEmployee"
 import EditProfileStudent from "./screens/EditProfileStudent"
 import EditClass from "./screens/EditClass"
+
+import CreateiStQuarter from "./screens/CreateiStQuarter"
 
 import MyClasses from "./screensTeacher/MyClasses"
 import MyClassesInfo from "./screensTeacher/MyClassInfo"
@@ -106,6 +109,16 @@ const AppRoutes = () => {
                     <Route exact path="/edit-class" element={
                         <Private>
                             <EditClass/>
+                        </Private>
+                    } />
+                    <Route exact path="/annual-calendar" element={
+                        <Private>
+                            <AnnualCalendar />
+                        </Private>
+                    } />
+                    <Route exact path="/createi-stquarter" element={
+                        <Private>
+                            <CreateiStQuarter/>
                         </Private>
                     } />
                     <Route exact path="/new/student" element={
