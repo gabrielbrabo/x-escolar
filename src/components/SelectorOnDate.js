@@ -34,7 +34,7 @@ const ResponsivePickers = ({ setSelectedDate, setDay, setMonth, setYear }) => {
             <DemoContainer
                 components={['DatePicker', 'DesktopDatePicker', 'MobileDatePicker']}
             >
-                <DemoItem label="Desktop variant">
+                <DemoItem >
                     <DesktopDatePicker
                         views={['month', 'day']}  // Permite selecionar apenas mês e dia
                         format="DD/MM"  // Formato Brasileiro DD/MM

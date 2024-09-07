@@ -5,7 +5,8 @@ import {
   DivAddEmp,
   AddEmp,
   Btt02,
-  DivDados
+  DivDados,
+  Input,
 } from './style';
 
 import SelectorDate from '../../components/SelectorOnDate'
@@ -19,8 +20,16 @@ const HomeSchool = () => {
   const [startday, setStartDay] = useState('')
   const [startmonth, setStartMonth] = useState('')
   const [startyear, setStartYear] = useState('')
+  const [endSelectedDate, setEndSelectedDate] = useState('')
+  const [endday, setEndDay] = useState('')
+  const [endmonth, setEndMonth] = useState('')
+  const [endyear, setEndYear] = useState('')
+  const [totalGrade, setTotalGrade] = useState('')
+  const [averageGrade, setAverageGrade] = useState('')
 
-  console.log("selecOnData", startday, startmonth, startyear)
+  console.log("startselecOnData", startday, startmonth, startyear)
+  console.log("endselecOnData", endday, endmonth, endyear)
+  console.log("start end", totalGrade, averageGrade)
 
   useEffect(() => {
     (async () => {
@@ -50,9 +59,30 @@ const HomeSchool = () => {
                   setSelectedDate={setStartSelectedDate}
                 />
               </p>
-              <p>Data de Fim: </p>
-              <p>Nota Media: </p>
-              <p>Nota Total: </p>
+              <p>Data de Fim:
+                <SelectorDate
+                  setDay={setEndDay}
+                  setMonth={setEndMonth}
+                  setYear={setEndYear}
+                  setSelectedDate={setEndSelectedDate}
+                />
+              </p>
+              <p>Nota Total:
+                <Input
+                  placeholder="Digite a Nota Total"
+                  value={totalGrade}
+                  onChange={(e) => setTotalGrade(e.target.value)}
+                  type='number'
+                />
+              </p>
+              <p>Nota Media:
+                <Input
+                  placeholder="Digite a Nota Media"
+                  value={averageGrade}
+                  onChange={(e) => setAverageGrade(e.target.value)}
+                  type='number'
+                />
+              </p>
             </DivDados>
           </DivAddEmp>
           <Btt02 >Definir</Btt02>
