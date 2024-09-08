@@ -7,7 +7,11 @@ import {
   Btt02,
   DivDados,
   Input,
+  ErrorMessage
 } from './style';
+import { RegisterIstQuarter } from '../../Api';
+
+import { useNavigate } from 'react-router-dom';
 
 import SelectorDate from '../../components/SelectorOnDate'
 
@@ -15,6 +19,9 @@ import LoadingSpinner from '../../components/Loading';
 
 const HomeSchool = () => {
 
+  const navigate = useNavigate()
+  const year = new Date().getFullYear();
+  const [id_school, setIdSchool] = useState('');
   const [loading, setLoading] = useState(true);
   const [startSelectedDate, setStartSelectedDate] = useState('')
   const [startday, setStartDay] = useState('')
@@ -26,18 +33,44 @@ const HomeSchool = () => {
   const [endyear, setEndYear] = useState('')
   const [totalGrade, setTotalGrade] = useState('')
   const [averageGrade, setAverageGrade] = useState('')
+  const [errorMessage, setErrorMessage] = useState('');
 
-  console.log("startselecOnData", startday, startmonth, startyear)
-  console.log("endselecOnData", endday, endmonth, endyear)
-  console.log("start end", totalGrade, averageGrade)
+  console.log("startselecOnData", startSelectedDate)
+  console.log("endSelectedDate", endSelectedDate)
+  //console.log("start end", totalGrade, averageGrade)
 
   useEffect(() => {
     (async () => {
-      //const idSchool = sessionStorage.getItem("id-school");
-
+      const idSchool = sessionStorage.getItem("id-school");
+      setIdSchool(JSON.parse(idSchool))
       setLoading(false);
     })();
   }, []);
+
+  const setBimester = async () => {
+    setLoading(true);
+    const res = await RegisterIstQuarter(
+      year,
+      startday,
+      startmonth,
+      startyear,
+      endday,
+      endmonth,
+      endyear,
+      totalGrade,
+      averageGrade,
+      id_school
+    );
+
+    if (res) {
+      alert('Bimestre definido com sucesso')
+      navigate(-1);;
+    } else {
+      setErrorMessage('Erro ao cadastrar. Verifique os dados e tente novamente.');
+    }
+    setLoading(false);
+  };
+
 
   return (
     <Container>
@@ -85,7 +118,8 @@ const HomeSchool = () => {
               </p>
             </DivDados>
           </DivAddEmp>
-          <Btt02 >Definir</Btt02>
+          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+          <Btt02 onClick={setBimester}>Definir</Btt02>
         </ContainerDivs>
       )}
     </Container>

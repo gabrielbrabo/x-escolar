@@ -71,3 +71,12 @@ export const Input = styled.input`
     padding: 8px;
   }
 `;
+
+export const ErrorMessage = styled.div`
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+`;

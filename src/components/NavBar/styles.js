@@ -140,8 +140,7 @@ export const DivButtomEdit = styled.div`
 `;
 
 export const Btt02 = styled.button`
-  background-color: #d9534f;
-  color: white;
+  color: black;
   border: none;
   border-radius: 5px;
   padding: 10px 20px;

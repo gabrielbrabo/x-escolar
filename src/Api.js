@@ -227,7 +227,7 @@ export const getClassDetails = async (
         }, [])
 }
 
-export const updateClass = async(
+export const updateClass = async (
     cla$$,
     serie,
     level,
@@ -278,6 +278,64 @@ export const NewEmp = async (
         position_at_school,
         password,
         confirmpassword
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const getIstQuarter = async (
+    year,
+    id_school
+) => {
+
+    return api.post(`/index/istQuarter`, {
+        year,
+        id_school
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const RegisterIstQuarter = async (
+    year,
+    startday,
+    startmonth,
+    startyear,
+    endday,
+    endmonth,
+    endyear,
+    totalGrade,
+    averageGrade,
+    id_school
+) => {
+
+    return api.post(`/register/istQuarter`, {
+        year,
+        startday,
+        startmonth,
+        startyear,
+        endday,
+        endmonth,
+        endyear,
+        totalGrade,
+        averageGrade,
+        id_school
     })
 
         .catch((error) => {

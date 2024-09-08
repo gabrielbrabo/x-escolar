@@ -143,7 +143,7 @@ export const DivButtomEdit = styled.div`
 `;
 
 export const Btt02 = styled.button`
- background-color: #d9534f;
+background: #2E332E;
   color: white;
   border: none;
   border-radius: 5px;
