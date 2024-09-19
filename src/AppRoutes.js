@@ -41,6 +41,10 @@ import EditProfileStudent from "./screens/EditProfileStudent"
 import EditClass from "./screens/EditClass"
 
 import CreateiStQuarter from "./screens/CreateiStQuarter"
+import EditiStQuarter from "./screens/EditiStQuarter"
+import CreateiiNdQuarter from "./screens/CreateiiNdQuarter"
+import CreateiiiRdQuarter from "./screens/CreateiiiRdQuarter"
+import CreateivThQuarter from "./screens/CreateivThQuarter"
 
 import MyClasses from "./screensTeacher/MyClasses"
 import MyClassesInfo from "./screensTeacher/MyClassInfo"
@@ -119,6 +123,26 @@ const AppRoutes = () => {
                     <Route exact path="/createi-stquarter" element={
                         <Private>
                             <CreateiStQuarter/>
+                        </Private>
+                    } />
+                    <Route exact path="/updatei-stquarter" element={
+                        <Private>
+                            <EditiStQuarter/>
+                        </Private>
+                    } />
+                    <Route exact path="/createii-ndquarter" element={
+                        <Private>
+                            <CreateiiNdQuarter/>
+                        </Private>
+                    } />
+                    <Route exact path="/createiii-rdquarter" element={
+                        <Private>
+                            <CreateiiiRdQuarter/>
+                        </Private>
+                    } />
+                    <Route exact path="/createiv-thquarter" element={
+                        <Private>
+                            <CreateivThQuarter/>
                         </Private>
                     } />
                     <Route exact path="/new/student" element={

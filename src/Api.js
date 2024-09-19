@@ -349,6 +349,224 @@ export const RegisterIstQuarter = async (
         }, [])
 }
 
+export const getI_stQuarterDetails = async (
+    idIstQuarter
+) => {
+
+    return api.get(`/details/istQuarter/${idIstQuarter}`)
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
+
+export const UpdateIstQuarter = async (
+    id_IstQuarter,
+    startday,
+    startmonth,
+    endday,
+    endmonth,
+    totalGrade,
+    averageGrade
+) => {
+
+    return api.post(`/update/istQuarter/${id_IstQuarter}`, {
+        startday,
+        startmonth,
+        endday,
+        endmonth,
+        totalGrade,
+        averageGrade
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
+export const getIIndQuarter = async (
+    year,
+    id_school
+) => {
+
+    return api.post(`/index/iindQuarter`, {
+        year,
+        id_school
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const RegisterIIndQuarter = async (
+    year,
+    startday,
+    startmonth,
+    startyear,
+    endday,
+    endmonth,
+    endyear,
+    totalGrade,
+    averageGrade,
+    id_school
+) => {
+
+    return api.post(`/register/iindQuarter`, {
+        year,
+        startday,
+        startmonth,
+        startyear,
+        endday,
+        endmonth,
+        endyear,
+        totalGrade,
+        averageGrade,
+        id_school
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const getIIIrdQuarter = async (
+    year,
+    id_school
+) => {
+
+    return api.post(`/index/iii_rdQuarter`, {
+        year,
+        id_school
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const RegisterIIIrdQuarter = async (
+    year,
+    startday,
+    startmonth,
+    startyear,
+    endday,
+    endmonth,
+    endyear,
+    totalGrade,
+    averageGrade,
+    id_school
+) => {
+
+    return api.post(`/register/iii_rdQuarter`, {
+        year,
+        startday,
+        startmonth,
+        startyear,
+        endday,
+        endmonth,
+        endyear,
+        totalGrade,
+        averageGrade,
+        id_school
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const getIVthQuarter = async (
+    year,
+    id_school
+) => {
+
+    return api.post(`/index/iv_thQuarter`, {
+        year,
+        id_school
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const RegisterIVthQuarter = async (
+    year,
+    startday,
+    startmonth,
+    startyear,
+    endday,
+    endmonth,
+    endyear,
+    totalGrade,
+    averageGrade,
+    id_school
+) => {
+
+    return api.post(`/register/iv_thQuarter`, {
+        year,
+        startday,
+        startmonth,
+        startyear,
+        endday,
+        endmonth,
+        endyear,
+        totalGrade,
+        averageGrade,
+        id_school
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
 export const DestroyEmp = async (
     idEmployee,
 ) => {
