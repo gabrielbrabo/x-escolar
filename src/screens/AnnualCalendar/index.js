@@ -65,6 +65,33 @@ const HomeSchool = () => {
     setLoading(false);
   };
 
+  const ii_ndQuarterInfo = () => {
+    setLoading(true);
+    const res = IIndQuarter.find( result => { return result._id })
+    sessionStorage.setItem("IIndQuarterInformation", res._id);
+    console.log( 'log', res._id)
+    navigate('/updateii-ndquarter')
+    setLoading(false);
+  };
+
+  const iii_rdQuarterInfo = () => {
+    setLoading(true);
+    const res = IIIrdQuarter.find( result => { return result._id })
+    sessionStorage.setItem("IIIrdQuarterInformation", res._id);
+    console.log( 'log', res._id)
+    navigate('/updateiii-rdquarter')
+    setLoading(false);
+  };
+
+  const iv_thQuarterInfo = () => {
+    setLoading(true);
+    const res = IVthQuarter.find( result => { return result._id })
+    sessionStorage.setItem("IVthQuarterInformation", res._id);
+    console.log( 'log', res._id)
+    navigate('/updateiv-thquarter')
+    setLoading(false);
+  };
+
   return (
     <Container>
       {loading ? (
@@ -112,7 +139,8 @@ const HomeSchool = () => {
               <>
                 <AddEmp>
                   <h3>2º Bimestre</h3>
-                  <Btt02 /*onClick={e => (navigate('/createi-stquarter'))}*/ >Editar Bimestre</Btt02>
+                  <Btt02 onClick={ii_ndQuarterInfo}
+                  >Editar Bimestre</Btt02>
                 </AddEmp>
                 <DivDados>
                   {
@@ -146,7 +174,8 @@ const HomeSchool = () => {
               <>
                 <AddEmp>
                   <h3>3º Bimestre</h3>
-                  <Btt02 /*onClick={e => (navigate('/createi-stquarter'))}*/ >Editar Bimestre</Btt02>
+                  <Btt02 onClick={iii_rdQuarterInfo}
+                  >Editar Bimestre</Btt02>
                 </AddEmp>
                 <DivDados>
                   {
@@ -180,7 +209,8 @@ const HomeSchool = () => {
               <>
                 <AddEmp>
                   <h3>4º Bimestre</h3>
-                  <Btt02 /*onClick={e => (navigate('/createi-stquarter'))}*/ >Editar Bimestre</Btt02>
+                  <Btt02 onClick={iv_thQuarterInfo}
+                  >Editar Bimestre</Btt02>
                 </AddEmp>
                 <DivDados>
                   {

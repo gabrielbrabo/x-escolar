@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { UpdateIstQuarter, getI_stQuarterDetails } from '../../Api';
+import { UpdateIIIrdQuarter, getIII_rdQuarterDetails } from '../../Api';
 import { useNavigate } from 'react-router-dom';
 import {
     Container,
@@ -39,10 +39,10 @@ const EditProfile = () => {
         (async () => {
             setLoading(true);
 
-            const idIstQuarter = sessionStorage.getItem("IstQuarterInformation");
-            const res = await getI_stQuarterDetails(idIstQuarter);
+            const idIIIrdQuarter = sessionStorage.getItem("IIIrdQuarterInformation");
+            const res = await getIII_rdQuarterDetails(idIIIrdQuarter);
 
-            console.log("idIstQuarter", idIstQuarter)
+            console.log("idIstQuarter", idIIIrdQuarter)
             console.log("getClass", res)
             setid_IstQuarter(res.data._id);
             setStartday(res.data.startday || '');
@@ -57,7 +57,7 @@ const EditProfile = () => {
 
     const handleSubmit = async () => {
         setLoading(true);
-        const res = await UpdateIstQuarter(
+        const res = await UpdateIIIrdQuarter(
             id_IstQuarter,
             startday,
             startmonth,
@@ -86,7 +86,7 @@ const EditProfile = () => {
                 <LoadingSpinner />
                 :
                 <>
-                    <h2>Edição do 1º Bimestre</h2>
+                    <h2>Edição do 3º Bimestre</h2>
                     <DivDados>
                         <p>Data de Inicio:
                             <SelectorDate
