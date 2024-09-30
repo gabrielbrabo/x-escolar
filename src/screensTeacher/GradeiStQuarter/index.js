@@ -48,13 +48,13 @@ const IndexAttendance = () => {
 
     }, [])
 
-    const handleAttendance = async () => {
+    /*const handleAttendance = async () => {
         setLoading(true)
 
         setLoading(false)
-    }
+    }*/
 
-    console.log()
+    console.log("matter", matter, grades)
 
     return (
         <Container>
