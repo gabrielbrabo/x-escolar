@@ -703,6 +703,43 @@ export const UpdateIVthQuarter = async (
         }, [])
 }
 
+export const RegisterGradeIstQuarter = async (
+    year,
+    bimonthly,
+    totalGrade,
+    averageGrade,
+    studentGrade,
+    status,
+    id_iStQuarter,
+    id_student,
+    id_teacher,
+    id_matter
+) => {
+
+    return api.post(`/register/grade`, {
+        year,
+        bimonthly,
+        totalGrade,
+        averageGrade,
+        studentGrade,
+        status,
+        id_iStQuarter,
+        id_student,
+        id_teacher,
+        id_matter
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
 export const DestroyEmp = async (
     idEmployee,
 ) => {

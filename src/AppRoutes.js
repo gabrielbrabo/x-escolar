@@ -52,6 +52,8 @@ import EditivThQuarter from "./screens/EditivThQuarter"
 import MyClasses from "./screensTeacher/MyClasses"
 import MyClassesInfo from "./screensTeacher/MyClassInfo"
 import Attendance from "./screensTeacher/Attendance"
+import Grade from "./screensTeacher/Grade"
+import GradeiStQuarter from "./screensTeacher/GradeiStQuarter"
 
 const AppRoutes = () => {
 
@@ -257,6 +259,16 @@ const AppRoutes = () => {
                     <Route exact path="/attendance" element={
                         <Private>
                             <Attendance />
+                        </Private>
+                    } />
+                    <Route exact path="/grade" element={
+                        <Private>
+                            <Grade />
+                        </Private>
+                    } />
+                    <Route exact path="/grade-istquarter" element={
+                        <Private>
+                            <GradeiStQuarter />
                         </Private>
                     } />
                 </Routes>

@@ -17,18 +17,28 @@ dayjs.locale('pt-br');
 dayjs.extend(localizedFormat);
 
 const ResponsivePickers = ({ setSelectedDate, setDay, setMonth, setYear }) => {
+
+    const currentYear = new Date().getFullYear().toString();
+
     const handleonChange = (date) => {
-        console.log("mes", date.$M + 1, "dia", date.$D, "year", date.$y)
+
+        if (!date || !date.$y || !date.$M || !date.$D) {
+            // Se a data ainda está incompleta, não fazer nada
+            return;
+        }
+
+        console.log("mes", date.$M + 1, "dia", date.$D, "year", currentYear)
 
         setSelectedDate(date)
         setDay(date.$D)
         setMonth(date.$M + 1)
-        setYear(date.$y)
+        setYear(currentYear)
     }
     /*const dateonChange = props => {
         const day = sessionStorage.getItem("dia")
         props.handleDate(day)
     }*/
+
     return (
         <LocalizationProvider locale={dayjs.locale('pt-br', { months: monthsPtBr, weekdays: diasDaSemana, })} utils={DayjsUtils} dateAdapter={AdapterDayjs}>
             <DemoContainer
@@ -36,8 +46,8 @@ const ResponsivePickers = ({ setSelectedDate, setDay, setMonth, setYear }) => {
             >
                 <DemoItem >
                     <DesktopDatePicker
-                        views={['month', 'day']}  // Permite selecionar apenas mês e dia
-                        format="DD/MM"  // Formato Brasileiro DD/MM
+                        views={['day', 'month']}  // Permite selecionar apenas mês e dia
+                        format="DD/MM/YY"  // Formato Brasileiro DD/MM
                         onChange={handleonChange}
                     />
                 </DemoItem>
