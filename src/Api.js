@@ -709,7 +709,6 @@ export const RegisterGradeIstQuarter = async (
     totalGrade,
     averageGrade,
     studentGrade,
-    status,
     id_iStQuarter,
     id_student,
     id_teacher,
@@ -722,7 +721,6 @@ export const RegisterGradeIstQuarter = async (
         totalGrade,
         averageGrade,
         studentGrade,
-        status,
         id_iStQuarter,
         id_student,
         id_teacher,
@@ -740,6 +738,24 @@ export const RegisterGradeIstQuarter = async (
         }, [])
 }
 
+export const GetGradeIstQuarter = async (
+    year, id_matter, id_iStQuarter
+) => {
+
+    return api.post(`/index/grade`, {
+        year, id_matter, id_iStQuarter
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
 export const DestroyEmp = async (
     idEmployee,
 ) => {
@@ -865,6 +881,23 @@ export const GetClass = async (
     return api.post('/class', {
         idSchool
     })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+
+            }
+        }, [])
+}
+
+export const GetMatterDetails = async (
+    idMatter
+) => {
+
+    return api.get(`/getMatter/${idMatter}`)
 
         .catch((error) => {
             if (error) {

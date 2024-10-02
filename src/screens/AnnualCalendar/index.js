@@ -29,6 +29,7 @@ const HomeSchool = () => {
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       const idSchool = sessionStorage.getItem("id-school");
       const year = new Date().getFullYear();
       const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))

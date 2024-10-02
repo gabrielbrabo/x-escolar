@@ -5,7 +5,8 @@ import {
     getIIndQuarter,
     getIIIrdQuarter,
     getIVthQuarter,
-    GetMatter
+    GetMatter,
+    GetMatterDetails
 } from '../../Api';
 
 import {
@@ -27,6 +28,10 @@ import LoadingSpinner from '../../components/Loading'
 const Grade = () => {
 
     const navigate = useNavigate()
+    const [I, setI] = useState([])
+    const [II, setII] = useState([])
+    const [III, setIII] = useState([])
+    const [IV, setIV] = useState([])
     const [Selectbimonthly, setSelectbimonthly] = useState([])
     const [bimonthly, setbimonthly] = useState([])
     const [Selectmatter, setSelectMatter] = useState([])
@@ -54,6 +59,19 @@ const Grade = () => {
             const res = await GetMatter(JSON.parse(idSchool));
 
             setbimonthly([i, ii, iii, iv].filter(res => res !== null));
+
+            if (i !== null) {
+                setI(i._id);
+            }
+            if (ii !== null) {
+                setII(ii._id);
+            }
+            if (iii !== null) {
+                setIII(iii._id);
+            }
+            if (iv !== null) {
+                setIV(iv._id);
+            }
             setMatter(res.data.data);
             setLoading(false);
         })()
@@ -66,10 +84,19 @@ const Grade = () => {
 
     const signClick = async () => {
         setLoading(true);
-        
+
+        const Matter = await GetMatterDetails(Selectmatter)
+        if (Matter) {
+            const nameMatter = Matter.data.name
+            sessionStorage.setItem("nameMatter", nameMatter)
+            console.log("nameMatter", nameMatter)
+        }
+
         sessionStorage.setItem("Selectmatter", Selectmatter)
-        
-        if (Selectbimonthly === "1º BIMESTRE") {
+        sessionStorage.setItem("yearGrade", new Date().getFullYear().toString())
+
+        if (Selectbimonthly === I) {
+            sessionStorage.setItem("id-I", I)
             navigate('/grade-istquarter')
         } else {
             setErrorMessage('Erro, Verifique os dados e tente novamente.');
@@ -97,7 +124,7 @@ const Grade = () => {
                             >
                                 <option value="">Selecione</option>
                                 {bimonthly.map(res => (
-                                    <option value={res.bimonthly}>{res.bimonthly}</option>
+                                    <option key={res._id} value={res._id}>{res.bimonthly}</option>
                                 ))
                                 }
                             </Select>

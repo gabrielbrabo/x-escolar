@@ -55,7 +55,7 @@ export const Emp = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 5px;
-    gap: 10px;
+    gap: 3px;
     border-radius: 5px;
     margin-bottom: 35px;
     min-width: 90%;
@@ -105,7 +105,7 @@ export const Span = styled.div`
     display: flex;
     align-items: center;
     border: none;
-    width: 300px;
+    width: 400px;
     height: 90%;
     font-size: 16px;
     color: #333;
@@ -113,7 +113,7 @@ export const Span = styled.div`
     white-space: nowrap;
 
     @media(max-width: 768px) {
-        max-width: 120px;
+        max-width: 140px;
     }
 
 `;
@@ -178,4 +178,11 @@ export const Grade = styled.div`
     align-items: center;
     justify-content: center;
 `;
-
+export const ErrorMessage = styled.div`
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+`;
