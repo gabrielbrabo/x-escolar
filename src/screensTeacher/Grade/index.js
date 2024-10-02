@@ -29,9 +29,9 @@ const Grade = () => {
 
     const navigate = useNavigate()
     const [I, setI] = useState([])
-    const [II, setII] = useState([])
-    const [III, setIII] = useState([])
-    const [IV, setIV] = useState([])
+    //const [II, setII] = useState([])
+    //const [III, setIII] = useState([])
+    //const [IV, setIV] = useState([])
     const [Selectbimonthly, setSelectbimonthly] = useState([])
     const [bimonthly, setbimonthly] = useState([])
     const [Selectmatter, setSelectMatter] = useState([])
@@ -63,7 +63,7 @@ const Grade = () => {
             if (i !== null) {
                 setI(i._id);
             }
-            if (ii !== null) {
+            /*if (ii !== null) {
                 setII(ii._id);
             }
             if (iii !== null) {
@@ -71,7 +71,7 @@ const Grade = () => {
             }
             if (iv !== null) {
                 setIV(iv._id);
-            }
+            }*/
             setMatter(res.data.data);
             setLoading(false);
         })()
