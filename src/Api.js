@@ -742,7 +742,7 @@ export const GetGradeIstQuarter = async (
     year, id_matter, id_iStQuarter
 ) => {
 
-    return api.post(`/index/grade`, {
+    return api.post(`/index/gradei`, {
         year, id_matter, id_iStQuarter
     })
 
@@ -756,6 +756,167 @@ export const GetGradeIstQuarter = async (
             }
         }, [])
 }
+
+export const RegisterGradeIIndQuarter = async (
+    year,
+    bimonthly,
+    totalGrade,
+    averageGrade,
+    studentGrade,
+    id_iiNdQuarter,
+    id_student,
+    id_teacher,
+    id_matter
+) => {
+
+    return api.post(`/register/grade`, {
+        year,
+        bimonthly,
+        totalGrade,
+        averageGrade,
+        studentGrade,
+        id_iiNdQuarter,
+        id_student,
+        id_teacher,
+        id_matter
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const GetGradeIINdQuarter = async (
+    year, id_matter, id_iiNdQuarter
+) => {
+
+    return api.post(`/index/gradeii`, {
+        year, id_matter, id_iiNdQuarter
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+export const RegisterGradeIIIrdQuarter = async (
+    year,
+    bimonthly,
+    totalGrade,
+    averageGrade,
+    studentGrade,
+    id_iiiRdQuarter,
+    id_student,
+    id_teacher,
+    id_matter
+) => {
+
+    return api.post(`/register/grade`, {
+        year,
+        bimonthly,
+        totalGrade,
+        averageGrade,
+        studentGrade,
+        id_iiiRdQuarter,
+        id_student,
+        id_teacher,
+        id_matter
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const GetGradeIIIrdQuarter = async (
+    year, id_matter, id_iiiRdQuarter
+) => {
+
+    return api.post(`/index/gradeiii`, {
+        year, id_matter, id_iiiRdQuarter
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+export const RegisterGradeIVthQuarter = async (
+    year,
+    bimonthly,
+    totalGrade,
+    averageGrade,
+    studentGrade,
+    id_ivThQuarter,
+    id_student,
+    id_teacher,
+    id_matter
+) => {
+
+    return api.post(`/register/grade`, {
+        year,
+        bimonthly,
+        totalGrade,
+        averageGrade,
+        studentGrade,
+        id_ivThQuarter,
+        id_student,
+        id_teacher,
+        id_matter
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const GetGradeIVthQuarter = async (
+    year, id_matter, id_ivThQuarter
+) => {
+
+    return api.post(`/index/gradeiv`, {
+        year, id_matter, id_ivThQuarter
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
 export const DestroyEmp = async (
     idEmployee,
 ) => {

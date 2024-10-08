@@ -70,9 +70,22 @@ const SignInEmployee = () => {
         }
         setLoading(false);
     }
+    const maskCPF = (value) => {
+        return value
+          .replace(/\D/g, '') // Remove tudo o que não é dígito
+          .replace(/(\d{3})(\d)/, '$1.$2') // Coloca o primeiro ponto
+          .replace(/(\d{3})(\d)/, '$1.$2') // Coloca o segundo ponto
+          .replace(/(\d{3})(\d{1,2})$/, '$1-$2') // Coloca o traço
+          .slice(0, 14); // Limita para 14 caracteres
+      };
+
+    const handleChange = (e) => {
+        setCpf(maskCPF(e.target.value));
+      };
+    
 
     const MessageButtomclick = () => {
-        navigate('/signup/school')
+        navigate(-1);
     }
 
     return (
@@ -86,11 +99,11 @@ const SignInEmployee = () => {
                         <>CPF</>
                         <Area>
                             <Input
-                                placeholder="Digite seu CPF"
-                                value={cpf}
-                                onChange={
-                                    (e) => setCpf(e.target.value)
-                                }
+                                 placeholder="Digite o CPF"
+                                 value={cpf}
+                                 onChange={handleChange}
+                                 type="text" 
+                                 maxLength="14"
                             />
                         </Area>
                         <>Senha</>
@@ -104,11 +117,11 @@ const SignInEmployee = () => {
                             />
                         </Area>
                         <Btt type='submit'>Login</Btt>
-                        <SignMessageButton onClick={MessageButtomclick}>
+                    </InputArea>
+                    <SignMessageButton onClick={MessageButtomclick}>
                             <SignMessageButtonText></SignMessageButtonText>
                             <SignMessageButtonTextBold>Selecionar outra forma de Login!</SignMessageButtonTextBold>
                         </SignMessageButton>
-                    </InputArea>
                 </>
             }
         </Container>

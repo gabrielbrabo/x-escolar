@@ -29,9 +29,9 @@ const Grade = () => {
 
     const navigate = useNavigate()
     const [I, setI] = useState([])
-    //const [II, setII] = useState([])
-    //const [III, setIII] = useState([])
-    //const [IV, setIV] = useState([])
+    const [II, setII] = useState([])
+    const [III, setIII] = useState([])
+    const [IV, setIV] = useState([])
     const [Selectbimonthly, setSelectbimonthly] = useState([])
     const [bimonthly, setbimonthly] = useState([])
     const [Selectmatter, setSelectMatter] = useState([])
@@ -63,7 +63,7 @@ const Grade = () => {
             if (i !== null) {
                 setI(i._id);
             }
-            /*if (ii !== null) {
+            if (ii !== null) {
                 setII(ii._id);
             }
             if (iii !== null) {
@@ -71,7 +71,7 @@ const Grade = () => {
             }
             if (iv !== null) {
                 setIV(iv._id);
-            }*/
+            }
             setMatter(res.data.data);
             setLoading(false);
         })()
@@ -98,6 +98,15 @@ const Grade = () => {
         if (Selectbimonthly === I) {
             sessionStorage.setItem("id-I", I)
             navigate('/grade-istquarter')
+        } else if (Selectbimonthly === II) {
+            sessionStorage.setItem("id-II", II)
+            navigate('/grade-iindquarter')
+        }  else if (Selectbimonthly === III) {
+            sessionStorage.setItem("id-III", III)
+            navigate('/grade-iiirdquarter')
+        } else if (Selectbimonthly === IV) {
+            sessionStorage.setItem("id-IV", IV)
+            navigate('/grade-ivthquarter')
         } else {
             setErrorMessage('Erro, Verifique os dados e tente novamente.');
         }

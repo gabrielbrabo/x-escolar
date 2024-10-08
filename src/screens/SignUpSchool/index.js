@@ -10,7 +10,7 @@ import { api, createSessionSchool } from '../../Api'
 import {
   Container,
   InputArea,
-  Area, 
+  Area,
   Input,
   Btt
 } from './style';
@@ -112,32 +112,12 @@ const SignUpSchool = () => {
                 }
               />
             </Area>
-            {/*<>Senha</>
-        <Area>
-          <Input
-              placeholder="Digite sua senha"
-              value={password}
-              onChange={
-                (e) => setPassword(e.target.value)
-              }
-          />
-        </Area>
-        <>Confirme Senha</>
-        <Area>
-          <Input
-              placeholder="Confirme sua senha"
-              value={confirmpassword}
-              onChange={
-                (e) => setConfirmPassword(e.target.value)
-              }
-          />
-        </Area>*/}
             <Btt type='submit'>Cadastra</Btt>
-            <SignMessageButton onClick={MessageButtomclick}>
-              <SignMessageButtonText>Já possui uma conta?</SignMessageButtonText>
-              <SignMessageButtonTextBold>Faça o login!</SignMessageButtonTextBold>
-            </SignMessageButton>
           </InputArea>
+          <SignMessageButton onClick={MessageButtomclick}>
+            <SignMessageButtonText>Já possui uma conta?</SignMessageButtonText>
+            <SignMessageButtonTextBold>Faça o login!</SignMessageButtonTextBold>
+          </SignMessageButton>
         </>
       }
     </Container>

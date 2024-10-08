@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { clssInfo, RegisterGradeIstQuarter, getIstQuarter, GetGradeIstQuarter } from '../../Api'
+import { clssInfo, RegisterGradeIIndQuarter, getIIndQuarter, GetGradeIINdQuarter } from '../../Api'
 
 import {
     Container,
@@ -32,7 +32,7 @@ const IndexAttendance = () => {
     const [id_matter, setMatter] = useState('');
     const [id_class, setId_class] = useState([])
     const [studentGrade, setStudentGrade] = useState([]);
-    const [id_iStQuarter, setId_iStQuarter] = useState('');
+    const [id_iiNdQuarter, setId_iiNdQuarter] = useState('');
     const [stdt, setStdt] = useState([])
     const [checked, setChecked] = useState([])
     const [id_teacher, setId_teacher] = useState([])
@@ -46,25 +46,25 @@ const IndexAttendance = () => {
             const idSchool = sessionStorage.getItem("id-school");
             const id_teacher = localStorage.getItem("Id_employee");
             const currentYear = sessionStorage.getItem("yearGrade");
-            const id_bimonthly = sessionStorage.getItem("id-I")
+            const id_bimonthly = sessionStorage.getItem("id-II")
             const nameMatter = sessionStorage.getItem("nameMatter")
             const id_mttr = sessionStorage.getItem("Selectmatter")
             const id_class = sessionStorage.getItem("class-info")
             // const resClass = await clssInfo(id_class)
-            const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
+            const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
 
             setMatter(id_mttr)
             setYear(currentYear)
-            setId_iStQuarter(id_bimonthly)
+            setId_iiNdQuarter(id_bimonthly)
 
-            const bim = await IstQuarter.data.data.map(res => {
+            const bim = await IIndQuarter.data.data.map(res => {
                 return res.bimonthly
 
             })
-            const tg = await IstQuarter.data.data.map(res => {
+            const tg = await IIndQuarter.data.data.map(res => {
                 return res.totalGrade
             })
-            const ag = await IstQuarter.data.data.map(res => {
+            const ag = await IIndQuarter.data.data.map(res => {
                 return res.averageGrade
             })
 
@@ -81,9 +81,9 @@ const IndexAttendance = () => {
             setAverageGrade(agString)
             setId_teacher(JSON.parse(id_teacher))
 
-            if (id_matter && year && id_iStQuarter) {
+            if (id_matter && year && id_iiNdQuarter) {
                 setLoading(true);
-                const resGrade = await GetGradeIstQuarter(year, id_matter, id_iStQuarter)
+                const resGrade = await GetGradeIINdQuarter(year, id_matter, id_iiNdQuarter)
                 const resClass = await clssInfo(id_class)
                 const GradeRealized = await resGrade.data.data.map(res => {
                     return res.id_student._id
@@ -107,15 +107,15 @@ const IndexAttendance = () => {
 
             setLoading(false);
         })()
-    }, [year, id_iStQuarter, id_matter])
+    }, [year, id_iiNdQuarter, id_matter])
 
     const handleGrade = async (stdt) => {
         setLoading(true)
         const id_student = stdt._id
-        console.log("year", year, "bimonthly", bimonthly, "totalGrade", totalGrade, "averageGrade", averageGrade, "studentGrade", studentGrade, "id_iStQuarter", id_iStQuarter, "id_student", id_student, "id_teacher", id_teacher, "id_matter", id_matter)
-        const res = await RegisterGradeIstQuarter(year, bimonthly, totalGrade, averageGrade, studentGrade, id_iStQuarter, id_student, id_teacher, id_matter)
+        console.log("year", year, "bimonthly", bimonthly, "totalGrade", totalGrade, "averageGrade", averageGrade, "studentGrade", studentGrade, "id_iiNdQuarter", id_iiNdQuarter, "id_student", id_student, "id_teacher", id_teacher, "id_matter", id_matter)
+        const res = await RegisterGradeIIndQuarter(year, bimonthly, totalGrade, averageGrade, studentGrade, id_iiNdQuarter, id_student, id_teacher, id_matter)
         if (res) {
-            const resGrade = await GetGradeIstQuarter(year, id_matter, id_iStQuarter)
+            const resGrade = await GetGradeIINdQuarter(year, id_matter, id_iiNdQuarter)
             const resClass = await clssInfo(id_class)
             const GradeRealized = await resGrade.data.data.map(res => {
                 return res.id_student._id
@@ -162,10 +162,10 @@ const IndexAttendance = () => {
                 <LoadingSpinner />
                 :
                 <ContainerDivs>
-                    <h2>Grade 1º Bimestre</h2>
+                    <h2>Grade 2º Bimestre</h2>
                     <ContainerStudent>
                         <DataSelected>
-                            <p>Bimestre: 1º Bimestre</p>
+                            <p>Bimestre: 2º Bimestre</p>
                             <p>Disciplina: {Namematter}</p>
                         </DataSelected>
                         <List>

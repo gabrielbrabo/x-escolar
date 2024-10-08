@@ -10,7 +10,7 @@ import {
 import {
     SignMessageButton,
     SignMessageButtonText,
-    SignMessageButtonTextBold 
+    SignMessageButtonTextBold
 } from '../../components/Buttons';
 
 const LoginSelection = () => {
@@ -28,7 +28,7 @@ const LoginSelection = () => {
     const MessageButtomclick = () => {
         navigate('/signup/school')
     }
-  
+
     return (
         <Container>
             <h1>Como Deseja Acessar</h1>
@@ -42,13 +42,13 @@ const LoginSelection = () => {
                 <Area>
                     <Text>Acessar como Pais Resposavel</Text>
                 </Area>
-                <SignMessageButton onClick={MessageButtomclick}>
-                    <SignMessageButtonText>Ainda não possui uma conta?</SignMessageButtonText>
-                    <SignMessageButtonTextBold>Cadastre uma Instituição!</SignMessageButtonTextBold>
-                </SignMessageButton>
             </InputArea>
+            <SignMessageButton onClick={MessageButtomclick}>
+                <SignMessageButtonText>Ainda não possui uma conta?</SignMessageButtonText>
+                <SignMessageButtonTextBold>Cadastre uma Instituição!</SignMessageButtonTextBold>
+            </SignMessageButton>
         </Container>
     )
 }
-  
+
 export default LoginSelection
