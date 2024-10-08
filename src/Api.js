@@ -702,6 +702,210 @@ export const UpdateIVthQuarter = async (
             }
         }, [])
 }
+export const getVthQuarter = async (
+    year,
+    id_school
+) => {
+
+    return api.post(`/index/v_thQuarter`, {
+        year,
+        id_school
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const RegisterVthQuarter = async (
+    year,
+    startday,
+    startmonth,
+    startyear,
+    endday,
+    endmonth,
+    endyear,
+    totalGrade,
+    averageGrade,
+    id_school
+) => {
+
+    return api.post(`/register/v_thQuarter`, {
+        year,
+        startday,
+        startmonth,
+        startyear,
+        endday,
+        endmonth,
+        endyear,
+        totalGrade,
+        averageGrade,
+        id_school
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const getV_thQuarterDetails = async (
+    idVthQuarter
+) => {
+
+    return api.get(`/details/vthQuarter/${idVthQuarter}`)
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
+
+export const UpdateVthQuarter = async (
+    idVthQuarter,
+    startday,
+    startmonth,
+    endday,
+    endmonth,
+    totalGrade,
+    averageGrade
+) => {
+
+    return api.post(`/update/vthQuarter/${idVthQuarter}`, {
+        startday,
+        startmonth,
+        endday,
+        endmonth,
+        totalGrade,
+        averageGrade
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
+export const getVIthQuarter = async (
+    year,
+    id_school
+) => {
+
+    return api.post(`/index/vi_thQuarter`, {
+        year,
+        id_school
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const RegisterVIthQuarter = async (
+    year,
+    startday,
+    startmonth,
+    startyear,
+    endday,
+    endmonth,
+    endyear,
+    totalGrade,
+    averageGrade,
+    id_school
+) => {
+
+    return api.post(`/register/vi_thQuarter`, {
+        year,
+        startday,
+        startmonth,
+        startyear,
+        endday,
+        endmonth,
+        endyear,
+        totalGrade,
+        averageGrade,
+        id_school
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const getVI_thQuarterDetails = async (
+    idVIthQuarter
+) => {
+
+    return api.get(`/details/vithQuarter/${idVIthQuarter}`)
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
+
+export const UpdateVIthQuarter = async (
+    idVIthQuarter,
+    startday,
+    startmonth,
+    endday,
+    endmonth,
+    totalGrade,
+    averageGrade
+) => {
+
+    return api.post(`/update/vithQuarter/${idVIthQuarter}`, {
+        startday,
+        startmonth,
+        endday,
+        endmonth,
+        totalGrade,
+        averageGrade
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
 
 export const RegisterGradeIstQuarter = async (
     year,
@@ -904,6 +1108,112 @@ export const GetGradeIVthQuarter = async (
 
     return api.post(`/index/gradeiv`, {
         year, id_matter, id_ivThQuarter
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+export const RegisterGradeVthQuarter = async (
+    year,
+    bimonthly,
+    totalGrade,
+    averageGrade,
+    studentGrade,
+    id_vThQuarter,
+    id_student,
+    id_teacher,
+    id_matter
+) => {
+
+    return api.post(`/register/grade`, {
+        year,
+        bimonthly,
+        totalGrade,
+        averageGrade,
+        studentGrade,
+        id_vThQuarter,
+        id_student,
+        id_teacher,
+        id_matter
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const GetGradeVthQuarter = async (
+    year, id_matter, id_vThQuarter,
+) => {
+
+    return api.post(`/index/gradev`, {
+        year, id_matter, id_vThQuarter,
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+export const RegisterGradeVIthQuarter = async (
+    year,
+    bimonthly,
+    totalGrade,
+    averageGrade,
+    studentGrade,
+    id_viThQuarter,
+    id_student,
+    id_teacher,
+    id_matter
+) => {
+
+    return api.post(`/register/grade`, {
+        year,
+        bimonthly,
+        totalGrade,
+        averageGrade,
+        studentGrade,
+        id_viThQuarter,
+        id_student,
+        id_teacher,
+        id_matter
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const GetGradeVIthQuarter = async (
+    year, id_matter, id_viThQuarter
+) => {
+
+    return api.post(`/index/gradevi`, {
+        year, id_matter, id_viThQuarter
     })
 
         .catch((error) => {

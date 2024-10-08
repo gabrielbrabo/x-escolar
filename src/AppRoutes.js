@@ -48,6 +48,10 @@ import CreateiiiRdQuarter from "./screens/CreateiiiRdQuarter"
 import EditiiiRdQuarter from "./screens/EditiiiRdQuarter"
 import CreateivThQuarter from "./screens/CreateivThQuarter"
 import EditivThQuarter from "./screens/EditivThQuarter"
+import CreatevThQuarter from "./screens/CreatevThQuarter"
+import EditvThQuarter from "./screens/EditvThQuarter"
+import CreateviThQuarter from "./screens/CreateviThQuarter"
+import EditviThQuarter from "./screens/EditviThQuarter"
 
 import MyClasses from "./screensTeacher/MyClasses"
 import MyClassesInfo from "./screensTeacher/MyClassInfo"
@@ -57,6 +61,8 @@ import GradeiStQuarter from "./screensTeacher/GradeiStQuarter"
 import GradeiiNdQuarter from "./screensTeacher/GradeiiNdQuarter"
 import GradeiiiRdQuarter from "./screensTeacher/GradeiiiRdQuarter"
 import GradeivThQuarter from "./screensTeacher/GradeivThQuarter"
+import GradevThQuarter from "./screensTeacher/GradevThQuarter"
+import GradeviThQuarter from "./screensTeacher/GradeviThQuarter"
 
 const AppRoutes = () => {
 
@@ -166,6 +172,26 @@ const AppRoutes = () => {
                     <Route exact path="/updateiv-thquarter" element={
                         <Private>
                             <EditivThQuarter/>
+                        </Private>
+                    } />
+                    <Route exact path="/createv-thquarter" element={
+                        <Private>
+                            <CreatevThQuarter/>
+                        </Private>
+                    } />
+                    <Route exact path="/updatev-thquarter" element={
+                        <Private>
+                            <EditvThQuarter/>
+                        </Private>
+                    } />
+                    <Route exact path="/createvi-thquarter" element={
+                        <Private>
+                            <CreateviThQuarter/>
+                        </Private>
+                    } />
+                    <Route exact path="/updatevi-thquarter" element={
+                        <Private>
+                            <EditviThQuarter/>
                         </Private>
                     } />
                     <Route exact path="/new/student" element={
@@ -287,6 +313,16 @@ const AppRoutes = () => {
                     <Route exact path="/grade-ivthquarter" element={
                         <Private>
                             <GradeivThQuarter />
+                        </Private>
+                    } />
+                    <Route exact path="/grade-vthquarter" element={
+                        <Private>
+                            <GradevThQuarter />
+                        </Private>
+                    } />
+                    <Route exact path="/grade-vithquarter" element={
+                        <Private>
+                            <GradeviThQuarter />
                         </Private>
                     } />
                 </Routes>

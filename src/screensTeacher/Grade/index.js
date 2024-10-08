@@ -5,6 +5,8 @@ import {
     getIIndQuarter,
     getIIIrdQuarter,
     getIVthQuarter,
+    getVthQuarter,
+    getVIthQuarter,
     GetMatter,
     GetMatterDetails
 } from '../../Api';
@@ -32,6 +34,8 @@ const Grade = () => {
     const [II, setII] = useState([])
     const [III, setIII] = useState([])
     const [IV, setIV] = useState([])
+    const [V, setV] = useState([])
+    const [VI, setVI] = useState([])
     const [Selectbimonthly, setSelectbimonthly] = useState([])
     const [bimonthly, setbimonthly] = useState([])
     const [Selectmatter, setSelectMatter] = useState([])
@@ -50,15 +54,19 @@ const Grade = () => {
             const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
             const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
             const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
+            const VthQuarter = await getVthQuarter(year, JSON.parse(idSchool))
+            const VIthQuarter = await getVIthQuarter(year, JSON.parse(idSchool))
 
             const i = IstQuarter.data.data.find(res => res) || null;
             const ii = IIndQuarter.data.data.find(res => res) || null;
             const iii = IIIrdQuarter.data.data.find(res => res) || null;
             const iv = IVthQuarter.data.data.find(res => res) || null;
+            const v = VthQuarter.data.data.find(res => res) || null;
+            const vi = VIthQuarter.data.data.find(res => res) || null;
 
             const res = await GetMatter(JSON.parse(idSchool));
 
-            setbimonthly([i, ii, iii, iv].filter(res => res !== null));
+            setbimonthly([i, ii, iii, iv, v, vi].filter(res => res !== null));
 
             if (i !== null) {
                 setI(i._id);
@@ -71,6 +79,12 @@ const Grade = () => {
             }
             if (iv !== null) {
                 setIV(iv._id);
+            }
+            if (v !== null) {
+                setV(v._id);
+            }
+            if (vi !== null) {
+                setVI(vi._id);
             }
             setMatter(res.data.data);
             setLoading(false);
@@ -107,6 +121,12 @@ const Grade = () => {
         } else if (Selectbimonthly === IV) {
             sessionStorage.setItem("id-IV", IV)
             navigate('/grade-ivthquarter')
+        } else if (Selectbimonthly === V) {
+            sessionStorage.setItem("id-V", V)
+            navigate('/grade-vthquarter')
+        } else if (Selectbimonthly === VI) {
+            sessionStorage.setItem("id-VI", VI)
+            navigate('/grade-vithquarter')
         } else {
             setErrorMessage('Erro, Verifique os dados e tente novamente.');
         }

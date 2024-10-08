@@ -12,7 +12,9 @@ import {
   getIstQuarter,
   getIIndQuarter,
   getIIIrdQuarter,
-  getIVthQuarter
+  getIVthQuarter,
+  getVthQuarter,
+  getVIthQuarter
 } from '../../Api';
 
 import LoadingSpinner from '../../components/Loading';
@@ -26,6 +28,8 @@ const HomeSchool = () => {
   const [IIndQuarter, setIIndQuarter] = useState([])
   const [IIIrdQuarter, setIIIrdQuarter] = useState([])
   const [IVthQuarter, setIVthQuarter] = useState([])
+  const [VthQuarter, setVthQuarter] = useState([])
+  const [VIthQuarter, setVIthQuarter] = useState([])
 
   useEffect(() => {
     (async () => {
@@ -36,6 +40,8 @@ const HomeSchool = () => {
       const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
       const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
       const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
+      const VthQuarter = await getVthQuarter(year, JSON.parse(idSchool))
+      const VIthQuarter = await getVIthQuarter(year, JSON.parse(idSchool))
       if (IstQuarter) {
         setIStQuarter(IstQuarter.data.data)
         console.log("IstQuarter", IstQuarter.data.data)
@@ -51,6 +57,14 @@ const HomeSchool = () => {
       if (IVthQuarter) {
         setIVthQuarter(IVthQuarter.data.data)
         console.log("IVthQuarter", IVthQuarter.data.data)
+      }
+      if (VthQuarter) {
+        setVthQuarter(VthQuarter.data.data)
+        console.log("VthQuarter", VthQuarter.data.data)
+      }
+      if (VIthQuarter) {
+        setVIthQuarter(VIthQuarter.data.data)
+        console.log("VIthQuarter", VIthQuarter.data.data)
       }
 
       setLoading(false);
@@ -90,6 +104,22 @@ const HomeSchool = () => {
     sessionStorage.setItem("IVthQuarterInformation", res._id);
     console.log( 'log', res._id)
     navigate('/updateiv-thquarter')
+    setLoading(false);
+  };
+  const v_thQuarterInfo = () => {
+    setLoading(true);
+    const res = VthQuarter.find( result => { return result._id })
+    sessionStorage.setItem("VthQuarterInformation", res._id);
+    console.log( 'log', res._id)
+    navigate('/updatev-thquarter')
+    setLoading(false);
+  };
+  const vi_thQuarterInfo = () => {
+    setLoading(true);
+    const res = VIthQuarter.find( result => { return result._id })
+    sessionStorage.setItem("VIthQuarterInformation", res._id);
+    console.log( 'log', res._id)
+    navigate('/updatevi-thquarter')
     setLoading(false);
   };
 
@@ -232,6 +262,76 @@ const HomeSchool = () => {
                 <AddEmp>
                   <h3>4º Bimestre</h3>
                   <Btt02 onClick={e => (navigate('/createiv-thquarter'))} >Definir Bimestre</Btt02>
+                </AddEmp>
+                <DivDados>
+                  <>Bimestre ainda não definido</>
+                </DivDados>
+              </>
+            )
+            }
+          </DivAddEmp>
+          <DivAddEmp>
+            {VthQuarter.length > 0 ? (
+              <>
+                <AddEmp>
+                  <h3>5º Bimestre</h3>
+                  <Btt02 onClick={v_thQuarterInfo}
+                  >Editar Bimestre</Btt02>
+                </AddEmp>
+                <DivDados>
+                  {
+                    VthQuarter.map(res => (
+                      <>
+                        <p>Data de Inicio:  {res.startday}/{res.startmonth}/{res.startyear}</p>
+                        <p>Data de Fim:  {res.endday}/{res.endmonth}/{res.endyear}</p>
+                        <p>Nota Total: {res.totalGrade} </p>
+                        <p>Nota Media: {res.averageGrade}</p>
+                      </>
+                    ))
+                  }
+
+                </DivDados>
+              </>
+            ) : (
+              <>
+                <AddEmp>
+                  <h3>5º Bimestre</h3>
+                  <Btt02 onClick={e => (navigate('/createv-thquarter'))} >Definir Bimestre</Btt02>
+                </AddEmp>
+                <DivDados>
+                  <>Bimestre ainda não definido</>
+                </DivDados>
+              </>
+            )
+            }
+          </DivAddEmp>
+          <DivAddEmp>
+            {VIthQuarter.length > 0 ? (
+              <>
+                <AddEmp>
+                  <h3>6º Bimestre</h3>
+                  <Btt02 onClick={vi_thQuarterInfo}
+                  >Editar Bimestre</Btt02>
+                </AddEmp>
+                <DivDados>
+                  {
+                    VIthQuarter.map(res => (
+                      <>
+                        <p>Data de Inicio:  {res.startday}/{res.startmonth}/{res.startyear}</p>
+                        <p>Data de Fim:  {res.endday}/{res.endmonth}/{res.endyear}</p>
+                        <p>Nota Total: {res.totalGrade} </p>
+                        <p>Nota Media: {res.averageGrade}</p>
+                      </>
+                    ))
+                  }
+
+                </DivDados>
+              </>
+            ) : (
+              <>
+                <AddEmp>
+                  <h3>6º Bimestre</h3>
+                  <Btt02 onClick={e => (navigate('/createvi-thquarter'))} >Definir Bimestre</Btt02>
                 </AddEmp>
                 <DivDados>
                   <>Bimestre ainda não definido</>
