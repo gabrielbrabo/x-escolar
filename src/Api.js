@@ -1644,14 +1644,12 @@ export const GetAttendance = async (
     year,
     month,
     id_student,
-    id_matter
 ) => {
 
     return api.post(`/attendance/index`, {
         year,
         month,
         id_student,
-        id_matter
     })
 
         .catch((error) => {
@@ -1670,7 +1668,6 @@ export const GetAttendanceFinalized = async (
     year,
     day,
     id_class,
-    id_matter
 ) => {
 
     return api.post(`/search/frequency`, {
@@ -1678,7 +1675,6 @@ export const GetAttendanceFinalized = async (
         year,
         day,
         id_class,
-        id_matter
     })
 
         .catch((error) => {
@@ -1699,7 +1695,6 @@ export const Attendance = async (
     id_student,
     id_teacher,
     id_class,
-    id_matter
 ) => {
 
     return api.post(`/attendance`, {
@@ -1710,7 +1705,6 @@ export const Attendance = async (
         id_student,
         id_teacher,
         id_class,
-        id_matter
     })
 
         .catch((error) => {

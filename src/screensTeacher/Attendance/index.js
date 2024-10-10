@@ -7,8 +7,8 @@ import {
     Container,
     List,
     Emp,
-    Matter,
-    DivInfo,
+    //Matter,
+    //DivInfo,
     Span,
     ContainerDivs,
     Btt02,
@@ -27,8 +27,8 @@ import LoadingSpinner from '../../components/Loading'
 const IndexAttendance = () => {
 
     //const navigate = useNavigate()
-    const [matter, setMatter] = useState([])
-    const [Namematter, setNameMatter] = useState([])
+    //const [matter, setMatter] = useState([])
+    //const [Namematter, setNameMatter] = useState([])
     const [id_matter, setclickMatter] = useState([])
     const [id_class, setId_class] = useState([])
     const [id_teacher, setId_teacher] = useState([])
@@ -65,7 +65,7 @@ const IndexAttendance = () => {
             }
             setId_teacher(id_teacher)
             setId_class(id_class)
-            setMatter(res.data.data)
+           // setMatter(res.data.data)
             if (day && month && year && id_class && id_matter) {
                 const resAtt = await GetAttendanceFinalized(month, year, day, id_class, id_matter)
                 const resClass = await clssInfo(id_class)
@@ -114,7 +114,7 @@ const IndexAttendance = () => {
         setYear('')
         setLoading(false)
     }
-    const clickRemovematter = () => {
+    /*const clickRemovematter = () => {
         setLoading(true)
         sessionStorage.removeItem("attendance_ idmatter")
         sessionStorage.removeItem("selectedDate")
@@ -128,8 +128,8 @@ const IndexAttendance = () => {
         setMonth('')
         setYear('')
         setLoading(false)
-    }
-    const click_idMatter = (matter) => {
+    }*/
+    /*const click_idMatter = (matter) => {
         setLoading(true)
         sessionStorage.removeItem("attendance_ idmatter")
         sessionStorage.setItem("attendance_ idmatter", matter.id_matter)
@@ -137,7 +137,7 @@ const IndexAttendance = () => {
         setclickMatter(matter.id_matter)
         setNameMatter(matter.name_matter)
         setLoading(false)
-    }
+    }*/
     const Finalyze = () => {
         setLoading(true)
         window.history.back()
@@ -145,10 +145,10 @@ const IndexAttendance = () => {
     const handleAttendance = async (stdt, status) => {
         setLoading(true)
         const id_student = stdt._id
-        const res = await Attendance(day, month, year, status, id_student, JSON.parse(id_teacher), id_class, id_matter)
+        const res = await Attendance(day, month, year, status, id_student, JSON.parse(id_teacher), id_class,)
         console.log('chamada', res)
         if (res) {
-            const resAtt = await GetAttendanceFinalized(month, year, day, id_class, id_matter)
+            const resAtt = await GetAttendanceFinalized(month, year, day, id_class)
             const resClass = await clssInfo(id_class)
             const attRealized = await resAtt.data.data.map(res => {
                 return res.id_student._id
@@ -198,7 +198,7 @@ const IndexAttendance = () => {
                 :
                 <ContainerDivs>
                     {
-                        id_matter.length <= 0
+                        /*id_matter.length <= 0
                         &&
                         <DivInfo>
                             <h3>Selecione uma Disciplina</h3>
@@ -212,10 +212,10 @@ const IndexAttendance = () => {
                                     ))
                                 }
                             </Matter>
-                        </DivInfo>
+                        </DivInfo>*/
                     }
                     {
-                        !selectedDate && id_matter.length > 0
+                        !selectedDate 
                         &&
                         <DivInfoDate>
                             <h3>Selecione uma Data</h3>
@@ -233,13 +233,13 @@ const IndexAttendance = () => {
                         <ContainerStudent>
                             <h2>Chamada</h2>
                             <DataSelected>
-                                <p>Disciplina: {Namematter}</p>
+                                {/*<p>Disciplina: {Namematter}</p>*/}
                                 <p>Data: {day}/{month}/{year}</p>
                             </DataSelected>
                             <DivButton>
-                                <Btt02 onClick={clickRemovematter}>
+                               {/* <Btt02 onClick={clickRemovematter}>
                                     Selecionar outra materia
-                                </Btt02>
+                                </Btt02>*/}
                                 <Btt02 onClick={clickRemovedate}>
                                     Selecionar outra data
                                 </Btt02>

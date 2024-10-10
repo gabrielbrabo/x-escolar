@@ -11,12 +11,12 @@ import { PickersDay } from '@mui/x-date-pickers/PickersDay';
 //import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
 
-import { GetMatter, GetAttendance } from '../../Api'
+import { GetAttendance } from '../../Api'
 
 import { IoCheckmarkSharp, IoCloseSharp } from "react-icons/io5";
 
 //import { styled } from '@mui/material/styles';
-import { StyledContainer, StyledDateCalendar, ExitButton, SelectContainer, Label, Select } from './Styles';
+import { StyledContainer, StyledDateCalendar, } from './Styles';
 
 //import { containerCalendar } from './Styles';
 const diasDaSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
@@ -89,8 +89,6 @@ export default function DateCalendarServerRequest() {
     const [isLoading, setIsLoading] = React.useState(false);
     const [highlightedDays, setHighlightedDays] = React.useState([]);
     const [highlightedDaysF, setHighlightedDaysF] = React.useState([]);
-    const [matter, setMatter] = React.useState([]);
-    const [id_matter, setFilter] = React.useState([]);
     const Year = new Date().getFullYear();
     const Month = new Date().getMonth() + 1;
     var [month, setMonth] = React.useState([Month]);
@@ -99,10 +97,9 @@ export default function DateCalendarServerRequest() {
         (async () => {
             const idSchool = sessionStorage.getItem("id-school")
             console.log("id_school", idSchool)
-            const res = await GetMatter(JSON.parse(idSchool))
-            setMatter(res.data.data)
+           // const res = await GetMatter(JSON.parse(idSchool))
             const id_student = sessionStorage.getItem("StudentInformation")
-            const resGetAttendance = await GetAttendance(Year, month, id_student, id_matter)
+            const resGetAttendance = await GetAttendance(Year, month, id_student,)
             const attendance = await resGetAttendance.data.data.map(res => {
                 if (res.status === "P") {
                     return JSON.parse(res.day)
@@ -132,7 +129,7 @@ export default function DateCalendarServerRequest() {
         fetchHighlightedDays(initialValue);
         // abort request on unmount
         return () => requestAbortController.current?.abort();
-    }, [Month, month, Year, id_matter]);
+    }, [Month, month, Year,]);
     console.log("month", month)
 
     const fetchHighlightedDays = (date) => {
@@ -168,65 +165,37 @@ export default function DateCalendarServerRequest() {
         setMonth(date.$M + 1)
     };
 
-    const setDate = () => {
-        setFilter([])
-        setMonth([Month])
-    };
+    
 
     const countPresences = highlightedDays.length;
     const countAbsences = highlightedDaysF.length;
 
     return (
         <StyledContainer>
-            <SelectContainer>
-               <Label> Para ver a frequecia selecione uma materia abaixo </Label>
-                <div>
-                    <Select id="position"
-                        value={id_matter}
-                        onChange={
-                            (e) => setFilter(e.target.value)
-                        }
-                    >
-                        <option value="">Selecione</option>
-                        {
-                            matter.map(c => (
-                                <option value={c._id}>{c.name}</option>
-                            ))
-                        }
-                    </Select>
-                </div>
-            </SelectContainer>
+            <LocalizationProvider locale={dayjs.locale('pt-br', { months: monthsPtBr, weekdays: diasDaSemana, })} utils={DayjsUtils} dateAdapter={AdapterDayjs}>
+                <p><IoCheckmarkSharp color='#00fa00' font-size="30px" />Presenças: {countPresences} | <IoCloseSharp color='#ff050a' font-size="30px" />Ausências: {countAbsences}</p>
+                <StyledDateCalendar
+                    defaultValue={initialValue}
+                    loading={isLoading}
+                    onMonthChange={handleMonthChange}
+                    renderLoading={() => <DayCalendarSkeleton />}
+                    slots={{
+                        day: ServerDay,
+                    }}
+                    slotProps={{
+                        day: {
+                            highlightedDays,
+                            highlightedDaysF
+                        },
+                    }}
+                    views={['day']}
+                    readOnly
+                    months={monthsPtBr}
+                >
+                </StyledDateCalendar>
 
-            {
-                id_matter.length > 0
-                &&
-                <LocalizationProvider locale={dayjs.locale('pt-br', { months: monthsPtBr, weekdays: diasDaSemana, })} utils={DayjsUtils} dateAdapter={AdapterDayjs}>
-                    <p><IoCheckmarkSharp color='#00fa00' font-size="30px" />Presenças: {countPresences} | <IoCloseSharp color='#ff050a' font-size="30px" />Ausências: {countAbsences}</p>
-                    <StyledDateCalendar
-                        defaultValue={initialValue}
-                        loading={isLoading}
-                        onMonthChange={handleMonthChange}
-                        renderLoading={() => <DayCalendarSkeleton />}
-                        slots={{
-                            day: ServerDay,
-                        }}
-                        slotProps={{
-                            day: {
-                                highlightedDays,
-                                highlightedDaysF
-                            },
-                        }}
-                        views={['day']}
-                        readOnly
-                        months={monthsPtBr}
-                    >
-                    </StyledDateCalendar>
-                    <ExitButton className='exit-frequec' onClick={setDate} >
-                        fecha frequecia ^
-                    </ExitButton>
+            </LocalizationProvider>
 
-                </LocalizationProvider>
-            }
         </StyledContainer>
     );
 }
