@@ -7,8 +7,8 @@ import {
     ClassDetails,
     ClassInfo,
     ButtonContainer,
-    MatterSection,
-    MatterItem,
+    //MatterSection,
+    //MatterItem,
     StudentSection,
     StudentItem,
     InfoText,
@@ -20,7 +20,7 @@ const MyCla$$Info = () => {
 
     const navigate = useNavigate()
     const [clss, setClss] = useState([])
-    const [NameMatter, setNameMatter] = useState([])
+    //const [NameMatter, setNameMatter] = useState([])
     const [stdt, setStdt] = useState([])
     const { id_class } = useParams();
     const { id_teacher } = useParams();
@@ -46,7 +46,7 @@ const MyCla$$Info = () => {
             })
             setStdt(student)
             setClss(resClass.data.data)
-            setNameMatter(res.data.data)
+            //setNameMatter(res.data.data)
 
             sessionStorage.removeItem("attendance_ idmatter")
             sessionStorage.removeItem("selectedDate")

@@ -15,7 +15,7 @@ export const ContainerDivs = styled.div`
   display: flex;
   flex-direction: column;
   width: 92%;
-  max-width: 600px;
+  max-width: 1000px;
   gap: 20px;
   padding: 20px;
   @media (max-width: 1200px) {
@@ -30,7 +30,6 @@ export const User = styled.div`
 export const Search = styled.div`
   display: flex;
   flex-direction: column;
-  height: ;
   gap: 20px;
   background-color: #f9f9f9;
   padding: 20px;
@@ -76,7 +75,7 @@ export const Select = styled.select`
 export const List = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 40%
+  min-height: 40%;
   gap: 20px;
   background-color: #f9f9f9;
   padding: 20px;
