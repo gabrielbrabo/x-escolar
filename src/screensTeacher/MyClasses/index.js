@@ -31,10 +31,10 @@ const MyCla$$ = () => {
             setLoading(true);
             const id_employee = localStorage.getItem("Id_employee")
             const res = await EmpInfo(JSON.parse(id_employee))
-            const clss = res.data.info.find(res => {
+            const clss = res.data.data.find(res => {
                 return res
-            }).map(res => {
-                if (res.id_class.year === currentYear) {
+            }).id_class.map(res => {
+                if (res.year === currentYear) {
                     return (res)
                 } else {
                     return null
@@ -48,6 +48,7 @@ const MyCla$$ = () => {
             })
             setClss(clss)
             setLoading(false);
+            console.log("clss", clss)
         })()
 
     }, [currentYear])
@@ -57,8 +58,8 @@ const MyCla$$ = () => {
         const id_teacher = JSON.parse(localStorage.getItem("Id_employee"))
         if (clss) {
             const map = Clss.map(res => {
-                if (res.id_class.serie === clss) {
-                    return res.id_class._id
+                if (res.serie === clss.serie) {
+                    return res._id
                 }
                 return null
             }).filter(res => {
@@ -121,19 +122,19 @@ const MyCla$$ = () => {
                                 if (!filter) {
                                     return (fil)
                                 }
-                                if (fil.id_class.shift === filter) {
+                                if (fil.shift === filter) {
                                     return (fil)
                                 }
                                 return null
                             }).filter((val) => {
                                 if (!busca) {
                                     return (val)
-                                } else if (val.id_class.serie.includes(busca.toUpperCase())) {
+                                } else if (val.serie.includes(busca.toUpperCase())) {
                                     return (val)
                                 }
                                 return null
                             }).map(c => {
-                                return c.id_class.serie
+                                return c
                             }).filter((valor, indice, self) => {
                                 return self.indexOf(valor) === indice
                             }).map(clss => (
@@ -141,9 +142,9 @@ const MyCla$$ = () => {
                                     onClick={() =>
                                         MyClassInformation(clss)
                                     }
-                                    key={clss}
+                                    key={clss._id}
                                 >
-                                    <Span>{clss}</Span>
+                                    <Span>{clss.serie}</Span>
                                 </Emp>
                             ))
                         }

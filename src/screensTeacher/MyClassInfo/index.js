@@ -96,7 +96,7 @@ const MyCla$$Info = () => {
                         }
                     </StudentSection>
                     {
-                        <MatterSection>
+                       /* <MatterSection>
                             <h2>Materias</h2>
 
                             {
@@ -106,7 +106,7 @@ const MyCla$$Info = () => {
                                     </div>
                                 ))
                             }
-                        </MatterSection>
+                        </MatterSection>*/
                     }
                 </ContainerDivs>
             }

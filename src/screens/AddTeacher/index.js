@@ -31,8 +31,8 @@ const TeacherAdd = () => {
     const [id_employee, setId_employee] = useState("")
     const [id_class, setId_class] = useState("")
     const [name_teacher, setName_teacher] = useState("")
-    const [matter, setMatter] = useState([])
-    const [name_matter, setName_Matter] = useState("")
+    //const [matter, setMatter] = useState([])
+    //const [name_matter, setName_Matter] = useState("")
     const [id_matter, setId_Matter] = useState("")
     const [loading, setLoading] = useState(false);
     //const [added] = useState()
@@ -81,14 +81,14 @@ const TeacherAdd = () => {
                 return (null)
             }
         })
-        setMatter(mttr)
+        //setMatter(mttr)
         console.log("matter", mttr)
         setLoading(false);
     }
 
     const SignClick = async () => {
         setLoading(true);
-        const res = await addTchr(id_employee, id_class, id_matter)
+        const res = await addTchr(id_employee, id_class, /*id_matter*/)
         if (res) {
             alert('Professor Adicionado com sucesso.')
             navigate(-1);
@@ -98,12 +98,12 @@ const TeacherAdd = () => {
         setLoading(false);
     }
 
-    const AddMttr = async (matter) => {
+    /*const AddMttr = async (matter) => {
         setLoading(true);
         setId_Matter(matter._id)
         setName_Matter(matter.name)
         setLoading(false);
-    }
+    }*/
 
     /*const Finish = async () => {
         navigate('/employees')
@@ -186,7 +186,7 @@ const TeacherAdd = () => {
                             }
 
                             {
-                                !id_matter
+                               /* !id_matter
                                 &&
                                 <div>
                                     <>Click abaixo na Disciplina que o Professor ira Lecionar</>
@@ -201,15 +201,13 @@ const TeacherAdd = () => {
                                             </Emp>
                                         ))
                                     }
-                                </div>
+                                </div>*/
                             }
                             {
-                                id_matter
-                                &&
                                 <Div>
                                     <>Voçê ira Adicionar as seguintes configurações:</>
                                     <Span>   Professor: {name_teacher}</Span>
-                                    <Span>   Materia: {name_matter}</Span>
+                                   { /*<Span>   Materia: {name_matter}</Span>*/}
                                     <Span>   Turma: {serie}</Span>
                                     <Btt01 onClick={SignClick}>Adicionar</Btt01>
                                 </Div>

@@ -60,7 +60,7 @@ const Cla$$Info = () => {
             })
             const employee = res.data.data.find(res => {
                 return res
-            }).addTeacher.map(res => {
+            }).id_employee.map(res => {
                 if (res) {
                     return (res)
                 } else {
@@ -201,7 +201,7 @@ const Cla$$Info = () => {
                                             {
                                                 employee.map(employee => (
                                                     <div key={employee._id}>
-                                                        <Span>{employee.name_matter}: {employee.name_teacher}</Span>
+                                                        <Span>{employee.name}</Span>
                                                     </div>
                                                 ))
                                             }

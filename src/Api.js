@@ -916,7 +916,8 @@ export const RegisterGradeIstQuarter = async (
     id_iStQuarter,
     id_student,
     id_teacher,
-    id_matter
+    id_matter,
+    id_class
 ) => {
 
     return api.post(`/register/grade`, {
@@ -928,7 +929,8 @@ export const RegisterGradeIstQuarter = async (
         id_iStQuarter,
         id_student,
         id_teacher,
-        id_matter
+        id_matter,
+        id_class
     })
 
         .catch((error) => {
@@ -943,11 +945,11 @@ export const RegisterGradeIstQuarter = async (
 }
 
 export const GetGradeIstQuarter = async (
-    year, id_matter, id_iStQuarter
+    year, id_matter, id_iStQuarter, id_class
 ) => {
 
     return api.post(`/index/gradei`, {
-        year, id_matter, id_iStQuarter
+        year, id_matter, id_iStQuarter, id_class
     })
 
         .catch((error) => {
@@ -970,7 +972,8 @@ export const RegisterGradeIIndQuarter = async (
     id_iiNdQuarter,
     id_student,
     id_teacher,
-    id_matter
+    id_matter,
+    id_class
 ) => {
 
     return api.post(`/register/grade`, {
@@ -982,7 +985,8 @@ export const RegisterGradeIIndQuarter = async (
         id_iiNdQuarter,
         id_student,
         id_teacher,
-        id_matter
+        id_matter,
+        id_class
     })
 
         .catch((error) => {
@@ -997,11 +1001,11 @@ export const RegisterGradeIIndQuarter = async (
 }
 
 export const GetGradeIINdQuarter = async (
-    year, id_matter, id_iiNdQuarter
+    year, id_matter, id_iiNdQuarter, id_class
 ) => {
 
     return api.post(`/index/gradeii`, {
-        year, id_matter, id_iiNdQuarter
+        year, id_matter, id_iiNdQuarter, id_class
     })
 
         .catch((error) => {
@@ -1023,7 +1027,8 @@ export const RegisterGradeIIIrdQuarter = async (
     id_iiiRdQuarter,
     id_student,
     id_teacher,
-    id_matter
+    id_matter,
+    id_class
 ) => {
 
     return api.post(`/register/grade`, {
@@ -1035,7 +1040,8 @@ export const RegisterGradeIIIrdQuarter = async (
         id_iiiRdQuarter,
         id_student,
         id_teacher,
-        id_matter
+        id_matter,
+        id_class
     })
 
         .catch((error) => {
@@ -1050,11 +1056,11 @@ export const RegisterGradeIIIrdQuarter = async (
 }
 
 export const GetGradeIIIrdQuarter = async (
-    year, id_matter, id_iiiRdQuarter
+    year, id_matter, id_iiiRdQuarter, id_class
 ) => {
 
     return api.post(`/index/gradeiii`, {
-        year, id_matter, id_iiiRdQuarter
+        year, id_matter, id_iiiRdQuarter, id_class
     })
 
         .catch((error) => {
@@ -1076,7 +1082,8 @@ export const RegisterGradeIVthQuarter = async (
     id_ivThQuarter,
     id_student,
     id_teacher,
-    id_matter
+    id_matter,
+    id_class
 ) => {
 
     return api.post(`/register/grade`, {
@@ -1088,7 +1095,8 @@ export const RegisterGradeIVthQuarter = async (
         id_ivThQuarter,
         id_student,
         id_teacher,
-        id_matter
+        id_matter,
+        id_class
     })
 
         .catch((error) => {
@@ -1103,11 +1111,11 @@ export const RegisterGradeIVthQuarter = async (
 }
 
 export const GetGradeIVthQuarter = async (
-    year, id_matter, id_ivThQuarter
+    year, id_matter, id_ivThQuarter, id_class
 ) => {
 
     return api.post(`/index/gradeiv`, {
-        year, id_matter, id_ivThQuarter
+        year, id_matter, id_ivThQuarter, id_class
     })
 
         .catch((error) => {
@@ -1129,7 +1137,8 @@ export const RegisterGradeVthQuarter = async (
     id_vThQuarter,
     id_student,
     id_teacher,
-    id_matter
+    id_matter,
+    id_class
 ) => {
 
     return api.post(`/register/grade`, {
@@ -1141,7 +1150,8 @@ export const RegisterGradeVthQuarter = async (
         id_vThQuarter,
         id_student,
         id_teacher,
-        id_matter
+        id_matter,
+        id_class
     })
 
         .catch((error) => {
@@ -1156,11 +1166,11 @@ export const RegisterGradeVthQuarter = async (
 }
 
 export const GetGradeVthQuarter = async (
-    year, id_matter, id_vThQuarter,
+    year, id_matter, id_vThQuarter, id_class
 ) => {
 
     return api.post(`/index/gradev`, {
-        year, id_matter, id_vThQuarter,
+        year, id_matter, id_vThQuarter, id_class
     })
 
         .catch((error) => {
@@ -1182,7 +1192,8 @@ export const RegisterGradeVIthQuarter = async (
     id_viThQuarter,
     id_student,
     id_teacher,
-    id_matter
+    id_matter,
+    id_class
 ) => {
 
     return api.post(`/register/grade`, {
@@ -1194,7 +1205,8 @@ export const RegisterGradeVIthQuarter = async (
         id_viThQuarter,
         id_student,
         id_teacher,
-        id_matter
+        id_matter,
+        id_class
     })
 
         .catch((error) => {
@@ -1209,11 +1221,11 @@ export const RegisterGradeVIthQuarter = async (
 }
 
 export const GetGradeVIthQuarter = async (
-    year, id_matter, id_viThQuarter
+    year, id_matter, id_viThQuarter, id_class
 ) => {
 
     return api.post(`/index/gradevi`, {
-        year, id_matter, id_viThQuarter
+        year, id_matter, id_viThQuarter, id_class
     })
 
         .catch((error) => {
@@ -1464,13 +1476,13 @@ export const addStdt = async (
 export const addTchr = async (
     id_employee,
     id_class,
-    id_matter
+    //id_matter
 ) => {
 
     return api.post(`/add/teacher`, {
         id_employee,
         id_class,
-        id_matter
+        //id_matter
     })
 
         .catch((error) => {
@@ -1501,10 +1513,10 @@ export const StdtInfo = async (
 }
 
 export const EmpInfo = async (
-    id_student
+    id_employee
 ) => {
 
-    return api.post(`/employee/info/${id_student}`)
+    return api.post(`/employee/info/${id_employee}`)
 
         .catch((error) => {
             if (error) {
@@ -1537,15 +1549,15 @@ export const clssInfo = async (
 export const removeTeacher = async (
     id_teacher,
     id_class,
-    id_matter,
-    addTeacher
+    //id_matter,
+    //addTeacher
 ) => {
 
     return api.post(`/remove/teacher`, {
         id_teacher,
         id_class,
-        id_matter,
-        addTeacher
+        //id_matter,
+        //addTeacher
     })
 
         .catch((error) => {

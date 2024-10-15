@@ -84,10 +84,10 @@ const EmployeeInformation = () => {
             }
             setEmployee(res.data.data)
             //console.log(res.data.data)
-            const clss = res.data.info.find(res => {
+            const clss = res.data.data.find(res => {
                 return res
-            }).map(res => {
-                if (res.id_class.year === currentYear) {
+            }).id_class.map(res => {
+                if (res.year === currentYear) {
                     return (res)
                 } else {
                     return null
@@ -236,7 +236,7 @@ const EmployeeInformation = () => {
                                         <Matter>
                                             {Clss.length > 0 ? (
                                                 Clss.map(clss => (
-                                                    <Span key={clss.id_class._id}>{clss.id_class.serie}: {clss.name_matter}</Span>
+                                                    <Span key={clss._id}>{clss.serie}</Span>
                                                 ))
                                             ) : (
                                                 <Span>Este Professor não esta cadastrado em nenhuma turma vá ate turmas selecione a turma e adicione este professor a uma turma</Span>

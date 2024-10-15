@@ -30,11 +30,11 @@ const RemoveTeacher = () => {
     const [serie, setSerie] = useState("")
     const [busca, setBusca] = useState("")
     const [name_teacher, setName_Teacher] = useState("")
-    const [name_matter, setName_Matter] = useState("")
-    const [id_teacher, setId_teacher] = useState("")
+    //const [name_matter, setName_Matter] = useState("")
+    const [id_teacher, setId_teacher] = useState([])
     const [id_class, setId_class] = useState("")
-    const [id_matter, setId_matter] = useState("")
-    const [addTeacher, setId_addTeacher] = useState("")
+    //const [id_matter, setId_matter] = useState("")
+    //const [addTeacher, setId_addTeacher] = useState("")
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -48,14 +48,14 @@ const RemoveTeacher = () => {
 
             const employee = res.data.data.find(res => {
                 return res
-            }).addTeacher.map(res => {
+            }).id_employee.map(res => {
                 if (res) {
                     return (res)
                 } else {
                     return (null)
                 }
             })
-
+            setId_class(id)
             setEmployee(employee)
             setLoading(false);
         })()
@@ -80,31 +80,31 @@ const RemoveTeacher = () => {
 
     const SignClick = async () => {
         setLoading(true);
-        const res = await removeTeacher(id_teacher, id_class, id_matter, addTeacher)
+        const res = await removeTeacher(id_teacher, id_class, /*id_matter, addTeacher*/)
         if (res) {
             alert('Professor Removido com sucesso.')
             navigate(-1);
         }
-        setName_Teacher('')
-        setName_Matter('')
+        //setName_Teacher([])
+        //setName_Matter('')
         setLoading(false);
     }
 
     const Remove = async (employee) => {
         setLoading(true);
-        setName_Matter(employee.name_matter)
-        setName_Teacher(employee.name_teacher)
-        setId_teacher(employee.id_teacher)
-        setId_class(employee.id_class)
-        setId_matter(employee.id_matter)
-        setId_addTeacher(employee._id)
+        //setName_Matter(employee.name_matter)
+        setName_Teacher(employee.name)
+        setId_teacher(employee._id)
+        //setId_class(employee.id_class)
+        //setId_matter(employee.id_matter)
+        //setId_addTeacher(employee._id)
         setLoading(false);
     }
 
     const Return = async () => {
         setLoading(true);
         setName_Teacher('')
-        setName_Matter('')
+        //setName_Matter('')
         setLoading(false);
     }
 
@@ -139,7 +139,7 @@ const RemoveTeacher = () => {
                             employee.filter((val) => {
                                 if (!busca) {
                                     return (val)
-                                } else if (val.name_teacher.includes(busca.toUpperCase())) {
+                                } else if (val.name.includes(busca.toUpperCase())) {
                                     return (val)
                                 }
                                 return null
@@ -150,7 +150,7 @@ const RemoveTeacher = () => {
                                     }
                                     key={employee._id}
                                 >
-                                    <Span>{employee.name_teacher}: {employee.name_matter}</Span>
+                                    <Span>{employee.name}</Span>
                                 </Emp>
                             ))
                         }
@@ -163,7 +163,7 @@ const RemoveTeacher = () => {
                             {
                                 <Div>
                                     <Span>   Professor: {name_teacher}</Span>
-                                    <Span>   Disciplina: {name_matter}</Span>
+                                    {/*<Span>   Disciplina: {name_matter}</Span>*/}
                                     <Span>   Turma: {serie}</Span>
                                     <>Tem certeza que deseja remover este Professor dessa Turma ?</>
                                     <DivButtonAdd>

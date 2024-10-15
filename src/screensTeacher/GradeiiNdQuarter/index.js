@@ -81,9 +81,9 @@ const IndexAttendance = () => {
             setAverageGrade(agString)
             setId_teacher(JSON.parse(id_teacher))
 
-            if (id_matter && year && id_iiNdQuarter) {
+            if (id_matter && year && id_iiNdQuarter && id_class) {
                 setLoading(true);
-                const resGrade = await GetGradeIINdQuarter(year, id_matter, id_iiNdQuarter)
+                const resGrade = await GetGradeIINdQuarter(year, id_matter, id_iiNdQuarter, id_class)
                 const resClass = await clssInfo(id_class)
                 const GradeRealized = await resGrade.data.data.map(res => {
                     return res.id_student._id
@@ -113,9 +113,9 @@ const IndexAttendance = () => {
         setLoading(true)
         const id_student = stdt._id
         console.log("year", year, "bimonthly", bimonthly, "totalGrade", totalGrade, "averageGrade", averageGrade, "studentGrade", studentGrade, "id_iiNdQuarter", id_iiNdQuarter, "id_student", id_student, "id_teacher", id_teacher, "id_matter", id_matter)
-        const res = await RegisterGradeIIndQuarter(year, bimonthly, totalGrade, averageGrade, studentGrade, id_iiNdQuarter, id_student, id_teacher, id_matter)
+        const res = await RegisterGradeIIndQuarter(year, bimonthly, totalGrade, averageGrade, studentGrade, id_iiNdQuarter, id_student, id_teacher, id_matter, id_class)
         if (res) {
-            const resGrade = await GetGradeIINdQuarter(year, id_matter, id_iiNdQuarter)
+            const resGrade = await GetGradeIINdQuarter(year, id_matter, id_iiNdQuarter, id_class)
             const resClass = await clssInfo(id_class)
             const GradeRealized = await resGrade.data.data.map(res => {
                 return res.id_student._id

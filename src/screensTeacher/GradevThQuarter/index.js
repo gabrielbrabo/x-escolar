@@ -81,9 +81,9 @@ const IndexAttendance = () => {
             setAverageGrade(agString)
             setId_teacher(JSON.parse(id_teacher))
 
-            if (id_matter && year && id_vThQuarter) {
+            if (id_matter && year && id_vThQuarter && id_class) {
                 setLoading(true);
-                const resGrade = await GetGradeVthQuarter(year, id_matter, id_vThQuarter)
+                const resGrade = await GetGradeVthQuarter(year, id_matter, id_vThQuarter, id_class)
                 const resClass = await clssInfo(id_class)
                 const GradeRealized = await resGrade.data.data.map(res => {
                     return res.id_student._id
@@ -113,9 +113,9 @@ const IndexAttendance = () => {
         setLoading(true)
         const id_student = stdt._id
         console.log("year", year, "bimonthly", bimonthly, "totalGrade", totalGrade, "averageGrade", averageGrade, "studentGrade", studentGrade, "id_iiNdQuarter", id_vThQuarter, "id_student", id_student, "id_teacher", id_teacher, "id_matter", id_matter)
-        const res = await RegisterGradeVthQuarter(year, bimonthly, totalGrade, averageGrade, studentGrade, id_vThQuarter, id_student, id_teacher, id_matter)
+        const res = await RegisterGradeVthQuarter(year, bimonthly, totalGrade, averageGrade, studentGrade, id_vThQuarter, id_student, id_teacher, id_matter, id_class)
         if (res) {
-            const resGrade = await  GetGradeVthQuarter(year, id_matter, id_vThQuarter)
+            const resGrade = await  GetGradeVthQuarter(year, id_matter, id_vThQuarter, id_class)
             const resClass = await clssInfo(id_class)
             const GradeRealized = await resGrade.data.data.map(res => {
                 return res.id_student._id
@@ -165,7 +165,7 @@ const IndexAttendance = () => {
                     <h2>Grade 5º Bimestre</h2>
                     <ContainerStudent>
                         <DataSelected>
-                            <p>Bimestre: 5º Bimestre</p>
+                            <p>Bimestre: 5, id_classº Bimestre</p>
                             <p>Disciplina: {Namematter}</p>
                         </DataSelected>
                         <List>
