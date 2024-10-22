@@ -11,6 +11,7 @@ import {
   InputArea,
   Label,
   Input,
+  Select,
   Btt01,
   ErrorMessage
   //ToGoBack
@@ -29,7 +30,7 @@ const FristEmployee = () => {
   const [address, setAddress] = useState('');
   const [cellPhone, setCellPhone] = useState('');
   const [email, setEmail] = useState('');
-  const position_at_school = "SECRETARIO"
+  const [positionAtSchool, setPositionAtSchool] = useState('');
   const [password, setPassword] = useState('');
   const [confirmpassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -50,7 +51,7 @@ const FristEmployee = () => {
       idSchool,
       name,
       cpf,
-      position_at_school,
+      positionAtSchool,
       password,
       confirmpassword
     )
@@ -64,7 +65,7 @@ const FristEmployee = () => {
       email,
       cellPhone,
       address,
-      position_at_school,
+      positionAtSchool,
       password,
       confirmpassword
     )
@@ -160,7 +161,7 @@ const FristEmployee = () => {
         <LoadingSpinner />
       ) : (
         <InputArea>
-          <h1>Cadastre um Secretario</h1>
+          <h1>Cadastre um Gestor</h1>
           <Label>Nome</Label>
           <Input
             placeholder="Digite o nome"
@@ -210,6 +211,16 @@ const FristEmployee = () => {
             onChange={(e) => setAddress(e.target.value)}
             type="text" 
           />
+          <Label>Cargo</Label>
+          <Select
+            id="position"
+            value={positionAtSchool}
+            onChange={(e) => setPositionAtSchool(e.target.value)}
+          >
+            <option value="">Selecione</option>
+            <option value="DIRETOR/SUPERVISOR">DIRETOR/SUPERVISOR</option>
+            <option value="SECRETARIO">SECRETARIO</option>
+          </Select>
           <Label>Senha</Label>
           <Input
             placeholder="Digite a senha"

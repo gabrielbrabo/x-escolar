@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { clssInfo, RegisterGradeIVthQuarter, getIVthQuarter,  GetGradeIVthQuarter } from '../../Api'
+import { clssInfo, RegisterGradeIVthQuarter, getIVthQuarter,  GetGradeIVthQuarter, updateGrade } from '../../Api'
 
 import {
     Container,
@@ -13,6 +13,7 @@ import {
     Btt02,
     Grade,
     ContainerStudent,
+    EditContainer,
     ErrorMessage,
     DataSelected
 } from './style';
@@ -36,6 +37,9 @@ const IndexAttendance = () => {
     const [stdt, setStdt] = useState([])
     const [checked, setChecked] = useState([])
     const [id_teacher, setId_teacher] = useState([])
+    const [namestudent, setNamestudent] = useState('')
+    const [update_id_grade, setUpdateIdGrade] = useState(null);
+    const [update_studentGrade, setUpdateStudentGrade] = useState(null);
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState([]);
 
@@ -151,6 +155,19 @@ const IndexAttendance = () => {
         setLoading(false)
     }
 
+    const startEditing = (stdt) => {
+        setUpdateStudentGrade(stdt.studentGrade);
+        setUpdateIdGrade(stdt._id);
+        setNamestudent(stdt)
+    };
+
+    const saveEdit = async () => {
+        setLoading(true)
+        await updateGrade(update_id_grade, update_studentGrade)
+        window.location.reload()
+        //setLoading(false)
+    };
+
     const Finalyze = () => {
         setLoading(true)
         navigate(-2);
@@ -168,54 +185,81 @@ const IndexAttendance = () => {
                             <p>Bimestre: 4º Bimestre</p>
                             <p>Disciplina: {Namematter}</p>
                         </DataSelected>
-                        <List>
-                            {
-                                stdt.map(stdt => (
-                                    <>
-                                        <Emp
-                                            key={stdt._id}
-                                        >
-                                            <Span>{stdt.name}</Span>
-                                            <Grade>
-                                                <p>nota:</p>
-                                                <InputGrade
-                                                    type='number'
-                                                    onChange={(e) => setStudentGrade(e.target.value)}
-                                                    maxLength={3}
-                                                />
-                                                <span>pts</span>
-                                            </Grade>
-                                            <Btt01 onClick={() => handleGrade(stdt)}>Definir</Btt01>
-                                        </Emp>
-                                        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                                    </>
-                                ))
-                            }
-                        </List>
-                        <h3>Checked</h3>
-                        <List>
+                        {!update_id_grade &&
+                            <>
+                                <List>
+                                    {
+                                        stdt.map(stdt => (
+                                            <>
+                                                <Emp
+                                                    key={stdt._id}
+                                                >
+                                                    <Span>{stdt.name}</Span>
+                                                    <Grade>
+                                                        <p>nota:</p>
+                                                        <InputGrade
+                                                            type='number'
+                                                            onChange={(e) => setStudentGrade(e.target.value)}
+                                                            maxLength={3}
+                                                        />
+                                                        <span>pts</span>
+                                                    </Grade>
+                                                    <Btt01 onClick={() => handleGrade(stdt)}>Definir</Btt01>
+                                                </Emp>
+                                                {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                            </>
+                                        ))
+                                    }
+                                </List>
+                                <h3>Checked</h3>
+                                <List>
 
-                            {
-                                checked.map(stdt => (
-                                    <>
-                                        <Emp
-                                            key={stdt._id}
-                                        >
-                                            <Span>{stdt.id_student.name}</Span>
-                                            <Grade>
-                                                <p>nota:</p>
-                                                <p>{stdt.studentGrade}</p>
-                                                <span>pts</span>
-                                            </Grade>
-                                            <Btt02 >Editar</Btt02>
-                                        </Emp>
-                                    </>
-                                ))
-                            }
-                        </List>
-                        <Btt02 onClick={Finalyze}>
-                            Finalizar
-                        </Btt02>
+                                    {
+                                        checked.map(stdt => (
+                                            <>
+                                                <Emp
+                                                    key={stdt._id}
+                                                >
+                                                    <Span>{stdt.id_student.name}</Span>
+                                                    <Grade>
+                                                        <p>nota:</p>
+                                                        <p>{stdt.studentGrade}</p>
+                                                        <span>pts</span>
+                                                    </Grade>
+                                                    <Btt02 onClick={() => startEditing(stdt)} >Editar</Btt02>
+                                                </Emp>
+                                            </>
+                                        ))
+                                    }
+                                </List>
+                            </>
+                        }
+                        {update_id_grade && (
+                            <EditContainer>
+                                <h3>Editando Nota</h3>
+                                {console.log("editingStudent", namestudent.id_student.name)}
+                                <Emp>
+                                    <Span>{namestudent.id_student.name}</Span>
+                                    <Grade>
+                                        <p>nota:</p>
+                                        <InputGrade
+                                            value={update_studentGrade}
+                                            onChange={(e) => setUpdateStudentGrade(e.target.value)}
+                                            type='number'
+                                            maxLength={3}
+                                        />
+                                        <span>pts</span>
+                                    </Grade>
+                                </Emp>
+                                <Btt02 onClick={saveEdit}>Salvar</Btt02>
+                                <Btt02 onClick={() => setUpdateIdGrade(null)}>Cancelar</Btt02>
+                            </EditContainer>
+                        )}
+                        {!update_id_grade &&
+                            <Btt02 onClick={Finalyze}>
+                                Finalizar
+                            </Btt02>
+                        }
                     </ContainerStudent>
                 </ContainerDivs>
             }

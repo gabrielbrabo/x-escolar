@@ -173,6 +173,7 @@ const IndexAttendance = () => {
     }
     const handlePresenceClick = (stdt) => handleAttendance(stdt, 'p');
     const handleAbsenceClick = (stdt) => handleAttendance(stdt, 'f');
+    
     const startEditing = (checkedStdt) => {
         setEditingStudent(checkedStdt._id);
         setEditingStatus(checkedStdt.status);

@@ -20,7 +20,7 @@ export const ContainerStudent = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
-    max-width: 700px;
+    max-width: 1000px;
     padding: 5px;
     gap: 15px;
     border-radius: 5px;
@@ -175,15 +175,6 @@ export const EditContainer = styled.div`
 
     h3 {
         text-align: center;
-    }
-
-    select {
-        width: 80%;
-        max-width: 400px;
-        padding: 10px;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
     }
 `;
 export const InputGrade = styled.input`

@@ -60,7 +60,19 @@ const MyCla$$Info = () => {
 
     }, [id_class, id_teacher])
 
+    const StudentInformation = async (stdt) => {
+        setLoading(true);
+        navigate(`/student/info/${stdt._id}`)
+        setLoading(false);
+    }
+
     console.log("student", stdt)
+
+    stdt.sort(function (a, b) {
+        if (a.name < b.name) return -1
+        if (a.name > b.name) return 1
+        return 0
+    })
 
     return (
         <Container>
@@ -86,7 +98,7 @@ const MyCla$$Info = () => {
                         <h2>Estudantes</h2>
                         {stdt.length > 0 ? (
                             stdt.map(stdt => (
-                                <StudentItem>{stdt.name}</StudentItem>
+                                <StudentItem onClick={() => StudentInformation(stdt)}>{stdt.name}</StudentItem>
                             ))
                         )
                         :

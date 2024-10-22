@@ -54,6 +54,16 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
           </DivButtomEdit>
         </EmployeeInfo>
       </Emp>
+      {positionAtSchool === 'DIRETOR/SUPERVISOR' && (
+        <nav>
+          <a href="/home/school">Home</a>
+          <a href="/matter" className="nav__link">Disciplinas</a>
+          <a href="/annual-calendar" className="nav__link">Calendario</a>
+          <a href="/employees" className="nav__link">Funcionários</a>
+          <a href="/class" className="nav__link">Turmas</a>
+          <a href="/student" className="nav__link">Alunos</a>
+        </nav>
+      )}
       {positionAtSchool === 'SECRETARIO' && (
         <nav>
           <a href="/home/school">Home</a>

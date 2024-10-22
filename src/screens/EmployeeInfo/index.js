@@ -13,13 +13,13 @@ import {
     Matter,
     DivInfo,
     Span,
-    DivAddEmp,
-    AddEmp,
+    //DivAddEmp,
+    //AddEmp,
     Btt02,
     ProfilePhoto,
     LoadingSpinnerContainer,
     ContainerDivs,
-    DivShowMatter,
+    //DivShowMatter,
     ButtonCancel,
     Btt01,
     AddMatterSection,
@@ -29,7 +29,7 @@ import {
     ActionButtons
 } from './style';
 
-import { TiArrowDownThick, TiArrowUpThick } from "react-icons/ti";
+//import { TiArrowDownThick, TiArrowUpThick } from "react-icons/ti";
 
 /*import {
     AreaEmp,
@@ -53,9 +53,10 @@ const EmployeeInformation = () => {
     const [matter, setMatter] = useState("")
     //const [filter, setFilter] = useState()
     const [position_at_school, setPosition_at_school] = useState([]);
+    const [positionAtSchool, setPositionAtSchool] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [showMatter, setShowMatter] = useState(false);
-    const [showClass, setShowClass] = useState(false);
+    //const [showMatter, setShowMatter] = useState(false);
+    //const [showClass, setShowClass] = useState(false);
     const [school, setSchool] = useState(null);
     const [removeEmp, setRemoveEmp] = useState(false);
     const { id_employee } = useParams()
@@ -65,9 +66,11 @@ const EmployeeInformation = () => {
         (async () => {
             setLoading(true);
             const School = sessionStorage.getItem('School');
+            const position = localStorage.getItem('position_at_school');
+            setPositionAtSchool(position);
             const res = await EmpInfo(id_employee)
             const position_at_school = res.data.data.map(res => {
-                if (res.position_at_school === "SECRETARIO") {
+                if (res.position_at_school === "SECRETARIO" || res.position_at_school === "DIRETOR/SUPERVISOR") {
                     return res.position_at_school
                 } else {
                     return null
@@ -122,8 +125,9 @@ const EmployeeInformation = () => {
         })()
 
     }, [currentYear, id_employee])
+    console.log("position_at_school", positionAtSchool)
 
-    const add = () => {
+    /*const add = () => {
         setLoading(true);
         const res = employee.find(employee => {
             return employee
@@ -141,7 +145,7 @@ const EmployeeInformation = () => {
 
     const Remove = async () => {
         navigate('/remove/matter')
-    }
+    }*/
 
     const Edit = async () => {
         navigate('/edit-profile')
@@ -190,7 +194,7 @@ const EmployeeInformation = () => {
                     ))}
                     {position_at_school.length === 0 && (
                         <>
-                            <DivInfo>
+                            {/*<DivInfo>
                                 <TitleInfo>Disciplinas:</TitleInfo>
                                 {!showMatter &&
                                     <DivShowMatter>
@@ -223,15 +227,17 @@ const EmployeeInformation = () => {
                                         </DivShowMatter>
                                     </>
                                 }
-                            </DivInfo>
+                            </DivInfo>*/}
                             <DivInfo>
                                 <TitleInfo>Turmas:</TitleInfo>
-                                {!showClass &&
+                                {/*
+                                    !showClass &&
                                     <DivShowMatter>
                                         <Btt02 onClick={() => { setShowClass(true) }}>Ver Turmas <TiArrowDownThick fontSize={'17px'} /></Btt02>
                                     </DivShowMatter>
+                                    */
                                 }
-                                {showClass &&
+                                {
                                     <>
                                         <Matter>
                                             {Clss.length > 0 ? (
@@ -242,17 +248,20 @@ const EmployeeInformation = () => {
                                                 <Span>Este Professor não esta cadastrado em nenhuma turma vá ate turmas selecione a turma e adicione este professor a uma turma</Span>
                                             )}
                                         </Matter>
-                                        <DivShowMatter>
+                                        {/*<DivShowMatter>
                                             <Btt02 onClick={() => { setShowClass(false) }}> Fecha Turmas <TiArrowUpThick fontSize={'17px'} /></Btt02>
-                                        </DivShowMatter>
+                                        </DivShowMatter>*/}
                                     </>
                                 }
                             </DivInfo>
                         </>
                     )}
-                    <ButtonCancel>
-                        <Btt01 onClick={() => { setRemoveEmp(true) }} >Remover Funcionario</Btt01>
-                    </ButtonCancel>
+                    {positionAtSchool === "DIRETOR/SUPERVISOR"
+                        &&
+                        <ButtonCancel>
+                            <Btt01 onClick={() => { setRemoveEmp(true) }} >Remover Funcionario</Btt01>
+                        </ButtonCancel>
+                    }
                     {removeEmp === true && (
                         <AddMatterSection>
                             <WarningBox>

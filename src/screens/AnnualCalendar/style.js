@@ -17,7 +17,7 @@ export const ContainerDivs = styled.div`
   flex-direction: column;
   gap: 20px;
   width: 93%;
-  max-width: 600px;
+  max-width: 1000px;
   h2 {
     text-align: center;
     margin-bottom: 20px;
@@ -26,7 +26,7 @@ export const ContainerDivs = styled.div`
 
 export const DivAddEmp = styled.div`
   background-color: #f9f9f9;
-  max-width: 600px;
+  width: 100%;
   border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;

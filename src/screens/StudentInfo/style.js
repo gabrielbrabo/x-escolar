@@ -12,7 +12,7 @@ export const Container = styled.div`
 
 export const ContainerDivs = styled.div`
   width: 100%;
-  max-width: 600px;
+  max-width: 1000px;
   min-height: 50vh;
   background-color: #fff;
   border-radius: 10px;
@@ -151,7 +151,6 @@ export const ButtonCancel = styled.div`
 export const AddMatterSection = styled.div`
   width: 100%;
   min-height: 100%;
-  max-width: 600px;
   display: flex;
   align-items: center;
   justify-content: center;

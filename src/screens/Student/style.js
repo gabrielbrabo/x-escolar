@@ -13,7 +13,7 @@ export const Container = styled.div`
 
 export const ContainerDivs = styled.div`
   width: 92%;
-  max-width: 600px;
+  max-width: 1000px;
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;

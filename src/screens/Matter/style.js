@@ -13,7 +13,7 @@ export const Container = styled.div`
 
 export const List = styled.div`
   width: 100%;
-  max-width: 600px;
+  max-width: 1000px;
   margin-top: 20px;
 `;
 

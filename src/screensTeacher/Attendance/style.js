@@ -20,7 +20,7 @@ export const ContainerStudent = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
-    max-width: 700px;
+    max-width: 1000px;
     padding: 10px;
     gap: 15px;
     border-radius: 5px;

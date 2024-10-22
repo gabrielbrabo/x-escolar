@@ -23,7 +23,7 @@ export const Search = styled.div`
     display: flex;
     flex-direction: column;
     width: 90%;
-    max-width: 600px;
+    max-width: 1000px;
     padding: 20px;
     justify-content: space-between;
     margin-top: 30px;
@@ -98,7 +98,7 @@ export const List = styled.div`
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-top: 15px;
     width: 90%;
-    max-width: 600px;
+    max-width: 1000px;
     padding: 20px;
     gap: 20px;
 `;

@@ -22,7 +22,7 @@ export const ContainerDivs = styled.div`
 
 export const ClassDetails = styled.div`
     background-color: #fff;
-    width: 600px;
+    width: 1000px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -88,7 +88,7 @@ export const MatterItem = styled.div`
 
 export const StudentSection = styled.div`
     background-color: #fff;
-    width: 600px;
+    width: 1000px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -104,10 +104,12 @@ export const StudentSection = styled.div`
     }
 `
 
-export const StudentItem = styled.div`
+export const StudentItem = styled.li`
     font-size: 16px;
     color: #333;
     padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+    cursor: default;
 `
 
 export const InfoText = styled.div`

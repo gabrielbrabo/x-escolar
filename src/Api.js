@@ -1239,6 +1239,27 @@ export const GetGradeVIthQuarter = async (
         }, [])
 }
 
+export const updateGrade = async (
+    update_id_grade,
+    update_studentGrade
+) => {
+
+    return api.post(`/update/grade`, {
+        update_id_grade,
+        update_studentGrade
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
 export const DestroyEmp = async (
     idEmployee,
 ) => {

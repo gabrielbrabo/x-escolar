@@ -23,7 +23,7 @@ export const Container = styled.div`
 export const Emp = styled.div`
   width: 92%;
   min-height: 150px;
-  max-width: 600px;
+  max-width: 1000px;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -90,7 +90,7 @@ export const DivButtomEdit = styled.div`
 
 export const DivInfo = styled.div`
   width: 92%;
-  max-width: 600px;
+  max-width: 1000px;
   min-height: 120px;
   background-color: #fff;
   border-radius: 8px;
@@ -158,6 +158,7 @@ export const ContainerDivs = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
+    max-width: 1000px;
 `;
 
 export const Btt02 = styled.button`
@@ -214,7 +215,6 @@ export const LoadingSpinnerContainer = styled.div`
 export const AddMatterSection = styled.div`
   width: 100%;
   min-height: 100%;
-  max-width: 600px;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -17,12 +17,12 @@ import {
     DivButtomEdit,
     ProfileInfo,
     Btt02,
-    DivShowMatter,
+    //DivShowMatter,
     //ButtonCancel,
     //Btt01
 } from './style';
 
-import { TiArrowDownThick, TiArrowUpThick } from "react-icons/ti";
+//import { TiArrowDownThick, TiArrowUpThick } from "react-icons/ti";
 
 import LoadingSpinner from '../../components/Loading'
 
@@ -36,8 +36,8 @@ const Cla$$Info = () => {
     //const [matter, setMatter] = useState("")
     const [stdt, setStdt] = useState([])
     const [loading, setLoading] = useState(false);
-    const [showStudent, setShowStudent] = useState(false);
-    const [showTeacher, setShowTeacher] = useState(false);
+    //const [showStudent, setShowStudent] = useState(false);
+    //const [showTeacher, setShowTeacher] = useState(false);
     const { id_class } = useParams();
     console.log(currentYear)
 
@@ -130,63 +130,17 @@ const Cla$$Info = () => {
                     }
 
                     {
-                        stdt.length > 0
-                            ?
-                            <DivInfo>
-                                <TitleInfo>Estudantes:</TitleInfo>
-                                {!showStudent &&
-                                    <DivShowMatter>
-                                        <Btt02 onClick={() => { setShowStudent(true) }}>Ver Alunos <TiArrowDownThick fontSize={'17px'} /></Btt02>
-                                    </DivShowMatter>
-                                }
-                                {showStudent &&
-                                    <>
-                                        <DivAddEmp>
-                                            <AddEmp>
-                                                <Btt02 onClick={addStudent}>Add Aluno</Btt02>
-                                            </AddEmp>
-                                            <AddEmp>
-                                                <Btt02 onClick={RemoveStudent}>Remover</Btt02>
-                                            </AddEmp>
-                                        </DivAddEmp>
-                                        <Matter>
-                                            {
-                                                stdt.map(stdt => (
-                                                    <Span>{stdt.name}</Span>
-                                                ))
-                                            }
-                                        </Matter>
-                                        <DivShowMatter>
-                                            <Btt02 onClick={() => { setShowStudent(false) }}>Fecha<TiArrowUpThick fontSize={'17px'} /></Btt02>
-                                        </DivShowMatter>
-                                    </>
-                                }
-                            </DivInfo>
-                            :
-                            <DivInfo>
-                                <TitleInfo>Estudantes:</TitleInfo>
-                                <DivAddEmp>
-                                    <AddEmp>
-                                        <Btt02 onClick={addStudent}>Add Aluno</Btt02>
-                                    </AddEmp>
-                                </DivAddEmp>
-                                <Matter>
-                                    <>Não há nenhum estudante</>
-                                </Matter>
-                            </DivInfo>
-                    }
-
-                    {
                         employee.length > 0
                             ?
                             <DivInfo>
                                 <TitleInfo>Professores:</TitleInfo>
-                                {!showTeacher &&
+                                {/*!showTeacher &&
                                     <DivShowMatter>
                                         <Btt02 onClick={() => { setShowTeacher(true) }}>Ver Professores <TiArrowDownThick fontSize={'17px'} /></Btt02>
                                     </DivShowMatter>
+                                    */
                                 }
-                                {showTeacher &&
+                                {
                                     <>
                                         <DivAddEmp>
                                             <AddEmp>
@@ -206,9 +160,12 @@ const Cla$$Info = () => {
                                                 ))
                                             }
                                         </Matter>
-                                        <DivShowMatter>
+                                        {
+                                            /*<DivShowMatter>
                                             <Btt02 onClick={() => { setShowTeacher(false) }}>Fecha<TiArrowUpThick fontSize={'17px'} /></Btt02>
                                         </DivShowMatter>
+                                        */
+                                        }
                                     </>
                                 }
                             </DivInfo>
@@ -225,7 +182,59 @@ const Cla$$Info = () => {
                                 </Matter>
                             </DivInfo>
                     }
-                   {/* <ButtonCancel>
+
+{
+                        stdt.length > 0
+                            ?
+                            <DivInfo>
+                                <TitleInfo>Estudantes:</TitleInfo>
+                                {/*!showStudent &&
+                                    <DivShowMatter>
+                                        <Btt02 onClick={() => { setShowStudent(true) }}>Ver Alunos <TiArrowDownThick fontSize={'17px'} /></Btt02>
+                                    </DivShowMatter>
+                                    */
+                                }
+                                {
+                                    <>
+                                        <DivAddEmp>
+                                            <AddEmp>
+                                                <Btt02 onClick={addStudent}>Add Aluno</Btt02>
+                                            </AddEmp>
+                                            <AddEmp>
+                                                <Btt02 onClick={RemoveStudent}>Remover</Btt02>
+                                            </AddEmp>
+                                        </DivAddEmp>
+                                        <Matter>
+                                            {
+                                                stdt.map(stdt => (
+                                                    <Span>{stdt.name}</Span>
+                                                ))
+                                            }
+                                        </Matter>
+                                        {
+                                            /*<DivShowMatter>
+                                            <Btt02 onClick={() => { setShowStudent(false) }}>Fecha<TiArrowUpThick fontSize={'17px'} /></Btt02>
+                                        </DivShowMatter>
+                                        */
+                                        }
+                                    </>
+                                }
+                            </DivInfo>
+                            :
+                            <DivInfo>
+                                <TitleInfo>Estudantes:</TitleInfo>
+                                <DivAddEmp>
+                                    <AddEmp>
+                                        <Btt02 onClick={addStudent}>Add Aluno</Btt02>
+                                    </AddEmp>
+                                </DivAddEmp>
+                                <Matter>
+                                    <>Não há nenhum estudante</>
+                                </Matter>
+                            </DivInfo>
+                    }
+
+                    {/* <ButtonCancel>
                         <Btt01 >Remover Turma</Btt01>
                     </ButtonCancel>*/}
                 </ContainerDivs>

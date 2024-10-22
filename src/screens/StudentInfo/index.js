@@ -47,6 +47,7 @@ const Student = () => {
     const [student, setStudent] = useState([])
     //const [busca, setBusca] = useState("")
     //const [filter, setFilter] = useState()
+    const [positionAtSchool, setPositionAtSchool] = useState(null);
     const [loading, setLoading] = useState(false);
     const [removeStudent, setRemoveStudent] = useState(false);
     const { id_student } = useParams()
@@ -55,6 +56,8 @@ const Student = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
+            const position = localStorage.getItem('position_at_school');
+            setPositionAtSchool(position);
             sessionStorage.removeItem('StudentInformation')
             sessionStorage.setItem("StudentInformation", id_student)
             const res = await StdtInfo(id_student)
@@ -137,9 +140,12 @@ const Student = () => {
                         }
                         <Calendar />
                     </ContainerDivs>
-                    <ButtonCancel>
-                        <Btt01 onClick={() => { setRemoveStudent(true) }}>Remover Estudante</Btt01>
-                    </ButtonCancel>
+                    {positionAtSchool === "DIRETOR/SUPERVISOR"
+                        &&
+                        <ButtonCancel>
+                            <Btt01 onClick={() => { setRemoveStudent(true) }}>Remover Estudante</Btt01>
+                        </ButtonCancel>
+                    }
                     {removeStudent === true && (
                         <AddMatterSection>
                             <WarningBox>

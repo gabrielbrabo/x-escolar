@@ -12,7 +12,7 @@ export const Container = styled.div`
 
 export const ContainerDivs = styled.div`
   width: 92%;
-  max-width: 600px;
+  max-width: 1000px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,7 +20,7 @@ export const ContainerDivs = styled.div`
   gap: 20px;
   padding: 20px;
   @media (max-width: 1200px) {
-    max-width: 90%;
+  //  max-width: 90%;
   }
   @media (max-width: 768px) {
     padding: 10px;
@@ -116,7 +116,7 @@ export const Btt02 = styled.button`
 
 export const Emp = styled.div`
     width: 100%;
-    max-width: 600px;
+    max-width: 1000px;
     display: flex;
     justify-content: space-between;
   background-color: #fff;
@@ -150,7 +150,7 @@ export const Span = styled.span`
 
 export const DivInfo = styled.div`
   width: 100%;
-  max-width: 600px;
+  max-width: 1000px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
