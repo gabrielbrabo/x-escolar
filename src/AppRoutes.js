@@ -64,6 +64,13 @@ import GradeivThQuarter from "./screensTeacher/GradeivThQuarter"
 import GradevThQuarter from "./screensTeacher/GradevThQuarter"
 import GradeviThQuarter from "./screensTeacher/GradeviThQuarter"
 
+import IStQuarterReportCard from "./screens/I-StQuarterReportCard"
+import IINdQuarterReportCard from "./screens/II-NdQuarterReportCard"
+import IIIRdQuarterReportCard from "./screens/III-RdQuarterReportCard"
+import IVThQuarterReportCard from "./screens/IV-ThQuarterReportCard"
+import VThQuarterReportCard from "./screens/V-ThQuarterReportCard"
+import VIThQuarterReportCard from "./screens/Vi-ThQuarterReportCard"
+
 const AppRoutes = () => {
 
     const Private = ({ children }) => {
@@ -323,6 +330,36 @@ const AppRoutes = () => {
                     <Route exact path="/grade-vithquarter" element={
                         <Private>
                             <GradeviThQuarter />
+                        </Private>
+                    } />
+                    <Route exact path="/ist-quarter-report-card" element={
+                        <Private>
+                            <IStQuarterReportCard/>
+                        </Private>
+                    } />
+                    <Route exact path="/iind-quarter-report-card" element={
+                        <Private>
+                            <IINdQuarterReportCard/>
+                        </Private>
+                    } />
+                    <Route exact path="/iiird-quarter-report-card" element={
+                        <Private>
+                            <IIIRdQuarterReportCard/>
+                        </Private>
+                    } />
+                    <Route exact path="/ivth-quarter-report-card" element={
+                        <Private>
+                            <IVThQuarterReportCard/>
+                        </Private>
+                    } />
+                    <Route exact path="/vth-quarter-report-card" element={
+                        <Private>
+                            <VThQuarterReportCard/>
+                        </Private>
+                    } />
+                    <Route exact path="/vith-quarter-report-card" element={
+                        <Private>
+                            <VIThQuarterReportCard/>
                         </Private>
                     } />
                 </Routes>

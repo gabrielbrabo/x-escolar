@@ -1239,6 +1239,24 @@ export const GetGradeVIthQuarter = async (
         }, [])
 }
 
+export const GetGrades = async (
+    year, bimonthly, id_student
+) => {
+
+    return api.post(`/get-grade`, {
+        year, bimonthly, id_student
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
 export const updateGrade = async (
     update_id_grade,
     update_studentGrade

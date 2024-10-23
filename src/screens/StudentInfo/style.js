@@ -188,7 +188,7 @@ export const ActionButtons = styled.div`
 `;
 
 export const Button = styled.button`
-  width: 100%;
+  width: 50%;
   padding: 15px;
   background-color: #4caf50;
   color: #fff;
@@ -221,5 +221,41 @@ export const ButtonRemove= styled.button`
   @media (max-width: 768px) {
     padding: 12px;
     font-size: 14px;
+  }
+`;
+
+export const Label = styled.label`
+  align-self: flex-start;
+  font-weight: bold;
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+`;
+
+export const Select = styled.select`
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
+`;
+
+export const Input = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+`;
+
+export const ErrorMessage = styled.div`
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  @media (max-width: 768px) {
+    font-size: 12px;
   }
 `;

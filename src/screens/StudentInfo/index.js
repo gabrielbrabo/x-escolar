@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { StdtInfo, DestroyStudent } from '../../Api'
+import {
+    StdtInfo,
+    DestroyStudent,
+    getIstQuarter,
+    getIIndQuarter,
+    getIIIrdQuarter,
+    getIVthQuarter,
+    getVthQuarter,
+    getVIthQuarter,
+} from '../../Api'
 import Calendar from '../../components/CalendarUI/Calendar'
 
 import {
@@ -21,10 +30,13 @@ import {
     WarningBox,
     Button,
     ButtonRemove,
-    ActionButtons
+    ActionButtons,
     //FormFilter,
     //FormSearch
-    // Input
+    Input,
+    Label,
+    Select,
+    ErrorMessage
 } from './style';
 
 /*import {
@@ -42,27 +54,74 @@ const Student = () => {
 
     const navigate = useNavigate()
     const currentYear = new Date().getFullYear().toString();
+    const [I, setI] = useState([])
+    const [II, setII] = useState([])
+    const [III, setIII] = useState([])
+    const [IV, setIV] = useState([])
+    const [V, setV] = useState([])
+    const [VI, setVI] = useState([])
     //const [year, setYear] = useState([])
     const [Clss, setClss] = useState([])
     const [student, setStudent] = useState([])
-    //const [busca, setBusca] = useState("")
-    //const [filter, setFilter] = useState()
+    const [Selectbimonthly, setSelectbimonthly] = useState([])
+    const [bimonthly, setbimonthly] = useState([])
     const [positionAtSchool, setPositionAtSchool] = useState(null);
     const [loading, setLoading] = useState(false);
     const [removeStudent, setRemoveStudent] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const { id_student } = useParams()
     console.log(currentYear)
 
     useEffect(() => {
         (async () => {
             setLoading(true);
+
+            const idSchool = sessionStorage.getItem("id-school");
+            const year = new Date().getFullYear();
+            const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
+            const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
+            const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
+            const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
+            const VthQuarter = await getVthQuarter(year, JSON.parse(idSchool))
+            const VIthQuarter = await getVIthQuarter(year, JSON.parse(idSchool))
+
+            const i = IstQuarter.data.data.find(res => res) || null;
+            const ii = IIndQuarter.data.data.find(res => res) || null;
+            const iii = IIIrdQuarter.data.data.find(res => res) || null;
+            const iv = IVthQuarter.data.data.find(res => res) || null;
+            const v = VthQuarter.data.data.find(res => res) || null;
+            const vi = VIthQuarter.data.data.find(res => res) || null;
+
+            //const res = await GetMatter(JSON.parse(idSchool));
+
+            setbimonthly([i, ii, iii, iv, v, vi].filter(res => res !== null));
+
+            if (i !== null) {
+                setI(i._id);
+            }
+            if (ii !== null) {
+                setII(ii._id);
+            }
+            if (iii !== null) {
+                setIII(iii._id);
+            }
+            if (iv !== null) {
+                setIV(iv._id);
+            }
+            if (v !== null) {
+                setV(v._id);
+            }
+            if (vi !== null) {
+                setVI(vi._id);
+            }
+
             const position = localStorage.getItem('position_at_school');
             setPositionAtSchool(position);
             sessionStorage.removeItem('StudentInformation')
             sessionStorage.setItem("StudentInformation", id_student)
             const res = await StdtInfo(id_student)
             setStudent(res.data.data)
-            //console.log(res.data.data)
+            
             const clss = res.data.data.find(res => {
                 return res
             }).id_class.map(res => {
@@ -78,11 +137,19 @@ const Student = () => {
                     return null
                 }
             })
+            console.log("clss", clss)
             setClss(clss)
             setLoading(false);
         })()
 
     }, [currentYear, id_student])
+
+    if(student) {
+        const stdt = student.map( res => {
+            return res.name
+        })
+        sessionStorage.setItem("stdt-name", stdt)
+    }
 
     const Edit = async () => {
         navigate('/edit-student')
@@ -97,7 +164,35 @@ const Student = () => {
         }
     }
 
+    const signClick = async () => {
+        setLoading(true);
+
+        if (Selectbimonthly === I) {
+            sessionStorage.setItem("id-I", I)
+            navigate('/ist-quarter-report-card')
+        } else if (Selectbimonthly === II) {
+            sessionStorage.setItem("id-II", II)
+            navigate('/iind-quarter-report-card')
+        }  else if (Selectbimonthly === III) {
+            sessionStorage.setItem("id-III", III)
+            navigate('/iiird-quarter-report-card')
+        } else if (Selectbimonthly === IV) {
+            sessionStorage.setItem("id-IV", IV)
+            navigate('/ivth-quarter-report-card')
+        } else if (Selectbimonthly === V) {
+            sessionStorage.setItem("id-V", V)
+            navigate('/vth-quarter-report-card')
+        } else if (Selectbimonthly === VI) {
+            sessionStorage.setItem("id-VI", VI)
+            navigate('/vith-quarter-report-card')
+        } else {
+            setErrorMessage('Erro, Verifique os dados e tente novamente.');
+        }
+        setLoading(false);
+    };
+
     console.log("clas", Clss)
+    console.log("Selectbimonthly", Selectbimonthly)
 
     return (
         <Container>
@@ -138,6 +233,22 @@ const Student = () => {
                                 </Emp>
                             ))
                         }
+                        <Input>
+                            <Label>Selecione o bimestre abaixo para ver o boletim</Label>
+                            <Select
+                                id="id-bimonthly"
+                                value={Selectbimonthly}
+                                onChange={(e) => setSelectbimonthly(e.target.value)}
+                            >
+                                <option value="">Selecione</option>
+                                {bimonthly.map(res => (
+                                    <option key={res._id} value={res._id}>{res.bimonthly}</option>
+                                ))
+                                }
+                            </Select>
+                            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                            <Button onClick={signClick}>Definir</Button>
+                        </Input>
                         <Calendar />
                     </ContainerDivs>
                     {positionAtSchool === "DIRETOR/SUPERVISOR"
