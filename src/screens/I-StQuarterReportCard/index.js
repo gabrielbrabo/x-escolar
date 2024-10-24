@@ -16,12 +16,15 @@ import {
   ToGoBack,
   SignMessageButtonText,
   SignMessageButtonTextBold,
-  PrintButton
+  PrintButton,
+  SpanFrequency
 } from './style';
 
 import GlobalStyle from './style';
 
-import { GetGrades } from '../../Api';
+import { GetGrades, AttendanceBimonthly } from '../../Api';
+
+import { IoCheckmarkSharp, IoCloseSharp } from "react-icons/io5";
 
 import { useNavigate } from 'react-router-dom';
 
@@ -35,6 +38,17 @@ const GradeIstquarter = () => {
   const [stdtName, setStdtName] = useState([])
   const [teacherName, setTeacherName] = useState('')
   const [nameSchool, setNameSchool] = useState('')
+
+  const [startd, setStartd] = useState('')
+  const [startm, setStartm] = useState('')
+  const [starty, setStarty] = useState('')
+  const [endd, setEndd] = useState('')
+  const [endm, setEndm] = useState('')
+  const [endy, setEndy] = useState('')
+
+  
+  const [highlightedDays, setHighlightedDays] = React.useState([]);
+  const [highlightedDaysF, setHighlightedDaysF] = React.useState([]);
 
   useEffect(() => {
     (async () => {
@@ -56,11 +70,70 @@ const GradeIstquarter = () => {
         console.log("firstTeacher", firstTeacher);
         setTeacherName(firstTeacher);  // Define apenas o primeiro elemento
       }
+      if (resGrade && resGrade.data && Array.isArray(resGrade.data.data) && resGrade.data.data.length > 0) {
+        const res = resGrade.data.data[0]; // Pega o primeiro item do array
+      
+        if (res && res.id_iStQuarter) {
+          let startd = res.id_iStQuarter.startday || null;
+          let startm = res.id_iStQuarter.startmonth || null;
+          let starty = res.id_iStQuarter.startyear || null;
+      
+          let endd = res.id_iStQuarter.endday || null;
+          let endm = res.id_iStQuarter.endmonth || null;
+          let endy = res.id_iStQuarter.endyear || null;
+      
+          // Atualiza os estados apenas se os valores forem válidos
+          setStartd(startd);
+          setStartm(startm);
+          setStarty(starty);
+      
+          setEndd(endd);
+          setEndm(endm);
+          setEndy(endy);
+        } else {
+          console.error("Dados de id_iStQuarter estão faltando ou incompletos");
+        }
+      } else {
+        console.error("resGrade está vazio ou malformado");
+      }
+
+      if (startd && startm && starty && endd && endm && endy && id_student) {
+        try {
+          const result = await AttendanceBimonthly(startd, startm, starty, endd, endm, endy, id_student);
+          const data = result?.data?.data || [];
+      
+          // Verifique se os dados estão disponíveis e não estão vazios
+          if (data.length > 0) {
+            // Filtrando e mapeando as presenças (P)
+            const attendance = data.filter(res => res.status === "P");
+      
+            // Filtrando e mapeando as faltas (F)
+            const attendancef = data.filter(res => res.status === "F");
+      
+            // Garantir que as variáveis não sejam nulas ou indefinidas
+            setHighlightedDays(attendance.length ? attendance : []);
+            setHighlightedDaysF(attendancef.length ? attendancef : []);
+          } else {
+            console.warn("Nenhum dado de frequência disponível.");
+          }
+      
+        } catch (error) {
+          console.error("Erro ao obter dados de frequência", error);
+        }
+      }
+      
 
       setLoading(false);
     })();
 
-  }, []);
+  }, [startd, startm, starty, endd, endm, endy]);
+
+  console.log("startd", startd);
+  console.log("startm", startm);
+  console.log("starty", starty);
+  console.log("endd", endd);
+  console.log("endm", endm);
+  console.log("endy", endy);
 
   const messageButtonClick = () => {
     navigate(-1);
@@ -69,6 +142,9 @@ const GradeIstquarter = () => {
   const handlePrint = () => {
     window.print();
   };
+
+  const countPresences = highlightedDays.length;
+  const countAbsences = highlightedDaysF.length;
 
   return (
     <Container>
@@ -90,6 +166,9 @@ const GradeIstquarter = () => {
                 <span><strong>Escola:</strong> {nameSchool}</span>
                 <span><strong>Professor:</strong> {teacherName}</span>
                 <span><strong>Aluno:</strong> {stdtName}</span>
+                <SpanFrequency>
+                  <span><IoCheckmarkSharp color='#00fa00' font-size="30px" />Presenças: {countPresences} | <IoCloseSharp color='#ff050a' font-size="30px" />Ausências: {countAbsences}</span>
+                </SpanFrequency>
               </DadosStdt>
               <DivDados>
                 <List>

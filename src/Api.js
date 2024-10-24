@@ -1789,6 +1789,15 @@ export const updateAttendance = async (
         }, [])
 }
 
+export const AttendanceBimonthly = async (
+    startd, startm, starty, endd, endm, endy, id_student
+) => {
+
+    return api.post(`/attendance-bimonthly`, {
+        startd, startm, starty, endd, endm, endy, id_student
+    })
+}
+
 
 /*export const getavatar = async () => {
 

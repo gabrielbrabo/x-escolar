@@ -124,6 +124,20 @@ export const SpanGradeStudent = styled.span`
   font-weight: bold;
 `;
 
+export const SpanFrequency = styled.div`
+  width: 80%;
+  height: 0px;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+
+  @media (max-width: 768px) {
+    height: 15px;
+    position: relative;
+  }
+  /* Estilize o spinner de carregamento aqui */
+`;
+
 export const LoadingSpinner = styled.div`
   /* Estilize o spinner de carregamento aqui */
 `;
@@ -197,6 +211,17 @@ const GlobalStyle = createGlobalStyle`
       box-sizing: border-box; /* Inclui o padding e a borda na largura total */
     }
 
+    ${SpanFrequency} {
+      visibility: visible;
+      width: 90%;
+      height: 0px;
+      display: flex;
+      justify-content: flex-end;
+      position: absolute;
+
+      color: #000; /* Ajuste a cor se necessário */
+    }
+    
     @page {
       size: A4; /* Define o tamanho do papel */
       margin: 0mm; /* Ajuste as margens conforme necessário */
