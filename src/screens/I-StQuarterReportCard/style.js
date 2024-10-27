@@ -69,7 +69,7 @@ export const List = styled.ul`
 
 export const Emp = styled.li`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   padding: 10px;
   border-bottom: 1px solid #ddd;
@@ -102,8 +102,10 @@ export const DadosStdt = styled.div`
 
 export const Grade = styled.div`
   display: flex;
-  width: 100%;
-  justify-content: space-around;
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
+  }
 `;
 
 export const SpanNameMatter = styled.span`
@@ -120,7 +122,12 @@ export const SpanAverageGrade = styled.span`
 `;
 
 export const SpanGradeStudent = styled.span`
-  color: ${({ grade, average }) => (grade < average ? 'red' : 'blue')};
+  color: ${props => {
+    return props.grade === 'A' ? '#1d7f14' :
+      props.grade === 'B' ? 'blue' :
+        props.grade === 'C' ? 'orange' :
+          props.grade === 'D' ? 'red' : 'black';
+  }};
   font-weight: bold;
 `;
 
@@ -243,7 +250,7 @@ const GlobalStyle = createGlobalStyle`
       padding: 0;
     }
 
-    ${Emp} { /* Ajuste a margem inferior para evitar quebra de página */
+    ${Emp} { /* Ajuste a margem inferior para evitar quebra de página */ 
       height: 40px;
       border-bottom: 1px solid #ccc;
     }

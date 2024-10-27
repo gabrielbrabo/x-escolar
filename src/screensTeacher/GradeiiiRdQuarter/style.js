@@ -194,3 +194,13 @@ export const ErrorMessage = styled.div`
     font-size: 12px;
   }
 `;
+
+export const Select = styled.select`
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
+`;

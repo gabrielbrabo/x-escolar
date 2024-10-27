@@ -5,7 +5,7 @@ import {
   Emp,
   EmployeeInfo,
   ProfileInfo,
-  ProfilePhoto,
+  //ProfilePhoto,
   Pro,
   Name,
   Span,
@@ -42,7 +42,7 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
       <Emp>
         <EmployeeInfo>
           <Pro>
-            <ProfilePhoto />
+            {/*<ProfilePhoto />*/}
             <ProfileInfo>
               <Name>{name}</Name>
               <Span>{positionAtSchool}</Span>

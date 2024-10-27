@@ -101,6 +101,16 @@ export const DivInfoDate = styled.div`
     }
 `;
 
+export const Select = styled.select`
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
+`;
+
 export const Span = styled.div`
     display: flex;
     align-items: center;

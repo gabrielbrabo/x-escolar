@@ -320,8 +320,8 @@ export const RegisterIstQuarter = async (
     endday,
     endmonth,
     endyear,
-    totalGrade,
-    averageGrade,
+    //totalGrade,
+    //averageGrade,
     id_school
 ) => {
 
@@ -333,8 +333,8 @@ export const RegisterIstQuarter = async (
         endday,
         endmonth,
         endyear,
-        totalGrade,
-        averageGrade,
+        //totalGrade,
+        ////averageGrade,
         id_school
     })
 
@@ -423,8 +423,8 @@ export const RegisterIIndQuarter = async (
     endday,
     endmonth,
     endyear,
-    totalGrade,
-    averageGrade,
+    //totalGrade,
+    //averageGrade,
     id_school
 ) => {
 
@@ -436,8 +436,8 @@ export const RegisterIIndQuarter = async (
         endday,
         endmonth,
         endyear,
-        totalGrade,
-        averageGrade,
+        //totalGrade,
+        //averageGrade,
         id_school
     })
 
@@ -526,8 +526,8 @@ export const RegisterIIIrdQuarter = async (
     endday,
     endmonth,
     endyear,
-    totalGrade,
-    averageGrade,
+    //totalGrade,
+    //averageGrade,
     id_school
 ) => {
 
@@ -539,8 +539,8 @@ export const RegisterIIIrdQuarter = async (
         endday,
         endmonth,
         endyear,
-        totalGrade,
-        averageGrade,
+        //totalGrade,
+        //averageGrade,
         id_school
     })
 
@@ -629,8 +629,8 @@ export const RegisterIVthQuarter = async (
     endday,
     endmonth,
     endyear,
-    totalGrade,
-    averageGrade,
+    //totalGrade,
+    //averageGrade,
     id_school
 ) => {
 
@@ -642,8 +642,8 @@ export const RegisterIVthQuarter = async (
         endday,
         endmonth,
         endyear,
-        totalGrade,
-        averageGrade,
+        //totalGrade,
+        //averageGrade,
         id_school
     })
 
@@ -731,8 +731,8 @@ export const RegisterVthQuarter = async (
     endday,
     endmonth,
     endyear,
-    totalGrade,
-    averageGrade,
+    //totalGrade,
+    //averageGrade,
     id_school
 ) => {
 
@@ -744,8 +744,8 @@ export const RegisterVthQuarter = async (
         endday,
         endmonth,
         endyear,
-        totalGrade,
-        averageGrade,
+        //totalGrade,
+        //averageGrade,
         id_school
     })
 
@@ -833,8 +833,8 @@ export const RegisterVIthQuarter = async (
     endday,
     endmonth,
     endyear,
-    totalGrade,
-    averageGrade,
+    //totalGrade,
+    //averageGrade,
     id_school
 ) => {
 
@@ -846,8 +846,8 @@ export const RegisterVIthQuarter = async (
         endday,
         endmonth,
         endyear,
-        totalGrade,
-        averageGrade,
+        //totalGrade,
+        //averageGrade,
         id_school
     })
 
@@ -1795,6 +1795,26 @@ export const AttendanceBimonthly = async (
 
     return api.post(`/attendance-bimonthly`, {
         startd, startm, starty, endd, endm, endy, id_student
+    })
+}
+
+export const RecordClassTaught = async (
+    day, month, year, description, id_teacher, id_class
+) => {
+
+    return api.post(`/record-class-taught`, {
+        day, month, year, description, id_teacher, id_class
+    })
+}
+
+export const indexRecordClassTaught = async (
+    year,
+    id_class
+) => {
+
+    return api.post(`/index-record-class`, {
+        year,
+        id_class
     })
 }
 

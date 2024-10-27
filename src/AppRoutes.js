@@ -71,6 +71,9 @@ import IVThQuarterReportCard from "./screens/IV-ThQuarterReportCard"
 import VThQuarterReportCard from "./screens/V-ThQuarterReportCard"
 import VIThQuarterReportCard from "./screens/Vi-ThQuarterReportCard"
 
+import RecordClassTaught from "./screensTeacher/RecordClassTaught"
+import Classes from "./screensTeacher/Classes"
+
 const AppRoutes = () => {
 
     const Private = ({ children }) => {
@@ -360,6 +363,16 @@ const AppRoutes = () => {
                     <Route exact path="/vith-quarter-report-card" element={
                         <Private>
                             <VIThQuarterReportCard/>
+                        </Private>
+                    } />
+                    <Route exact path="/record-class-taught" element={
+                        <Private>
+                            <RecordClassTaught/>
+                        </Private>
+                    } />
+                    <Route exact path="/classes" element={
+                        <Private>
+                            <Classes/>
                         </Private>
                     } />
                 </Routes>

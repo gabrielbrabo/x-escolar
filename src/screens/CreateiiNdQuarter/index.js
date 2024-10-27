@@ -6,7 +6,7 @@ import {
   AddEmp,
   Btt02,
   DivDados,
-  Input,
+  //Input,
   ErrorMessage
 } from './style';
 import { RegisterIIndQuarter } from '../../Api';
@@ -31,8 +31,8 @@ const HomeSchool = () => {
   const [endday, setEndDay] = useState('')
   const [endmonth, setEndMonth] = useState('')
   const [endyear, setEndYear] = useState('')
-  const [totalGrade, setTotalGrade] = useState('')
-  const [averageGrade, setAverageGrade] = useState('')
+  //const [totalGrade, setTotalGrade] = useState('')
+  //const [averageGrade, setAverageGrade] = useState('')
   const [errorMessage, setErrorMessage] = useState('');
 
   console.log("startselecOnData", startSelectedDate)
@@ -57,8 +57,8 @@ const HomeSchool = () => {
       endday,
       endmonth,
       endyear,
-      totalGrade,
-      averageGrade,
+      //totalGrade,
+      //averageGrade,
       id_school
     );
 
@@ -100,7 +100,7 @@ const HomeSchool = () => {
                   setSelectedDate={setEndSelectedDate}
                 />
               </p>
-              <p>Nota Total:
+              {/*<p>Nota Total:
                 <Input
                   placeholder="Digite a Nota Total"
                   value={totalGrade}
@@ -115,7 +115,7 @@ const HomeSchool = () => {
                   onChange={(e) => setAverageGrade(e.target.value)}
                   type='number'
                 />
-              </p>
+              </p>*/}
             </DivDados>
           </DivAddEmp>
           {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}

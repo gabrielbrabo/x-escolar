@@ -8,14 +8,15 @@ import {
     List,
     Emp,
     Span,
-    InputGrade,
+    //InputGrade,
     Btt01,
     Btt02,
     Grade,
     ContainerStudent,
     EditContainer,
     ErrorMessage,
-    DataSelected
+    DataSelected,
+    Select
 } from './style';
 
 import {
@@ -199,13 +200,19 @@ const IndexAttendance = () => {
                                                 >
                                                     <Span>{stdt.name}</Span>
                                                     <Grade>
-                                                        <p>nota:</p>
-                                                        <InputGrade
-                                                            type='number'
+                                                        <p>Conceito:</p>
+                                                        <Select
+                                                            //id="position"
+                                                            //value={update_studentGrade}
                                                             onChange={(e) => setStudentGrade(e.target.value)}
-                                                            maxLength={3}
-                                                        />
-                                                        <span>pts</span>
+                                                        >
+                                                            <option value="">Selecione</option>
+                                                            <option value="A">A</option>
+                                                            <option value="B">B</option>
+                                                            <option value="C">C</option>
+                                                            <option value="D">D</option>
+                                                        </Select>
+                                                        {/*<span>pts</span>*/}
                                                     </Grade>
                                                     <Btt01 onClick={() => handleGrade(stdt)}>Definir</Btt01>
                                                 </Emp>
@@ -225,9 +232,9 @@ const IndexAttendance = () => {
                                                 >
                                                     <Span>{stdt.id_student.name}</Span>
                                                     <Grade>
-                                                        <p>nota:</p>
+                                                        <p>Conceito: </p>
                                                         <p>{stdt.studentGrade}</p>
-                                                        <span>pts</span>
+                                                        {/*<span>pts</span>*/}
                                                     </Grade>
                                                     <Btt02 onClick={() => startEditing(stdt)} >Editar</Btt02>
                                                 </Emp>
@@ -244,14 +251,19 @@ const IndexAttendance = () => {
                                 <Emp>
                                     <Span>{namestudent.id_student.name}</Span>
                                     <Grade>
-                                        <p>nota:</p>
-                                        <InputGrade
+                                        <p>Concenito: </p>
+                                        <Select
+                                            //id="position"
                                             value={update_studentGrade}
                                             onChange={(e) => setUpdateStudentGrade(e.target.value)}
-                                            type='number'
-                                            maxLength={3}
-                                        />
-                                        <span>pts</span>
+                                        >
+                                            <option value="">Selecione</option>
+                                            <option value="A">A</option>
+                                            <option value="B">B</option>
+                                            <option value="C">C</option>
+                                            <option value="D">D</option>
+                                        </Select>
+                                        {/*<span>pts</span>*/}
                                     </Grade>
                                 </Emp>
                                 <Btt02 onClick={saveEdit}>Salvar</Btt02>

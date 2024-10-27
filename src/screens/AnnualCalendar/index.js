@@ -22,110 +22,80 @@ import { useNavigate } from 'react-router-dom';
 
 const HomeSchool = () => {
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [IStQuarter, setIStQuarter] = useState([])
-  const [IIndQuarter, setIIndQuarter] = useState([])
-  const [IIIrdQuarter, setIIIrdQuarter] = useState([])
-  const [IVthQuarter, setIVthQuarter] = useState([])
-  const [VthQuarter, setVthQuarter] = useState([])
-  const [VIthQuarter, setVIthQuarter] = useState([])
-
-  const [position_at_school, setPosition_at_school] = useState([]);
+  const [IStQuarter, setIStQuarter] = useState([]);
+  const [IIndQuarter, setIIndQuarter] = useState([]);
+  const [IIIrdQuarter, setIIIrdQuarter] = useState([]);
+  const [IVthQuarter, setIVthQuarter] = useState([]);
+  const [VthQuarter, setVthQuarter] = useState([]);
+  const [VIthQuarter, setVIthQuarter] = useState([]);
+  const [position_at_school, setPosition_at_school] = useState('');
 
   useEffect(() => {
     (async () => {
       setLoading(true);
       const idSchool = sessionStorage.getItem("id-school");
       const position = localStorage.getItem('position_at_school');
-      setPosition_at_school(position)
+      setPosition_at_school(position);
       const year = new Date().getFullYear();
-      const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
-      const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
-      const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
-      const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
-      const VthQuarter = await getVthQuarter(year, JSON.parse(idSchool))
-      const VIthQuarter = await getVIthQuarter(year, JSON.parse(idSchool))
-      if (IstQuarter) {
-        setIStQuarter(IstQuarter.data.data)
-        console.log("IstQuarter", IstQuarter.data.data)
-      }
-      if (IIndQuarter) {
-        setIIndQuarter(IIndQuarter.data.data)
-        console.log("IIndQuarter", IIndQuarter.data.data)
-      }
-      if (IIIrdQuarter) {
-        setIIIrdQuarter(IIIrdQuarter.data.data)
-        console.log("IIIrdQuarter", IIIrdQuarter.data.data)
-      }
-      if (IVthQuarter) {
-        setIVthQuarter(IVthQuarter.data.data)
-        console.log("IVthQuarter", IVthQuarter.data.data)
-      }
-      if (VthQuarter) {
-        setVthQuarter(VthQuarter.data.data)
-        console.log("VthQuarter", VthQuarter.data.data)
-      }
-      if (VIthQuarter) {
-        setVIthQuarter(VIthQuarter.data.data)
-        console.log("VIthQuarter", VIthQuarter.data.data)
-      }
-
+      
+      const [IstQuarter, IIndQuarter, IIIrdQuarter, IVthQuarter, VthQuarter, VIthQuarter] = await Promise.all([
+        getIstQuarter(year, JSON.parse(idSchool)),
+        getIIndQuarter(year, JSON.parse(idSchool)),
+        getIIIrdQuarter(year, JSON.parse(idSchool)),
+        getIVthQuarter(year, JSON.parse(idSchool)),
+        getVthQuarter(year, JSON.parse(idSchool)),
+        getVIthQuarter(year, JSON.parse(idSchool))
+      ]);
+      
+      setIStQuarter(IstQuarter?.data?.data || []);
+      setIIndQuarter(IIndQuarter?.data?.data || []);
+      setIIIrdQuarter(IIIrdQuarter?.data?.data || []);
+      setIVthQuarter(IVthQuarter?.data?.data || []);
+      setVthQuarter(VthQuarter?.data?.data || []);
+      setVIthQuarter(VIthQuarter?.data?.data || []);
       setLoading(false);
     })();
   }, []);
 
-  const i_stQuarterInfo = () => {
-    setLoading(true);
-    const res = IStQuarter.find(result => { return result._id })
-    sessionStorage.setItem("IstQuarterInformation", res._id);
-    console.log('log', res._id)
-    navigate('/updatei-stquarter')
-    setLoading(false);
+  const handleNavigate = (quarter, id, route) => {
+    sessionStorage.setItem(quarter, id);
+    navigate(route);
   };
 
-  const ii_ndQuarterInfo = () => {
-    setLoading(true);
-    const res = IIndQuarter.find(result => { return result._id })
-    sessionStorage.setItem("IIndQuarterInformation", res._id);
-    console.log('log', res._id)
-    navigate('/updateii-ndquarter')
-    setLoading(false);
-  };
-
-  const iii_rdQuarterInfo = () => {
-    setLoading(true);
-    const res = IIIrdQuarter.find(result => { return result._id })
-    sessionStorage.setItem("IIIrdQuarterInformation", res._id);
-    console.log('log', res._id)
-    navigate('/updateiii-rdquarter')
-    setLoading(false);
-  };
-
-  const iv_thQuarterInfo = () => {
-    setLoading(true);
-    const res = IVthQuarter.find(result => { return result._id })
-    sessionStorage.setItem("IVthQuarterInformation", res._id);
-    console.log('log', res._id)
-    navigate('/updateiv-thquarter')
-    setLoading(false);
-  };
-  const v_thQuarterInfo = () => {
-    setLoading(true);
-    const res = VthQuarter.find(result => { return result._id })
-    sessionStorage.setItem("VthQuarterInformation", res._id);
-    console.log('log', res._id)
-    navigate('/updatev-thquarter')
-    setLoading(false);
-  };
-  const vi_thQuarterInfo = () => {
-    setLoading(true);
-    const res = VIthQuarter.find(result => { return result._id })
-    sessionStorage.setItem("VIthQuarterInformation", res._id);
-    console.log('log', res._id)
-    navigate('/updatevi-thquarter')
-    setLoading(false);
-  };
+  const QuarterSection = ({ title, data, onEdit, onCreate }) => (
+    <DivAddEmp>
+      {data.length > 0 ? (
+        <>
+          <AddEmp>
+            <h3>{title}</h3>
+            {position_at_school !== "PROFESSOR" && (
+              <Btt02 onClick={onEdit}>Editar Bimestre</Btt02>
+            )}
+          </AddEmp>
+          <DivDados>
+            {data.map(res => (
+              <React.Fragment key={res._id}>
+                <p>Data de Inicio: {res.startday}/{res.startmonth}/{res.startyear}</p>
+                <p>Data de Fim: {res.endday}/{res.endmonth}/{res.endyear}</p>
+              </React.Fragment>
+            ))}
+          </DivDados>
+        </>
+      ) : position_at_school !== "PROFESSOR" ? (
+        <>
+          <AddEmp>
+            <h3>{title}</h3>
+            <Btt02 onClick={onCreate}>Definir Bimestre</Btt02>
+          </AddEmp>
+          <DivDados>
+            <p>Bimestre ainda não definido</p>
+          </DivDados>
+        </>
+      ) : null}
+    </DivAddEmp>
+  );
 
   return (
     <Container>
@@ -133,264 +103,47 @@ const HomeSchool = () => {
         <LoadingSpinner />
       ) : (
         <ContainerDivs>
-          <h2>Calendario Anual</h2>
-          <DivAddEmp>
-            {IStQuarter.length > 0 ? (
-              <>
-                <AddEmp>
-                  <h3>1º Bimestre</h3>
-                  {position_at_school !== "PROFESSOR"
-                    &&
-                    <Btt02 onClick={i_stQuarterInfo}>
-                      Editar Bimestre
-                    </Btt02>
-                  }
-                </AddEmp>
-                <DivDados>
-                  {
-                    IStQuarter.map(res => (
-                      <>
-                        <p>Data de Inicio:  {res.startday}/{res.startmonth}/{res.startyear}</p>
-                        <p>Data de Fim:  {res.endday}/{res.endmonth}/{res.endyear}</p>
-                        <p>Nota Total: {res.totalGrade} </p>
-                        <p>Nota Media: {res.averageGrade}</p>
-                      </>
-                    ))
-                  }
-
-                </DivDados>
-              </>
-            ) : (
-              <>
-                <AddEmp>
-                  <h3>1º Bimestre</h3>
-                  {position_at_school !== "PROFESSOR"
-                    &&
-                    <Btt02 onClick={e => (navigate('/createi-stquarter'))} >Definir Bimestre</Btt02>
-                  }
-                </AddEmp>
-                <DivDados>
-                  <>Bimestre ainda não definido</>
-                </DivDados>
-              </>
-            )
-            }
-          </DivAddEmp>
-          <DivAddEmp>
-            {IIndQuarter.length > 0 ? (
-              <>
-                <AddEmp>
-                  <h3>2º Bimestre</h3>
-                  {position_at_school !== "PROFESSOR"
-                    &&
-                    <Btt02 onClick={ii_ndQuarterInfo}>
-                      Editar Bimestre
-                    </Btt02>
-                  }
-                </AddEmp>
-                <DivDados>
-                  {
-                    IIndQuarter.map(res => (
-                      <>
-                        <p>Data de Inicio:  {res.startday}/{res.startmonth}/{res.startyear}</p>
-                        <p>Data de Fim:  {res.endday}/{res.endmonth}/{res.endyear}</p>
-                        <p>Nota Total: {res.totalGrade} </p>
-                        <p>Nota Media: {res.averageGrade}</p>
-                      </>
-                    ))
-                  }
-
-                </DivDados>
-              </>
-            ) : (
-              <>
-                <AddEmp>
-                  <h3>2º Bimestre</h3>
-                  {position_at_school !== "PROFESSOR"
-                    &&
-                    <Btt02 onClick={e => (navigate('/createii-ndquarter'))} >Definir Bimestre</Btt02>
-                  }
-                </AddEmp>
-                <DivDados>
-                  <>Bimestre ainda não definido</>
-                </DivDados>
-              </>
-            )
-            }
-          </DivAddEmp>
-          <DivAddEmp>
-            {IIIrdQuarter.length > 0 ? (
-              <>
-                <AddEmp>
-                  <h3>3º Bimestre</h3>
-                  {position_at_school !== "PROFESSOR"
-                    &&
-                    <Btt02 onClick={iii_rdQuarterInfo}>
-                      Editar Bimestre
-                    </Btt02>
-                  }
-                </AddEmp>
-                <DivDados>
-                  {
-                    IIIrdQuarter.map(res => (
-                      <>
-                        <p>Data de Inicio:  {res.startday}/{res.startmonth}/{res.startyear}</p>
-                        <p>Data de Fim:  {res.endday}/{res.endmonth}/{res.endyear}</p>
-                        <p>Nota Total: {res.totalGrade} </p>
-                        <p>Nota Media: {res.averageGrade}</p>
-                      </>
-                    ))
-                  }
-
-                </DivDados>
-              </>
-            ) : (
-              <>
-                <AddEmp>
-                  <h3>3º Bimestre</h3>
-                  {position_at_school !== "PROFESSOR"
-                    &&
-                    <Btt02 onClick={e => (navigate('/createiii-rdquarter'))} >Definir Bimestre</Btt02>
-                  }
-                </AddEmp>
-                <DivDados>
-                  <>Bimestre ainda não definido</>
-                </DivDados>
-              </>
-            )
-            }
-          </DivAddEmp>
-          <DivAddEmp>
-            {IVthQuarter.length > 0 ? (
-              <>
-                <AddEmp>
-                  <h3>4º Bimestre</h3>
-                  {position_at_school !== "PROFESSOR"
-                    &&
-                    <Btt02 onClick={iv_thQuarterInfo}>
-                      Editar Bimestre
-                    </Btt02>
-                  }
-                </AddEmp>
-                <DivDados>
-                  {
-                    IVthQuarter.map(res => (
-                      <>
-                        <p>Data de Inicio:  {res.startday}/{res.startmonth}/{res.startyear}</p>
-                        <p>Data de Fim:  {res.endday}/{res.endmonth}/{res.endyear}</p>
-                        <p>Nota Total: {res.totalGrade} </p>
-                        <p>Nota Media: {res.averageGrade}</p>
-                      </>
-                    ))
-                  }
-
-                </DivDados>
-              </>
-            ) : (
-              <>
-                <AddEmp>
-                  <h3>4º Bimestre</h3>
-                  {position_at_school !== "PROFESSOR"
-                    &&
-                    <Btt02 onClick={e => (navigate('/createiv-thquarter'))} >Definir Bimestre</Btt02>
-                  }
-                </AddEmp>
-                <DivDados>
-                  <>Bimestre ainda não definido</>
-                </DivDados>
-              </>
-            )
-            }
-          </DivAddEmp>
-          <DivAddEmp>
-            {VthQuarter.length > 0 ? (
-              <>
-                <AddEmp>
-                  <h3>5º Bimestre</h3>
-                  {position_at_school !== "PROFESSOR"
-                    &&
-                    <Btt02 onClick={v_thQuarterInfo}>
-                      Editar Bimestre
-                    </Btt02>
-                  }
-                </AddEmp>
-                <DivDados>
-                  {
-                    VthQuarter.map(res => (
-                      <>
-                        <p>Data de Inicio:  {res.startday}/{res.startmonth}/{res.startyear}</p>
-                        <p>Data de Fim:  {res.endday}/{res.endmonth}/{res.endyear}</p>
-                        <p>Nota Total: {res.totalGrade} </p>
-                        <p>Nota Media: {res.averageGrade}</p>
-                      </>
-                    ))
-                  }
-
-                </DivDados>
-              </>
-            ) : (
-              <>
-                <AddEmp>
-                  <h3>5º Bimestre</h3>
-                  {position_at_school !== "PROFESSOR"
-                    &&
-                    <Btt02 onClick={e => (navigate('/createv-thquarter'))} >Definir Bimestre</Btt02>
-                  }
-                </AddEmp>
-                <DivDados>
-                  <>Bimestre ainda não definido</>
-                </DivDados>
-              </>
-            )
-            }
-          </DivAddEmp>
-          <DivAddEmp>
-            {VIthQuarter.length > 0 ? (
-              <>
-                <AddEmp>
-                  <h3>6º Bimestre</h3>
-                  {position_at_school !== "PROFESSOR"
-                    &&
-                    <Btt02 onClick={vi_thQuarterInfo}>
-                      Editar Bimestre
-                    </Btt02>
-                  }
-                </AddEmp>
-                <DivDados>
-                  {
-                    VIthQuarter.map(res => (
-                      <>
-                        <p>Data de Inicio:  {res.startday}/{res.startmonth}/{res.startyear}</p>
-                        <p>Data de Fim:  {res.endday}/{res.endmonth}/{res.endyear}</p>
-                        <p>Nota Total: {res.totalGrade} </p>
-                        <p>Nota Media: {res.averageGrade}</p>
-                      </>
-                    ))
-                  }
-
-                </DivDados>
-              </>
-            ) : (
-              <>
-                <AddEmp>
-                  <h3>6º Bimestre</h3>
-                  {position_at_school !== "PROFESSOR"
-                    &&
-                    <Btt02 onClick={e => (navigate('/createvi-thquarter'))} >Definir Bimestre</Btt02>
-                  }
-                </AddEmp>
-                <DivDados>
-                  <>Bimestre ainda não definido</>
-                </DivDados>
-              </>
-            )
-            }
-          </DivAddEmp>
-
+          <h2>Calendário Anual</h2>
+          <QuarterSection
+            title="1º Bimestre"
+            data={IStQuarter}
+            onEdit={() => handleNavigate("IstQuarterInformation", IStQuarter[0]?._id, '/updatei-stquarter')}
+            onCreate={() => navigate('/createi-stquarter')}
+          />
+          <QuarterSection
+            title="2º Bimestre"
+            data={IIndQuarter}
+            onEdit={() => handleNavigate("IIndQuarterInformation", IIndQuarter[0]?._id, '/updateii-ndquarter')}
+            onCreate={() => navigate('/createii-ndquarter')}
+          />
+          <QuarterSection
+            title="3º Bimestre"
+            data={IIIrdQuarter}
+            onEdit={() => handleNavigate("IIIrdQuarterInformation", IIIrdQuarter[0]?._id, '/updateiii-rdquarter')}
+            onCreate={() => navigate('/createiii-rdquarter')}
+          />
+          <QuarterSection
+            title="4º Bimestre"
+            data={IVthQuarter}
+            onEdit={() => handleNavigate("IVthQuarterInformation", IVthQuarter[0]?._id, '/updateiv-thquarter')}
+            onCreate={() => navigate('/createiv-thquarter')}
+          />
+          <QuarterSection
+            title="5º Bimestre"
+            data={VthQuarter}
+            onEdit={() => handleNavigate("VthQuarterInformation", VthQuarter[0]?._id, '/updatev-thquarter')}
+            onCreate={() => navigate('/createv-thquarter')}
+          />
+          <QuarterSection
+            title="6º Bimestre"
+            data={VIthQuarter}
+            onEdit={() => handleNavigate("VIthQuarterInformation", VIthQuarter[0]?._id, '/updatevi-thquarter')}
+            onCreate={() => navigate('/createvi-thquarter')}
+          />
         </ContainerDivs>
       )}
     </Container>
-  )
-}
+  );
+};
 
-export default HomeSchool
+export default HomeSchool;

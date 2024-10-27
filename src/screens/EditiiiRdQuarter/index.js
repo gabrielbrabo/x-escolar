@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import {
     Container,
     ToGoBack,
-    Input,
+    //Input,
     DivDados,
     Btt01,
     SignMessageButtonText,
@@ -104,7 +104,7 @@ const EditProfile = () => {
                                 setSelectedDate={setEndSelectedDate}
                             />
                         </p>
-                        <p>Nota Total:
+                        {/*<p>Nota Total:
                             <Input
                                 placeholder="Digite a Nota Total"
                                 value={totalGrade}
@@ -119,7 +119,7 @@ const EditProfile = () => {
                                 onChange={(e) => setAverageGrade(e.target.value)}
                                 type='number'
                             />
-                        </p>
+                        </p>*/}
                     </DivDados>
                     {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                     <Btt01 onClick={handleSubmit}>Salvar Alterações</Btt01>

@@ -5,7 +5,7 @@ import {
     Emp,
     EmployeeInfo,
     ProfileInfo,
-    ProfilePhoto,
+    //ProfilePhoto,
     Pro,
     Name,
     Span,
@@ -68,7 +68,7 @@ export function Header({ setMenuIsVisible }) {
             <Emp className="desktop-user-info">
                 <EmployeeInfo>
                     <Pro>
-                        <ProfilePhoto />
+                        {/*<ProfilePhoto />*/}
                         <ProfileInfo>
                             <Name>{name}</Name>
                             <Span>{position_at_school}</Span>

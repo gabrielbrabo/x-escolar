@@ -8,9 +8,9 @@ import {
   AddEmp,
   DivDados,
   Grade,
-  SpanTotalGrade,
+  //SpanTotalGrade,
   SpanGradeStudent,
-  SpanAverageGrade,
+  //SpanAverageGrade,
   SpanNameMatter,
   DadosStdt,
   ToGoBack,
@@ -174,9 +174,9 @@ const GradeIstquarter = () => {
                         key={grd._id} >
                         <SpanNameMatter>{grd.id_matter.name}</SpanNameMatter>
                         <Grade>
-                          <SpanTotalGrade><p>Total</p>{grd.totalGrade}</SpanTotalGrade>
-                          <SpanAverageGrade><p>Media</p>{grd.averageGrade}</SpanAverageGrade>
-                          <SpanGradeStudent grade={grd.studentGrade} average={grd.averageGrade}><p>Nota do Aluno</p>{grd.studentGrade}</SpanGradeStudent>
+                          {/*<SpanTotalGrade><p>Total</p>{grd.totalGrade}</SpanTotalGrade>
+                          <SpanAverageGrade><p>Media</p>{grd.averageGrade}</SpanAverageGrade>*/}
+                          <SpanGradeStudent grade={grd.studentGrade} average={grd.averageGrade}><p>Desenpenho</p>{grd.studentGrade}</SpanGradeStudent>
                         </Grade>
                       </Emp>
                     ))

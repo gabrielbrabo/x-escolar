@@ -1,27 +1,27 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext, } from '../../contexts/auth'
-import { useNavigate } from 'react-router-dom'
-import {api, createSessionEmployee, NameSchool} from '../../Api'
+//import { useNavigate } from 'react-router-dom'
+import { api, createSessionEmployee, NameSchool } from '../../Api'
 
 import {
     Container,
     InputArea,
-    Area, 
+    Area,
     Input,
     Btt
 } from './style';
 
-import {
+/*import {
     SignMessageButton,
     SignMessageButtonText,
     SignMessageButtonTextBold
-} from '../../components/Buttons';
+} from '../../components/Buttons';*/
 
 import LoadingSpinner from '../../components/Loading'
 
 const SignInEmployee = () => {
 
-    const navigate = useNavigate()
+    //const navigate = useNavigate()
     const { loginEmployee } = useContext(AuthContext)
     const [cpf, setCpf] = useState('');
     const [password, setPassword] = useState('');
@@ -32,7 +32,7 @@ const SignInEmployee = () => {
         setLoading(true);
         //loginEmployee(cpf, password)
         const response = await createSessionEmployee(cpf, password)
-        if(response) {
+        if (response) {
             const IdEmployee = response.data.id
             const loggedEmployee = response.data.CPF
             const token = response.data.token
@@ -46,8 +46,8 @@ const SignInEmployee = () => {
             //const avatar = response.data.avatar
             const nameSchool = await NameSchool(id_school)
             sessionStorage.setItem("School", nameSchool.data.data)
-            localStorage.setItem("Id_employee", 
-            JSON.stringify(IdEmployee))
+            localStorage.setItem("Id_employee",
+                JSON.stringify(IdEmployee))
             sessionStorage.setItem("cpf", loggedEmployee)
             sessionStorage.setItem("name", name)
             localStorage.setItem("name", name)
@@ -63,7 +63,7 @@ const SignInEmployee = () => {
             /*if (avatar) {
                 sessionStorage.setItem("avatar", avatar)
             }*/
-            
+
             api.defaults.headers.Authorization = `Bearer ${token}`
             loginEmployee(loggedEmployee)
             window.location.reload()
@@ -72,21 +72,21 @@ const SignInEmployee = () => {
     }
     const maskCPF = (value) => {
         return value
-          .replace(/\D/g, '') // Remove tudo o que não é dígito
-          .replace(/(\d{3})(\d)/, '$1.$2') // Coloca o primeiro ponto
-          .replace(/(\d{3})(\d)/, '$1.$2') // Coloca o segundo ponto
-          .replace(/(\d{3})(\d{1,2})$/, '$1-$2') // Coloca o traço
-          .slice(0, 14); // Limita para 14 caracteres
-      };
+            .replace(/\D/g, '') // Remove tudo o que não é dígito
+            .replace(/(\d{3})(\d)/, '$1.$2') // Coloca o primeiro ponto
+            .replace(/(\d{3})(\d)/, '$1.$2') // Coloca o segundo ponto
+            .replace(/(\d{3})(\d{1,2})$/, '$1-$2') // Coloca o traço
+            .slice(0, 14); // Limita para 14 caracteres
+    };
 
     const handleChange = (e) => {
         setCpf(maskCPF(e.target.value));
-      };
-    
+    };
 
-    const MessageButtomclick = () => {
+
+    /*const MessageButtomclick = () => {
         navigate(-1);
-    }
+    }*/
 
     return (
         <Container>
@@ -99,11 +99,11 @@ const SignInEmployee = () => {
                         <>CPF</>
                         <Area>
                             <Input
-                                 placeholder="Digite o CPF"
-                                 value={cpf}
-                                 onChange={handleChange}
-                                 type="text" 
-                                 maxLength="14"
+                                placeholder="Digite o CPF"
+                                value={cpf}
+                                onChange={handleChange}
+                                type="text"
+                                maxLength="14"
                             />
                         </Area>
                         <>Senha</>
@@ -118,10 +118,10 @@ const SignInEmployee = () => {
                         </Area>
                         <Btt type='submit'>Login</Btt>
                     </InputArea>
-                    <SignMessageButton onClick={MessageButtomclick}>
-                            <SignMessageButtonText></SignMessageButtonText>
-                            <SignMessageButtonTextBold>Selecionar outra forma de Login!</SignMessageButtonTextBold>
-                        </SignMessageButton>
+                    {/*<SignMessageButton onClick={MessageButtomclick}>
+                        <SignMessageButtonText></SignMessageButtonText>
+                        <SignMessageButtonTextBold>Selecionar outra forma de Login!</SignMessageButtonTextBold>
+                    </SignMessageButton>*/}
                 </>
             }
         </Container>

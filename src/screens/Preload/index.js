@@ -61,10 +61,10 @@ const Preload = () => {
                     loginEmployee(loggedEmployee)
                     window.location.reload()
                 } else {
-                    navigate('/login/selection')
+                    navigate('/signin/employee')
                 }
             } else {
-                navigate('/login/selection')
+                navigate('/signin/employee')
             }
         })()
     }, [navigate, loginEmployee])
