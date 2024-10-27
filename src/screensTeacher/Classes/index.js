@@ -5,7 +5,9 @@ import {
     ContainerDivs,
     StudentSection,
     Table,
+    ContainerTable,
     TableRow,
+    Span,
     DateCell,
     InfoText,
     Button,
@@ -25,6 +27,11 @@ const Grade = () => {
             const year = new Date().getFullYear();
             const res = await indexRecordClassTaught(year, id_class);
             setRecordClassTaught(res.data.data);
+
+            const nameTeacher = await res.data.data.map(res => {
+                return res.id_teacher.name
+            })
+            console.log("nameTeacher", nameTeacher)
             setLoading(false);
         })();
     }, []);
@@ -39,7 +46,7 @@ const Grade = () => {
         const maxLength = 100; // Ajuste para aumentar o resumo
         return description.length > maxLength ? `${description.slice(0, maxLength)}...` : description;
     };
-
+    console.log("recordClassTaught", recordClassTaught)
     return (
         <Container>
             {loading ? (
@@ -58,17 +65,24 @@ const Grade = () => {
                                     })
                                     .map((res, index) => (
                                         <React.Fragment key={index}>
-                                            <TableRow>
-                                                <DateCell>{`${res.day}/${res.month}/${res.year}`}</DateCell>
-                                                <DescriptionCell>
-                                                    {expandedRows.includes(index)
-                                                        ? res.description
-                                                        : getDescriptionPreview(res.description)}
-                                                    <Button onClick={() => toggleRowExpansion(index)}>
-                                                        {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
-                                                    </Button>
-                                                </DescriptionCell>
-                                            </TableRow>
+                                            <ContainerTable>
+                                                <Span>
+                                                    <div>Professor: <p>{res.id_teacher.name}</p></div>
+                                                    <div>Turma: <p>{res.id_class.serie}</p></div>
+                                                </Span>
+
+                                                <TableRow>
+                                                    <DateCell>{`${res.day}/${res.month}/${res.year}`}</DateCell>
+                                                    <DescriptionCell>
+                                                        {expandedRows.includes(index)
+                                                            ? res.description
+                                                            : getDescriptionPreview(res.description)}
+                                                        <Button onClick={() => toggleRowExpansion(index)}>
+                                                            {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
+                                                        </Button>
+                                                    </DescriptionCell>
+                                                </TableRow>
+                                            </ContainerTable>
                                         </React.Fragment>
                                     ))
                             ) : (
