@@ -61,19 +61,21 @@ const ResponsivePickers = ({ setSelectedDate, setDay, setMonth, setYear }) => {
     };
 
     const handleSaveDate = () => {
-        const currentYear = new Date().getFullYear().toString();
-
-        if (!selected || !selected.$y || !selected.$M || !selected.$D) {
+        if (!selected) {
             // Se a data ainda está incompleta, não fazer nada
             return;
         }
 
-        console.log("mes", selected.$M + 1, "dia", selected.$D, "year", currentYear)
+        const day = selected.date(); // Obtém o dia (1 a 31)
+        const month = selected.month() + 1; // Obtém o mês (0 a 11, então adicionamos 1)
+        const year = selected.year(); // Obtém o ano
+
+        console.log("Mês:", month, "Dia:", day, "Ano:", year);
 
         setSelectedDate(selected);
-        setDay(selected.$D);
-        setMonth(selected.$M + 1);
-        setYear(currentYear);
+        setDay(day);
+        setMonth(month);
+        setYear(year);
     };
 
     return (
@@ -86,7 +88,7 @@ const ResponsivePickers = ({ setSelectedDate, setDay, setMonth, setYear }) => {
                             value={selected}
                             onChange={handleChange}
                             renderInput={(params) => <StyledInput {...params} />}
-                            format="MM/DD"
+                            format="DD/MM"
                         />
                     </DemoItem>
                 </InputContainer>

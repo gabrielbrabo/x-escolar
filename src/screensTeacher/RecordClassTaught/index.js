@@ -1,87 +1,135 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Date from '../../components/Date'
+import Date from '../../components/Date';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import {
-    
-} from '../../Api';
-import { Container, ContainerDivs, Label, InputArea, Input, ToGoBack, SignMessageButtonText, SignMessageButtonTextBold,  } from './style';
+    Container,
+    Button,
+    ContainerDivs,
+    Label,
+    InputArea,
+    Input,
+    ToGoBack,
+    SignMessageButtonText,
+    SignMessageButtonTextBold,
+    StyledQuillContainer,
+    Span,
+    InputDate,
+    ErrorMessage,
+    DescriptionContainer // Novo contêiner para descrição
+} from './style';
 import LoadingSpinner from '../../components/Loading';
-
-//import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-//import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-//import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-//import dayjs from 'dayjs';
+import { RecordClassTaught } from '../../Api';
 
 const Grade = () => {
     const navigate = useNavigate();
-    //const [Selectmatter, setSelectMatter] = useState([]);
-    //const [matter, setMatter] = useState([]);
     const [loading, setLoading] = useState(false);
-    //const [errorMessage, setErrorMessage] = useState('');
-    //const [selectedDate, setSelectedDate] = useState(null);
-    const [selectedDate, setSelectedDate] = useState('')
-    const [day, setDay] = useState('')
-    const [month, setMonth] = useState('')
-    const [year, setYear] = useState('')
+    const [selectedDate, setSelectedDate] = useState('');
+    const [day, setDay] = useState('');
+    const [month, setMonth] = useState('');
+    const [year, setYear] = useState('');
+    const [description, setDescription] = useState('');
+    const [id_employee, setId_employee] = useState('');
+    const [id_class, setId_class] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         (async () => {
             setLoading(true);
-            //const idSchool = sessionStorage.getItem("id-school");
-            //const year = new Date().getFullYear();
-            
-            // setMatter(res.data.data);
+            const id_employee = localStorage.getItem("Id_employee");
+            const id_class = sessionStorage.getItem("class-info");
+            setId_employee(JSON.parse(id_employee));
+            setId_class(id_class);
             setLoading(false);
         })();
     }, []);
+
+    const stripHtml = (html) => {
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        return doc.body.textContent || "";
+    };
+
+    const handleSubmit = async () => {
+        const plainDescription = stripHtml(description);
+        console.log('Data:', `${day}/${month}/${year}`);
+        console.log('Descrição:', plainDescription);
+        console.log('id_employee:', id_employee);
+        console.log('id_class:', id_class);
+
+        const res = await RecordClassTaught(day, month, year, plainDescription, id_employee, id_class);
+        
+        if(res) {
+            navigate(-1);
+        } else {
+            setErrorMessage('Erro, Verifique os dados e tente novamente.');
+        }
+    };
 
     const messageButtonClick = () => {
         navigate(-1);
     };
 
-    /*const signClick = async () => {
-        setLoading(true);
-
-        // const Matter = await GetMatterDetails(Selectmatter);
-        /*if (Matter) {
-            const nameMatter = Matter.data.name;
-            sessionStorage.setItem("nameMatter", nameMatter);
-            console.log("nameMatter", nameMatter);
-        }
-
-        
-        setLoading(false);
-    };*/
-
-    console.log("selectedDate", selectedDate)
-    console.log("day", day)
-    console.log("month", month)
-    console.log("year", year)
     return (
         <Container>
             {loading ? (
                 <LoadingSpinner />
             ) : (
-                <ContainerDivs>
-                    <h2>Selecione o Bimestre e Data da Aula</h2>
-                    <InputArea>
-                        <Input>
-                            <Label>Data</Label>
-                            <Date
-                                setSelectedDate={setSelectedDate}
-                                setDay={setDay}
-                                setMonth={setMonth}
-                                setYear={setYear}
-                            />
-                        </Input>
-                        {/*errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>*/}
-                        {/*<Button onClick={signClick}>Definir</Button>*/}
-                        <ToGoBack onClick={messageButtonClick}>
-                            <SignMessageButtonText>Voltar para a</SignMessageButtonText>
-                            <SignMessageButtonTextBold>Turma</SignMessageButtonTextBold>
-                        </ToGoBack>
-                    </InputArea>
-                </ContainerDivs>
+                <>
+                    <ContainerDivs>
+                        {!selectedDate && (
+                            <>
+                                <h2>Selecione o Bimestre e Data da Aula</h2>
+                                <InputArea>
+                                    <InputDate>
+                                        <Label>Data</Label>
+                                        <Date
+                                            setSelectedDate={setSelectedDate}
+                                            setDay={setDay}
+                                            setMonth={setMonth}
+                                            setYear={setYear}
+                                        />
+                                    </InputDate>
+                                    <ToGoBack onClick={messageButtonClick}>
+                                        <SignMessageButtonText>Voltar para a</SignMessageButtonText>
+                                        <SignMessageButtonTextBold>Turma</SignMessageButtonTextBold>
+                                    </ToGoBack>
+                                </InputArea>
+                            </>
+                        )}
+                    </ContainerDivs>
+                    {selectedDate && (
+                        <ContainerDivs>
+                            <h2>Descrição da Aula</h2>
+                            <Input>
+                                <Span>
+                                    <div>Data da Aula: <p>{day}/{month}/{year}</p></div>
+                                </Span>
+                                <StyledQuillContainer>
+                                    <ReactQuill
+                                        theme="snow"
+                                        value={description}
+                                        onChange={setDescription}
+                                        placeholder="Descreva o conteúdo da aula"
+                                    />
+                                </StyledQuillContainer>
+                                {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                            </Input>
+                            <Button onClick={handleSubmit}>Cadastrar Aula</Button>
+                            <ToGoBack onClick={messageButtonClick}>
+                                <SignMessageButtonText>Voltar para a</SignMessageButtonText>
+                                <SignMessageButtonTextBold>Turma</SignMessageButtonTextBold>
+                            </ToGoBack>
+                        </ContainerDivs>
+                    )}
+                    {/* Renderizando a descrição após ser salva */}
+                    <DescriptionContainer>
+                        <h2>Descrição da Aula</h2>
+                        <div style={{ textAlign: 'left', margin: '20px', maxWidth: '800px', overflowWrap: 'break-word' }}>
+                            {stripHtml(description)}
+                        </div>
+                    </DescriptionContainer>
+                </>
             )}
         </Container>
     );

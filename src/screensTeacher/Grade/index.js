@@ -104,6 +104,8 @@ const Grade = () => {
             const nameMatter = Matter.data.name
             sessionStorage.setItem("nameMatter", nameMatter)
             console.log("nameMatter", nameMatter)
+        } else {
+            setErrorMessage('Erro, Verifique os dados e tente novamente.');
         }
 
         sessionStorage.setItem("Selectmatter", Selectmatter)

@@ -65,7 +65,7 @@ const NewEmployee = () => {
         sessionStorage.setItem("name", res.data.name_employee);
         navigate('/add/matter');
       } else {
-        navigate(-1);;
+        navigate(-1);
       }
     } else {
       setErrorMessage('Erro ao cadastrar. Verifique os dados e tente novamente.');

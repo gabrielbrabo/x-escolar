@@ -1805,6 +1805,15 @@ export const RecordClassTaught = async (
     return api.post(`/record-class-taught`, {
         day, month, year, description, id_teacher, id_class
     })
+    .catch((error) => {
+        if (error) {
+            const result = JSON.stringify(
+                error.response.data.msg
+            )
+            alert(result)
+            // window.location.reload()
+        }
+    }, [])
 }
 
 export const indexRecordClassTaught = async (
@@ -1816,6 +1825,15 @@ export const indexRecordClassTaught = async (
         year,
         id_class
     })
+    .catch((error) => {
+        if (error) {
+            const result = JSON.stringify(
+                error.response.data.msg
+            )
+            alert(result)
+            // window.location.reload()
+        }
+    }, [])
 }
 
 
