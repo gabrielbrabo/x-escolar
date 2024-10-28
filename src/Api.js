@@ -1836,6 +1836,24 @@ export const indexRecordClassTaught = async (
     }, [])
 }
 
+export const updateRecordClassTaught = async (
+    editedDescription, day, month, editingId
+) => {
+
+    return api.post(`/update-record-class`, {
+        editedDescription, day, month, editingId
+    })
+    .catch((error) => {
+        if (error) {
+            const result = JSON.stringify(
+                error.response.data.msg
+            )
+            alert(result)
+            // window.location.reload()
+        }
+    }, [])
+}
+
 
 /*export const getavatar = async () => {
 

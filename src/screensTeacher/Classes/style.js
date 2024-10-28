@@ -99,16 +99,17 @@ export const DescriptionCell = styled.div`
     overflow-wrap: break-word;
     text-align: left;
     flex: 3;
+    position: relative;
 
     .description {
-        transition: height 0.3s ease; // Transição suave para altura
+        transition: height 0.3s ease;
 
         &.collapsed {
-            height: 10px; // Altura fixa quando colapsada
+            height: 10px;
         }
 
         &.expanded {
-            height: auto; // Altura se adapta ao conteúdo quando expandida
+            height: auto;
         }
     }
 
@@ -118,13 +119,9 @@ export const DescriptionCell = styled.div`
     }
     
     > div:last-child {
-        margin-top: 10px; // Ajuste o valor conforme necessário
+        margin-top: 10px;
     }
 `;
-
-// Outros estilos...
-
-
 
 export const InfoText = styled.div`
     color: #777;
@@ -174,4 +171,63 @@ export const ButtonReg = styled.button`
         padding: 8px 15px;
         font-size: 13px;
     }
+`;
+
+// Novo estilo para EditContainer
+export const EditContainer = styled.div`
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+
+    h3 {
+        margin: 0;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    input, textarea {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    button {
+        align-self: flex-start;
+        margin-right: 10px;
+    }
+
+    @media (max-width: 768px) {
+        padding: 10px;
+
+        h3 {
+            font-size: 18px;
+        }
+
+        button {
+            width: 100%;
+            margin-bottom: 5px;
+        }
+    }
+`;
+
+export const ErrorMessage = styled.div`
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `;

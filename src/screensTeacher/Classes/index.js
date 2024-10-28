@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { indexRecordClassTaught, clssInfo } from '../../Api';
+import { indexRecordClassTaught, clssInfo, updateRecordClassTaught } from '../../Api';
 import { useNavigate } from 'react-router-dom';
 import {
     Container,
@@ -15,6 +15,8 @@ import {
     DescriptionCell,
     Register,
     ButtonReg,
+    EditContainer, // Adicione esse estilo
+    ErrorMessage
 } from './style';
 import LoadingSpinner from '../../components/Loading';
 
@@ -25,6 +27,15 @@ const Grade = () => {
     const [id_employee, setId_employee] = useState([]);
     const [recordClassTaught, setRecordClassTaught] = useState([]);
     const [expandedRows, setExpandedRows] = useState([]);
+    const [editingIndex, setEditingIndex] = useState(null);
+    const [editingId, setEditingId] = useState('');
+    const [editedDescription, setEditedDescription] = useState('');
+    // const [selectedDate, setSelectedDate] = useState('');
+    const [day, setDay] = useState('');
+    const [month, setMonth] = useState('');
+
+    const [errorMessage, setErrorMessage] = useState('');
+    //const [year, setYear] = useState('');
 
     useEffect(() => {
         (async () => {
@@ -48,6 +59,41 @@ const Grade = () => {
         setExpandedRows((prev) =>
             prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
         );
+    };
+
+    const handleEdit = (index, res) => {
+        setEditingIndex(index);
+        setEditingId(res._id);
+        setEditedDescription(res.description);
+        setDay(`${res.day}`)
+        setMonth(`${res.month}`)
+    };
+
+    const handleSaveEdit = async () => {
+        try {
+            // Faz a requisição de atualização
+            const res = await updateRecordClassTaught(editedDescription, day, month, editingId);
+
+            if (res.data) {
+                alert('Aula atualizada com sucesso!');
+                setLoading(true);
+                // Atualiza o estado `recordClassTaught` substituindo o item editado
+                setRecordClassTaught((prev) =>
+                    prev.map((item) =>
+                        item._id === editingId ? { ...item, description: editedDescription, day: day, month: month } : item
+                    )
+                );
+
+                setEditingIndex(null); // Sai do modo de edição
+                setErrorMessage('');
+                setLoading(false);
+            } else {
+                setErrorMessage('Erro ao cadastrar. Verifique os dados e tente novamente.');
+            }
+        } catch (error) {
+            console.error("Erro ao atualizar aula:", error);
+            setErrorMessage('Ocorreu um erro ao salvar a edição. Tente novamente.');
+        }
     };
 
     const getDescriptionPreview = (description) => {
@@ -89,21 +135,51 @@ const Grade = () => {
                                                             <div className={`description ${expandedRows.includes(index) ? 'expanded' : 'collapsed'}`}>
                                                                 <div
                                                                     style={{
-                                                                        whiteSpace: 'pre-wrap', // Para manter quebras de linha
-                                                                        wordWrap: 'break-word',  // Para não cortar palavras
+                                                                        whiteSpace: 'pre-wrap',
+                                                                        wordWrap: 'break-word',
                                                                     }}
                                                                     dangerouslySetInnerHTML={{
                                                                         __html: expandedRows.includes(index) ? res.description : getDescriptionPreview(res.description)
                                                                     }}
                                                                 />
                                                             </div>
-                                                            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                                 <Button onClick={() => toggleRowExpansion(index)}>
                                                                     {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
                                                                 </Button>
+                                                                {expandedRows.includes(index) && isTeacher === id_employee && (
+                                                                    <Button onClick={() => handleEdit(index, res)}>
+                                                                        Editar
+                                                                    </Button>
+                                                                )}
                                                             </div>
                                                         </DescriptionCell>
                                                     </TableRow>
+
+                                                    {editingIndex === index && (
+                                                        <EditContainer>
+                                                            <h3>Editando Aula</h3>
+                                                            <input
+                                                                type="text"
+                                                                value={`${day}/${month}`} // Exibe a data no formato DD/MM
+                                                                onChange={(e) => {
+                                                                    const [newDay, newMonth] = e.target.value.split('/'); // Divide a entrada para day e month
+                                                                    setDay(newDay); // Atualiza o estado do dia
+                                                                    setMonth(newMonth); // Atualiza o estado do mês
+                                                                }}
+                                                                placeholder="Data (DD/MM)"
+                                                            />
+                                                            <textarea
+                                                                value={editedDescription}
+                                                                onChange={(e) => setEditedDescription(e.target.value)}
+                                                                placeholder="Descrição da aula"
+                                                            />
+                                                            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                                            <Button onClick={handleSaveEdit}>Salvar</Button>
+                                                            <Button onClick={() => setEditingIndex(null)}>Cancelar</Button>
+                                                        </EditContainer>
+                                                    )}
+
                                                 </ContainerTable>
                                             </React.Fragment>
                                         ))
