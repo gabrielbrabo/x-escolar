@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { indexRecordClassTaught, clssInfo, updateRecordClassTaught } from '../../Api';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import {
     Container,
     ContainerDivs,
@@ -22,7 +22,7 @@ import {
 import LoadingSpinner from '../../components/Loading';
 
 const Grade = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [isTeacher, setIsTeacher] = useState([]);
     const [id_employee, setId_employee] = useState([]);
@@ -36,7 +36,7 @@ const Grade = () => {
     const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
-        (async () => {
+        const fetchRecords = async () => {
             setLoading(true);
             const id_employee = localStorage.getItem("Id_employee");
             const id_class = sessionStorage.getItem("class-info");
@@ -49,10 +49,22 @@ const Grade = () => {
             const isTeacher = resClass.data.data.find(res => res)?.id_employee.find(res => res)?._id;
 
             setExpandedRows([]);
-
             setIsTeacher(isTeacher);
             setLoading(false);
-        })();
+        };
+
+        fetchRecords();
+
+        // Adiciona um listener para atualizar após a impressão
+        const handleAfterPrint = () => {
+            fetchRecords(); // Recarrega os registros após a impressão
+        };
+
+        window.addEventListener('afterprint', handleAfterPrint);
+
+        return () => {
+            window.removeEventListener('afterprint', handleAfterPrint);
+        };
     }, []);
 
     const toggleRowExpansion = (index) => {
@@ -95,15 +107,10 @@ const Grade = () => {
     };
 
     const handlePrint = () => {
-        // Expande todas as descrições antes de imprimir
         setExpandedRows(recordClassTaught.map((_, index) => index));
         
-        // Aguarda o estado ser atualizado antes de imprimir
         setTimeout(() => {
             window.print();
-            
-            // Reseta a expansão após a impressão
-            //setExpandedRows([]);
         }, 0);
     };
 
@@ -125,7 +132,7 @@ const Grade = () => {
                             <>
                                 {isTeacher === id_employee && (
                                     <Register>
-                                        <ButtonReg onClick={ () => navigate('/record-class-taught')} className={HiddenOnPrint}>
+                                        <ButtonReg onClick={() => navigate('/record-class-taught')} className={HiddenOnPrint}>
                                             Registrar Nova Aula
                                         </ButtonReg>
                                     </Register>
