@@ -99,7 +99,7 @@ const Grade = () => {
             window.print();
             
             // Reseta a expansão após a impressão
-            setExpandedRows([]);
+            //setExpandedRows([]);
         }, 0);
     };
 
