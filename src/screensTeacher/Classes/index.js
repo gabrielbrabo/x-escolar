@@ -122,8 +122,10 @@ const Grade = () => {
         setTimeout(() => {
             window.print();
             
-            // Reseta a expansão após a impressão
-            setExpandedRows([]);
+            // Reseta a expansão após 10 segundos da impressão
+            setTimeout(() => {
+                setExpandedRows([]);
+            }, 10000); // 10000ms = 10 segundos
         }, 0);
     };
 
@@ -140,7 +142,7 @@ const Grade = () => {
                 <ContainerDivs>
                     <StudentSection>
                         <h2>Registros de Aulas Lecionadas</h2>
-                        <Button onClick={handlePrint} style={{ marginBottom: '15px' }}>Imprimir Descrições</Button>
+                        <Button onClick={handlePrint} style={{ marginBottom: '15px' }}>Imprimir</Button>
                         <Table>
                             <>
                                 {isTeacher === id_employee && (
