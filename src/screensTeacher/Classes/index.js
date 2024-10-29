@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { indexRecordClassTaught, clssInfo, updateRecordClassTaught } from '../../Api';
+import { useNavigate } from 'react-router-dom'
 import {
     Container,
     ContainerDivs,
@@ -21,6 +22,7 @@ import {
 import LoadingSpinner from '../../components/Loading';
 
 const Grade = () => {
+    const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
     const [isTeacher, setIsTeacher] = useState([]);
     const [id_employee, setId_employee] = useState([]);
@@ -45,6 +47,8 @@ const Grade = () => {
 
             const resClass = await clssInfo(id_class);
             const isTeacher = resClass.data.data.find(res => res)?.id_employee.find(res => res)?._id;
+
+            setExpandedRows([]);
 
             setIsTeacher(isTeacher);
             setLoading(false);
@@ -121,7 +125,7 @@ const Grade = () => {
                             <>
                                 {isTeacher === id_employee && (
                                     <Register>
-                                        <ButtonReg className={HiddenOnPrint}>
+                                        <ButtonReg onClick={ () => navigate('/record-class-taught')} className={HiddenOnPrint}>
                                             Registrar Nova Aula
                                         </ButtonReg>
                                     </Register>
