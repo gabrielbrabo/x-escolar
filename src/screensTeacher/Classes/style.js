@@ -254,7 +254,7 @@ export const EditContainer = styled.div`
 
     textarea {
         resize: vertical;
-        min-height: 100px;
+        height: 250px;
     }
 
     button {
