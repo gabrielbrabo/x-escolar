@@ -34,9 +34,10 @@ const Grade = () => {
     const [day, setDay] = useState('');
     const [month, setMonth] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [printing, setPrinting] = useState(false); // Novo estado para controlar o modo de impressão
 
     useEffect(() => {
-        const fetchRecords = async () => {
+        (async () => {
             setLoading(true);
             const id_employee = localStorage.getItem("Id_employee");
             const id_class = sessionStorage.getItem("class-info");
@@ -51,26 +52,33 @@ const Grade = () => {
             setExpandedRows([]);
             setIsTeacher(isTeacher);
             setLoading(false);
+        })();
+    }, []);
+
+    useEffect(() => {
+        const handleBeforePrint = () => {
+            setPrinting(true);
         };
 
-        fetchRecords();
-
-        // Adiciona um listener para atualizar após a impressão
         const handleAfterPrint = () => {
-            fetchRecords(); // Recarrega os registros após a impressão
+            setPrinting(false);
         };
 
+        window.addEventListener('beforeprint', handleBeforePrint);
         window.addEventListener('afterprint', handleAfterPrint);
 
         return () => {
+            window.removeEventListener('beforeprint', handleBeforePrint);
             window.removeEventListener('afterprint', handleAfterPrint);
         };
     }, []);
 
     const toggleRowExpansion = (index) => {
-        setExpandedRows((prev) =>
-            prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-        );
+        if (!printing) { // Expansão manual permitida apenas quando não está no modo de impressão
+            setExpandedRows((prev) =>
+                prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+            );
+        }
     };
 
     const handleEdit = (index, res) => {
@@ -107,10 +115,15 @@ const Grade = () => {
     };
 
     const handlePrint = () => {
+        // Expande todas as descrições antes de imprimir
         setExpandedRows(recordClassTaught.map((_, index) => index));
         
+        // Aguarda o estado ser atualizado antes de imprimir
         setTimeout(() => {
             window.print();
+            
+            // Reseta a expansão após a impressão
+            setExpandedRows([]);
         }, 0);
     };
 
@@ -158,14 +171,16 @@ const Grade = () => {
                                                                         wordWrap: 'break-word',
                                                                     }}
                                                                     dangerouslySetInnerHTML={{
-                                                                        __html: expandedRows.includes(index) || window.matchMedia('print').matches ? res.description : getDescriptionPreview(res.description)
+                                                                        __html: expandedRows.includes(index) || printing ? res.description : getDescriptionPreview(res.description)
                                                                     }}
                                                                 />
                                                             </div>
                                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                                <Button onClick={() => toggleRowExpansion(index)} className={HiddenOnPrint}>
-                                                                    {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
-                                                                </Button>
+                                                                {!printing && (
+                                                                    <Button onClick={() => toggleRowExpansion(index)} className={HiddenOnPrint}>
+                                                                        {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
+                                                                    </Button>
+                                                                )}
                                                                 {expandedRows.includes(index) && isTeacher === id_employee && (
                                                                     <Button onClick={() => handleEdit(index, res)} className={HiddenOnPrint}>
                                                                         Editar
@@ -180,11 +195,11 @@ const Grade = () => {
                                                             <h3>Editando Aula</h3>
                                                             <input
                                                                 type="text"
-                                                                value={`${day}/${month}`} // Exibe a data no formato DD/MM
+                                                                value={`${day}/${month}`}
                                                                 onChange={(e) => {
-                                                                    const [newDay, newMonth] = e.target.value.split('/'); // Divide a entrada para day e month
-                                                                    setDay(newDay); // Atualiza o estado do dia
-                                                                    setMonth(newMonth); // Atualiza o estado do mês
+                                                                    const [newDay, newMonth] = e.target.value.split('/');
+                                                                    setDay(newDay);
+                                                                    setMonth(newMonth);
                                                                 }}
                                                                 placeholder="Data (DD/MM)"
                                                             />
