@@ -6,6 +6,11 @@ export const Container = styled.div`
     width: 100%;
     padding: 13px;
     box-sizing: border-box;
+
+    @media print {
+        padding: 0; // Remove padding na impressão
+        margin: 0; // Remove margin na impressão
+    }
 `;
 
 export const ContainerDivs = styled.div`
@@ -14,9 +19,16 @@ export const ContainerDivs = styled.div`
     background-color: #f7f7f7;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 0 auto; // Centraliza no papel durante impressão
+    padding: 15px; // Adicionei padding para a versão normal
 
     @media (max-width: 768px) {
         padding: 15px;
+    }
+
+    @media print {
+        box-shadow: none; // Remove a sombra na impressão
+        padding: 0; // Remove padding na impressão
     }
 `;
 
@@ -29,6 +41,12 @@ export const StudentSection = styled.div`
         margin-bottom: 10px;
         color: #333;
     }
+
+    @media print {
+        h2 {
+            font-size: 20px; // Ajusta o tamanho da fonte na impressão
+        }
+    }
 `;
 
 export const Table = styled.div`
@@ -40,6 +58,11 @@ export const Table = styled.div`
     @media (max-width: 768px) {
         display: block;
     }
+
+    @media print {
+        margin-top: 10px; // Ajusta a margem na impressão
+        display: table; // Assegura que exiba como tabela
+    }
 `;
 
 export const ContainerTable = styled.div`
@@ -48,6 +71,10 @@ export const ContainerTable = styled.div`
     background-color: #f0f0f0;
     width: 100%;
     max-width: 100%;
+
+    @media print {
+        border-bottom: none; // Remove a borda na impressão
+    }
 `;
 
 export const TableRow = styled.div`
@@ -90,12 +117,15 @@ export const DateCell = styled.div`
     font-size: 15px;
     text-align: left;
     flex: 1;
+
+    @media print {
+        font-size: 12px; // Ajusta a fonte na impressão
+    }
 `;
 
 export const DescriptionCell = styled.div`
-    max-width: 100%;
+    max-width: 100%; // Garante que não ultrapasse 100%
     word-wrap: break-word;
-    white-space: pre-wrap;
     overflow-wrap: break-word;
     text-align: left;
     flex: 3;
@@ -111,13 +141,19 @@ export const DescriptionCell = styled.div`
         &.expanded {
             height: auto;
         }
+
+        @media print {
+            height: auto; // Força a exibição completa na impressão
+            white-space: pre-wrap; // Mantém a formatação
+            word-wrap: break-word; // Permite quebra de linha
+        }
     }
 
     @media (max-width: 768px) {
         width: 100%;
         padding: 8px 0;
     }
-    
+
     > div:last-child {
         margin-top: 10px;
     }
@@ -128,6 +164,10 @@ export const InfoText = styled.div`
     font-size: 16px;
     text-align: center;
     margin-top: 10px;
+
+    @media print {
+        display: none; // Oculta na impressão
+    }
 `;
 
 export const Button = styled.button`
@@ -138,8 +178,13 @@ export const Button = styled.button`
     cursor: pointer;
     border-radius: 4px;
     margin-left: auto;
+
     &:hover {
         background-color: #0056b3;
+    }
+
+    @media print {
+        display: none; // Oculta na impressão
     }
 `;
 
@@ -149,6 +194,10 @@ export const Register = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-end;
+
+    @media print {
+        display: none; // Oculta na impressão
+    }
 `;
 
 export const ButtonReg = styled.button`
@@ -171,9 +220,12 @@ export const ButtonReg = styled.button`
         padding: 8px 15px;
         font-size: 13px;
     }
+
+    @media print {
+        display: none; // Oculta na impressão
+    }
 `;
 
-// Novo estilo para EditContainer
 export const EditContainer = styled.div`
     background-color: #f9f9f9;
     border: 1px solid #ddd;
@@ -189,7 +241,8 @@ export const EditContainer = styled.div`
         color: #333;
     }
 
-    input, textarea {
+    input,
+    textarea {
         width: 100%;
         margin-bottom: 10px;
         padding: 8px;
@@ -221,13 +274,43 @@ export const EditContainer = styled.div`
             margin-bottom: 5px;
         }
     }
+
+    @media print {
+        display: none; // Oculta na impressão
+    }
 `;
 
 export const ErrorMessage = styled.div`
-  color: red;
-  font-size: 14px;
-  text-align: center;
-  @media (max-width: 768px) {
-    font-size: 12px;
-  }
+    color: red;
+    font-size: 14px;
+    text-align: center;
+
+    @media (max-width: 768px) {
+        font-size: 12px;
+    }
+
+    @media print {
+        display: none; // Oculta na impressão
+    }
+`;
+
+export const PrintOnly = styled.div`
+    display: none; // Esconde por padrão
+    @media print {
+        display: block; // Mostra apenas durante a impressão
+    }
+`;
+
+export const HiddenOnPrint = styled.div`
+    display: block; // Mostra por padrão
+    @media print {
+        display: none; // Esconde durante a impressão
+    }
+`;
+
+export const ExpandedDescription = styled.div`
+    @media print {
+        white-space: pre-wrap; // Mantém a formatação
+        word-wrap: break-word; // Permite quebra de linha
+    }
 `;

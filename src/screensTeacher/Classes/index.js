@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { indexRecordClassTaught, clssInfo, updateRecordClassTaught } from '../../Api';
-import { useNavigate } from 'react-router-dom';
 import {
     Container,
     ContainerDivs,
@@ -15,13 +14,13 @@ import {
     DescriptionCell,
     Register,
     ButtonReg,
-    EditContainer, // Adicione esse estilo
-    ErrorMessage
+    EditContainer,
+    ErrorMessage,
+    HiddenOnPrint
 } from './style';
 import LoadingSpinner from '../../components/Loading';
 
 const Grade = () => {
-    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [isTeacher, setIsTeacher] = useState([]);
     const [id_employee, setId_employee] = useState([]);
@@ -30,12 +29,9 @@ const Grade = () => {
     const [editingIndex, setEditingIndex] = useState(null);
     const [editingId, setEditingId] = useState('');
     const [editedDescription, setEditedDescription] = useState('');
-    // const [selectedDate, setSelectedDate] = useState('');
     const [day, setDay] = useState('');
     const [month, setMonth] = useState('');
-
     const [errorMessage, setErrorMessage] = useState('');
-    //const [year, setYear] = useState('');
 
     useEffect(() => {
         (async () => {
@@ -65,26 +61,24 @@ const Grade = () => {
         setEditingIndex(index);
         setEditingId(res._id);
         setEditedDescription(res.description);
-        setDay(`${res.day}`)
-        setMonth(`${res.month}`)
+        setDay(`${res.day}`);
+        setMonth(`${res.month}`);
     };
 
     const handleSaveEdit = async () => {
         try {
-            // Faz a requisição de atualização
             const res = await updateRecordClassTaught(editedDescription, day, month, editingId);
 
             if (res.data) {
                 alert('Aula atualizada com sucesso!');
                 setLoading(true);
-                // Atualiza o estado `recordClassTaught` substituindo o item editado
                 setRecordClassTaught((prev) =>
                     prev.map((item) =>
                         item._id === editingId ? { ...item, description: editedDescription, day: day, month: month } : item
                     )
                 );
 
-                setEditingIndex(null); // Sai do modo de edição
+                setEditingIndex(null);
                 setErrorMessage('');
                 setLoading(false);
             } else {
@@ -94,6 +88,19 @@ const Grade = () => {
             console.error("Erro ao atualizar aula:", error);
             setErrorMessage('Ocorreu um erro ao salvar a edição. Tente novamente.');
         }
+    };
+
+    const handlePrint = () => {
+        // Expande todas as descrições antes de imprimir
+        setExpandedRows(recordClassTaught.map((_, index) => index));
+        
+        // Aguarda o estado ser atualizado antes de imprimir
+        setTimeout(() => {
+            window.print();
+            
+            // Reseta a expansão após a impressão
+            setExpandedRows([]);
+        }, 0);
     };
 
     const getDescriptionPreview = (description) => {
@@ -109,11 +116,12 @@ const Grade = () => {
                 <ContainerDivs>
                     <StudentSection>
                         <h2>Registros de Aulas Lecionadas</h2>
+                        <Button onClick={handlePrint} style={{ marginBottom: '15px' }}>Imprimir Descrições</Button>
                         <Table>
                             <>
                                 {isTeacher === id_employee && (
                                     <Register>
-                                        <ButtonReg onClick={() => navigate("/record-class-taught")}>
+                                        <ButtonReg className={HiddenOnPrint}>
                                             Registrar Nova Aula
                                         </ButtonReg>
                                     </Register>
@@ -139,16 +147,16 @@ const Grade = () => {
                                                                         wordWrap: 'break-word',
                                                                     }}
                                                                     dangerouslySetInnerHTML={{
-                                                                        __html: expandedRows.includes(index) ? res.description : getDescriptionPreview(res.description)
+                                                                        __html: expandedRows.includes(index) || window.matchMedia('print').matches ? res.description : getDescriptionPreview(res.description)
                                                                     }}
                                                                 />
                                                             </div>
                                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                                <Button onClick={() => toggleRowExpansion(index)}>
+                                                                <Button onClick={() => toggleRowExpansion(index)} className={HiddenOnPrint}>
                                                                     {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
                                                                 </Button>
                                                                 {expandedRows.includes(index) && isTeacher === id_employee && (
-                                                                    <Button onClick={() => handleEdit(index, res)}>
+                                                                    <Button onClick={() => handleEdit(index, res)} className={HiddenOnPrint}>
                                                                         Editar
                                                                     </Button>
                                                                 )}
@@ -179,7 +187,6 @@ const Grade = () => {
                                                             <Button onClick={() => setEditingIndex(null)}>Cancelar</Button>
                                                         </EditContainer>
                                                     )}
-
                                                 </ContainerTable>
                                             </React.Fragment>
                                         ))
