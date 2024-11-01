@@ -102,7 +102,7 @@ const FristEmployee = () => {
         localStorage.setItem("name", name)
         localStorage.setItem("type", type)
         localStorage.setItem("position_at_school", position_at_school)
-        sessionStorage.setItem("id-school", JSON.stringify(id_school))
+        sessionStorage.setItem("id-school", JSON.stringify(id_school.join('')))
         sessionStorage.setItem("id_matter", id_matter)
         sessionStorage.setItem("id_class", id_class)
         sessionStorage.setItem("id_reporter_cardid_class", id_reporter_cardid_class)

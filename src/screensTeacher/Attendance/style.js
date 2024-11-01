@@ -26,19 +26,19 @@ export const ContainerStudent = styled.div`
     border-radius: 5px;
     background-color: #f9f9f9;
 `;
+
 export const DataSelected = styled.div`
-   width: 100%;
+    width: 100%;
 `;
+
 export const DivButton = styled.div`
     width: 100%;
-    padding-top: 30px;
     padding-bottom: 30px;
     display: flex;
     justify-content: flex-end;
     gap: 20px;
 
     @media(max-width: 768px) {
-        justify-content: center;
         align-items: center;
     }
 `;
@@ -50,22 +50,35 @@ export const List = styled.div`
     gap: 5px;
 `;
 
+export const ListChecked = styled.div`
+    border-top: 2px solid #1d7f14; /* Borda da lista */
+    margin: 20px 0;
+    width: 100%;
+    padding: 10px;
+    position: relative; /* Necessário para o título */
+    
+    &:before {
+        content: 'Chamadas Finalizadas'; /* Texto da borda */
+        position: absolute;
+        top: -15px; /* Ajuste conforme necessário */
+        left: 50%;
+        transform: translateX(-50%); /* Centraliza o texto */
+        background: white; /* Fundo para que o texto não fique atrás da borda */
+        padding: 0 3px; /* Espaçamento lateral */
+        font-weight: bold; /* Negrito para destaque */
+        color: #ccc; /* Cor do texto */
+    }
+`;
+
+
 export const Emp = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 10px;
     border-radius: 5px;
-    padding: 10px;
     margin-bottom: 35px;
     min-width: 90%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-`;
-
-export const Matter = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-top: 10px;
 `;
 
 export const DivInfo = styled.div`
@@ -83,6 +96,7 @@ export const DivInfo = styled.div`
         padding-bottom: 30px;
     }
 `;
+
 export const DivInfoDate = styled.div`
     background-color: #f1f1f1;
     width: 90%;
@@ -105,6 +119,7 @@ export const Span = styled.button`
     font-size: 16px;
     color: #333;
 `;
+
 export const SpanChecked = styled.button`
     display: flex;
     align-items: center;
@@ -128,7 +143,7 @@ export const Btt02 = styled.button`
     }
 
     @media(min-width: 600px) {
-        padding: 10px ;
+        padding: 10px;
     }
 `;
 
@@ -154,5 +169,56 @@ export const EditContainer = styled.div`
         font-size: 16px;
         border: 1px solid #ccc;
         border-radius: 5px;
+    }
+`;
+
+// Componente para a lista de chamada
+export const AttendanceList = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    margin-top: 20px;
+`;
+
+export const AttendanceItem = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: ${props => (props.checked ? '#d4edda' : '#f8d7da')};
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+
+    &:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+`;
+
+export const AttendanceButton = styled.button`
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &.present {
+        background-color: #28a745; /* Verde para presença */
+        color: white;
+
+        &:hover {
+            background-color: #218838; /* Escuro para presença */
+        }
+    }
+
+    &.absent {
+        background-color: #dc3545; /* Vermelho para ausência */
+        color: white;
+
+        &:hover {
+            background-color: #c82333; /* Escuro para ausência */
+        }
     }
 `;

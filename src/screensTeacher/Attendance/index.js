@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 //import { useNavigate } from 'react-router-dom'
-import { GetInfoMyClass, clssInfo, GetAttendanceFinalized, Attendance, updateAttendance } from '../../Api'
+import { clssInfo, GetAttendanceFinalized, Attendance, updateAttendance } from '../../Api'
 import SelectorDate from '../../components/SelectorOnDate'
 
 import {
     Container,
     List,
+    ListChecked,
     Emp,
     //Matter,
     //DivInfo,
@@ -46,55 +47,47 @@ const IndexAttendance = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
-            const id_teacher = localStorage.getItem("Id_employee")
-            const id_class = sessionStorage.getItem("class-info")
-            const Matter = sessionStorage.getItem("attendance_ idmatter")
-            const selectedDate = sessionStorage.getItem("selectedDate")
-            const Day = sessionStorage.getItem("day")
-            const Month = sessionStorage.getItem("month")
-            const Year = sessionStorage.getItem("year")
-            const res = await GetInfoMyClass(id_class, JSON.parse(id_teacher))
+            const id_teacher = localStorage.getItem("Id_employee");
+            const id_class = sessionStorage.getItem("class-info");
+            const Matter = sessionStorage.getItem("attendance_ idmatter");
+            const selectedDate = sessionStorage.getItem("selectedDate");
+            const Day = sessionStorage.getItem("day");
+            const Month = sessionStorage.getItem("month");
+            const Year = sessionStorage.getItem("year");
+
+            //const res = await GetInfoMyClass(id_class, JSON.parse(id_teacher));
+
             if (Matter) {
-                setclickMatter(Matter)
+                setclickMatter(Matter);
             }
             if (selectedDate) {
-                setSelectedDate(selectedDate)
-                setDay(JSON.parse(Day))
-                setMonth(JSON.parse(Month))
-                setYear(JSON.parse(Year))
+                setSelectedDate(selectedDate);
+                setDay(JSON.parse(Day));
+                setMonth(JSON.parse(Month));
+                setYear(JSON.parse(Year));
             }
-            setId_teacher(id_teacher)
-            setId_class(id_class)
-           // setMatter(res.data.data)
-            if (day && month && year && id_class && id_matter) {
-                const resAtt = await GetAttendanceFinalized(month, year, day, id_class, id_matter)
-                const resClass = await clssInfo(id_class)
-                const attRealized = await resAtt.data.data.map(res => {
-                    return res.id_student._id
-                })
-                const checkedStudent = await resAtt.data.data.map(res => {
-                    return res
-                })
-                const student = await resClass.data.data.find(res => {
-                    return res
-                }).id_student.map(res => {
-                    return res
-                }).filter(studentId => {
-                    if (!attRealized.includes(studentId._id)) {
-                        return studentId
-                    }
-                    return null
-                })
-                setStdt(student)
-                setChecked(checkedStudent)
-                console.log('materia de chamada', res.data.data)
-                console.log('student', student)
-                console.log("attRealized", attRealized)
-            }
-            setLoading(false);
-        })()
 
-    }, [day, id_matter, month, year])
+            setId_teacher(id_teacher);
+            setId_class(id_class);
+
+            if (day && month && year && id_class && id_matter) {
+                const resAtt = await GetAttendanceFinalized(month, year, day, id_class, id_matter);
+                const resClass = await clssInfo(id_class);
+
+                const attRealized = await resAtt.data.data.map(res => res.id_student._id);
+                const checkedStudent = await resAtt.data.data;
+                const student = await resClass.data.data.find(res => res).id_student
+                    .filter(studentId => !attRealized.includes(studentId._id))
+                    .sort((a, b) => a.name.localeCompare(b.name)); // Ordena `stdt` em ordem alfabética
+
+                setStdt(student);
+                setChecked(checkedStudent.sort((a, b) => a.id_student.name.localeCompare(b.id_student.name))); // Ordena `checked` em ordem alfabética
+            }
+
+            setLoading(false);
+        })();
+    }, [day, id_matter, month, year]);
+
     if (selectedDate) {
         sessionStorage.setItem("selectedDate", selectedDate)
         sessionStorage.setItem("day", day)
@@ -173,7 +166,7 @@ const IndexAttendance = () => {
     }
     const handlePresenceClick = (stdt) => handleAttendance(stdt, 'p');
     const handleAbsenceClick = (stdt) => handleAttendance(stdt, 'f');
-    
+
     const startEditing = (checkedStdt) => {
         setEditingStudent(checkedStdt._id);
         setEditingStatus(checkedStdt.status);
@@ -216,7 +209,7 @@ const IndexAttendance = () => {
                         </DivInfo>*/
                     }
                     {
-                        !selectedDate 
+                        !selectedDate
                         &&
                         <DivInfoDate>
                             <h3>Selecione uma Data</h3>
@@ -238,7 +231,7 @@ const IndexAttendance = () => {
                                 <p>Data: {day}/{month}/{year}</p>
                             </DataSelected>
                             <DivButton>
-                               {/* <Btt02 onClick={clickRemovematter}>
+                                {/* <Btt02 onClick={clickRemovematter}>
                                     Selecionar outra materia
                                 </Btt02>*/}
                                 <Btt02 onClick={clickRemovedate}>
@@ -262,29 +255,22 @@ const IndexAttendance = () => {
                                     ))
                                 }
                             </List>
-                            <List>
-                                {
-                                    checked.map(checkedStdt => (
-                                        <Emp
-                                            key={checkedStdt._id}
-                                        >
-                                            <SpanChecked>{checkedStdt.id_student.name}
-                                                <Btt02 style={{
-                                                    backgroundColor: checkedStdt.status === 'P' ? 'green' : 'red'
-                                                }}>
-                                                    {checkedStdt.status}
-                                                </Btt02>
-                                            </SpanChecked>
-                                            <Btt02 onClick={() => startEditing(checkedStdt)} style={{
-                                                backgroundColor: 'blue'
-                                            }}
-                                            >
-                                                Editar
+                            <ListChecked>
+                                {checked.map(checkedStdt => (
+                                    <Emp key={checkedStdt._id}>
+                                        <SpanChecked>{checkedStdt.id_student.name}
+                                            <Btt02 style={{
+                                                backgroundColor: checkedStdt.status === 'P' ? 'green' : 'red'
+                                            }}>
+                                                {checkedStdt.status}
                                             </Btt02>
-                                        </Emp>
-                                    ))
-                                }
-                            </List>
+                                        </SpanChecked>
+                                        <Btt02 onClick={() => startEditing(checkedStdt)} style={{ backgroundColor: 'blue' }}>
+                                            Editar
+                                        </Btt02>
+                                    </Emp>
+                                ))}
+                            </ListChecked>
                             <Btt02 onClick={Finalyze}>
                                 Finalizar Chamada
                             </Btt02>

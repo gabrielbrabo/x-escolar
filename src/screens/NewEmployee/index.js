@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { NewEmp } from '../../Api';
+import React, { useState, useEffect, useCallback } from 'react';
+import { NewEmp, checkEmployee } from '../../Api';
 import { useNavigate } from 'react-router-dom';
 import {
   Container,
@@ -11,7 +11,10 @@ import {
   Btt01,
   SignMessageButtonText,
   SignMessageButtonTextBold,
-  ErrorMessage
+  ErrorMessage,
+  WarningContainer,
+  WarningMessage,
+  WarningButton
 } from './style';
 import LoadingSpinner from '../../components/Loading';
 
@@ -30,6 +33,9 @@ const NewEmployee = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [employeeExists, setEmployeeExists] = useState(false);
+  const [registeredEmployeeInfo, setRegisteredEmployeeInfo] = useState(null);
+  const [showWarning, setShowWarning] = useState(false);
 
   useEffect(() => {
     const fetchSchoolId = async () => {
@@ -41,8 +47,60 @@ const NewEmployee = () => {
     fetchSchoolId();
   }, []);
 
+  const checkIfEmployeeExists = useCallback(async () => {
+    const response = await checkEmployee(cpf);
+    console.log("response", response);
+    setEmployeeExists(response.data.exists);
+    if (response.data.exists) {
+      setShowWarning(true);
+      setRegisteredEmployeeInfo(response.data.data);
+    } else {
+      setShowWarning(false);
+    }
+  }, [cpf]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (cpf.length === 14) {
+        checkIfEmployeeExists();
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [cpf, checkIfEmployeeExists]);
+
+  const maskCPF = (value) => {
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+      .slice(0, 14);
+  };
+
+  const maskRG = (value) => {
+    return value.replace(/\D/g, '');
+  };
+
+  const maskcellPhone = (value) => {
+    return value.replace(/\D/g, '');
+  };
+
+  const handleChange = (e) => {
+    setCpf(maskCPF(e.target.value));
+  };
+
+  const handleChangeRg = (e) => {
+    setRg(maskRG(e.target.value));
+  };
+
+  const handleChangecellPhone = (e) => {
+    setCellPhone(maskcellPhone(e.target.value));
+  };
+
   const signClick = async () => {
     setLoading(true);
+
     const res = await NewEmp(
       idSchool,
       name,
@@ -58,15 +116,7 @@ const NewEmployee = () => {
     );
 
     if (res) {
-      if (positionAtSchool === 'PROFESSOR') {
-        sessionStorage.removeItem('id_emp');
-        sessionStorage.removeItem('name');
-        sessionStorage.setItem("id_emp", res.data.id_employee);
-        sessionStorage.setItem("name", res.data.name_employee);
-        navigate('/add/matter');
-      } else {
-        navigate(-1);
-      }
+      navigate(-1);
     } else {
       setErrorMessage('Erro ao cadastrar. Verifique os dados e tente novamente.');
     }
@@ -77,44 +127,59 @@ const NewEmployee = () => {
     navigate(-1);
   };
 
-  const maskCPF = (value) => {
-    return value
-      .replace(/\D/g, '') // Remove tudo o que não é dígito
-      .replace(/(\d{3})(\d)/, '$1.$2') // Coloca o primeiro ponto
-      .replace(/(\d{3})(\d)/, '$1.$2') // Coloca o segundo ponto
-      .replace(/(\d{3})(\d{1,2})$/, '$1-$2') // Coloca o traço
-      .slice(0, 14); // Limita para 14 caracteres
+  // Modifique a função handleRegister para enviar o registeredEmployeeInfo
+  const handleRegister = () => {
+
+    if (registeredEmployeeInfo) {
+
+      // Armazenar os dados no sessionStorage
+      const employeeData = registeredEmployeeInfo;
+      sessionStorage.setItem('employeeName', employeeData.name);
+      sessionStorage.setItem('dateOfBirth', employeeData.dateOfBirth);
+      sessionStorage.setItem('employeeCPF', employeeData.cpf);
+      sessionStorage.setItem('employeeRG', employeeData.rg);
+      sessionStorage.setItem('employeeEmail', employeeData.email);
+      sessionStorage.setItem('employeeCellPhone', employeeData.cellPhone);
+      sessionStorage.setItem('employeeAddress', employeeData.address);
+      sessionStorage.setItem('password', employeeData.password);
+      // Adicione mais campos conforme necessário
+    } else {
+      setShowWarning(false);
+    }
+
+    navigate('/employee-already-registered');
   };
 
-  const maskRG = (value) => {
-    return value
-      .replace(/\D/g, '') // Remove tudo o que não é dígito
+
+  const handleCancel = () => {
+    setShowWarning(false);
+    setCpf('');
   };
 
-  const maskcellPhone = (value) => {
-    return value
-      .replace(/\D/g, '') // Remove tudo o que não é dígito
-  };
-
-  const handleChange = (e) => {
-    setCpf(maskCPF(e.target.value));
-  };
-
-  const handleChangeRg = (e) => {
-    setRg(maskRG(e.target.value));
-  };
-
-  const handleChangecellPhone = (e) => {
-    setCellPhone(maskcellPhone(e.target.value));
-  };
+  console.log("response", employeeExists);
 
   return (
     <Container>
       {loading ? (
         <LoadingSpinner />
+      ) : showWarning ? (
+        <WarningContainer>
+          <WarningMessage>
+            Funcionário já cadastrado em outra escola. Deseja cadastrá-lo nesta escola também?
+          </WarningMessage>
+          {registeredEmployeeInfo && (
+            <div>
+              <h3>Informações do Funcionário:</h3>
+              <p><strong>Nome:</strong> {registeredEmployeeInfo.name}</p>
+              <p><strong>CPF:</strong> {registeredEmployeeInfo.cpf}</p>
+            </div>
+          )}
+          <WarningButton onClick={handleRegister}>Sim</WarningButton>
+          <WarningButton onClick={handleCancel}>Não</WarningButton>
+        </WarningContainer>
       ) : (
         <InputArea>
-          <h1>Cadastro de Funcionario</h1>
+          <h1>Cadastro de Funcionário</h1>
           <Label>Nome</Label>
           <Input
             placeholder="Digite o nome"
@@ -133,36 +198,42 @@ const NewEmployee = () => {
             placeholder="Digite o CPF"
             value={cpf}
             onChange={handleChange}
-            type="text" 
+            type="text"
             maxLength="14"
           />
+          {/*
+            employeeExists && 
+            <ErrorMessage>
+              Funcionário já cadastrado. Deseja cadastrar sem modificações?
+            </ErrorMessage>*/
+          }
           <Label>RG</Label>
           <Input
             placeholder="Digite o RG"
             value={rg}
             onChange={handleChangeRg}
-            type="text" 
+            type="text"
           />
           <Label>Email</Label>
           <Input
             placeholder="Digite o Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            type="text" 
+            type="text"
           />
           <Label>Celular</Label>
           <Input
             placeholder="Digite o celular"
             value={cellPhone}
             onChange={handleChangecellPhone}
-            type="text" 
+            type="text"
           />
           <Label>Endereço</Label>
           <Input
-            placeholder="Rua, bairro, numero"
+            placeholder="Rua, bairro, número"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            type="text" 
+            type="text"
           />
           <Label>Cargo</Label>
           <Select
@@ -193,7 +264,7 @@ const NewEmployee = () => {
           <Btt01 onClick={signClick}>Cadastrar</Btt01>
           <ToGoBack onClick={messageButtonClick}>
             <SignMessageButtonText>Voltar para a</SignMessageButtonText>
-            <SignMessageButtonTextBold>Lista de Funcionários</SignMessageButtonTextBold>
+            <SignMessageButtonTextBold> tela anterior</SignMessageButtonTextBold>
           </ToGoBack>
         </InputArea>
       )}

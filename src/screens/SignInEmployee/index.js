@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext, } from '../../contexts/auth'
-//import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { api, createSessionEmployee, NameSchool } from '../../Api'
 
 import {
@@ -21,7 +21,7 @@ import LoadingSpinner from '../../components/Loading'
 
 const SignInEmployee = () => {
 
-    //const navigate = useNavigate()
+    const navigate = useNavigate()
     const { loginEmployee } = useContext(AuthContext)
     const [cpf, setCpf] = useState('');
     const [password, setPassword] = useState('');
@@ -33,6 +33,18 @@ const SignInEmployee = () => {
         //loginEmployee(cpf, password)
         const response = await createSessionEmployee(cpf, password)
         if (response) {
+            const Schools = response.data.schools
+            
+            if (Schools) {
+                const schools = response.data.schools;
+                const userCPF = cpf; 
+                // Verifica se as escolas estão disponíveis e o CPF tem um valor definido
+                if (schools && userCPF) {
+                    navigate('/school/selection', { state: { schools, cpf: userCPF } });
+                    return; // Sai da função aqui para evitar a execução do restante
+                }
+            }
+            
             const IdEmployee = response.data.id
             const loggedEmployee = response.data.CPF
             const token = response.data.token
@@ -40,14 +52,14 @@ const SignInEmployee = () => {
             const type = response.data.type
             const position_at_school = response.data.position_at_school
             const id_school = response.data.id_school
+            //console.log("id_school", id_school.join(''))
             const id_matter = response.data.id_matter
             const id_class = response.data.id_class
             const id_reporter_cardid_class = response.data.id_reporter_card
             //const avatar = response.data.avatar
             const nameSchool = await NameSchool(id_school)
             sessionStorage.setItem("School", nameSchool.data.data)
-            localStorage.setItem("Id_employee",
-                JSON.stringify(IdEmployee))
+            localStorage.setItem("Id_employee", JSON.stringify(IdEmployee))
             sessionStorage.setItem("cpf", loggedEmployee)
             sessionStorage.setItem("name", name)
             localStorage.setItem("name", name)

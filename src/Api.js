@@ -64,6 +64,39 @@ export const createSessionEmployee = async (
         }, [])
 }
 
+export const loginWithSchool = async (
+    cpf,
+    id_school
+) => {
+    return api.post('/login-with-school', {
+        cpf,
+        id_school
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                window.location.reload()
+            }
+        }, [])
+}
+
+export const getSchoolsData = async (idSchools) => {
+    return api.post('/index-school', {
+        idSchools
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(error.response.data.message);
+                alert(result);
+                window.location.reload();
+            }
+        });
+}
+
+
 export const Refresh = async (
     id
 ) => {
@@ -1853,7 +1886,36 @@ export const updateRecordClassTaught = async (
         }
     }, [])
 }
+export const checkEmployee = async (
+    cpf
+) => {
 
+    return api.get(`/check-employee/${cpf}`)
+    .catch((error) => {
+        if (error) {
+            /*const result = JSON.stringify(
+                error.response.data.msg
+            )
+            alert(result)*/
+            // window.location.reload()
+        }
+    }, [])
+}
+
+export const checkEmployeeteste = async (cpf) => {
+    try {
+        const response = await api.get(`/check-employee/${cpf}`);
+        return response.data; // Retorna os dados da resposta se a API for chamada com sucesso
+    } catch (error) {
+        if (error.response) {
+            const result = JSON.stringify(error.response.data.msg);
+            alert(result);
+        } else {
+            alert("Erro ao verificar o funcionário."); // Alerta genérico para outros tipos de erro
+        }
+        return null; // Retorna null ou algum valor padrão em caso de erro
+    }
+};
 
 /*export const getavatar = async () => {
 
