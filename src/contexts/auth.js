@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
         const token = sessionStorage.getItem('token')
 
         if (recoveredSchool && token) {
-            setUser(JSON.parse(recoveredSchool))
+            setUser(recoveredSchool)
             api.defaults.headers.Authorization = `Bearer ${token}`
         }
 
