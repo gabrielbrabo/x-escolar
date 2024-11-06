@@ -42,8 +42,8 @@ const NewStudent = () => {
   const [address, setAddress] = useState('');
   const [rg, setRg] = useState('');
   const [cellPhone, setCellPhone] = useState()
-  const [password, setPassword] = useState('');
-  const [confirmpassword, setConfirmPassword] = useState('');
+  const [password, /*setPassword*/] = useState('g');
+  const [confirmpassword, /*setConfirmPassword*/] = useState('g');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -188,7 +188,7 @@ const NewStudent = () => {
                 onChange={(e) => setAddress(e.target.value)}
                 type="text"
               />
-              <Label>Senha</Label>
+             { /*<Label>Senha</Label>
               <Input
                 placeholder="Digite a senha"
                 value={password}
@@ -203,7 +203,7 @@ const NewStudent = () => {
                 onChange={
                   (e) => setConfirmPassword(e.target.value)
                 }
-              />
+              />*/}
               {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
               <Btt01 onClick={SignClick}>Cadastra</Btt01>
               <ToGoBack onClick={MessageButtomclick}>
