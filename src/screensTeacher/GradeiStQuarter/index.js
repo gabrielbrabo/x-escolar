@@ -121,7 +121,7 @@ const IndexAttendance = () => {
         setLoading(true)
         const id_student = stdt._id
         console.log("year", year, "bimonthly", bimonthly, "totalGrade", totalGrade, "averageGrade", averageGrade, "studentGrade", studentGrade, "id_iStQuarter", id_iStQuarter, "id_student", id_student, "id_teacher", id_teacher, "id_matter", id_matter)
-        const res = await RegisterGradeIstQuarter(year, bimonthly, totalGrade, averageGrade, studentGrade, id_iStQuarter, id_student, id_teacher, id_matter, id_class)
+        const res = await RegisterGradeIstQuarter(year, bimonthly, /*totalGrade, averageGrade,*/ studentGrade, id_iStQuarter, id_student, id_teacher, id_matter, id_class)
         if (res) {
             const resGrade = await GetGradeIstQuarter(year, id_matter, id_iStQuarter, id_class)
             const resClass = await clssInfo(id_class)

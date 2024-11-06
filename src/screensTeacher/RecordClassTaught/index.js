@@ -79,7 +79,7 @@ const Grade = () => {
                     <ContainerDivs>
                         {!selectedDate && (
                             <>
-                                <h2>Selecione o Bimestre e Data da Aula</h2>
+                                <h2>Selecione a Data da Aula</h2>
                                 <InputArea>
                                     <InputDate>
                                         <Label>Data</Label>

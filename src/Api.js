@@ -943,8 +943,8 @@ export const UpdateVIthQuarter = async (
 export const RegisterGradeIstQuarter = async (
     year,
     bimonthly,
-    totalGrade,
-    averageGrade,
+    //totalGrade,
+    //averageGrade,
     studentGrade,
     id_iStQuarter,
     id_student,
@@ -956,8 +956,8 @@ export const RegisterGradeIstQuarter = async (
     return api.post(`/register/grade`, {
         year,
         bimonthly,
-        totalGrade,
-        averageGrade,
+        //totalGrade,
+        //averageGrade,
         studentGrade,
         id_iStQuarter,
         id_student,
