@@ -75,6 +75,9 @@ import VIThQuarterReportCard from "./screens/Vi-ThQuarterReportCard"
 
 import RecordClassTaught from "./screensTeacher/RecordClassTaught"
 import Classes from "./screensTeacher/Classes"
+import IndividualForm from "./screensTeacher/IndividualForm"
+import Form from "./screensTeacher/Form"
+import ExistForm from "./screensTeacher/ExistForm"
 
 const AppRoutes = () => {
 
@@ -381,6 +384,21 @@ const AppRoutes = () => {
                     <Route exact path="/employee-already-registered" element={
                         <Private>
                             <EmployeeAlreadyRegistered/>
+                        </Private>
+                    } />
+                    <Route exact path="/individual-form" element={
+                        <Private>
+                            <IndividualForm/>
+                        </Private>
+                    } />
+                    <Route exact path="/form" element={
+                        <Private>
+                            <Form/>
+                        </Private>
+                    } />
+                    <Route exact path="/exist-form/:id_form" element={
+                        <Private>
+                            <ExistForm/>
                         </Private>
                     } />
                 </Routes>

@@ -1838,15 +1838,15 @@ export const RecordClassTaught = async (
     return api.post(`/record-class-taught`, {
         day, month, year, description, id_teacher, id_class
     })
-    .catch((error) => {
-        if (error) {
-            const result = JSON.stringify(
-                error.response.data.msg
-            )
-            alert(result)
-            // window.location.reload()
-        }
-    }, [])
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
 }
 
 export const indexRecordClassTaught = async (
@@ -1858,15 +1858,15 @@ export const indexRecordClassTaught = async (
         year,
         id_class
     })
-    .catch((error) => {
-        if (error) {
-            const result = JSON.stringify(
-                error.response.data.msg
-            )
-            alert(result)
-            // window.location.reload()
-        }
-    }, [])
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
 }
 
 export const updateRecordClassTaught = async (
@@ -1876,30 +1876,30 @@ export const updateRecordClassTaught = async (
     return api.post(`/update-record-class`, {
         editedDescription, day, month, editingId
     })
-    .catch((error) => {
-        if (error) {
-            const result = JSON.stringify(
-                error.response.data.msg
-            )
-            alert(result)
-            // window.location.reload()
-        }
-    }, [])
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
 }
 export const checkEmployee = async (
     cpf
 ) => {
 
     return api.get(`/check-employee/${cpf}`)
-    .catch((error) => {
-        if (error) {
-            /*const result = JSON.stringify(
-                error.response.data.msg
-            )
-            alert(result)*/
-            // window.location.reload()
-        }
-    }, [])
+        .catch((error) => {
+            if (error) {
+                /*const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)*/
+                // window.location.reload()
+            }
+        }, [])
 }
 
 export const checkEmployeeteste = async (cpf) => {
@@ -1914,6 +1914,84 @@ export const checkEmployeeteste = async (cpf) => {
             alert("Erro ao verificar o funcionário."); // Alerta genérico para outros tipos de erro
         }
         return null; // Retorna null ou algum valor padrão em caso de erro
+    }
+};
+
+export const IndexIndividualForm = async ({
+    year,
+    id_class,
+    id_iStQuarter,
+    id_iiNdQuarter,
+    id_iiiRdQuarter,
+    id_ivThQuarter,
+    id_vThQuarter,
+    id_viThQuarter,
+}) => {
+    try {
+        // Faz a chamada para a rota com os parâmetros opcionais
+        const response = await api.post('/index-individual-form', {
+            year,
+            id_class,
+            id_iStQuarter,
+            id_iiNdQuarter,
+            id_iiiRdQuarter,
+            id_ivThQuarter,
+            id_vThQuarter,
+            id_viThQuarter,
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        throw error;
+    }
+};
+
+export const createIndividualForm = async ({
+    year,
+    id_class,
+    description,
+    id_student,
+    id_teacher,
+    id_iStQuarter,
+    id_iiNdQuarter,
+    id_iiiRdQuarter,
+    id_ivThQuarter,
+    id_vThQuarter,
+    id_viThQuarter,
+}) => {
+    try {
+        // Faz a chamada para a rota com os parâmetros opcionais
+        const response = await api.post('/create-individual-form', {
+            year,
+            id_class,
+            description,
+            id_student,
+            id_teacher,
+            id_iStQuarter,
+            id_iiNdQuarter,
+            id_iiiRdQuarter,
+            id_ivThQuarter,
+            id_vThQuarter,
+            id_viThQuarter,
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        throw error;
+    }
+};
+
+export const GetIndividualForm = async ({
+    id_individualForm
+}) => {
+    try {
+        // Faz a chamada para a rota com os parâmetros opcionais
+        return api.get(`/get-individual-form/${id_individualForm}`);
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        throw error;
     }
 };
 

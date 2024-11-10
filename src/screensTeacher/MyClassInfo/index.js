@@ -30,6 +30,7 @@ const MyCla$$Info = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
+            sessionStorage.removeItem("Selectbimonthly");
             console.log('useParamsClass', id_class)
             console.log('useParamsTeacher', id_teacher)
             const resClass = await clssInfo(id_class)
@@ -94,6 +95,9 @@ const MyCla$$Info = () => {
                         <button onClick={() => { navigate('/attendance') }}>Chamada</button>
                         <button onClick={() => { navigate('/grade') }}>Registra Redimento</button>
                         <button onClick={() => { navigate('/classes') }}>Aulas</button>
+                    </ButtonContainer>
+                    <ButtonContainer>
+                        <button onClick={() => { navigate('/individual-form') }}>Ficha Individual</button>
                     </ButtonContainer>
                     <StudentSection>
                         <h2>Estudantes</h2>
