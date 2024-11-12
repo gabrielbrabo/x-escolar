@@ -1995,6 +1995,24 @@ export const GetIndividualForm = async ({
     }
 };
 
+export const FormEdit = async ({
+    update_idForm, editedDescription
+}) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/form-edit`, {
+        update_idForm, editedDescription
+    })
+    .catch((error) => {
+        if (error) {
+            const result = JSON.stringify(
+                error.response.data.msg
+            )
+            alert(result)
+            // window.location.reload()
+        }
+    }, [])
+};
+
 /*export const getavatar = async () => {
 
     return api.get('/avatar')

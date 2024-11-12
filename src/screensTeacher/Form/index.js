@@ -107,7 +107,7 @@ const Form = () => {
                         </StyledQuillContainer>
                         {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                     </Input>
-                    <Button onClick={handleClick}>Cadastrar Aula</Button>
+                    <Button onClick={handleClick}>Cadastrar Ficha</Button>
                     <ToGoBack onClick={messageButtonClick}>
                         <SignMessageButtonText>Voltar para a</SignMessageButtonText>
                         <SignMessageButtonTextBold>Turma</SignMessageButtonTextBold>
