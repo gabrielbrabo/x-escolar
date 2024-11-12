@@ -15,6 +15,15 @@ export const RecordContainer = styled.div`
         padding: 15px;
         width: 90%;
     }
+
+    @media print {
+        box-shadow: none;
+        background-color: white;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        max-width: none;
+    }
 `;
 
 export const RecordHeader = styled.div`
@@ -22,6 +31,10 @@ export const RecordHeader = styled.div`
     justify-content: center;
     align-items: center;
     margin-bottom: 15px;
+
+    @media print {
+        margin-bottom: 0;
+    }
 `;
 
 export const RecordTitle = styled.h2`
@@ -29,6 +42,11 @@ export const RecordTitle = styled.h2`
     font-weight: bold;
     color: #333;
     text-align: center;
+
+    @media print {
+        font-size: 20px;
+        color: black;
+    }
 `;
 
 export const RecordDescription = styled.div`
@@ -44,18 +62,28 @@ export const RecordDescription = styled.div`
         text-indent: 1.25cm;
         line-height: 1.5;
     }
+
+    @media print {
+        font-size: 14px;
+        color: black;
+        margin-top: 0;
+    }
 `;
 
 export const ContainerSpan = styled.div`
     display: flex;
     width: 100%;
     justify-content: space-between;
-    align-items: center;
 
     @media (max-width: 768px) {
         flex-direction: column;
         gap: 10px;
     }
+
+    /* Remova a linha abaixo para que o conteúdo apareça na impressão */
+    /* @media print {
+        display: none;
+    } */
 `;
 
 export const ContainerSpanEdit = styled.div`
@@ -68,14 +96,17 @@ export const ContainerSpanEdit = styled.div`
         flex-direction: column;
         gap: 10px;
     }
+
+    @media print {
+        display: none;
+    }
 `;
 
 export const Span = styled.div`
     display: flex;
     flex-direction: column;
     font-size: 15px;
-    padding: 10px;
-    width: 100%;
+    padding: 3px;
     align-items: flex-start;
     gap: 15px;
 
@@ -88,6 +119,14 @@ export const Span = styled.div`
     p {
         margin-left: 5px;
         font-weight: bold;
+    }
+
+    @media print {
+        font-size: 14px;
+        color: black;
+        p {
+            font-weight: normal;
+        }
     }
 `;
 
@@ -122,16 +161,28 @@ export const ToGoBack = styled.div`
     &:hover {
         color: #0056b3;
     }
+
+    @media print {
+        display: none;
+    }
 `;
 
 export const SignMessageButtonText = styled.span`
     font-size: 14px;
     font-weight: 400;
+
+    @media print {
+        display: none;
+    }
 `;
 
 export const SignMessageButtonTextBold = styled.span`
     font-size: 14px;
     font-weight: 600;
+
+    @media print {
+        display: none;
+    }
 `;
 
 export const Input = styled.div`
@@ -140,6 +191,10 @@ export const Input = styled.div`
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: #f9f9f9;
+
+    @media print {
+        display: none;
+    }
 `;
 
 export const StyledQuillContainer = styled.div`
@@ -164,10 +219,36 @@ export const StyledQuillContainer = styled.div`
             font-size: 14px;
         }
     }
+
+    @media print {
+        display: none;
+    }
 `;
 
 export const EditContainer = styled(RecordContainer)`
     @media (max-width: 768px) {
         width: 90%;
+    }
+
+    @media print {
+        display: none;
+    }
+`;
+
+export const PrintButton = styled.button`
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: auto;
+
+    &:hover {
+        background-color: #218838;
+    }
+
+    @media print {
+        display: none;
     }
 `;

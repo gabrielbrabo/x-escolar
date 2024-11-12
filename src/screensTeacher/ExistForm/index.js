@@ -17,7 +17,8 @@ import {
     StyledQuillContainer,
     EditContainer,
     ContainerSpanEdit,
-    ButtonEdit
+    ButtonEdit,
+    PrintButton // Adicione este estilo para o botão de impressão
 } from './style';
 
 const StudentRecordDescription = () => {
@@ -70,16 +71,17 @@ const StudentRecordDescription = () => {
     };
 
     const handleSaveEdit = async () => {
-        console.log("editedDescription", editedDescription)
-        console.log("update_idForm", update_idForm)
         const res = await FormEdit({ update_idForm, editedDescription });
 
         if (res) {
-            console.log("resEditForm", res)
             alert('Ficha atualizada com sucesso!');
             setUpdateidForm(null);
             setFormData((prevData) => ({ ...prevData, description: editedDescription }));
         }
+    };
+
+    const handlePrint = () => {
+        window.print();
     };
 
     return (
@@ -93,6 +95,9 @@ const StudentRecordDescription = () => {
                         <Span>
                             <div>Aluno: <p>{nameStudent}</p></div>
                             <div>Bimestre: <p>{bimonthly}</p></div>
+                        </Span>
+                        <Span>
+                            <PrintButton onClick={handlePrint}>Imprimir Ficha</PrintButton> {/* Botão de impressão acima */}
                         </Span>
                         {isTeacher.length > 0 && (
                             <Span>
