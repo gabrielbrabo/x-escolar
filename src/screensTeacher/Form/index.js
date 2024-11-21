@@ -110,7 +110,7 @@ const Form = () => {
                     <Button onClick={handleClick}>Cadastrar Ficha</Button>
                     <ToGoBack onClick={messageButtonClick}>
                         <SignMessageButtonText>Voltar para a</SignMessageButtonText>
-                        <SignMessageButtonTextBold>Turma</SignMessageButtonTextBold>
+                        <SignMessageButtonTextBold>lista de Alunos</SignMessageButtonTextBold>
                     </ToGoBack>
                 </ContainerDivs>
             )}

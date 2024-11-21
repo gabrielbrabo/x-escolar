@@ -31,6 +31,7 @@ const MyCla$$Info = () => {
         (async () => {
             setLoading(true);
             sessionStorage.removeItem("Selectbimonthly");
+            sessionStorage.removeItem("Selectmatt")
             console.log('useParamsClass', id_class)
             console.log('useParamsTeacher', id_teacher)
             const resClass = await clssInfo(id_class)
@@ -93,11 +94,12 @@ const MyCla$$Info = () => {
                     }
                     <ButtonContainer>
                         <button onClick={() => { navigate('/attendance') }}>Chamada</button>
-                        <button onClick={() => { navigate('/grade') }}>Registra Redimento</button>
+                        <button onClick={() => { navigate('/grade') }}>Conceitos</button>
                         <button onClick={() => { navigate('/classes') }}>Aulas</button>
                     </ButtonContainer>
                     <ButtonContainer>
                         <button onClick={() => { navigate('/individual-form') }}>Ficha Individual</button>
+                        <button onClick={() => { navigate('/final-concepts') }}>Conceitos Finais</button>
                     </ButtonContainer>
                     <StudentSection>
                         <h2>Estudantes</h2>
@@ -106,24 +108,24 @@ const MyCla$$Info = () => {
                                 <StudentItem onClick={() => StudentInformation(stdt)}>{stdt.name}</StudentItem>
                             ))
                         )
-                        :
+                            :
                             (
                                 <InfoText>Não há nenhum estudante</InfoText>
                             )
                         }
                     </StudentSection>
                     {
-                       /* <MatterSection>
-                            <h2>Materias</h2>
-
-                            {
-                                NameMatter.map(employee => (
-                                    <div key={employee._id}>
-                                        <MatterItem>{employee.name_matter}</MatterItem>
-                                    </div>
-                                ))
-                            }
-                        </MatterSection>*/
+                        /* <MatterSection>
+                             <h2>Materias</h2>
+ 
+                             {
+                                 NameMatter.map(employee => (
+                                     <div key={employee._id}>
+                                         <MatterItem>{employee.name_matter}</MatterItem>
+                                     </div>
+                                 ))
+                             }
+                         </MatterSection>*/
                     }
                 </ContainerDivs>
             }

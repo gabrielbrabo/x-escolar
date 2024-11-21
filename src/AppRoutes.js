@@ -78,6 +78,7 @@ import Classes from "./screensTeacher/Classes"
 import IndividualForm from "./screensTeacher/IndividualForm"
 import Form from "./screensTeacher/Form"
 import ExistForm from "./screensTeacher/ExistForm"
+import GradeFinalConcepts from "./screensTeacher/GradeFinalConcepts"
 
 const AppRoutes = () => {
 
@@ -399,6 +400,11 @@ const AppRoutes = () => {
                     <Route exact path="/exist-form/:id_form" element={
                         <Private>
                             <ExistForm/>
+                        </Private>
+                    } />
+                    <Route exact path="/final-concepts" element={
+                        <Private>
+                            <GradeFinalConcepts/>
                         </Private>
                     } />
                 </Routes>

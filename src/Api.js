@@ -2002,15 +2002,62 @@ export const FormEdit = async ({
     return api.post(`/form-edit`, {
         update_idForm, editedDescription
     })
-    .catch((error) => {
-        if (error) {
-            const result = JSON.stringify(
-                error.response.data.msg
-            )
-            alert(result)
-            // window.location.reload()
-        }
-    }, [])
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+};
+
+export const FinalConcepts = async ( year, studentGrade, id_matter, id_employee, id_student ) => {
+    return api
+        .post(`/register/final-concepts`, { year, studentGrade, id_matter, id_employee, id_student })
+        .catch((error) => {
+            if (error.response) {
+                console.error("Erro na API:", error.response.data.msg);
+                alert(error.response.data.msg);
+            }
+        });
+};
+
+export const GetGradeFinalConcepts = async (
+    year, id_matter
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/get/final-concepts`, {
+        year, id_matter
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+};
+
+export const FinalConceptsEdit = async (
+    update_id_grade, update_studentGrade
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/update/final-concepts`, {
+        update_id_grade, update_studentGrade
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
 };
 
 /*export const getavatar = async () => {
