@@ -2060,6 +2060,42 @@ export const FinalConceptsEdit = async (
         }, [])
 };
 
+export const getFinalConcepts = async (
+    year, id_student
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/get/card-final-concepts`, {
+        year, id_student
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+};
+
+export const AttendanceFinalConcepts = async (
+    year, id_student
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/attendance-final-concepts`, {
+        year, id_student
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+};
+
 /*export const getavatar = async () => {
 
     return api.get('/avatar')

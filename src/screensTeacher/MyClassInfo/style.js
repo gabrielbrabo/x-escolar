@@ -43,7 +43,7 @@ export const ClassInfo = styled.span`
 export const ButtonContainer = styled.div`
     display: flex;
     justify-content: center;
-    margin: 20px 0;
+    margin: 7px;
     gap: 20px;
 
     button {

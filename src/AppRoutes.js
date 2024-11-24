@@ -72,6 +72,7 @@ import IIIRdQuarterReportCard from "./screens/III-RdQuarterReportCard"
 import IVThQuarterReportCard from "./screens/IV-ThQuarterReportCard"
 import VThQuarterReportCard from "./screens/V-ThQuarterReportCard"
 import VIThQuarterReportCard from "./screens/Vi-ThQuarterReportCard"
+import FinalConceptscard from "./screens/FinalConceptscard"
 
 import RecordClassTaught from "./screensTeacher/RecordClassTaught"
 import Classes from "./screensTeacher/Classes"
@@ -370,6 +371,11 @@ const AppRoutes = () => {
                     <Route exact path="/vith-quarter-report-card" element={
                         <Private>
                             <VIThQuarterReportCard/>
+                        </Private>
+                    } />
+                    <Route exact path="/final-concepts-report-card" element={
+                        <Private>
+                            <FinalConceptscard/>
                         </Private>
                     } />
                     <Route exact path="/record-class-taught" element={

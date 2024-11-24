@@ -300,7 +300,7 @@ const Finalconcepts = () => {
                             <h2>Selecione a Disciplina</h2>
                             <InputArea>
                                 <Input>
-                                    <Label>Materia</Label>
+                                    <Label>Disciplina</Label>
                                     <Select
                                         id="id-matter"
                                         value={id_matter}

@@ -185,6 +185,10 @@ const Student = () => {
         } else if (Selectbimonthly === VI) {
             sessionStorage.setItem("id-VI", VI)
             navigate('/vith-quarter-report-card')
+        } else if (Selectbimonthly === 'FinalConcepts') {
+            console.log("boletim final", Selectbimonthly)
+            //sessionStorage.setItem("id-VI", VI)
+            navigate('/final-concepts-report-card')
         } else {
             setErrorMessage('Erro, Verifique os dados e tente novamente.');
         }
@@ -234,7 +238,7 @@ const Student = () => {
                             ))
                         }
                         <Input>
-                            <Label>Selecione o bimestre abaixo para ver o boletim</Label>
+                            <Label>Selecione o bimestre e click no botão abaixo para ver o boletim</Label>
                             <Select
                                 id="id-bimonthly"
                                 value={Selectbimonthly}
@@ -244,10 +248,12 @@ const Student = () => {
                                 {bimonthly.map(res => (
                                     <option key={res._id} value={res._id}>{res.bimonthly}</option>
                                 ))
-                                }
+                                },
+                                
+                                <option value="FinalConcepts">Resultado Final</option>
                             </Select>
                             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                            <Button onClick={signClick}>Definir</Button>
+                            <Button onClick={signClick}>Ver boletim</Button>
                         </Input>
                         <Calendar />
                     </ContainerDivs>
