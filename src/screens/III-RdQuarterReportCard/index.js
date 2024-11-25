@@ -39,7 +39,7 @@ const GradeIstquarter = () => {
   const [teacherName, setTeacherName] = useState('')
   const [nameSchool, setNameSchool] = useState('')
 
-  
+
   const [startd, setStartd] = useState('')
   const [startm, setStartm] = useState('')
   const [starty, setStarty] = useState('')
@@ -73,21 +73,21 @@ const GradeIstquarter = () => {
 
       if (resGrade && resGrade.data && Array.isArray(resGrade.data.data) && resGrade.data.data.length > 0) {
         const res = resGrade.data.data[0]; // Pega o primeiro item do array
-      
+
         if (res && res.id_iiiRdQuarter) {
           let startd = res.id_iiiRdQuarter.startday || null;
           let startm = res.id_iiiRdQuarter.startmonth || null;
           let starty = res.id_iiiRdQuarter.startyear || null;
-      
+
           let endd = res.id_iiiRdQuarter.endday || null;
           let endm = res.id_iiiRdQuarter.endmonth || null;
           let endy = res.id_iiiRdQuarter.endyear || null;
-      
+
           // Atualiza os estados apenas se os valores forem válidos
           setStartd(startd);
           setStartm(startm);
           setStarty(starty);
-      
+
           setEndd(endd);
           setEndm(endm);
           setEndy(endy);
@@ -97,28 +97,28 @@ const GradeIstquarter = () => {
       } else {
         console.error("resGrade está vazio ou malformado");
       }
-      
+
 
       if (startd && startm && starty && endd && endm && endy && id_student) {
         try {
           const result = await AttendanceBimonthly(startd, startm, starty, endd, endm, endy, id_student);
           const data = result?.data?.data || [];
-      
+
           // Verifique se os dados estão disponíveis e não estão vazios
           if (data.length > 0) {
             // Filtrando e mapeando as presenças (P)
             const attendance = data.filter(res => res.status === "P");
-      
+
             // Filtrando e mapeando as faltas (F)
             const attendancef = data.filter(res => res.status === "F");
-      
+
             // Garantir que as variáveis não sejam nulas ou indefinidas
             setHighlightedDays(attendance.length ? attendance : []);
             setHighlightedDaysF(attendancef.length ? attendancef : []);
           } else {
             console.warn("Nenhum dado de frequência disponível.");
           }
-      
+
         } catch (error) {
           console.error("Erro ao obter dados de frequência", error);
         }
@@ -176,7 +176,7 @@ const GradeIstquarter = () => {
                         <Grade>
                           {/*<SpanTotalGrade><p>Total</p>{grd.totalGrade}</SpanTotalGrade>
                           <SpanAverageGrade><p>Media</p>{grd.averageGrade}</SpanAverageGrade>*/}
-                          <SpanGradeStudent grade={grd.studentGrade} average={grd.averageGrade}><p>Desenpenho</p>{grd.studentGrade}</SpanGradeStudent>
+                          <SpanGradeStudent grade={grd.studentGrade} average={grd.averageGrade}><p>Desempenho</p>{grd.studentGrade}</SpanGradeStudent>
                         </Grade>
                       </Emp>
                     ))
@@ -186,8 +186,8 @@ const GradeIstquarter = () => {
             </DivAddEmp>
           </ContainerDivs>
           <ToGoBack onClick={messageButtonClick}>
-            <SignMessageButtonText>Voltar para a</SignMessageButtonText>
-            <SignMessageButtonTextBold>Turma</SignMessageButtonTextBold>
+            <SignMessageButtonText>Voltar para o</SignMessageButtonText>
+            <SignMessageButtonTextBold>Perfil do Aluno</SignMessageButtonTextBold>
           </ToGoBack>
         </>
       )}

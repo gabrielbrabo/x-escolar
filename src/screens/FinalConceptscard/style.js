@@ -3,7 +3,7 @@ import { createGlobalStyle } from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
-  margin: 0 auto;
+  min-height: 90vh;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -13,7 +13,7 @@ export const Container = styled.div`
 
 export const ContainerDivs = styled.div`
   width: 90%;
-  max-width: 900px;
+  max-width: 1000px;
   padding-left: 20px;
   padding-right: 20px;
   background-color: white;

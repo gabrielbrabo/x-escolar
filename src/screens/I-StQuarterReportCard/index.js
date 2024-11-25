@@ -180,7 +180,7 @@ const GradeIstquarter = () => {
                         <Grade>
                           {/*<SpanTotalGrade><p>Total</p>{grd.totalGrade}</SpanTotalGrade>
                           <SpanAverageGrade><p>Media</p>{grd.averageGrade}</SpanAverageGrade>*/}
-                          <SpanGradeStudent grade={grd.studentGrade} /*average={grd.averageGrade}*/><p>Desenpenho</p>{grd.studentGrade}</SpanGradeStudent>
+                          <SpanGradeStudent grade={grd.studentGrade} /*average={grd.averageGrade}*/><p>Desempenho</p>{grd.studentGrade}</SpanGradeStudent>
                         </Grade>
                       </Emp>
                     ))
@@ -190,8 +190,8 @@ const GradeIstquarter = () => {
             </DivAddEmp>
           </ContainerDivs>
           <ToGoBack onClick={messageButtonClick}>
-            <SignMessageButtonText>Voltar para a</SignMessageButtonText>
-            <SignMessageButtonTextBold>Turma</SignMessageButtonTextBold>
+            <SignMessageButtonText>Voltar para o</SignMessageButtonText>
+            <SignMessageButtonTextBold>Perfil do Aluno</SignMessageButtonTextBold>
           </ToGoBack>
         </>
       )}

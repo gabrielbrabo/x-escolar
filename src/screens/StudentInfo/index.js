@@ -19,7 +19,7 @@ import {
     Span,
     ContainerDivs,
     Pro,
-    ProfilePhoto,
+    //ProfilePhoto,
     ProfileInfo,
     EmployeeInfo,
     DivButtomEdit,
@@ -210,9 +210,9 @@ const Student = () => {
                                 <Emp key={student._id} >
                                     <EmployeeInfo>
                                         <Pro>
-                                            <ProfilePhoto>
+                                            {/*<ProfilePhoto>
 
-                                            </ProfilePhoto>
+                                            </ProfilePhoto>*/}
                                             < ProfileInfo>
                                                 <Span>Nome: {student.name}</Span>
                                                 <Span>RG: {student.rg}</Span>
