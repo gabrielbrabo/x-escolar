@@ -21,7 +21,7 @@ const HomeSchool = () => {
   return (
     <Container>
       <Butons>
-        <Btt02>Lista de Presença</Btt02>
+        <Btt02 >Lista de Presença</Btt02>
         <Btt02>Conceitos</Btt02>
       </Butons>
       <Context>

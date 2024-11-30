@@ -1,10 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { clssInfo, AttendanceByTeacherAndClass, getIstQuarter, getIIndQuarter, getIIIrdQuarter, getIVthQuarter, getVthQuarter, getVIthQuarter } from "../../Api"; // Simula chamada ao backend
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
 
 const AttendanceContainer = styled.div`
   text-align: center;
   width: 100%;
+  min-height: 80vh;
+`;
+const ContInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+const CtnrBtt = styled.div`
+ display: flex;
+ justify-content: end;
+  width: 100%;
+`;
+
+export const Button = styled.button`
+  width: 150px;
+  padding: 15px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  &:hover {
+    background-color: #45a049;
+  }
+  @media (max-width: 768px) {
+    padding: 12px;
+    font-size: 14px;
+  }
 `;
 
 const ContTable = styled.table`
@@ -14,7 +45,7 @@ const ContTable = styled.table`
 `;
 
 const Table = styled.table`
-  border-collapse: collapse; /* Garante que a tabela ocupe todo o espaço disponível */
+  border-collapse: collapse;
   margin: 20px 0;
   background-color: #fff;
   border: 1px solid #ddd;
@@ -27,7 +58,6 @@ const TableHeader = styled.thead`
     padding: 10px;
     text-align: center;
     border: 1px solid #ddd;
-     /* Define uma largura mínima para as colunas */
   }
 `;
 
@@ -42,33 +72,112 @@ const TableBody = styled.tbody`
     padding: 8px;
     text-align: center;
     border: 1px solid #ddd;
-    word-wrap: break-word; /* Quebra a palavra se necessário */
-    white-space: nowrap; /* Impede a quebra de linha dentro da célula */
-   // overflow: hidden; /* Esconde o excesso de conteúdo */
-    text-overflow: ellipsis; /* Adiciona "..." se o conteúdo for maior que a célula */
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
-  /* Estilos específicos para presença e ausência */
   & .presence {
     color: green;
     font-weight: bold;
   }
- 
+
   & .absence {
     color: red;
     font-weight: bold;
   }
 
-  /* Ajustando a largura das células de status */
-  & .status-cell { /* Definindo uma largura menor para as células de status */
+  & .total-presence {
+    color: green;
+    font-weight: bold;
   }
 
-  /* Ajustando a largura da célula do nome do aluno */
-  & .name-cell { /* Definindo uma largura mínima para a célula do nome */
+  & .total-absence {
+    color: red;
+    font-weight: bold;
+  }
+`;
+
+export const ToGoBack = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 35px;
+  margin-bottom: 20px;
+  cursor: pointer;
+
+  @media print {
+    display: none; /* Ocultar na impressão */
+  }
+`;
+
+export const SignMessageButtonText = styled.span`
+  color: #333;
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+`;
+
+export const SignMessageButtonTextBold = styled.span`
+  color: #333;
+  font-weight: bold;
+  margin-left: 5px;
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+`;
+
+const PrintStyle = styled.div`
+  @media print {
+    body {
+      visibility: hidden;
+    }
+
+    /* Exclui todo o conteúdo fora da área de impressão */
+    .no-print {
+      display: none;
+    }
+
+    .printable-content {
+      visibility: visible; /* Exibe apenas o conteúdo dentro desta classe */
+      width: 100%;
+      page-break-inside: auto;
+      table-layout: fixed;
+      word-wrap: break-word;
+      font-size: 10px; /* Ajusta o tamanho da fonte */
+    }
+
+    table {
+      width: 100%;
+      page-break-inside: auto;
+      table-layout: fixed;
+      word-wrap: break-word;
+    }
+
+    th, td {
+      text-align: center;
+      border: 1px solid #ddd;
+      padding: 5px;
+    }
+
+    @page {
+      size: A4 landscape; /* Define o formato da página como paisagem */
+      margin: 0;
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      transform: scale(0.8); /* Ajusta a escala da tabela */
+      transform-origin: top center;
+      page-break-before: always;
+    }
   }
 `;
 
 export default function AttendanceList() {
+  const navigate = useNavigate()
+
   const [startd, setStartd] = useState("");
   const [startm, setStartm] = useState("");
   const [starty, setStarty] = useState("");
@@ -80,18 +189,24 @@ export default function AttendanceList() {
   const [id_teacher, setid_teacher] = useState("");
   const [id_class, setid_class] = useState("");
   const [attendanceData, setAttendanceData] = useState([]);
+  const [bimonthlyDaily, setbimonthlyDaily] = useState([]);
+  const [nameTeacher, setnameTeacher] = useState([]);
+  const [nameClass, setnameClass] = useState([]);
 
   useEffect(() => {
-    // Simula uma chamada ao backend para obter os dados de presença
     const fetchAttendanceData = async () => {
       const year = new Date().getFullYear().toString();
       const SelectbimonthlyDaily = JSON.parse(sessionStorage.getItem("Selectbimonthly-daily"));
       const SelectteacherDaily = JSON.parse(sessionStorage.getItem("Selectteacher-daily"));
+      const Nameclass = JSON.parse(sessionStorage.getItem("Nameclass-daily"));
       const SelectclassDaily = sessionStorage.getItem("Selectclass-daily");
       const idSchool = SelectteacherDaily.id_school;
 
       setid_teacher(SelectteacherDaily._id);
       setid_class(SelectclassDaily);
+      setbimonthlyDaily(SelectbimonthlyDaily.bimonthly);
+      setnameTeacher(SelectteacherDaily.name);
+      setnameClass(Nameclass.serie);
 
       if (SelectbimonthlyDaily.bimonthly === "1º BIMESTRE") {
         const IstQuarter = await getIstQuarter(year, idSchool);
@@ -171,7 +286,6 @@ export default function AttendanceList() {
     fetchAttendanceData();
   }, [id_teacher, id_class, startd, startm, starty, endd, endm, endy]);
 
-  // Função para mapear status de presença para cada aluno
   const getAttendanceStatus = (studentId, date) => {
     const attendanceForDate = attendanceData.find(
       (attendance) => attendance.id_student._id === studentId && `${attendance.day}/${attendance.month}` === date
@@ -183,49 +297,82 @@ export default function AttendanceList() {
         </td>
       );
     }
-    return <td className="status-cell">-</td>; // Caso não haja dado de presença para o aluno na data
+    return <td className="status-cell">-</td>;
   };
 
-  // Extrair datas únicas
+  const calculateTotals = (studentId) => {
+    const attendanceForStudent = attendanceData.filter(
+      (attendance) => attendance.id_student._id === studentId
+    );
+    const totalPresence = attendanceForStudent.filter((att) => att.status === "P").length;
+    const totalAbsence = attendanceForStudent.filter((att) => att.status === "F").length;
+    return { totalPresence, totalAbsence };
+  };
+
   const uniqueDates = [
     ...new Set(attendanceData.map((attendance) => `${attendance.day}/${attendance.month}`))
   ].sort((a, b) => {
     const [dayA, monthA] = a.split("/").map(Number);
     const [dayB, monthB] = b.split("/").map(Number);
 
-    if (monthA !== monthB) return monthA - monthB; // Ordena primeiro pelo mês
-    return dayA - dayB; // Depois ordena pelo dia
+    if (monthA !== monthB) return monthA - monthB;
+    return dayA - dayB;
   });
 
-  // Função para formatar data para exibição no formato DD/MM
   const formatDisplayDate = (date) => {
     const [day, month] = date.split("/");
     return `${String(day).padStart(2, "0")}/${String(month).padStart(2, "0")}`;
   };
 
+  const messageButtonClick = () => {
+    navigate(-1);
+  };
+
   return (
-    <AttendanceContainer>
-      <h2>Lista de Presença</h2>
-      <ContTable>
-        <Table>
-          <TableHeader>
-            <tr>
-              <th className="name-cell">Nome do Aluno</th>
-              {uniqueDates.map((date, index) => (
-                <th key={index}>{formatDisplayDate(date)}</th>
-              ))}
-            </tr>
-          </TableHeader>
-          <TableBody>
-            {stdt.map((student) => (
-              <tr key={student._id}>
-                <td className="name-cell">{student.name}</td>
-                {uniqueDates.map((date) => getAttendanceStatus(student._id, date))}
+    <PrintStyle>
+      <AttendanceContainer className="printable-content">
+        <h2>Lista de Presença do {bimonthlyDaily}</h2>
+        <ContInfo>
+          <CtnrBtt>
+            <Button className="no-print" onClick={() => window.print()}>Imprimir</Button>
+          </CtnrBtt>
+          <span><strong>Professor:</strong> {nameTeacher}</span>
+          <span><strong>Turma:</strong> {nameClass}</span>
+        </ContInfo>
+        <ContTable>
+          <Table>
+            <TableHeader>
+              <tr>
+                <th className="name-cell">Nome do Aluno</th>
+                {uniqueDates.map((date, index) => (
+                  <th key={index} className="date-cell">
+                    {formatDisplayDate(date)}
+                  </th>
+                ))}
+                <th className="total-presence">Total P</th>
+                <th className="total-absence">Total F</th>
               </tr>
-            ))}
-          </TableBody>
-        </Table>
-      </ContTable>
-    </AttendanceContainer>
+            </TableHeader>
+            <TableBody>
+              {stdt.map((student) => {
+                const totals = calculateTotals(student._id);
+                return (
+                  <tr key={student._id}>
+                    <td className="name-cell">{student.name}</td>
+                    {uniqueDates.map((date) => getAttendanceStatus(student._id, date))}
+                    <td className="total-presence">{totals.totalPresence}</td>
+                    <td className="total-absence">{totals.totalAbsence}</td>
+                  </tr>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </ContTable>
+        <ToGoBack onClick={messageButtonClick}>
+          <SignMessageButtonText>Voltar para o</SignMessageButtonText>
+          <SignMessageButtonTextBold>Perfil do Aluno</SignMessageButtonTextBold>
+        </ToGoBack>
+      </AttendanceContainer>
+    </PrintStyle>
   );
 }

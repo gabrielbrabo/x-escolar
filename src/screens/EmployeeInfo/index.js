@@ -174,6 +174,7 @@ const EmployeeInformation = () => {
             if (id_cla$$) {
                 if (id_cla$$.length <= 1) {
                     const res = Clss.map(clss => {
+                        sessionStorage.setItem("Nameclass-daily", JSON.stringify(clss));
                         return clss._id
                     })
                     sessionStorage.setItem("Selectclass-daily", res);
@@ -204,6 +205,7 @@ const EmployeeInformation = () => {
     };
 
     const handleSelectClas = (clss) => {
+        sessionStorage.setItem("Nameclass-daily", JSON.stringify(clss));
         sessionStorage.setItem("Selectclass-daily", clss._id);
         navigate('/daily')
     }
