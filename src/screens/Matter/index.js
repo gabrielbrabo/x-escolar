@@ -22,6 +22,7 @@ const Matter = () => {
     const navigate = useNavigate();
     const [matter, setMatter] = useState([]);
     const [busca, setBusca] = useState("");
+    const [positionAtSchool, setPositionAtSchool] = useState(null);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -29,6 +30,8 @@ const Matter = () => {
             setLoading(true);
             const idSchool = sessionStorage.getItem("id-school");
             const res = await GetMatter(JSON.parse(idSchool));
+            const position = localStorage.getItem('position_at_school');
+            setPositionAtSchool(position);
             setMatter(res.data.data);
             setLoading(false);
         })();
@@ -69,9 +72,11 @@ const Matter = () => {
                             <DivNewEmp>
                                 <Btt02 onClick={NewMatter}>Nova Disciplinas</Btt02>
                             </DivNewEmp>
-                            <DivNewEmp>
-                                <Btt02 onClick={DeleteMatter}>Deletar Disciplina</Btt02>
-                            </DivNewEmp>
+                            {positionAtSchool === 'DIRETOR/SUPERVISOR' && (
+                                <DivNewEmp>
+                                    <Btt02 onClick={DeleteMatter}>Deletar Disciplina</Btt02>
+                                </DivNewEmp>
+                            )}
                         </DivAddEmp>
                         {matter.length > 0
                             ? (

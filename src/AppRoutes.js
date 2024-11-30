@@ -81,6 +81,8 @@ import Form from "./screensTeacher/Form"
 import ExistForm from "./screensTeacher/ExistForm"
 import GradeFinalConcepts from "./screensTeacher/GradeFinalConcepts"
 
+import Daily from "./screens/Daily"
+
 const AppRoutes = () => {
 
     const Private = ({ children }) => {
@@ -411,6 +413,11 @@ const AppRoutes = () => {
                     <Route exact path="/final-concepts" element={
                         <Private>
                             <GradeFinalConcepts/>
+                        </Private>
+                    } />
+                    <Route exact path="/daily" element={
+                        <Private>
+                            <Daily/>
                         </Private>
                     } />
                 </Routes>

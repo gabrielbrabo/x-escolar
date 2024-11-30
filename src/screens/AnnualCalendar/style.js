@@ -86,3 +86,21 @@ export const DivDados = styled.div`
     }
   }
 `;
+
+export const Btt03 = styled.button`
+  background-color: #FFC107; /* Cor de aviso (amarelo) */
+  color: #212529; /* Texto escuro para contraste */
+  border: none;
+  height: 37px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #e0a800; /* Amarelo mais escuro no hover */
+  }
+
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
+`;

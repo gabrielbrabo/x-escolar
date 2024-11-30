@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { EmpInfo, DestroyEmp } from '../../Api'
+import {
+    EmpInfo,
+    DestroyEmp,
+    getIstQuarter,
+    getIIndQuarter,
+    getIIIrdQuarter,
+    getIVthQuarter,
+    getVthQuarter,
+    getVIthQuarter,
+} from '../../Api'
 
 import {
     Container,
@@ -16,7 +25,7 @@ import {
     //DivAddEmp,
     //AddEmp,
     Btt02,
-    ProfilePhoto,
+    //ProfilePhoto,
     LoadingSpinnerContainer,
     ContainerDivs,
     //DivShowMatter,
@@ -26,7 +35,15 @@ import {
     WarningBox,
     Button,
     ButtonRemove,
-    ActionButtons
+    ActionButtons,
+    Input,
+    Label,
+    Select,
+    ErrorMessage,
+    Backdrop,
+    Modal,
+    ClassList,
+    ClassItem
 } from './style';
 
 //import { TiArrowDownThick, TiArrowUpThick } from "react-icons/ti";
@@ -55,18 +72,22 @@ const EmployeeInformation = () => {
     const [position_at_school, setPosition_at_school] = useState([]);
     const [positionAtSchool, setPositionAtSchool] = useState(null);
     const [loading, setLoading] = useState(false);
-    //const [showMatter, setShowMatter] = useState(false);
-    //const [showClass, setShowClass] = useState(false);
+    const [Selectbimonthly, setSelectbimonthly] = useState([])
+    //const [id_class, setid_class] = useState([])
+    const [Selectclass, setSelectclass] = useState('')
+    const [bimonthly, setbimonthly] = useState([])
     const [school, setSchool] = useState(null);
     const [removeEmp, setRemoveEmp] = useState(false);
+    const [errorMessage, setErrorMessage] = useState();
     const { id_employee } = useParams()
-    //console.log('posi', position_at_school)
 
     useEffect(() => {
         (async () => {
             setLoading(true);
             const School = sessionStorage.getItem('School');
             const position = localStorage.getItem('position_at_school');
+            const idSchool = sessionStorage.getItem("id-school");
+            const year = new Date().getFullYear();
             setPositionAtSchool(position);
             const res = await EmpInfo(id_employee)
             const position_at_school = res.data.data.map(res => {
@@ -122,10 +143,76 @@ const EmployeeInformation = () => {
             setMatter(mttr)
             setLoading(false);
             setSchool(School);
+
+            const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
+            const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
+            const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
+            const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
+            const VthQuarter = await getVthQuarter(year, JSON.parse(idSchool))
+            const VIthQuarter = await getVIthQuarter(year, JSON.parse(idSchool))
+
+            const i = IstQuarter.data.data.find(res => res) || null;
+            const ii = IIndQuarter.data.data.find(res => res) || null;
+            const iii = IIIrdQuarter.data.data.find(res => res) || null;
+            const iv = IVthQuarter.data.data.find(res => res) || null;
+            const v = VthQuarter.data.data.find(res => res) || null;
+            const vi = VIthQuarter.data.data.find(res => res) || null;
+
+            //const res = await GetMatter(JSON.parse(idSchool));
+
+            setbimonthly([i, ii, iii, iv, v, vi].filter(res => res !== null));
+
         })()
 
     }, [currentYear, id_employee])
-    console.log("position_at_school", positionAtSchool)
+
+    const handledaily = () => {
+        if (Selectbimonthly.length > 0) {
+            const id_cla$$ = Clss.map(clss => {
+                return clss
+            })
+            if (id_cla$$) {
+                if (id_cla$$.length <= 1) {
+                    const res = Clss.map(clss => {
+                        return clss._id
+                    })
+                    sessionStorage.setItem("Selectclass-daily", res);
+                    navigate('/daily')
+                    //console.log('log class', id_cla$$)
+                    //setid_class(res); // Passando apenas o primeiro item do array
+                } else if (id_cla$$.length >= 2) {
+                    console.log('log selctclass', id_cla$$)
+                    setSelectclass(id_cla$$);
+                    // Passando o array completo se houver mais de um ID
+                }
+            }
+
+            const id_schll = employee.find(emp => {
+                return emp
+
+            })
+            console.log("id_schll", id_schll)
+            console.log("id_cla$$", id_cla$$)
+
+
+            sessionStorage.setItem("Selectbimonthly-daily", Selectbimonthly);
+            sessionStorage.setItem("Selectteacher-daily", JSON.stringify(id_schll));
+            setErrorMessage()
+        } else {
+            setErrorMessage('Erro, Verifique os dados e tente novamente.');
+        }
+    };
+
+    const handleSelectClas = (clss) => {
+        sessionStorage.setItem("Selectclass-daily", clss._id);
+        navigate('/daily')
+    }
+
+    console.log("Selectbimonthly", Selectbimonthly)
+
+    //console.log("id_class", id_class)
+    console.log("Selectclass", Selectclass)
+
 
     /*const add = () => {
         setLoading(true);
@@ -176,9 +263,9 @@ const EmployeeInformation = () => {
                         <Emp key={emp._id}>
                             <EmployeeInfo>
                                 <Pro>
-                                    <ProfilePhoto>
+                                    {/*<ProfilePhoto>
 
-                                    </ProfilePhoto>
+                                    </ProfilePhoto>*/}
                                     < ProfileInfo>
                                         <Span>{emp.name}</Span>
                                         <Span>{emp.position_at_school}</Span>
@@ -228,6 +315,22 @@ const EmployeeInformation = () => {
                                     </>
                                 }
                             </DivInfo>*/}
+                            <Input>
+                                <Label>Selecione o bimestre e click no botão abaixo para ver o Diario do Professor</Label>
+                                <Select
+                                    id="id-bimonthly"
+                                    value={Selectbimonthly}
+                                    onChange={(e) => setSelectbimonthly(e.target.value)}
+                                >
+                                    <option value="">Selecione</option>
+                                    {bimonthly.map(res => (
+                                        <option key={res._id} value={JSON.stringify({ _id: res._id, bimonthly: res.bimonthly })}>{res.bimonthly}</option>
+                                    ))
+                                    }
+                                </Select>
+                                {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                <Button onClick={handledaily}>Ver Diario</Button>
+                            </Input>
                             <DivInfo>
                                 <TitleInfo>Turmas:</TitleInfo>
                                 {/*
@@ -277,6 +380,25 @@ const EmployeeInformation = () => {
                             </ActionButtons>
                         </AddMatterSection>
                     )}
+                    {
+                        Selectclass &&
+                        <Backdrop>
+                            <Modal>
+                                <h2>Click em uma turma para ver o diario</h2>
+                                <ClassList>
+                                    {Clss.map(clss => (
+                                        <ClassItem
+                                            key={clss.id}
+                                            onClick={() => { handleSelectClas(clss) }}
+                                        >
+                                            {clss.serie}
+                                        </ClassItem>
+                                    ))}
+                                </ClassList>
+                                <Btt02 onClick={() => { setSelectclass('') }}>Cancelar</Btt02>
+                            </Modal>
+                        </Backdrop>
+                    }
                 </ContainerDivs>
             )}
         </Container>

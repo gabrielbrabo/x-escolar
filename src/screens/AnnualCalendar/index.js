@@ -5,6 +5,7 @@ import {
   DivAddEmp,
   AddEmp,
   Btt02,
+  Btt03,
   DivDados
 } from './style';
 
@@ -87,7 +88,7 @@ const HomeSchool = () => {
         <>
           <AddEmp>
             <h3>{title}</h3>
-            <Btt02 onClick={onCreate}>Definir Bimestre</Btt02>
+            <Btt03 onClick={onCreate}>Definir Bimestre</Btt03>
           </AddEmp>
           <DivDados>
             <p>Bimestre ainda não definido</p>

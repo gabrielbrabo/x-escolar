@@ -2096,6 +2096,24 @@ export const AttendanceFinalConcepts = async (
         }, [])
 };
 
+export const AttendanceByTeacherAndClass = async (
+    year, id_teacher, id_class, startd, startm, starty, endd, endm, endy 
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/Attendance-by-teacher-class`, {
+        year, id_teacher, id_class, startd, startm, starty, endd, endm, endy 
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+};
+
 /*export const getavatar = async () => {
 
     return api.get('/avatar')

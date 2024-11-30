@@ -104,8 +104,20 @@ const Cla$$Info = () => {
     const Edit = async () => {
         navigate('/edit-class')
     }
-
+    
+    const handleEmployee = async ( employee ) => {
+        sessionStorage.setItem("EmployeeInformation", employee._id)
+        navigate(`/employee/info/${employee._id}`)
+    }
+    
+    const StudentInformation = async (stdt) => {
+        setLoading(true);
+        navigate(`/student/info/${stdt._id}`)
+        setLoading(false);
+    }
+    
     console.log("student", stdt)
+    console.log("employee", employee)
 
     return (
         <Container>
@@ -154,7 +166,7 @@ const Cla$$Info = () => {
 
                                             {
                                                 employee.map(employee => (
-                                                    <div key={employee._id}>
+                                                    <div onClick={ () => handleEmployee(employee) } key={employee._id}>
                                                         <Span>{employee.name}</Span>
                                                     </div>
                                                 ))
@@ -207,7 +219,7 @@ const Cla$$Info = () => {
                                         <Matter>
                                             {
                                                 stdt.map(stdt => (
-                                                    <Span>{stdt.name}</Span>
+                                                    <Span onClick={() => StudentInformation(stdt)}>{stdt.name}</Span>
                                                 ))
                                             }
                                         </Matter>
