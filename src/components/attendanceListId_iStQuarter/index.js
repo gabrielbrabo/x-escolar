@@ -78,21 +78,19 @@ const TableBody = styled.tbody`
 
   & .presence {
     color: green;
-    font-weight: bold;
   }
 
   & .absence {
     color: red;
-    font-weight: bold;
   }
 
   & .total-presence {
-    color: green;
+    color: #1d0cc6;
     font-weight: bold;
   }
 
   & .total-absence {
-    color: red;
+    color: #f82410;
     font-weight: bold;
   }
 `;
