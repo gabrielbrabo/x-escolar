@@ -55,8 +55,9 @@ const Table = styled.table`
 const TableHeader = styled.thead`
   background-color: #f5f5f5;
   th {
-    padding: 10px;
+    padding: 4px;
     text-align: center;
+    font-size: 0.7em;
     border: 1px solid #ddd;
   }
 `;
@@ -69,27 +70,35 @@ const TableBody = styled.tbody`
   }
 
   td {
-    padding: 8px;
+    padding: 3px;
     text-align: center;
     border: 1px solid #ddd;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
 
+  & .name-cell {
+      font-size: 0.8em;
+    }
+
   & .presence {
+    font-size: 0.8em;
     color: green;
   }
 
   & .absence {
+    font-size: 0.8em;
     color: red;
   }
 
   & .total-presence {
+    font-size: 0.8em;
     color: #1d0cc6;
     font-weight: bold;
   }
 
   & .total-absence {
+    font-size: 0.8em;
     color: #f82410;
     font-weight: bold;
   }
@@ -127,9 +136,10 @@ export const SignMessageButtonTextBold = styled.span`
 
 const PrintStyle = styled.div`
   @media print {
-    body {
-      visibility: hidden;
+    body { /* Ajuste conforme necessário */
     }
+
+    
 
     /* Exclui todo o conteúdo fora da área de impressão */
     .no-print {
@@ -139,23 +149,13 @@ const PrintStyle = styled.div`
     .printable-content {
       visibility: visible; /* Exibe apenas o conteúdo dentro desta classe */
       width: 100%;
-      page-break-inside: auto;
-      table-layout: fixed;
-      word-wrap: break-word;
-      font-size: 10px; /* Ajusta o tamanho da fonte */
-    }
-
-    table {
-      width: 100%;
-      page-break-inside: auto;
-      table-layout: fixed;
-      word-wrap: break-word;
+      font-size: 0.5em; /* Ajusta o tamanho da fonte */
     }
 
     th, td {
       text-align: center;
       border: 1px solid #ddd;
-      padding: 5px;
+      padding: 0px;
     }
 
     @page {
@@ -166,7 +166,7 @@ const PrintStyle = styled.div`
     .table-container {
       width: 100%;
       overflow-x: auto;
-      transform: scale(0.8); /* Ajusta a escala da tabela */
+      transform: scale(10); /* Ajusta a escala da tabela */
       transform-origin: top center;
       page-break-before: always;
     }
