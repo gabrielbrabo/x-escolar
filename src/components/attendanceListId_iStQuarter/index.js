@@ -59,6 +59,10 @@ const TableHeader = styled.thead`
     text-align: center;
     font-size: 0.7em;
     border: 1px solid #ddd;
+
+    &.date-cell {
+      
+    }
   }
 `;
 
@@ -137,6 +141,8 @@ export const SignMessageButtonTextBold = styled.span`
 const PrintStyle = styled.div`
   @media print {
     body { /* Ajuste conforme necessário */
+      margin: 0;
+      padding: 0;
     }
 
     
@@ -148,14 +154,26 @@ const PrintStyle = styled.div`
 
     .printable-content {
       visibility: visible; /* Exibe apenas o conteúdo dentro desta classe */
-      width: 100%;
-      font-size: 0.5em; /* Ajusta o tamanho da fonte */
+      font-size: 15px;
+      //transform: scale(1); /* Ajusta a escala da tabela */
+    }
+
+    ${ContTable} {
+      overflow-x: hidden; /* Permite rolagem horizontal */
+      width: max-content; /* Garante que a tabela ocupe a largura do conteúdo */
+      margin-left: auto; /* Centraliza horizontalmente */
+      margin-right: auto; /* Centraliza horizontalmente */
     }
 
     th, td {
       text-align: center;
       border: 1px solid #ddd;
-      padding: 0px;
+      page-break-inside: avoid;
+      font-size: 8px;
+      padding: 1px;
+    }
+    tr {
+      page-break-inside: avoid; /* Evita quebras dentro de linhas da tabela */
     }
 
     @page {
@@ -164,11 +182,6 @@ const PrintStyle = styled.div`
     }
 
     .table-container {
-      width: 100%;
-      overflow-x: auto;
-      transform: scale(10); /* Ajusta a escala da tabela */
-      transform-origin: top center;
-      page-break-before: always;
     }
   }
 `;
