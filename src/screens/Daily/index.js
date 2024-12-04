@@ -1,9 +1,11 @@
-import { useEffect,  } from 'react';
+import { useEffect, } from 'react';
 import {
   Container,
   Butons,
   Context,
-  Btt02
+  Btt02,
+  BottomButons,
+  UpperButons
 } from './style';
 
 
@@ -21,11 +23,18 @@ const HomeSchool = () => {
   return (
     <Container>
       <Butons>
-        <Btt02 >Lista de Presença</Btt02>
-        <Btt02>Conceitos</Btt02>
+        <UpperButons>
+          <Btt02 >Lista de Presença</Btt02>
+          <Btt02>Aulas Lecionadas</Btt02>
+          <Btt02>Conceitos</Btt02>
+        </UpperButons>
+        <BottomButons>
+          <Btt02 >Fichas Indeviduais</Btt02>
+          <Btt02>ConceitosFinais</Btt02>
+        </BottomButons>
       </Butons>
       <Context>
-        <AttendanceList/>
+        <AttendanceList />
       </Context>
     </Container>
   )
