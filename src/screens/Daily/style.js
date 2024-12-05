@@ -15,12 +15,14 @@ export const Container = styled.div`
 
 export const Context = styled.div`
     width: 100%;
+    min-height: 80vh;
 `;
 
 export const Butons = styled.div`
     width: 100%;
     display: flex;
-    height: 15vh;
+    min-height: 10vh;
+    max-height: 10vh;
     background-color: #ced1c0;
     gap: 20px;
     box-shadow: 0px 0px 7px inset black;

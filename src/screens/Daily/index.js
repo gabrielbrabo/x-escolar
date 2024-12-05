@@ -1,4 +1,4 @@
-import { useEffect, } from 'react';
+//import { useEffect } from 'react';
 import {
   Container,
   Butons,
@@ -8,36 +8,58 @@ import {
   UpperButons
 } from './style';
 
+import AttendanceList from '../../components/attendanceList/index';
+import Classes from '../../components/Classes/index';
+// Importe outros componentes conforme necessário
+//import Concepts from '../../components/Concepts/index';
+//import IndividualRecords from '../../components/IndividualRecords/index';
+//import FinalConcepts from '../../components/FinalConcepts/index';
 
-import AttendanceList from '../../components/attendanceListId_iStQuarter/index';
+const Daily = () => {
+  const activeComponent = localStorage.getItem('activeComponent') || 'attendanceList';
 
-const HomeSchool = () => {
+  const handleComponentChange = (component) => {
+    if (activeComponent !== component) {
+      localStorage.setItem('activeComponent', component); // Salva o componente ativo
+      window.location.reload(); // Recarrega a página
+    }
+  };
 
-  //const [name, setName] = useState('')
-
-  useEffect(() => {
-    //const name = localStorage.getItem("name");
-    //setName(name)
-  }, [])
+  const renderActiveComponent = () => {
+    switch (activeComponent) {
+      case 'attendanceList':
+        return <AttendanceList />;
+      case 'classes':
+        return <Classes />;
+      /*case 'concepts':
+        return <Concepts />;
+      case 'individualRecords':
+        return <IndividualRecords />;
+      /*case 'finalConcepts':
+        return <FinalConcepts />;
+      */default:
+        return null;
+    }
+  };
 
   return (
     <Container>
       <Butons>
         <UpperButons>
-          <Btt02 >Lista de Presença</Btt02>
-          <Btt02>Aulas Lecionadas</Btt02>
-          <Btt02>Conceitos</Btt02>
+          <Btt02 onClick={() => handleComponentChange('attendanceList')}>Lista de Presença</Btt02>
+          <Btt02 onClick={() => handleComponentChange('classes')}>Aulas Lecionadas</Btt02>
+          <Btt02 onClick={() => handleComponentChange('concepts')}>Conceitos</Btt02>
         </UpperButons>
         <BottomButons>
-          <Btt02 >Fichas Indeviduais</Btt02>
-          <Btt02>ConceitosFinais</Btt02>
+          <Btt02 onClick={() => handleComponentChange('individualRecords')}>Fichas Individuais</Btt02>
+          <Btt02 onClick={() => handleComponentChange('finalConcepts')}>Conceitos Finais</Btt02>
         </BottomButons>
       </Butons>
       <Context>
-        <AttendanceList />
+        {renderActiveComponent()} {/* Renderiza o componente ativo */}
       </Context>
     </Container>
-  )
-}
+  );
+};
 
-export default HomeSchool
+export default Daily;

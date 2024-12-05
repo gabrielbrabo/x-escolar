@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { clssInfo, AttendanceByTeacherAndClass, getIstQuarter, getIIndQuarter, getIIIrdQuarter, getIVthQuarter, getVthQuarter, getVIthQuarter } from "../../Api"; // Simula chamada ao backend
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
+import LoadingSpinner from '../../components/Loading';
 
 const AttendanceContainer = styled.div`
   text-align: center;
@@ -204,8 +205,12 @@ export default function AttendanceList() {
   const [nameTeacher, setnameTeacher] = useState([]);
   const [nameClass, setnameClass] = useState([]);
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const fetchAttendanceData = async () => {
+
+      setLoading(true);
       const year = new Date().getFullYear().toString();
       const SelectbimonthlyDaily = JSON.parse(sessionStorage.getItem("Selectbimonthly-daily"));
       const SelectteacherDaily = JSON.parse(sessionStorage.getItem("Selectteacher-daily"));
@@ -291,9 +296,9 @@ export default function AttendanceList() {
         if (res) {
           setAttendanceData(res.data.data);
         }
+        setLoading(false);
       }
     };
-
     fetchAttendanceData();
   }, [id_teacher, id_class, startd, startm, starty, endd, endm, endy]);
 
@@ -341,49 +346,53 @@ export default function AttendanceList() {
 
   return (
     <PrintStyle>
-      <AttendanceContainer className="printable-content">
-        <h2>Lista de Presença do {bimonthlyDaily}</h2>
-        <ContInfo>
-          <CtnrBtt>
-            <Button className="no-print" onClick={() => window.print()}>Imprimir</Button>
-          </CtnrBtt>
-          <span><strong>Professor:</strong> {nameTeacher}</span>
-          <span><strong>Turma:</strong> {nameClass}</span>
-        </ContInfo>
-        <ContTable>
-          <Table>
-            <TableHeader>
-              <tr>
-                <th className="name-cell">Nome do Aluno</th>
-                {uniqueDates.map((date, index) => (
-                  <th key={index} className="date-cell">
-                    {formatDisplayDate(date)}
-                  </th>
-                ))}
-                <th className="total-presence">Total P</th>
-                <th className="total-absence">Total F</th>
-              </tr>
-            </TableHeader>
-            <TableBody>
-              {stdt.map((student) => {
-                const totals = calculateTotals(student._id);
-                return (
-                  <tr key={student._id}>
-                    <td className="name-cell">{student.name}</td>
-                    {uniqueDates.map((date) => getAttendanceStatus(student._id, date))}
-                    <td className="total-presence">{totals.totalPresence}</td>
-                    <td className="total-absence">{totals.totalAbsence}</td>
-                  </tr>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </ContTable>
-        <ToGoBack onClick={messageButtonClick}>
-          <SignMessageButtonText>Voltar para o</SignMessageButtonText>
-          <SignMessageButtonTextBold>Perfil do Aluno</SignMessageButtonTextBold>
-        </ToGoBack>
-      </AttendanceContainer>
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <AttendanceContainer className="printable-content">
+          <h2>Lista de Presença do {bimonthlyDaily}</h2>
+          <ContInfo>
+            <CtnrBtt>
+              <Button className="no-print" onClick={() => window.print()}>Imprimir</Button>
+            </CtnrBtt>
+            <span><strong>Professor:</strong> {nameTeacher}</span>
+            <span><strong>Turma:</strong> {nameClass}</span>
+          </ContInfo>
+          <ContTable>
+            <Table>
+              <TableHeader>
+                <tr>
+                  <th className="name-cell">Nome do Aluno</th>
+                  {uniqueDates.map((date, index) => (
+                    <th key={index} className="date-cell">
+                      {formatDisplayDate(date)}
+                    </th>
+                  ))}
+                  <th className="total-presence">Total P</th>
+                  <th className="total-absence">Total F</th>
+                </tr>
+              </TableHeader>
+              <TableBody>
+                {stdt.map((student) => {
+                  const totals = calculateTotals(student._id);
+                  return (
+                    <tr key={student._id}>
+                      <td className="name-cell">{student.name}</td>
+                      {uniqueDates.map((date) => getAttendanceStatus(student._id, date))}
+                      <td className="total-presence">{totals.totalPresence}</td>
+                      <td className="total-absence">{totals.totalAbsence}</td>
+                    </tr>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </ContTable>
+          <ToGoBack onClick={messageButtonClick}>
+            <SignMessageButtonText>Voltar para o</SignMessageButtonText>
+            <SignMessageButtonTextBold>Perfil do Aluno</SignMessageButtonTextBold>
+          </ToGoBack>
+        </AttendanceContainer>
+      )}
     </PrintStyle>
   );
 }
