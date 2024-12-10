@@ -148,12 +148,6 @@ const IndividualFormList = () => {
                             year,
                             id_class,
                             [quarterIdKey]: idQuarter,
-                        }).filter(res => {
-                            if (! null) {
-                                return (res)
-                            } else {
-                                return (null)
-                            }
                         });
                         console.log("individual form", res.data);
                         setIndividualForm(res.data)

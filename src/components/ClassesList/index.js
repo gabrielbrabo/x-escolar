@@ -132,9 +132,8 @@ const Grade = () => {
 
                 setExpandedRows([]);
                 //setIsTeacher(isTeacher);
-
-                setLoading(false);
             }
+            setLoading(false);
         })();
     }, [id_class, id_teacher, startd, startm, starty, endd, endm, endy]);
 
