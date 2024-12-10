@@ -130,7 +130,7 @@ const IndividualFormList = () => {
                 setBimonthly(SelectbimonthlyDaily.bimonthly)
             }
             console.log("bimonthly", bimonthly)
-            if ( year && id_class && bimonthly ) {
+            if (year && id_class && bimonthly) {
                 const bimestreMapping = {
                     "1º BIMESTRE": "id_iStQuarter",
                     "2º BIMESTRE": "id_iiNdQuarter",
@@ -148,9 +148,17 @@ const IndividualFormList = () => {
                             year,
                             id_class,
                             [quarterIdKey]: idQuarter,
-                        });
-                        console.log("individual form", res.data);
-                        setIndividualForm(res.data)
+                        })
+                        const resForm = res.data.filter(res => {
+                            if (! null) {
+                                return (res)
+                            } else {
+                                return (null)
+                            }
+                        })
+                        setIndividualForm(resForm)
+                        console.log("individual form", res);
+                        console.log("Form", resForm);
                     } catch (error) {
                         console.error("Erro ao buscar dados:", error);
                     }
@@ -216,6 +224,8 @@ const IndividualFormList = () => {
         navigate(-1);
     };
 
+    console.log("res form", IndividualForm)
+
     return (
         <Container>
             {loading ? (
@@ -235,8 +245,9 @@ const IndividualFormList = () => {
                             </CtnrBtt>
                             <Table>
                                 <>
-                                    {IndividualForm.length > 0 && !!null ? (
+                                    {IndividualForm.length > 0 ? (
                                         IndividualForm
+                                            .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name))
                                             .map((res, index) => (
                                                 <React.Fragment key={index}>
                                                     <ContainerTable>

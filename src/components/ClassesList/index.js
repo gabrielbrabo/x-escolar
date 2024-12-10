@@ -209,7 +209,7 @@ const Grade = () => {
                             </CtnrBtt>
                             <Table>
                                 <>
-                                    {recordClassTaught.length > 0 && !!null ? (
+                                    {recordClassTaught.length > 0 && !null ? (
                                         recordClassTaught
                                             .sort((a, b) => new Date(b.year, b.month - 1, b.day) + new Date(a.year, a.month - 1, a.day))
                                             .map((res, index) => (
