@@ -123,8 +123,10 @@ const Grade = () => {
 
             if (year && id_teacher && id_class && startd && startm && starty && endd && endm && endy) {
                 const res = await RecordClassTaughtDaily(year, id_teacher, id_class, startd, startm, starty, endd, endm, endy)
-                console.log('classes', res.data.data)
-                setRecordClassTaught(res.data.data);
+                console.log('classes', res)
+                if(res) {
+                    setRecordClassTaught(res.data.data);
+                }
                 //setId_employee(JSON.parse(id_employee));
 
                 //const resClass = await clssInfo(id_class);
@@ -132,6 +134,7 @@ const Grade = () => {
 
                 setExpandedRows([]);
                 //setIsTeacher(isTeacher);
+                setLoading(false);
             }
             setLoading(false);
         })();
@@ -206,7 +209,7 @@ const Grade = () => {
                             </CtnrBtt>
                             <Table>
                                 <>
-                                    {recordClassTaught.length > 0 ? (
+                                    {recordClassTaught.length > 0 && !!null ? (
                                         recordClassTaught
                                             .sort((a, b) => new Date(b.year, b.month - 1, b.day) + new Date(a.year, a.month - 1, a.day))
                                             .map((res, index) => (
