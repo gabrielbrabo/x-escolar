@@ -160,11 +160,11 @@ const IndividualFormList = () => {
         })();
     }, [bimonthly, id_class, id_teacher, startd, startm, starty, endd, endm, endy]);
 
-    IndividualForm.sort(function (a, b) {
+    /*IndividualForm.sort(function (a, b) {
         if (a.id_student.name < b.id_student.name) return -1
         if (a.id_student.name > b.id_student.name) return 1
         return 0
-    })
+    })*/
 
     useEffect(() => {
         const handleBeforePrint = () => {
@@ -235,7 +235,7 @@ const IndividualFormList = () => {
                             </CtnrBtt>
                             <Table>
                                 <>
-                                    {IndividualForm.length > 0 ? (
+                                    {IndividualForm.length > 0 && !!null ? (
                                         IndividualForm
                                             .map((res, index) => (
                                                 <React.Fragment key={index}>
