@@ -43,7 +43,7 @@ const IndividualForm = () => {
         (async () => {
             setLoading(true);
             const idSchool = sessionStorage.getItem("id-school");
-            const idClass = sessionStorage.getItem("id_class");
+            const idClass = sessionStorage.getItem("class-info");
             const selectbi = sessionStorage.getItem("Selectbimonthly");
 
             setSelectbimonthly(selectbi ? JSON.parse(selectbi) : null);
@@ -93,7 +93,7 @@ const IndividualForm = () => {
                         id_class,
                         [quarterIdKey]: idQuarter,
                     });
-
+                        
                     const GradeRealized = res.data.map(res => res.id_student._id);
                     const resClass = await clssInfo(id_class);
                     const student = resClass.data.data.find(res => res)?.id_student
@@ -101,6 +101,7 @@ const IndividualForm = () => {
 
                     setStdt(student);
                     setChecked(res.data);
+                    console.log('resposta back',resClass)
                     console.log("individual form", res.data);
 
                     // Salva Selectbimonthly no sessionStorage

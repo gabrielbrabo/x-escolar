@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { RecordClassTaughtDaily, getIstQuarter, getIIndQuarter, getIIIrdQuarter, getIVthQuarter, getVthQuarter, getVIthQuarter } from '../../Api';
+import { IndexIndividualForm, getIstQuarter, getIIndQuarter, getIIIrdQuarter, getIVthQuarter, getVthQuarter, getVIthQuarter } from '../../Api';
 import { useNavigate } from 'react-router-dom';
 import {
     Container,
@@ -10,7 +10,7 @@ import {
     ContainerTable,
     TableRow,
     Span,
-    DateCell,
+    //DateCell,
     InfoText,
     Button,
     Button02,
@@ -19,11 +19,12 @@ import {
     PrintStyleClasses,
     ToGoBack,
     SignMessageButtonTextBold,
-    SignMessageButtonText
+    SignMessageButtonText,
+    DataBimonthly
 } from './style';
 import LoadingSpinner from '../../components/Loading';
 
-const Grade = () => {
+const IndividualFormList = () => {
     const navigate = useNavigate();
 
     const [startd, setStartd] = useState("");
@@ -33,13 +34,16 @@ const Grade = () => {
     const [endm, setEndm] = useState("");
     const [endy, setEndy] = useState("");
 
+
+    const [bimonthly, setBimonthly] = useState([])
+
     const [id_teacher, setid_teacher] = useState("");
     const [id_class, setid_class] = useState("");
     const [bimonthlyDaily, setbimonthlyDaily] = useState([]);
 
     const [loading, setLoading] = useState(false);
     //const [isTeacher, setIsTeacher] = useState([]);
-    const [recordClassTaught, setRecordClassTaught] = useState([]);
+    const [IndividualForm, setIndividualForm] = useState([]);
     const [expandedRows, setExpandedRows] = useState([]);
     const [printing, setPrinting] = useState(false); // Novo estado para controlar o modo de impressão
 
@@ -68,6 +72,7 @@ const Grade = () => {
                 setEndd(res.endday);
                 setEndm(res.endmonth);
                 setEndy(res.endyear);
+                setBimonthly(SelectbimonthlyDaily.bimonthly)
             }
             if (SelectbimonthlyDaily.bimonthly === "2º BIMESTRE") {
                 const IIndQuarter = await getIIndQuarter(year, idSchool);
@@ -78,6 +83,7 @@ const Grade = () => {
                 setEndd(res.endday);
                 setEndm(res.endmonth);
                 setEndy(res.endyear);
+                setBimonthly(SelectbimonthlyDaily.bimonthly)
             }
             if (SelectbimonthlyDaily.bimonthly === "3º BIMESTRE") {
                 const IIIrdQuarter = await getIIIrdQuarter(year, idSchool);
@@ -88,6 +94,7 @@ const Grade = () => {
                 setEndd(res.endday);
                 setEndm(res.endmonth);
                 setEndy(res.endyear);
+                setBimonthly(SelectbimonthlyDaily.bimonthly)
             }
             if (SelectbimonthlyDaily.bimonthly === "4º BIMESTRE") {
                 const IVthQuarter = await getIVthQuarter(year, idSchool);
@@ -98,6 +105,7 @@ const Grade = () => {
                 setEndd(res.endday);
                 setEndm(res.endmonth);
                 setEndy(res.endyear);
+                setBimonthly(SelectbimonthlyDaily.bimonthly)
             }
             if (SelectbimonthlyDaily.bimonthly === "5º BIMESTRE") {
                 const VthQuarter = await getVthQuarter(year, idSchool);
@@ -108,6 +116,7 @@ const Grade = () => {
                 setEndd(res.endday);
                 setEndm(res.endmonth);
                 setEndy(res.endyear);
+                setBimonthly(SelectbimonthlyDaily.bimonthly)
             }
             if (SelectbimonthlyDaily.bimonthly === "6º BIMESTRE") {
                 const VIthQuarter = await getVIthQuarter(year, idSchool);
@@ -118,24 +127,50 @@ const Grade = () => {
                 setEndd(res.endday);
                 setEndm(res.endmonth);
                 setEndy(res.endyear);
+                setBimonthly(SelectbimonthlyDaily.bimonthly)
             }
+            console.log("bimonthly", bimonthly)
+            if ( year && id_class && bimonthly ) {
+                const bimestreMapping = {
+                    "1º BIMESTRE": "id_iStQuarter",
+                    "2º BIMESTRE": "id_iiNdQuarter",
+                    "3º BIMESTRE": "id_iiiRdQuarter",
+                    "4º BIMESTRE": "id_ivThQuarter",
+                    "5º BIMESTRE": "id_vThQuarter",
+                    "6º BIMESTRE": "id_viThQuarter",
+                };
 
-            if (year && id_teacher && id_class && startd && startm && starty && endd && endm && endy) {
-                const res = await RecordClassTaughtDaily(year, id_teacher, id_class, startd, startm, starty, endd, endm, endy);
-                console.log('classes', res)
-                setRecordClassTaught(res.data.data || []);
-                //setId_employee(JSON.parse(id_employee));
-
-                //const resClass = await clssInfo(id_class);
-                //const isTeacher = resClass.data.data.find(res => res)?.id_employee.find(res => res)?._id;
-
-                setExpandedRows([]);
-                //setIsTeacher(isTeacher);
-
-                setLoading(false);
+                const quarterIdKey = bimestreMapping[SelectbimonthlyDaily.bimonthly];
+                if (quarterIdKey) {
+                    try {
+                        const idQuarter = SelectbimonthlyDaily._id;
+                        const res = await IndexIndividualForm({
+                            year,
+                            id_class,
+                            [quarterIdKey]: idQuarter,
+                        }).filter(res => {
+                            if (! null) {
+                                return (res)
+                            } else {
+                                return (null)
+                            }
+                        });
+                        console.log("individual form", res.data);
+                        setIndividualForm(res.data)
+                    } catch (error) {
+                        console.error("Erro ao buscar dados:", error);
+                    }
+                }
             }
+            setLoading(false);
         })();
-    }, [id_class, id_teacher, startd, startm, starty, endd, endm, endy]);
+    }, [bimonthly, id_class, id_teacher, startd, startm, starty, endd, endm, endy]);
+
+    IndividualForm.sort(function (a, b) {
+        if (a.id_student.name < b.id_student.name) return -1
+        if (a.id_student.name > b.id_student.name) return 1
+        return 0
+    })
 
     useEffect(() => {
         const handleBeforePrint = () => {
@@ -165,7 +200,7 @@ const Grade = () => {
 
     const handlePrint = () => {
         // Expande todas as descrições antes de imprimir
-        setExpandedRows(recordClassTaught.map((_, index) => index));
+        setExpandedRows(IndividualForm.map((_, index) => index));
 
         // Aguarda o estado ser atualizado antes de imprimir
         setTimeout(() => {
@@ -195,26 +230,30 @@ const Grade = () => {
                 <ContainerDivs>
                     <PrintStyleClasses>
                         <StudentSection>
-                            <h2>Registros de Aulas Lecionadas</h2>
+                            <h2>Fichas Individuais de Alunos</h2>
                             <h3>{bimonthlyDaily}</h3>
+                            < DataBimonthly>
+                                <span><strong>Inicio:</strong> {startd}/{startm}/{starty}</span>
+                                <span><strong>Fim:</strong> {endd}/{endm}/{endy}</span>
+                            </DataBimonthly>
                             <CtnrBtt>
                                 <Button02 className='no-print' onClick={handlePrint} style={{ marginBottom: '15px' }}>Imprimir</Button02>
                             </CtnrBtt>
                             <Table>
                                 <>
-                                    {recordClassTaught.length > 0 ? (
-                                        recordClassTaught
-                                            .sort((a, b) => new Date(b.year, b.month - 1, b.day) + new Date(a.year, a.month - 1, a.day))
+                                    {IndividualForm.length > 0 ? (
+                                        IndividualForm
                                             .map((res, index) => (
                                                 <React.Fragment key={index}>
                                                     <ContainerTable>
                                                         <Span>
                                                             <div>Professor: <p>{res.id_teacher.name}</p></div>
                                                             <div>Turma: <p>{res.id_class.serie}</p></div>
+                                                            <div>Aluno: <p>{res.id_student.name}</p></div>
                                                         </Span>
 
                                                         <TableRow>
-                                                            <DateCell>{`${res.day}/${res.month}/${res.year}`}</DateCell>
+                                                            {/*<DateCell>{`${res.day}/${res.month}/${res.year}`}</DateCell>*/}
                                                             <DescriptionCell>
                                                                 <div className={`description ${expandedRows.includes(index) ? 'expanded' : 'collapsed'}`}>
                                                                     <div
@@ -248,12 +287,13 @@ const Grade = () => {
                     </PrintStyleClasses>
                     <ToGoBack onClick={messageButtonClick}>
                         <SignMessageButtonText>Voltar para o</SignMessageButtonText>
-                        <SignMessageButtonTextBold>Perfil do Aluno</SignMessageButtonTextBold>
+                        <SignMessageButtonTextBold>Perfil do Professor</SignMessageButtonTextBold>
                     </ToGoBack>
                 </ContainerDivs>
-            )}
-        </Container>
+            )
+            }
+        </Container >
     );
 };
 
-export default Grade;
+export default IndividualFormList;

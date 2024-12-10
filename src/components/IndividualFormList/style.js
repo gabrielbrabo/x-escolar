@@ -6,11 +6,18 @@ export const Container = styled.div`
   width: 100%;
   padding: 13px;
   box-sizing: border-box;
+  min-height: 90vh;
 
   @media print {
     padding: 0;
     margin: 0;
   }
+`;
+export const DataBimonthly = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
 `;
 
 export const ContainerDivs = styled.div`

@@ -20,6 +20,13 @@ const CtnrBtt = styled.div`
   width: 100%;
 `;
 
+const DataBimonthly = styled.div`
+ display: flex;
+ justify-content: center;
+ gap: 20px;
+  width: 100%;
+`;
+
 export const Button = styled.button`
   width: 150px;
   padding: 15px;
@@ -351,6 +358,10 @@ export default function AttendanceList() {
       ) : (
         <AttendanceContainer className="printable-content">
           <h2>Lista de Presença do {bimonthlyDaily}</h2>
+          <DataBimonthly>
+            <span><strong>Inicio:</strong> {startd}/{startm}/{starty}</span>
+            <span><strong>Fim:</strong> {endd}/{endm}/{endy}</span>
+          </DataBimonthly>
           <ContInfo>
             <CtnrBtt>
               <Button className="no-print" onClick={() => window.print()}>Imprimir</Button>
@@ -389,7 +400,7 @@ export default function AttendanceList() {
           </ContTable>
           <ToGoBack onClick={messageButtonClick}>
             <SignMessageButtonText>Voltar para o</SignMessageButtonText>
-            <SignMessageButtonTextBold>Perfil do Aluno</SignMessageButtonTextBold>
+            <SignMessageButtonTextBold>Perfil do Professor</SignMessageButtonTextBold>
           </ToGoBack>
         </AttendanceContainer>
       )}
