@@ -259,3 +259,7 @@ export const ErrorMessage = styled.div`
     font-size: 12px;
   }
 `;
+
+export const ContainerCalendar = styled.div`
+  width: 100%;
+`;

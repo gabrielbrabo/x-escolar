@@ -14,6 +14,7 @@ export const StyledContainer = styled.div`
 `;
 
 export const StyledDateCalendar = styled(DateCalendar)`
+  
   & .MuiPickersDay-root {
     
   }
@@ -27,7 +28,7 @@ export const StyledDateCalendar = styled(DateCalendar)`
   }
 
   & .MuiPickersCalendarHeader-root {
-    background-color: #fafad2;
+    background-color: #f2e9e1;
   }
 
   & .MuiDayCalendar-header {
@@ -35,7 +36,8 @@ export const StyledDateCalendar = styled(DateCalendar)`
   }
 
   & .MuiPickersSlideTransition-root {
-    background-color: #fafad2;
+    background-color: #f2e9e1
+    
   }
 `;
 

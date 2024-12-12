@@ -36,7 +36,8 @@ import {
     Input,
     Label,
     Select,
-    ErrorMessage
+    ErrorMessage,
+    ContainerCalendar
 } from './style';
 
 /*import {
@@ -121,7 +122,7 @@ const Student = () => {
             sessionStorage.setItem("StudentInformation", id_student)
             const res = await StdtInfo(id_student)
             setStudent(res.data.data)
-            
+
             const clss = res.data.data.find(res => {
                 return res
             }).id_class.map(res => {
@@ -144,8 +145,8 @@ const Student = () => {
 
     }, [currentYear, id_student])
 
-    if(student) {
-        const stdt = student.map( res => {
+    if (student) {
+        const stdt = student.map(res => {
             return res.name
         })
         sessionStorage.setItem("stdt-name", stdt)
@@ -173,7 +174,7 @@ const Student = () => {
         } else if (Selectbimonthly === II) {
             sessionStorage.setItem("id-II", II)
             navigate('/iind-quarter-report-card')
-        }  else if (Selectbimonthly === III) {
+        } else if (Selectbimonthly === III) {
             sessionStorage.setItem("id-III", III)
             navigate('/iiird-quarter-report-card')
         } else if (Selectbimonthly === IV) {
@@ -249,13 +250,15 @@ const Student = () => {
                                     <option key={res._id} value={res._id}>{res.bimonthly}</option>
                                 ))
                                 },
-                                
+
                                 <option value="FinalConcepts">Resultado Final</option>
                             </Select>
                             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                             <Button onClick={signClick}>Ver boletim</Button>
                         </Input>
-                        <Calendar />
+                        <ContainerCalendar>
+                            <Calendar />
+                        </ContainerCalendar>
                     </ContainerDivs>
                     {positionAtSchool === "DIRETOR/SUPERVISOR"
                         &&

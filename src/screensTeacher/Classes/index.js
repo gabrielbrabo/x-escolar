@@ -17,7 +17,10 @@ import {
     ButtonReg,
     EditContainer,
     ErrorMessage,
-    HiddenOnPrint
+    HiddenOnPrint,
+    ToGoBack,
+    SignMessageButtonTextBold,
+    SignMessageButtonText,
 } from './style';
 import LoadingSpinner from '../../components/Loading';
 
@@ -134,6 +137,10 @@ const Grade = () => {
         return description.length > maxLength ? `${description.slice(0, maxLength)}...` : description;
     };
 
+    const messageButtonClick = () => {
+        navigate(-1);
+    };
+
     return (
         <Container>
             {loading ? (
@@ -224,6 +231,10 @@ const Grade = () => {
                             </>
                         </Table>
                     </StudentSection>
+                    <ToGoBack className={HiddenOnPrint} onClick={messageButtonClick}>
+                        <SignMessageButtonText>Voltar para a</SignMessageButtonText>
+                        <SignMessageButtonTextBold>Turma</SignMessageButtonTextBold>
+                    </ToGoBack>
                 </ContainerDivs>
             )}
         </Container>

@@ -2013,7 +2013,7 @@ export const FormEdit = async ({
         }, [])
 };
 
-export const FinalConcepts = async ( year, studentGrade, id_matter, id_employee, id_student ) => {
+export const FinalConcepts = async (year, studentGrade, id_matter, id_employee, id_student) => {
     return api
         .post(`/register/final-concepts`, { year, studentGrade, id_matter, id_employee, id_student })
         .catch((error) => {
@@ -2097,11 +2097,43 @@ export const AttendanceFinalConcepts = async (
 };
 
 export const AttendanceByTeacherAndClass = async (
-    year, id_teacher, id_class, startd, startm, starty, endd, endm, endy 
+    year, id_teacher, id_class, startd, startm, starty, endd, endm, endy
 ) => {
     // Faz a chamada para a rota com os parâmetros opcionais
     return api.post(`/Attendance-by-teacher-class`, {
-        year, id_teacher, id_class, startd, startm, starty, endd, endm, endy 
+        year, id_teacher, id_class, startd, startm, starty, endd, endm, endy
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+};
+
+export const IndexGradeDaily = async (
+    year,
+    id_class,
+    id_iStQuarter,
+    id_iiNdQuarter,
+    id_iiiRdQuarter,
+    id_ivThQuarter,
+    id_vThQuarter,
+    id_viThQuarter,
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/grade-daily`, {
+        year,
+        id_class,
+        id_iStQuarter,
+        id_iiNdQuarter,
+        id_iiiRdQuarter,
+        id_ivThQuarter,
+        id_vThQuarter,
+        id_viThQuarter,
     })
         .catch((error) => {
             if (error) {
@@ -2115,11 +2147,11 @@ export const AttendanceByTeacherAndClass = async (
 };
 
 export const RecordClassTaughtDaily = async (
-    year, id_teacher, id_class, startd, startm, starty, endd, endm, endy 
+    year, id_teacher, id_class, startd, startm, starty, endd, endm, endy
 ) => {
     // Faz a chamada para a rota com os parâmetros opcionais
     return api.post(`/record-class-daily`, {
-        year, id_teacher, id_class, startd, startm, starty, endd, endm, endy 
+        year, id_teacher, id_class, startd, startm, starty, endd, endm, endy
     })
         .catch((error) => {
             if (error) {

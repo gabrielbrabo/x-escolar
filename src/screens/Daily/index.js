@@ -11,10 +11,7 @@ import {
 import AttendanceList from '../../components/attendanceList/index';
 import Classes from '../../components/ClassesList/index';
 import IndividualFormList from '../../components/IndividualFormList/index';
-// Importe outros componentes conforme necessário
-//import Concepts from '../../components/Concepts/index';
-//import IndividualRecords from '../../components/IndividualRecords/index';
-//import FinalConcepts from '../../components/FinalConcepts/index';
+import GradeList from '../../components/GradeList/index';
 
 const Daily = () => {
   const activeComponent = sessionStorage.getItem('activeComponent') || 'attendanceList';
@@ -34,8 +31,8 @@ const Daily = () => {
         return <Classes />;
       case 'individualRecords':
         return <IndividualFormList />;
-      /*case 'individualRecords':
-        return <IndividualRecords />;
+      case 'concepts':
+        return <GradeList />;
       /*case 'finalConcepts':
         return <FinalConcepts />;
       */default:
