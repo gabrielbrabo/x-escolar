@@ -2013,9 +2013,9 @@ export const FormEdit = async ({
         }, [])
 };
 
-export const FinalConcepts = async (year, studentGrade, id_matter, id_employee, id_student) => {
+export const FinalConcepts = async ( year, studentGrade, id_matter, id_employee, id_student, id_class ) => {
     return api
-        .post(`/register/final-concepts`, { year, studentGrade, id_matter, id_employee, id_student })
+        .post(`/register/final-concepts`, { year, studentGrade, id_matter, id_employee, id_student, id_class })
         .catch((error) => {
             if (error.response) {
                 console.error("Erro na API:", error.response.data.msg);
@@ -2153,6 +2153,24 @@ export const RecordClassTaughtDaily = async (
     return api.post(`/record-class-daily`, {
         year, id_teacher, id_class, startd, startm, starty, endd, endm, endy
     })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+};
+
+export const FinalConceptsDaily = async (
+    year, id_class
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/final-concepts/daily`,
+        year, id_class
+    )
         .catch((error) => {
             if (error) {
                 const result = JSON.stringify(

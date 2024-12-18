@@ -118,3 +118,32 @@ export const InfoText = styled.div`
     padding: 8px 0;
     text-align: center;
 `
+export const ToGoBack = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 35px;
+  margin-bottom: 20px;
+  cursor: pointer;
+
+  @media print {
+    display: none; /* Ocultar na impressão */
+  }
+`;
+
+export const SignMessageButtonText = styled.span`
+  color: #333;
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+`;
+
+export const SignMessageButtonTextBold = styled.span`
+  color: #333;
+  font-weight: bold;
+  margin-left: 5px;
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+`;

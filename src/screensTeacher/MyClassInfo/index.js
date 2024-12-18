@@ -7,6 +7,9 @@ import {
     ClassDetails,
     ClassInfo,
     ButtonContainer,
+    ToGoBack,
+    SignMessageButtonText,
+    SignMessageButtonTextBold,
     //MatterSection,
     //MatterItem,
     StudentSection,
@@ -76,6 +79,10 @@ const MyCla$$Info = () => {
         return 0
     })
 
+    const messageButtonClick = () => {
+        navigate(-1);
+    };
+
     return (
         <Container>
             {loading ?
@@ -127,6 +134,10 @@ const MyCla$$Info = () => {
                              }
                          </MatterSection>*/
                     }
+                    <ToGoBack onClick={messageButtonClick}>
+                        <SignMessageButtonText>Voltar para a</SignMessageButtonText>
+                        <SignMessageButtonTextBold>Lista de Turmas</SignMessageButtonTextBold>
+                    </ToGoBack>
                 </ContainerDivs>
             }
         </Container>

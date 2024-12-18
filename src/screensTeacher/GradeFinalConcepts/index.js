@@ -123,7 +123,7 @@ const Finalconcepts = () => {
         console.log("year", year)
         const id_student = stdt._id
         console.log("year", year, "studentGrade", studentGrade, "id_student", id_student, "id_teacher", id_employee, "id_matter", id_matter)
-        const res = await FinalConcepts(year, studentGrade, id_matter, id_employee, id_student)
+        const res = await FinalConcepts(year, studentGrade, id_matter, id_employee, id_student, id_class)
         if (res) {
             console.log("res", res)
             const resGrade = await GetGradeFinalConcepts(year, id_matter)

@@ -325,9 +325,10 @@ const EmployeeInformation = () => {
                                     onChange={(e) => setSelectbimonthly(e.target.value)}
                                 >
                                     <option value="">Selecione</option>
-                                    {bimonthly.map(res => (
-                                        <option key={res._id} value={JSON.stringify({ _id: res._id, bimonthly: res.bimonthly })}>{res.bimonthly}</option>
-                                    ))
+                                    {
+                                        bimonthly.map(res => (
+                                            <option key={res._id} value={JSON.stringify({ _id: res._id, bimonthly: res.bimonthly })}>{res.bimonthly}</option>
+                                        ))
                                     }
                                 </Select>
                                 {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}

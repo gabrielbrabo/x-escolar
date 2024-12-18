@@ -12,6 +12,7 @@ import AttendanceList from '../../components/attendanceList/index';
 import Classes from '../../components/ClassesList/index';
 import IndividualFormList from '../../components/IndividualFormList/index';
 import GradeList from '../../components/GradeList/index';
+import FinalGradeList from '../../components/FinalGradeList/index';
 
 const Daily = () => {
   const activeComponent = sessionStorage.getItem('activeComponent') || 'attendanceList';
@@ -33,9 +34,9 @@ const Daily = () => {
         return <IndividualFormList />;
       case 'concepts':
         return <GradeList />;
-      /*case 'finalConcepts':
-        return <FinalConcepts />;
-      */default:
+      case 'finalConcepts':
+        return <FinalGradeList />;
+      default:
         return null;
     }
   };

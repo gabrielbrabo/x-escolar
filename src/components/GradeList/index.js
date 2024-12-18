@@ -171,8 +171,8 @@ const IndividualFormList = () => {
                         console.error("Erro ao buscar dados:", error);
                     }
                 }
+                setLoading(false);
             }
-            setLoading(false);
         })();
     }, [bimonthly, id_class, id_teacher, startd, startm, starty, endd, endm, endy]);
 
