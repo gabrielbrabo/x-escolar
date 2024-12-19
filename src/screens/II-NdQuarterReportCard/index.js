@@ -17,7 +17,8 @@ import {
   SignMessageButtonText,
   SignMessageButtonTextBold,
   PrintButton,
-  SpanFrequency
+  SpanFrequency,
+  LegendBox,
 } from './style';
 
 import GlobalStyle from './style';
@@ -162,6 +163,13 @@ const GradeIstquarter = () => {
                 <SpanFrequency>
                   <span><IoCheckmarkSharp color='#00fa00' font-size="30px" />Presenças: {countPresences} | <IoCloseSharp color='#ff050a' font-size="30px" />Ausências: {countAbsences}</span>
                 </SpanFrequency>
+                <LegendBox>
+                  <h3>Legenda</h3>
+                  <p><strong>A</strong> - Alcançou com êxito as capacidades básicas</p>
+                  <p><strong>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
+                  <p><strong>C</strong> - Alcançou parcialmente as capacidades básicas</p>
+                  <p><strong>D</strong> - Não alcançou as capacidades básicas</p>
+                </LegendBox>
               </DadosStdt>
               <DivDados>
                 <List>

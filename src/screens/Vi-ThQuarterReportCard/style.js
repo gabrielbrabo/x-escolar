@@ -197,6 +197,28 @@ export const PrintButton = styled.button`
   }
 `;
 
+export const LegendBox = styled.div`
+    max-width: 400px;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    h3 {
+        margin: 0px;
+    }
+
+    p {
+        margin: 0px;
+        font-size: 15px;
+        text-align: left; /* Garante o alinhamento à esquerda */
+    }
+
+    @media(max-width: 768px) {
+      margin-top: 10px;
+    }
+`;
+
 const GlobalStyle = createGlobalStyle`
   @media print {
     body * {
@@ -227,6 +249,16 @@ const GlobalStyle = createGlobalStyle`
       position: absolute;
 
       color: #000; /* Ajuste a cor se necessário */
+    }
+
+    ${LegendBox} {
+      h3 {
+        font-size: 1em;
+      }
+      p {
+        font-size: 0.7em;
+      }
+
     }
     
     @page {

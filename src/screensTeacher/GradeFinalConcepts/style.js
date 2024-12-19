@@ -27,7 +27,16 @@ export const ContainerStudent = styled.div`
     background-color: #f9f9f9;
 `;
 export const DataSelected = styled.div`
-   width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+
+    @media(max-width: 768px) {
+        flex-direction: column;
+    }
+`;
+
+export const Info = styled.div`
 `;
 export const DivButton = styled.div`
     width: 100%;
@@ -278,4 +287,24 @@ export const Label = styled.label`
   @media (max-width: 768px) {
     font-size: 14px;
   }
+`;
+
+export const LegendBox = styled.div`
+    max-width: 400px;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    h3 {
+        margin: 0px;
+        text-align: center;
+    }
+
+    p {
+        margin: 5px;
+    }
+
+    @media(max-width: 768px) {
+    }
 `;

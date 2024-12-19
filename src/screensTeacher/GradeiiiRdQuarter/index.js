@@ -16,7 +16,9 @@ import {
     EditContainer,
     ErrorMessage,
     DataSelected,
-    Select
+    Select,
+    LegendBox,
+    Info
 } from './style';
 
 import {
@@ -180,11 +182,20 @@ const IndexAttendance = () => {
                 <LoadingSpinner />
                 :
                 <ContainerDivs>
-                    <h2>Grade 3º Bimestre</h2>
+                    <h2>Grade Bimestral</h2>
                     <ContainerStudent>
                         <DataSelected>
-                            <p>Bimestre: 3º Bimestre</p>
-                            <p>Disciplina: {Namematter}</p>
+                        <Info>
+                                <p>Bimestre: 3º Bimestre</p>
+                                <p>Disciplina: {Namematter}</p>
+                            </Info>
+                            <LegendBox>
+                                <h3>Legenda</h3>
+                                <p><strong>A</strong> - Alcançou com êxito as capacidades básicas</p>
+                                <p><strong>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
+                                <p><strong>C</strong> - Alcançou parcialmente as capacidades básicas</p>
+                                <p><strong>D</strong> - Não alcançou as capacidades básicas</p>
+                            </LegendBox>
                         </DataSelected>
                         {!update_id_grade &&
                             <>

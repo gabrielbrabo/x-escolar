@@ -25,6 +25,8 @@ import {
     SignMessageButtonText,
     SignMessageButtonTextBold,
     Label,
+    LegendBox,
+    Info
 } from './style';
 
 import {
@@ -193,8 +195,17 @@ const Finalconcepts = () => {
                         <ContainerStudent>
                             {id_matter &&
                                 <DataSelected>
-                                    <p>Grade Final</p>
-                                    <p>Disciplina: {Namematter}</p>
+                                    <Info>
+                                        <p>Grade Final</p>
+                                        <p>Disciplina: {Namematter}</p>
+                                    </Info>
+                                    <LegendBox>
+                                        <h3>Legenda</h3>
+                                        <p><strong>A</strong> - Alcançou com êxito as capacidades básicas</p>
+                                        <p><strong>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
+                                        <p><strong>C</strong> - Alcançou parcialmente as capacidades básicas</p>
+                                        <p><strong>D</strong> - Não alcançou as capacidades básicas</p>
+                                    </LegendBox>
                                 </DataSelected>
                             }
                             {stdt.length > 0 && !update_id_grade &&

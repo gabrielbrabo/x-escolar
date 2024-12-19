@@ -17,7 +17,8 @@ import {
   SignMessageButtonText,
   SignMessageButtonTextBold,
   PrintButton,
-  SpanFrequency
+  SpanFrequency,
+  LegendBox,
 } from './style';
 
 import GlobalStyle from './style';
@@ -46,7 +47,7 @@ const GradeIstquarter = () => {
   const [endm, setEndm] = useState('')
   const [endy, setEndy] = useState('')
 
-  
+
   const [highlightedDays, setHighlightedDays] = React.useState([]);
   const [highlightedDaysF, setHighlightedDaysF] = React.useState([]);
 
@@ -72,21 +73,21 @@ const GradeIstquarter = () => {
       }
       if (resGrade && resGrade.data && Array.isArray(resGrade.data.data) && resGrade.data.data.length > 0) {
         const res = resGrade.data.data[0]; // Pega o primeiro item do array
-      
+
         if (res && res.id_iStQuarter) {
           let startd = res.id_iStQuarter.startday || null;
           let startm = res.id_iStQuarter.startmonth || null;
           let starty = res.id_iStQuarter.startyear || null;
-      
+
           let endd = res.id_iStQuarter.endday || null;
           let endm = res.id_iStQuarter.endmonth || null;
           let endy = res.id_iStQuarter.endyear || null;
-      
+
           // Atualiza os estados apenas se os valores forem válidos
           setStartd(startd);
           setStartm(startm);
           setStarty(starty);
-      
+
           setEndd(endd);
           setEndm(endm);
           setEndy(endy);
@@ -101,27 +102,27 @@ const GradeIstquarter = () => {
         try {
           const result = await AttendanceBimonthly(startd, startm, starty, endd, endm, endy, id_student);
           const data = result?.data?.data || [];
-      
+
           // Verifique se os dados estão disponíveis e não estão vazios
           if (data.length > 0) {
             // Filtrando e mapeando as presenças (P)
             const attendance = data.filter(res => res.status === "P");
-      
+
             // Filtrando e mapeando as faltas (F)
             const attendancef = data.filter(res => res.status === "F");
-      
+
             // Garantir que as variáveis não sejam nulas ou indefinidas
             setHighlightedDays(attendance.length ? attendance : []);
             setHighlightedDaysF(attendancef.length ? attendancef : []);
           } else {
             console.warn("Nenhum dado de frequência disponível.");
           }
-      
+
         } catch (error) {
           console.error("Erro ao obter dados de frequência", error);
         }
       }
-      
+
 
       setLoading(false);
     })();
@@ -169,6 +170,13 @@ const GradeIstquarter = () => {
                 <SpanFrequency>
                   <span><IoCheckmarkSharp color='#00fa00' font-size="30px" />Presenças: {countPresences} | <IoCloseSharp color='#ff050a' font-size="30px" />Ausências: {countAbsences}</span>
                 </SpanFrequency>
+                <LegendBox>
+                  <h3>Legenda</h3>
+                  <p><strong>A</strong> - Alcançou com êxito as capacidades básicas</p>
+                  <p><strong>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
+                  <p><strong>C</strong> - Alcançou parcialmente as capacidades básicas</p>
+                  <p><strong>D</strong> - Não alcançou as capacidades básicas</p>
+                </LegendBox>
               </DadosStdt>
               <DivDados>
                 <List>
