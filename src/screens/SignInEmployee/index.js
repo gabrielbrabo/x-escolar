@@ -11,11 +11,11 @@ import {
     Btt
 } from './style';
 
-/*import {
+import {
     SignMessageButton,
     SignMessageButtonText,
     SignMessageButtonTextBold
-} from '../../components/Buttons';*/
+} from '../../components/Buttons';
 
 import LoadingSpinner from '../../components/Loading'
 
@@ -96,9 +96,9 @@ const SignInEmployee = () => {
     };
 
 
-    /*const MessageButtomclick = () => {
-        navigate(-1);
-    }*/
+    const MessageButtomclick = () => {
+        navigate('/signup/school');
+    }
 
     return (
         <Container>
@@ -130,10 +130,10 @@ const SignInEmployee = () => {
                         </Area>
                         <Btt type='submit'>Login</Btt>
                     </InputArea>
-                    {/*<SignMessageButton onClick={MessageButtomclick}>
-                        <SignMessageButtonText></SignMessageButtonText>
-                        <SignMessageButtonTextBold>Selecionar outra forma de Login!</SignMessageButtonTextBold>
-                    </SignMessageButton>*/}
+                    <SignMessageButton onClick={MessageButtomclick}>
+                        <SignMessageButtonText>Cadastre uma </SignMessageButtonText>
+                        <SignMessageButtonTextBold>Escola</SignMessageButtonTextBold>
+                    </SignMessageButton>
                 </>
             }
         </Container>
