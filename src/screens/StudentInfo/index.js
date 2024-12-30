@@ -24,8 +24,8 @@ import {
     EmployeeInfo,
     DivButtomEdit,
     Btt02,
-    Btt01,
-    ButtonCancel,
+    //Btt01,
+    //ButtonCancel,
     AddMatterSection,
     WarningBox,
     Button,
@@ -66,7 +66,7 @@ const Student = () => {
     const [student, setStudent] = useState([])
     const [Selectbimonthly, setSelectbimonthly] = useState([])
     const [bimonthly, setbimonthly] = useState([])
-    const [positionAtSchool, setPositionAtSchool] = useState(null);
+    //const [positionAtSchool, setPositionAtSchool] = useState(null);
     const [loading, setLoading] = useState(false);
     const [removeStudent, setRemoveStudent] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -116,8 +116,8 @@ const Student = () => {
                 setVI(vi._id);
             }
 
-            const position = localStorage.getItem('position_at_school');
-            setPositionAtSchool(position);
+            //const position = localStorage.getItem('position_at_school');
+            //setPositionAtSchool(position);
             sessionStorage.removeItem('StudentInformation')
             sessionStorage.setItem("StudentInformation", id_student)
             const res = await StdtInfo(id_student)

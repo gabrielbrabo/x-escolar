@@ -29,8 +29,8 @@ import {
     LoadingSpinnerContainer,
     ContainerDivs,
     //DivShowMatter,
-    ButtonCancel,
-    Btt01,
+   // ButtonCancel,
+    //Btt01,
     AddMatterSection,
     WarningBox,
     Button,
@@ -70,7 +70,7 @@ const EmployeeInformation = () => {
     const [matter, setMatter] = useState("")
     //const [filter, setFilter] = useState()
     const [position_at_school, setPosition_at_school] = useState([]);
-    const [positionAtSchool, setPositionAtSchool] = useState(null);
+    //const [positionAtSchool, setPositionAtSchool] = useState(null);
     const [loading, setLoading] = useState(false);
     const [Selectbimonthly, setSelectbimonthly] = useState([])
     //const [id_class, setid_class] = useState([])
@@ -85,10 +85,10 @@ const EmployeeInformation = () => {
         (async () => {
             setLoading(true);
             const School = sessionStorage.getItem('School');
-            const position = localStorage.getItem('position_at_school');
+            //const position = localStorage.getItem('position_at_school');
             const idSchool = sessionStorage.getItem("id-school");
             const year = new Date().getFullYear();
-            setPositionAtSchool(position);
+            //setPositionAtSchool(position);
             const res = await EmpInfo(id_employee)
             const position_at_school = res.data.data.map(res => {
                 if (res.position_at_school === "SECRETARIO" || res.position_at_school === "DIRETOR/SUPERVISOR") {
