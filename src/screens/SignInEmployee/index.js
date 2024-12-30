@@ -123,6 +123,7 @@ const SignInEmployee = () => {
                             <Input
                                 placeholder="Digite sua senha"
                                 value={password}
+                                type="password"
                                 onChange={
                                     (e) => setPassword(e.target.value)
                                 }

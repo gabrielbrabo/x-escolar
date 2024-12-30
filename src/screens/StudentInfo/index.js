@@ -260,12 +260,12 @@ const Student = () => {
                             <Calendar />
                         </ContainerCalendar>
                     </ContainerDivs>
-                    {positionAtSchool === "DIRETOR/SUPERVISOR"
+                    {/*positionAtSchool === "DIRETOR/SUPERVISOR"
                         &&
                         <ButtonCancel>
                             <Btt01 onClick={() => { setRemoveStudent(true) }}>Remover Estudante</Btt01>
                         </ButtonCancel>
-                    }
+                    */}
                     {removeStudent === true && (
                         <AddMatterSection>
                             <WarningBox>

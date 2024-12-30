@@ -220,7 +220,8 @@ const FristEmployee = () => {
         <LoadingSpinner />
       ) : (
         <InputArea>
-          <h1>Cadastre um Gestor</h1>
+          <h1>Cadastro do Gestor</h1>
+          <p>A partir desse gestor sera possivel cadastra outros funcionarios e fazer outras configurações para o melhor funcionamento do sistema !!!</p>
           <Label>Nome</Label>
           <Input
             placeholder="Digite o nome"

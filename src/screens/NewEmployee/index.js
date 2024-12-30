@@ -180,6 +180,7 @@ const NewEmployee = () => {
       ) : (
         <InputArea>
           <h1>Cadastro de Funcionário</h1>
+          <p>Ao finalizar o cadastro forneça as informações de CPF e senha ao funcionario para que possa acessar sua conta na pagina de login !!!</p>
           <Label>Nome</Label>
           <Input
             placeholder="Digite o nome"

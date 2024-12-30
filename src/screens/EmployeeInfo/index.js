@@ -362,12 +362,12 @@ const EmployeeInformation = () => {
                             </DivInfo>
                         </>
                     )}
-                    {positionAtSchool === "DIRETOR/SUPERVISOR"
+                    {/*positionAtSchool === "DIRETOR/SUPERVISOR"
                         &&
                         <ButtonCancel>
                             <Btt01 onClick={() => { setRemoveEmp(true) }} >Remover Funcionario</Btt01>
                         </ButtonCancel>
-                    }
+                    */}
                     {removeEmp === true && (
                         <AddMatterSection>
                             <WarningBox>

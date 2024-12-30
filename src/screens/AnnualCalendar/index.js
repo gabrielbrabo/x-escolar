@@ -105,6 +105,7 @@ const HomeSchool = () => {
       ) : (
         <ContainerDivs>
           <h2>Calendário Anual</h2>
+          <p>Defina somente Bimestres nessecarios para o ano letivo !!!</p>
           <QuarterSection
             title="1º Bimestre"
             data={IStQuarter}

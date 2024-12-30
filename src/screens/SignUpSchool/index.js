@@ -41,8 +41,9 @@ const SignUpSchool = () => {
       password,
       confirmpassword
     )
+    console.log("res01", res)
 
-    if (res.data.token) {
+    if (res.data.token || res.data.email) {
 
       console.log("res", res.data.token)
       //loginSchool(email, password)
