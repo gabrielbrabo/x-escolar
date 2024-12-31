@@ -34,17 +34,17 @@ const SignInEmployee = () => {
         const response = await createSessionEmployee(cpf, password)
         if (response) {
             const Schools = response.data.schools
-            
+
             if (Schools) {
                 const schools = response.data.schools;
-                const userCPF = cpf; 
+                const userCPF = cpf;
                 // Verifica se as escolas estão disponíveis e o CPF tem um valor definido
                 if (schools && userCPF) {
                     navigate('/school/selection', { state: { schools, cpf: userCPF } });
                     return; // Sai da função aqui para evitar a execução do restante
                 }
             }
-            
+
             const IdEmployee = response.data.id
             const loggedEmployee = response.data.CPF
             const token = response.data.token
@@ -131,6 +131,10 @@ const SignInEmployee = () => {
                         </Area>
                         <Btt type='submit'>Login</Btt>
                     </InputArea>
+                    <SignMessageButton onClick={() => navigate('/forgot-password')}>
+                        <SignMessageButtonText>Esqueceu sua </SignMessageButtonText>
+                        <SignMessageButtonTextBold>Senha?</SignMessageButtonTextBold>
+                    </SignMessageButton>
                     <SignMessageButton onClick={MessageButtomclick}>
                         <SignMessageButtonText>Cadastre uma </SignMessageButtonText>
                         <SignMessageButtonTextBold>Escola</SignMessageButtonTextBold>

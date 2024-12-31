@@ -27,7 +27,6 @@ export const Emp = styled.div`
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
   padding: 20px;
 
   @media (max-width: 1024px) {
@@ -310,9 +309,15 @@ export const Input = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 10px;
+  padding-top: 0px;
+  padding-bottom: 20px;
   width: 100%;
   margin-top: 30px;
   margin-bottom: 30px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 export const ErrorMessage = styled.div`

@@ -13,6 +13,7 @@ import SignUpSchool from "./screens/SignUpSchool"
 import SignInSchool from "./screens/SignInSchool"
 import HomeSchool from "./screens/HomeSchool"
 import SignInEmployee from "./screens/SignInEmployee"
+import ForgotPassword from "./screens/ForgotPassword"
 import SchoolSelection from "./screens/SchoolSelection"
 import Preload from "./screens/Preload"
 import HomeEmployee from "./screens/HomeEmployee"
@@ -20,6 +21,7 @@ import AnnualCalendar from "./screens/AnnualCalendar"
 import Employees from "./screens/Employees"
 import NewEmployees from "./screens/NewEmployee"
 import EmployeeAlreadyRegistered from "./screens/EmployeeAlreadyRegistered"
+import ManagerAlreadyRegistered from "./screens/ManagerAlreadyRegistered"
 import FirstEmployee from "./screens/FirstEmployee"
 import NewStudent from "./screens/NewStudent"
 import Student from "./screens/Student"
@@ -107,6 +109,7 @@ const AppRoutes = () => {
                     <Route exact path="/signup/school" element={<SignUpSchool />} />
                     <Route exact path="/signin/school" element={<SignInSchool />} />
                     <Route exact path="/signin/employee" element={<SignInEmployee />} />
+                    <Route exact path="/forgot-password" element={<ForgotPassword />} />
                     <Route exact path="/school/selection" element={<SchoolSelection />} />
                     <Route exact path="/" element={<Preload />} />
                     <Route exact path="/home/school" element={
@@ -393,6 +396,11 @@ const AppRoutes = () => {
                     <Route exact path="/employee-already-registered" element={
                         <Private>
                             <EmployeeAlreadyRegistered/>
+                        </Private>
+                    } />
+                    <Route exact path="/manager-already-registered" element={
+                        <Private>
+                            <ManagerAlreadyRegistered/>
                         </Private>
                     } />
                     <Route exact path="/individual-form" element={

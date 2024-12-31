@@ -2013,7 +2013,7 @@ export const FormEdit = async ({
         }, [])
 };
 
-export const FinalConcepts = async ( year, studentGrade, id_matter, id_employee, id_student, id_class ) => {
+export const FinalConcepts = async (year, studentGrade, id_matter, id_employee, id_student, id_class) => {
     return api
         .post(`/register/final-concepts`, { year, studentGrade, id_matter, id_employee, id_student, id_class })
         .catch((error) => {
@@ -2171,6 +2171,24 @@ export const FinalConceptsDaily = async (
     return api.post(`/final-concepts/daily`,
         year, id_class
     )
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+};
+
+export const ForgotPassword = async (
+    cpf
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/forgot-password`, {
+        cpf
+    })
         .catch((error) => {
             if (error) {
                 const result = JSON.stringify(

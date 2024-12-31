@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { AuthContext, } from '../../contexts/auth'
 
-import { api, NewEmp, createSessionEmployee, NameSchool, loginWithSchool } from '../../Api'
+import { api, NewEmp, createSessionEmployee, NameSchool, loginWithSchool, checkEmployee } from '../../Api'
 
 //import { AuthContext, } from '../../contexts/auth'
-//import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import {
   Container,
@@ -13,7 +13,10 @@ import {
   Input,
   Select,
   Btt01,
-  ErrorMessage
+  ErrorMessage,
+  WarningContainer,
+  WarningMessage,
+  WarningButton
   //ToGoBack
 } from './style';
 
@@ -21,6 +24,7 @@ import LoadingSpinner from '../../components/Loading'
 
 const FristEmployee = () => {
 
+  const navigate = useNavigate();
   const { loginEmployee } = useContext(AuthContext)
   const [idSchool, setIdschool] = useState('');
   const [name, setName] = useState('');
@@ -35,6 +39,9 @@ const FristEmployee = () => {
   const [confirmpassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [employeeExists, setEmployeeExists] = useState(false);
+  const [registeredEmployeeInfo, setRegisteredEmployeeInfo] = useState(null);
+  const [showWarning, setShowWarning] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -44,6 +51,28 @@ const FristEmployee = () => {
       setLoading(false);
     })()
   }, [])
+
+  const checkIfEmployeeExists = useCallback(async () => {
+    const response = await checkEmployee(cpf);
+    console.log("response", response);
+    setEmployeeExists(response.data.exists);
+    if (response.data.exists) {
+      setShowWarning(true);
+      setRegisteredEmployeeInfo(response.data.data);
+    } else {
+      setShowWarning(false);
+    }
+  }, [cpf]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (cpf.length === 14) {
+        checkIfEmployeeExists();
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [cpf, checkIfEmployeeExists]);
 
   const signClick = async () => {
     setLoading(true);
@@ -183,6 +212,9 @@ const FristEmployee = () => {
     setLoading(false);
   }
 
+  
+  console.log("response", employeeExists);
+
   const maskCPF = (value) => {
     return value
       .replace(/\D/g, '') // Remove tudo o que não é dígito
@@ -214,10 +246,53 @@ const FristEmployee = () => {
     setCellPhone(maskcellPhone(e.target.value));
   };
 
+  const handleRegister = () => {
+
+    if (registeredEmployeeInfo) {
+
+      // Armazenar os dados no sessionStorage
+      const employeeData = registeredEmployeeInfo;
+      sessionStorage.setItem('employeeName', employeeData.name);
+      sessionStorage.setItem('dateOfBirth', employeeData.dateOfBirth);
+      sessionStorage.setItem('employeeCPF', employeeData.cpf);
+      sessionStorage.setItem('employeeRG', employeeData.rg);
+      sessionStorage.setItem('employeeEmail', employeeData.email);
+      sessionStorage.setItem('employeeCellPhone', employeeData.cellPhone);
+      sessionStorage.setItem('employeeAddress', employeeData.address);
+      sessionStorage.setItem('password', employeeData.password);
+      // Adicione mais campos conforme necessário
+    } else {
+      setShowWarning(false);
+    }
+
+    navigate('/manager-already-registered');
+  };
+
+
+  const handleCancel = () => {
+    setShowWarning(false);
+    setCpf('');
+  };
+
   return (
     <Container>
       {loading ? (
         <LoadingSpinner />
+      ) : showWarning ? (
+        <WarningContainer>
+          <WarningMessage>
+            Funcionário já cadastrado em outra escola. Deseja cadastrá-lo nesta escola também?
+          </WarningMessage>
+          {registeredEmployeeInfo && (
+            <div>
+              <h3>Informações do Funcionário:</h3>
+              <p><strong>Nome:</strong> {registeredEmployeeInfo.name}</p>
+              <p><strong>CPF:</strong> {registeredEmployeeInfo.cpf}</p>
+            </div>
+          )}
+          <WarningButton onClick={handleRegister}>Sim</WarningButton>
+          <WarningButton onClick={handleCancel}>Não</WarningButton>
+        </WarningContainer>
       ) : (
         <InputArea>
           <h1>Cadastro do Gestor</h1>

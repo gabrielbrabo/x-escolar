@@ -29,7 +29,7 @@ import {
     LoadingSpinnerContainer,
     ContainerDivs,
     //DivShowMatter,
-   // ButtonCancel,
+    // ButtonCancel,
     //Btt01,
     AddMatterSection,
     WarningBox,
@@ -318,6 +318,7 @@ const EmployeeInformation = () => {
                                 }
                             </DivInfo>*/}
                             <Input>
+                                <h2>Diario</h2>
                                 <Label>Selecione o bimestre e click no botão abaixo para ver o Diario do Professor</Label>
                                 <Select
                                     id="id-bimonthly"
