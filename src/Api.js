@@ -2182,6 +2182,24 @@ export const FinalConceptsDaily = async (
         }, [])
 };
 
+export const ResetPassword = async (
+    cpf, id, token, newPassword
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/reset-password`, {
+        cpf, id, token, newPassword
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+};
+
 export const ForgotPassword = async (
     cpf
 ) => {

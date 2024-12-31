@@ -67,12 +67,10 @@ const SignInEmployee = () => {
                 <WarningContainer>
                   <WarningMessage>
                   <h3>Importante!!!</h3>
-                  </WarningMessage>
-                  
+                  </WarningMessage>                
                     <div>
                       <p>{Info.msg}</p>
-                    </div>
-                  
+                    </div>                
                   <WarningButton onClick={MessageButtomclick}>ok</WarningButton>
                 </WarningContainer>
               ) : (

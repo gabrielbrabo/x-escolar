@@ -14,6 +14,7 @@ import SignInSchool from "./screens/SignInSchool"
 import HomeSchool from "./screens/HomeSchool"
 import SignInEmployee from "./screens/SignInEmployee"
 import ForgotPassword from "./screens/ForgotPassword"
+import PasswordRecovery from "./screens/PasswordRecovery"
 import SchoolSelection from "./screens/SchoolSelection"
 import Preload from "./screens/Preload"
 import HomeEmployee from "./screens/HomeEmployee"
@@ -110,6 +111,7 @@ const AppRoutes = () => {
                     <Route exact path="/signin/school" element={<SignInSchool />} />
                     <Route exact path="/signin/employee" element={<SignInEmployee />} />
                     <Route exact path="/forgot-password" element={<ForgotPassword />} />
+                    <Route exact path="/reset-password/:cpf/:id/:reset_token" element={<PasswordRecovery />} />
                     <Route exact path="/school/selection" element={<SchoolSelection />} />
                     <Route exact path="/" element={<Preload />} />
                     <Route exact path="/home/school" element={
