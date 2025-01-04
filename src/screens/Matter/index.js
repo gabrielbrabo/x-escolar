@@ -68,10 +68,14 @@ const Matter = () => {
                         </FormSearch>
                     </Search>
                     <List>
+
+                        <p>Adicione uma disciplina de cada vez !!!</p>
                         <DivAddEmp>
-                            <DivNewEmp>
-                                <Btt02 onClick={NewMatter}>Nova Disciplinas</Btt02>
-                            </DivNewEmp>
+                            {positionAtSchool !== 'PROFESSOR' && (
+                                <DivNewEmp>
+                                    <Btt02 onClick={NewMatter}>Nova Disciplinas</Btt02>
+                                </DivNewEmp>
+                            )}
                             {positionAtSchool === 'DIRETOR/SUPERVISOR' && (
                                 <DivNewEmp>
                                     <Btt02 onClick={DeleteMatter}>Deletar Disciplina</Btt02>

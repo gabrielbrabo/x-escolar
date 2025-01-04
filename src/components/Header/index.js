@@ -60,8 +60,9 @@ export function Header({ setMenuIsVisible }) {
                 {position_at_school === "PROFESSOR" && (
                     <nav>
                         <a href="/home/school">Home</a>
-                        <a href="/myclasses" className="nav__link">Minhas Turmas</a>
+                        <a href="/matter" className="nav__link">Disciplinas</a>
                         <a href="/annual-calendar" className="nav__link">Calendario Anual</a>
+                        <a href="/myclasses" className="nav__link">Minhas Turmas</a>
                     </nav>
                 )}
             </section>

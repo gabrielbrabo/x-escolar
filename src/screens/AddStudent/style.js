@@ -64,7 +64,7 @@ export const Add = styled.div`
   background-color: rgba(255, 255, 255, 0.8);
   margin-bottom: 20px;
   width: 100%;
-  height: 90%;
+  min-height: 100%;
 
   @media (max-width: 768px) {
     margin-bottom: 15px;

@@ -54,7 +54,7 @@ const ContTable = styled.table`
 
 const Table = styled.table`
   border-collapse: collapse;
-  margin: 20px 0;
+  margin: 5px;
   background-color: #fff;
   border: 1px solid #ddd;
   width: 100%;
@@ -176,12 +176,12 @@ const PrintStyle = styled.div`
     th, td {
       text-align: center;
       border: 1px solid #ddd;
-      page-break-inside: avoid;
+      //page-break-inside: avoid;
       font-size: 8px;
       padding: 1px;
     }
     tr {
-      page-break-inside: avoid; /* Evita quebras dentro de linhas da tabela */
+      //page-break-inside: avoid; /* Evita quebras dentro de linhas da tabela */
     }
 
     @page {
@@ -190,6 +190,7 @@ const PrintStyle = styled.div`
     }
 
     .table-container {
+      
     }
   }
 `;

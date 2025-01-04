@@ -201,7 +201,9 @@ const IndexAttendance = () => {
                             <>
                                 <List>
                                     {
-                                        stdt.map(stdt => (
+                                        stdt
+                                        .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
+                                            .map(stdt => (
                                             <>
                                                 <Emp
                                                     key={stdt._id}
@@ -233,7 +235,9 @@ const IndexAttendance = () => {
                                 <List>
 
                                     {
-                                        checked.map(stdt => (
+                                        checked
+                                        .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
+                                            .map(stdt => (
                                             <>
                                                 <Emp
                                                     key={stdt._id}

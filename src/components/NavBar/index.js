@@ -28,7 +28,7 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
     setPositionAtSchool(position);
     setName(userName);
     setSchool(School);
-  }, [menuIsVisible]);
+  }, [ menuIsVisible ]);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -77,8 +77,9 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
       {positionAtSchool === 'PROFESSOR' && (
         <nav>
           <a href="/home/school">Home</a>
-          <a href="/myclasses" className="nav__link">Minhas Turmas</a>
+          <a href="/matter" className="nav__link">Disciplinas</a>
           <a href="/annual-calendar" className="nav__link">Calendario Anual</a>
+          <a href="/myclasses" className="nav__link">Minhas Turmas</a>
         </nav>
       )}
     </Container>

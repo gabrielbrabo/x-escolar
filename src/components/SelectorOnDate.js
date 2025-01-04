@@ -22,16 +22,15 @@ const ResponsivePickers = ({ setSelectedDate, setDay, setMonth, setYear }) => {
 
     const handleonChange = (date) => {
 
-        if (!date || !date.$y || !date.$M || !date.$D) {
-            // Se a data ainda está incompleta, não fazer nada
-            return;
-        }
+        if (!date || !date.isValid()) {
+            return; // Verifique se a data é válida
+          }
 
-        console.log("mes", date.$M + 1, "dia", date.$D, "year", currentYear)
+        console.log("Mês:", date.month() + 1, "Dia:", date.date(), "Ano:", date.year());
 
-        setSelectedDate(date)
-        setDay(date.$D)
-        setMonth(date.$M + 1)
+        setSelectedDate(date);
+        setDay(date.date());
+        setMonth(date.month() + 1); // `month()` retorna o índice do mês
         setYear(currentYear)
     }
     /*const dateonChange = props => {

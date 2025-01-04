@@ -345,3 +345,58 @@ export const SignMessageButtonTextBold = styled.span`
     font-size: 14px;
   }
 `;
+
+export const EditContainer = styled.div`
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+
+    h3 {
+        margin: 0;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    input,
+    textarea {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+    textarea {
+        resize: vertical;
+        height: 250px;
+    }
+
+    button {
+        align-self: flex-start;
+        margin-right: 10px;
+    }
+
+    @media (max-width: 768px) {
+        padding: 10px;
+
+        h3 {
+            font-size: 18px;
+        }
+
+        button {
+            width: 100%;
+            margin-bottom: 5px;
+        }
+    }
+
+    @media print {
+        display: none; // Oculta na impressão
+    }
+`;
+

@@ -176,7 +176,9 @@ const IndividualForm = () => {
                         <>
                             <h3>Click no aluno em que deseja adicionar ficha individual</h3>
                             <List>
-                                {stdt.map(stdt => (
+                                {stdt
+                                .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
+                                .map(stdt => (
                                     stdt && stdt._id ? (
                                         <EmpStdt onClick={() => handleIndividualForm(stdt)} key={stdt._id}>
                                             <Span>{stdt.name}</Span>
@@ -187,7 +189,9 @@ const IndividualForm = () => {
 
                             <h3>Alunos que já têm ficha individual</h3>
                             <List>
-                                {checked.map(stdt => (
+                                {checked
+                                .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
+                                .map(stdt => (
                                     stdt && stdt.id_student && stdt.id_student._id ? (
                                         <EmpChecked onClick={() => handleExistForm(stdt)} key={stdt.id_student._id}>
                                             <Span>{stdt.id_student.name}</Span>

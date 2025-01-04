@@ -241,7 +241,9 @@ const IndexAttendance = () => {
                             <List>
 
                                 {
-                                    stdt.map(stdt => (
+                                    stdt
+                                    .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
+                                    .map(stdt => (
                                         <Emp
                                             /*onClick={() =>
                                                 classInformation(stdt)
@@ -256,7 +258,9 @@ const IndexAttendance = () => {
                                 }
                             </List>
                             <ListChecked>
-                                {checked.map(checkedStdt => (
+                                {checked
+                                .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
+                                .map(checkedStdt => (
                                     <Emp key={checkedStdt._id}>
                                         <SpanChecked>{checkedStdt.id_student.name}
                                             <Btt02 style={{

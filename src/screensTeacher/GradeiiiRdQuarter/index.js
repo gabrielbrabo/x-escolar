@@ -185,7 +185,7 @@ const IndexAttendance = () => {
                     <h2>Grade Bimestral</h2>
                     <ContainerStudent>
                         <DataSelected>
-                        <Info>
+                            <Info>
                                 <p>Bimestre: 3º Bimestre</p>
                                 <p>Disciplina: {Namematter}</p>
                             </Info>
@@ -201,53 +201,57 @@ const IndexAttendance = () => {
                             <>
                                 <List>
                                     {
-                                        stdt.map(stdt => (
-                                            <>
-                                                <Emp
-                                                    key={stdt._id}
-                                                >
-                                                    <Span>{stdt.name}</Span>
-                                                    <Grade>
-                                                        <p>Conceito:</p>
-                                                        <Select
-                                                            //id="position"
-                                                            //value={update_studentGrade}
-                                                            onChange={(e) => setStudentGrade(e.target.value)}
-                                                        >
-                                                            <option value="">Selecione</option>
-                                                            <option value="A">A</option>
-                                                            <option value="B">B</option>
-                                                            <option value="C">C</option>
-                                                            <option value="D">D</option>
-                                                        </Select>
-                                                        {/*<span>pts</span>*/}
-                                                    </Grade>
-                                                    <Btt01 onClick={() => handleGrade(stdt)}>Definir</Btt01>
-                                                </Emp>
-                                                {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                                            </>
-                                        ))
+                                        stdt
+                                            .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
+                                            .map(stdt => (
+                                                <>
+                                                    <Emp
+                                                        key={stdt._id}
+                                                    >
+                                                        <Span>{stdt.name}</Span>
+                                                        <Grade>
+                                                            <p>Conceito:</p>
+                                                            <Select
+                                                                //id="position"
+                                                                //value={update_studentGrade}
+                                                                onChange={(e) => setStudentGrade(e.target.value)}
+                                                            >
+                                                                <option value="">Selecione</option>
+                                                                <option value="A">A</option>
+                                                                <option value="B">B</option>
+                                                                <option value="C">C</option>
+                                                                <option value="D">D</option>
+                                                            </Select>
+                                                            {/*<span>pts</span>*/}
+                                                        </Grade>
+                                                        <Btt01 onClick={() => handleGrade(stdt)}>Definir</Btt01>
+                                                    </Emp>
+                                                    {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                                </>
+                                            ))
                                     }
                                 </List>
                                 <h3>Checked</h3>
                                 <List>
 
                                     {
-                                        checked.map(stdt => (
-                                            <>
-                                                <Emp
-                                                    key={stdt._id}
-                                                >
-                                                    <Span>{stdt.id_student.name}</Span>
-                                                    <Grade>
-                                                        <p>Conceito: </p>
-                                                        <p>{stdt.studentGrade}</p>
-                                                        {/*<span>pts</span>*/}
-                                                    </Grade>
-                                                    <Btt02 onClick={() => startEditing(stdt)} >Editar</Btt02>
-                                                </Emp>
-                                            </>
-                                        ))
+                                        checked
+                                            .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
+                                            .map(stdt => (
+                                                <>
+                                                    <Emp
+                                                        key={stdt._id}
+                                                    >
+                                                        <Span>{stdt.id_student.name}</Span>
+                                                        <Grade>
+                                                            <p>Conceito: </p>
+                                                            <p>{stdt.studentGrade}</p>
+                                                            {/*<span>pts</span>*/}
+                                                        </Grade>
+                                                        <Btt02 onClick={() => startEditing(stdt)} >Editar</Btt02>
+                                                    </Emp>
+                                                </>
+                                            ))
                                     }
                                 </List>
                             </>

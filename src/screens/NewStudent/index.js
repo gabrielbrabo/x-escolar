@@ -37,10 +37,10 @@ const NewStudent = () => {
   const [idSchool, setIdschool] = useState('');
   const [name, setName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
-  const [cpf, setCpf] = useState('');
+  const [cpf, /*setCpf*/] = useState('0');
   const [cellPhoneOfParentsOrGuardians, setCellPhoneOfParentsOrGuardians] = useState('');
   const [address, setAddress] = useState('');
-  const [rg, setRg] = useState('');
+  const [rg, /*setRg*/] = useState('0');
   const [cellPhone, setCellPhone] = useState()
   const [password, /*setPassword*/] = useState('g');
   const [confirmpassword, /*setConfirmPassword*/] = useState('g');
@@ -78,12 +78,12 @@ const NewStudent = () => {
       idSchool,
       name,
       dateOfBirth,
-      cpf,
-      rg,
+      //cpf,
+      //rg,
       cellPhone,
       cellPhoneOfParentsOrGuardians,
       address,
-      registerStudent,
+      registerStudent.toString(),
       password,
       confirmpassword
     )
@@ -100,7 +100,7 @@ const NewStudent = () => {
     navigate(-1);
   }
 
-  const maskCPF = (value) => {
+  /*const maskCPF = (value) => {
     return value
       .replace(/\D/g, '') // Remove tudo o que não é dígito
       .replace(/(\d{3})(\d)/, '$1.$2') // Coloca o primeiro ponto
@@ -111,7 +111,7 @@ const NewStudent = () => {
 
   const handleChange = (e) => {
     setCpf(maskCPF(e.target.value));
-  };
+  };*/
 
   const maskcellPhone = (value) => {
     return value
@@ -151,7 +151,7 @@ const NewStudent = () => {
                 onChange={(e) => setDateOfBirth(e.target.value)}
                 type='date'
               />
-              <Label>CPF</Label>
+              {/*<Label>CPF</Label>
               <Input
                 placeholder="Digite o CPF"
                 value={cpf}
@@ -166,7 +166,7 @@ const NewStudent = () => {
                 onChange={
                   (e) => setRg(e.target.value)
                 }
-              />
+              />*/}
               <Label>Celular</Label>
               <Input
                 placeholder="Digite o celular"

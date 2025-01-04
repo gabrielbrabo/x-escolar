@@ -34,7 +34,7 @@ const IndividualFormList = () => {
     const [id_class, setid_class] = useState("");
 
     const [loading, setLoading] = useState(false);
-   
+
     const [IndividualForm, setIndividualForm] = useState([]);
     const [nameTeacher, setnameTeacher] = useState([]);
     const [nameClass, setnameClass] = useState([]);
@@ -49,7 +49,7 @@ const IndividualFormList = () => {
 
             setid_teacher(SelectteacherDaily._id);
             setid_class(SelectclassDaily);
-            
+
             setnameTeacher(SelectteacherDaily.name);
             setnameClass(Nameclass.serie);
             setyear(year);
@@ -84,7 +84,7 @@ const IndividualFormList = () => {
                 setLoading(false);
             }
         })();
-    }, [ id_class, id_teacher, ]);
+    }, [id_class, id_teacher,]);
 
     /*IndividualForm.sort(function (a, b) {
         if (a.id_student.name < b.id_student.name) return -1
@@ -150,16 +150,18 @@ const IndividualFormList = () => {
                                     </tr>
                                 </TableHeader>
                                 <TableBody>
-                                    {stdt.map((student) => (
-                                        <tr key={student._id}>
-                                            <td className="name-cell">{student.name}</td>
-                                            {uniqueMatters.map((date, index) => (
-                                                <React.Fragment key={index}>
-                                                    {getGrade(student._id, date, index)}
-                                                </React.Fragment>
-                                            ))}
-                                        </tr>
-                                    ))}
+                                    {stdt
+                                        .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
+                                        .map((student) => (
+                                            <tr key={student._id}>
+                                                <td className="name-cell">{student.name}</td>
+                                                {uniqueMatters.map((date, index) => (
+                                                    <React.Fragment key={index}>
+                                                        {getGrade(student._id, date, index)}
+                                                    </React.Fragment>
+                                                ))}
+                                            </tr>
+                                        ))}
                                 </TableBody>
                             </Table>
                         ) : (

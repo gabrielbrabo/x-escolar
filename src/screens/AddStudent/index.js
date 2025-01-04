@@ -121,6 +121,7 @@ const StudentAdd = () => {
                             )}
                         </Add>
                     )}
+                    { ! name_student && (
                     <List>
                         {student
                             .filter((val) =>
@@ -132,6 +133,7 @@ const StudentAdd = () => {
                                 </Emp>
                             ))}
                     </List>
+                    )}
                 </>
             )}
             <ButtonCancel>

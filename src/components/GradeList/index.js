@@ -243,16 +243,18 @@ const IndividualFormList = () => {
                                     </tr>
                                 </TableHeader>
                                 <TableBody>
-                                    {stdt.map((student) => (
-                                        <tr key={student._id}>
-                                            <td className="name-cell">{student.name}</td>
-                                            {uniqueMatters.map((date, index) => (
-                                                <React.Fragment key={index}>
-                                                    {getGrade(student._id, date, index)}
-                                                </React.Fragment>
-                                            ))}
-                                        </tr>
-                                    ))}
+                                    {stdt
+                                        .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
+                                        .map((student) => (
+                                            <tr key={student._id}>
+                                                <td className="name-cell">{student.name}</td>
+                                                {uniqueMatters.map((date, index) => (
+                                                    <React.Fragment key={index}>
+                                                        {getGrade(student._id, date, index)}
+                                                    </React.Fragment>
+                                                ))}
+                                            </tr>
+                                        ))}
                                 </TableBody>
                             </Table>
                         ) : (

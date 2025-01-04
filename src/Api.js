@@ -1367,8 +1367,8 @@ export const NewStdt = async (
     idSchool,
     name,
     dateOfBirth,
-    cpf,
-    rg,
+    //cpf,
+    //rg,
     cellPhone,
     cellPhoneOfParentsOrGuardians,
     address,
@@ -1380,8 +1380,8 @@ export const NewStdt = async (
     return api.post(`/register/student/${idSchool}`, {
         name,
         dateOfBirth,
-        cpf,
-        rg,
+        //cpf,
+        //rg,
         cellPhone,
         cellPhoneOfParentsOrGuardians,
         address,
@@ -1875,6 +1875,24 @@ export const updateRecordClassTaught = async (
 
     return api.post(`/update-record-class`, {
         editedDescription, day, month, editingId
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const updateRecordClassTaughtADM = async (
+    editedDescription, editingId
+) => {
+
+    return api.post(`/update-record-class/adm`, {
+        editedDescription, editingId
     })
         .catch((error) => {
             if (error) {
