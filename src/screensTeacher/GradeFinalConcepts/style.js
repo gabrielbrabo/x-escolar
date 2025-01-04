@@ -63,12 +63,17 @@ export const Emp = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px;
+    //padding: 5px;
     gap: 3px;
     border-radius: 5px;
     margin-bottom: 35px;
     min-width: 90%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    @media(max-width: 768px) {
+        max-width: 100%;
+        display: grid;
+    }
 `;
 
 export const Matter = styled.div`
@@ -122,7 +127,7 @@ export const Span = styled.div`
     white-space: nowrap;
 
     @media(max-width: 768px) {
-        max-width: 140px;
+        max-width: 100%;
     }
 
 `;
@@ -203,6 +208,10 @@ export const Grade = styled.div`
     gap: 3px;
     align-items: center;
     justify-content: center;
+
+    @media (max-width: 768px) {
+    max-width: 90%;
+  }
 `;
 export const ErrorMessage = styled.div`
   color: red;
@@ -219,6 +228,7 @@ export const Select = styled.select`
   border-radius: 4px;
   @media (max-width: 768px) {
     padding: 8px;
+    max-width: 90%;
   }
 `;
 export const SignMessageButtonText = styled.span`
@@ -307,4 +317,38 @@ export const LegendBox = styled.div`
 
     @media(max-width: 768px) {
     }
+`;
+
+export const DivBim = styled.div`
+    display: flex;
+`;
+
+export const DivBimTable = styled.div`
+  display: flex;
+  border-collapse: collapse;
+
+  @media(max-width: 768px) {
+        max-width: 90%;
+    }
+`;
+
+export const DivBimRow = styled.div`
+  display: grid;
+  border: 0px solid #ddd;
+`;
+
+export const DivBimHeader = styled.div`
+  display: table-cell;
+  text-align: center;
+  font-weight: bold;
+  padding: 3px;
+  border: 1px solid #ddd;
+  background-color: #f4f4f4;
+`;
+
+export const DivBimCell = styled.div`
+  display: table-cell;
+  text-align: center;
+  padding: 3px;
+  border: 1px solid #ddd;
 `;

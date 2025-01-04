@@ -2236,6 +2236,24 @@ export const ForgotPassword = async (
         }, [])
 };
 
+export const indexGrades = async (
+    year, id_class, id_matter
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/grades`, {
+        year, id_class,id_matter
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+};
+
 /*export const getavatar = async () => {
 
     return api.get('/avatar')

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { clssInfo, FinalConcepts, /*updateGrade,*/ GetGradeFinalConcepts, GetMatter, GetMatterDetails, FinalConceptsEdit } from '../../Api'
+import { clssInfo, FinalConcepts, indexGrades, /*updateGrade,*/ GetGradeFinalConcepts, GetMatter, GetMatterDetails, FinalConceptsEdit } from '../../Api'
 
 import {
     Container,
@@ -26,7 +26,11 @@ import {
     SignMessageButtonTextBold,
     Label,
     LegendBox,
-    Info
+    Info,
+    DivBimTable,
+    DivBimRow,
+    DivBimHeader,
+    DivBimCell,
 } from './style';
 
 import {
@@ -52,6 +56,11 @@ const Finalconcepts = () => {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState([]);
 
+    const [iStQuarter, setiStQuarter] = useState([]);
+    const [iiNdQuarter, setiiNdQuarter] = useState([]);
+    const [iiiRdQuarter, setIIIrdQuarter] = useState([]);
+    const [ivThQuarter, setIVthQuarter] = useState([]);
+
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -69,6 +78,28 @@ const Finalconcepts = () => {
             setid_employee(id_teacher);
             setYear(currentYear); // Certifique-se de que o ano é definido aqui.
             setId_class(id_cla$$);
+
+            if (year && id_class && id_matter) {
+                const grades = await indexGrades(year, id_class, id_matter)
+                if (grades) {
+                    console.log("grades", grades.data.data);
+
+                    // Filtra os objetos para cada bimestre
+                    const firstQuarter = grades.data.data.filter(res => res.bimonthly === "1º BIMESTRE");
+                    const secondQuarter = grades.data.data.filter(res => res.bimonthly === "2º BIMESTRE");
+                    const thirdQuarter = grades.data.data.filter(res => res.bimonthly === "3º BIMESTRE");
+                    const fourthQuarter = grades.data.data.filter(res => res.bimonthly === "4º BIMESTRE");
+
+                    // Atualiza os estados com os arrays filtrados
+                    setiStQuarter(firstQuarter);
+                    setiiNdQuarter(secondQuarter);
+                    setIIIrdQuarter(thirdQuarter)
+                    setIVthQuarter(fourthQuarter)
+
+                    console.log("1º Bimestre", firstQuarter);
+                    console.log("2º Bimestre", secondQuarter);
+                }
+            }
 
             if (id_matter && year) {
                 console.log("year", year, "id_matter", id_matter)
@@ -118,6 +149,11 @@ const Finalconcepts = () => {
 
     console.log("checked", checked)
     console.log("stdt", stdt)
+
+    console.log("iStQuarter", iStQuarter)
+    console.log("iiNdQuarter", iiNdQuarter)
+    console.log("iiiRdQuarter", iiiRdQuarter)
+    console.log("ivThQuarter", ivThQuarter)
 
     const handleGrade = async (stdt) => {
         setLoading(true)
@@ -212,12 +248,32 @@ const Finalconcepts = () => {
                                 <>
                                     <List>
                                         {
-                                            stdt.map(stdt => (
+                                            stdt
+                                            .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
+                                            .map(stdt =>
                                                 <>
                                                     <Emp
                                                         key={stdt._id}
                                                     >
                                                         <Span>{stdt.name}</Span>
+                                                        <DivBimTable>
+                                                            <DivBimRow>
+                                                                <DivBimHeader>1º Bim</DivBimHeader>
+                                                                <DivBimCell>{iStQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}</DivBimCell>
+                                                            </DivBimRow>
+                                                            <DivBimRow>
+                                                                <DivBimHeader>2º Bim</DivBimHeader>
+                                                                <DivBimCell>{iiNdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}</DivBimCell>
+                                                            </DivBimRow>
+                                                            <DivBimRow>
+                                                                <DivBimHeader>3º Bim</DivBimHeader>
+                                                                <DivBimCell>{iiiRdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}</DivBimCell>
+                                                            </DivBimRow>
+                                                            <DivBimRow>
+                                                                <DivBimHeader>4º Bim</DivBimHeader>
+                                                                <DivBimCell>{ivThQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}</DivBimCell>
+                                                            </DivBimRow>
+                                                        </DivBimTable>
                                                         <Grade>
                                                             <p>Conceito:</p>
                                                             <Select
@@ -237,7 +293,7 @@ const Finalconcepts = () => {
                                                     </Emp>
                                                     {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                                                 </>
-                                            ))
+                                            )
                                         }
                                     </List>
                                 </>
@@ -250,12 +306,32 @@ const Finalconcepts = () => {
                                     <List>
 
                                         {
-                                            checked.map(stdt => (
+                                            checked
+                                            .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
+                                            .map(stdt => (
                                                 <>
                                                     <Emp
                                                         key={stdt._id}
                                                     >
                                                         <Span>{stdt.id_student.name}</Span>
+                                                        <DivBimTable>
+                                                            <DivBimRow>
+                                                                <DivBimHeader>1º Bim</DivBimHeader>
+                                                                <DivBimCell>{iStQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}</DivBimCell>
+                                                            </DivBimRow>
+                                                            <DivBimRow>
+                                                                <DivBimHeader>2º Bim</DivBimHeader>
+                                                                <DivBimCell>{iiNdQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}</DivBimCell>
+                                                            </DivBimRow>
+                                                            <DivBimRow>
+                                                                <DivBimHeader>3º Bim</DivBimHeader>
+                                                                <DivBimCell>{iiiRdQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}</DivBimCell>
+                                                            </DivBimRow>
+                                                            <DivBimRow>
+                                                                <DivBimHeader>4º Bim</DivBimHeader>
+                                                                <DivBimCell>{ivThQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}</DivBimCell>
+                                                            </DivBimRow>
+                                                        </DivBimTable>
                                                         <Grade>
                                                             <p>Conceito: </p>
                                                             <p>{stdt.studentGrade}</p>
@@ -335,7 +411,7 @@ const Finalconcepts = () => {
                     }
                 </>
             }
-        </Container>
+        </Container >
     )
 }
 

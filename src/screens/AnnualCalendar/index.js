@@ -29,8 +29,8 @@ const HomeSchool = () => {
   const [IIndQuarter, setIIndQuarter] = useState([]);
   const [IIIrdQuarter, setIIIrdQuarter] = useState([]);
   const [IVthQuarter, setIVthQuarter] = useState([]);
-  const [VthQuarter, setVthQuarter] = useState([]);
-  const [VIthQuarter, setVIthQuarter] = useState([]);
+  const [/*VthQuarter*/, setVthQuarter] = useState([]);
+  const [/*VIthQuarter*/, setVIthQuarter] = useState([]);
   const [position_at_school, setPosition_at_school] = useState('');
 
   useEffect(() => {
@@ -130,7 +130,7 @@ const HomeSchool = () => {
             onEdit={() => handleNavigate("IVthQuarterInformation", IVthQuarter[0]?._id, '/updateiv-thquarter')}
             onCreate={() => navigate('/createiv-thquarter')}
           />
-          <QuarterSection
+          {/*<QuarterSection
             title="5º Bimestre"
             data={VthQuarter}
             onEdit={() => handleNavigate("VthQuarterInformation", VthQuarter[0]?._id, '/updatev-thquarter')}
@@ -141,7 +141,7 @@ const HomeSchool = () => {
             data={VIthQuarter}
             onEdit={() => handleNavigate("VIthQuarterInformation", VIthQuarter[0]?._id, '/updatevi-thquarter')}
             onCreate={() => navigate('/createvi-thquarter')}
-          />
+          />*/}
         </ContainerDivs>
       )}
     </Container>
