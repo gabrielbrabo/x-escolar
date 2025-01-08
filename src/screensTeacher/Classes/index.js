@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { indexRecordClassTaught, clssInfo, updateRecordClassTaught } from '../../Api';
+import {
+    indexRecordClassTaught,
+    clssInfo,
+    updateRecordClassTaught,
+    getIstQuarter,
+    getIIndQuarter,
+    getIIIrdQuarter,
+    getIVthQuarter,
+} from '../../Api';
 import { useNavigate } from 'react-router-dom';
 import {
     Container,
@@ -26,6 +34,7 @@ import LoadingSpinner from '../../components/Loading';
 
 const Grade = () => {
     const navigate = useNavigate();
+    const [open, setopen] = useState()
     const [loading, setLoading] = useState(false);
     const [isTeacher, setIsTeacher] = useState([]);
     const [id_employee, setId_employee] = useState([]);
@@ -84,14 +93,79 @@ const Grade = () => {
         }
     };
 
-    const handleEdit = (index, res) => {
-        setEditingIndex(index);
-        setEditingId(res._id);
-        setEditedDescription(res.description);
+    const handleEdit = async (index, res) => {
         setDay(`${res.day}`);
         setMonth(`${res.month}`);
-    };
+        const fetchQuarters = async () => {
+            const idSchool = sessionStorage.getItem("id-school");
+            const year = new Date().getFullYear();
+            const dateSelected = new Date(year, res.month - 1, res.day);
 
+            const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
+            const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
+            const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
+            const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
+
+            const getQuarterStatus = (quarterData) => {
+                return quarterData.data.data
+                    .map((res) => {
+                        const startDate = new Date(year, res.startmonth - 1, res.startday);
+                        const endDate = new Date(year, res.endmonth - 1, res.endday);
+                        if (dateSelected >= startDate && dateSelected <= endDate) {
+                            console.log("startDade:", startDate);
+                            console.log("endDate:", endDate);
+                            console.log("dateSelected:", dateSelected);
+                            return res.statusSupervisor;
+                        }
+                        return null;
+                    })
+                    .find((res) => res); // Retorna o primeiro status válido encontrado
+            };
+
+            const dataIstQuarter = getQuarterStatus(IstQuarter);
+            const dataIIndQuarter = getQuarterStatus(IIndQuarter);
+            const dataIIIrdQuarter = getQuarterStatus(IIIrdQuarter);
+            const dataIVthQuarter = getQuarterStatus(IVthQuarter);
+
+            // Retorna os dados encontrados em um objeto
+
+            return {
+                IstQuarter: dataIstQuarter || null,
+                IIndQuarter: dataIIndQuarter || null,
+                IIIrdQuarter: dataIIIrdQuarter || null,
+                IVthQuarter: dataIVthQuarter || null,
+            };
+        };
+        // Chamando a função e lidando com o resultado
+        try {
+            // Obtém os resultados de forma assíncrona
+            const result = await fetchQuarters();
+    
+            // Define `open` com base nos resultados
+            const openQuarter = 
+                result.IstQuarter === "aberto" ? "IstQuarter" :
+                result.IIndQuarter === "aberto" ? "IIndQuarter" :
+                result.IIIrdQuarter === "aberto" ? "IIIrdQuarter" :
+                result.IVthQuarter === "aberto" ? "IVthQuarter" : null;
+    
+            if (openQuarter) {
+                console.log(`Trimestre aberto: ${openQuarter}`);
+                setopen("aberto");
+                setEditingIndex(index);
+                setEditingId(res._id);
+                setEditedDescription(res.description);
+            } else {
+                alert("Edição não permitida. Para editar a aula, contate o supervisor.");
+            }
+    
+        } catch (error) {
+            console.error("Erro ao buscar os trimestres:", error);
+            alert("Erro ao buscar informações. Tente novamente mais tarde.");
+        }
+        fetchQuarters();
+
+    };
+    console.log("open", open)
     const handleSaveEdit = async () => {
         try {
             const res = await updateRecordClassTaught(editedDescription, day, month, editingId);
@@ -120,11 +194,11 @@ const Grade = () => {
     const handlePrint = () => {
         // Expande todas as descrições antes de imprimir
         setExpandedRows(recordClassTaught.map((_, index) => index));
-        
+
         // Aguarda o estado ser atualizado antes de imprimir
         setTimeout(() => {
             window.print();
-            
+
             // Reseta a expansão após 10 segundos da impressão
             setTimeout(() => {
                 setExpandedRows([]);

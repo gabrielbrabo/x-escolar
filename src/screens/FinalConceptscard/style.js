@@ -102,6 +102,8 @@ export const DadosStdt = styled.div`
 
 export const Grade = styled.div`
   display: flex;
+  justify-content: space-around;
+  gap: 10px;
   @media (max-width: 768px) {
     width: 100%;
     justify-content: center;
@@ -219,6 +221,35 @@ export const LegendBox = styled.div`
     }
 `;
 
+export const DivBimTable = styled.div`
+  display: flex;
+
+  @media(max-width: 768px) {
+        max-width: 90%;
+    }
+`;
+
+export const DivBimRow = styled.div`
+  display: grid;
+  border: 0px solid #ddd;
+`;
+
+export const DivBimHeader = styled.div`
+  display: table-cell;
+  text-align: center;
+  font-weight: bold;
+  padding: 3px;
+  border: 1px solid #ddd;
+  background-color: #f4f4f4;
+`;
+
+export const DivBimCell = styled.div`
+  display: table-cell;
+  text-align: center;
+  padding: 3px;
+  border: 1px solid #ddd;
+`;
+
 const GlobalStyle = createGlobalStyle`
   @media print {
     body * {
@@ -281,9 +312,23 @@ const GlobalStyle = createGlobalStyle`
     ${List} {
       padding: 0;
     }
+    
+    ${Grade} {
+      margin: 0;
+      padding: 0;
+      align-items: center;
+    }
+    
+    ${DivBimHeader} {
+      font-size: 0.5em;
+    }
+    
+    ${DivBimCell} {
+      font-size: 0.5em;
+    }
 
     ${Emp} { /* Ajuste a margem inferior para evitar quebra de página */ 
-      height: 40px;
+      height: 45px;
       border-bottom: 1px solid #ccc;
     }
 
@@ -296,6 +341,5 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 `;
-
 
 export default GlobalStyle;

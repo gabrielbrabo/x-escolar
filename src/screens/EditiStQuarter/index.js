@@ -12,7 +12,7 @@ import {
     ErrorMessage
 } from './style';
 import LoadingSpinner from '../../components/Loading';
-import SelectorDate from '../../components/SelectorOnDate'
+import ResponsivePickers from '../../components/Datebimestre';
 
 const EditProfile = () => {
     const navigate = useNavigate();
@@ -88,23 +88,17 @@ const EditProfile = () => {
                 <>
                     <h2>Edição do 1º Bimestre</h2>
                     <DivDados>
-                        <p>Data de Inicio:
-                            <SelectorDate
-                                setDay={setStartday}
-                                setMonth={setStartmonth}
-                                setYear={setStartyear}
-                                setSelectedDate={setStartSelectedDate}
-                            />
-                        </p>
-                        <p>Data de Fim:
-                            <SelectorDate
-                                setDay={setEndday}
-                                setMonth={setEndmonth}
-                                setYear={setEndyear}
-                                setSelectedDate={setEndSelectedDate}
-                            />
-                        </p>
-                       {/* <p>Nota Total:
+                        <ResponsivePickers
+                            setSelectedDateStart={setStartSelectedDate}
+                            setDayStart={setStartday}
+                            setMonthStart={setStartmonth}
+                            setYearStart={setStartyear}
+                            setSelectedDateEnd={setEndSelectedDate}
+                            setDayEnd={setEndday}
+                            setMonthEnd={setEndmonth}
+                            setYearEnd={setEndyear}
+                        />
+                        {/* <p>Nota Total:
                             <Input
                                 placeholder="Digite a Nota Total"
                                 value={totalGrade}

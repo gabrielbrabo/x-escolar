@@ -11,9 +11,12 @@ import {
 } from './style';
 import { RegisterIVthQuarter } from '../../Api';
 
+//import ResponsivePickers from '../../components/Date';
+import ResponsivePickers from '../../components/Datebimestre';
+
 import { useNavigate } from 'react-router-dom';
 
-import SelectorDate from '../../components/SelectorOnDate'
+//import SelectorDate from '../../components/SelectorOnDate'
 
 import LoadingSpinner from '../../components/Loading';
 
@@ -84,22 +87,16 @@ const HomeSchool = () => {
               <h3>4º Bimestre</h3>
             </AddEmp>
             <DivDados>
-              <p>Data de Inicio:
-                <SelectorDate
-                  setDay={setStartDay}
-                  setMonth={setStartMonth}
-                  setYear={setStartYear}
-                  setSelectedDate={setStartSelectedDate}
+                <ResponsivePickers
+                  setSelectedDateStart={setStartSelectedDate}
+                  setDayStart={setStartDay}
+                  setMonthStart={setStartMonth}
+                  setYearStart={setStartYear}
+                  setSelectedDateEnd={setEndSelectedDate}
+                  setDayEnd={setEndDay}
+                  setMonthEnd={setEndMonth}
+                  setYearEnd={setEndYear}
                 />
-              </p>
-              <p>Data de Fim:
-                <SelectorDate
-                  setDay={setEndDay}
-                  setMonth={setEndMonth}
-                  setYear={setEndYear}
-                  setSelectedDate={setEndSelectedDate}
-                />
-              </p>
               {/*<p>Nota Total:
                 <Input
                   placeholder="Digite a Nota Total"

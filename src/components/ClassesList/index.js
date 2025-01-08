@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { RecordClassTaughtDaily, updateRecordClassTaughtADM, getIstQuarter, getIIndQuarter, getIIIrdQuarter, getIVthQuarter, getVthQuarter, getVIthQuarter } from '../../Api';
+import { RecordClassTaughtDaily, /*updateRecordClassTaughtADM,*/ getIstQuarter, getIIndQuarter, getIIIrdQuarter, getIVthQuarter, getVthQuarter, getVIthQuarter } from '../../Api';
 import { useNavigate } from 'react-router-dom';
 import {
     Container,
@@ -21,15 +21,15 @@ import {
     SignMessageButtonTextBold,
     SignMessageButtonText,
     DataBimonthly,
-    EditContainer,
-    ErrorMessage,
+    //EditContainer,
+    //ErrorMessage,
 } from './style';
 import LoadingSpinner from '../../components/Loading';
 
 const Grade = () => {
     const navigate = useNavigate();
-    
-    const [positionAtSchool, setPositionAtSchool] = useState(null);
+
+    //const [positionAtSchool, setPositionAtSchool] = useState(null);
 
     const [startd, setStartd] = useState("");
     const [startm, setStartm] = useState("");
@@ -48,23 +48,23 @@ const Grade = () => {
     const [expandedRows, setExpandedRows] = useState([]);
     const [printing, setPrinting] = useState(false); // Novo estado para controlar o modo de impressão
 
-    const [editingIndex, setEditingIndex] = useState(null);
-    const [editingId, setEditingId] = useState('');
-    const [editedDescription, setEditedDescription] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
+   // const [editingIndex, setEditingIndex] = useState(null);
+    //const [editingId, setEditingId] = useState('');
+    //const [editedDescription, setEditedDescription] = useState('');
+    //const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         (async () => {
             setLoading(true);
             const year = new Date().getFullYear().toString();
-            const position = localStorage.getItem('position_at_school');
+            //const position = localStorage.getItem('position_at_school');
             const SelectbimonthlyDaily = JSON.parse(sessionStorage.getItem("Selectbimonthly-daily"));
             const SelectteacherDaily = JSON.parse(sessionStorage.getItem("Selectteacher-daily"));
             //const Nameclass = JSON.parse(sessionStorage.getItem("Nameclass-daily"));
             const SelectclassDaily = sessionStorage.getItem("Selectclass-daily");
             const idSchool = SelectteacherDaily.id_school;
 
-            setPositionAtSchool(position);
+            //setPositionAtSchool(position);
             setid_teacher(SelectteacherDaily._id);
             setid_class(SelectclassDaily);
             setbimonthlyDaily(SelectbimonthlyDaily.bimonthly);
@@ -177,15 +177,15 @@ const Grade = () => {
         }
     };
 
-    const handleEdit = (index, res) => {
-        setEditingIndex(index);
-        setEditingId(res._id);
-        setEditedDescription(res.description);
-        //setDay(`${res.day}`);
-        //setMonth(`${res.month}`);
-    };
+    /* const handleEdit = (index, res) => {
+         setEditingIndex(index);
+         setEditingId(res._id);
+         setEditedDescription(res.description);
+         //setDay(`${res.day}`);
+         //setMonth(`${res.month}`);
+     };*/
 
-    const handleSaveEdit = async () => {
+    /*const handleSaveEdit = async () => {
         try {
             const res = await updateRecordClassTaughtADM(editedDescription, editingId);
 
@@ -208,7 +208,7 @@ const Grade = () => {
             console.error("Erro ao atualizar aula:", error);
             setErrorMessage('Ocorreu um erro ao salvar a edição. Tente novamente.');
         }
-    };
+    };*/
     const handlePrint = () => {
         // Expande todas as descrições antes de imprimir
         setExpandedRows(recordClassTaught.map((_, index) => index));
@@ -283,15 +283,15 @@ const Grade = () => {
                                                                             {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
                                                                         </Button>
                                                                     )}
-                                                                    {expandedRows.includes(index) && positionAtSchool === 'DIRETOR/SUPERVISOR' && (
+                                                                    {/*expandedRows.includes(index) && positionAtSchool === 'DIRETOR/SUPERVISOR' && (
                                                                         <Button onClick={() => handleEdit(index, res)} className={HiddenOnPrint}>
                                                                             Editar
                                                                         </Button>
-                                                                    )}
+                                                                    )*/}
                                                                 </div>
                                                             </DescriptionCell>
                                                         </TableRow>
-                                                        {editingIndex === index && (
+                                                        {/*editingIndex === index && (
                                                         <EditContainer>
                                                             <h3>Editando Aula</h3>
                                                             
@@ -304,7 +304,7 @@ const Grade = () => {
                                                             <Button onClick={handleSaveEdit}>Salvar</Button>
                                                             <Button onClick={() => setEditingIndex(null)}>Cancelar</Button>
                                                         </EditContainer>
-                                                    )}
+                                                    ) */}
                                                     </ContainerTable>
                                                 </React.Fragment>
                                             ))

@@ -15,7 +15,16 @@ import {
   getIIIrdQuarter,
   getIVthQuarter,
   getVthQuarter,
-  getVIthQuarter
+  getVIthQuarter,
+
+  reopenI_stQuarter,
+  tocloseI_stQuarter,
+  reopenII_ndQuarter,
+  tocloseII_ndQuarter,
+  reopenIII_rdQuarter,
+  tocloseIII_rdQuarter,
+  reopenIV_thQuarter,
+  tocloseIV_thQuarter
 } from '../../Api';
 
 import LoadingSpinner from '../../components/Loading';
@@ -40,7 +49,7 @@ const HomeSchool = () => {
       const position = localStorage.getItem('position_at_school');
       setPosition_at_school(position);
       const year = new Date().getFullYear();
-      
+
       const [IstQuarter, IIndQuarter, IIIrdQuarter, IVthQuarter, VthQuarter, VIthQuarter] = await Promise.all([
         getIstQuarter(year, JSON.parse(idSchool)),
         getIIndQuarter(year, JSON.parse(idSchool)),
@@ -49,7 +58,7 @@ const HomeSchool = () => {
         getVthQuarter(year, JSON.parse(idSchool)),
         getVIthQuarter(year, JSON.parse(idSchool))
       ]);
-      
+
       setIStQuarter(IstQuarter?.data?.data || []);
       setIIndQuarter(IIndQuarter?.data?.data || []);
       setIIIrdQuarter(IIIrdQuarter?.data?.data || []);
@@ -65,15 +74,124 @@ const HomeSchool = () => {
     navigate(route);
   };
 
-  const QuarterSection = ({ title, data, onEdit, onCreate }) => (
+  const ReopenI_stQuarter = async (id) => {
+    console.log("id reopen", id)
+    const res = await reopenI_stQuarter(id)
+    if (res) {
+      console.log('resOpen', res)
+      alert('Bimestre reaberto com sucesso')
+      window.location.reload()
+    }
+  };
+
+  const TocloseI_stQuarter = async (id) => {
+    console.log("id reopen", id)
+    const res = await tocloseI_stQuarter(id)
+    if (res) {
+      console.log('resOpen', res)
+      alert('Bimestre fechado com sucesso')
+      window.location.reload()
+    }
+  };
+
+  const ReopenII_ndQuarter = async (id) => {
+    console.log("id reopen", id)
+    const res = await reopenII_ndQuarter(id)
+    if (res) {
+      console.log('resOpen', res)
+      alert('Bimestre reaberto com sucesso')
+      window.location.reload()
+    }
+  };
+
+  const TocloseII_ndQuarter = async (id) => {
+    console.log("id reopen", id)
+    const res = await tocloseII_ndQuarter(id)
+    if (res) {
+      console.log('resOpen', res)
+      alert('Bimestre fechado com sucesso')
+      window.location.reload()
+    }
+  };
+
+  const ReopenIII_rdQuarter = async (id) => {
+    console.log("id reopen", id)
+    const res = await reopenIII_rdQuarter(id)
+    if (res) {
+      console.log('resOpen', res)
+      alert('Bimestre reaberto com sucesso')
+      window.location.reload()
+    }
+  };
+
+  const TocloseIII_rdQuarter = async (id) => {
+    console.log("id reopen", id)
+    const res = await tocloseIII_rdQuarter(id)
+    if (res) {
+      console.log('resOpen', res)
+      alert('Bimestre fechado com sucesso')
+      window.location.reload()
+    }
+  };
+  const ReopenIV_thQuarter = async (id) => {
+    console.log("id reopen", id)
+    const res = await reopenIV_thQuarter(id)
+    if (res) {
+      console.log('resOpen', res)
+      alert('Bimestre reaberto com sucesso')
+      window.location.reload()
+    }
+  };
+
+  const TocloseIV_thQuarter = async (id) => {
+    console.log("id reopen", id)
+    const res = await tocloseIV_thQuarter(id)
+    if (res) {
+      console.log('resOpen', res)
+      alert('Bimestre fechado com sucesso')
+      window.location.reload()
+    }
+  };
+
+  const QuarterSection = ({ title, data, onEdit, onCreate, onReopen, onToclose }) => (
     <DivAddEmp>
       {data.length > 0 ? (
         <>
           <AddEmp>
             <h3>{title}</h3>
-            {position_at_school !== "PROFESSOR" && (
-              <Btt02 onClick={onEdit}>Editar Bimestre</Btt02>
-            )}
+            {position_at_school === "DIRETOR/SUPERVISOR" ? (
+              data.map(res => {
+                console.log("_id", res._id)
+                console.log("status", res.status)
+                const id = res._id
+                if (res.status === "fechado" && (res.statusSupervisor === "fechado" || !res.statusSupervisor)) {
+                  return (
+                    <Btt02 key={res._id} onClick={() => onReopen(id)}>
+                      Reabrir Bimestre
+                    </Btt02>
+                  );
+                } else if (res.status === "fechado" && res.statusSupervisor === "aberto") {
+                  return (
+                    <Btt02 key={res._id} onClick={() => onToclose(id)}>Fecha Bimestre</Btt02>
+                  );
+                } else if (res.status !== "fechado") {
+                  return (
+                    <Btt02 onClick={onEdit}>Editar Bimestre</Btt02>
+                  );
+                }
+                return res
+              })
+
+            ) : position_at_school === "SECRETARIO" ? (
+              data.map(res => {
+                if (res.status !== "fechado") {
+                  return (
+                    <Btt02 onClick={onEdit}>Editar Bimestre</Btt02>
+                  );
+                }
+                return null
+              })
+            ) : null /* Caso nenhuma condição de posição seja atendida */}
           </AddEmp>
           <DivDados>
             {data.map(res => (
@@ -105,30 +223,38 @@ const HomeSchool = () => {
       ) : (
         <ContainerDivs>
           <h2>Calendário Anual</h2>
-          <p>Defina somente Bimestres nessecarios para o ano letivo !!!</p>
+          {/*<p>Defina somente Bimestres nessecarios para o ano letivo !!!</p>*/}
           <QuarterSection
             title="1º Bimestre"
             data={IStQuarter}
             onEdit={() => handleNavigate("IstQuarterInformation", IStQuarter[0]?._id, '/updatei-stquarter')}
             onCreate={() => navigate('/createi-stquarter')}
+            onReopen={ReopenI_stQuarter} // Passando a função aqui
+            onToclose={TocloseI_stQuarter} // Passando a função aqui
           />
           <QuarterSection
             title="2º Bimestre"
             data={IIndQuarter}
             onEdit={() => handleNavigate("IIndQuarterInformation", IIndQuarter[0]?._id, '/updateii-ndquarter')}
             onCreate={() => navigate('/createii-ndquarter')}
+            onReopen={ReopenII_ndQuarter} // Passando a função aqui
+            onToclose={TocloseII_ndQuarter} // Passando a função aqui
           />
           <QuarterSection
             title="3º Bimestre"
             data={IIIrdQuarter}
             onEdit={() => handleNavigate("IIIrdQuarterInformation", IIIrdQuarter[0]?._id, '/updateiii-rdquarter')}
             onCreate={() => navigate('/createiii-rdquarter')}
+            onReopen={ReopenIII_rdQuarter} // Passando a função aqui
+            onToclose={TocloseIII_rdQuarter} // Passando a função aqui
           />
           <QuarterSection
             title="4º Bimestre"
             data={IVthQuarter}
             onEdit={() => handleNavigate("IVthQuarterInformation", IVthQuarter[0]?._id, '/updateiv-thquarter')}
             onCreate={() => navigate('/createiv-thquarter')}
+            onReopen={ReopenIV_thQuarter} // Passando a função aqui
+            onToclose={TocloseIV_thQuarter} // Passando a função aqui
           />
           {/*<QuarterSection
             title="5º Bimestre"

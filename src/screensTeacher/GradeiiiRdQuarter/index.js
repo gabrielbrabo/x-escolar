@@ -28,6 +28,7 @@ import LoadingSpinner from '../../components/Loading'
 const IndexAttendance = () => {
 
     const navigate = useNavigate()
+    const [open, setopen] = useState()
     const [Namematter, setNameMatter] = useState([])
     const [year, setYear] = useState('');
     const [bimonthly, setBimonthly] = useState([]);
@@ -64,6 +65,13 @@ const IndexAttendance = () => {
             setYear(currentYear)
             setId_iiiRdQuarter(id_bimonthly)
 
+            const open = await IIIrdQuarter.data.data.map(res => {
+                return res.statusSupervisor
+
+            }).find(res => {
+                return res
+            })
+            setopen(open)
             const bim = await IIIrdQuarter.data.data.map(res => {
                 return res.bimonthly
 
@@ -183,111 +191,115 @@ const IndexAttendance = () => {
                 :
                 <ContainerDivs>
                     <h2>Grade Bimestral</h2>
-                    <ContainerStudent>
-                        <DataSelected>
-                            <Info>
-                                <p>Bimestre: 3º Bimestre</p>
-                                <p>Disciplina: {Namematter}</p>
-                            </Info>
-                            <LegendBox>
-                                <h3>Legenda</h3>
-                                <p><strong>A</strong> - Alcançou com êxito as capacidades básicas</p>
-                                <p><strong>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
-                                <p><strong>C</strong> - Alcançou parcialmente as capacidades básicas</p>
-                                <p><strong>D</strong> - Não alcançou as capacidades básicas</p>
-                            </LegendBox>
-                        </DataSelected>
-                        {!update_id_grade &&
-                            <>
-                                <List>
-                                    {
-                                        stdt
-                                            .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
-                                            .map(stdt => (
-                                                <>
-                                                    <Emp
-                                                        key={stdt._id}
-                                                    >
-                                                        <Span>{stdt.name}</Span>
-                                                        <Grade>
-                                                            <p>Conceito:</p>
-                                                            <Select
-                                                                //id="position"
-                                                                //value={update_studentGrade}
-                                                                onChange={(e) => setStudentGrade(e.target.value)}
-                                                            >
-                                                                <option value="">Selecione</option>
-                                                                <option value="A">A</option>
-                                                                <option value="B">B</option>
-                                                                <option value="C">C</option>
-                                                                <option value="D">D</option>
-                                                            </Select>
-                                                            {/*<span>pts</span>*/}
-                                                        </Grade>
-                                                        <Btt01 onClick={() => handleGrade(stdt)}>Definir</Btt01>
-                                                    </Emp>
-                                                    {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                                                </>
-                                            ))
-                                    }
-                                </List>
-                                <h3>Checked</h3>
-                                <List>
+                    {open === 'aberto' ? (
+                        <ContainerStudent>
+                            <DataSelected>
+                                <Info>
+                                    <p>Bimestre: 3º Bimestre</p>
+                                    <p>Disciplina: {Namematter}</p>
+                                </Info>
+                                <LegendBox>
+                                    <h3>Legenda</h3>
+                                    <p><strong>A</strong> - Alcançou com êxito as capacidades básicas</p>
+                                    <p><strong>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
+                                    <p><strong>C</strong> - Alcançou parcialmente as capacidades básicas</p>
+                                    <p><strong>D</strong> - Não alcançou as capacidades básicas</p>
+                                </LegendBox>
+                            </DataSelected>
+                            {!update_id_grade &&
+                                <>
+                                    <List>
+                                        {
+                                            stdt
+                                                .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
+                                                .map(stdt => (
+                                                    <>
+                                                        <Emp
+                                                            key={stdt._id}
+                                                        >
+                                                            <Span>{stdt.name}</Span>
+                                                            <Grade>
+                                                                <p>Conceito:</p>
+                                                                <Select
+                                                                    //id="position"
+                                                                    //value={update_studentGrade}
+                                                                    onChange={(e) => setStudentGrade(e.target.value)}
+                                                                >
+                                                                    <option value="">Selecione</option>
+                                                                    <option value="A">A</option>
+                                                                    <option value="B">B</option>
+                                                                    <option value="C">C</option>
+                                                                    <option value="D">D</option>
+                                                                </Select>
+                                                                {/*<span>pts</span>*/}
+                                                            </Grade>
+                                                            <Btt01 onClick={() => handleGrade(stdt)}>Definir</Btt01>
+                                                        </Emp>
+                                                        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                                    </>
+                                                ))
+                                        }
+                                    </List>
+                                    <h3>Checked</h3>
+                                    <List>
 
-                                    {
-                                        checked
-                                            .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
-                                            .map(stdt => (
-                                                <>
-                                                    <Emp
-                                                        key={stdt._id}
-                                                    >
-                                                        <Span>{stdt.id_student.name}</Span>
-                                                        <Grade>
-                                                            <p>Conceito: </p>
-                                                            <p>{stdt.studentGrade}</p>
-                                                            {/*<span>pts</span>*/}
-                                                        </Grade>
-                                                        <Btt02 onClick={() => startEditing(stdt)} >Editar</Btt02>
-                                                    </Emp>
-                                                </>
-                                            ))
-                                    }
-                                </List>
-                            </>
-                        }
-                        {update_id_grade && (
-                            <EditContainer>
-                                <h3>Editando Nota</h3>
-                                {console.log("editingStudent", namestudent.id_student.name)}
-                                <Emp>
-                                    <Span>{namestudent.id_student.name}</Span>
-                                    <Grade>
-                                        <p>Concenito: </p>
-                                        <Select
-                                            //id="position"
-                                            value={update_studentGrade}
-                                            onChange={(e) => setUpdateStudentGrade(e.target.value)}
-                                        >
-                                            <option value="">Selecione</option>
-                                            <option value="A">A</option>
-                                            <option value="B">B</option>
-                                            <option value="C">C</option>
-                                            <option value="D">D</option>
-                                        </Select>
-                                        {/*<span>pts</span>*/}
-                                    </Grade>
-                                </Emp>
-                                <Btt02 onClick={saveEdit}>Salvar</Btt02>
-                                <Btt02 onClick={() => setUpdateIdGrade(null)}>Cancelar</Btt02>
-                            </EditContainer>
-                        )}
-                        {!update_id_grade &&
-                            <Btt02 onClick={Finalyze}>
-                                Finalizar
-                            </Btt02>
-                        }
-                    </ContainerStudent>
+                                        {
+                                            checked
+                                                .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
+                                                .map(stdt => (
+                                                    <>
+                                                        <Emp
+                                                            key={stdt._id}
+                                                        >
+                                                            <Span>{stdt.id_student.name}</Span>
+                                                            <Grade>
+                                                                <p>Conceito: </p>
+                                                                <p>{stdt.studentGrade}</p>
+                                                                {/*<span>pts</span>*/}
+                                                            </Grade>
+                                                            <Btt02 onClick={() => startEditing(stdt)} >Editar</Btt02>
+                                                        </Emp>
+                                                    </>
+                                                ))
+                                        }
+                                    </List>
+                                </>
+                            }
+                            {update_id_grade && (
+                                <EditContainer>
+                                    <h3>Editando Nota</h3>
+                                    {console.log("editingStudent", namestudent.id_student.name)}
+                                    <Emp>
+                                        <Span>{namestudent.id_student.name}</Span>
+                                        <Grade>
+                                            <p>Concenito: </p>
+                                            <Select
+                                                //id="position"
+                                                value={update_studentGrade}
+                                                onChange={(e) => setUpdateStudentGrade(e.target.value)}
+                                            >
+                                                <option value="">Selecione</option>
+                                                <option value="A">A</option>
+                                                <option value="B">B</option>
+                                                <option value="C">C</option>
+                                                <option value="D">D</option>
+                                            </Select>
+                                            {/*<span>pts</span>*/}
+                                        </Grade>
+                                    </Emp>
+                                    <Btt02 onClick={saveEdit}>Salvar</Btt02>
+                                    <Btt02 onClick={() => setUpdateIdGrade(null)}>Cancelar</Btt02>
+                                </EditContainer>
+                            )}
+                            {!update_id_grade &&
+                                <Btt02 onClick={Finalyze}>
+                                    Finalizar
+                                </Btt02>
+                            }
+                        </ContainerStudent>
+                    ) : (
+                        <p>3º Bimestre fechado para editar contate o suprevisor</p>
+                    )}
                 </ContainerDivs>
             }
         </Container>

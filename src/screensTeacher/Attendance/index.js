@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from 'react'
 //import { useNavigate } from 'react-router-dom'
-import { clssInfo, GetAttendanceFinalized, Attendance, updateAttendance } from '../../Api'
+import {
+    clssInfo,
+    GetAttendanceFinalized,
+    Attendance,
+    updateAttendance,
+    getIstQuarter,
+    getIIndQuarter,
+    getIIIrdQuarter,
+    getIVthQuarter,
+    //getVthQuarter,
+    //getVIthQuarter,
+} from '../../Api'
+
 import SelectorDate from '../../components/SelectorOnDate'
 
 import {
@@ -30,6 +42,7 @@ const IndexAttendance = () => {
     //const navigate = useNavigate()
     //const [matter, setMatter] = useState([])
     //const [Namematter, setNameMatter] = useState([])
+    const [open, setopen] = useState()
     const [id_matter, setclickMatter] = useState([])
     const [id_class, setId_class] = useState([])
     const [id_teacher, setId_teacher] = useState([])
@@ -93,6 +106,66 @@ const IndexAttendance = () => {
         sessionStorage.setItem("day", day)
         sessionStorage.setItem("month", month)
         sessionStorage.setItem("year", year)
+
+        //const Year = new Date().getFullYear();
+
+        const fetchQuarters = async () => {
+            const idSchool = sessionStorage.getItem("id-school");
+
+            const dateSelected = new Date(year, month - 1, day);
+
+            const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
+            const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
+            const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
+            const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
+            //const VthQuarter = await getVthQuarter(year, JSON.parse(idSchool))
+            //const VIthQuarter = await getVIthQuarter(year, JSON.parse(idSchool))
+            const getQuarterStatus = (quarterData) => {
+                return quarterData.data.data
+                    .map((res) => {
+                        const startDate = new Date(res.startyear, res.startmonth - 1, res.startday);
+                        const endDate = new Date(res.endyear, res.endmonth - 1, res.endday);
+                        if (dateSelected >= startDate && dateSelected <= endDate) {
+                            return res.statusSupervisor;
+                        }
+                        return null;
+                    })
+                    .find((res) => res); // Retorna o primeiro status válido encontrado
+            };
+
+            const dataIstQuarter = getQuarterStatus(IstQuarter);
+            const dataIIndQuarter = getQuarterStatus(IIndQuarter);
+            const dataIIIrdQuarter = getQuarterStatus(IIIrdQuarter);
+            const dataIVthQuarter = getQuarterStatus(IVthQuarter);
+
+            // Retorna os dados encontrados em um objeto
+            return {
+                IstQuarter: dataIstQuarter || null,
+                IIndQuarter: dataIIndQuarter || null,
+                IIIrdQuarter: dataIIIrdQuarter || null,
+                IVthQuarter: dataIVthQuarter || null,
+            };
+        };
+        // Chamando a função e lidando com o resultado
+        fetchQuarters().then((result) => {
+            if (result.IstQuarter) {
+                console.log("dataIstQuarter", result.IstQuarter);
+                setopen(result.IstQuarter)
+            }
+            if (result.IIndQuarter) {
+                console.log("dataIIndQuarter", result.IIndQuarter);
+                setopen(result.IIndQuarter)
+            }
+            if (result.IIIrdQuarter) {
+                console.log("dataIIIrdQuarter", result.IIIrdQuarter);
+                setopen(result.IIIrdQuarter)
+            }
+            if (result.IVthQuarter) {
+                console.log("dataIVthQuarter", result.IVthQuarter);
+                setopen(result.IVthQuarter)
+            }
+        })
+        fetchQuarters();
     }
     const clickRemovedate = () => {
         setLoading(true)
@@ -114,7 +187,7 @@ const IndexAttendance = () => {
         sessionStorage.removeItem("day")
         sessionStorage.removeItem("month")
         sessionStorage.removeItem("year")
-
+     
         setclickMatter([])
         setSelectedDate('')
         setDay('')
@@ -197,7 +270,7 @@ const IndexAttendance = () => {
                         <DivInfo>
                             <h3>Selecione uma Disciplina</h3>
                             <Matter>
-
+     
                                 {
                                     matter.map(matter => (
                                         <div onClick={() => click_idMatter(matter)} key={matter._id}>
@@ -223,63 +296,78 @@ const IndexAttendance = () => {
                     }
                     {
                         selectedDate && !editingStudent
-                        &&
-                        <ContainerStudent>
-                            <h2>Chamada</h2>
-                            <DataSelected>
-                                {/*<p>Disciplina: {Namematter}</p>*/}
-                                <p>Data: {day}/{month}/{year}</p>
-                            </DataSelected>
-                            <DivButton>
-                                {/* <Btt02 onClick={clickRemovematter}>
+                        && (
+                            open === 'aberto' ? (
+                                <ContainerStudent>
+                                    <h2>Chamada</h2>
+                                    <DataSelected>
+                                        {/*<p>Disciplina: {Namematter}</p>*/}
+                                        <p>Data: {day}/{month}/{year}</p>
+                                    </DataSelected>
+                                    <DivButton>
+                                        {/* <Btt02 onClick={clickRemovematter}>
                                     Selecionar outra materia
                                 </Btt02>*/}
-                                <Btt02 onClick={clickRemovedate}>
-                                    Selecionar outra data
-                                </Btt02>
-                            </DivButton>
-                            <List>
-
-                                {
-                                    stdt
-                                    .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
-                                    .map(stdt => (
-                                        <Emp
-                                            /*onClick={() =>
-                                                classInformation(stdt)
-                                            }*/
-                                            key={stdt._id}
-                                        >
-                                            <Span>{stdt.name}</Span>
-                                            <Btt02 onClick={() => handlePresenceClick(stdt)} style={{ backgroundColor: 'green' }}>Presença</Btt02>
-                                            <Btt02 onClick={() => handleAbsenceClick(stdt)} style={{ backgroundColor: 'red' }}>Ausência</Btt02>
-                                        </Emp>
-                                    ))
-                                }
-                            </List>
-                            <ListChecked>
-                                {checked
-                                .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
-                                .map(checkedStdt => (
-                                    <Emp key={checkedStdt._id}>
-                                        <SpanChecked>{checkedStdt.id_student.name}
-                                            <Btt02 style={{
-                                                backgroundColor: checkedStdt.status === 'P' ? 'green' : 'red'
-                                            }}>
-                                                {checkedStdt.status}
-                                            </Btt02>
-                                        </SpanChecked>
-                                        <Btt02 onClick={() => startEditing(checkedStdt)} style={{ backgroundColor: 'blue' }}>
-                                            Editar
+                                        <Btt02 onClick={clickRemovedate}>
+                                            Selecionar outra data
                                         </Btt02>
-                                    </Emp>
-                                ))}
-                            </ListChecked>
-                            <Btt02 onClick={Finalyze}>
-                                Finalizar Chamada
-                            </Btt02>
-                        </ContainerStudent>
-                    }
+                                    </DivButton>
+                                    <List>
+
+                                        {
+                                            stdt
+                                                .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
+                                                .map(stdt => (
+                                                    <Emp
+                                                        /*onClick={() =>
+                                                            classInformation(stdt)
+                                                        }*/
+                                                        key={stdt._id}
+                                                    >
+                                                        <Span>{stdt.name}</Span>
+                                                        <Btt02 onClick={() => handlePresenceClick(stdt)} style={{ backgroundColor: 'green' }}>Presença</Btt02>
+                                                        <Btt02 onClick={() => handleAbsenceClick(stdt)} style={{ backgroundColor: 'red' }}>Ausência</Btt02>
+                                                    </Emp>
+                                                ))
+                                        }
+                                    </List>
+                                    <ListChecked>
+                                        {checked
+                                            .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
+                                            .map(checkedStdt => (
+                                                <Emp key={checkedStdt._id}>
+                                                    <SpanChecked>{checkedStdt.id_student.name}
+                                                        <Btt02 style={{
+                                                            backgroundColor: checkedStdt.status === 'P' ? 'green' : 'red'
+                                                        }}>
+                                                            {checkedStdt.status}
+                                                        </Btt02>
+                                                    </SpanChecked>
+                                                    <Btt02 onClick={() => startEditing(checkedStdt)} style={{ backgroundColor: 'blue' }}>
+                                                        Editar
+                                                    </Btt02>
+                                                </Emp>
+                                            ))}
+                                    </ListChecked>
+                                    <Btt02 onClick={Finalyze}>
+                                        Finalizar Chamada
+                                    </Btt02>
+                                </ContainerStudent>
+                            ) : (
+                                <>
+                                    <p> Bimestre fechado para editar contate o suprevisor</p>
+
+                                    <DivButton>
+                                        {/* <Btt02 onClick={clickRemovematter}>
+                                    Selecionar outra materia
+                                </Btt02>*/}
+                                        <Btt02 onClick={clickRemovedate}>
+                                            Selecionar outra data
+                                        </Btt02>
+                                    </DivButton>
+                                </>
+                            )
+                        )}
                     {editingStudent && (
                         <EditContainer>
                             <h3>Editando: {namestudent.id_student.name}</h3>

@@ -19,11 +19,15 @@ import {
   PrintButton,
   SpanFrequency,
   LegendBox,
+  DivBimTable,
+  DivBimRow,
+  DivBimHeader,
+  DivBimCell,
 } from './style';
 
 import GlobalStyle from './style';
 
-import { getFinalConcepts, AttendanceFinalConcepts } from '../../Api';
+import { getFinalConcepts, AttendanceFinalConcepts, indexGradesCard } from '../../Api';
 
 import { IoCheckmarkSharp, IoCloseSharp } from "react-icons/io5";
 
@@ -43,6 +47,11 @@ const FinalConcepts = () => {
   const [highlightedDays, setHighlightedDays] = React.useState([]);
   const [highlightedDaysF, setHighlightedDaysF] = React.useState([]);
 
+  const [iStQuarter, setiStQuarter] = useState([]);
+  const [iiNdQuarter, setiiNdQuarter] = useState([]);
+  const [iiiRdQuarter, setIIIrdQuarter] = useState([]);
+  const [ivThQuarter, setIVthQuarter] = useState([]);
+
   useEffect(() => {
     (async () => {
       setLoading(true);
@@ -56,6 +65,28 @@ const FinalConcepts = () => {
       const resGrade = await getFinalConcepts(year, id_student)
       setGrade(resGrade.data.data)
       console.log("resGrade", resGrade.data.data)
+
+      if (year && id_student) {
+        const grades = await indexGradesCard(year, id_student)
+        if (grades) {
+          console.log("grades", grades.data.data);
+
+          // Filtra os objetos para cada bimestre
+          const firstQuarter = grades.data.data.filter(res => res.bimonthly === "1º BIMESTRE");
+          const secondQuarter = grades.data.data.filter(res => res.bimonthly === "2º BIMESTRE");
+          const thirdQuarter = grades.data.data.filter(res => res.bimonthly === "3º BIMESTRE");
+          const fourthQuarter = grades.data.data.filter(res => res.bimonthly === "4º BIMESTRE");
+
+          // Atualiza os estados com os arrays filtrados
+          setiStQuarter(firstQuarter);
+          setiiNdQuarter(secondQuarter);
+          setIIIrdQuarter(thirdQuarter)
+          setIVthQuarter(fourthQuarter)
+
+          console.log("1º Bimestre", firstQuarter);
+          console.log("2º Bimestre", secondQuarter);
+        }
+      }
 
       if (resGrade) {
         const tchr = resGrade.data.data.map(res => res.id_employee.name);
@@ -139,9 +170,27 @@ const FinalConcepts = () => {
                         key={grd._id} >
                         <SpanNameMatter>{grd.id_matter.name}</SpanNameMatter>
                         <Grade>
+                          <DivBimTable>
+                            <DivBimRow>
+                              <DivBimHeader>1º Bim</DivBimHeader>
+                              <DivBimCell>{iStQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}</DivBimCell>
+                            </DivBimRow>
+                            <DivBimRow>
+                              <DivBimHeader>2º Bim</DivBimHeader>
+                              <DivBimCell>{iiNdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}</DivBimCell>
+                            </DivBimRow>
+                            <DivBimRow>
+                              <DivBimHeader>3º Bim</DivBimHeader>
+                              <DivBimCell>{iiiRdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}</DivBimCell>
+                            </DivBimRow>
+                            <DivBimRow>
+                              <DivBimHeader>4º Bim</DivBimHeader>
+                              <DivBimCell>{ivThQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}</DivBimCell>
+                            </DivBimRow>
+                          </DivBimTable>
                           {/*<SpanTotalGrade><p>Total</p>{grd.totalGrade}</SpanTotalGrade>
                           <SpanAverageGrade><p>Media</p>{grd.averageGrade}</SpanAverageGrade>*/}
-                          <SpanGradeStudent grade={grd.studentGrade} /*average={grd.averageGrade}*/><p>Desempenho</p>{grd.studentGrade}</SpanGradeStudent>
+                          <SpanGradeStudent grade={grd.studentGrade} /*average={grd.averageGrade}*/><p>Conceito Final</p>{grd.studentGrade}</SpanGradeStudent>
                         </Grade>
                       </Emp>
                     ))

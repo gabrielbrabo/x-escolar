@@ -2254,6 +2254,120 @@ export const indexGrades = async (
         }, [])
 };
 
+export const indexGradesCard = async (
+    year, id_student
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/grades-card`, {
+        year, id_student
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+};
+
+export const reopenI_stQuarter = async (
+    id
+) => {
+    try {
+        // Faz a chamada para a rota com os parâmetros opcionais
+        return api.post(`/reopen_i_stQuarter/${id}`);
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        throw error;
+    }
+};
+
+export const tocloseI_stQuarter = async (
+    id
+) => {
+    try {
+        // Faz a chamada para a rota com os parâmetros opcionais
+        return api.post(`/toclose_i_stQuarter/${id}`);
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        throw error;
+    }
+};
+
+export const reopenII_ndQuarter = async (
+    id
+) => {
+    try {
+        // Faz a chamada para a rota com os parâmetros opcionais
+        return api.post(`/reopen_ii_ndQuarter/${id}`);
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        throw error;
+    }
+};
+
+export const tocloseII_ndQuarter = async (
+    id
+) => {
+    try {
+        // Faz a chamada para a rota com os parâmetros opcionais
+        return api.post(`/toclose_ii_ndQuarter/${id}`);
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        throw error;
+    }
+};
+
+export const reopenIII_rdQuarter = async (
+    id
+) => {
+    try {
+        // Faz a chamada para a rota com os parâmetros opcionais
+        return api.post(`/reopen_iii_rdQuarter/${id}`);
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        throw error;
+    }
+};
+
+export const tocloseIII_rdQuarter = async (
+    id
+) => {
+    try {
+        // Faz a chamada para a rota com os parâmetros opcionais
+        return api.post(`/toclose_iii_rdQuarter/${id}`);
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        throw error;
+    }
+};
+
+export const reopenIV_thQuarter = async (
+    id
+) => {
+    try {
+        // Faz a chamada para a rota com os parâmetros opcionais
+        return api.post(`/reopen_iv_thQuarter/${id}`);
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        throw error;
+    }
+};
+
+export const tocloseIV_thQuarter = async (
+    id
+) => {
+    try {
+        // Faz a chamada para a rota com os parâmetros opcionais
+        return api.post(`/toclose_iv_thQuarter/${id}`);
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        throw error;
+    }
+};
+
 /*export const getavatar = async () => {
 
     return api.get('/avatar')

@@ -31,6 +31,7 @@ import LoadingSpinner from '../../components/Loading';
 
 const IndividualForm = () => {
     const navigate = useNavigate();
+    const [open, setopen] = useState()
     const [Selectbimonthly, setSelectbimonthly] = useState();
     const [bimonthly, setBimonthly] = useState([]);
     const [year, setYear] = useState([]);
@@ -74,7 +75,7 @@ const IndividualForm = () => {
         // Carrega dados específicos após a seleção do bimestre
         const loadIndividualFormData = async () => {
             if (!Selectbimonthly) return;
-
+            setopen(Selectbimonthly.statusSupervisor)
             const bimestreMapping = {
                 "1º BIMESTRE": "id_iStQuarter",
                 "2º BIMESTRE": "id_iiNdQuarter",
@@ -83,8 +84,9 @@ const IndividualForm = () => {
                 "5º BIMESTRE": "id_vThQuarter",
                 "6º BIMESTRE": "id_viThQuarter",
             };
-
             const quarterIdKey = bimestreMapping[Selectbimonthly.bimonthly];
+            console.log('quarterIdKey', quarterIdKey)
+            console.log('Selectbimonthly', Selectbimonthly)
             if (quarterIdKey) {
                 try {
                     const idQuarter = Selectbimonthly._id;
@@ -93,7 +95,6 @@ const IndividualForm = () => {
                         id_class,
                         [quarterIdKey]: idQuarter,
                     });
-                        
                     const GradeRealized = res.data.map(res => res.id_student._id);
                     const resClass = await clssInfo(id_class);
                     const student = resClass.data.data.find(res => res)?.id_student
@@ -101,7 +102,7 @@ const IndividualForm = () => {
 
                     setStdt(student);
                     setChecked(res.data);
-                    console.log('resposta back',resClass)
+                    console.log('resposta back', resClass)
                     console.log("individual form", res.data);
 
                     // Salva Selectbimonthly no sessionStorage
@@ -139,7 +140,7 @@ const IndividualForm = () => {
     const messageButtonClick = () => {
         navigate(-1);
     };
-
+    console.log("open", open)
     return (
         <Container>
             {loading ? (
@@ -159,7 +160,7 @@ const IndividualForm = () => {
                                     >
                                         <option value="">Selecione</option>
                                         {bimonthly.map(res => (
-                                            <option key={res._id} value={JSON.stringify({ _id: res._id, bimonthly: res.bimonthly })}>
+                                            <option key={res._id} value={JSON.stringify({ _id: res._id, bimonthly: res.bimonthly, statusSupervisor: res.statusSupervisor })}>
                                                 {res.bimonthly}
                                             </option>
                                         ))}
@@ -173,37 +174,41 @@ const IndividualForm = () => {
                         )}
                     </InputArea>
                     {Selectbimonthly && (
-                        <>
-                            <h3>Click no aluno em que deseja adicionar ficha individual</h3>
-                            <List>
-                                {stdt
-                                .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
-                                .map(stdt => (
-                                    stdt && stdt._id ? (
-                                        <EmpStdt onClick={() => handleIndividualForm(stdt)} key={stdt._id}>
-                                            <Span>{stdt.name}</Span>
-                                        </EmpStdt>
-                                    ) : null
-                                ))}
-                            </List>
+                        open === 'aberto' ? (
+                            <>
+                                <h3>Click no aluno em que deseja adicionar ficha individual</h3>
+                                <List>
+                                    {stdt
+                                        .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
+                                        .map(stdt => (
+                                            stdt && stdt._id ? (
+                                                <EmpStdt onClick={() => handleIndividualForm(stdt)} key={stdt._id}>
+                                                    <Span>{stdt.name}</Span>
+                                                </EmpStdt>
+                                            ) : null
+                                        ))}
+                                </List>
 
-                            <h3>Alunos que já têm ficha individual</h3>
-                            <List>
-                                {checked
-                                .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
-                                .map(stdt => (
-                                    stdt && stdt.id_student && stdt.id_student._id ? (
-                                        <EmpChecked onClick={() => handleExistForm(stdt)} key={stdt.id_student._id}>
-                                            <Span>{stdt.id_student.name}</Span>
-                                        </EmpChecked>
-                                    ) : null
-                                ))}
-                            </List>
-                            <ToGoBack onClick={messageButtonClick}>
-                                <SignMessageButtonText>Voltar para a</SignMessageButtonText>
-                                <SignMessageButtonTextBold>Turma</SignMessageButtonTextBold>
-                            </ToGoBack>
-                        </>
+                                <h3>Alunos que já têm ficha individual</h3>
+                                <List>
+                                    {checked
+                                        .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
+                                        .map(stdt => (
+                                            stdt && stdt.id_student && stdt.id_student._id ? (
+                                                <EmpChecked onClick={() => handleExistForm(stdt)} key={stdt.id_student._id}>
+                                                    <Span>{stdt.id_student.name}</Span>
+                                                </EmpChecked>
+                                            ) : null
+                                        ))}
+                                </List>
+                                <ToGoBack onClick={messageButtonClick}>
+                                    <SignMessageButtonText>Voltar para a</SignMessageButtonText>
+                                    <SignMessageButtonTextBold>Turma</SignMessageButtonTextBold>
+                                </ToGoBack>
+                            </>
+                        ) : (
+                            <p>{Selectbimonthly.bimonthly} Bimestre fechado para editar contate o suprevisor</p>
+                        )
                     )}
                 </ContainerDivs>
             )}
