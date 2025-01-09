@@ -1752,7 +1752,9 @@ export const GetAttendanceFinalized = async (
     year,
     day,
     id_class,
+    id_teacher
 ) => {
+    console.log("Dados enviados para o backend:", { month, year, day, id_class, id_teacher }); // Adicione este log
 
     return api.post(`/search/frequency`, {
         month,
@@ -1771,6 +1773,7 @@ export const GetAttendanceFinalized = async (
             }
         }, [])
 }
+
 export const Attendance = async (
     day,
     month,

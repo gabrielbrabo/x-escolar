@@ -45,7 +45,7 @@ const IndexAttendance = () => {
     const [open, setopen] = useState()
     const [id_matter, setclickMatter] = useState([])
     const [id_class, setId_class] = useState([])
-    const [id_teacher, setId_teacher] = useState([])
+    const [id_teacher, setId_teacher] = useState('')
     const [stdt, setStdt] = useState([])
     const [checked, setChecked] = useState([])
     const [selectedDate, setSelectedDate] = useState('')
@@ -60,7 +60,8 @@ const IndexAttendance = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
-            const id_teacher = localStorage.getItem("Id_employee");
+            const idTeacher = JSON.parse(localStorage.getItem("Id_employee") || '""'); // Remove aspas extras
+            setId_teacher(idTeacher);
             const id_class = sessionStorage.getItem("class-info");
             const Matter = sessionStorage.getItem("attendance_ idmatter");
             const selectedDate = sessionStorage.getItem("selectedDate");
@@ -80,13 +81,20 @@ const IndexAttendance = () => {
                 setYear(JSON.parse(Year));
             }
 
-            setId_teacher(id_teacher);
+           // setId_teacher(idTeacher || "");
             setId_class(id_class);
+            if (day && month && year && id_class  && id_teacher) {
 
-            if (day && month && year && id_class && id_matter) {
-                const resAtt = await GetAttendanceFinalized(month, year, day, id_class, id_matter);
+                console.log("Payload enviado para o backend:", {
+                    month,
+                    year,
+                    day,
+                    id_class,
+                    id_teacher, // Deve ser string aqui
+                });
+                const resAtt = await GetAttendanceFinalized({month, year, day, id_class:id_class.trim(), id_teacher: id_teacher.trim(),});
+                console.log("resAtt", resAtt)
                 const resClass = await clssInfo(id_class);
-
                 const attRealized = await resAtt.data.data.map(res => res.id_student._id);
                 const checkedStudent = await resAtt.data.data;
                 const student = await resClass.data.data.find(res => res).id_student
@@ -99,7 +107,7 @@ const IndexAttendance = () => {
 
             setLoading(false);
         })();
-    }, [day, id_matter, month, year]);
+    }, [day, id_matter, id_teacher, month, year]);
 
     if (selectedDate) {
         sessionStorage.setItem("selectedDate", selectedDate)
@@ -211,10 +219,10 @@ const IndexAttendance = () => {
     const handleAttendance = async (stdt, status) => {
         setLoading(true)
         const id_student = stdt._id
-        const res = await Attendance(day, month, year, status, id_student, JSON.parse(id_teacher), id_class,)
+        const res = await Attendance(day, month, year, status, id_student, id_teacher, id_class,)
         console.log('chamada', res)
         if (res) {
-            const resAtt = await GetAttendanceFinalized(month, year, day, id_class)
+            const resAtt = await GetAttendanceFinalized({month, year, day, id_class:id_class.trim(), id_teacher: id_teacher.trim(),})
             const resClass = await clssInfo(id_class)
             const attRealized = await resAtt.data.data.map(res => {
                 return res.id_student._id
@@ -256,6 +264,7 @@ const IndexAttendance = () => {
     console.log("day", day)
     console.log("month", month)
     console.log("year", year)
+    console.log("stdt", stdt)
     console.log("checked", checked)
 
     return (
