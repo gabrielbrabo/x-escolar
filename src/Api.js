@@ -1851,12 +1851,14 @@ export const RecordClassTaught = async (
 
 export const indexRecordClassTaught = async (
     year,
-    id_class
+    id_class,
+    id_employee
 ) => {
 
     return api.post(`/index-record-class`, {
         year,
-        id_class
+        id_class,
+        id_employee
     })
         .catch((error) => {
             if (error) {
@@ -1938,6 +1940,7 @@ export const checkEmployeeteste = async (cpf) => {
 export const IndexIndividualForm = async ({
     year,
     id_class,
+    id_teacher,
     id_iStQuarter,
     id_iiNdQuarter,
     id_iiiRdQuarter,
@@ -1950,6 +1953,7 @@ export const IndexIndividualForm = async ({
         const response = await api.post('/index-individual-form', {
             year,
             id_class,
+            id_teacher,
             id_iStQuarter,
             id_iiNdQuarter,
             id_iiiRdQuarter,
@@ -2135,6 +2139,7 @@ export const AttendanceByTeacherAndClass = async (
 export const IndexGradeDaily = async (
     year,
     id_class,
+    id_teacher,
     id_iStQuarter,
     id_iiNdQuarter,
     id_iiiRdQuarter,
@@ -2146,6 +2151,7 @@ export const IndexGradeDaily = async (
     return api.post(`/grade-daily`, {
         year,
         id_class,
+        id_teacher,
         id_iStQuarter,
         id_iiNdQuarter,
         id_iiiRdQuarter,
@@ -2183,11 +2189,11 @@ export const RecordClassTaughtDaily = async (
 };
 
 export const FinalConceptsDaily = async (
-    year, id_class
+    year, id_class, id_teacher,
 ) => {
     // Faz a chamada para a rota com os parâmetros opcionais
     return api.post(`/final-concepts/daily`,
-        year, id_class
+        year, id_class, id_teacher
     )
         .catch((error) => {
             if (error) {

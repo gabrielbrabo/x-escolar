@@ -36,7 +36,7 @@ const Grade = () => {
     const navigate = useNavigate();
     const [open, setopen] = useState()
     const [loading, setLoading] = useState(false);
-    const [isTeacher, setIsTeacher] = useState([]);
+    const [/*isTeacher*/, setIsTeacher] = useState([]);
     const [id_employee, setId_employee] = useState([]);
     const [recordClassTaught, setRecordClassTaught] = useState([]);
     const [expandedRows, setExpandedRows] = useState([]);
@@ -51,16 +51,18 @@ const Grade = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
-            const id_employee = localStorage.getItem("Id_employee");
+            const id_emp = localStorage.getItem("Id_employee");
             const id_class = sessionStorage.getItem("class-info");
             const year = new Date().getFullYear();
-            const res = await indexRecordClassTaught(year, id_class);
+            const res = await indexRecordClassTaught(year, id_class, JSON.parse(id_emp));
+            console.log("res", res)
             setRecordClassTaught(res.data.data || []);
-            setId_employee(JSON.parse(id_employee));
+            setId_employee(JSON.parse(id_emp));
 
             const resClass = await clssInfo(id_class);
             const isTeacher = resClass.data.data.find(res => res)?.id_employee.find(res => res)?._id;
-
+            console.log("isTeacher", isTeacher)
+            console.log("id_emp", id_emp)
             setExpandedRows([]);
             setIsTeacher(isTeacher);
             setLoading(false);
@@ -149,7 +151,7 @@ const Grade = () => {
                 result.IVthQuarter === "aberto" ? "IVthQuarter" : null;
     
             if (openQuarter) {
-                console.log(`Trimestre aberto: ${openQuarter}`);
+                console.log(`Bimestre aberto: ${openQuarter}`);
                 setopen("aberto");
                 setEditingIndex(index);
                 setEditingId(res._id);
@@ -166,6 +168,7 @@ const Grade = () => {
 
     };
     console.log("open", open)
+    console.log("id_employee", id_employee)
     const handleSaveEdit = async () => {
         try {
             const res = await updateRecordClassTaught(editedDescription, day, month, editingId);
@@ -226,13 +229,14 @@ const Grade = () => {
                         <Button onClick={handlePrint} style={{ marginBottom: '15px' }}>Imprimir</Button>
                         <Table>
                             <>
-                                {isTeacher === id_employee && (
+                                {//isTeacher === id_employee && (
                                     <Register>
                                         <ButtonReg onClick={() => navigate('/record-class-taught')} className={HiddenOnPrint}>
                                             Registrar Nova Aula
                                         </ButtonReg>
                                     </Register>
-                                )}
+//                                )
+                                }
                                 {recordClassTaught.length > 0 ? (
                                     recordClassTaught
                                         .sort((a, b) => new Date(b.year, b.month - 1, b.day) - new Date(a.year, a.month - 1, a.day))
@@ -264,7 +268,7 @@ const Grade = () => {
                                                                         {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
                                                                     </Button>
                                                                 )}
-                                                                {expandedRows.includes(index) && isTeacher === id_employee && (
+                                                                {expandedRows.includes(index) && /*isTeacher === id_employee && */(
                                                                     <Button onClick={() => handleEdit(index, res)} className={HiddenOnPrint}>
                                                                         Editar
                                                                     </Button>

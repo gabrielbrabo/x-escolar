@@ -152,9 +152,13 @@ const IndividualFormList = () => {
                 if (quarterIdKey) {
                     try {
                         const idQuarter = SelectbimonthlyDaily._id;
+                        console.log("idEmployee", id_teacher)
+                        console.log("id_class", id_class)
+                        console.log("year", year)
                         const res = await IndexGradeDaily({
                             year,
                             id_class,
+                            id_teacher,
                             [quarterIdKey]: idQuarter,
                         })
                         const resForm = await res.data.data.filter(res => {

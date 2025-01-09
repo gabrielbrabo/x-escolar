@@ -36,6 +36,7 @@ const IndividualForm = () => {
     const [bimonthly, setBimonthly] = useState([]);
     const [year, setYear] = useState([]);
     const [id_class, setId_class] = useState([]);
+    const [id_teacher, setid_teacher] = useState([]);
     const [stdt, setStdt] = useState([]);
     const [checked, setChecked] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -46,9 +47,11 @@ const IndividualForm = () => {
             const idSchool = sessionStorage.getItem("id-school");
             const idClass = sessionStorage.getItem("class-info");
             const selectbi = sessionStorage.getItem("Selectbimonthly");
+            const id_employee = localStorage.getItem("Id_employee");
 
             setSelectbimonthly(selectbi ? JSON.parse(selectbi) : null);
             setId_class(idClass);
+            setid_teacher(JSON.parse(id_employee))
             setYear(new Date().getFullYear());
             const year = new Date().getFullYear();
             const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
@@ -93,15 +96,34 @@ const IndividualForm = () => {
                     const res = await IndexIndividualForm({
                         year,
                         id_class,
+                        id_teacher,
                         [quarterIdKey]: idQuarter,
                     });
-                    const GradeRealized = res.data.map(res => res.id_student._id);
+
+                    console.log("individual form", res);
+                    const GradeRealized = res.data.map(res => {
+                        if (res) {
+                            return res.id_student._id
+                        } else {
+                            return []
+                        }
+                    });
                     const resClass = await clssInfo(id_class);
+                    console.log("individual GradeRealized", GradeRealized);
                     const student = resClass.data.data.find(res => res)?.id_student
                         .filter(student => student && !GradeRealized.includes(student._id));
 
                     setStdt(student);
-                    setChecked(res.data);
+                    if (res.data) {
+                        const result = res.data.map( res => {
+                            if(res != null){
+                                return res
+                            } else {
+                                return undefined
+                            }
+                        })
+                        return setChecked(result);
+                    }
                     console.log('resposta back', resClass)
                     console.log("individual form", res.data);
 
@@ -114,7 +136,7 @@ const IndividualForm = () => {
         };
 
         loadIndividualFormData();
-    }, [Selectbimonthly, year, id_class]);
+    }, [Selectbimonthly, year, id_class, id_teacher]);
 
     const handleBimonthlyChange = (e) => {
         const selectedBimonthly = JSON.parse(e.target.value);
@@ -141,6 +163,8 @@ const IndividualForm = () => {
         navigate(-1);
     };
     console.log("open", open)
+    console.log("stdt", stdt)
+    console.log("checked", checked)
     return (
         <Container>
             {loading ? (
@@ -190,17 +214,19 @@ const IndividualForm = () => {
                                 </List>
 
                                 <h3>Alunos que já têm ficha individual</h3>
-                                <List>
-                                    {checked
-                                        .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
-                                        .map(stdt => (
-                                            stdt && stdt.id_student && stdt.id_student._id ? (
-                                                <EmpChecked onClick={() => handleExistForm(stdt)} key={stdt.id_student._id}>
-                                                    <Span>{stdt.id_student.name}</Span>
-                                                </EmpChecked>
-                                            ) : null
-                                        ))}
-                                </List>
+                                {
+                                    <List>
+                                        {checked
+                                            .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
+                                            .map(stdt => (
+                                                stdt && stdt.id_student && stdt.id_student._id ? (
+                                                    <EmpChecked onClick={() => handleExistForm(stdt)} key={stdt.id_student._id}>
+                                                        <Span>{stdt.id_student.name}</Span>
+                                                    </EmpChecked>
+                                                ) : null
+                                            ))
+                                        }
+                                    </List>}
                                 <ToGoBack onClick={messageButtonClick}>
                                     <SignMessageButtonText>Voltar para a</SignMessageButtonText>
                                     <SignMessageButtonTextBold>Turma</SignMessageButtonTextBold>

@@ -67,6 +67,7 @@ const IndividualFormList = () => {
                     const res = await FinalConceptsDaily({
                         year,
                         id_class,
+                        id_teacher,
                     })
                     const resForm = await res.data.data.filter(res => {
                         if (! null) {

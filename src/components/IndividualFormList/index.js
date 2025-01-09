@@ -147,6 +147,7 @@ const IndividualFormList = () => {
                         const res = await IndexIndividualForm({
                             year,
                             id_class,
+                            id_teacher,
                             [quarterIdKey]: idQuarter,
                         })
                         const resForm = res.data.filter(res => {
