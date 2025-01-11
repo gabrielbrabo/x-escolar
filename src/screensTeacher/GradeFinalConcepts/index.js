@@ -66,6 +66,9 @@ const Finalconcepts = () => {
             setLoading(true);
 
             const idSchool = sessionStorage.getItem("id-school");
+            const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
+            const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
+            const Id_employee = localStorage.getItem("Id_employee");
             const id_teacher = JSON.parse(localStorage.getItem("Id_employee"));
             const currentYear = new Date().getFullYear().toString();
             const id_cla$$ = sessionStorage.getItem("class-info");
@@ -141,7 +144,30 @@ const Finalconcepts = () => {
             }
 
             const res = await GetMatter(JSON.parse(idSchool));
-            setMttr(res.data.data);
+            if (classRegentTeacher === Id_employee) {
+                const filterMatter = res.data.data.filter(res => {
+                    if (res.name !== 'EDUCAÇÃO FÍSICA') {
+                        if (res !== null) {
+                            return res
+                        }
+                    }
+                    return null
+                })
+                setMttr(filterMatter);
+                console.log("filterMatter professor regent", filterMatter)
+            } else if (physicalEducationTeacher === Id_employee) {
+                const filterMatter = res.data.data.filter(res => {
+                    //Educação Física
+                    if (res.name === 'EDUCAÇÃO FÍSICA') {
+                        if (res !== null) {
+                            return res
+                        }
+                    }
+                    return null
+                })
+                setMttr(filterMatter);
+                console.log("filterMatter", filterMatter)
+            }
 
             setLoading(false);
         })();

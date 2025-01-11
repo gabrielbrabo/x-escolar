@@ -33,10 +33,12 @@ import NewMatter from "./screens/NewMatter"
 import AddMatter from "./screens/AddMatter"
 import AddStudent from "./screens/AddStudent"
 import AddTeacher from "./screens/AddTeacher"
+import AddphysicalTeacher from "./screens/AddphysicalTeacher"
 import StudentInfo from "./screens/StudentInfo"
 import EmployeeInfo from "./screens/EmployeeInfo"
 import ClassInfo from "./screens/ClassInfo"
 import RemoveTeacher from "./screens/RemoveTeacher"
+import RemovephysicalTeacher from "./screens/RemovephysicalTeacher"
 import RemoveStudent from "./screens/RemoveStudent"
 import RemoveMatter from "./screens/RemoveMatter"
 import DeleteMatter from "./screens/DeleteMatter"
@@ -264,6 +266,11 @@ const AppRoutes = () => {
                             <AddTeacher />
                         </Private>
                     } />
+                    <Route exact path="/add/physicalteacher/:id_class" element={
+                        <Private>
+                            <AddphysicalTeacher/>
+                        </Private>
+                    } />
                     <Route exact path="/student/info/:id_student" element={
                         <Private>
                             <StudentInfo />
@@ -282,6 +289,11 @@ const AppRoutes = () => {
                     <Route exact path="/remove/teacher" element={
                         <Private>
                             <RemoveTeacher />
+                        </Private>
+                    } />
+                    <Route exact path="/remove/physicalteacher" element={
+                        <Private>
+                            <RemovephysicalTeacher />
                         </Private>
                     } />
                     <Route exact path="/remove/student" element={

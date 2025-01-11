@@ -38,9 +38,10 @@ const MyCla$$Info = () => {
             console.log('useParamsClass', id_class)
             console.log('useParamsTeacher', id_teacher)
             const resClass = await clssInfo(id_class)
+            console.log("resClass", resClass.data.data)
             const res = await GetInfoMyClass(id_class, id_teacher)
             console.log(res.data.data)
-            const student = resClass.data.data.find(res => {
+            const student = await resClass.data.data.find(res => {
                 return res
             }).id_student.map(res => {
                 if (res) {
@@ -52,6 +53,35 @@ const MyCla$$Info = () => {
             setStdt(student)
             setClss(resClass.data.data)
             //setNameMatter(res.data.data)
+
+            const classRegentTeacher = await resClass.data.data.find(res => {
+                return res
+            }).classRegentTeacher.map(res => {
+                return (res)
+            }).find(res => {
+                if (res) {
+                    sessionStorage.setItem("classRegentTeacher", JSON.stringify(res._id))
+                    return (res)
+                } else {
+                    return null
+                }
+            })
+
+            const physicalEducationTeacher = await resClass.data.data.find(res => {
+                return res
+            }).physicalEducationTeacher.map(res => {
+                return (res)
+            }).find(res => {
+                if (res) {
+                    sessionStorage.setItem("physicalEducationTeacher", JSON.stringify(res._id))
+                    return (res)
+                } else {
+                    return null
+                }
+            })
+
+            console.log("classRegentTeacher", classRegentTeacher);
+            console.log("physicalEducationTeacher", physicalEducationTeacher);
 
             sessionStorage.removeItem("attendance_ idmatter")
             sessionStorage.removeItem("selectedDate")

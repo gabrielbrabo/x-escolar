@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GetMatter } from '../../Api';
+import { GetMatter, NewMttr } from '../../Api';
 
 import {
     Container,
@@ -21,21 +21,64 @@ import LoadingSpinner from '../../components/Loading';
 const Matter = () => {
     const navigate = useNavigate();
     const [matter, setMatter] = useState([]);
+    const [name, setname] = useState('');
+    const [idSchool, setIdSchool] = useState([]);
     const [busca, setBusca] = useState("");
     const [positionAtSchool, setPositionAtSchool] = useState(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         (async () => {
             setLoading(true);
-            const idSchool = sessionStorage.getItem("id-school");
-            const res = await GetMatter(JSON.parse(idSchool));
+            const id_school = sessionStorage.getItem("id-school");
+            setIdSchool(JSON.parse(id_school))
+            const res = await GetMatter(JSON.parse(id_school));
             const position = localStorage.getItem('position_at_school');
             setPositionAtSchool(position);
             setMatter(res.data.data);
+            const nMatter = 'EDUCAÇÃO FÍSICA';
+            setname(nMatter)
             setLoading(false);
         })();
     }, []);
+    console.log("isSubmitting", isSubmitting)
+    useEffect(() => {
+        const createMatter = async () => {
+
+            console.log("name", name)
+            console.log("idSchool", idSchool)
+            console.log("matterTest", matter)
+            const resNewMatter = await NewMttr(idSchool, name);
+            if (resNewMatter.status === 200) {
+                console.log("resposta backend", resNewMatter);
+                setIsSubmitting(true)
+                window.location.reload()
+            } else{
+                setIsSubmitting(false)
+            }
+        }
+
+        if (matter.length <= 0 && !isSubmitting && name && idSchool) {
+            createMatter();
+        }
+    }, [matter, name, idSchool, isSubmitting]);
+
+
+    /*useEffect(() => {
+        const createMatter = async () => {
+            const name = 'EDUCAÇÃO FÍSICA';
+            if (matter.length <= 0) {
+                const resNewMatter = await NewMttr(idSchool, name);
+                if (resNewMatter) {
+                    window.location.reload()
+                }
+                console.log("resNewMatter", resNewMatter);
+            }
+        };
+
+        createMatter();
+    }, [matter, idSchool]);*/
 
     matter.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
 
@@ -47,6 +90,7 @@ const Matter = () => {
         navigate('/delete/matter');
     };
 
+    console.log("matter", matter)
     return (
         <Container>
             {loading ? (

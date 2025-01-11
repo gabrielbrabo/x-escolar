@@ -49,6 +49,9 @@ const Grade = () => {
         (async () => {
             setLoading(true);
             const idSchool = sessionStorage.getItem("id-school");
+            const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
+            const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
+            const Id_employee = localStorage.getItem("Id_employee");
             const year = new Date().getFullYear();
             const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
             const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
@@ -86,7 +89,35 @@ const Grade = () => {
             if (vi !== null) {
                 setVI(vi._id);
             }
-            setMatter(res.data.data);
+            console.log("disciplinas", res.data.data)
+            if (classRegentTeacher === Id_employee) {
+                const filterMatter = res.data.data.filter(res => {
+                    if (res.name !== 'EDUCAÇÃO FÍSICA') {
+                        if (res !== null) {
+                            return res
+                        }
+                    }
+                    return null
+                })
+                setMatter(filterMatter);
+                console.log("filterMatter professor regent", filterMatter)
+            } else if (physicalEducationTeacher === Id_employee) {
+                const filterMatter = res.data.data.filter(res => {
+                    if (res.name === 'EDUCAÇÃO FÍSICA') {
+                        if (res !== null) {
+                            return res
+                        }
+                    }
+                    return null
+                })
+                setMatter(filterMatter);
+                console.log("filterMatter", filterMatter)
+            }
+            console.log("classRegentTeache:", classRegentTeacher);
+            console.log("Id_employee:", Id_employee);
+            console.log("Comparison result:", classRegentTeacher === Id_employee);
+
+            //setMatter(res.data.data);
             setLoading(false);
         })()
 
@@ -117,7 +148,7 @@ const Grade = () => {
         } else if (Selectbimonthly === II) {
             sessionStorage.setItem("id-II", II)
             navigate('/grade-iindquarter')
-        }  else if (Selectbimonthly === III) {
+        } else if (Selectbimonthly === III) {
             sessionStorage.setItem("id-III", III)
             navigate('/grade-iiirdquarter')
         } else if (Selectbimonthly === IV) {

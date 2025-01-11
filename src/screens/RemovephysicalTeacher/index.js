@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { clssInfo, removeTeacher } from '../../Api'
+import { clssInfo, removephysicalTeacher } from '../../Api'
 
 import {
     Container,
@@ -48,7 +48,7 @@ const RemoveTeacher = () => {
 
             const employee = res.data.data.find(res => {
                 return res
-            }).classRegentTeacher.map(res => {
+            }).physicalEducationTeacher.map(res => {
                 if (res) {
                     return (res)
                 } else {
@@ -80,7 +80,7 @@ const RemoveTeacher = () => {
 
     const SignClick = async () => {
         setLoading(true);
-        const res = await removeTeacher(id_teacher, id_class, /*id_matter, addTeacher*/)
+        const res = await removephysicalTeacher(id_teacher, id_class, /*id_matter, addTeacher*/)
         if (res) {
             alert('Professor Removido com sucesso.')
             navigate(-1);
@@ -162,7 +162,7 @@ const RemoveTeacher = () => {
 
                             {
                                 <Div>
-                                    <Span>   Professor: {name_teacher}</Span>
+                                    <Span>   Professor Ed Fisica: {name_teacher}</Span>
                                     {/*<Span>   Disciplina: {name_matter}</Span>*/}
                                     <Span>   Turma: {serie}</Span>
                                     <>Tem certeza que deseja remover este Professor dessa Turma ?</>

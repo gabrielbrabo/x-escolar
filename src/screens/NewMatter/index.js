@@ -55,7 +55,7 @@ const NewMatter = () => {
       }*/
       navigate(-1);
     }
-    setLoading(true);
+    setLoading(false);
   }
 
   const MessageButtomclick = () => {

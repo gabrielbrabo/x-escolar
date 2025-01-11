@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { GetEmployees, EmpInfo, addTchr, } from '../../Api'
+import { GetEmployees, EmpInfo, addPhysicalTchr, } from '../../Api'
 
 import {
     Container,
@@ -88,7 +88,7 @@ const TeacherAdd = () => {
 
     const SignClick = async () => {
         setLoading(true);
-        const res = await addTchr(id_employee, id_class, /*id_matter*/)
+        const res = await addPhysicalTchr(id_employee, id_class, /*id_matter*/)
         if (res) {
             alert('Professor Adicionado com sucesso.')
             navigate(-1);
@@ -187,7 +187,7 @@ const TeacherAdd = () => {
                             {
                                 <Div>
                                     <>Voçê ira Adicionar as seguintes configurações:</>
-                                    <Span>   Professor: {name_teacher}</Span>
+                                    <Span>   Professor Ed Fisica: {name_teacher}</Span>
                                    { /*<Span>   Materia: {name_matter}</Span>*/}
                                     <Span>   Turma: {serie}</Span>
                                     <Btt01 onClick={SignClick}>Adicionar</Btt01>

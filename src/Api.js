@@ -1567,6 +1567,26 @@ export const addTchr = async (
         }, [])
 }
 
+export const addPhysicalTchr = async (
+    id_employee,
+    id_class
+) => {
+
+    return api.post(`/add/physicalEducationTeacher`, {
+        id_employee,
+        id_class
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
+
 export const StdtInfo = async (
     id_student
 ) => {
@@ -1626,6 +1646,31 @@ export const removeTeacher = async (
 ) => {
 
     return api.post(`/remove/teacher`, {
+        id_teacher,
+        id_class,
+        //id_matter,
+        //addTeacher
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const removephysicalTeacher = async (
+    id_teacher,
+    id_class,
+    //id_matter,
+    //addTeacher
+) => {
+
+    return api.post(`/remove/physicalEducationTeacher`, {
         id_teacher,
         id_class,
         //id_matter,

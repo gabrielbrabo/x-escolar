@@ -33,7 +33,8 @@ const Cla$$Info = () => {
     //const [year, setYear] = useState([])
     const [clss, setClss] = useState([])
     const [yearclss, setyearclss] = useState('')
-    const [employee, setEmployee] = useState([])
+    const [classRegentEmployee, setclassRegentEmployee] = useState([])
+    const [physicalEducationTeacher, setphysicalEducationTeacher] = useState([])
     //const [matter, setMatter] = useState("")
     const [stdt, setStdt] = useState([])
     const [loading, setLoading] = useState(false);
@@ -64,29 +65,31 @@ const Cla$$Info = () => {
                     return null
                 }
             })
-            const employee = res.data.data.find(res => {
+            const classRegentEmployee = res.data.data.find(res => {
                 return res
-            }).id_employee.map(res => {
+            }).classRegentTeacher.map(res => {
                 if (res) {
                     return (res)
                 } else {
                     return (null)
                 }
             })
-            /*const matter = res.data.data.find( res => {
+            const physicalEducationTeacher = res.data.data.find(res => {
                 return res
-            }).id_matter.map( res => {
+            }).physicalEducationTeacher.map(res => {
                 if (res) {
-                    return (res.name)   
+                    return (res)
                 } else {
                     return (null)
                 }
-            })*/
-
-            setEmployee(employee)
+            })
+            //RegentTeacher
+            setclassRegentEmployee(classRegentEmployee)
+            setphysicalEducationTeacher(physicalEducationTeacher)
             setStdt(student)
             //setMatter(matter)
-            console.log("id_matter", employee)
+            console.log("classRegentEmployee", classRegentEmployee)
+            console.log("physicalEducationTeacher", physicalEducationTeacher)
             //console.log("matter", matter)
             setLoading(false);
         })()
@@ -100,8 +103,14 @@ const Cla$$Info = () => {
     const addTeacher = async () => {
         navigate(`/add/teacher/${id_class}`)
     }
+    const addPhysicalTeacher = async () => {
+        navigate(`/add/physicalteacher/${id_class}`)
+    }
     const RemoveTeacher = async () => {
         navigate('/remove/teacher')
+    }
+    const RemovephysicalTeacher = async () => {
+        navigate('/remove/physicalteacher')
     }
     const RemoveStudent = async () => {
         navigate('/remove/student')
@@ -111,9 +120,14 @@ const Cla$$Info = () => {
         navigate('/edit-class')
     }
 
-    const handleEmployee = async (employee) => {
-        sessionStorage.setItem("EmployeeInformation", employee._id)
-        navigate(`/employee/info/${employee._id}`)
+    const handleEmployee = async (emp) => {
+        sessionStorage.setItem("EmployeeInformation", emp._id)
+        navigate(`/employee/info/${emp._id}`)
+    }
+
+    const handlephysicalEmp = async (physicalEmp) => {
+        sessionStorage.setItem("EmployeeInformation", physicalEmp._id)
+        navigate(`/employee/info/${physicalEmp._id}`)
     }
 
     const StudentInformation = async (stdt) => {
@@ -123,7 +137,7 @@ const Cla$$Info = () => {
     }
 
     console.log("student", stdt)
-    console.log("employee", employee)
+    //console.log("employee", employee)
 
     return (
         <Container>
@@ -152,10 +166,9 @@ const Cla$$Info = () => {
                     }
 
                     {
-                        employee.length > 0
-                            ?
+                        classRegentEmployee.length > 0 ? (
                             <DivInfo>
-                                <TitleInfo>Professores:</TitleInfo>
+                                <TitleInfo>Professor Regente de Truma:</TitleInfo>
                                 {/*!showTeacher &&
                                     <DivShowMatter>
                                         <Btt02 onClick={() => { setShowTeacher(true) }}>Ver Professores <TiArrowDownThick fontSize={'17px'} /></Btt02>
@@ -167,9 +180,9 @@ const Cla$$Info = () => {
                                         {yearclss.year === currentYear
                                             &&
                                             <DivAddEmp>
-                                                <AddEmp>
+                                                {/*<AddEmp>
                                                     <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
-                                                </AddEmp>
+                                                </AddEmp>*/}
                                                 <AddEmp>
                                                     <Btt02 onClick={RemoveTeacher}>Remover</Btt02>
                                                 </AddEmp>
@@ -178,9 +191,9 @@ const Cla$$Info = () => {
                                         <Matter>
 
                                             {
-                                                employee.map(employee => (
-                                                    <div onClick={() => handleEmployee(employee)} key={employee._id}>
-                                                        <Span>{employee.name}</Span>
+                                                classRegentEmployee.map(emp => (
+                                                    <div onClick={() => handleEmployee(emp)} key={emp._id}>
+                                                        <Span>{emp.name}</Span>
                                                     </div>
                                                 ))
                                             }
@@ -194,9 +207,9 @@ const Cla$$Info = () => {
                                     </>
                                 }
                             </DivInfo>
-                            :
+                        ) : (
                             <DivInfo>
-                                <TitleInfo>Professores:</TitleInfo>
+                                <TitleInfo>Professor Regente de Truma:</TitleInfo>
                                 {yearclss.year === currentYear
                                     &&
                                     <DivAddEmp>
@@ -209,6 +222,61 @@ const Cla$$Info = () => {
                                     <>Não há nenhum Professor</>
                                 </Matter>
                             </DivInfo>
+                        )
+                    }
+                    
+                    {
+                        physicalEducationTeacher.length > 0 ? (
+                            <DivInfo>
+                                <TitleInfo>Professor de Educação Fisica:</TitleInfo>
+                                {
+                                    <>
+                                        {yearclss.year === currentYear
+                                            &&
+                                            <DivAddEmp>
+                                                {/*<AddEmp>
+                                                    <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
+                                                </AddEmp>*/}
+                                                <AddEmp>
+                                                    <Btt02 onClick={RemovephysicalTeacher}>Remover</Btt02>
+                                                </AddEmp>
+                                            </DivAddEmp>
+                                        }
+                                        <Matter>
+
+                                            {
+                                                physicalEducationTeacher.map(physicalEmp => (
+                                                    <div onClick={() => handlephysicalEmp(physicalEmp)} key={physicalEmp._id}>
+                                                        <Span>{physicalEmp.name}</Span>
+                                                    </div>
+                                                ))
+                                            }
+                                        </Matter>
+                                        {
+                                            /*<DivShowMatter>
+                                            <Btt02 onClick={() => { setShowTeacher(false) }}>Fecha<TiArrowUpThick fontSize={'17px'} /></Btt02>
+                                        </DivShowMatter>
+                                        */
+                                        }
+                                    </>
+                                }
+                            </DivInfo>
+                        ) : (
+                            <DivInfo>
+                                <TitleInfo>Professor de Educação Fisica:</TitleInfo>
+                                {yearclss.year === currentYear
+                                    &&
+                                    <DivAddEmp>
+                                        <AddEmp>
+                                            <Btt02 onClick={addPhysicalTeacher}>Add Prefessor</Btt02>
+                                        </AddEmp>
+                                    </DivAddEmp>
+                                }
+                                <Matter>
+                                    <>Não há nenhum Professor</>
+                                </Matter>
+                            </DivInfo>
+                        )
                     }
 
                     {
@@ -238,10 +306,10 @@ const Cla$$Info = () => {
                                         <Matter>
                                             {
                                                 stdt
-                                                .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
-                                                .map(stdt => (
-                                                  <Span onClick={() => StudentInformation(stdt)} key={stdt.id}>{stdt.name}</Span>
-                                                ))
+                                                    .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
+                                                    .map(stdt => (
+                                                        <Span onClick={() => StudentInformation(stdt)} key={stdt.id}>{stdt.name}</Span>
+                                                    ))
                                             }
                                         </Matter>
                                         {
