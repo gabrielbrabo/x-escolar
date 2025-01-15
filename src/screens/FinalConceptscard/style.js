@@ -123,7 +123,7 @@ export const SpanAverageGrade = styled.span`
   color: #007bff;
 `;
 
-export const SpanGradeStudent = styled.span`
+export const SpanGradeStudent = styled.div`
   color: ${props => {
     return props.grade === 'A' ? '#1d7f14' :
       props.grade === 'B' ? 'blue' :
@@ -250,6 +250,13 @@ export const DivBimCell = styled.div`
   border: 1px solid #ddd;
 `;
 
+export const DivNameMatter = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+`;
+
 const GlobalStyle = createGlobalStyle`
   @media print {
     body * {
@@ -316,7 +323,14 @@ const GlobalStyle = createGlobalStyle`
     ${Grade} {
       margin: 0;
       padding: 0;
-      align-items: center;
+      width: 80%;
+      justify-content: flex-end;
+    }
+
+    ${DivNameMatter} {
+      margin: 0;
+      padding: 0;
+      height: 0px;
     }
     
     ${DivBimHeader} {
@@ -328,16 +342,13 @@ const GlobalStyle = createGlobalStyle`
     }
 
     ${Emp} { /* Ajuste a margem inferior para evitar quebra de página */ 
-      height: 45px;
-      border-bottom: 1px solid #ccc;
+      display: flex;
+      width: 100%;
+      padding: 10px;
     }
 
     ${SpanNameMatter} { /* Ajuste a margem inferior para evitar quebra de página */
-      font-size: 0.6em;
-    }
-
-    ${SpanTotalGrade}, ${SpanAverageGrade}, ${SpanGradeStudent} {
-      font-size: 0.5em; /* Ajuste os tamanhos de fonte para impressão */
+      font-size: 0.5em;
     }
   }
 `;

@@ -9,7 +9,7 @@ import {
   DivDados,
   Grade,
   //SpanTotalGrade,
-  SpanGradeStudent,
+  //SpanGradeStudent,
   //SpanAverageGrade,
   SpanNameMatter,
   DadosStdt,
@@ -19,11 +19,16 @@ import {
   PrintButton,
   SpanFrequency,
   LegendBox,
+  DivBimTable,
+  DivBimRow,
+  DivBimHeader,
+  DivBimCell,
+  DivNameMatter
 } from './style';
 
 import GlobalStyle from './style';
 
-import { GetGrades, AttendanceBimonthly } from '../../Api';
+import { GetGrades, AttendanceBimonthly, indexGradesCard } from '../../Api';
 
 import { IoCheckmarkSharp, IoCloseSharp } from "react-icons/io5";
 
@@ -51,6 +56,11 @@ const GradeIstquarter = () => {
   const [highlightedDays, setHighlightedDays] = React.useState([]);
   const [highlightedDaysF, setHighlightedDaysF] = React.useState([]);
 
+  const [iStQuarter, setiStQuarter] = useState([]);
+  const [iiNdQuarter, setiiNdQuarter] = useState([]);
+  const [iiiRdQuarter, setIIIrdQuarter] = useState([]);
+  const [ivThQuarter, setIVthQuarter] = useState([]);
+
   useEffect(() => {
     (async () => {
       setLoading(true);
@@ -64,6 +74,28 @@ const GradeIstquarter = () => {
       const resGrade = await GetGrades(year, bimonthly, id_student)
       setGrade(resGrade.data.data)
       console.log("resGrade", resGrade.data.data)
+
+      if (year && id_student) {
+        const grades = await indexGradesCard(year, id_student)
+        if (grades) {
+          console.log("grades", grades.data.data);
+
+          // Filtra os objetos para cada bimestre
+          const firstQuarter = grades.data.data.filter(res => res.bimonthly === "1º BIMESTRE");
+          const secondQuarter = grades.data.data.filter(res => res.bimonthly === "2º BIMESTRE");
+          const thirdQuarter = grades.data.data.filter(res => res.bimonthly === "3º BIMESTRE");
+          const fourthQuarter = grades.data.data.filter(res => res.bimonthly === "4º BIMESTRE");
+
+          // Atualiza os estados com os arrays filtrados
+          setiStQuarter(firstQuarter);
+          setiiNdQuarter(secondQuarter);
+          setIIIrdQuarter(thirdQuarter)
+          setIVthQuarter(fourthQuarter)
+
+          //console.log("1º Bimestre", firstQuarter);
+          console.log("2º Bimestre", secondQuarter);
+        }
+      }
 
       if (resGrade) {
         const tchr = resGrade.data.data.map(res => res.id_teacher.name);
@@ -181,17 +213,51 @@ const GradeIstquarter = () => {
               <DivDados>
                 <List>
                   {
-                    grade.map(grd => (
-                      <Emp
-                        key={grd._id} >
-                        <SpanNameMatter>{grd.id_matter.name}</SpanNameMatter>
-                        <Grade>
-                          {/*<SpanTotalGrade><p>Total</p>{grd.totalGrade}</SpanTotalGrade>
+                    grade
+                      .sort((a, b) => {
+                        const nameA = a.id_matter.name.toUpperCase(); // Ignorar maiúsculas e minúsculas
+                        const nameB = b.id_matter.name.toUpperCase();
+                        return nameA < nameB ? -1 : nameA > nameB ? 1 : 0; // Comparação alfabética
+                      })
+                      .map(grd => (
+                        <Emp
+                          key={grd._id} >
+                          <DivNameMatter>
+                            <SpanNameMatter>{grd.id_matter.name}</SpanNameMatter>
+                          </DivNameMatter>
+                          <Grade>
+                            <DivBimTable>
+                              <DivBimRow>
+                                <DivBimHeader>1º Bim</DivBimHeader>
+                                <DivBimCell grade={iStQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}>
+                                  {iStQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}
+                                </DivBimCell>
+                              </DivBimRow>
+                              <DivBimRow>
+                                <DivBimHeader>2º Bim</DivBimHeader>
+                                <DivBimCell grade={iiNdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}>
+                                  {iiNdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}
+                                </DivBimCell>
+                              </DivBimRow>
+                              <DivBimRow>
+                                <DivBimHeader>3º Bim</DivBimHeader>
+                                <DivBimCell grade={iiiRdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}>
+                                  {iiiRdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}
+                                </DivBimCell>
+                              </DivBimRow>
+                              <DivBimRow>
+                                <DivBimHeader>4º Bim</DivBimHeader>
+                                <DivBimCell grade={ivThQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}>
+                                  {ivThQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}
+                                </DivBimCell>
+                              </DivBimRow>
+                            </DivBimTable>
+                            {/*<SpanTotalGrade><p>Total</p>{grd.totalGrade}</SpanTotalGrade>
                           <SpanAverageGrade><p>Media</p>{grd.averageGrade}</SpanAverageGrade>*/}
-                          <SpanGradeStudent grade={grd.studentGrade} /*average={grd.averageGrade}*/><p>Desempenho</p>{grd.studentGrade}</SpanGradeStudent>
-                        </Grade>
-                      </Emp>
-                    ))
+                            {/*<SpanGradeStudent grade={grd.studentGrade} /*average={grd.averageGrade}><p>Desempenho</p>{grd.studentGrade}</SpanGradeStudent>*/}
+                          </Grade>
+                        </Emp>
+                      ))
                   }
                 </List>
               </DivDados>

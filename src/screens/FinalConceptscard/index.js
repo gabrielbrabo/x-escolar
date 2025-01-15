@@ -8,9 +8,7 @@ import {
   AddEmp,
   DivDados,
   Grade,
-  //SpanTotalGrade,
   SpanGradeStudent,
-  //SpanAverageGrade,
   SpanNameMatter,
   DadosStdt,
   ToGoBack,
@@ -23,6 +21,7 @@ import {
   DivBimRow,
   DivBimHeader,
   DivBimCell,
+  DivNameMatter
 } from './style';
 
 import GlobalStyle from './style';
@@ -165,35 +164,48 @@ const FinalConcepts = () => {
               <DivDados>
                 <List>
                   {
-                    grade.map(grd => (
-                      <Emp
-                        key={grd._id} >
-                        <SpanNameMatter>{grd.id_matter.name}</SpanNameMatter>
-                        <Grade>
-                          <DivBimTable>
-                            <DivBimRow>
-                              <DivBimHeader>1º Bim</DivBimHeader>
-                              <DivBimCell>{iStQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}</DivBimCell>
-                            </DivBimRow>
-                            <DivBimRow>
-                              <DivBimHeader>2º Bim</DivBimHeader>
-                              <DivBimCell>{iiNdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}</DivBimCell>
-                            </DivBimRow>
-                            <DivBimRow>
-                              <DivBimHeader>3º Bim</DivBimHeader>
-                              <DivBimCell>{iiiRdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}</DivBimCell>
-                            </DivBimRow>
-                            <DivBimRow>
-                              <DivBimHeader>4º Bim</DivBimHeader>
-                              <DivBimCell>{ivThQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}</DivBimCell>
-                            </DivBimRow>
-                          </DivBimTable>
-                          {/*<SpanTotalGrade><p>Total</p>{grd.totalGrade}</SpanTotalGrade>
-                          <SpanAverageGrade><p>Media</p>{grd.averageGrade}</SpanAverageGrade>*/}
-                          <SpanGradeStudent grade={grd.studentGrade} /*average={grd.averageGrade}*/><p>Conceito Final</p>{grd.studentGrade}</SpanGradeStudent>
-                        </Grade>
-                      </Emp>
-                    ))
+                    grade
+                      .sort((a, b) => {
+                        const nameA = a.id_matter.name.toUpperCase(); // Ignorar maiúsculas e minúsculas
+                        const nameB = b.id_matter.name.toUpperCase();
+                        return nameA < nameB ? -1 : nameA > nameB ? 1 : 0; // Comparação alfabética
+                      })
+                      .map(grd => (
+                        <Emp
+                          key={grd._id} >
+                          <DivNameMatter>
+                            <SpanNameMatter>{grd.id_matter.name}</SpanNameMatter>
+                          </DivNameMatter>
+                          <Grade>
+                            <DivBimTable>
+                              <DivBimRow>
+                                <DivBimHeader>1º Bim</DivBimHeader>
+                                <DivBimCell>{iStQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}</DivBimCell>
+                              </DivBimRow>
+                              <DivBimRow>
+                                <DivBimHeader>2º Bim</DivBimHeader>
+                                <DivBimCell>{iiNdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}</DivBimCell>
+                              </DivBimRow>
+                              <DivBimRow>
+                                <DivBimHeader>3º Bim</DivBimHeader>
+                                <DivBimCell>{iiiRdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}</DivBimCell>
+                              </DivBimRow>
+                              <DivBimRow>
+                                <DivBimHeader>4º Bim</DivBimHeader>
+                                <DivBimCell>{ivThQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}</DivBimCell>
+                              </DivBimRow>
+                              <DivBimRow>
+                                <DivBimHeader>Final</DivBimHeader>
+                                <DivBimCell><SpanGradeStudent grade={grd.studentGrade}>{grd.studentGrade}</SpanGradeStudent></DivBimCell>
+                              </DivBimRow>
+                            </DivBimTable>
+                            {/*<SpanTotalGrade><p>Total</p>{grd.totalGrade}</SpanTotalGrade>
+                          <SpanAverageGrade><p>Media</p>{grd.averageGrade}</SpanAverageGrade>
+                          <SpanGradeStudent grade={grd.studentGrade} /*average={grd.averageGrade}><p>Conceito Final</p>{grd.studentGrade}</SpanGradeStudent>
+                          */}
+                          </Grade>
+                        </Emp>
+                      ))
                   }
                 </List>
               </DivDados>

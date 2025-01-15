@@ -56,6 +56,7 @@ export const AddEmp = styled.div`
 
 export const DivDados = styled.div`
   background-color: #fafafa;
+  width: 100%;
   padding: 5px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -67,10 +68,10 @@ export const List = styled.ul`
   margin: 0;
 `;
 
-export const Emp = styled.li`
+export const Emp = styled.div`
   display: flex;
-  justify-content: space-around;
   align-items: center;
+  justify-content: space-around;
   padding: 10px;
   border-bottom: 1px solid #ddd;
   font-size: 1.2em;
@@ -91,6 +92,23 @@ export const Emp = styled.li`
   }
 `;
 
+export const DivNameMatter = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+`;
+
+export const Grade = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
+  }
+`;
+
 export const DadosStdt = styled.div`
   display: flex;
   padding: 10px;
@@ -98,14 +116,6 @@ export const DadosStdt = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
-`;
-
-export const Grade = styled.div`
-  display: flex;
-  @media (max-width: 768px) {
-    width: 100%;
-    justify-content: center;
-  }
 `;
 
 export const SpanNameMatter = styled.span`
@@ -219,6 +229,41 @@ export const LegendBox = styled.div`
     }
 `;
 
+export const DivBimTable = styled.div`
+  display: flex;
+
+  @media(max-width: 768px) {
+        max-width: 90%;
+    }
+`;
+
+export const DivBimRow = styled.div`
+  display: grid;
+  border: 0px solid #ddd;
+`;
+
+export const DivBimHeader = styled.div`
+  display: table-cell;
+  text-align: center;
+  font-weight: bold;
+  padding: 3px;
+  border: 1px solid #ddd;
+  background-color: #f4f4f4;
+`;
+
+export const DivBimCell = styled.div`
+  display: table-cell;
+  text-align: center;
+  padding: 3px;
+  border: 1px solid #ddd;
+  color: ${props => {
+    return props.grade === 'A' ? '#1d7f14' :
+      props.grade === 'B' ? 'blue' :
+        props.grade === 'C' ? 'orange' :
+          props.grade === 'D' ? 'red' : 'black';
+  }};
+`;
+
 const GlobalStyle = createGlobalStyle`
   @media print {
     body * {
@@ -282,8 +327,30 @@ const GlobalStyle = createGlobalStyle`
     }
 
     ${Emp} { /* Ajuste a margem inferior para evitar quebra de página */ 
-      height: 40px;
-      border-bottom: 1px solid #ccc;
+      display: flex;
+      width: 100%;
+      padding: 10px;
+    }
+
+    ${Grade} {
+      margin: 0;
+      padding: 0;
+      width: 80%;
+      justify-content: flex-end;
+    }
+    
+    ${DivNameMatter} {
+      margin: 0;
+      padding: 0;
+      height: 0px;
+    }
+
+    ${DivBimHeader} {
+      font-size: 0.5em;
+    }
+    
+    ${DivBimCell} {
+      font-size: 0.5em;
     }
 
     ${SpanNameMatter} { /* Ajuste a margem inferior para evitar quebra de página */
