@@ -15,6 +15,7 @@ import HomeSchool from "./screens/HomeSchool"
 import SignInEmployee from "./screens/SignInEmployee"
 import ForgotPassword from "./screens/ForgotPassword"
 import PasswordRecovery from "./screens/PasswordRecovery"
+import PasswordReset from "./screens/PasswordReset"
 import SchoolSelection from "./screens/SchoolSelection"
 import Preload from "./screens/Preload"
 import HomeEmployee from "./screens/HomeEmployee"
@@ -36,6 +37,7 @@ import AddTeacher from "./screens/AddTeacher"
 import AddphysicalTeacher from "./screens/AddphysicalTeacher"
 import StudentInfo from "./screens/StudentInfo"
 import EmployeeInfo from "./screens/EmployeeInfo"
+import PerfilEmployee from "./screens/PerfilEmployee"
 import ClassInfo from "./screens/ClassInfo"
 import RemoveTeacher from "./screens/RemoveTeacher"
 import RemovephysicalTeacher from "./screens/RemovephysicalTeacher"
@@ -43,6 +45,7 @@ import RemoveStudent from "./screens/RemoveStudent"
 import RemoveMatter from "./screens/RemoveMatter"
 import DeleteMatter from "./screens/DeleteMatter"
 
+import EditMyProfile from "./screens/EditMyProfile"
 import EditProfileEmployee from "./screens/EditProfileEmployee"
 import EditProfileStudent from "./screens/EditProfileStudent"
 import EditClass from "./screens/EditClass"
@@ -139,6 +142,11 @@ const AppRoutes = () => {
                     <Route exact path="/new/employees" element={
                         <Private>
                             <NewEmployees />
+                        </Private>
+                    } />
+                    <Route exact path="/edit-my-profile" element={
+                        <Private>
+                            <EditMyProfile />
                         </Private>
                     } />
                     <Route exact path="/edit-profile" element={
@@ -440,6 +448,16 @@ const AppRoutes = () => {
                     <Route exact path="/daily" element={
                         <Private>
                             <Daily/>
+                        </Private>
+                    } />
+                    <Route exact path="/perfil/:id_employee" element={
+                        <Private>
+                            <PerfilEmployee/>
+                        </Private>
+                    } />
+                    <Route exact path="/password-rest/:cpf/:id" element={
+                        <Private>
+                            <PasswordReset/>
                         </Private>
                     } />
                 </Routes>

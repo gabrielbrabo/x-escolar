@@ -1773,12 +1773,14 @@ export const GetAttendance = async (
     year,
     month,
     id_student,
+    id_teacher
 ) => {
 
     return api.post(`/attendance/index`, {
         year,
         month,
         id_student,
+        id_teacher
     })
 
         .catch((error) => {
@@ -1871,11 +1873,11 @@ export const updateAttendance = async (
 }
 
 export const AttendanceBimonthly = async (
-    startd, startm, starty, endd, endm, endy, id_student
+    startd, startm, starty, endd, endm, endy, id_student, id_teacher
 ) => {
 
     return api.post(`/attendance-bimonthly`, {
-        startd, startm, starty, endd, endm, endy, id_student
+        startd, startm, starty, endd, endm, endy, id_student, id_teacher
     })
 }
 
@@ -2149,11 +2151,11 @@ export const getFinalConcepts = async (
 };
 
 export const AttendanceFinalConcepts = async (
-    year, id_student
+    year, id_student, id_teacher
 ) => {
     // Faz a chamada para a rota com os parâmetros opcionais
     return api.post(`/attendance-final-concepts`, {
-        year, id_student
+        year, id_student, id_teacher
     })
         .catch((error) => {
             if (error) {
@@ -2263,12 +2265,34 @@ export const ResetPassword = async (
     })
         .catch((error) => {
             if (error) {
-                const result = JSON.stringify(
-                    error.response.data.msg
-                )
-                alert(result)
+                if (error.response && error.response.data.error) {
+                    alert(error.response.data.error); // Mostra o erro retornado do backend
+                } else {
+                    alert('Erro desconhecido.');
+                }
                 // window.location.reload()
             }
+        }, [])
+};
+
+export const UpdatePassword = async (
+    cpf, id, password, newPassword
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/update-password`, {
+        cpf, id, password, newPassword
+    })
+        .catch((error) => {
+            if (error.response && error.response.data && error.response.data.error) {
+                // Mostra o erro específico retornado pelo backend
+                alert(error.response.data.error);
+                window.location.reload()
+            } else {
+                // Mensagem genérica para erros inesperados
+                alert('Ocorreu um erro desconhecido. Tente novamente mais tarde.');
+                window.location.reload()
+            }
+            throw error; // Propaga o erro para o chamador se necessário
         }, [])
 };
 
@@ -2295,7 +2319,7 @@ export const indexGrades = async (
 ) => {
     // Faz a chamada para a rota com os parâmetros opcionais
     return api.post(`/grades`, {
-        year, id_class,id_matter
+        year, id_class, id_matter
     })
         .catch((error) => {
             if (error) {

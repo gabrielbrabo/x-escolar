@@ -140,6 +140,11 @@ const Student = () => {
             })
             console.log("clss", clss)
             setClss(clss)
+            const regent = clss.map( res => {
+                return res.classRegentTeacher
+            })
+            console.log('regent', regent)
+            sessionStorage.setItem("RegentTeacher", regent)
             setLoading(false);
         })()
 
@@ -240,6 +245,7 @@ const Student = () => {
                             ))
                         }
                         <Input>
+                            <h3>Boletim</h3>
                             <Label>Selecione o bimestre e click no botão abaixo para ver o boletim</Label>
                             <Select
                                 id="id-bimonthly"

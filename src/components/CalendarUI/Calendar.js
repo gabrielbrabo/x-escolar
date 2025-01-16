@@ -28,28 +28,6 @@ const monthsPtBr = [
 dayjs.locale('pt-br');
 dayjs.extend(localizedFormat);
 
-/*const StyledDateCalendar = styled(DateCalendar)`
-
-  & .MuiPickersDay-root {
-    color: white; // Cor dos dias no calendário
-  }
-  & .MuiTypography-root {
-    color: white; // Cor dos dias no calendário
-  }
-  & svg {
-    color: white;
-  }
-  & .MuiPickersCalendarHeader-root {
-    background-color: black;
-  }
-  & .MuiDayCalendar-header {
-    background-color: #292929;
-  }
-  & .MuiPickersSlideTransition-root {
-    background-color: #3D3925;;
-  }
-`;*/
-
 function fakeFetch( /*date,*/ signal) {
     return new Promise((resolve, reject) => {
         const timeout = setTimeout(() => {
@@ -96,10 +74,11 @@ export default function DateCalendarServerRequest() {
     React.useEffect(() => {
         (async () => {
             const idSchool = sessionStorage.getItem("id-school")
+            const regentT = sessionStorage.getItem("RegentTeacher")
             console.log("id_school", idSchool)
-           // const res = await GetMatter(JSON.parse(idSchool))
+            // const res = await GetMatter(JSON.parse(idSchool))
             const id_student = sessionStorage.getItem("StudentInformation")
-            const resGetAttendance = await GetAttendance(Year, month, id_student,)
+            const resGetAttendance = await GetAttendance(Year, month, id_student, regentT)
             const attendance = await resGetAttendance.data.data.map(res => {
                 if (res.status === "P") {
                     return JSON.parse(res.day)
@@ -165,7 +144,7 @@ export default function DateCalendarServerRequest() {
         setMonth(date.$M + 1)
     };
 
-    
+
 
     const countPresences = highlightedDays.length;
     const countAbsences = highlightedDaysF.length;
@@ -173,6 +152,7 @@ export default function DateCalendarServerRequest() {
     return (
         <StyledContainer>
             <LocalizationProvider locale={dayjs.locale('pt-br', { months: monthsPtBr, weekdays: diasDaSemana, })} utils={DayjsUtils} dateAdapter={AdapterDayjs}>
+                <h3>Frequencia</h3>
                 <p><IoCheckmarkSharp color='#00fa00' font-size="30px" />Presenças: {countPresences} | <IoCloseSharp color='#ff050a' font-size="30px" />Ausências: {countAbsences}</p>
                 <StyledDateCalendar
                     defaultValue={initialValue}

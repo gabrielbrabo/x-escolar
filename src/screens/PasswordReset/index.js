@@ -1,6 +1,6 @@
 import React, { useState, } from 'react';
 import { useNavigate, useParams } from 'react-router-dom'
-import { ResetPassword } from '../../Api'
+import { UpdatePassword } from '../../Api'
 
 import {
     Container,
@@ -18,6 +18,7 @@ import LoadingSpinner from '../../components/Loading'
 const SignInEmployee = () => {
 
     const navigate = useNavigate()
+    const [password, setpassword] = useState('');
     const [newPassword, setnewPassword] = useState('');
     const [confirmpassword, setConfirmpassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -25,16 +26,15 @@ const SignInEmployee = () => {
     const [showWarning, setShowWarning] = useState(false);
     const { cpf } = useParams()
     const { id } = useParams()
-    const { reset_token } = useParams()
 
-    console.log("cpf id e tokem", cpf, id, reset_token)
+    console.log("cpf id e tokem", cpf, id,)
 
     const SignClick = async () => {
 
         setLoading(true);
         if (newPassword === confirmpassword) {
-            const res = await ResetPassword(cpf, id, reset_token, newPassword);
-            console.log("res email", res.data)
+            const res = await UpdatePassword(cpf, id, password, newPassword);
+            //console.log("res email", res.data)
             if (res) {
                 setShowWarning(true);
                 setInfo(res.data.message);
@@ -44,8 +44,14 @@ const SignInEmployee = () => {
     }
 
     const MessageButtomclick = () => {
-        navigate("/signin/employee");
+        navigate(-1);
     }
+
+    const ClickCancel = () => {
+        navigate(-1); // Volta para a página anterior
+    }
+
+    console.log('History length:', window.history.length);
 
     return (
         <Container>
@@ -65,6 +71,17 @@ const SignInEmployee = () => {
                 <>
                     <h1>Redefinir Senha</h1>
                     <InputArea>
+                        <>Senha Atual</>
+                        <Area>
+                            <Input
+                                placeholder="Digite a senha Atual"
+                                value={password}
+                                type="password"
+                                onChange={
+                                    (e) => setpassword(e.target.value)
+                                }
+                            />
+                        </Area>
                         <>Nova Senha</>
                         <Area>
                             <Input
@@ -79,7 +96,7 @@ const SignInEmployee = () => {
                         <>Confirme a nova Senha</>
                         <Area>
                             <Input
-                                placeholder="Digite a nova senha"
+                                placeholder="Repita a nova senha"
                                 value={confirmpassword}
                                 type="password"
                                 onChange={
@@ -88,6 +105,7 @@ const SignInEmployee = () => {
                             />
                         </Area>
                         <Btt onClick={SignClick}>Enviar</Btt>
+                        <Btt type="button" onClick={ClickCancel}>Cancelar</Btt>
                     </InputArea>
                 </>
             )

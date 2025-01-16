@@ -33,6 +33,14 @@ export function Header({ setMenuIsVisible }) {
         window.location.reload();
     };
 
+    const handlePerfil = async () => {
+        const id_employee = JSON.parse(localStorage.getItem('Id_employee'))
+        sessionStorage.setItem("EmployeeInformation", id_employee)
+        console.log("id_employee", id_employee)
+        // Redireciona para a URL
+        window.location.href = `/perfil/${id_employee}`;
+    }
+
     return (
         <Container>
             <div className="logo">ESCOLA X</div>
@@ -70,7 +78,7 @@ export function Header({ setMenuIsVisible }) {
                 <EmployeeInfo>
                     <Pro>
                         {/*<ProfilePhoto />*/}
-                        <ProfileInfo>
+                        <ProfileInfo onClick={handlePerfil}>
                             <Name>{name}</Name>
                             <Span>{position_at_school}</Span>
                             <Span>{school}</Span>

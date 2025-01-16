@@ -14,6 +14,7 @@ import {
 } from './styles';
 
 export function NavBar({ menuIsVisible, setMenuIsVisible }) {
+
   const [positionAtSchool, setPositionAtSchool] = useState(null);
   const [name, setName] = useState(null);
   const [school, setSchool] = useState(null);
@@ -28,13 +29,21 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
     setPositionAtSchool(position);
     setName(userName);
     setSchool(School);
-  }, [ menuIsVisible ]);
+  }, [menuIsVisible]);
 
   const handleLogout = () => {
     localStorage.clear();
     sessionStorage.clear();
     window.location.reload();
   };
+
+  const handlePerfil = async () => {
+    const id_employee = JSON.parse(localStorage.getItem('Id_employee'))
+    sessionStorage.setItem("EmployeeInformation", id_employee)
+    console.log("id_employee", id_employee)
+    // Redireciona para a URL
+    window.location.href = `/perfil/${id_employee}`;
+  }
 
   return (
     <Container isVisible={menuIsVisible}>
@@ -43,7 +52,7 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
         <EmployeeInfo>
           <Pro>
             {/*<ProfilePhoto />*/}
-            <ProfileInfo>
+            <ProfileInfo onClick={handlePerfil}>
               <Name>{name}</Name>
               <Span>{positionAtSchool}</Span>
               <Span>{school}</Span>

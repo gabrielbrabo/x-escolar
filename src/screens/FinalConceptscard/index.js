@@ -42,6 +42,9 @@ const FinalConcepts = () => {
   const [stdtName, setStdtName] = useState([])
   const [teacherName, setTeacherName] = useState('')
   const [nameSchool, setNameSchool] = useState('')
+  const [year, setyear] = useState('')
+  const [id_teacher, setId_teacher] = useState('')
+  const [id_student, setid_student] = useState('')
 
   const [highlightedDays, setHighlightedDays] = React.useState([]);
   const [highlightedDaysF, setHighlightedDaysF] = React.useState([]);
@@ -60,10 +63,21 @@ const FinalConcepts = () => {
       const nameSchool = sessionStorage.getItem("School");
       const stdtName = sessionStorage.getItem("stdt-name");
       setStdtName(stdtName)
+      setyear(year)
       setNameSchool(nameSchool)
+      setid_student(id_student)
       const resGrade = await getFinalConcepts(year, id_student)
       setGrade(resGrade.data.data)
       console.log("resGrade", resGrade.data.data)
+
+      if (resGrade.data.data) {
+        const idTeacher = resGrade.data.data.map(res => {
+          return res.id_class.classRegentTeacher
+        })
+        const Teacher = idTeacher[0];
+        setId_teacher(Teacher)
+        console.log("idTeacher", Teacher)
+      }
 
       if (year && id_student) {
         const grades = await indexGradesCard(year, id_student)
@@ -94,29 +108,42 @@ const FinalConcepts = () => {
         setTeacherName(firstTeacher);  // Define apenas o primeiro elemento
       }
 
-      const result = await AttendanceFinalConcepts(year, id_student);
-      console.log("result", result)
-      const data = result?.data?.data || [];
-
-      // Verifique se os dados estão disponíveis e não estão vazios
-      if (data.length > 0) {
-        // Filtrando e mapeando as presenças (P)
-        const attendance = data.filter(res => res.status === "P");
-
-        // Filtrando e mapeando as faltas (F)
-        const attendancef = data.filter(res => res.status === "F");
-
-        // Garantir que as variáveis não sejam nulas ou indefinidas
-        setHighlightedDays(attendance.length ? attendance : []);
-        setHighlightedDaysF(attendancef.length ? attendancef : []);
-      } else {
-        console.warn("Nenhum dado de frequência disponível.");
-      }
-
       setLoading(false);
     })();
 
   }, []);
+
+  useEffect(() => {
+    const fetchAttendance = async () => {
+      if (year && id_student && id_teacher) {
+        try {
+          const result = await AttendanceFinalConcepts(year, id_student, id_teacher);
+          console.log("result", result)
+          const data = result?.data?.data || [];
+
+          // Verifique se os dados estão disponíveis e não estão vazios
+          if (data.length > 0) {
+            // Filtrando e mapeando as presenças (P)
+            const attendance = data.filter(res => res.status === "P");
+
+            // Filtrando e mapeando as faltas (F)
+            const attendancef = data.filter(res => res.status === "F");
+
+            // Garantir que as variáveis não sejam nulas ou indefinidas
+            setHighlightedDays(attendance.length ? attendance : []);
+            setHighlightedDaysF(attendancef.length ? attendancef : []);
+          } else {
+            console.warn("Nenhum dado de frequência disponível.");
+          }
+        } catch (error) {
+          console.error("Erro ao obter dados de frequência", error);
+        }
+      }
+    };
+
+    fetchAttendance();
+  }, [year, id_student, id_teacher]);
+
 
 
   const messageButtonClick = () => {

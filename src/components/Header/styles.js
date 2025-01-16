@@ -109,7 +109,7 @@ export const ProfilePhoto = styled.div`
 
 export const ProfileInfo = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: column;cursor: pointer; /* Adiciona o cursor em formato de setinha ao passar o mouse */
 `;
 
 export const Name = styled.span`

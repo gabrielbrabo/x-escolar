@@ -225,7 +225,7 @@ export const LegendBox = styled.div`
     }
 
     @media(max-width: 768px) {
-      margin-top: 10px;
+      margin-top: 35px;
     }
 `;
 

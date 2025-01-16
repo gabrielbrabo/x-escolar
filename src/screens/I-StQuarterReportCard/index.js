@@ -44,6 +44,8 @@ const GradeIstquarter = () => {
   const [stdtName, setStdtName] = useState([])
   const [teacherName, setTeacherName] = useState('')
   const [nameSchool, setNameSchool] = useState('')
+  const [id_teacher, setId_teacher] = useState('')
+  const [id_student, setid_student] = useState('')
 
   const [startd, setStartd] = useState('')
   const [startm, setStartm] = useState('')
@@ -71,9 +73,19 @@ const GradeIstquarter = () => {
       const stdtName = sessionStorage.getItem("stdt-name");
       setStdtName(stdtName)
       setNameSchool(nameSchool)
+      setid_student(id_student)
       const resGrade = await GetGrades(year, bimonthly, id_student)
       setGrade(resGrade.data.data)
       console.log("resGrade", resGrade.data.data)
+
+      if (resGrade.data.data) {
+        const idTeacher = resGrade.data.data.map(res => {
+          return res.id_class.classRegentTeacher
+        })
+        const Teacher = idTeacher[0];
+        setId_teacher(Teacher)
+        console.log("idTeacher", Teacher)
+      }
 
       if (year && id_student) {
         const grades = await indexGradesCard(year, id_student)
@@ -129,37 +141,36 @@ const GradeIstquarter = () => {
       } else {
         console.error("resGrade está vazio ou malformado");
       }
+      setLoading(false);
+    })();
 
-      if (startd && startm && starty && endd && endm && endy && id_student) {
+  }, [startd, startm, starty, endd, endm, endy]);
+
+  useEffect(() => {
+    const fetchAttendance = async () => {
+      if (startd && startm && starty && endd && endm && endy && id_student && id_teacher) {
         try {
-          const result = await AttendanceBimonthly(startd, startm, starty, endd, endm, endy, id_student);
+          const result = await AttendanceBimonthly(startd, startm, starty, endd, endm, endy, id_student, id_teacher);
           const data = result?.data?.data || [];
 
-          // Verifique se os dados estão disponíveis e não estão vazios
           if (data.length > 0) {
-            // Filtrando e mapeando as presenças (P)
             const attendance = data.filter(res => res.status === "P");
-
-            // Filtrando e mapeando as faltas (F)
             const attendancef = data.filter(res => res.status === "F");
 
-            // Garantir que as variáveis não sejam nulas ou indefinidas
             setHighlightedDays(attendance.length ? attendance : []);
             setHighlightedDaysF(attendancef.length ? attendancef : []);
           } else {
             console.warn("Nenhum dado de frequência disponível.");
           }
-
         } catch (error) {
           console.error("Erro ao obter dados de frequência", error);
         }
       }
+    };
 
+    fetchAttendance();
+  }, [startd, startm, starty, endd, endm, endy, id_student, id_teacher]);
 
-      setLoading(false);
-    })();
-
-  }, [startd, startm, starty, endd, endm, endy]);
 
   console.log("startd", startd);
   console.log("startm", startm);
