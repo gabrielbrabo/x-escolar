@@ -219,9 +219,12 @@ export const updateStudent = async (
     dateOfBirth,
     cpf,
     rg,
-    email,
-    cellPhone,
+    motherName,
+    fatherName,
+    motherCellPhone,
+    fatherCellPhone,
     address,
+    admissionDate
 ) => {
 
     return api.post(`/student-update/${idStudent}`, {
@@ -229,9 +232,12 @@ export const updateStudent = async (
         dateOfBirth,
         cpf,
         rg,
-        email,
-        cellPhone,
+        motherName,
+        fatherName,
+        motherCellPhone,
+        fatherCellPhone,
         address,
+        admissionDate
     })
 
         .catch((error) => {
@@ -1367,10 +1373,11 @@ export const NewStdt = async (
     idSchool,
     name,
     dateOfBirth,
-    //cpf,
-    //rg,
-    cellPhone,
-    cellPhoneOfParentsOrGuardians,
+    fatherCellPhone,
+    admissionDate,
+    motherName,
+    fatherName,
+    motherCellPhone,
     address,
     registerStudent,
     password,
@@ -1380,10 +1387,11 @@ export const NewStdt = async (
     return api.post(`/register/student/${idSchool}`, {
         name,
         dateOfBirth,
-        //cpf,
-        //rg,
-        cellPhone,
-        cellPhoneOfParentsOrGuardians,
+        fatherCellPhone,
+        admissionDate,
+        motherName,
+        fatherName,
+        motherCellPhone,
         address,
         registerStudent,
         password,

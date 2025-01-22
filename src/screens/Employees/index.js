@@ -74,13 +74,13 @@ const Employees = () => {
 
     const employeeInformation = async (employee) => {
         setLoading(true);
-        sessionStorage.removeItem('EmployeeInformation')
-        sessionStorage.setItem("EmployeeInformation", employee._id)
+      //  sessionStorage.removeItem('EmployeeInformation')
+        //sessionStorage.setItem("EmployeeInformation", employee._id)
         navigate(`/employee/info/${employee._id}`)
         setLoading(false);
     }
 
-    const loggedInEmployeeId = localStorage.getItem("Id_employee");
+    //const loggedInEmployeeId = localStorage.getItem("Id_employee");
 
     //console.log('res', employees)
 
@@ -141,12 +141,12 @@ const Employees = () => {
                                     return (val)
                                 }
                                 return null
-                            }).filter((employee) => {
+                            })/*.filter((employee) => {
                                if(employee._id !== JSON.parse(loggedInEmployeeId)) {
                                     return employee
                                }
                                return null
-                            }).map(employee => (
+                            })*/.map(employee => (
                                 <Emp
                                     onClick={() =>
                                         employeeInformation(employee)

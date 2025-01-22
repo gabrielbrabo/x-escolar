@@ -20,8 +20,11 @@ const EditProfile = () => {
     const [dateOfBirth, setDateOfBirth] = useState('');
     const [cpf, setCpf] = useState('');
     const [rg, setRg] = useState('');
-    const [cellPhoneOfParentsOrGuardians, setCellPhoneOfParentsOrGuardians] = useState('');
-    const [cellPhone, setCellPhone] = useState('');
+    const [fatherCellPhone, setFatherCellPhone] = useState('');
+    const [admissionDate, setadmissionDate] = useState('');
+    const [motherName, setmotherName] = useState()
+    const [fatherName, setfatherName] = useState()
+    const [motherCellPhone, setmotherCellPhone] = useState()
     const [address, setAddress] = useState('');
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -37,8 +40,11 @@ const EditProfile = () => {
             setDateOfBirth(res.data.dateOfBirth || '');
             setCpf(res.data.cpf || '');
             setRg(res.data.rg || '');
-            setCellPhoneOfParentsOrGuardians(res.data.cellPhoneOfParentsOrGuardians || '');
-            setCellPhone(res.data.cellPhone || '');
+            setFatherCellPhone(res.data.fatherCellPhone || '')
+            setadmissionDate(res.data.admissionDate || '')
+            setmotherName(res.data.motherName || '')
+            setfatherName(res.data.fatherName || '')
+            setmotherCellPhone(res.data.motherCellPhone || '')
             setAddress(res.data.address || '');
             setLoading(false);
         })();
@@ -59,9 +65,12 @@ const EditProfile = () => {
             dateOfBirth,
             cpf,
             rg,
-            cellPhone,
-            cellPhoneOfParentsOrGuardians,
+            motherName,
+            fatherName,
+            motherCellPhone,
+            fatherCellPhone,
             address.toUpperCase(),
+            admissionDate,
         );
         console.log(
             "name", name, "dateofBirth", dateOfBirth, "cpf", cpf
@@ -80,7 +89,7 @@ const EditProfile = () => {
         navigate(-1);
     };
 
-    const maskCPF = (value) => {
+    /*const maskCPF = (value) => {
         return value
             .replace(/\D/g, '') // Remove tudo o que não é dígito
             .replace(/(\d{3})(\d)/, '$1.$2') // Coloca o primeiro ponto
@@ -94,25 +103,27 @@ const EditProfile = () => {
             .replace(/\D/g, '') // Remove tudo o que não é dígito
     };
 
-    const maskcellPhone = (value) => {
-        return value
-            .replace(/\D/g, '') // Remove tudo o que não é dígito
-    };
-
+    
     const handleChange = (e) => {
         setCpf(maskCPF(e.target.value));
     };
 
     const handleChangeRg = (e) => {
         setRg(maskRG(e.target.value));
+    };*/
+
+    const maskcellPhone = (value) => {
+        return value
+            .replace(/\D/g, '') // Remove tudo o que não é dígito
     };
 
-    const handleChangecellPhone = (e) => {
-        setCellPhone(maskcellPhone(e.target.value));
+
+    const handleChangeFatherCellPhone = (e) => {
+        setFatherCellPhone(maskcellPhone(e.target.value));
     };
 
-    const handleChangecellPhoneOfParentsOrGuardians = (e) => {
-        setCellPhoneOfParentsOrGuardians(maskcellPhone(e.target.value));
+    const handleChangemotherCellPhone = (e) => {
+        setmotherCellPhone(maskcellPhone(e.target.value));
     };
 
     return (
@@ -136,7 +147,7 @@ const EditProfile = () => {
                             onChange={(e) => setDateOfBirth(e.target.value)}
                             type='date'
                         />
-                        <label>CPF</label>
+                        {/*<label>CPF</label>
                         <Input
                             name="cpf"
                             value={cpf}
@@ -149,19 +160,35 @@ const EditProfile = () => {
                             name="rg"
                             value={rg}
                             onChange={handleChangeRg}
-                        />
-                        <label>Celular</label>
+                        />*/}
+                        <label>Nome da Mãe</label>
                         <Input
-                            name="cellPhone"
-                            value={cellPhone}
-                            onChange={handleChangecellPhone}
+                            placeholder="Nome da Mãe"
+                            value={motherName}
+                            onChange={
+                                (e) => setmotherName(e.target.value)
+                            }
+                        />
+                        <label>Nome do Pai</label>
+                        <Input
+                            placeholder="Digite o RGNome do Pai"
+                            value={fatherName}
+                            onChange={
+                                (e) => setfatherName(e.target.value)
+                            }
+                        />
+                        <label>Celular da Mãe</label>
+                        <Input
+                            placeholder="Digite o celular da Mãe"
+                            value={motherCellPhone}
+                            onChange={handleChangemotherCellPhone}
                             type="text"
                         />
-                        <label>Celular do Responsavel</label>
+                        <label>Celular do pai</label>
                         <Input
-                            name="cellPhone"
-                            value={cellPhoneOfParentsOrGuardians}
-                            onChange={handleChangecellPhoneOfParentsOrGuardians}
+                            placeholder="Digite o celular do Pai"
+                            value={fatherCellPhone}
+                            onChange={handleChangeFatherCellPhone}
                             type="text"
                         />
                         <label>Endereço</label>
@@ -170,6 +197,13 @@ const EditProfile = () => {
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
                             type="text"
+                        />
+                        <label>Data de Admissão</label>
+                        <Input
+                            placeholder="Data de nascimento"
+                            value={admissionDate}
+                            onChange={(e) => setadmissionDate(e.target.value)}
+                            type='date'
                         />
                         {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                         <Btt01 onClick={handleSubmit}>Salvar Alterações</Btt01>

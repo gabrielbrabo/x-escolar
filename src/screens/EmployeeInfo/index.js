@@ -89,6 +89,7 @@ const EmployeeInformation = () => {
             const idSchool = sessionStorage.getItem("id-school");
             const year = new Date().getFullYear();
             //setPositionAtSchool(position);
+            sessionStorage.setItem("EmployeeInformation", id_employee)
             const res = await EmpInfo(id_employee)
             const position_at_school = res.data.data.map(res => {
                 if (res.position_at_school === "SECRETARIO" || res.position_at_school === "DIRETOR/SUPERVISOR") {

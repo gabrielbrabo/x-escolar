@@ -48,29 +48,30 @@ export function Header({ setMenuIsVisible }) {
                 {position_at_school === "SECRETARIO" && (
                     <nav>
                         <a href="/home/school">Home</a>
-                        <a href="/matter" className="nav__link">Disciplinas</a>
-                        <a href="/annual-calendar" className="nav__link">Calendario Anual</a>
                         <a href="/employees" className="nav__link">Funcionários</a>
-                        <a href="/class" className="nav__link">Turmas</a>
                         <a href="/student" className="nav__link">Alunos</a>
+                        <a href="/class" className="nav__link">Turmas</a>      
+                        <a href="/annual-calendar" className="nav__link">Calendario</a>              
+                        <a href="/matter" className="nav__link">Disciplinas</a>
                     </nav>
                 )}
                 {position_at_school === 'DIRETOR/SUPERVISOR' && (
                     <nav>
                         <a href="/home/school">Home</a>
-                        <a href="/matter" className="nav__link">Disciplinas</a>
-                        <a href="/annual-calendar" className="nav__link">Calendario</a>
                         <a href="/employees" className="nav__link">Funcionários</a>
-                        <a href="/class" className="nav__link">Turmas</a>
                         <a href="/student" className="nav__link">Alunos</a>
+                        <a href="/class" className="nav__link">Turmas</a>      
+                        <a href="/annual-calendar" className="nav__link">Calendario</a>              
+                        <a href="/matter" className="nav__link">Disciplinas</a>
                     </nav>
                 )}
                 {position_at_school === "PROFESSOR" && (
                     <nav>
-                        <a href="/home/school">Home</a>
-                        <a href="/matter" className="nav__link">Disciplinas</a>
-                        <a href="/annual-calendar" className="nav__link">Calendario Anual</a>
+                        {/*<a href="/home/school">Home</a>*/}
                         <a href="/myclasses" className="nav__link">Minhas Turmas</a>
+                        <a href="/annual-calendar" className="nav__link">Calendario</a>
+                        <a href="/matter" className="nav__link">Disciplinas</a>
+                        
                     </nav>
                 )}
             </section>

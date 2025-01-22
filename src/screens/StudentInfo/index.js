@@ -78,50 +78,27 @@ const Student = () => {
             setLoading(true);
 
             const idSchool = sessionStorage.getItem("id-school");
+           // const id_student = sessionStorage.getItem("StudentInformation");
             const year = new Date().getFullYear();
-            const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
-            const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
-            const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
-            const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
-            const VthQuarter = await getVthQuarter(year, JSON.parse(idSchool))
-            const VIthQuarter = await getVIthQuarter(year, JSON.parse(idSchool))
+            console.log("idSchool", idSchool)
+            console.log("idStudent", id_student)
 
-            const i = IstQuarter.data.data.find(res => res) || null;
-            const ii = IIndQuarter.data.data.find(res => res) || null;
-            const iii = IIIrdQuarter.data.data.find(res => res) || null;
-            const iv = IVthQuarter.data.data.find(res => res) || null;
-            const v = VthQuarter.data.data.find(res => res) || null;
-            const vi = VIthQuarter.data.data.find(res => res) || null;
-
-            //const res = await GetMatter(JSON.parse(idSchool));
-
-            setbimonthly([i, ii, iii, iv, v, vi].filter(res => res !== null));
-
-            if (i !== null) {
-                setI(i._id);
+            if (!idSchool || !id_student) {
+                console.error("Dados faltando: idSchool ou id_student");
+                return;
             }
-            if (ii !== null) {
-                setII(ii._id);
-            }
-            if (iii !== null) {
-                setIII(iii._id);
-            }
-            if (iv !== null) {
-                setIV(iv._id);
-            }
-            if (v !== null) {
-                setV(v._id);
-            }
-            if (vi !== null) {
-                setVI(vi._id);
-            }
-
+            
             //const position = localStorage.getItem('position_at_school');
             //setPositionAtSchool(position);
-            sessionStorage.removeItem('StudentInformation')
+            //sessionStorage.removeItem('StudentInformation')
             sessionStorage.setItem("StudentInformation", id_student)
             const res = await StdtInfo(id_student)
-            setStudent(res.data.data)
+            if (res && res.data) {
+                setStudent(res.data.data);
+            } else {
+                console.error("Resposta inesperada da API:", res);
+            }
+
 
             const clss = res.data.data.find(res => {
                 return res
@@ -145,9 +122,48 @@ const Student = () => {
             })
             console.log('regent', regent)
             sessionStorage.setItem("RegentTeacher", regent)
+
+            const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
+            console.log("IstQuarter", IstQuarter)
+            const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
+            const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
+            const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
+            const VthQuarter = await getVthQuarter(year, JSON.parse(idSchool))
+            const VIthQuarter = await getVIthQuarter(year, JSON.parse(idSchool))
+
+            const i = IstQuarter.data.data.find(res => res) || null;
+            const ii = IIndQuarter.data.data.find(res => res) || null;
+            const iii = IIIrdQuarter.data.data.find(res => res) || null;
+            const iv = IVthQuarter.data.data.find(res => res) || null;
+            const v = VthQuarter.data.data.find(res => res) || null;
+            const vi = VIthQuarter.data.data.find(res => res) || null;
+            
+            //const res = await GetMatter(JSON.parse(idSchool));
+
+            setbimonthly([i, ii, iii, iv, v, vi].filter(res => res !== null));
+
+            if (i !== null) {
+                setI(i._id);
+            }
+            if (ii !== null) {
+                setII(ii._id);
+            }
+            if (iii !== null) {
+                setIII(iii._id);
+            }
+            if (iv !== null) {
+                setIV(iv._id);
+            }
+            if (v !== null) {
+                setV(v._id);
+            }
+            if (vi !== null) {
+                setVI(vi._id);
+            }
+
             setLoading(false);
         })()
-
+        setLoading(false);
     }, [currentYear, id_student])
 
     if (student) {
@@ -203,6 +219,7 @@ const Student = () => {
 
     console.log("clas", Clss)
     console.log("Selectbimonthly", Selectbimonthly)
+    console.log("student", student)
 
     return (
         <Container>
@@ -223,6 +240,11 @@ const Student = () => {
                                                 <Span>Nome: {student.name}</Span>
                                                 {/*<Span>RG: {student.rg}</Span>*/}
                                                 <Span>Nascimento: {new Date(student.dateOfBirth).toLocaleDateString('pt-BR')}</Span>
+                                                <Span>Nome da Mãe: {student.motherName}</Span>
+                                                <Span>celular da Mãe: {student.motherCellPhone}</Span>
+                                                <Span>Nome do Pai: {student.fatherName}</Span>
+                                                <Span>celular do Pai: {student.fatherCellPhone}</Span>
+                                                <Span>Data de Admissão: {new Date(student.admissionDate).toLocaleDateString('pt-BR')}</Span>
                                                 <Span>RS: {student.registerStudent}</Span>
                                             </ProfileInfo>
                                         </Pro>
@@ -234,7 +256,7 @@ const Student = () => {
                             ))
                         }
 
-                        {
+                        {Clss && 
                             Clss.map(clss => (
                                 <Emp key={clss._id} >
                                     <Span>Turma: {clss.serie}</Span>

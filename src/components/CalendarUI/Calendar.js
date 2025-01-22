@@ -73,36 +73,39 @@ export default function DateCalendarServerRequest() {
 
     React.useEffect(() => {
         (async () => {
-            const idSchool = sessionStorage.getItem("id-school")
+            //const idSchool = sessionStorage.getItem("id-school")
             const regentT = sessionStorage.getItem("RegentTeacher")
-            console.log("id_school", idSchool)
+            //console.log("id_school", idSchool)
             // const res = await GetMatter(JSON.parse(idSchool))
             const id_student = sessionStorage.getItem("StudentInformation")
-            const resGetAttendance = await GetAttendance(Year, month, id_student, regentT)
-            const attendance = await resGetAttendance.data.data.map(res => {
-                if (res.status === "P") {
-                    return JSON.parse(res.day)
-                }
-                return null
-            }).filter(res => {
-                if (res != null) {
-                    return res
-                }
-                return null
-            })
-            const attendancef = await resGetAttendance.data.data.map(res => {
-                if (res.status === "F") {
-                    return JSON.parse(res.day)
-                }
-                return null
-            }).filter(res => {
-                if (res != null) {
-                    return res
-                }
-                return null
-            })
-            setHighlightedDays(attendance);
-            setHighlightedDaysF(attendancef);
+            if (regentT.length > 0) {
+                const resGetAttendance = await GetAttendance(Year, month, id_student, regentT)
+                const attendance = await resGetAttendance.data.data.map(res => {
+                    if (res.status === "P") {
+                        return JSON.parse(res.day)
+                    }
+                    return null
+                }).filter(res => {
+                    if (res != null) {
+                        return res
+                    }
+                    return null
+                })
+                const attendancef = await resGetAttendance.data.data.map(res => {
+                    if (res.status === "F") {
+                        return JSON.parse(res.day)
+                    }
+                    return null
+                }).filter(res => {
+                    if (res != null) {
+                        return res
+                    }
+                    return null
+                })
+                setHighlightedDays(attendance);
+                setHighlightedDaysF(attendancef);
+            }
+
         })()
         //console.log("currentMonth", Month, "currentYear", Year)
         fetchHighlightedDays(initialValue);

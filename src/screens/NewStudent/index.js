@@ -38,10 +38,13 @@ const NewStudent = () => {
   const [name, setName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [cpf, /*setCpf*/] = useState('0');
-  const [cellPhoneOfParentsOrGuardians, setCellPhoneOfParentsOrGuardians] = useState('');
+  const [fatherCellPhone, setFatherCellPhone] = useState('');
   const [address, setAddress] = useState('');
+  const [admissionDate, setadmissionDate] = useState('');
   const [rg, /*setRg*/] = useState('0');
-  const [cellPhone, setCellPhone] = useState()
+  const [motherName, setmotherName] = useState()
+  const [fatherName, setfatherName] = useState()
+  const [motherCellPhone, setmotherCellPhone] = useState()
   const [password, /*setPassword*/] = useState('g');
   const [confirmpassword, /*setConfirmPassword*/] = useState('g');
   const [loading, setLoading] = useState(false);
@@ -66,8 +69,13 @@ const NewStudent = () => {
       dateOfBirth,
       cpf,
       rg,
-      cellPhone,
-      cellPhoneOfParentsOrGuardians,
+      fatherCellPhone,
+      admissionDate,
+      motherName,
+      fatherName,
+      motherCellPhone,
+     // cellPhone,
+      //cellPhoneOfParentsOrGuardians,
       address,
       registerStudent,
       password,
@@ -78,10 +86,11 @@ const NewStudent = () => {
       idSchool,
       name,
       dateOfBirth,
-      //cpf,
-      //rg,
-      cellPhone,
-      cellPhoneOfParentsOrGuardians,
+      fatherCellPhone,
+      admissionDate,
+      motherName,
+      fatherName,
+      motherCellPhone,
       address,
       registerStudent.toString(),
       password,
@@ -118,12 +127,12 @@ const NewStudent = () => {
       .replace(/\D/g, '') // Remove tudo o que não é dígito
   };
 
-  const handleChangecellPhoneOfParentsOrGuardians = (e) => {
-    setCellPhoneOfParentsOrGuardians(maskcellPhone(e.target.value));
+  const handleChangeFatherCellPhone = (e) => {
+    setFatherCellPhone(maskcellPhone(e.target.value));
   };
   
-  const handleChangecellPhone = (e) => {
-    setCellPhone(maskcellPhone(e.target.value));
+  const handleChangemotherCellPhone = (e) => {
+    setmotherCellPhone(maskcellPhone(e.target.value));
   };
 
 
@@ -134,9 +143,10 @@ const NewStudent = () => {
         :
         <>
           <h1>Cadastro de Aluno</h1>
+          <p>Itens com * são obrigatorios</p>
           <>
             <InputArea>
-              <Label>Nome</Label>
+              <Label>*Nome Conpleto</Label>
               <Input
                 placeholder="Digite o nome"
                 value={name}
@@ -144,7 +154,7 @@ const NewStudent = () => {
                   (e) => setName(e.target.value)
                 }
               />
-              <Label>Data de Nascimento</Label>
+              <Label>*Data de Nascimento</Label>
               <Input
                 placeholder="Data de nascimento"
                 value={dateOfBirth}
@@ -158,52 +168,51 @@ const NewStudent = () => {
                 onChange={handleChange}
                 type="text"
                 maxLength="14"
-              />
-              <Label>RG</Label>
-              <Input
-                placeholder="Digite o RG"
-                value={rg}
-                onChange={
-                  (e) => setRg(e.target.value)
-                }
               />*/}
-              <Label>Celular</Label>
+              <Label>*Nome da Mãe</Label>
               <Input
-                placeholder="Digite o celular"
-                value={cellPhone}
-                onChange={handleChangecellPhone}
+                placeholder="Nome da Mãe"
+                value={motherName}
+                onChange={
+                  (e) => setmotherName(e.target.value)
+                }
+              />
+              <Label>Nome do Pai</Label>
+              <Input
+                placeholder="Digite o RGNome do Pai"
+                value={fatherName}
+                onChange={
+                  (e) => setfatherName(e.target.value)
+                }
+              />
+              <Label>*Celular da Mãe</Label>
+              <Input
+                placeholder="Digite o celular da Mãe"
+                value={motherCellPhone}
+                onChange={handleChangemotherCellPhone}
                 type="text"
               />
-              <Label>Celular do Responsavel</Label>
+              <Label>Celular do pai</Label>
               <Input
-                placeholder="Digite o celular"
-                value={cellPhoneOfParentsOrGuardians}
-                onChange={handleChangecellPhoneOfParentsOrGuardians}
+                placeholder="Digite o celular do Pai"
+                value={fatherCellPhone}
+                onChange={handleChangeFatherCellPhone}
                 type="text"
               />
-              <Label>Endereço</Label>
+              <Label>*Endereço</Label>
               <Input
-                placeholder="Rua, bairro, numero"
+                placeholder="Cidade, Rua, bairro, numero"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 type="text"
               />
-             { /*<Label>Senha</Label>
+              <Label>*Data de Admissão</Label>
               <Input
-                placeholder="Digite a senha"
-                value={password}
-                onChange={
-                  (e) => setPassword(e.target.value)
-                }
+                placeholder="Data de nascimento"
+                value={admissionDate}
+                onChange={(e) => setadmissionDate(e.target.value)}
+                type='date'
               />
-              <Label>Confirme Senha</Label>
-              <Input
-                placeholder="Confirme a senha"
-                value={confirmpassword}
-                onChange={
-                  (e) => setConfirmPassword(e.target.value)
-                }
-              />*/}
               {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
               <Btt01 onClick={SignClick}>Cadastra</Btt01>
               <ToGoBack onClick={MessageButtomclick}>

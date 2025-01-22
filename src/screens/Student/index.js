@@ -81,6 +81,8 @@ const Student = () => {
 
     const StudentInformation = async (student) => {
         setLoading(true);
+        //sessionStorage.removeItem('StudentInformation')
+       // sessionStorage.setItem("StudentInformation", student._id)
         navigate(`/student/info/${student._id}`)
         setLoading(false);
     }
