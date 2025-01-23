@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.header`
-  background: #2E332E;
+  background: #b1b1b1;
   padding: 10px;
   display: flex;
   align-items: center;
@@ -9,7 +9,8 @@ export const Container = styled.header`
 
   .logo {
     font-size: 24px;
-    color: #1465bb;
+    font-weight: bold;
+    color: #007fff;
 
     @media (max-width: 768px) {
       font-size: 20px;
@@ -28,8 +29,9 @@ export const Container = styled.header`
       gap: 2rem;
 
       a {
-        color: white;
+        color: #007fff;
         font-size: 18px;
+        font-weight: bold;
         position: relative;
         text-decoration: none;
 
@@ -38,11 +40,15 @@ export const Container = styled.header`
           position: absolute;
           width: 0%;
           height: 2px;
-          background: #3CA63A;
+          background: #ff8830;
           bottom: -2px;
           left: 0;
           transition: width 0.3s;
         }
+
+        &:hover {
+        color: #1466b8;
+      }
 
         &:hover:before {
           width: 100%;

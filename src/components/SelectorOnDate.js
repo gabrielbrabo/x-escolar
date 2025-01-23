@@ -48,6 +48,17 @@ const ResponsivePickers = ({ setSelectedDate, setDay, setMonth, setYear }) => {
                         views={['day', 'month']}  // Permite selecionar apenas mês e dia
                         format="DD/MM/YY"  // Formato Brasileiro DD/MM
                         onChange={handleonChange}
+                        slotProps={{
+                            textField: {
+                                sx: {
+                                    backgroundColor: 'white',
+                                    borderRadius: '4px',  // Borda arredondada opcional
+                                    input: {
+                                        color: 'black', // Cor do texto para garantir visibilidade
+                                    }
+                                }
+                            }
+                        }}
                     />
                 </DemoItem>
             </DemoContainer>

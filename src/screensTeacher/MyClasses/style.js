@@ -120,6 +120,7 @@ export const Emp = styled.div`
 `;
 
 export const Span = styled.span`
+    color: #158fa2;
     font-size: 18px;
 `;
 

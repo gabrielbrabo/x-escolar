@@ -7,6 +7,7 @@ export const Container = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    gap: 40px;
 `;
 
 export const InputArea = styled.form`
@@ -18,10 +19,9 @@ export const InputArea = styled.form`
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background-color: #1465bb;
     gap: 15px;
     font-size: 20px;
-    color: white;
+    //color: white;
 
     @media screen and (max-width: 768px) {
         width: 70%;
@@ -32,7 +32,7 @@ export const InputArea = styled.form`
 
 export const Area = styled.div`
   display: Flex;
-  width: 350px;
+  width: 450px;
   height: 40px;
   margin-bottom: 10px;
   background-color: #ebe7eb;
@@ -64,7 +64,7 @@ export const Btt = styled.button`
     width: 80%;
     margin-top: 20px;
     margin-bottom: 20px;
-    background-color: #8cfa81;
+    background-color: #158fa2;
     font-size: 20px;
     border-radius: 30px;
     border: none;

@@ -47,7 +47,7 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
 
   return (
     <Container isVisible={menuIsVisible}>
-      <IoClose size={45} onClick={() => setMenuIsVisible(false)} />
+      <IoClose size={50} onClick={() => setMenuIsVisible(false)} />
       <Emp>
         <EmployeeInfo>
           <Pro>

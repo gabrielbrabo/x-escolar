@@ -22,7 +22,7 @@ export const Container = styled.section`
     position: absolute;
     top: 1rem;
     right: 1rem;
-    color: white;
+    color: #ff8830;
     transform: rotate(45deg);
     transition: 0.7s;
     cursor: pointer;
@@ -43,7 +43,7 @@ export const Container = styled.section`
       transition: color 0.3s;
 
       &:hover {
-        color: #ddd;
+        color: #ff8830;
       }
     }
 

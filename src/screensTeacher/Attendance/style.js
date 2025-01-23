@@ -77,6 +77,7 @@ export const Emp = styled.div`
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 35px;
+    gap: 15px;
     min-width: 90%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
@@ -98,7 +99,7 @@ export const DivInfo = styled.div`
 `;
 
 export const DivInfoDate = styled.div`
-    background-color: #f1f1f1;
+    background-color: #158fa2;
     width: 90%;
     max-width: 600px;
     padding: 20px;
@@ -131,7 +132,7 @@ export const SpanChecked = styled.button`
 
 export const Btt02 = styled.button`
     padding: 10px;
-    background-color: #007BFF;
+    background-color: #158fa2;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -220,5 +221,14 @@ export const AttendanceButton = styled.button`
         &:hover {
             background-color: #c82333; /* Escuro para ausência */
         }
+    }
+`;
+
+export const BoxButton = styled.div`
+    display: flex;
+    width: 45%;
+    justify-content: space-between;
+    @media(max-width: 768px) {
+        gap: 5px;
     }
 `;

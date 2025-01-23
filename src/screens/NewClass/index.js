@@ -18,9 +18,9 @@ const NewClass = () => {
   const [idSchool, setIdschool] = useState('');
   const year = new Date().getFullYear();
   const [serie, setSerie] = useState('');
-  const [level, setLevel] = useState('');
+  const [level, /*setLevel*/] = useState('BASICO');
   const [shift, setShift] = useState('');
-  const [classroom_number, setClassroom_number] = useState('');
+  const [classroom_number, /*setClassroom_number*/] = useState('01');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -64,12 +64,12 @@ const NewClass = () => {
               value={serie}
               onChange={(e) => setSerie(e.target.value)}
             />
-            <label>Nível</label>
+            {/*<label>Nível</label>
             <Input
               placeholder="Digite o nível"
               value={level}
               onChange={(e) => setLevel(e.target.value)}
-            />
+            />*/}
             <label>Turno</label>
             <Select
               id="shift"
@@ -81,12 +81,12 @@ const NewClass = () => {
               <option value="VESPERTINO">Vespertino</option>
               <option value="NOTURNO">Noturno</option>
             </Select>
-            <label>Número da Sala</label>
+            {/*<label>Número da Sala</label>
             <Input
               placeholder="Digite o número da sala"
               value={classroom_number}
               onChange={(e) => setClassroom_number(e.target.value)}
-            />
+            />*/}
             <Btt01 onClick={SignClick}>Cadastrar</Btt01>
             <ToGoBack onClick={MessageButtomclick}>
               <SignMessageButtonText>Voltar para a</SignMessageButtonText>

@@ -121,25 +121,25 @@ const MyCla$$Info = () => {
                 <ContainerDivs>
                     {
                         clss.map(clss => (
-                            <ClassDetails key={clss._id} >
-                                <ClassInfo>Serie: {clss.serie}</ClassInfo>
-                                <ClassInfo>Nivel: {clss.level}</ClassInfo>
-                                <ClassInfo>Turno: {clss.shift}</ClassInfo>
-                                <ClassInfo>Numero da Sala: {clss.classroom_number}</ClassInfo>
+                            <ClassDetails style={{ backgroundColor: "#FF5733", color: "#FFF" }} key={clss._id} >
+                                <ClassInfo style={{ color: "#FFF" }}>{clss.serie}</ClassInfo>
+                               { /*<ClassInfo>Nivel: {clss.level}</ClassInfo>*/}
+                                <ClassInfo style={{ color: "#FFF" }}>Turno: {clss.shift}</ClassInfo>
+                                {/*<ClassInfo>Numero da Sala: {clss.classroom_number}</ClassInfo>*/}
                             </ClassDetails>
                         ))
                     }
                     <ButtonContainer>
                         <button onClick={() => { navigate('/attendance') }}>Chamada</button>
-                        <button onClick={() => { navigate('/grade') }}>Conceitos</button>
                         <button onClick={() => { navigate('/classes') }}>Aulas</button>
+                        <button onClick={() => { navigate('/grade') }}>Conceitos</button>
                     </ButtonContainer>
                     <ButtonContainer>
                         <button onClick={() => { navigate('/individual-form') }}>Ficha Individual</button>
                         <button onClick={() => { navigate('/final-concepts') }}>Conceitos Finais</button>
                     </ButtonContainer>
                     <StudentSection>
-                        <h2>Estudantes</h2>
+                        <h2 style={{ color: "#158fa2" }}>Estudantes</h2>
                         {stdt.length > 0 ? (
                             stdt.map(stdt => (
                                 <StudentItem onClick={() => StudentInformation(stdt)}>{stdt.name}</StudentItem>

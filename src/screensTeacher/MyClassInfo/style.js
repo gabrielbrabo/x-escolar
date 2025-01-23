@@ -47,7 +47,7 @@ export const ButtonContainer = styled.div`
     gap: 20px;
 
     button {
-        background-color: #28a745;
+        background-color: #158fa2;
         color: white;
         padding: 10px 20px;
         border: none;

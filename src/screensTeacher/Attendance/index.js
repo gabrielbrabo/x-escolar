@@ -31,11 +31,12 @@ import {
     EditContainer,
     SpanChecked,
     DataSelected,
+    BoxButton
 } from './style';
 
 import {
 } from '../../components/Inputs'
-import LoadingSpinner from '../../components/Loading'
+import LoadingSpinner from '../../components/LoadingFrequence'
 
 const IndexAttendance = () => {
 
@@ -43,7 +44,7 @@ const IndexAttendance = () => {
     //const [matter, setMatter] = useState([])
     //const [Namematter, setNameMatter] = useState([])
     const [open, setopen] = useState()
-    const [id_matter, setclickMatter] = useState([])
+    //const [id_matter, setclickMatter] = useState([])
     const [id_class, setId_class] = useState([])
     const [id_teacher, setId_teacher] = useState('')
     const [stdt, setStdt] = useState([])
@@ -63,27 +64,29 @@ const IndexAttendance = () => {
             const idTeacher = JSON.parse(localStorage.getItem("Id_employee") || '""'); // Remove aspas extras
             setId_teacher(idTeacher);
             const id_class = sessionStorage.getItem("class-info");
-            const Matter = sessionStorage.getItem("attendance_ idmatter");
+            //const Matter = sessionStorage.getItem("attendance_ idmatter");
             const selectedDate = sessionStorage.getItem("selectedDate");
-            const Day = sessionStorage.getItem("day");
-            const Month = sessionStorage.getItem("month");
-            const Year = sessionStorage.getItem("year");
 
             //const res = await GetInfoMyClass(id_class, JSON.parse(id_teacher));
 
-            if (Matter) {
+            /*if (Matter) {
                 setclickMatter(Matter);
-            }
+            }*/
             if (selectedDate) {
+
+                const Day = sessionStorage.getItem("day");
+                const Month = sessionStorage.getItem("month");
+                const Year = sessionStorage.getItem("year");
+
                 setSelectedDate(selectedDate);
                 setDay(JSON.parse(Day));
                 setMonth(JSON.parse(Month));
                 setYear(JSON.parse(Year));
             }
 
-           // setId_teacher(idTeacher || "");
+            // setId_teacher(idTeacher || "");
             setId_class(id_class);
-            if (day && month && year && id_class  && id_teacher) {
+            if (day && month && year && id_class && id_teacher) {
 
                 console.log("Payload enviado para o backend:", {
                     month,
@@ -92,7 +95,7 @@ const IndexAttendance = () => {
                     id_class,
                     id_teacher, // Deve ser string aqui
                 });
-                const resAtt = await GetAttendanceFinalized({month, year, day, id_class:id_class.trim(), id_teacher: id_teacher.trim(),});
+                const resAtt = await GetAttendanceFinalized({ month, year, day, id_class: id_class.trim(), id_teacher: id_teacher.trim(), });
                 console.log("resAtt", resAtt)
                 const resClass = await clssInfo(id_class);
                 const attRealized = await resAtt.data.data.map(res => res.id_student._id);
@@ -107,15 +110,14 @@ const IndexAttendance = () => {
 
             setLoading(false);
         })();
-    }, [day, id_matter, id_teacher, month, year]);
+    }, [day, id_teacher, month, year]);
+
 
     if (selectedDate) {
         sessionStorage.setItem("selectedDate", selectedDate)
         sessionStorage.setItem("day", day)
         sessionStorage.setItem("month", month)
         sessionStorage.setItem("year", year)
-
-        //const Year = new Date().getFullYear();
 
         const fetchQuarters = async () => {
             const idSchool = sessionStorage.getItem("id-school");
@@ -214,7 +216,12 @@ const IndexAttendance = () => {
     }*/
     const Finalyze = () => {
         setLoading(true)
-        window.history.back()
+        if (stdt.length > 0) {
+            alert('Chamada não finalizada por favor adicione a frequencia dos alunos que ainda faltam')
+        } else {
+            window.history.back()
+        }
+        setLoading(false)
     }
     const handleAttendance = async (stdt, status) => {
         setLoading(true)
@@ -222,7 +229,7 @@ const IndexAttendance = () => {
         const res = await Attendance(day, month, year, status, id_student, id_teacher, id_class,)
         console.log('chamada', res)
         if (res) {
-            const resAtt = await GetAttendanceFinalized({month, year, day, id_class:id_class.trim(), id_teacher: id_teacher.trim(),})
+            const resAtt = await GetAttendanceFinalized({ month, year, day, id_class: id_class.trim(), id_teacher: id_teacher.trim(), })
             const resClass = await clssInfo(id_class)
             const attRealized = await resAtt.data.data.map(res => {
                 return res.id_student._id
@@ -260,7 +267,7 @@ const IndexAttendance = () => {
         //setLoading(false)
     };
     console.log("selectedDate", selectedDate)
-    console.log("matter", id_matter)
+    //console.log("matter", id_matter)
     console.log("day", day)
     console.log("month", month)
     console.log("year", year)
@@ -311,7 +318,7 @@ const IndexAttendance = () => {
                                     <h2>Chamada</h2>
                                     <DataSelected>
                                         {/*<p>Disciplina: {Namematter}</p>*/}
-                                        <p>Data: {day}/{month}/{year}</p>
+                                        <p style={{ color: "#158fa2" }}>Data: {day}/{month}/{year}</p>
                                     </DataSelected>
                                     <DivButton>
                                         {/* <Btt02 onClick={clickRemovematter}>
@@ -334,8 +341,10 @@ const IndexAttendance = () => {
                                                         key={stdt._id}
                                                     >
                                                         <Span>{stdt.name}</Span>
-                                                        <Btt02 onClick={() => handlePresenceClick(stdt)} style={{ backgroundColor: 'green' }}>Presença</Btt02>
-                                                        <Btt02 onClick={() => handleAbsenceClick(stdt)} style={{ backgroundColor: 'red' }}>Ausência</Btt02>
+                                                        <BoxButton>
+                                                            <Btt02 onClick={() => handlePresenceClick(stdt)} style={{ backgroundColor: 'green' }}>Presença</Btt02>
+                                                            <Btt02 onClick={() => handleAbsenceClick(stdt)} style={{ backgroundColor: 'red' }}>Ausência</Btt02>
+                                                        </BoxButton>
                                                     </Emp>
                                                 ))
                                         }
@@ -345,16 +354,21 @@ const IndexAttendance = () => {
                                             .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
                                             .map(checkedStdt => (
                                                 <Emp key={checkedStdt._id}>
-                                                    <SpanChecked>{checkedStdt.id_student.name}
+                                                    <SpanChecked>{checkedStdt.id_student.name}</SpanChecked>
+
+                                                    <BoxButton>
                                                         <Btt02 style={{
                                                             backgroundColor: checkedStdt.status === 'P' ? 'green' : 'red'
                                                         }}>
                                                             {checkedStdt.status}
                                                         </Btt02>
-                                                    </SpanChecked>
-                                                    <Btt02 onClick={() => startEditing(checkedStdt)} style={{ backgroundColor: 'blue' }}>
-                                                        Editar
-                                                    </Btt02>
+                                                        <Btt02 onClick={() => startEditing(checkedStdt)} style={{ backgroundColor: 'blue' }}>
+                                                            Apagar
+                                                        </Btt02>
+                                                        <Btt02 onClick={() => startEditing(checkedStdt)} style={{ backgroundColor: 'blue' }}>
+                                                            Editar
+                                                        </Btt02>
+                                                    </BoxButton>
                                                 </Emp>
                                             ))}
                                     </ListChecked>

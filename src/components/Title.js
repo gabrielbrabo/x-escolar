@@ -7,7 +7,7 @@ export const Title = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #1C1C1C;
-    color: #1465bb;
-    box-shadow: 5px 10px 18px #888888;
+    background-color: #b1b1b1;
+    color: #007fff;
+    box-shadow: 5px 5px 20px #888888;
 `;

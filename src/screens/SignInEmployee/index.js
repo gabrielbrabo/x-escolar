@@ -96,9 +96,7 @@ const SignInEmployee = () => {
     };
 
 
-    const MessageButtomclick = () => {
-        navigate('/signup/school');
-    }
+    /**/
 
     return (
         <Container>
@@ -135,10 +133,10 @@ const SignInEmployee = () => {
                         <SignMessageButtonText>Esqueceu sua </SignMessageButtonText>
                         <SignMessageButtonTextBold>Senha?</SignMessageButtonTextBold>
                     </SignMessageButton>
-                    <SignMessageButton onClick={MessageButtomclick}>
+                    {/*<SignMessageButton onClick={MessageButtomclick}>
                         <SignMessageButtonText>Cadastre uma </SignMessageButtonText>
                         <SignMessageButtonTextBold>Escola</SignMessageButtonTextBold>
-                    </SignMessageButton>
+                    </SignMessageButton>*/}
                 </>
             }
         </Container>

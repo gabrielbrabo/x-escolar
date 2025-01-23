@@ -15,7 +15,6 @@ export const SignMessageButton = styled.button`
     justify-content: center;
     border: none;
     margin-top: 20px;
-    background-color: #83D6E3;
 `;
 
 export const SignMessageButtonText = styled.text`
