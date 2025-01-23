@@ -6,8 +6,10 @@ import {
     Container,
     ContainerDivs,
     List,
+    ListChecked,
     Emp,
     Span,
+    Conceito,
     //InputGrade,
     Btt01,
     Btt02,
@@ -204,10 +206,10 @@ const IndexAttendance = () => {
                                 </Info>
                                 <LegendBox>
                                     <h3>Legenda</h3>
-                                    <p><strong>A</strong> - Alcançou com êxito as capacidades básicas</p>
-                                    <p><strong>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
-                                    <p><strong>C</strong> - Alcançou parcialmente as capacidades básicas</p>
-                                    <p><strong>D</strong> - Não alcançou as capacidades básicas</p>
+                                    <p><strong style={{ color: '#1d7f14' }}>A</strong> - Alcançou com êxito as capacidades básicas</p>
+                                    <p><strong style={{ color: 'blue' }}>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
+                                    <p><strong style={{ color: 'orange' }}>C</strong> - Alcançou parcialmente as capacidades básicas</p>
+                                    <p><strong style={{ color: 'red' }}>D</strong> - Não alcançou as capacidades básicas</p>
                                 </LegendBox>
                             </DataSelected>
                             {!update_id_grade &&
@@ -244,8 +246,7 @@ const IndexAttendance = () => {
                                                 ))
                                         }
                                     </List>
-                                    <h3>Conceito adicionado</h3>
-                                    <List>
+                                    <ListChecked>
 
                                         {
                                             checked
@@ -258,7 +259,7 @@ const IndexAttendance = () => {
                                                             <Span>{stdt.id_student.name}</Span>
                                                             <Grade>
                                                                 <p>Conceito: </p>
-                                                                <p>{stdt.studentGrade}</p>
+                                                                <Conceito grade={stdt.studentGrade}>{stdt.studentGrade}</Conceito>
                                                                 {/*<span>pts</span>*/}
                                                             </Grade>
                                                             <Btt02 onClick={() => startEditing(stdt)} >Editar</Btt02>
@@ -266,7 +267,7 @@ const IndexAttendance = () => {
                                                     </>
                                                 ))
                                         }
-                                    </List>
+                                    </ListChecked>
                                 </>
                             }
                             {update_id_grade && (

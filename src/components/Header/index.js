@@ -91,7 +91,7 @@ export function Header({ setMenuIsVisible }) {
                 </EmployeeInfo>
             </Emp>
             <section>
-                <RiMenu3Fill color="#158fa2" style={{ strokeWidth: '1px' }} onClick={() => setMenuIsVisible(true)} className="mobile-icon" />
+                <RiMenu3Fill color="black" style={{ strokeWidth: '1px' }} onClick={() => setMenuIsVisible(true)} className="mobile-icon" />
             </section>
         </Container>
     );

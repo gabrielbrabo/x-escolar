@@ -37,6 +37,7 @@ export const DataSelected = styled.div`
 `;
 
 export const Info = styled.div`
+    color: #158fa2;
 `;
 export const DivButton = styled.div`
     width: 100%;
@@ -59,6 +60,27 @@ export const List = styled.div`
     gap: 5px;
 `;
 
+export const ListChecked = styled.div`
+    border-top: 2px solid #1d7f14; /* Borda da lista */
+    margin: 20px 0;
+    width: 100%;
+    padding: 10px;
+    position: relative; /* Necessário para o título */
+    
+    &:before {
+        content: 'Conceito adicionado'; /* Texto da borda */
+        position: absolute;
+        top: -15px; /* Ajuste conforme necessário */
+        left: 50%;
+        transform: translateX(-50%); /* Centraliza o texto */
+        background: white; /* Fundo para que o texto não fique atrás da borda */
+        padding: 0 3px; /* Espaçamento lateral */
+        font-weight: bold; /* Negrito para destaque */
+        color: #ccc; /* Cor do texto */
+    }
+
+`;
+
 export const Emp = styled.div`
     display: flex;
     justify-content: space-between;
@@ -69,6 +91,20 @@ export const Emp = styled.div`
     margin-bottom: 35px;
     min-width: 90%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+export const Conceito = styled.div`
+    color: ${({ grade }) => {
+        switch (grade) {
+            case 'A': return '#1d7f14';
+            case 'B': return 'blue';
+            case 'C': return 'orange';
+            case 'D': return 'red';
+            default: return 'black';
+        }
+    }};
+    font-weight: bold;
+    
 `;
 
 export const Matter = styled.div`

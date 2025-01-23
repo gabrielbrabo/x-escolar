@@ -20,6 +20,7 @@ import {
     DateCell,
     InfoText,
     Button,
+    ButtonEdit,
     DescriptionCell,
     Register,
     ButtonReg,
@@ -142,14 +143,14 @@ const Grade = () => {
         try {
             // Obtém os resultados de forma assíncrona
             const result = await fetchQuarters();
-    
+
             // Define `open` com base nos resultados
-            const openQuarter = 
+            const openQuarter =
                 result.IstQuarter === "aberto" ? "IstQuarter" :
-                result.IIndQuarter === "aberto" ? "IIndQuarter" :
-                result.IIIrdQuarter === "aberto" ? "IIIrdQuarter" :
-                result.IVthQuarter === "aberto" ? "IVthQuarter" : null;
-    
+                    result.IIndQuarter === "aberto" ? "IIndQuarter" :
+                        result.IIIrdQuarter === "aberto" ? "IIIrdQuarter" :
+                            result.IVthQuarter === "aberto" ? "IVthQuarter" : null;
+
             if (openQuarter) {
                 console.log(`Bimestre aberto: ${openQuarter}`);
                 setopen("aberto");
@@ -159,7 +160,7 @@ const Grade = () => {
             } else {
                 alert("Edição não permitida. Para editar a aula, contate o supervisor.");
             }
-    
+
         } catch (error) {
             console.error("Erro ao buscar os trimestres:", error);
             alert("Erro ao buscar informações. Tente novamente mais tarde.");
@@ -235,7 +236,7 @@ const Grade = () => {
                                             Registrar Nova Aula
                                         </ButtonReg>
                                     </Register>
-//                                )
+                                    //                                )
                                 }
                                 {recordClassTaught.length > 0 ? (
                                     recordClassTaught
@@ -296,8 +297,10 @@ const Grade = () => {
                                                                 placeholder="Descrição da aula"
                                                             />
                                                             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                                                            <Button onClick={handleSaveEdit}>Salvar</Button>
-                                                            <Button onClick={() => setEditingIndex(null)}>Cancelar</Button>
+                                                            <div className='BoxBtt'>
+                                                                <ButtonEdit onClick={handleSaveEdit}>Salvar</ButtonEdit>
+                                                                <ButtonEdit onClick={() => setEditingIndex(null)}>Cancelar</ButtonEdit>
+                                                            </div>
                                                         </EditContainer>
                                                     )}
                                                 </ContainerTable>

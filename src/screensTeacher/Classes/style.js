@@ -67,7 +67,7 @@ export const Table = styled.div`
 
 export const ContainerTable = styled.div`
     padding: 10px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #FF5733;
     background-color: #f0f0f0;
     width: 100%;
     max-width: 100%;
@@ -117,6 +117,7 @@ export const DateCell = styled.div`
     font-size: 15px;
     text-align: left;
     flex: 1;
+    color: #158fa2;
 
     @media print {
         font-size: 12px; // Ajusta a fonte na impressão
@@ -188,6 +189,23 @@ export const Button = styled.button`
     }
 `;
 
+export const ButtonEdit = styled.button`
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+
+    &:hover {
+        background-color: #0056b3;
+    }
+
+    @media print {
+        display: none; // Oculta na impressão
+    }
+`;
+
 export const Register = styled.div`
     width: 100%;
     height: 50px;
@@ -228,7 +246,7 @@ export const ButtonReg = styled.button`
 
 export const EditContainer = styled.div`
     background-color: #f9f9f9;
-    border: 1px solid #ddd;
+    border: 2px solid #FF5733;
     padding: 15px;
     border-radius: 8px;
     margin-top: 10px;
@@ -255,6 +273,13 @@ export const EditContainer = styled.div`
     textarea {
         resize: vertical;
         height: 250px;
+    }
+
+    .BoxBtt {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-evenly;
     }
 
     button {

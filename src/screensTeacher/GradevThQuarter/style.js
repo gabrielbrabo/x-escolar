@@ -37,6 +37,7 @@ export const DataSelected = styled.div`
 `;
 
 export const Info = styled.div`
+    color: #158fa2;
 `;
 export const DivButton = styled.div`
     width: 100%;

@@ -378,14 +378,14 @@ const IndexAttendance = () => {
                                 </ContainerStudent>
                             ) : (
                                 <>
-                                    <p> Bimestre fechado para editar contate o suprevisor</p>
+                                    <h2> Bimestre fechado para editar contate o suprevisor</h2>
 
                                     <DivButton>
                                         {/* <Btt02 onClick={clickRemovematter}>
                                     Selecionar outra materia
                                 </Btt02>*/}
                                         <Btt02 onClick={clickRemovedate}>
-                                            Selecionar outra data
+                                           Selecionar outra data
                                         </Btt02>
                                     </DivButton>
                                 </>

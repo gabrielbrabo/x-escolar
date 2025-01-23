@@ -112,6 +112,7 @@ export const DivInfoDate = styled.div`
     h3 {
         text-align: center;
         padding-bottom: 30px;
+        color: white;
     }
 `;
 
