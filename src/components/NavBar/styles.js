@@ -82,11 +82,11 @@ export const Emp = styled.div`
 
 export const EmployeeInfo = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
 `;
 
 export const Pro = styled.div`
+  width: 90%;
   display: flex;
   align-items: center;
 `;
@@ -109,8 +109,8 @@ export const ProfileInfo = styled.div`
   flex-direction: column;
   max-width: 180px;
 
-  @media (max-width: 768px) {
-    max-width: 150px;
+  @media (max-width: 768px) {   
+    max-width: 100%;
   }
 `;
 
@@ -118,7 +118,8 @@ export const Name = styled.span`
   display: block;
   margin-bottom: 5px;
   font-size: 17px;
-  color: #333;
+  font-weight: bold;
+  color: #158fa2;
 
   
 `;
@@ -127,7 +128,8 @@ export const Span = styled.span`
   display: inline-block;
   margin-bottom: 5px;
   font-size: 10px;
-  color: #333;
+  font-weight: bold;
+  color: #158fa2;
 
   @media (max-width: 768px) {
     font-size: 14px;

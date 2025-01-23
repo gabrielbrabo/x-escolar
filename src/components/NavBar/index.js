@@ -51,7 +51,6 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
       <Emp>
         <EmployeeInfo>
           <Pro>
-            {/*<ProfilePhoto />*/}
             <ProfileInfo onClick={handlePerfil}>
               <Name>{name}</Name>
               <Span>{positionAtSchool}</Span>

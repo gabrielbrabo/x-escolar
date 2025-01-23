@@ -119,8 +119,9 @@ export const ProfileInfo = styled.div`
 `;
 
 export const Name = styled.span`
-  font-size: 14px;
-  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  color: #158fa2;
 
   &:first-child {
     margin-bottom: 5px;
@@ -131,8 +132,9 @@ export const Name = styled.span`
   }
 `;
 export const Span = styled.span`
-  font-size: 10px;
-  color: white;
+  font-size: 13px;
+  font-weight: bold;
+  color: #158fa2;
 
   &:first-child {
     margin-bottom: 5px;
