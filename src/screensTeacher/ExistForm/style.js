@@ -61,6 +61,7 @@ export const RecordDescription = styled.div`
         margin: 8px 0;
         text-indent: 1.25cm;
         line-height: 1.5;
+        color: black;
     }
 
     @media print {

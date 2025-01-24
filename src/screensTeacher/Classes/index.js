@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactQuill from 'react-quill';
 import {
     indexRecordClassTaught,
     clssInfo,
@@ -291,10 +292,26 @@ const Grade = () => {
                                                                 }}
                                                                 placeholder="Data (DD/MM)"
                                                             />
-                                                            <textarea
+                                                            {/*<textarea
                                                                 value={editedDescription}
                                                                 onChange={(e) => setEditedDescription(e.target.value)}
                                                                 placeholder="Descrição da aula"
+                                                            />*/}
+                                                            <ReactQuill
+                                                                theme="snow"
+                                                                modules={{
+                                                                    toolbar: [
+                                                                        [{ 'font': [] }],
+                                                                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                                                        ['bold', 'italic', 'underline'],
+                                                                        [{ 'color': [] }, { 'background': [] }],
+                                                                        ['clean']
+                                                                    ]
+                                                                }}
+                                                                value={editedDescription}
+                                                                onChange={(e) => setEditedDescription(e)}
+                                                                placeholder="Descrição da aula"
+                                                                style={{ height: '300px' }}  // Define a altura aqui
                                                             />
                                                             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                                                             <div className='BoxBtt'>

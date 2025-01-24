@@ -130,6 +130,15 @@ const StudentRecordDescription = () => {
                         <StyledQuillContainer>
                             <ReactQuill
                                 theme="snow"
+                                modules={{
+                                    toolbar: [
+                                        [{ 'font': [] }],
+                                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                        ['bold', 'italic', 'underline'],
+                                        [{ 'color': [] }, { 'background': [] }],
+                                        ['clean']
+                                    ]
+                                }}
                                 value={editedDescription}
                                 onChange={(content) => setEditedDescription(content)}
                                 placeholder="Ficha Individual do Aluno"

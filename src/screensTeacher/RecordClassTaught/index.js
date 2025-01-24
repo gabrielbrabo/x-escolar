@@ -106,12 +106,21 @@ const Grade = () => {
                                     <div>Data da Aula: <p>{day}/{month}/{year}</p></div>
                                 </Span>
                                 <StyledQuillContainer>
-                                    <ReactQuill
-                                        theme="snow"
-                                        value={description}
-                                        onChange={setDescription}
-                                        placeholder="Descreva o conteúdo da aula"
-                                    />
+                                <ReactQuill
+                                theme="snow"
+                                modules={{
+                                    toolbar: [
+                                        [{ 'font': [] }],
+                                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                        ['bold', 'italic', 'underline'],
+                                        [{ 'color': [] }, { 'background': [] }],
+                                        ['clean']
+                                    ]
+                                }}
+                                value={description}
+                                onChange={setDescription}
+                                placeholder="Fincha Individual da Aluno"
+                            />
                                 </StyledQuillContainer>
                                 {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                             </Input>

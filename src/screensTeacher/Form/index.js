@@ -100,6 +100,15 @@ const Form = () => {
                         <StyledQuillContainer>
                             <ReactQuill
                                 theme="snow"
+                                modules={{
+                                    toolbar: [
+                                        [{ 'font': [] }],
+                                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                        ['bold', 'italic', 'underline'],
+                                        [{ 'color': [] }, { 'background': [] }],
+                                        ['clean']
+                                    ]
+                                }}
                                 value={description}
                                 onChange={setDescription}
                                 placeholder="Fincha Individual da Aluno"

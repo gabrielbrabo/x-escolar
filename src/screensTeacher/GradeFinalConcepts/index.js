@@ -6,6 +6,7 @@ import {
     Container,
     ContainerDivs,
     List,
+    ListChecked,
     Emp,
     Span,
     //InputGrade,
@@ -263,10 +264,10 @@ const Finalconcepts = () => {
                                     </Info>
                                     <LegendBox>
                                         <h3>Legenda</h3>
-                                        <p><strong>A</strong> - Alcançou com êxito as capacidades básicas</p>
-                                        <p><strong>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
-                                        <p><strong>C</strong> - Alcançou parcialmente as capacidades básicas</p>
-                                        <p><strong>D</strong> - Não alcançou as capacidades básicas</p>
+                                        <p><strong style={{ color: '#1d7f14' }}>A</strong> - Alcançou com êxito as capacidades básicas</p>
+                                        <p><strong style={{ color: 'blue' }}>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
+                                        <p><strong style={{ color: 'orange' }}>C</strong> - Alcançou parcialmente as capacidades básicas</p>
+                                        <p><strong style={{ color: 'red' }}>D</strong> - Não alcançou as capacidades básicas</p>
                                     </LegendBox>
                                 </DataSelected>
                             }
@@ -275,51 +276,59 @@ const Finalconcepts = () => {
                                     <List>
                                         {
                                             stdt
-                                            .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
-                                            .map(stdt =>
-                                                <>
-                                                    <Emp
-                                                        key={stdt._id}
-                                                    >
-                                                        <Span>{stdt.name}</Span>
-                                                        <DivBimTable>
-                                                            <DivBimRow>
-                                                                <DivBimHeader>1º Bim</DivBimHeader>
-                                                                <DivBimCell>{iStQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}</DivBimCell>
-                                                            </DivBimRow>
-                                                            <DivBimRow>
-                                                                <DivBimHeader>2º Bim</DivBimHeader>
-                                                                <DivBimCell>{iiNdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}</DivBimCell>
-                                                            </DivBimRow>
-                                                            <DivBimRow>
-                                                                <DivBimHeader>3º Bim</DivBimHeader>
-                                                                <DivBimCell>{iiiRdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}</DivBimCell>
-                                                            </DivBimRow>
-                                                            <DivBimRow>
-                                                                <DivBimHeader>4º Bim</DivBimHeader>
-                                                                <DivBimCell>{ivThQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}</DivBimCell>
-                                                            </DivBimRow>
-                                                        </DivBimTable>
-                                                        <Grade>
-                                                            <p>Conceito:</p>
-                                                            <Select
-                                                                //id="position"
-                                                                //value={update_studentGrade}
-                                                                onChange={(e) => setStudentGrade(e.target.value)}
-                                                            >
-                                                                <option value="">Selecione</option>
-                                                                <option value="A">A</option>
-                                                                <option value="B">B</option>
-                                                                <option value="C">C</option>
-                                                                <option value="D">D</option>
-                                                            </Select>
-                                                            {/*<span>pts</span>*/}
-                                                        </Grade>
-                                                        <Btt01 onClick={() => handleGrade(stdt)}>Definir</Btt01>
-                                                    </Emp>
-                                                    {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                                                </>
-                                            )
+                                                .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
+                                                .map(stdt =>
+                                                    <>
+                                                        <Emp
+                                                            key={stdt._id}
+                                                        >
+                                                            <Span>{stdt.name}</Span>
+                                                            <DivBimTable>
+                                                                <DivBimRow>
+                                                                    <DivBimHeader>1º Bim</DivBimHeader>
+                                                                    <DivBimCell grade={iStQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
+                                                                        {iStQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
+                                                                    </DivBimCell>
+                                                                </DivBimRow>
+                                                                <DivBimRow>
+                                                                    <DivBimHeader>2º Bim</DivBimHeader>
+                                                                    <DivBimCell grade={iiNdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
+                                                                        {iiNdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
+                                                                    </DivBimCell>
+                                                                </DivBimRow>
+                                                                <DivBimRow>
+                                                                    <DivBimHeader>3º Bim</DivBimHeader>
+                                                                    <DivBimCell grade={iiiRdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
+                                                                        {iiiRdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
+                                                                    </DivBimCell>
+                                                                </DivBimRow>
+                                                                <DivBimRow>
+                                                                    <DivBimHeader>4º Bim</DivBimHeader>
+                                                                    <DivBimCell grade={ivThQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
+                                                                        {ivThQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
+                                                                    </DivBimCell>
+                                                                </DivBimRow>
+                                                            </DivBimTable>
+                                                            <Grade>
+                                                                <p>Conceito:</p>
+                                                                <Select
+                                                                    //id="position"
+                                                                    //value={update_studentGrade}
+                                                                    onChange={(e) => setStudentGrade(e.target.value)}
+                                                                >
+                                                                    <option value="">Selecione</option>
+                                                                    <option value="A">A</option>
+                                                                    <option value="B">B</option>
+                                                                    <option value="C">C</option>
+                                                                    <option value="D">D</option>
+                                                                </Select>
+                                                                {/*<span>pts</span>*/}
+                                                            </Grade>
+                                                            <Btt01 onClick={() => handleGrade(stdt)}>Definir</Btt01>
+                                                        </Emp>
+                                                        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                                    </>
+                                                )
                                         }
                                     </List>
                                 </>
@@ -328,47 +337,53 @@ const Finalconcepts = () => {
                             {
                                 checked.length > 0 && !update_id_grade &&
                                 <>
-                                    <h3>Checked</h3>
-                                    <List>
+                                    <ListChecked>
 
                                         {
                                             checked
-                                            .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
-                                            .map(stdt => (
-                                                <>
-                                                    <Emp
-                                                        key={stdt._id}
-                                                    >
-                                                        <Span>{stdt.id_student.name}</Span>
-                                                        <DivBimTable>
-                                                            <DivBimRow>
-                                                                <DivBimHeader>1º Bim</DivBimHeader>
-                                                                <DivBimCell>{iStQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}</DivBimCell>
-                                                            </DivBimRow>
-                                                            <DivBimRow>
-                                                                <DivBimHeader>2º Bim</DivBimHeader>
-                                                                <DivBimCell>{iiNdQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}</DivBimCell>
-                                                            </DivBimRow>
-                                                            <DivBimRow>
-                                                                <DivBimHeader>3º Bim</DivBimHeader>
-                                                                <DivBimCell>{iiiRdQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}</DivBimCell>
-                                                            </DivBimRow>
-                                                            <DivBimRow>
-                                                                <DivBimHeader>4º Bim</DivBimHeader>
-                                                                <DivBimCell>{ivThQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}</DivBimCell>
-                                                            </DivBimRow>
-                                                        </DivBimTable>
-                                                        <Grade>
-                                                            <p>Conceito: </p>
-                                                            <p>{stdt.studentGrade}</p>
-                                                            {/*<span>pts</span>*/}
-                                                        </Grade>
-                                                        <Btt02 onClick={() => startEditing(stdt)} >Editar</Btt02>
-                                                    </Emp>
-                                                </>
-                                            ))
+                                                .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
+                                                .map(stdt => (
+                                                    <>
+                                                        <Emp
+                                                            key={stdt._id}
+                                                        >
+                                                            <Span>{stdt.id_student.name}</Span>
+                                                            <DivBimTable>
+                                                                <DivBimRow>
+                                                                    <DivBimHeader>1º Bim</DivBimHeader>
+                                                                    <DivBimCell grade={iStQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}>
+                                                                        {iStQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}
+                                                                    </DivBimCell>
+                                                                </DivBimRow>
+                                                                <DivBimRow>
+                                                                    <DivBimHeader>2º Bim</DivBimHeader>
+                                                                    <DivBimCell grade={iiNdQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}>
+                                                                        {iiNdQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}
+                                                                    </DivBimCell>
+                                                                </DivBimRow>
+                                                                <DivBimRow>
+                                                                    <DivBimHeader>3º Bim</DivBimHeader>
+                                                                    <DivBimCell grade={iiiRdQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}>
+                                                                        {iiiRdQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}
+                                                                    </DivBimCell>
+                                                                </DivBimRow>
+                                                                <DivBimRow>
+                                                                    <DivBimHeader>4º Bim</DivBimHeader>
+                                                                    <DivBimCell grade={ivThQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}>
+                                                                        {ivThQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}
+                                                                    </DivBimCell>
+                                                                </DivBimRow>
+                                                                <DivBimRow>
+                                                                    <DivBimHeader>Final</DivBimHeader>
+                                                                    <DivBimCell grade={stdt.studentGrade}>{stdt.studentGrade}</DivBimCell>
+                                                                </DivBimRow>
+                                                            </DivBimTable>
+                                                            <Btt02 onClick={() => startEditing(stdt)} >Editar</Btt02>
+                                                        </Emp>
+                                                    </>
+                                                ))
                                         }
-                                    </List>
+                                    </ListChecked>
                                 </>
                             }
 
