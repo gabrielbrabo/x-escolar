@@ -311,10 +311,10 @@ const Grade = () => {
                                                                 value={editedDescription}
                                                                 onChange={(e) => setEditedDescription(e)}
                                                                 placeholder="Descrição da aula"
-                                                                style={{ height: '300px' }}  // Define a altura aqui
+                                                                style={{ height: '250px', position: 'relative', overflow: 'hidden', maxHeight: '250px', zIndex: 0}}  // Define a altura aqui
                                                             />
                                                             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                                                            <div className='BoxBtt'>
+                                                            <div style={{ position: 'relative', zIndex: 10, marginTop: '30px', }} className='BoxBtt'>
                                                                 <ButtonEdit onClick={handleSaveEdit}>Salvar</ButtonEdit>
                                                                 <ButtonEdit onClick={() => setEditingIndex(null)}>Cancelar</ButtonEdit>
                                                             </div>

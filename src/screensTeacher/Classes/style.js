@@ -67,7 +67,7 @@ export const Table = styled.div`
 
 export const ContainerTable = styled.div`
     padding: 10px;
-    border-bottom: 1px solid #FF5733;
+    border-bottom: 2px solid #37d60a;
     background-color: #f0f0f0;
     width: 100%;
     max-width: 100%;
@@ -248,8 +248,8 @@ export const EditContainer = styled.div`
     background-color: #f9f9f9;
     border: 2px solid #FF5733;
     padding: 15px;
+    height: 400px;
     border-radius: 8px;
-    margin-top: 10px;
     display: flex;
     flex-direction: column;
 
