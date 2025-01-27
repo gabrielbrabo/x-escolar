@@ -5,6 +5,7 @@ import {
     GetAttendanceFinalized,
     Attendance,
     updateAttendance,
+    DestroyAttendance,
     getIstQuarter,
     getIIndQuarter,
     getIIIrdQuarter,
@@ -43,7 +44,7 @@ const IndexAttendance = () => {
     //const navigate = useNavigate()
     //const [matter, setMatter] = useState([])
     //const [Namematter, setNameMatter] = useState([])
-    const [open, setopen] = useState()
+    const [open, setopen] = useState('aberto')
     //const [id_matter, setclickMatter] = useState([])
     const [id_class, setId_class] = useState([])
     const [id_teacher, setId_teacher] = useState('')
@@ -56,6 +57,8 @@ const IndexAttendance = () => {
     const [namestudent, setNamestudent] = useState('')
     const [editingStudent, setEditingStudent] = useState(null); // Estado para aluno em edição
     const [editingStatus, setEditingStatus] = useState('');
+    const [Student, setStudent] = useState(null); // Estado para aluno em edição
+    const [Status, setStatus] = useState('');
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -266,6 +269,23 @@ const IndexAttendance = () => {
         window.location.reload()
         //setLoading(false)
     };
+
+    const handleDestroy = async (checkedStdt) => {
+        setStudent(checkedStdt._id)
+        setStatus(checkedStdt.status)
+        setNamestudent(checkedStdt)
+    };
+
+    const Destroy = async () => {
+        const idAttendance = Student
+        console.log("checkedStdt", idAttendance)
+        const res = await DestroyAttendance(idAttendance)
+        if (res) { 
+            console.log("res", res)
+            window.location.reload() 
+        }
+    };
+
     console.log("selectedDate", selectedDate)
     //console.log("matter", id_matter)
     console.log("day", day)
@@ -273,6 +293,8 @@ const IndexAttendance = () => {
     console.log("year", year)
     console.log("stdt", stdt)
     console.log("checked", checked)
+    console.log("open", open)
+    console.log("Status", Status)
 
     return (
         <Container>
@@ -311,7 +333,7 @@ const IndexAttendance = () => {
                         </DivInfoDate>
                     }
                     {
-                        selectedDate && !editingStudent
+                        selectedDate && !editingStudent && !Student
                         && (
                             open === 'aberto' ? (
                                 <ContainerStudent>
@@ -362,7 +384,7 @@ const IndexAttendance = () => {
                                                         }}>
                                                             {checkedStdt.status}
                                                         </Btt02>
-                                                        <Btt02 onClick={() => startEditing(checkedStdt)} style={{ backgroundColor: 'blue' }}>
+                                                        <Btt02 onClick={() => handleDestroy(checkedStdt)} style={{ backgroundColor: 'blue' }}>
                                                             Apagar
                                                         </Btt02>
                                                         <Btt02 onClick={() => startEditing(checkedStdt)} style={{ backgroundColor: 'blue' }}>
@@ -385,7 +407,7 @@ const IndexAttendance = () => {
                                     Selecionar outra materia
                                 </Btt02>*/}
                                         <Btt02 onClick={clickRemovedate}>
-                                           Selecionar outra data
+                                            Selecionar outra data
                                         </Btt02>
                                     </DivButton>
                                 </>
@@ -404,6 +426,27 @@ const IndexAttendance = () => {
                             </select>
                             <Btt02 onClick={saveEdit}>Salvar</Btt02>
                             <Btt02 onClick={() => setEditingStudent(null)}>Cancelar</Btt02>
+                        </EditContainer>
+                    )}
+                    {Student && (
+                        <EditContainer>
+                            <h3>Tem certeza que deseja apagar a frequencia do aluno</h3>
+                            {console.log("editingStudent", namestudent.id_student.name)}
+
+                            <Emp>
+                                <SpanChecked>{namestudent.id_student.name}</SpanChecked>
+
+                                <BoxButton>
+                                    <Btt02 style={{
+                                        backgroundColor: Status === 'P' ? 'green' : 'red'
+                                    }}>
+                                       { Status}
+                                    </Btt02>
+                                </BoxButton>
+                            </Emp>
+
+                            <Btt02 onClick={Destroy}>Apagar</Btt02>
+                            <Btt02 onClick={() => setStudent(null)}>Cancelar</Btt02>
                         </EditContainer>
                     )}
                 </ContainerDivs>

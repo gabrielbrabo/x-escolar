@@ -45,7 +45,7 @@ const Daily = () => {
     <Container>
       <Butons>
         <UpperButons>
-          <Btt02 onClick={() => handleComponentChange('attendanceList')}>Lista de Presença</Btt02>
+          <Btt02 onClick={() => handleComponentChange('attendanceList')}>Frequencia</Btt02>
           <Btt02 onClick={() => handleComponentChange('classes')}>Aulas Lecionadas</Btt02>
           <Btt02 onClick={() => handleComponentChange('concepts')}>Conceitos</Btt02>
         </UpperButons>

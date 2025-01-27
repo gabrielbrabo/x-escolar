@@ -59,6 +59,17 @@ export const ButtonContainer = styled.div`
         &:hover {
             background-color: #218838;
         }
+
+        @media (max-width: 345px)  {
+            font-size: 11px; /* Smartphones pequenos */
+        }
+        @media (min-width: 345px) and (max-width: 481px) {
+            font-size: 8pt; /* Smartphones pequenos */
+        }
+
+        @media (min-width: 481px) and (max-width: 768px) {
+            font-size: 9pt; /* Tablets */
+        }
     }
 `
 
@@ -110,6 +121,17 @@ export const StudentItem = styled.li`
     padding: 8px 0;
     border-bottom: 1px solid #ccc;
     cursor: default;
+
+    @media (max-width: 345px)  {
+      font-size: 11px; /* Smartphones pequenos */
+    }
+    @media (min-width: 345px) and (max-width: 481px) {
+      font-size: 9pt; /* Smartphones pequenos */
+    }
+
+    @media (min-width: 481px) and (max-width: 768px) {
+      font-size: 16px; /* Tablets */
+    }
 `
 
 export const InfoText = styled.div`

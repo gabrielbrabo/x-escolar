@@ -175,6 +175,17 @@ export const Btt02 = styled.button`
     background-color: #0056b3;
   }
 
+  @media (max-width: 365px)  {
+      font-size: 9px; /* Smartphones pequenos */
+    }
+    @media (min-width: 365px) and (max-width: 481px) {
+      font-size: 8pt; /* Smartphones pequenos */
+    }
+
+    @media (min-width: 481px) and (max-width: 768px) {
+      font-size: 9pt; /* Tablets */
+    }
+
   @media (max-width: 768px) {
     padding: 8px 16px;
   }

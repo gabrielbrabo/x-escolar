@@ -44,6 +44,7 @@ export const UpperButons = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
+    
 `;
 
 export const Btt02 = styled.button`
@@ -58,6 +59,10 @@ export const Btt02 = styled.button`
   &:hover {
     background-color: #0056b3;
   }
+
+  @media (max-width: 360px)  {
+      font-size: 10px; /* Smartphones pequenos */
+    }
 
   @media (max-width: 768px) {
     padding: 8px 16px;

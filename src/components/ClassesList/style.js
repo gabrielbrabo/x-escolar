@@ -121,6 +121,17 @@ export const Span = styled.div`
     margin-left: 5px;
     font-weight: bold;
   }
+
+  @media (max-width: 345px)  {
+      font-size: 9px; /* Smartphones pequenos */
+    }
+    @media (min-width: 345px) and (max-width: 481px) {
+      font-size: 8pt; /* Smartphones pequenos */
+    }
+
+    @media (min-width: 481px) and (max-width: 768px) {
+      font-size: 9pt; /* Tablets */
+    }
 `;
 
 export const DateCell = styled.div`
@@ -130,6 +141,17 @@ export const DateCell = styled.div`
   font-size: 12pt; /* Formato ABNT */
   text-align: left;
   flex: 1;
+
+  @media (max-width: 345px)  {
+      font-size: 11px; /* Smartphones pequenos */
+    }
+    @media (min-width: 345px) and (max-width: 481px) {
+      font-size: 9pt; /* Smartphones pequenos */
+    }
+
+    @media (min-width: 481px) and (max-width: 768px) {
+      font-size: 10pt; /* Tablets */
+    }
 
   @media print {
     font-size: 12pt;
@@ -153,6 +175,10 @@ export const DescriptionCell = styled.div`
 
     &.expanded {
       height: auto;
+    }
+
+    @media (max-width: 345px)  {
+      font-size: 13px; /* Smartphones pequenos */
     }
 
     @media print {

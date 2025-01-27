@@ -122,6 +122,17 @@ export const Span = styled.div`
         font-weight: bold;
     }
 
+    @media (max-width: 345px)  {
+      font-size: 9px; /* Smartphones pequenos */
+    }
+    @media (min-width: 345px) and (max-width: 481px) {
+      font-size: 8pt; /* Smartphones pequenos */
+    }
+
+    @media (min-width: 481px) and (max-width: 768px) {
+      font-size: 9pt; /* Tablets */
+    }
+
     @media print {
         font-size: 14px;
         color: black;
