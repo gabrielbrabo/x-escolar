@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { GetIndividualForm, FormEdit } from '../../Api';
+import { GetIndividualForm, FormEdit, DestroyForm } from '../../Api';
 import ReactQuill from 'react-quill';
 import {
     RecordContainer,
@@ -17,7 +17,9 @@ import {
     StyledQuillContainer,
     EditContainer,
     ContainerSpanEdit,
+    ContainerDelet,
     ButtonEdit,
+    BoxButton,
     PrintButton // Adicione este estilo para o botão de impressão
 } from './style';
 
@@ -29,6 +31,7 @@ const StudentRecordDescription = () => {
     const [isTeacher, setIsTeacher] = useState([]);
     const [update_idForm, setUpdateidForm] = useState(null);
     const [editedDescription, setEditedDescription] = useState('');
+    const [RemoveForm, setRemoveForm] = useState(null);
     const { id_form } = useParams();
 
     useEffect(() => {
@@ -80,13 +83,24 @@ const StudentRecordDescription = () => {
         }
     };
 
+    const handleDestroy = async () => {
+        setRemoveForm(id_form)
+    };
+
+    const Destroy = async () => {
+        const res = await DestroyForm(id_form)
+        if(res){
+            navigate(-1)    
+        }
+    };
+
     const handlePrint = () => {
         window.print();
     };
 
     return (
         <>
-            {!update_idForm &&
+            {!update_idForm && !RemoveForm &&
                 <RecordContainer>
                     <RecordHeader>
                         <RecordTitle>Ficha Individual do Aluno</RecordTitle>
@@ -100,9 +114,10 @@ const StudentRecordDescription = () => {
                             <PrintButton onClick={handlePrint}>Imprimir Ficha</PrintButton> {/* Botão de impressão acima */}
                         </Span>
                         {isTeacher.length > 0 && (
-                            <Span>
+                            <BoxButton>
+                                <Button onClick={handleDestroy}>Apagar</Button>
                                 <Button onClick={startEditing}>Editar</Button>
-                            </Span>
+                            </BoxButton>
                         )}
                     </ContainerSpan>
                     <RecordDescription>
@@ -145,11 +160,25 @@ const StudentRecordDescription = () => {
                             />
                         </StyledQuillContainer>
                         <ContainerSpanEdit>
-                            <ButtonEdit onClick={handleCancelEdit}>Cancelar</ButtonEdit>
                             <ButtonEdit onClick={handleSaveEdit}>Salvar</ButtonEdit>
+                            <ButtonEdit onClick={handleCancelEdit}>Cancelar</ButtonEdit>
+
                         </ContainerSpanEdit>
                     </Input>
                 </EditContainer>
+            )}
+
+            {RemoveForm && (
+                <ContainerDelet>
+                    <h2>Apagar Ficha Individual</h2>
+                    <h4>Tem certeza que deseja apaga a ficha do aluno(a): {nameStudent} no {bimonthly}.</h4>
+                    <div style={{ display: 'flex', gap: '100px' }}>
+                        <ButtonEdit onClick={Destroy}>Apagar</ButtonEdit>
+                        <ButtonEdit onClick={() => setRemoveForm(null)}>Cancelar</ButtonEdit>
+
+                    </div>
+
+                </ContainerDelet>
             )}
         </>
     );

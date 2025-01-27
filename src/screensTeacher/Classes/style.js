@@ -285,6 +285,11 @@ export const EditContainer = styled.div`
         color: #333;
     }
 
+    .data {
+        display: flex;
+        padding-left: 5px;
+    }
+
     input,
     textarea {
         width: 100%;
@@ -329,6 +334,15 @@ export const EditContainer = styled.div`
     @media print {
         display: none; // Oculta na impressão
     }
+`;
+export const ContainerDelet = styled.div`
+    width: 100%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+
 `;
 
 export const ErrorMessage = styled.div`

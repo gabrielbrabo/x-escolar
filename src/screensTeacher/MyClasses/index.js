@@ -9,9 +9,9 @@ import {
     Span,
     Search,
     FormFilter,
-    FormSearch,
-    AreaEmp,
-    InputEmp,
+   // FormSearch,
+    //AreaEmp,
+    //InputEmp,
     Select,
     ContainerDivs
 } from './style';
@@ -23,7 +23,7 @@ const MyCla$$ = () => {
     const currentYear = new Date().getFullYear().toString();
     const [Clss, setClss] = useState([])
     const [filter, setFilter] = useState()
-    const [busca, setBusca] = useState()
+   // const [busca, setBusca] = useState()
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -88,7 +88,7 @@ const MyCla$$ = () => {
                 :
                 <ContainerDivs>
                     <Search>
-                        <FormSearch>
+                        {/*<FormSearch>
                             <label>Buscar Turma</label>
                             <AreaEmp>
                                 <InputEmp
@@ -100,7 +100,7 @@ const MyCla$$ = () => {
                                     }
                                 />
                             </AreaEmp>
-                        </FormSearch>
+                        </FormSearch>*/}
                         <FormFilter>
                             <label>Filtra por Turno: </label>
                             <Select id="position"
@@ -126,14 +126,14 @@ const MyCla$$ = () => {
                                     return (fil)
                                 }
                                 return null
-                            }).filter((val) => {
+                            })/*.filter((val) => {
                                 if (!busca) {
                                     return (val)
                                 } else if (val.serie.includes(busca.toUpperCase())) {
                                     return (val)
                                 }
                                 return null
-                            }).map(c => {
+                            })*/.map(c => {
                                 return c
                             }).filter((valor, indice, self) => {
                                 return self.indexOf(valor) === indice

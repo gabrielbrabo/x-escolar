@@ -73,6 +73,7 @@ export const RecordDescription = styled.div`
 
 export const ContainerSpan = styled.div`
     display: flex;
+    flex-direction: column;
     width: 100%;
     justify-content: space-between;
 
@@ -85,6 +86,17 @@ export const ContainerSpan = styled.div`
     /* @media print {
         display: none;
     } */
+`;
+
+export const ContainerDelet = styled.div`
+    width: 100%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    gap: 30px;
+
 `;
 
 export const ContainerSpanEdit = styled.div`
@@ -141,6 +153,22 @@ export const Span = styled.div`
         }
     }
 `;
+export const BoxButton = styled.div`
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    padding-top: 15px;
+
+    @media print {
+        font-size: 14px;
+        color: black;
+        p {
+            font-weight: normal;
+        }
+    }
+`;
 
 export const Button = styled.button`
     background-color: #007bff;
@@ -149,10 +177,16 @@ export const Button = styled.button`
     padding: 5px 10px;
     cursor: pointer;
     border-radius: 4px;
-    margin-left: auto;
 
     &:hover {
         background-color: #0056b3;
+    }
+
+    @media (max-width: 345px)  {
+      font-size: 12px; /* Smartphones pequenos */
+    }
+    @media (min-width: 345px) and (max-width: 481px) {
+      font-size: 11pt; /* Smartphones pequenos */
     }
 
     @media print {

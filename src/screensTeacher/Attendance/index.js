@@ -219,7 +219,7 @@ const IndexAttendance = () => {
     }*/
     const Finalyze = () => {
         setLoading(true)
-        if (stdt.length > 0) {
+        if (stdt.length > 0 && checked.length > 0) {
             alert('Chamada não finalizada por favor adicione a frequencia dos alunos que ainda faltam')
         } else {
             window.history.back()

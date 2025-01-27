@@ -1370,6 +1370,44 @@ export const DestroyAttendance = async (
         }, [])
 }
 
+export const DestroyClass = async (
+    idClass
+) => {
+
+    return api.post(`/destroy/class`, {
+        idClass
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const DestroyForm = async (
+    idForm
+) => {
+
+    return api.post(`/destroy/form`, {
+        idForm
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
 export const GetStudent = async (
     idSchool
 ) => {
