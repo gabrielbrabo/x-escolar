@@ -4,7 +4,6 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 10px;
 `;
 
 export const ContainerDivs = styled.div`
@@ -14,6 +13,10 @@ export const ContainerDivs = styled.div`
   width: 95%;
   max-width: 1000px;
   margin: 0 auto;
+
+  @media (max-width: 768px) {
+        width: 100%; /* A largura será 100% da tela em dispositivos muito pequenos */
+    }
 `;
 
 export const Label = styled.label`
@@ -52,10 +55,14 @@ export const InputArea = styled.div`
 `;
 
 export const Input = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  align-items: center;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #f9f9f9;
+
 `;
 
 export const InputDate = styled.div`
@@ -117,8 +124,7 @@ export const SignMessageButtonTextBold = styled.span`
 export const StyledQuillContainer = styled.div`
   width: 100%;
   max-width: 800px;
-  margin: 20px auto;  /* Centraliza e espaça o editor */
-  padding: 10px;
+  margin: 20px;  /* Centraliza e espaça o editor */
 
   .ql-container {
     height: 250px;
@@ -134,12 +140,25 @@ export const StyledQuillContainer = styled.div`
   }
 
   @media (max-width: 768px) {
-    max-width: 100%;
+    .quill {
+      width: 100%;
+    }
     .ql-editor {
       min-height: 150px;
       font-size: 14px;
     }
   }
+
+  @media (max-width: 768px) {
+        width: 90%; /* Ajusta a largura para tablets e celulares maiores */
+    }
+
+    @media (max-width: 480px) {
+        width: 90%; /* Ocupa a largura total em telas pequenas */
+        .ql-container {
+            height: 200px; /* Reduz a altura em dispositivos menores */
+        }
+    }
 `;
 
 export const Span = styled.div`
@@ -147,7 +166,7 @@ export const Span = styled.div`
     flex-direction: column;
     font-size: 15px;
     padding: 10px;
-    width: 100%;
+    width: 90%;
     justify-content: flex-start;
     align-items: flex-start;
     gap: 15px; // Espaço entre as linhas
@@ -161,6 +180,13 @@ export const Span = styled.div`
     p {
         margin-left: 5px; // Espaço entre o rótulo e o valor
         font-weight: bold;
+    }
+
+    @media (max-width: 375px)  {
+      font-size: 8pt; /* Smartphones pequenos */
+    }
+    @media (min-width: 375px) and (max-width: 768px) {
+      font-size: 9pt; /* Smartphones pequenos */
     }
 `;
 

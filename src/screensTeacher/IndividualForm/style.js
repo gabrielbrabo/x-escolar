@@ -9,6 +9,10 @@ export const Container = styled.div`
     background-color: #f4f4f9;
     padding: 20px;
     box-sizing: border-box;
+
+    @media (max-width: 768px) {
+        padding: 0; /* A largura será 100% da tela em dispositivos muito pequenos */
+    }
 `;
 
 // Div que contém as seções de conteúdo
@@ -32,6 +36,7 @@ export const ContainerDivs = styled.div`
     }
     @media (max-width: 768px) {
         width: 100%; /* A largura será 100% da tela em dispositivos muito pequenos */
+        padding: 10px;
     }
 `;
 
@@ -103,6 +108,14 @@ export const EmpStdt = styled.div`
     &:hover {
         background-color: #b3e5fc;  /* Efeito hover para um azul mais intenso */
     }
+
+    @media (max-width: 375px)  {
+      padding: 4px;
+    }
+    @media (min-width: 375px) and (max-width: 768px) {
+      padding: 6px;
+    }
+    
 `;
 
 // Estilo do item de cada aluno (para alunos com ficha individual)
@@ -120,6 +133,13 @@ export const EmpChecked = styled.div`
     &:hover {
         background-color: #a5d6a7;  /* Efeito hover para um verde mais intenso */
     }
+
+    @media (max-width: 375px)  {
+      padding: 4px;
+    }
+    @media (min-width: 375px) and (max-width: 768px) {
+      padding: 6px;
+    }
 `;
 
 // Estilo do texto do aluno
@@ -127,6 +147,13 @@ export const Span = styled.span`
     font-size: 16px;
     font-weight: 500;
     color: #333;
+
+    @media (max-width: 375px)  {
+      font-size: 9pt; /* Smartphones pequenos */
+    }
+    @media (min-width: 375px) and (max-width: 768px) {
+      font-size: 10pt; /* Smartphones pequenos */
+    }
 `;
 
 // Estilo do botão para voltar

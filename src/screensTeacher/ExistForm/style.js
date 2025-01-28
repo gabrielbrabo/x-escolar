@@ -232,11 +232,19 @@ export const SignMessageButtonTextBold = styled.span`
 `;
 
 export const Input = styled.div`
+    display: flex;
+    flex-direction: column;
     max-width: 100%;
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: #f9f9f9;
+    gap: 20px;
+
+    @media (max-width: 768px) {
+        padding: 0;
+        gap: 5px;
+    }
 
     @media print {
         display: none;
@@ -273,7 +281,7 @@ export const StyledQuillContainer = styled.div`
 
 export const EditContainer = styled(RecordContainer)`
     @media (max-width: 768px) {
-        width: 90%;
+        width: 100%;
     }
 
     @media print {
