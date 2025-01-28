@@ -4,7 +4,6 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 10px;
 `;
 
 export const ContainerDivs = styled.div`
@@ -13,10 +12,14 @@ export const ContainerDivs = styled.div`
     align-items: center;
     padding-top: 20px;
     flex-direction: column;
+
+    @media(max-width: 768px) {
+        padding: 0;
+    }
 `;
 
 export const ContainerStudent = styled.div`
-    width: 92%;
+    width: 94%;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -87,6 +90,13 @@ export const Emp = styled.div`
     margin-bottom: 35px;
     min-width: 90%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    @media (max-width: 375px)  {
+      padding: 0px;
+    }
+    @media (min-width: 375px) and (max-width: 768px) {
+      padding: 0px;
+    }
 `;
 
 export const Conceito = styled.div`
@@ -100,6 +110,15 @@ export const Conceito = styled.div`
         }
     }};
     font-weight: bold;
+
+    @media (max-width: 375px)  {
+      font-size: 11pt; /* Smartphones pequenos */
+      padding: 3px;
+    }
+    @media (min-width: 375px) and (max-width: 768px) {
+      font-size: 13pt; /* Smartphones pequenos */
+      padding: 5px;
+    }
     
 `;
 
@@ -142,6 +161,26 @@ export const DivInfoDate = styled.div`
     }
 `;
 
+export const Select = styled.select`
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+
+  @media (max-width: 375px)  {
+      font-size: 9pt; /* Smartphones pequenos */
+      padding: 0;
+    }
+    @media (min-width: 375px) and (max-width: 768px) {
+      font-size: 10pt; /* Smartphones pequenos */
+      padding: 3px;
+    }
+    
+  @media (max-width: 768px) {
+    //padding: 8px;
+  }
+`;
+
 export const Span = styled.div`
     display: flex;
     align-items: center;
@@ -152,6 +191,15 @@ export const Span = styled.div`
     color: #333;
     overflow-y: hidden;
     white-space: nowrap;
+
+    @media (max-width: 375px)  {
+      font-size: 9pt; /* Smartphones pequenos */
+      padding: 0;
+    }
+    @media (min-width: 375px) and (max-width: 768px) {
+      font-size: 10pt; /* Smartphones pequenos */
+      padding: 0;
+    }
 
     @media(max-width: 768px) {
         max-width: 140px;
@@ -181,6 +229,15 @@ export const Btt02 = styled.button`
         background-color: #0056b3;
     }
 
+    @media (max-width: 375px)  {
+      font-size: 9pt; /* Smartphones pequenos */
+      padding: 5px;
+    }
+    @media (min-width: 375px) and (max-width: 768px) {
+      font-size: 10pt; /* Smartphones pequenos */
+      padding: 8px;
+    }
+
     @media(min-width: 600px) {
         padding: 10px ;
     }
@@ -196,6 +253,15 @@ export const Btt01 = styled.button`
 
     &:hover {
         background-color: #0056b3;
+    }
+
+    @media (max-width: 375px)  {
+      font-size: 9pt; /* Smartphones pequenos */
+      padding: 5px;
+    }
+    @media (min-width: 375px) and (max-width: 768px) {
+      font-size: 10pt; /* Smartphones pequenos */
+      padding: 8px;
     }
 
     @media(min-width: 600px) {
@@ -217,6 +283,15 @@ export const EditContainer = styled.div`
     h3 {
         text-align: center;
     }
+
+    select {
+        width: 80%;
+        max-width: 400px;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
 `;
 export const InputGrade = styled.input`
     width: 60px;
@@ -226,6 +301,17 @@ export const Grade = styled.div`
     gap: 3px;
     align-items: center;
     justify-content: center;
+
+    @media (max-width: 375px)  {
+      font-size: 9pt; /* Smartphones pequenos */
+      padding: 3px;
+      gap: 0px;
+    }
+    @media (min-width: 375px) and (max-width: 768px) {
+      font-size: 10pt; /* Smartphones pequenos */
+      padding: 6px;
+      gap: 0px;
+    }
 `;
 export const ErrorMessage = styled.div`
   color: red;
@@ -236,15 +322,6 @@ export const ErrorMessage = styled.div`
   }
 `;
 
-export const Select = styled.select`
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  @media (max-width: 768px) {
-    padding: 8px;
-  }
-`;
 
 export const Info = styled.div`
     color: #158fa2;
@@ -266,6 +343,12 @@ export const LegendBox = styled.div`
         margin: 5px;
     }
 
-    @media(max-width: 768px) {
+    @media (max-width: 375px)  {
+      font-size: 9pt; /* Smartphones pequenos */
+      padding: 0;
+    }
+    @media (min-width: 375px) and (max-width: 768px) {
+      font-size: 10pt; /* Smartphones pequenos */
+      padding: 0;
     }
 `;
