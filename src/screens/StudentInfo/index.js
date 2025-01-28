@@ -66,10 +66,11 @@ const Student = () => {
     const [student, setStudent] = useState([])
     const [Selectbimonthly, setSelectbimonthly] = useState([])
     const [bimonthly, setbimonthly] = useState([])
-    //const [positionAtSchool, setPositionAtSchool] = useState(null);
+    const [Regent, setRegent] = useState(false);
     const [loading, setLoading] = useState(false);
     const [removeStudent, setRemoveStudent] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+
     const { id_student } = useParams()
     console.log(currentYear)
 
@@ -78,7 +79,7 @@ const Student = () => {
             setLoading(true);
 
             const idSchool = sessionStorage.getItem("id-school");
-           // const id_student = sessionStorage.getItem("StudentInformation");
+            // const id_student = sessionStorage.getItem("StudentInformation");
             const year = new Date().getFullYear();
             console.log("idSchool", idSchool)
             console.log("idStudent", id_student)
@@ -87,7 +88,7 @@ const Student = () => {
                 console.error("Dados faltando: idSchool ou id_student");
                 return;
             }
-            
+
             //const position = localStorage.getItem('position_at_school');
             //setPositionAtSchool(position);
             //sessionStorage.removeItem('StudentInformation')
@@ -117,11 +118,15 @@ const Student = () => {
             })
             console.log("clss", clss)
             setClss(clss)
-            const regent = clss.map( res => {
+            const regent = clss.map(res => {
                 return res.classRegentTeacher
             })
             console.log('regent', regent)
-            sessionStorage.setItem("RegentTeacher", regent)
+            if (regent.length > 0) {
+                sessionStorage.setItem("RegentTeacher", regent)
+                setRegent(true)
+            }
+
 
             const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
             console.log("IstQuarter", IstQuarter)
@@ -137,7 +142,7 @@ const Student = () => {
             const iv = IVthQuarter.data.data.find(res => res) || null;
             const v = VthQuarter.data.data.find(res => res) || null;
             const vi = VIthQuarter.data.data.find(res => res) || null;
-            
+
             //const res = await GetMatter(JSON.parse(idSchool));
 
             setbimonthly([i, ii, iii, iv, v, vi].filter(res => res !== null));
@@ -256,7 +261,7 @@ const Student = () => {
                             ))
                         }
 
-                        {Clss && 
+                        {Clss &&
                             Clss.map(clss => (
                                 <Emp key={clss._id} >
                                     <Span>Turma: {clss.serie}</Span>
@@ -285,9 +290,11 @@ const Student = () => {
                             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                             <Button onClick={signClick}>Ver boletim</Button>
                         </Input>
-                        <ContainerCalendar>
-                            <Calendar />
-                        </ContainerCalendar>
+                        {Regent &&
+                            <ContainerCalendar>
+                                <Calendar />
+                            </ContainerCalendar>
+                        }
                     </ContainerDivs>
                     {/*positionAtSchool === "DIRETOR/SUPERVISOR"
                         &&

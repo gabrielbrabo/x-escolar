@@ -62,15 +62,15 @@ export const ButtonContainer = styled.div`
         }
 
         @media (max-width: 345px)  {
-            font-size: 11px; /* Smartphones pequenos */
+            font-size: 9pt; /* Smartphones pequenos */
         }
-        @media (min-width: 345px) and (max-width: 481px) {
-            font-size: 8pt; /* Smartphones pequenos */
+        @media (min-width: 345px) and (max-width: 390px) {
+            font-size: 10pt; /* Smartphones pequenos */
+        }
+        @media (min-width: 390px) and (max-width: 768px) {
+            font-size: 11pt; /* Smartphones pequenos */
         }
 
-        @media (min-width: 481px) and (max-width: 768px) {
-            font-size: 9pt; /* Tablets */
-        }
     }
 `
 

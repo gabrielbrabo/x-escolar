@@ -4,18 +4,13 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 10px;
 
-    @media(max-width: 768px) {
-        padding: 0;
-    }
 `;
 
 export const ContainerDivs = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
-    padding-top: 20px;
     flex-direction: column;
 
     @media(max-width: 768px) {
@@ -165,12 +160,12 @@ export const Span = styled.button`
     font-size: 16px;
     color: #333;
 
-    @media (max-width: 345px)  {
-      font-size: 12px; /* Smartphones pequenos */
+    @media (max-width: 375px)  {
+      font-size: 9pt; /* Smartphones pequenos */
       padding: 0;
     }
-    @media (min-width: 345px) and (max-width: 768px) {
-      font-size: 9pt; /* Smartphones pequenos */
+    @media (min-width: 375px) and (max-width: 768px) {
+      font-size: 10pt; /* Smartphones pequenos */
       padding: 0;
     }
 `;
@@ -183,12 +178,12 @@ export const SpanChecked = styled.button`
     font-size: 16px;
     color: #333;
 
-    @media (max-width: 345px)  {
-      font-size: 12px; /* Smartphones pequenos */
+    @media (max-width: 375px)  {
+      font-size: 9pt; /* Smartphones pequenos */
       padding: 0;
     }
-    @media (min-width: 345px) and (max-width: 768px) {
-      font-size: 9pt; /* Smartphones pequenos */
+    @media (min-width: 375px) and (max-width: 768px) {
+      font-size: 10pt; /* Smartphones pequenos */
       padding: 0;
     }
 `;

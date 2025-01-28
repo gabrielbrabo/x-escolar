@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+    width: 100%;
     display: flex;
     justify-content: center;
-    width: 100%;
     padding: 13px;
     box-sizing: border-box;
+
+    @media (max-width: 768px) {
+        padding: 10px;
+    }
 
     @media print {
         padding: 0; // Remove padding na impressão
@@ -23,7 +27,7 @@ export const ContainerDivs = styled.div`
     padding: 15px; // Adicionei padding para a versão normal
 
     @media (max-width: 768px) {
-        padding: 15px;
+        padding: 10px;
     }
 
     @media print {
@@ -342,6 +346,10 @@ export const ContainerDelet = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 30px;
+
+    @media (max-width: 768px) {
+        
+    }
 
 `;
 
