@@ -185,7 +185,7 @@ export const Span = styled.div`
     display: flex;
     align-items: center;
     border: none;
-    width: 400px;
+    width: 800px;
     height: 90%;
     font-size: 16px;
     color: #333;
@@ -194,15 +194,9 @@ export const Span = styled.div`
 
     @media (max-width: 375px)  {
       font-size: 9pt; /* Smartphones pequenos */
-      padding: 0;
     }
     @media (min-width: 375px) and (max-width: 768px) {
       font-size: 10pt; /* Smartphones pequenos */
-      padding: 0;
-    }
-
-    @media(max-width: 768px) {
-        max-width: 140px;
     }
 
 `;
