@@ -185,25 +185,36 @@ export const Span = styled.div`
     display: flex;
     align-items: center;
     border: none;
-    width: 400px;
+    width: 500px;
     height: 90%;
     font-size: 16px;
     color: #333;
-    overflow-y: hidden;
-    white-space: nowrap;
 
     @media (max-width: 375px)  {
       font-size: 9pt; /* Smartphones pequenos */
       padding: 0;
-    }
-    @media (min-width: 375px) and (max-width: 768px) {
-      font-size: 10pt; /* Smartphones pequenos */
-      padding: 0;
-    }
-
-    @media(max-width: 768px) {
+      overflow-y: hidden;
+        white-space: nowrap;
         max-width: 140px;
     }
+    @media (min-width: 375px) and (max-width: 450px) {
+      font-size: 10pt; /* Smartphones pequenos */
+      padding: 0;
+      overflow-y: hidden;
+        white-space: nowrap;
+        
+        max-width: 160px;
+    }
+    @media (min-width: 450px) and (max-width: 768px) {
+      font-size: 10pt; /* Smartphones pequenos */
+      padding: 0;
+      overflow-y: hidden;
+        white-space: nowrap;
+        
+        max-width: 230px;
+    }
+
+    
 
 `;
 export const SpanChecked = styled.button`
