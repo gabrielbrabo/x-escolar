@@ -58,8 +58,8 @@ const Grade = () => {
         console.log('id_class:', id_class);
 
         const res = await RecordClassTaught(day, month, year, plainDescription, id_employee, id_class);
-        
-        if(res) {
+
+        if (res) {
             navigate(-1);
         } else {
             setErrorMessage('Erro, Verifique os dados e tente novamente.');
@@ -106,21 +106,21 @@ const Grade = () => {
                                     <div>Data da Aula: <p>{day}/{month}/{year}</p></div>
                                 </Span>
                                 <StyledQuillContainer>
-                                <ReactQuill
-                                theme="snow"
-                                modules={{
-                                    toolbar: [
-                                        [{ 'font': [] }],
-                                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                                        ['bold', 'italic', 'underline'],
-                                        [{ 'color': [] }, { 'background': [] }],
-                                        ['clean']
-                                    ]
-                                }}
-                                value={description}
-                                onChange={setDescription}
-                                placeholder="Fincha Individual da Aluno"
-                            />
+                                    <ReactQuill
+                                        theme="snow"
+                                        modules={{
+                                            toolbar: [
+                                                [{ 'font': [] }],
+                                                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                                ['bold', 'italic', 'underline'],
+                                                [{ 'color': [] }, { 'background': [] }],
+                                                ['clean']
+                                            ]
+                                        }}
+                                        value={description}
+                                        onChange={setDescription}
+                                        placeholder="Fincha Individual da Aluno"
+                                    />
                                 </StyledQuillContainer>
                                 {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                             </Input>
