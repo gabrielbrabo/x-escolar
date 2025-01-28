@@ -368,8 +368,8 @@ const Grade = () => {
                     }
                     {RemoveClass && (
                         <ContainerDelet>
-                            <h1>Apagar aula</h1>
-                            <h3>Tem certeza que deseja apagar a aula do dia {RemoveDayClass}/{RemoveMonthClass}/{RemoveYearClass}</h3>
+                            <h2>Apagar aula</h2>
+                            <h4>Tem certeza que deseja apagar a aula do dia {RemoveDayClass}/{RemoveMonthClass}/{RemoveYearClass}</h4>
                             {console.log("IdClass", IdClass)}
                             <div style={{ display: 'flex', gap: '100px' }}>
                                 <ButtonEdit onClick={Destroy}>Apagar</ButtonEdit>

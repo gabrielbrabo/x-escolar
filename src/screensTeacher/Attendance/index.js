@@ -32,7 +32,10 @@ import {
     EditContainer,
     SpanChecked,
     DataSelected,
-    BoxButton
+    BoxButton,
+    BoxButtonEdit,
+    BoxButtonStatus,
+    EmpEdit
 } from './style';
 
 import {
@@ -280,9 +283,9 @@ const IndexAttendance = () => {
         const idAttendance = Student
         console.log("checkedStdt", idAttendance)
         const res = await DestroyAttendance(idAttendance)
-        if (res) { 
+        if (res) {
             console.log("res", res)
-            window.location.reload() 
+            window.location.reload()
         }
     };
 
@@ -303,27 +306,12 @@ const IndexAttendance = () => {
                 :
                 <ContainerDivs>
                     {
-                        /*id_matter.length <= 0
-                        &&
-                        <DivInfo>
-                            <h3>Selecione uma Disciplina</h3>
-                            <Matter>
-     
-                                {
-                                    matter.map(matter => (
-                                        <div onClick={() => click_idMatter(matter)} key={matter._id}>
-                                            <Span>{matter.name_matter}</Span>
-                                        </div>
-                                    ))
-                                }
-                            </Matter>
-                        </DivInfo>*/
                     }
                     {
                         !selectedDate
                         &&
                         <DivInfoDate>
-                            <h3>Selecione uma Data</h3>
+                            <h3>Selecione a Data</h3>
                             <SelectorDate
                                 setDay={setDay}
                                 setMonth={setMonth}
@@ -415,7 +403,7 @@ const IndexAttendance = () => {
                         )}
                     {editingStudent && (
                         <EditContainer>
-                            <h3>Editando: {namestudent.id_student.name}</h3>
+                            <h3>Editando Frequencia de {namestudent.id_student.name}</h3>
                             {console.log("editingStudent", namestudent.id_student.name)}
                             <select
                                 value={editingStatus}
@@ -424,8 +412,11 @@ const IndexAttendance = () => {
                                 <option value="P">Presença</option>
                                 <option value="F">Ausência</option>
                             </select>
-                            <Btt02 onClick={saveEdit}>Salvar</Btt02>
-                            <Btt02 onClick={() => setEditingStudent(null)}>Cancelar</Btt02>
+                            <BoxButtonEdit>
+                                <Btt02 onClick={saveEdit}>Salvar</Btt02>
+                                <Btt02 onClick={() => setEditingStudent(null)}>Cancelar</Btt02>
+                            </BoxButtonEdit>
+
                         </EditContainer>
                     )}
                     {Student && (
@@ -433,20 +424,21 @@ const IndexAttendance = () => {
                             <h3>Tem certeza que deseja apagar a frequencia do aluno</h3>
                             {console.log("editingStudent", namestudent.id_student.name)}
 
-                            <Emp>
-                                <SpanChecked>{namestudent.id_student.name}</SpanChecked>
-
-                                <BoxButton>
+                            <EmpEdit>
+                                <BoxButtonStatus>
+                                    <SpanChecked>{namestudent.id_student.name}</SpanChecked>
                                     <Btt02 style={{
                                         backgroundColor: Status === 'P' ? 'green' : 'red'
                                     }}>
-                                       { Status}
+                                        {Status}
                                     </Btt02>
-                                </BoxButton>
-                            </Emp>
+                                </BoxButtonStatus>
+                            </EmpEdit>
+                            <BoxButtonEdit>
+                                <Btt02 onClick={Destroy}>Apagar</Btt02>
+                                <Btt02 onClick={() => setStudent(null)}>Cancelar</Btt02>
+                            </BoxButtonEdit>
 
-                            <Btt02 onClick={Destroy}>Apagar</Btt02>
-                            <Btt02 onClick={() => setStudent(null)}>Cancelar</Btt02>
                         </EditContainer>
                     )}
                 </ContainerDivs>

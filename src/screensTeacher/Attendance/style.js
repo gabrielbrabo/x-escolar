@@ -5,6 +5,10 @@ export const Container = styled.div`
     flex-direction: column;
     width: 100%;
     padding: 10px;
+
+    @media(max-width: 768px) {
+        padding: 0;
+    }
 `;
 
 export const ContainerDivs = styled.div`
@@ -13,6 +17,10 @@ export const ContainerDivs = styled.div`
     align-items: center;
     padding-top: 20px;
     flex-direction: column;
+
+    @media(max-width: 768px) {
+        padding: 0;
+    }
 `;
 
 export const ContainerStudent = styled.div`
@@ -25,6 +33,9 @@ export const ContainerStudent = styled.div`
     gap: 15px;
     border-radius: 5px;
     background-color: #f9f9f9;
+
+    @media(max-width: 768px) {
+    }
 `;
 
 export const DataSelected = styled.div`
@@ -67,6 +78,17 @@ export const ListChecked = styled.div`
         padding: 0 3px; /* Espaçamento lateral */
         font-weight: bold; /* Negrito para destaque */
         color: #ccc; /* Cor do texto */
+
+        @media (max-width: 345px)  {
+            font-size: 13px; /* Smartphones pequenos */
+        }
+        @media (min-width: 345px) {
+            font-size: 10pt; /* Smartphones pequenos */
+        }
+
+        @media (min-width: 481px) and (max-width: 768px) {
+            font-size: 11pt; /* Tablets */
+        }
     }
 `;
 
@@ -80,6 +102,28 @@ export const Emp = styled.div`
     gap: 15px;
     min-width: 90%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    @media(max-width: 768px) {
+        width: 100%;
+        gap: 2px;
+        padding: 0;
+    }
+`;
+
+export const EmpEdit = styled.div`
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 35px;
+    gap: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    @media(max-width: 768px) {
+        width: 100%;
+        gap: 2px;
+        padding: 0;
+    }
 `;
 
 export const DivInfo = styled.div`
@@ -120,6 +164,15 @@ export const Span = styled.button`
     border: none;
     font-size: 16px;
     color: #333;
+
+    @media (max-width: 345px)  {
+      font-size: 12px; /* Smartphones pequenos */
+      padding: 0;
+    }
+    @media (min-width: 345px) and (max-width: 768px) {
+      font-size: 9pt; /* Smartphones pequenos */
+      padding: 0;
+    }
 `;
 
 export const SpanChecked = styled.button`
@@ -129,6 +182,15 @@ export const SpanChecked = styled.button`
     border: none;
     font-size: 16px;
     color: #333;
+
+    @media (max-width: 345px)  {
+      font-size: 12px; /* Smartphones pequenos */
+      padding: 0;
+    }
+    @media (min-width: 345px) and (max-width: 768px) {
+      font-size: 9pt; /* Smartphones pequenos */
+      padding: 0;
+    }
 `;
 
 export const Btt02 = styled.button`
@@ -142,6 +204,15 @@ export const Btt02 = styled.button`
 
     &:hover {
         background-color: #0056b3;
+    }
+
+    @media (max-width: 390px)  {
+      font-size: 9px; /* Smartphones pequenos */
+      padding: 7px;
+    }
+    @media (min-width: 390px) and (max-width: 768px) {
+      font-size: 9pt; /* Smartphones pequenos */
+      padding: 7px;
     }
 
     @media(min-width: 600px) {
@@ -232,4 +303,16 @@ export const BoxButton = styled.div`
     @media(max-width: 768px) {
         gap: 10px;
     }
+`;
+
+export const BoxButtonEdit = styled.div`
+    display: flex;
+    gap: 100px;
+    justify-content: space-between;
+`;
+
+export const BoxButtonStatus = styled.div`
+    display: flex;
+    padding: 20px;
+    gap: 20px;
 `;

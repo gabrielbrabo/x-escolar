@@ -139,7 +139,7 @@ const MyCla$$Info = () => {
                         <button onClick={() => { navigate('/final-concepts') }}>Conceitos Finais</button>
                     </ButtonContainer>
                     <StudentSection>
-                        <h2 style={{ color: "#158fa2" }}>Estudantes</h2>
+                        <h2 style={{ color: "#158fa2" }}>Alunos</h2>
                         {stdt.length > 0 ? (
                             stdt.map(stdt => (
                                 <StudentItem onClick={() => StudentInformation(stdt)}>{stdt.name}</StudentItem>
