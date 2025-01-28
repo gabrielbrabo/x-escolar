@@ -201,11 +201,11 @@ export const Btt02 = styled.button`
         background-color: #0056b3;
     }
 
-    @media (max-width: 390px)  {
-      font-size: 9px; /* Smartphones pequenos */
-      padding: 7px;
+    @media (max-width: 375px)  {
+      font-size: 8pt; /* Smartphones pequenos */
+      padding: 6px;
     }
-    @media (min-width: 390px) and (max-width: 768px) {
+    @media (min-width: 375px) and (max-width: 768px) {
       font-size: 9pt; /* Smartphones pequenos */
       padding: 7px;
     }
