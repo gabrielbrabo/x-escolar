@@ -32,6 +32,8 @@ import {
     DivBimRow,
     DivBimHeader,
     DivBimCell,
+    BoxButton,
+    EmpEdit
 } from './style';
 
 import {
@@ -391,7 +393,7 @@ const Finalconcepts = () => {
                                 <EditContainer>
                                     <h3>Editando Nota</h3>
                                     {console.log("editingStudent", namestudent.id_student.name)}
-                                    <Emp>
+                                    <EmpEdit>
                                         <Span>{namestudent.id_student.name}</Span>
                                         <Grade>
                                             <p>Concenito: </p>
@@ -408,9 +410,12 @@ const Finalconcepts = () => {
                                             </Select>
                                             {/*<span>pts</span>*/}
                                         </Grade>
-                                    </Emp>
-                                    <Btt02 onClick={saveEdit}>Salvar</Btt02>
-                                    <Btt02 onClick={() => setUpdateIdGrade(null)}>Cancelar</Btt02>
+                                    </EmpEdit>
+                                    <BoxButton>
+                                        <Btt02 onClick={saveEdit}>Salvar</Btt02>
+                                        <Btt02 onClick={() => setUpdateIdGrade(null)}>Cancelar</Btt02>
+                                    </BoxButton>
+
                                 </EditContainer>
                             )}
                             {!update_id_grade && id_matter &&

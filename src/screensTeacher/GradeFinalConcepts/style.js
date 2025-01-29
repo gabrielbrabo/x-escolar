@@ -4,7 +4,6 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 10px;
 `;
 
 export const ContainerDivs = styled.div`
@@ -13,10 +12,14 @@ export const ContainerDivs = styled.div`
     align-items: center;
     padding-top: 20px;
     flex-direction: column;
+
+    @media(max-width: 768px) {
+        padding: 0;
+    }
 `;
 
 export const ContainerStudent = styled.div`
-    width: 92%;
+    width: 94%;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -89,12 +92,32 @@ export const Emp = styled.div`
     gap: 3px;
     border-radius: 5px;
     margin-bottom: 35px;
-    min-width: 90%;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    @media (max-width: 375px)  {
+    }
+    @media (min-width: 375px) and (max-width: 768px) {
+    }
+
+    @media(max-width: 768px) {
+        display: grid;
+    }
+`;
+
+export const EmpEdit = styled.div`
+     display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 35px;
+    gap: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     @media(max-width: 768px) {
-        max-width: 100%;
-        display: grid;
+        width: 100%;
+        gap: 10px;
+        padding: 0;
     }
 `;
 
@@ -109,7 +132,15 @@ export const Conceito = styled.div`
         }
     }};
     font-weight: bold;
-    
+
+    @media (max-width: 375px)  {
+      font-size: 11pt; /* Smartphones pequenos */
+      padding: 3px;
+    }
+    @media (min-width: 375px) and (max-width: 768px) {
+      font-size: 13pt; /* Smartphones pequenos */
+      padding: 5px;
+    }
 `;
 
 export const Matter = styled.div`
@@ -162,8 +193,26 @@ export const Span = styled.div`
     overflow-y: hidden;
     white-space: nowrap;
 
-    @media(max-width: 768px) {
-        max-width: 100%;
+    @media (max-width: 375px)  {
+      font-size: 10pt; /* Smartphones pequenos */
+      padding: 0;
+      overflow-y: hidden;
+        white-space: nowrap;
+        width: auto;
+    }
+    @media (min-width: 375px) and (max-width: 450px) {
+      font-size: 11pt; /* Smartphones pequenos */
+      padding: 0;
+      overflow-y: hidden;
+        white-space: nowrap;
+        width: auto;
+    }
+    @media (min-width: 450px) and (max-width: 768px) {
+      font-size: 12pt; /* Smartphones pequenos */
+      padding: 0;
+      overflow-y: hidden;
+        white-space: nowrap;
+        width: auto;
     }
 
 `;
@@ -234,6 +283,13 @@ export const EditContainer = styled.div`
         font-size: 16px;
         border: 1px solid #ccc;
         border-radius: 5px;
+
+        @media (max-width: 375px)  {
+            padding: 0px;
+        }
+        @media (min-width: 375px) and (max-width: 768px) {
+            padding: 0px;
+        }
     }
 `;
 export const InputGrade = styled.input`
@@ -246,7 +302,7 @@ export const Grade = styled.div`
     justify-content: center;
 
     @media (max-width: 768px) {
-    max-width: 90%;
+    max-width: 100%;
   }
 `;
 export const ErrorMessage = styled.div`
@@ -351,7 +407,13 @@ export const LegendBox = styled.div`
         margin: 5px;
     }
 
-    @media(max-width: 768px) {
+    @media (max-width: 375px)  {
+      font-size: 9pt; /* Smartphones pequenos */
+      padding: 0;
+    }
+    @media (min-width: 375px) and (max-width: 768px) {
+      font-size: 10pt; /* Smartphones pequenos */
+      padding: 0;
     }
 `;
 
@@ -398,4 +460,13 @@ export const DivBimCell = styled.div`
         }
     }};
     font-weight: bold;
+`;
+
+export const BoxButton = styled.div`
+    display: flex;
+    gap: 100px;
+    justify-content: space-between;
+    @media(max-width: 768px) {
+        gap: 80px;
+    }
 `;
