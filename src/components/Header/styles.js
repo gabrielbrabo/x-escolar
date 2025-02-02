@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Container = styled.header`
   background: #b1b1b1;
   padding: 10px;
+  padding-left: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -12,7 +13,7 @@ export const Container = styled.header`
     align-items: center;
     font-size: 25px;
     font-weight: bold;
-    color: #3f40ea;
+    color: #3a3a3a;
     gap: 5px;
 
     img{
@@ -34,6 +35,7 @@ export const Container = styled.header`
 
   @media (max-width: 768px) {
       padding: 5px;
+      padding-left: 10px;
   }
 
   .desktop-nav {
