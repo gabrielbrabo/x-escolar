@@ -40,7 +40,12 @@ export const Area = styled.div`
   align-items: center;
   justify-content: center; 
 
-  @media screen and (max-width: 768px) {
+  @media (max-width: 375px)  {
+    width: 300px;
+    height: 45px;
+  }
+
+  @media (min-width: 375px) and (max-width: 768px) {
     width: 330px;
     height: 45px;
   }

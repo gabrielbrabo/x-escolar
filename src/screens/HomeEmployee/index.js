@@ -16,6 +16,8 @@ const HomeSchool = () => {
     setName(name)
   }, [])
 
+  console.log("positionAtSchool", positionAtSchool)
+
   if(positionAtSchool === "PROFESSOR") {
     window.location.href = '/myclasses'
     return null

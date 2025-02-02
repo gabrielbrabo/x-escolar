@@ -6,6 +6,33 @@
     background-color: #c8c8c8;
 }
 
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: bold;
+    color: #3f40ea;
+    background-color: #b1b1b1;
+    box-shadow: 5px 5px 20px #888888;
+    gap: 5px;
+    padding: 10px;
+
+    img{
+      height: 70px;
+      width: 80px;
+    }
+    @media (max-width: 768px) {
+      font-size: 15px;
+      padding: 5px;
+
+      img{
+        height: 50px;
+        width: 60px;
+      }
+    }
+  }
+
 .container {
     display: flex;
     min-height: 90vh;

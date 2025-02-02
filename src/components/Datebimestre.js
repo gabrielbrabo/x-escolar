@@ -83,7 +83,7 @@ const ResponsivePickers = ({ setSelectedDateStart, setDayStart, setMonthStart, s
     return (
         <Container>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <p>Data de Inicio:</p>
+                <p>Inicio:</p>
                 <InputContainer components={['DesktopDatePicker']}>
                     <DemoItem>
                         <DesktopDatePicker
@@ -95,7 +95,7 @@ const ResponsivePickers = ({ setSelectedDateStart, setDayStart, setMonthStart, s
                         />
                     </DemoItem>
                 </InputContainer>
-                <p>Data Fim:</p>
+                <p>Fim:</p>
                 <InputContainer components={['DesktopDatePicker']}>
                     <DemoItem>
                         <DesktopDatePicker

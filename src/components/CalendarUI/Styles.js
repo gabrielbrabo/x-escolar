@@ -6,7 +6,7 @@ export const StyledContainer = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: #f5f5f5;
-  padding: 20px;
+  padding: 5px;
   margin-top: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -42,6 +42,9 @@ export const StyledDateCalendar = styled(DateCalendar)`
   & .MuiPickersSlideTransition-root {
     background-color: #f2e9e1
     
+  }
+  @media (max-width: 768px) {
+    max-width: 100%;
   }
 `;
 

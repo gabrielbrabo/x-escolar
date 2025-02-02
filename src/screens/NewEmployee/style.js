@@ -7,18 +7,17 @@ export const Container = styled.div`
   align-items: center;
   padding: 30px;
     @media (max-width: 768px) {
-        padding: 10px;
-        justify-content: center;
+      padding: 15px;
     }
   
-  h1 {
+  h2 {
     text-align: center;
   }
 `;
 
 export const InputArea = styled.div`
   width: 90%;
-  max-width: 500px;
+  max-width: 700px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,7 +26,9 @@ export const InputArea = styled.div`
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
   @media (max-width: 768px) {
+    width: 100%;
     padding: 15px;
     gap: 15px;
   }

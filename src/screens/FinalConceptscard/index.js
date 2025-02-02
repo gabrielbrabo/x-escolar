@@ -182,10 +182,10 @@ const FinalConcepts = () => {
                 </SpanFrequency>
                 <LegendBox>
                   <h3>Legenda</h3>
-                  <p><strong>A</strong> - Alcançou com êxito as capacidades básicas</p>
-                  <p><strong>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
-                  <p><strong>C</strong> - Alcançou parcialmente as capacidades básicas</p>
-                  <p><strong>D</strong> - Não alcançou as capacidades básicas</p>
+                  <p><strong style={{ color: '#1d7f14' }}>A</strong> - Alcançou com êxito as capacidades básicas</p>
+                  <p><strong style={{ color: 'blue' }}>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
+                  <p><strong style={{ color: 'orange' }}>C</strong> - Alcançou parcialmente as capacidades básicas</p>
+                  <p><strong style={{ color: 'red' }}>D</strong> - Não alcançou as capacidades básicas</p>
                 </LegendBox>
               </DadosStdt>
               <DivDados>
@@ -207,19 +207,27 @@ const FinalConcepts = () => {
                             <DivBimTable>
                               <DivBimRow>
                                 <DivBimHeader>1º Bim</DivBimHeader>
-                                <DivBimCell>{iStQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}</DivBimCell>
+                                <DivBimCell grade={iStQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}>
+                                  {iStQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}
+                                </DivBimCell>
                               </DivBimRow>
                               <DivBimRow>
                                 <DivBimHeader>2º Bim</DivBimHeader>
-                                <DivBimCell>{iiNdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}</DivBimCell>
+                                <DivBimCell grade={iiNdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}>
+                                  {iiNdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}
+                                </DivBimCell>
                               </DivBimRow>
                               <DivBimRow>
                                 <DivBimHeader>3º Bim</DivBimHeader>
-                                <DivBimCell>{iiiRdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}</DivBimCell>
+                                <DivBimCell grade={iiiRdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}>
+                                  {iiiRdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}
+                                </DivBimCell>
                               </DivBimRow>
                               <DivBimRow>
                                 <DivBimHeader>4º Bim</DivBimHeader>
-                                <DivBimCell>{ivThQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}</DivBimCell>
+                                <DivBimCell grade={ivThQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}>
+                                  {ivThQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}
+                                </DivBimCell>
                               </DivBimRow>
                               <DivBimRow>
                                 <DivBimHeader>Final</DivBimHeader>
@@ -227,9 +235,8 @@ const FinalConcepts = () => {
                               </DivBimRow>
                             </DivBimTable>
                             {/*<SpanTotalGrade><p>Total</p>{grd.totalGrade}</SpanTotalGrade>
-                          <SpanAverageGrade><p>Media</p>{grd.averageGrade}</SpanAverageGrade>
-                          <SpanGradeStudent grade={grd.studentGrade} /*average={grd.averageGrade}><p>Conceito Final</p>{grd.studentGrade}</SpanGradeStudent>
-                          */}
+                          <SpanAverageGrade><p>Media</p>{grd.averageGrade}</SpanAverageGrade>*/}
+                            {/*<SpanGradeStudent grade={grd.studentGrade} /*average={grd.averageGrade}><p>Desempenho</p>{grd.studentGrade}</SpanGradeStudent>*/}
                           </Grade>
                         </Emp>
                       ))

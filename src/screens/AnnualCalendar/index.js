@@ -196,8 +196,8 @@ const HomeSchool = () => {
           <DivDados>
             {data.map(res => (
               <React.Fragment key={res._id}>
-                <p>Data de Inicio: {res.startday}/{res.startmonth}/{res.startyear}</p>
-                <p>Data de Fim: {res.endday}/{res.endmonth}/{res.endyear}</p>
+                <p>Inicio: {res.startday}/{res.startmonth}/{res.startyear}</p>
+                <p>Fim: {res.endday}/{res.endmonth}/{res.endyear}</p>
               </React.Fragment>
             ))}
           </DivDados>
@@ -222,7 +222,7 @@ const HomeSchool = () => {
         <LoadingSpinner />
       ) : (
         <ContainerDivs>
-          <h2>Calendário Anual</h2>
+          <h2>Calendário Bimestral</h2>
           {/*<p>Defina somente Bimestres nessecarios para o ano letivo !!!</p>*/}
           <QuarterSection
             title="1º Bimestre"

@@ -57,7 +57,7 @@ const Preload = () => {
 
                         api.defaults.headers.Authorization = `Bearer ${token}`;
                         loginEmployee(loggedEmployee);
-                        window.location.reload();
+                        //window.location.reload();
                     } else {
                         // Caso a resposta ou dados sejam null, redireciona para o login
                         navigate('/signin/employee');

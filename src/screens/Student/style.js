@@ -7,23 +7,27 @@ export const Container = styled.div`
     width: 100%;
     padding: 20px;
     @media (max-width: 768px) {
-        padding: 10px;
+        padding: 0;
     }
 `;
 
 export const ContainerDivs = styled.div`
-  width: 92%;
+  width: 94%;
   max-width: 1000px;
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   grid-template-columns: 1fr;
   gap: 20px;
   padding: 20px;
-  @media (max-width: 1200px) {
-    padding: 10px;
+
+  @media (max-width: 768px) {
+    padding: 0;
   }
 `;
 
 export const Search = styled.div`
+    width: 100%;
    display: flex;
   flex-direction: column;
   gap: 20px;
@@ -31,6 +35,10 @@ export const Search = styled.div`
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
 
 export const FormSearch = styled.div`
@@ -70,6 +78,7 @@ export const Select = styled.select`
 `;
 
 export const List = styled.div`
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -80,6 +89,8 @@ export const List = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     @media (max-width: 768px) {
+        
+        padding: 5px;
         min-height: 60vh;
     }
 `;
@@ -119,6 +130,10 @@ export const Emp = styled.div`
     &:hover {
         background-color: #f5f5f5;
     }
+
+    @media (max-width: 768px) {
+    padding: 3px;
+  }
 `;
 
 export const Span = styled.span`

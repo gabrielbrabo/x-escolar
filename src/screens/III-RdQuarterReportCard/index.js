@@ -213,10 +213,10 @@ const GradeIstquarter = () => {
                 </SpanFrequency>
                 <LegendBox>
                   <h3>Legenda</h3>
-                  <p><strong>A</strong> - Alcançou com êxito as capacidades básicas</p>
-                  <p><strong>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
-                  <p><strong>C</strong> - Alcançou parcialmente as capacidades básicas</p>
-                  <p><strong>D</strong> - Não alcançou as capacidades básicas</p>
+                  <p><strong style={{ color: '#1d7f14' }}>A</strong> - Alcançou com êxito as capacidades básicas</p>
+                  <p><strong style={{ color: 'blue' }}>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
+                  <p><strong style={{ color: 'orange' }}>C</strong> - Alcançou parcialmente as capacidades básicas</p>
+                  <p><strong style={{ color: 'red' }}>D</strong> - Não alcançou as capacidades básicas</p>
                 </LegendBox>
               </DadosStdt>
               <DivDados>

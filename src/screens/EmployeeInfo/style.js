@@ -6,17 +6,13 @@ export const Container = styled.div`
   align-items: center;
   width: 100%;
   padding: 20px;
-  padding-left: 15%;
-  padding-right: 15%;
   box-sizing: border-box;
 
   @media (max-width: 1024px) {
-    padding-left: 10%;
-    padding-right: 10%;
   }
   
   @media (max-width: 768px) {
-    padding: 10px;
+    padding: 5px;
   }
 `;
 
@@ -34,24 +30,23 @@ export const Emp = styled.div`
   }
 
   @media (max-width: 768px) {
-    padding: 15px;
-    max-width: 100%;
+    padding: 5px;
+    width: 100%;
   }
 `;
 
 export const EmployeeInfo = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
 `;
 
 export const Pro = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
 `;
 
 export const ProfilePhoto = styled.div`
-  width: 80px;
+  width: 100%;
   height: 80px;
   background-color: #ddd;
   border-radius: 50%;
@@ -68,18 +63,6 @@ export const ProfileInfo = styled.div`
   max-width: 420px;
   flex-direction: column;
   overflow: hidden;
-
-  @media (max-width: 820px) {
-    max-width: 350px;
-  }
-
-  @media (max-width: 760px) {
-    max-width: 200px;
-  }
-
-  @media (max-width: 350px) {
-    max-width: 142px;
-  }
 `;
 
 export const DivButtomEdit = styled.div`
@@ -309,7 +292,6 @@ export const Input = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px;
   padding-top: 0px;
   padding-bottom: 20px;
   width: 100%;

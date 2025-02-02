@@ -7,15 +7,33 @@ export const Container = styled.header`
   align-items: center;
   justify-content: space-between;
 
-  .logo {
-    font-size: 24px;
+  .logoHome {
+    display: flex;
+    align-items: center;
+    font-size: 25px;
     font-weight: bold;
-    color: #007fff;
+    color: #3f40ea;
+    gap: 5px;
 
-    @media (max-width: 768px) {
-      font-size: 20px;
-      width: 50%;
+    img{
+      height: 70px;
+      width: 80px;
     }
+    @media (max-width: 768px) {
+      font-size: 15px;
+      width: 80%;
+      justify-content: flex-start;
+      padding: 0;
+
+      img{
+        height: 50px;
+        width: 60px;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+      padding: 5px;
   }
 
   .desktop-nav {

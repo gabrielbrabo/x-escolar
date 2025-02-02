@@ -230,34 +230,39 @@ const IndexAttendance = () => {
         setLoading(false)
     }
     const handleAttendance = async (stdt, status) => {
-        setLoading(true)
-        const id_student = stdt._id
-        const res = await Attendance(day, month, year, status, id_student, id_teacher, id_class,)
-        console.log('chamada', res)
-        if (res) {
-            const resAtt = await GetAttendanceFinalized({ month, year, day, id_class: id_class.trim(), id_teacher: id_teacher.trim(), })
-            const resClass = await clssInfo(id_class)
-            const attRealized = await resAtt.data.data.map(res => {
-                return res.id_student._id
-            })
-            const checkedStudent = await resAtt.data.data.map(res => {
-                return res
-            })
-            const student = await resClass.data.data.find(res => {
-                return res
-            }).id_student.map(res => {
-                return res
-            }).filter(studentId => {
-                if (!attRealized.includes(studentId._id)) {
-                    return studentId
-                }
-                return null
-            })
-            setStdt(student)
-            setChecked(checkedStudent)
+        try {
+            setLoading(true);
+            const id_student = stdt._id;
+    
+            // Chama Attendance para registrar a presença
+            const res = await Attendance(day, month, year, status, id_student, id_teacher, id_class);
+            console.log('Chamada', res);
+    
+            if (res) {
+                // Faz as requisições em paralelo
+                const [resAtt, resClass] = await Promise.all([
+                    GetAttendanceFinalized({ month, year, day, id_class: id_class.trim(), id_teacher: id_teacher.trim() }),
+                    clssInfo(id_class)
+                ]);
+    
+                const attRealized = resAtt.data.data.map(res => res.id_student._id);
+                const checkedStudent = resAtt.data.data;
+    
+                const student = resClass.data.data.find(res => res)?.id_student
+                    .filter(studentId => !attRealized.includes(studentId._id));
+    
+                // Atualiza os estados com os dados obtidos
+                setStdt(student);
+                setChecked(checkedStudent);
+            }
+        } catch (error) {
+            console.error("Erro ao processar a presença:", error);
+            // Caso queira tratar o erro de maneira mais visual, pode adicionar um estado de erro
+        } finally {
+            setLoading(false);
         }
-        setLoading(false)
-    }
+    };
+    
     const handlePresenceClick = (stdt) => handleAttendance(stdt, 'p');
     const handleAbsenceClick = (stdt) => handleAttendance(stdt, 'f');
 

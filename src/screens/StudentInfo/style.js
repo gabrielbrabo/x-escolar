@@ -8,6 +8,11 @@ export const Container = styled.div`
   width: 100%;
   background-color: #f5f5f5;
   padding: 20px;
+
+  @media (max-width: 768px) {
+    padding: 0px;
+    padding-top: 10px;
+  }
 `;
 
 export const ContainerDivs = styled.div`
@@ -21,18 +26,16 @@ export const ContainerDivs = styled.div`
   box-sizing: border-box;
 
   @media (max-width: 768px) {
-    max-width: 100%;
-    padding: 10px;
+    padding: 0px;
   }
 `;
 
 export const EmployeeInfo = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
 `;
 
 export const Pro = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
 `;
@@ -55,18 +58,6 @@ export const ProfileInfo = styled.div`
   max-width: 420px;
   flex-direction: column;
   overflow: hidden;
-
-  @media (max-width: 820px) {
-    max-width: 350px;
-  }
-
-  @media (max-width: 760px) {
-    max-width: 200px;
-  }
-
-  @media (max-width: 350px) {
-    max-width: 142px;
-  }
 `;
 
 export const DivButtomEdit = styled.div`
@@ -246,7 +237,7 @@ export const Input = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  padding: 5px;
   margin-top: 30px;
   margin-bottom: 30px;
 `;

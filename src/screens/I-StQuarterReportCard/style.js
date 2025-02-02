@@ -3,19 +3,21 @@ import { createGlobalStyle } from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
-  margin: 0 auto;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: #f0f0f5;
+
+  @media (max-width: 768px) {
+    padding: 0px;
+  }
 `;
 
 export const ContainerDivs = styled.div`
   width: 90%;
   max-width: 900px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 20px;
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -29,6 +31,12 @@ export const ContainerDivs = styled.div`
     left: 0;
     right: 0;
     margin: auto;
+  }
+
+  @media (max-width: 768px) {
+    width: 95%;
+    padding: 0;
+    padding-top: 15px;
   }
 `;
 
@@ -60,12 +68,24 @@ export const DivDados = styled.div`
   padding: 5px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    padding: 0px;
+  }
 `;
 
 export const List = styled.ul`
+  display: flex;
+  flex-direction: column;
+  max-width: 900%;
   list-style: none;
   padding: 0;
   margin: 0;
+
+  @media (max-width: 768px) {
+    
+  align-items: center;
+  }
 `;
 
 export const Emp = styled.div`
@@ -80,15 +100,18 @@ export const Emp = styled.div`
     border-bottom: none;
   }
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
   p {
     margin: 0;
     font-weight: bold;
     color: #555;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 0;
+    margin-top: 10px;
+    flex-direction: column;
+    align-items: center;
   }
 `;
 
@@ -97,6 +120,10 @@ export const DivNameMatter = styled.div`
   align-items: center;
   justify-content: center;
   width: 50%;
+
+  @media (max-width: 768px) {
+    width: 90%;
+  }
 `;
 
 export const Grade = styled.div`
@@ -116,6 +143,23 @@ export const DadosStdt = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+
+  span {
+    @media (max-width: 375px)  {
+      font-size: 9pt; /* Smartphones pequenos */
+    }
+    @media (min-width: 375px) and (max-width: 450px) {
+      font-size: 10pt; /* Smartphones pequenos */
+    }
+    @media (min-width: 450px) and (max-width: 768px) {
+      font-size: 10pt; /* Smartphones pequenos */
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: 98%;
+    padding: 3px;
+  }
 `;
 
 export const SpanNameMatter = styled.span`
@@ -208,21 +252,27 @@ export const PrintButton = styled.button`
 `;
 
 export const LegendBox = styled.div`
-    max-width: 400px;
-    background-color: #fff;
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-    h3 {
-        margin: 0px;
-    }
+  h3 {
+      text-align: center;
+  }
 
-    p {
-        margin: 0px;
-        font-size: 15px;
-        text-align: left; /* Garante o alinhamento à esquerda */
-    }
+  p {
+  }
+
+  @media (max-width: 375px)  {
+    font-size: 9pt; /* Smartphones pequenos */
+    padding: 0;
+  }
+  @media (min-width: 375px) and (max-width: 768px) {
+    font-size: 10pt; /* Smartphones pequenos */
+    padding: 0;
+  }
 
     @media(max-width: 768px) {
       margin-top: 35px;
@@ -231,9 +281,10 @@ export const LegendBox = styled.div`
 
 export const DivBimTable = styled.div`
   display: flex;
+  justify-content: center;
 
   @media(max-width: 768px) {
-        max-width: 90%;
+        width: 100%;
     }
 `;
 

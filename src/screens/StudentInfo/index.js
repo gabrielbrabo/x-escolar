@@ -242,7 +242,7 @@ const Student = () => {
 
                                             </ProfilePhoto>*/}
                                             < ProfileInfo>
-                                                <Span>Nome: {student.name}</Span>
+                                                <Span>{student.name}</Span>
                                                 {/*<Span>RG: {student.rg}</Span>*/}
                                                 <Span>Nascimento: {new Date(student.dateOfBirth).toLocaleDateString('pt-BR')}</Span>
                                                 <Span>Nome da Mãe: {student.motherName}</Span>

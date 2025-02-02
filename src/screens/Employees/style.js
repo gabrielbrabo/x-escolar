@@ -7,10 +7,9 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: #f5f5f5;
 
   @media (max-width: 768px) {
-    padding: 10px;
+    padding: 5px;
   }
 `;
 export const ContainerEmp = styled.div`
@@ -107,6 +106,10 @@ export const FormFilter = styled.div`
 // Área para o input de busca
 export const Area = styled.div`
   margin-top: 10px;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
 `;
 
 // Estilo para o select de filtro
@@ -140,8 +143,8 @@ export const DivNewEmp = styled.div`
 
 // Exportando os componentes InputEmp e Btt02 do mesmo arquivo de estilo
 export const InputEmp = styled.input`
-  padding: 10px;
-  width: 95%;
+  height: 35px;
+  width: 98%;
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 16px;

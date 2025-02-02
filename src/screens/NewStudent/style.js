@@ -7,7 +7,7 @@ export const Container = styled.div`
   align-items: center;
   padding: 30px;
     @media (max-width: 768px) {
-        padding: 10px;
+        padding: 0px;
         justify-content: center;
     }
   
@@ -17,7 +17,7 @@ export const Container = styled.div`
 `;
 
 export const InputArea = styled.div`
-  width: 90%;
+  width: 95%;
   max-width: 500px;
   display: flex;
   flex-direction: column;
@@ -28,7 +28,7 @@ export const InputArea = styled.div`
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   @media (max-width: 768px) {
-    padding: 15px;
+    padding: 5px;
     gap: 15px;
   }
 `;
@@ -46,7 +46,9 @@ export const Input = styled.input`
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  
   @media (max-width: 768px) {
+    width: 95%;
     padding: 8px;
   }
 `;

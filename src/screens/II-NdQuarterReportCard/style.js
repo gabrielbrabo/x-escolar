@@ -3,19 +3,21 @@ import { createGlobalStyle } from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
-  margin: 0 auto;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: #f0f0f5;
+
+  @media (max-width: 768px) {
+    padding: 0px;
+  }
 `;
 
 export const ContainerDivs = styled.div`
   width: 90%;
   max-width: 900px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 20px;
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -29,6 +31,12 @@ export const ContainerDivs = styled.div`
     left: 0;
     right: 0;
     margin: auto;
+  }
+
+  @media (max-width: 768px) {
+    width: 95%;
+    padding: 0;
+    padding-top: 15px;
   }
 `;
 
@@ -56,21 +64,34 @@ export const AddEmp = styled.div`
 
 export const DivDados = styled.div`
   background-color: #fafafa;
+  width: 100%;
   padding: 5px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    padding: 0px;
+  }
 `;
 
 export const List = styled.ul`
+  display: flex;
+  flex-direction: column;
+  max-width: 900%;
   list-style: none;
   padding: 0;
   margin: 0;
+
+  @media (max-width: 768px) {
+    
+  align-items: center;
+  }
 `;
 
-export const Emp = styled.li`
+export const Emp = styled.div`
   display: flex;
-  justify-content: space-around;
   align-items: center;
+  justify-content: space-around;
   padding: 10px;
   border-bottom: 1px solid #ddd;
   font-size: 1.2em;
@@ -79,15 +100,39 @@ export const Emp = styled.li`
     border-bottom: none;
   }
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
   p {
     margin: 0;
     font-weight: bold;
     color: #555;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 0;
+    margin-top: 10px;
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
+export const DivNameMatter = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+
+  @media (max-width: 768px) {
+    width: 90%;
+  }
+`;
+
+export const Grade = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
   }
 `;
 
@@ -98,13 +143,22 @@ export const DadosStdt = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
-`;
 
-export const Grade = styled.div`
-  display: flex;
+  span {
+    @media (max-width: 375px)  {
+      font-size: 9pt; /* Smartphones pequenos */
+    }
+    @media (min-width: 375px) and (max-width: 450px) {
+      font-size: 10pt; /* Smartphones pequenos */
+    }
+    @media (min-width: 450px) and (max-width: 768px) {
+      font-size: 10pt; /* Smartphones pequenos */
+    }
+  }
+
   @media (max-width: 768px) {
-    width: 100%;
-    justify-content: center;
+    width: 98%;
+    padding: 3px;
   }
 `;
 
@@ -198,21 +252,27 @@ export const PrintButton = styled.button`
 `;
 
 export const LegendBox = styled.div`
-    max-width: 400px;
-    background-color: #fff;
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-    h3 {
-        margin: 0px;
-    }
+  h3 {
+      text-align: center;
+  }
 
-    p {
-        margin: 0px;
-        font-size: 15px;
-        text-align: left; /* Garante o alinhamento à esquerda */
-    }
+  p {
+  }
+
+  @media (max-width: 375px)  {
+    font-size: 9pt; /* Smartphones pequenos */
+    padding: 0;
+  }
+  @media (min-width: 375px) and (max-width: 768px) {
+    font-size: 10pt; /* Smartphones pequenos */
+    padding: 0;
+  }
 
     @media(max-width: 768px) {
       margin-top: 35px;
@@ -221,9 +281,10 @@ export const LegendBox = styled.div`
 
 export const DivBimTable = styled.div`
   display: flex;
+  justify-content: center;
 
   @media(max-width: 768px) {
-        max-width: 90%;
+        width: 100%;
     }
 `;
 
@@ -252,13 +313,6 @@ export const DivBimCell = styled.div`
         props.grade === 'C' ? 'orange' :
           props.grade === 'D' ? 'red' : 'black';
   }};
-`;
-
-export const DivNameMatter = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50%;
 `;
 
 const GlobalStyle = createGlobalStyle`
@@ -292,7 +346,6 @@ const GlobalStyle = createGlobalStyle`
 
       color: #000; /* Ajuste a cor se necessário */
     }
-
     ${LegendBox} {
       h3 {
         font-size: 1em;
@@ -350,7 +403,7 @@ const GlobalStyle = createGlobalStyle`
     ${DivBimCell} {
       font-size: 0.5em;
     }
-    
+
     ${SpanNameMatter} { /* Ajuste a margem inferior para evitar quebra de página */
       font-size: 0.6em;
     }

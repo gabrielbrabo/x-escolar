@@ -142,7 +142,7 @@ const NewStudent = () => {
         <LoadingSpinner />
         :
         <>
-          <h1>Cadastro de Aluno</h1>
+          <h2>Cadastro de Aluno</h2>
           <p>Itens com * são obrigatorios</p>
           <>
             <InputArea>
