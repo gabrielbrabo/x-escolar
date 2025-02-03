@@ -164,7 +164,7 @@ const RemoveStudent = () => {
 
                             {
                                 <Div>
-                                     <>Tem certeza que deseja remover {name_student} do {serie} ?</>
+                                     <p>Tem certeza que deseja remover {name_student} do {serie} ?</p>
                                     <DivButtonAdd>
                                         <Btt01 onClick={SignClick}>Remover</Btt01>
                                         <Btt01 onClick={Return}>Voltar</Btt01>

@@ -35,7 +35,7 @@ export const DivAddEmp = styled.div`
   align-items: center;
   
   @media (max-width: 768px) {
-    padding: 15px;
+    padding: 10px;
   }
 `;
 

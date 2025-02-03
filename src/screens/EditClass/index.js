@@ -76,12 +76,12 @@ const EditProfile = () => {
                             value={serie}
                             onChange={(e) => setSerie(e.target.value)}
                         />
-                        <label>Nível</label>
+                        {/*<label>Nível</label>
                         <Input
                             placeholder="Digite o nível"
                             value={level}
                             onChange={(e) => setLevel(e.target.value)}
-                        />
+                        />*/}
                         <label>Turno</label>
                         <Select
                             id="shift"
@@ -93,12 +93,12 @@ const EditProfile = () => {
                             <option value="VESPERTINO">Vespertino</option>
                             <option value="NOTURNO">Noturno</option>
                         </Select>
-                        <label>Número da Sala</label>
+                        {/*<label>Número da Sala</label>
                         <Input
                             placeholder="Digite o número da sala"
                             value={classroom_number}
                             onChange={(e) => setClassroom_number(e.target.value)}
-                        />
+                        />*/}
                         {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                         <Btt01 onClick={handleSubmit}>Salvar Alterações</Btt01>
                         <ToGoBack onClick={handleGoBack}>

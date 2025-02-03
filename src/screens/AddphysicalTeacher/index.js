@@ -180,13 +180,13 @@ const TeacherAdd = () => {
                                 !id_matter
                                 &&
                                 <Div>
-                                    <>Adicionar {name_teacher} a Turma {serie} </>
+                                    <p>Adicionar {name_teacher} a Turma {serie} </p>
                                     { /*<Btt01 onClick={SignClick}>Adicionar</Btt01>*/}
                                 </Div>
                             }
                             {
                                 <Div>
-                                    <>Voçê ira Adicionar as seguintes configurações:</>
+                                    <p>Voçê ira Adicionar as seguintes configurações:</p>
                                     <Span>   Professor Ed Fisica: {name_teacher}</Span>
                                    { /*<Span>   Materia: {name_matter}</Span>*/}
                                     <Span>   Turma: {serie}</Span>

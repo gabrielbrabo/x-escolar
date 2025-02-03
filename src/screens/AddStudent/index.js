@@ -100,10 +100,10 @@ const StudentAdd = () => {
                         <Add>
                             {added ? (
                                 <div>
-                                    <>Aluno {name_student} foi adicionado ao {serie} </>
+                                    <p>Aluno {name_student} foi adicionado ao {serie} </p>
                                     <DivButtonAdd>
                                         <Btt01 onClick={remove}>
-                                            Adicionar outro aluno ao {serie}
+                                            Adicionar outro aluno
                                         </Btt01>
                                         <Btt01 onClick={Finish}>Finalizar</Btt01>
                                     </DivButtonAdd>
@@ -111,7 +111,7 @@ const StudentAdd = () => {
                             ) : (
 
                                 <div>
-                                    <>Adicionar {name_student} ao {serie} </>
+                                    <p>Adicionar {name_student} ao {serie} </p>
                                     <DivButtonAdd>
                                         <Btt01 onClick={SignClick}>Adicionar</Btt01>
                                         <Btt01 onClick={Return}>Voltar</Btt01>

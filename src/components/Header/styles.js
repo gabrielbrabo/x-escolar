@@ -11,14 +11,14 @@ export const Container = styled.header`
   .logoHome {
     display: flex;
     align-items: center;
-    font-size: 25px;
+    font-size: 21px;
     font-weight: bold;
     color: #3a3a3a;
     gap: 5px;
 
     img{
-      height: 70px;
-      width: 80px;
+      height: 55px;
+      width: 60px;
     }
     @media (max-width: 768px) {
       font-size: 15px;
@@ -27,8 +27,8 @@ export const Container = styled.header`
       padding: 0;
 
       img{
-        height: 50px;
-        width: 60px;
+        height: 40px;
+        width: 45px;
       }
     }
   }

@@ -8,6 +8,10 @@ export const Container = styled.div`
   padding: 20px;
   min-height: 90vh;
   background-color: #f5f5f5;
+
+  @media (max-width: 768px) {
+    padding: 5px;
+  }
 `;
 
 export const Search = styled.div`
@@ -67,7 +71,6 @@ export const Add = styled.div`
   height: 90%;
 
   @media (max-width: 768px) {
-    margin-bottom: 15px;
   }
 `;
 

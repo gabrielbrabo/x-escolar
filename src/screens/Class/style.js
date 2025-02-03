@@ -7,19 +7,20 @@ export const Container = styled.div`
   min-height: 90vh;
   padding: 20px;
   @media (max-width: 768px) {
-    padding: 10px;
+    padding: 0px;
   }
 `;
 
 export const ContainerDivs = styled.div`
   display: flex;
   flex-direction: column;
-  width: 92%;
+  width: 100%;
   max-width: 1000px;
   gap: 20px;
-  padding: 20px;
-  @media (max-width: 1200px) {
-    padding: 10px;
+  padding: 0px;
+  
+  @media (max-width: 768px) {
+    padding-top: 10px;
   }
 `;
 
@@ -35,6 +36,11 @@ export const Search = styled.div`
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    width: 97%;
+    padding: 5px;
+  }
 `;
 
 export const FormSearch = styled.form`
@@ -81,6 +87,11 @@ export const List = styled.div`
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    width: 97%;
+    padding: 5px;
+  }
 `;
 
 export const DivNewEmp = styled.div`

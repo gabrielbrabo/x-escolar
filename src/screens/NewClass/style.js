@@ -30,8 +30,8 @@ export const InputArea = styled.div`
   }
 
   @media (max-width: 768px) {
-    padding: 15px;
-    width: 85%;
+    padding: 5px;
+    width: 95%;
   }
 `;
 

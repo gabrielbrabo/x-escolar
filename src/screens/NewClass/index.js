@@ -56,7 +56,7 @@ const NewClass = () => {
         <LoadingSpinner />
       ) : (
         <>
-          <h1>Cadastro de Turma</h1>
+          <h2>Cadastro de Turma</h2>
           <InputArea>
             <label>Série</label>
             <Input

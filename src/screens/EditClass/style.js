@@ -8,6 +8,9 @@ export const Container = styled.div`
     min-height: 90vh;
     width: 100%;
     background-color: #f5f5f5;
+    @media (max-width: 768px) {
+    padding: 0px;
+  }
 `;
 
 export const InputArea = styled.div`
@@ -19,6 +22,10 @@ export const InputArea = styled.div`
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     width: 92%;
     max-width: 400px;
+    @media (max-width: 768px) {
+    width: 96%;
+    padding: 5px;
+  }
 `;
 
 export const Input = styled.input`

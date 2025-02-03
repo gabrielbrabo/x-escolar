@@ -6,12 +6,12 @@ export const Container = styled.div`
   width: 100%;
   padding: 20px;
   @media (max-width: 768px) {
-    padding: 10px;
+    padding: 0px;
   }
 `;
 
 export const ContainerDivs = styled.div`
-  width: 92%;
+  width: 100%;
   max-width: 1000px;
   display: flex;
   flex-direction: column;
@@ -23,7 +23,9 @@ export const ContainerDivs = styled.div`
   //  max-width: 90%;
   }
   @media (max-width: 768px) {
-    padding: 10px;
+    padding-top: 10px;
+    padding-left: 0;
+    padding-right: 0;
   }
 `;
 
@@ -129,7 +131,8 @@ export const Emp = styled.div`
     transform: translateY(-5px);
   }
   @media (max-width: 768px) {
-    padding: 15px;
+    width: 96%;
+    padding: 5px;
   }
 `;
 
@@ -156,7 +159,8 @@ export const DivInfo = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
   @media (max-width: 768px) {
-    padding: 15px;
+    width: 96%;
+    padding: 5px;
   }
 `;
 

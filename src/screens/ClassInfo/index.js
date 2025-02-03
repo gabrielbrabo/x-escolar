@@ -150,9 +150,9 @@ const Cla$$Info = () => {
                             <Emp key={clss._id} >
                                 <ProfileInfo>
                                     <Span>Serie: {clss.serie}</Span>
-                                    <Span>Nivel: {clss.level}</Span>
+                                    {/*<Span>Nivel: {clss.level}</Span>*/}
                                     <Span>Turno: {clss.shift}</Span>
-                                    <Span>Numero da Sala: {clss.classroom_number}</Span>
+                                    {/*<Span>Numero da Sala: {clss.classroom_number}</Span>*/}
                                 </ProfileInfo>
                                 {clss.year === currentYear
                                     &&
@@ -283,7 +283,7 @@ const Cla$$Info = () => {
                         stdt.length > 0
                             ?
                             <DivInfo>
-                                <TitleInfo>Estudantes:</TitleInfo>
+                                <TitleInfo>Alunos:</TitleInfo>
                                 {/*!showStudent &&
                                     <DivShowMatter>
                                         <Btt02 onClick={() => { setShowStudent(true) }}>Ver Alunos <TiArrowDownThick fontSize={'17px'} /></Btt02>
