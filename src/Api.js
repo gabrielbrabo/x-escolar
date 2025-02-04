@@ -1796,11 +1796,11 @@ export const removeMatter = async (
 }
 
 export const deleteMatter = async (
-    id_matter
+    id_matter, idSchool
 ) => {
 
     return api.post(`/delete/matter`, {
-        id_matter
+        id_matter, idSchool
     })
 
         .catch((error) => {

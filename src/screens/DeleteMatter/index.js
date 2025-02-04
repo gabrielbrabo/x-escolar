@@ -24,7 +24,7 @@ const DelMatter = () => {
 
     const navigate = useNavigate()
     const [matter, setMatter] = useState([])
-    //const [serie, setSerie] = useState("")
+    const [id_school, setIdSchol] = useState([])
     const [busca, setBusca] = useState("")
     //const [name_teacher, setName_Teacher] = useState("")
     const [name_matter, setName_Matter] = useState("")
@@ -37,6 +37,7 @@ const DelMatter = () => {
             setLoading(true);
             const idSchool = sessionStorage.getItem("id-school")
             const res = await GetMatter(JSON.parse(idSchool))
+            setIdSchol(idSchool)
             setMatter(res.data.data)
             setLoading(false);
         })()
@@ -51,7 +52,7 @@ const DelMatter = () => {
 
     const SignClick = async () => {
         setLoading(true);
-        const res = await deleteMatter(id_matter)
+        const res = await deleteMatter(id_matter, JSON.parse(id_school))
         if (res) {
             alert('Materia Removida com sucesso.')
             navigate(-1);
