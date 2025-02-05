@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { GetInfoMyClass, clssInfo } from '../../Api'
+import { clssInfo } from '../../Api'
 
 import {
     Container,
@@ -39,8 +39,8 @@ const MyCla$$Info = () => {
             console.log('useParamsTeacher', id_teacher)
             const resClass = await clssInfo(id_class)
             console.log("resClass", resClass.data.data)
-            const res = await GetInfoMyClass(id_class, id_teacher)
-            console.log(res.data.data)
+            //const res = await GetInfoMyClass(id_class, id_teacher)
+            //console.log(res.data.data)
             const student = await resClass.data.data.find(res => {
                 return res
             }).id_student.map(res => {
@@ -89,7 +89,7 @@ const MyCla$$Info = () => {
             sessionStorage.removeItem("month")
             sessionStorage.removeItem("year")
 
-            console.log("matter", res.data.data)
+            //console.log("matter", res.data.data)
             setLoading(false)
         })()
 

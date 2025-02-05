@@ -6,7 +6,6 @@ export const Container = styled.div`
   align-items: center;
   min-height: 90vh;
   width: 100%;
-  background-color: #f5f5f5;
   padding: 20px;
 
   @media (max-width: 768px) {
@@ -19,7 +18,6 @@ export const ContainerDivs = styled.div`
   width: 100%;
   max-width: 1000px;
   min-height: 50vh;
-  background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -237,9 +235,14 @@ export const Input = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 5px;
+  padding-top: 0px;
+  padding-bottom: 20px;
+  width: 100%;
   margin-top: 30px;
   margin-bottom: 30px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 export const ErrorMessage = styled.div`

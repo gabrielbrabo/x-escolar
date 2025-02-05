@@ -7,7 +7,6 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f0f0f5;
 
   @media (max-width: 768px) {
     padding: 0px;
@@ -34,8 +33,8 @@ export const ContainerDivs = styled.div`
   }
 
   @media (max-width: 768px) {
-    width: 95%;
-    padding: 0;
+    width: 100%;
+    padding: 0px;
     padding-top: 15px;
   }
 `;
@@ -90,7 +89,7 @@ export const List = styled.ul`
 
 export const Emp = styled.div`
   display: flex;
-  align-items: center;
+  //align-items: center;
   justify-content: space-around;
   padding: 10px;
   border-bottom: 1px solid #ddd;
@@ -331,7 +330,7 @@ const GlobalStyle = createGlobalStyle`
 
     #containerDivs {
       position: absolute;
-      width: 80%; /* Certifique-se de que ocupa toda a largura */
+      width: 100%; /* Certifique-se de que ocupa toda a largura */
       height: auto; /* Permite o ajuste automático da altura */
       box-sizing: border-box; /* Inclui o padding e a borda na largura total */
     }
@@ -351,7 +350,7 @@ const GlobalStyle = createGlobalStyle`
         font-size: 1em;
       }
       p {
-        font-size: 0.7em;
+        font-size: 0.9em;
       }
 
     }
@@ -377,20 +376,24 @@ const GlobalStyle = createGlobalStyle`
       padding: 0;
     }
 
-    ${Emp} { /* Ajuste a margem inferior para evitar quebra de página */ 
-      display: flex;
-      width: 100%;
-      padding: 10px;
+    ${Emp} {
+      display: flex !important;
+      justify-content: space-between;
+      flex-direction: row !important;
+      //width: 100%;
+      padding: 5px;
     }
 
+
     ${Grade} {
+      display: flex;
       margin: 0;
       padding: 0;
-      width: 80%;
-      justify-content: flex-end;
+      //width: 80%;
+      justify-content: flex-start;
     }
     
-    ${DivNameMatter} {
+   ${DivNameMatter} {
       margin: 0;
       padding: 0;
       height: 0px;
@@ -401,11 +404,11 @@ const GlobalStyle = createGlobalStyle`
     }
     
     ${DivBimCell} {
-      font-size: 0.5em;
+      font-size: 0.6em;
     }
 
     ${SpanNameMatter} { /* Ajuste a margem inferior para evitar quebra de página */
-      font-size: 0.6em;
+      font-size: 0.7em;
     }
 
     ${SpanTotalGrade}, ${SpanAverageGrade}, ${SpanGradeStudent} {

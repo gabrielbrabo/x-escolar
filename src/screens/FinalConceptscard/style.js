@@ -90,7 +90,7 @@ export const List = styled.ul`
 
 export const Emp = styled.div`
   display: flex;
-  align-items: center;
+  //align-items: center;
   justify-content: space-around;
   padding: 10px;
   border-bottom: 1px solid #ddd;
@@ -175,7 +175,7 @@ export const SpanAverageGrade = styled.span`
   color: #007bff;
 `;
 
-export const SpanGradeStudent = styled.span`
+export const SpanGradeStudent = styled.div`
   color: ${props => {
     return props.grade === 'A' ? '#1d7f14' :
       props.grade === 'B' ? 'blue' :
@@ -331,7 +331,7 @@ const GlobalStyle = createGlobalStyle`
 
     #containerDivs {
       position: absolute;
-      width: 80%; /* Certifique-se de que ocupa toda a largura */
+      width: 100%; /* Certifique-se de que ocupa toda a largura */
       height: auto; /* Permite o ajuste automático da altura */
       box-sizing: border-box; /* Inclui o padding e a borda na largura total */
     }
@@ -351,7 +351,7 @@ const GlobalStyle = createGlobalStyle`
         font-size: 1em;
       }
       p {
-        font-size: 0.7em;
+        font-size: 0.9em;
       }
 
     }
@@ -377,39 +377,43 @@ const GlobalStyle = createGlobalStyle`
       padding: 0;
     }
 
-    ${Emp} { /* Ajuste a margem inferior para evitar quebra de página */ 
-      display: flex;
-      width: 100%;
-      padding: 10px;
+    ${Emp} {
+      display: flex !important;
+      justify-content: space-between;
+      flex-direction: row !important;
+      //width: 100%;
+      padding: 5px;
     }
 
+
     ${Grade} {
+      display: flex;
       margin: 0;
       padding: 0;
-      width: 80%;
-      justify-content: flex-end;
+      //width: 80%;
+      justify-content: flex-start;
     }
     
-    ${DivNameMatter} {
+   ${DivNameMatter} {
       margin: 0;
       padding: 0;
       height: 0px;
     }
 
     ${DivBimHeader} {
-      font-size: 0.5em;
+      font-size: 0.7em;
     }
     
     ${DivBimCell} {
-      font-size: 0.5em;
+      font-size: 0.7em;
     }
 
     ${SpanNameMatter} { /* Ajuste a margem inferior para evitar quebra de página */
-      font-size: 0.6em;
+      font-size: 0.7em;
     }
 
     ${SpanTotalGrade}, ${SpanAverageGrade}, ${SpanGradeStudent} {
-      font-size: 0.5em; /* Ajuste os tamanhos de fonte para impressão */
+      //font-size: 0.7em; /* Ajuste os tamanhos de fonte para impressão */
     }
   }
 `;
