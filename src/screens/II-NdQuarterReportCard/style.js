@@ -346,6 +346,8 @@ const GlobalStyle = createGlobalStyle`
       color: #000; /* Ajuste a cor se necessário */
     }
     ${LegendBox} {
+      padding-left: 15px;
+      padding-right: 15px;
       h3 {
         font-size: 1em;
       }
@@ -357,7 +359,7 @@ const GlobalStyle = createGlobalStyle`
     
     @page {
       size: A4; /* Define o tamanho do papel */
-      margin: 0mm; /* Ajuste as margens conforme necessário */
+      margin: 10mm; /* Ajuste as margens conforme necessário */
     }
 
     .no-print {

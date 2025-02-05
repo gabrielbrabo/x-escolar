@@ -234,34 +234,37 @@ const IndexAttendance = () => {
             setLoading(true);
             const id_student = stdt._id;
     
-            // Chama Attendance para registrar a presença
-            const res = await Attendance(day, month, year, status, id_student, id_teacher, id_class);
-            console.log('Chamada', res);
+            // Dispara todas as requisições ao mesmo tempo
+            const [resAttendance, resAtt, resClass] = await Promise.allSettled([
+                Attendance(day, month, year, status, id_student, id_teacher, id_class),
+                GetAttendanceFinalized({ month, year, day, id_class: id_class.trim(), id_teacher: id_teacher.trim() }),
+                clssInfo(id_class)
+            ]);
     
-            if (res) {
-                // Faz as requisições em paralelo
-                const [resAtt, resClass] = await Promise.all([
-                    GetAttendanceFinalized({ month, year, day, id_class: id_class.trim(), id_teacher: id_teacher.trim() }),
-                    clssInfo(id_class)
-                ]);
+            // Verifica se a chamada de presença foi bem-sucedida
+            if (resAttendance.status === "fulfilled" && resAttendance.value) {
+                const checkedStudent = resAtt.status === "fulfilled" ? resAtt.value.data.data : [];
+                const classInfo = resClass.status === "fulfilled" ? resClass.value.data.data : [];
     
-                const attRealized = resAtt.data.data.map(res => res.id_student._id);
-                const checkedStudent = resAtt.data.data;
+                // Converte os alunos já chamados em um conjunto para busca rápida
+                const attRealizedSet = new Set(checkedStudent.map(res => res.id_student._id));
     
-                const student = resClass.data.data.find(res => res)?.id_student
-                    .filter(studentId => !attRealized.includes(studentId._id));
+                // Filtra os alunos que ainda não foram chamados
+                const student = classInfo.find(res => res)?.id_student.filter(studentId => !attRealizedSet.has(studentId._id));
     
-                // Atualiza os estados com os dados obtidos
-                setStdt(student);
-                setChecked(checkedStudent);
+                // Atualiza os estados de forma eficiente no React 18+
+                React.startTransition(() => {
+                    setStdt(student);
+                    setChecked(checkedStudent);
+                });
             }
         } catch (error) {
             console.error("Erro ao processar a presença:", error);
-            // Caso queira tratar o erro de maneira mais visual, pode adicionar um estado de erro
         } finally {
             setLoading(false);
         }
     };
+    
     
     const handlePresenceClick = (stdt) => handleAttendance(stdt, 'p');
     const handleAbsenceClick = (stdt) => handleAttendance(stdt, 'f');

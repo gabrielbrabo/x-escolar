@@ -11,6 +11,7 @@ export const Container = styled.div`
   @media (max-width: 768px) {
     padding: 0px;
     padding-top: 10px;
+    padding-bottom: 10px;
   }
 `;
 
@@ -222,7 +223,7 @@ export const Label = styled.label`
 `;
 
 export const Select = styled.select`
-  width: 100%;
+  width: 95%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -235,13 +236,15 @@ export const Input = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 0px;
-  padding-bottom: 20px;
-  width: 100%;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 15px;
+  //width: 99%;
+  //margin-top: 30px;
+  //margin-bottom: 30px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 

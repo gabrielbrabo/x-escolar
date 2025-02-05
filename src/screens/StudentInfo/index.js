@@ -273,7 +273,7 @@ const Student = () => {
                         }
                         <Input>
                             <h3>Boletim</h3>
-                            <Label>Selecione o bimestre e click no botão abaixo para ver o boletim</Label>
+                            <Label>Selecione o bimestre e click no botão abaixo.</Label>
                             <Select
                                 id="id-bimonthly"
                                 value={Selectbimonthly}

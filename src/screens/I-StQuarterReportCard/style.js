@@ -251,6 +251,8 @@ export const PrintButton = styled.button`
 `;
 
 export const LegendBox = styled.div`
+  //display: grid;
+  //flex-direction: column;
   max-width: 400px;
   background-color: #fff;
   border-radius: 5px;
@@ -346,6 +348,8 @@ const GlobalStyle = createGlobalStyle`
       color: #000; /* Ajuste a cor se necessário */
     }
     ${LegendBox} {
+      padding-left: 15px;
+      padding-right: 15px;
       h3 {
         font-size: 1em;
       }
@@ -357,7 +361,7 @@ const GlobalStyle = createGlobalStyle`
     
     @page {
       size: A4; /* Define o tamanho do papel */
-      margin: 0mm; /* Ajuste as margens conforme necessário */
+      margin: 10mm; /* Ajuste as margens conforme necessário */
     }
 
     .no-print {

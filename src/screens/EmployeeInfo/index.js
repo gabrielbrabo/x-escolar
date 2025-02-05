@@ -320,7 +320,7 @@ const EmployeeInformation = () => {
                             </DivInfo>*/}
                             <Input>
                                 <h2>Diario</h2>
-                                <Label>Selecione o bimestre e click no botão abaixo para ver o Diario do Professor</Label>
+                                <Label>Selecione o bimestre e click no botão abaixo.</Label>
                                 <Select
                                     id="id-bimonthly"
                                     value={Selectbimonthly}
