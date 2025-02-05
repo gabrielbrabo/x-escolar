@@ -103,9 +103,14 @@ export const Container = styled.header`
 `;
 
 export const Emp = styled.div`
-  border-radius: 8px;
+  //border-radius: 8px;
   min-width: 300px;
   align-items: center;
+  padding: 5px;
+
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 export const EmployeeInfo = styled.div`

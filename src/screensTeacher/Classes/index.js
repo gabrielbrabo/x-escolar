@@ -166,7 +166,7 @@ const Grade = () => {
                 setEditingId(res._id);
                 setEditedDescription(res.description);
             } else {
-                alert("Edição não permitida. Para editar a aula, contate o supervisor.");
+                alert("Edição não permitida. Para editar a aula, contate o Diretor ou Supervisor.");
             }
 
         } catch (error) {

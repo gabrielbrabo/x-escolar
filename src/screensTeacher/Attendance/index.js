@@ -393,7 +393,7 @@ const IndexAttendance = () => {
                                 </ContainerStudent>
                             ) : (
                                 <>
-                                    <h2> Bimestre fechado para editar contate o suprevisor</h2>
+                                    <h3> Bimestre fechado, para editar contate o Diretor ou Supervisor.</h3>
 
                                     <DivButton>
                                         {/* <Btt02 onClick={clickRemovematter}>

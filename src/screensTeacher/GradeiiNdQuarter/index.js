@@ -299,7 +299,7 @@ const IndexAttendance = () => {
                             }
                         </ContainerStudent>
                     ) : (
-                        <p>2º Bimestre fechado para editar contate o suprevisor</p>
+                        <p>2º Bimestre fechado, para editar contate o Diretor ou Supervisor.</p>
                     )}
                 </ContainerDivs>
             }

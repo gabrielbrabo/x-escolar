@@ -233,7 +233,7 @@ const IndividualForm = () => {
                                 </ToGoBack>
                             </>
                         ) : (
-                            <p>{Selectbimonthly.bimonthly} Bimestre fechado para editar contate o suprevisor</p>
+                            <p>{Selectbimonthly.bimonthly} fechado, para editar contate o Diretor ou Supervisor.</p>
                         )
                     )}
                 </ContainerDivs>
