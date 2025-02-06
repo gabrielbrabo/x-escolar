@@ -91,7 +91,7 @@ const Form = () => {
                 <LoadingSpinner />
             ) : (
                 <ContainerDivs>
-                    <h2>Fincha Individual</h2>
+                    <h2>Ficha Individual</h2>
                     <Input>
                         <Span>
                             <div>Aluno: <p>{nameStudent}</p></div>
