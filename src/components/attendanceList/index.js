@@ -361,7 +361,7 @@ export default function AttendanceList() {
           <h2>Lista de Presença do {bimonthlyDaily}</h2>
           <DataBimonthly>
             <span><strong>Inicio:</strong> {startd}/{startm}/{starty}</span>
-            <span><strong>Fim:</strong> {endd}/{endm}/{endy}</span>
+            <span><strong>Término:</strong> {endd}/{endm}/{endy}</span>
           </DataBimonthly>
           <ContInfo>
             <CtnrBtt>

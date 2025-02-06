@@ -197,7 +197,7 @@ const HomeSchool = () => {
             {data.map(res => (
               <React.Fragment key={res._id}>
                 <p>Inicio: {res.startday}/{res.startmonth}/{res.startyear}</p>
-                <p>Fim: {res.endday}/{res.endmonth}/{res.endyear}</p>
+                <p>Término: {res.endday}/{res.endmonth}/{res.endyear}</p>
               </React.Fragment>
             ))}
           </DivDados>

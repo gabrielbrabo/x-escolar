@@ -97,7 +97,7 @@ const Matter = () => {
                 <LoadingSpinner />
             ) : (
                 <>
-                    <h1>Disciplinas</h1>
+                    <h2>Componentes curriculares</h2>
                     <Search>
                         <FormSearch>
                             <label>Buscar Disciplinas</label>

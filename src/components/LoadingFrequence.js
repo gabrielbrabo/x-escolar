@@ -45,7 +45,7 @@ const LoadingSpinnerWrapper = styled.div`
 
 const LoadingSpinner = () => (
   <LoadingSpinnerWrapper>
-    <p>Aguarde adicionando frequencia</p>
+    <p>Aguarde</p>
     <div className="spinner"></div>
   </LoadingSpinnerWrapper>
 );

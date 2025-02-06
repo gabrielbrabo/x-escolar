@@ -245,7 +245,7 @@ const Grade = () => {
                             <h3>{bimonthlyDaily}</h3>
                             < DataBimonthly>
                                 <span><strong>Inicio:</strong> {startd}/{startm}/{starty}</span>
-                                <span><strong>Fim:</strong> {endd}/{endm}/{endy}</span>
+                                <span><strong>Término:</strong> {endd}/{endm}/{endy}</span>
                             </DataBimonthly>
                             <CtnrBtt>
                                 <Button02 className='no-print' onClick={handlePrint} style={{ marginBottom: '15px' }}>Imprimir</Button02>

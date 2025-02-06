@@ -223,7 +223,7 @@ const IndividualFormList = () => {
                             <strong>Início:</strong> {startd}/{startm}/{starty}
                         </span>
                         <span>
-                            <strong>Fim:</strong> {endd}/{endm}/{endy}
+                            <strong>Término:</strong> {endd}/{endm}/{endy}
                         </span>
                     </DataBimonthly>
                     <ContInfo>
