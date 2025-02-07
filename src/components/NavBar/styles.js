@@ -70,13 +70,19 @@ export const Container = styled.section`
 `;
 
 export const Emp = styled.div`
-  width: 80%;
+  width: 95%;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 15px;
+  padding: 10px;
   margin-bottom: 20px;
-
+    
+  p {
+    margin: 0;
+    text-align: center;
+    height: 10px;
+    font-size: 13px;
+  }
   
 `;
 
@@ -139,6 +145,7 @@ export const Span = styled.span`
 export const DivButtomEdit = styled.div`
   display: flex;
   align-items: center;
+  justify-content: flex-end;
 `;
 
 export const Btt02 = styled.button`

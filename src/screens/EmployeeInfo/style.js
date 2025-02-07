@@ -17,7 +17,7 @@ export const Container = styled.div`
 `;
 
 export const Emp = styled.div`
-  width: 92%;
+  width: 97%;
   min-height: 150px;
   max-width: 1000px;
   background-color: #f9f9f9;
@@ -30,13 +30,13 @@ export const Emp = styled.div`
   }
 
   @media (max-width: 768px) {
-    padding: 5px;
-    width: 100%;
+    padding: 10px;
   }
 `;
 
 export const EmployeeInfo = styled.div`
   display: flex;
+  flex-direction: column;
 `;
 
 export const Pro = styled.div`
@@ -60,7 +60,7 @@ export const ProfilePhoto = styled.div`
 
 export const ProfileInfo = styled.div`
   display: flex;
-  max-width: 420px;
+  width: 100%;
   flex-direction: column;
   overflow: hidden;
 `;
@@ -68,10 +68,11 @@ export const ProfileInfo = styled.div`
 export const DivButtomEdit = styled.div`
   display: flex;
   align-items: center;
+  justify-content: flex-end;
 `;
 
 export const DivInfo = styled.div`
-  width: 92%;
+  width: 97%;
   max-width: 1000px;
   min-height: 120px;
   background-color: #fff;
@@ -85,8 +86,8 @@ export const DivInfo = styled.div`
   }
 
   @media (max-width: 768px) {
-    padding: 15px;
-    max-width: 100%;
+    padding: 10px;
+    width: 97%;
   }
 `;
 
@@ -295,13 +296,19 @@ export const Input = styled.div`
   padding-left: 15px;
   padding-right: 15px;
   padding-bottom: 15px;
-  width: 93%;
+  width: 98%;
   margin-top: 30px;
   margin-bottom: 30px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 96%;
+  }
 `;
 
 export const ErrorMessage = styled.div`

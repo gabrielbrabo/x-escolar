@@ -16,12 +16,15 @@ export const Container = styled.div`
 `;
 
 export const ContainerDivs = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 1000px;
   min-height: 50vh;
   border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  //box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  //padding: 20px;
+  gap: 20px;
   box-sizing: border-box;
 
   @media (max-width: 768px) {
@@ -30,7 +33,9 @@ export const ContainerDivs = styled.div`
 `;
 
 export const EmployeeInfo = styled.div`
+  width: 100%;
   display: flex;
+  flex-direction: column;
 `;
 
 export const Pro = styled.div`
@@ -54,7 +59,7 @@ export const ProfilePhoto = styled.div`
 
 export const ProfileInfo = styled.div`
   display: flex;
-  max-width: 420px;
+  width: 100%;
   flex-direction: column;
   overflow: hidden;
 `;
@@ -62,6 +67,8 @@ export const ProfileInfo = styled.div`
 export const DivButtomEdit = styled.div`
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  gap: 30px;
 `;
 
 export const Section = styled.div`
@@ -73,14 +80,21 @@ export const Section = styled.div`
 `;
 
 export const Emp = styled.div`
+  width: 99%;
+  min-height: 150px;
+  max-width: 1000px;
   background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+
+  @media (max-width: 1024px) {
+    max-width: 700px;
+  }
 
   @media (max-width: 768px) {
-    padding: 8px;
+    padding: 10px;
+    width: 93%;
   }
 `;
 
@@ -234,10 +248,11 @@ export const Select = styled.select`
 
 export const Input = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
   padding-bottom: 15px;
   //width: 99%;
   //margin-top: 30px;
@@ -246,6 +261,12 @@ export const Input = styled.div`
   border: 1px solid #ddd;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 93%;
+  }
 `;
 
 export const ErrorMessage = styled.div`

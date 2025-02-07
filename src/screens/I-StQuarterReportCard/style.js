@@ -320,6 +320,8 @@ const GlobalStyle = createGlobalStyle`
   @media print {
     body * {
       visibility: hidden; /* Oculta todos os elementos da página */
+      margin: 0;
+      padding: 0;
     }
 
     #containerDivs, #containerDivs * {
@@ -328,6 +330,7 @@ const GlobalStyle = createGlobalStyle`
     ${ContainerDivs} {
       display: flex;
       justify-content: center;
+      padding-top: 0;
     }
 
     #containerDivs {
@@ -350,6 +353,7 @@ const GlobalStyle = createGlobalStyle`
     ${LegendBox} {
       padding-left: 15px;
       padding-right: 15px;
+      padding-bottom: 5px;
       h3 {
         font-size: 1em;
       }
@@ -404,15 +408,15 @@ const GlobalStyle = createGlobalStyle`
     }
 
     ${DivBimHeader} {
-      font-size: 0.5em;
+      font-size: 0.7em;
     }
     
     ${DivBimCell} {
-      font-size: 0.6em;
+      font-size: 0.7em;
     }
 
     ${SpanNameMatter} { /* Ajuste a margem inferior para evitar quebra de página */
-      font-size: 0.7em;
+      font-size: 0.8em;
     }
 
     ${SpanTotalGrade}, ${SpanAverageGrade}, ${SpanGradeStudent} {

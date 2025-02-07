@@ -253,10 +253,10 @@ const IndexAttendance = () => {
                 const student = classInfo.find(res => res)?.id_student.filter(studentId => !attRealizedSet.has(studentId._id));
     
                 // Atualiza os estados de forma eficiente no React 18+
-                React.startTransition(() => {
+                //React.startTransition(() => {
                     setStdt(student);
                     setChecked(checkedStudent);
-                });
+                //});
             }
         } catch (error) {
             console.error("Erro ao processar a presença:", error);

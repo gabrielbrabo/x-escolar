@@ -34,7 +34,7 @@ export const ContainerDivs = styled.div`
 
   @media (max-width: 768px) {
     width: 100%;
-    padding: 0;
+    padding: 0px;
     padding-top: 15px;
   }
 `;
@@ -251,6 +251,8 @@ export const PrintButton = styled.button`
 `;
 
 export const LegendBox = styled.div`
+  //display: grid;
+  //flex-direction: column;
   max-width: 400px;
   background-color: #fff;
   border-radius: 5px;
@@ -318,6 +320,8 @@ const GlobalStyle = createGlobalStyle`
   @media print {
     body * {
       visibility: hidden; /* Oculta todos os elementos da página */
+      margin: 0;
+      padding: 0;
     }
 
     #containerDivs, #containerDivs * {
@@ -326,6 +330,7 @@ const GlobalStyle = createGlobalStyle`
     ${ContainerDivs} {
       display: flex;
       justify-content: center;
+      padding-top: 0;
     }
 
     #containerDivs {
@@ -348,6 +353,7 @@ const GlobalStyle = createGlobalStyle`
     ${LegendBox} {
       padding-left: 15px;
       padding-right: 15px;
+      padding-bottom: 5px;
       h3 {
         font-size: 1em;
       }
@@ -402,15 +408,15 @@ const GlobalStyle = createGlobalStyle`
     }
 
     ${DivBimHeader} {
-      font-size: 0.5em;
+      font-size: 0.7em;
     }
     
     ${DivBimCell} {
-      font-size: 0.6em;
+      font-size: 0.7em;
     }
 
     ${SpanNameMatter} { /* Ajuste a margem inferior para evitar quebra de página */
-      font-size: 0.7em;
+      font-size: 0.8em;
     }
 
     ${SpanTotalGrade}, ${SpanAverageGrade}, ${SpanGradeStudent} {

@@ -53,8 +53,8 @@ export function Header({ setMenuIsVisible }) {
                         <a href="/home/school">Home</a>
                         <a href="/employees" className="nav__link">Funcionários</a>
                         <a href="/student" className="nav__link">Alunos</a>
-                        <a href="/class" className="nav__link">Turmas</a>      
-                        <a href="/annual-calendar" className="nav__link">Calendário</a>              
+                        <a href="/class" className="nav__link">Turmas</a>
+                        <a href="/annual-calendar" className="nav__link">Calendário</a>
                         <a href="/matter" className="nav__link">Componentes curriculares</a>
                     </nav>
                 )}
@@ -63,8 +63,8 @@ export function Header({ setMenuIsVisible }) {
                         <a href="/home/school">Home</a>
                         <a href="/employees" className="nav__link">Funcionários</a>
                         <a href="/student" className="nav__link">Alunos</a>
-                        <a href="/class" className="nav__link">Turmas</a>      
-                        <a href="/annual-calendar" className="nav__link">Calendário</a>              
+                        <a href="/class" className="nav__link">Turmas</a>
+                        <a href="/annual-calendar" className="nav__link">Calendário</a>
                         <a href="/matter" className="nav__link">Componentes curriculares</a>
                     </nav>
                 )}
@@ -74,7 +74,7 @@ export function Header({ setMenuIsVisible }) {
                         <a href="/myclasses" className="nav__link">Minhas Turmas</a>
                         <a href="/annual-calendar" className="nav__link">Calendário</a>
                         <a href="/matter" className="nav__link">Componentes curriculares</a>
-                        
+
                     </nav>
                 )}
             </section>
@@ -88,11 +88,11 @@ export function Header({ setMenuIsVisible }) {
                             <Span>{school}</Span>
                         </ProfileInfo>
                     </Pro>
-                    <DivButtomEdit>
-                        <Btt02 onClick={handleLogout}>Sair</Btt02>
-                    </DivButtomEdit>
                 </EmployeeInfo>
             </Emp>
+            <DivButtomEdit>
+                <Btt02 onClick={handleLogout}>Sair</Btt02>
+            </DivButtomEdit>
             <section>
                 <RiMenu3Fill color="black" style={{ strokeWidth: '1px' }} onClick={() => setMenuIsVisible(true)} className="mobile-icon" />
             </section>

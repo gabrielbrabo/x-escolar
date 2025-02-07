@@ -213,6 +213,7 @@ const EmployeeInformation = () => {
     //const nameEmployee = sessionStorage.getItem("name")
     console.log("clas", matter)
     console.log('posi', Clss)
+    console.log('employee', employee)
 
     return (
         <Container>
@@ -232,8 +233,12 @@ const EmployeeInformation = () => {
                                     < ProfileInfo>
                                         <Span>{emp.name}</Span>
                                         <Span>{emp.position_at_school}</Span>
-                                        <Span>CPF: {emp.cpf}</Span>
                                         <Span>{school}</Span>
+                                        <Span>Cerlular: {emp.cellPhone}</Span>
+                                        <Span>Email: {emp.email}</Span>
+                                        <Span>CPF: {emp.cpf}</Span>
+                                        <Span>Nascimento: {new Date(emp.dateOfBirth + "T00:00:00").toLocaleDateString('pt-BR')}</Span>
+                                        <Span>Endereço: {emp.address}</Span>
                                     </ProfileInfo>
                                 </Pro>
                                 <DivButtomEdit>

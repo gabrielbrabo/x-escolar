@@ -57,10 +57,12 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
               <Span>{school}</Span>
             </ProfileInfo>
           </Pro>
-          <DivButtomEdit>
-            <Btt02 onClick={handleLogout}>Sair</Btt02>
-          </DivButtomEdit>
         </EmployeeInfo>
+        <DivButtomEdit>
+          <Btt02 onClick={handleLogout}>Sair</Btt02>
+        </DivButtomEdit>
+        <p>^</p>
+        <p>Perfil</p>
       </Emp>
       {positionAtSchool === 'DIRETOR/SUPERVISOR' && (
         <nav>

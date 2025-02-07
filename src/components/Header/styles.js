@@ -46,7 +46,7 @@ export const Container = styled.header`
 
     nav {
       display: flex;
-      gap: 2rem;
+      gap: 1.8rem;
 
       a {
         color: #007fff;
@@ -104,10 +104,10 @@ export const Container = styled.header`
 
 export const Emp = styled.div`
   //border-radius: 8px;
-  min-width: 300px;
+  min-width: 250px;
   align-items: center;
   padding: 5px;
-
+  margin-right: 10px;
   border: 2px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -173,10 +173,13 @@ export const Span = styled.span`
 export const DivButtomEdit = styled.div`
   display:flex;
   justify-content: flex-end;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 export const Btt02 = styled.button`
-background: #2E332E;
+background: transparent;
   color: white;
   border: none;
   border-radius: 5px;

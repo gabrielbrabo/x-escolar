@@ -90,8 +90,9 @@ const TableBody = styled.tbody`
   }
 
   & .name-cell {
+      text-align: start;
       font-size: 0.8em;
-    }
+  }
 
   & .presence {
     font-size: 0.8em;
@@ -148,9 +149,8 @@ export const SignMessageButtonTextBold = styled.span`
 
 const PrintStyle = styled.div`
   @media print {
-    body { /* Ajuste conforme necessário */
-      margin: 0;
-      padding: 0;
+    body *{
+      display: none; /* Oculta todos os elementos da página */
     }
 
     
@@ -166,6 +166,13 @@ const PrintStyle = styled.div`
       //transform: scale(1); /* Ajusta a escala da tabela */
     }
 
+    ${AttendanceContainer} {
+      //position: absolute;
+      width: 100%; /* Certifique-se de que ocupa toda a largura */
+      height: auto; /* Permite o ajuste automático da altura */
+      box-sizing: border-box; /* Inclui o padding e a borda na largura total */
+    }
+
     ${ContTable} {
       overflow-x: hidden; /* Permite rolagem horizontal */
       width: max-content; /* Garante que a tabela ocupe a largura do conteúdo */
@@ -179,9 +186,6 @@ const PrintStyle = styled.div`
       //page-break-inside: avoid;
       font-size: 8px;
       padding: 1px;
-    }
-    tr {
-      //page-break-inside: avoid; /* Evita quebras dentro de linhas da tabela */
     }
 
     @page {
@@ -352,20 +356,85 @@ export default function AttendanceList() {
     navigate(-1);
   };
 
+  const handlePrint = () => {
+    const printContent = document.getElementById("printable-content");
+
+    if (printContent) {
+      const printWindow = window.open("", "_blank");
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Impressão</title>
+            <style>
+              body { font-family: Arial, sans-serif; margin: 20px; }
+              table { width: 100%; border-collapse: collapse; }
+              th, td { text-align: center;
+                border: 1px solid #ddd;
+                font-size: 8px;
+                padding: 1px; 
+              }
+                .name-cell {
+                    text-align: start;
+                }
+              @page {
+                size: A4 landscape; /* Define o formato da página como paisagem */
+                margin: 0;
+              }  
+              ContTable {
+                overflow-x: hidden; /* Permite rolagem horizontal */
+                width: max-content; /* Garante que a tabela ocupe a largura do conteúdo */
+                margin-left: auto; /* Centraliza horizontalmente */
+                margin-right: auto; /* Centraliza horizontalmente */
+              }
+                .printable-content {
+                  visibility: visible; /* Exibe apenas o conteúdo dentro desta classe */
+                  font-size: 15px;
+                  //transform: scale(1); /* Ajusta a escala da tabela */
+                }
+              .data {
+                display: flex;
+                gap:15px;
+              }
+              .info {
+                display: flex;
+                flex-direction: column;
+              }
+                .no-print {
+                  display: none !important;
+                }
+            </style>
+          </head>
+          <body>
+            ${printContent.innerHTML} 
+          </body>
+        </html>
+      `);
+
+      printWindow.document.close();
+
+      // Força um pequeno delay antes de chamar print()
+      setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+      }, 500);
+    }
+  };
+
+
   return (
     <PrintStyle>
       {loading ? (
         <LoadingSpinner />
       ) : (
-        <AttendanceContainer className="printable-content">
+        <AttendanceContainer id="printable-content" className="printable-content">
           <h2>Lista de Presença do {bimonthlyDaily}</h2>
-          <DataBimonthly>
+          <DataBimonthly className="data">
             <span><strong>Inicio:</strong> {startd}/{startm}/{starty}</span>
             <span><strong>Término:</strong> {endd}/{endm}/{endy}</span>
           </DataBimonthly>
-          <ContInfo>
+          <ContInfo className="info">
             <CtnrBtt>
-              <Button className="no-print" onClick={() => window.print()}>Imprimir</Button>
+              <Button className="no-print" onClick={handlePrint}>Imprimir</Button>
             </CtnrBtt>
             <span><strong>Professor:</strong> {nameTeacher}</span>
             <span><strong>Turma:</strong> {nameClass}</span>
@@ -385,21 +454,23 @@ export default function AttendanceList() {
                 </tr>
               </TableHeader>
               <TableBody>
-                {stdt.map((student) => {
-                  const totals = calculateTotals(student._id);
-                  return (
-                    <tr key={student._id}>
-                      <td className="name-cell">{student.name}</td>
-                      {uniqueDates.map((date) => getAttendanceStatus(student._id, date))}
-                      <td className="total-presence">{totals.totalPresence}</td>
-                      <td className="total-absence">{totals.totalAbsence}</td>
-                    </tr>
-                  );
-                })}
+                {stdt
+                  .sort((a, b) => a.name.localeCompare(b.name)) // Ordena alfabeticamente
+                  .map((student) => {
+                    const totals = calculateTotals(student._id);
+                    return (
+                      <tr key={student._id}>
+                        <td className="name-cell">{student.name}</td>
+                        {uniqueDates.map((date) => getAttendanceStatus(student._id, date))}
+                        <td className="total-presence">{totals.totalPresence}</td>
+                        <td className="total-absence">{totals.totalAbsence}</td>
+                      </tr>
+                    );
+                  })}
               </TableBody>
             </Table>
           </ContTable>
-          <ToGoBack onClick={messageButtonClick}>
+          <ToGoBack onClick={messageButtonClick} className="no-print">
             <SignMessageButtonText>Voltar para o</SignMessageButtonText>
             <SignMessageButtonTextBold>Perfil do Professor</SignMessageButtonTextBold>
           </ToGoBack>

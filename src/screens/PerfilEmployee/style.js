@@ -21,7 +21,7 @@ export const Container = styled.div`
 `;
 
 export const Emp = styled.div`
-  width: 92%;
+  width: 99%;
   min-height: 150px;
   max-width: 1000px;
   background-color: #f9f9f9;
@@ -34,15 +34,15 @@ export const Emp = styled.div`
   }
 
   @media (max-width: 768px) {
-    padding: 15px;
-    max-width: 100%;
+    padding: 10px;
   }
 `;
 
 export const EmployeeInfo = styled.div`
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  //align-items: center;
 `;
 
 export const Pro = styled.div`
@@ -65,11 +65,11 @@ export const ProfilePhoto = styled.div`
 
 export const ProfileInfo = styled.div`
   display: flex;
-  max-width: 420px;
+  width: 100%;
   flex-direction: column;
   overflow: hidden;
 
-  @media (max-width: 820px) {
+  /*@media (max-width: 820px) {
     max-width: 350px;
   }
 
@@ -79,18 +79,18 @@ export const ProfileInfo = styled.div`
 
   @media (max-width: 350px) {
     max-width: 142px;
-  }
+  }*/
 `;
 
 export const DivButtomEdit = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
   gap: 30px;
 `;
 
 export const DivInfo = styled.div`
-  width: 92%;
+  width: 99%;
   max-width: 1000px;
   min-height: 120px;
   background-color: #fff;
@@ -104,8 +104,7 @@ export const DivInfo = styled.div`
   }
 
   @media (max-width: 768px) {
-    padding: 15px;
-    max-width: 100%;
+    padding: 10px;
   }
 `;
 
@@ -281,7 +280,7 @@ export const Button = styled.button`
     font-size: 14px;
   }
 `;
-export const ButtonRemove= styled.button`
+export const ButtonRemove = styled.button`
   width: 100%;
   padding: 15px;
   background-color: #d9534f;
@@ -325,13 +324,19 @@ export const Input = styled.div`
   padding-left: 15px;
   padding-right: 15px;
   padding-bottom: 15px;
-  width: 93%;
+  width: 100%;
   margin-top: 30px;
   margin-bottom: 30px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 99%;
+  }
 `;
 
 export const ErrorMessage = styled.div`

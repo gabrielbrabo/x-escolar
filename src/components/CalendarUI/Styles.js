@@ -6,14 +6,20 @@ export const StyledContainer = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: #f5f5f5;
-  padding: 5px;
-  margin-top: 20px;
+  padding: 15px;
+  //margin-top: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
   max-width: 1000px;
 
   h3 {
     margin: 0px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 5px;
+    width: 97%;
   }
 `;
 
