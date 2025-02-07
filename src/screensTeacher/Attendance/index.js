@@ -254,10 +254,9 @@ const IndexAttendance = () => {
     
                 // Atualiza os estados de forma eficiente no React 18+
                 //React.startTransition(() => {
-                    if(attRealizedSet && student){
-                        setStdt(student);
-                        setChecked(checkedStudent); 
-                    }
+                    setStdt(student);
+                    setChecked(checkedStudent);
+                    window.reload.location()
                     
                 //});
             }
