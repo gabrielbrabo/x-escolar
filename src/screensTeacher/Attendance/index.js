@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useCallback } from 'react';
 //import { useNavigate } from 'react-router-dom'
 import {
     clssInfo,
@@ -235,49 +236,53 @@ const IndexAttendance = () => {
     useEffect(() => {
         console.log("renderKey mudou, força re-render");
     }, [renderKey]); // Dependência no renderKey para forçar re-render
-    
-    const handleAttendance = async (stdt, status) => {
-        try {
-            setLoading(true);
-            const id_student = stdt._id;
 
-            // Dispara todas as requisições ao mesmo tempo
-            const [resAttendance, resAtt, resClass] = await Promise.allSettled([
-                Attendance(day, month, year, status, id_student, id_teacher, id_class),
-                GetAttendanceFinalized({ month, year, day, id_class: id_class.trim(), id_teacher: id_teacher.trim() }),
-                clssInfo(id_class)
-            ]);
+const handleAttendance = useCallback(async (stdt, status) => {
+    try {
+        setLoading(true);
+        const id_student = stdt._id;
 
-            // Verifica se a requisição de presença foi bem-sucedida
-            if (resAttendance.status === "fulfilled" && resAttendance.value) {
-                const checkedStudent = (resAtt.status === "fulfilled" && resAtt.value?.data?.data) ? resAtt.value.data.data : [];
-                const classInfo = (resClass.status === "fulfilled" && resClass.value?.data?.data) ? resClass.value.data.data : [];
+        // Dispara todas as requisições ao mesmo tempo
+        const [resAttendance, resAtt, resClass] = await Promise.allSettled([
+            Attendance(day, month, year, status, id_student, id_teacher, id_class),
+            GetAttendanceFinalized({ month, year, day, id_class: id_class.trim(), id_teacher: id_teacher.trim() }),
+            clssInfo(id_class)
+        ]);
 
-                if (!Array.isArray(checkedStudent) || !Array.isArray(classInfo)) {
-                    throw new Error("Dados inválidos recebidos da API");
-                }
+        if (resAttendance.status === "fulfilled" && resAttendance.value) {
+            const checkedStudent = (resAtt.status === "fulfilled" && resAtt.value?.data?.data) ? resAtt.value.data.data : [];
+            const classInfo = (resClass.status === "fulfilled" && resClass.value?.data?.data) ? resClass.value.data.data : [];
 
-                // Converte os alunos já chamados em um conjunto para busca rápida
-                const attRealizedSet = new Set(checkedStudent.map(res => res.id_student?._id).filter(Boolean));
-
-                // Filtra os alunos que ainda não foram chamados
-                const student = classInfo.length > 0
-                    ? classInfo[0].id_student?.filter(studentId => studentId?._id && !attRealizedSet.has(studentId._id)) || []
-                    : [];
-
-                // Atualiza os estados de forma segura
-                setStdt([...student]);
-                setChecked([...checkedStudent]);
-
-                // Atualiza o renderKey para forçar re-render
-                setRenderKey(prevKey => prevKey + 1);
+            if (!Array.isArray(checkedStudent) || !Array.isArray(classInfo)) {
+                throw new Error("Dados inválidos recebidos da API");
             }
-        } catch (error) {
-            console.error("Erro ao processar a presença:", error);
-        } finally {
-            setLoading(false);
+
+            // Converte os alunos já chamados em um conjunto para busca rápida
+            const attRealizedSet = new Set(checkedStudent.map(res => res.id_student?._id).filter(Boolean));
+
+            // Filtra os alunos que ainda não foram chamados
+            const student = classInfo.length > 0
+                ? classInfo[0].id_student?.filter(studentId => studentId?._id && !attRealizedSet.has(studentId._id)) || []
+                : [];
+
+            // Evitar renderização desnecessária
+            if (JSON.stringify(stdt) !== JSON.stringify(student)) {
+                setStdt([...student]); // Atualiza a lista de alunos não chamados
+            }
+
+            if (JSON.stringify(checkedStudent) !== JSON.stringify(checked)) {
+                setChecked([...checkedStudent]); // Atualiza a lista de alunos chamados
+            }
+
+            // Atualiza o renderKey para forçar re-render
+            setRenderKey(prevKey => prevKey + 1);
         }
-    };
+    } catch (error) {
+        console.error("Erro ao processar a presença:", error);
+    } finally {
+        setLoading(false);
+    }
+}, [checked, day, id_class, id_teacher, month, year]); // O uso de `useCallback` para otimizar a função
 
 
 
