@@ -64,6 +64,8 @@ const IndexAttendance = () => {
     const [Status, setStatus] = useState('');
     const [loading, setLoading] = useState(false);
 
+    const [renderKey, setRenderKey] = useState(0);
+
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -229,38 +231,46 @@ const IndexAttendance = () => {
         }
         setLoading(false)
     }
+
+    useEffect(() => {
+        console.log("renderKey mudou, força re-render");
+    }, [renderKey]); // Dependência no renderKey para forçar re-render
+    
     const handleAttendance = async (stdt, status) => {
         try {
             setLoading(true);
             const id_student = stdt._id;
-    
+
             // Dispara todas as requisições ao mesmo tempo
             const [resAttendance, resAtt, resClass] = await Promise.allSettled([
                 Attendance(day, month, year, status, id_student, id_teacher, id_class),
                 GetAttendanceFinalized({ month, year, day, id_class: id_class.trim(), id_teacher: id_teacher.trim() }),
                 clssInfo(id_class)
             ]);
-    
+
             // Verifica se a requisição de presença foi bem-sucedida
             if (resAttendance.status === "fulfilled" && resAttendance.value) {
                 const checkedStudent = (resAtt.status === "fulfilled" && resAtt.value?.data?.data) ? resAtt.value.data.data : [];
                 const classInfo = (resClass.status === "fulfilled" && resClass.value?.data?.data) ? resClass.value.data.data : [];
-    
+
                 if (!Array.isArray(checkedStudent) || !Array.isArray(classInfo)) {
                     throw new Error("Dados inválidos recebidos da API");
                 }
-    
+
                 // Converte os alunos já chamados em um conjunto para busca rápida
                 const attRealizedSet = new Set(checkedStudent.map(res => res.id_student?._id).filter(Boolean));
-    
+
                 // Filtra os alunos que ainda não foram chamados
-                const student = classInfo.length > 0 
+                const student = classInfo.length > 0
                     ? classInfo[0].id_student?.filter(studentId => studentId?._id && !attRealizedSet.has(studentId._id)) || []
                     : [];
-    
+
                 // Atualiza os estados de forma segura
                 setStdt([...student]);
                 setChecked([...checkedStudent]);
+
+                // Atualiza o renderKey para forçar re-render
+                setRenderKey(prevKey => prevKey + 1);
             }
         } catch (error) {
             console.error("Erro ao processar a presença:", error);
@@ -268,9 +278,9 @@ const IndexAttendance = () => {
             setLoading(false);
         }
     };
-    
-    
-    
+
+
+
     const handlePresenceClick = (stdt) => handleAttendance(stdt, 'p');
     const handleAbsenceClick = (stdt) => handleAttendance(stdt, 'f');
 
