@@ -239,8 +239,6 @@ const IndexAttendance = () => {
     const handleAttendance = async (stdt, status) => {
         try {
             setLoading(true);
-            setStdt([]);
-            setChecked([]);
             const id_student = stdt._id;
 
             // Dispara todas as requisições ao mesmo tempo
