@@ -64,8 +64,6 @@ const IndexAttendance = () => {
     const [Status, setStatus] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const [renderKey, setRenderKey] = useState(0);
-
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -232,10 +230,6 @@ const IndexAttendance = () => {
         setLoading(false)
     }
 
-    useEffect(() => {
-        console.log("renderKey mudou, força re-render");
-    }, [renderKey]); // Dependência no renderKey para forçar re-render
-
     const handleAttendance = async (stdt, status) => {
         try {
             setLoading(true);
@@ -272,8 +266,6 @@ const IndexAttendance = () => {
                 setStdt(student);
                 setChecked(checkedStudent);
 
-                // Atualiza o renderKey para forçar re-render
-                setRenderKey(prevKey => prevKey + 1);
             } else {
                 window.location.reload()
             }
