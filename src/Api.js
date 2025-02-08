@@ -1352,12 +1352,10 @@ export const DestroyStudent = async (
 }
 
 export const DestroyAttendance = async (
-    idAttendance
+    idAttendances
 ) => {
 
-    return api.post(`/destroy/frequency`, {
-        idAttendance
-    })
+    return api.post(`/destroy/frequency`, idAttendances)
 
         .catch((error) => {
             if (error) {
@@ -1873,6 +1871,7 @@ export const GetAttendanceFinalized = async (
         year,
         day,
         id_class,
+        id_teacher
     })
 
         .catch((error) => {
@@ -1887,35 +1886,84 @@ export const GetAttendanceFinalized = async (
 }
 
 export const Attendance = async (
-    day,
-    month,
-    year,
-    status,
-    id_student,
-    id_teacher,
-    id_class,
+    attendanceData
 ) => {
 
-    return api.post(`/attendance`, {
-        day,
-        month,
-        year,
-        status,
-        id_student,
-        id_teacher,
-        id_class,
-    })
+    return api.post(`/attendance`, attendanceData)
 
         .catch((error) => {
             if (error) {
-                /*const result = JSON.stringify(
+                const result = JSON.stringify(
                     error.response.data.msg
-                )*/
-                //alert(result)
+                )
+                alert(result)
                 // window.location.reload()
             }
         }, [])
 }
+
+export const TestAttendance = async (
+    attendanceData
+) => {
+
+    return api.post(`/test-attendance`, attendanceData)
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const TestDestroyAttendance = async (
+    idAttendances
+) => {
+
+    return api.post(`/test-destroy`, idAttendances)
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const testGetAttendanceFinalized = async (
+    month,
+    year,
+    day,
+    id_class,
+    id_teacher
+) => {
+    console.log("Dados enviados para o backend:", { month, year, day, id_class, id_teacher }); // Adicione este log
+
+    return api.post(`/test-index`, {
+        month,
+        year,
+        day,
+        id_class,
+        id_teacher
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
 export const updateAttendance = async (
     update_attendance,
     update_status

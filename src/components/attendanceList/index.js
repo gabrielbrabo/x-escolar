@@ -368,11 +368,15 @@ export default function AttendanceList() {
             <style>
               body { font-family: Arial, sans-serif; margin: 20px; }
               table { width: 100%; border-collapse: collapse; }
-              th, td { text-align: center;
+              th, td { 
+                text-align: center;
                 border: 1px solid #ddd;
                 font-size: 8px;
                 padding: 1px; 
               }
+                tr {
+                  
+                }
                 .name-cell {
                     text-align: start;
                 }
@@ -419,7 +423,7 @@ export default function AttendanceList() {
       }, 500);
     }
   };
-
+console.log("attendanceData", attendanceData)
 
   return (
     <PrintStyle>
