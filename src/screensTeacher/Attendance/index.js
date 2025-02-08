@@ -262,10 +262,10 @@ const IndexAttendance = () => {
                 setStdt(student);
                 setChecked(checkedStudent);
 
-            } else {
+            } /*else {
                 window.location.reload()
-            }
-            //window.location.reload()
+            }*/
+            window.location.reload()
         } catch (error) {
             console.error("Erro ao processar a presença:", error);
         } finally {
