@@ -262,9 +262,9 @@ const IndexAttendance = () => {
                 setStdt(student);
                 setChecked(checkedStudent);
 
-            } /*else {
+            } else {
                 window.location.reload()
-            }*/
+            }
             window.location.reload()
         } catch (error) {
             console.error("Erro ao processar a presença:", error);
@@ -295,6 +295,7 @@ const IndexAttendance = () => {
     };
 
     const Destroy = async () => {
+        setLoading(true);
         const idAttendance = Student
         console.log("checkedStdt", idAttendance)
         const res = await DestroyAttendance(idAttendance)
