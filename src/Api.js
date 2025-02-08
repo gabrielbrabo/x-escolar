@@ -1908,10 +1908,10 @@ export const Attendance = async (
 
         .catch((error) => {
             if (error) {
-                const result = JSON.stringify(
+                /*const result = JSON.stringify(
                     error.response.data.msg
-                )
-                alert(result)
+                )*/
+                //alert(result)
                 // window.location.reload()
             }
         }, [])

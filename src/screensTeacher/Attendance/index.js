@@ -241,10 +241,6 @@ const IndexAttendance = () => {
                 GetAttendanceFinalized({ month, year, day, id_class: id_class.trim(), id_teacher: id_teacher.trim() }),
                 clssInfo(id_class)
             ]);
-
-            if(!resAttendance) {
-                console.log("res Attendance", resAttendance)
-            }
             // Verifica se a requisição de presença foi bem-sucedida
             if (resAttendance.status === "fulfilled" && resAttendance.value) {
                 const checkedStudent = (resAtt.status === "fulfilled" && resAtt.value?.data?.data) ? resAtt.value.data.data : [];
