@@ -309,7 +309,7 @@ const IndexAttendance = () => {
                         && (
                             open === 'aberto' ? (
                                 <ContainerStudent>
-                                    <h2>Chamada test</h2>
+                                    <h2>Chamada</h2>
                                     <DataSelected>
                                         {/*<p>Disciplina: {Namematter}</p>*/}
                                         <p style={{ color: "#158fa2" }}>Data: {day}/{month}/{year}</p>
