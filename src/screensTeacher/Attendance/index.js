@@ -248,6 +248,9 @@ const IndexAttendance = () => {
                 clssInfo(id_class)
             ]);
 
+            if(!resAttendance) {
+                console.log("res Attendance", resAttendance)
+            }
             // Verifica se a requisição de presença foi bem-sucedida
             if (resAttendance.status === "fulfilled" && resAttendance.value) {
                 const checkedStudent = (resAtt.status === "fulfilled" && resAtt.value?.data?.data) ? resAtt.value.data.data : [];
@@ -271,6 +274,8 @@ const IndexAttendance = () => {
 
                 // Atualiza o renderKey para forçar re-render
                 setRenderKey(prevKey => prevKey + 1);
+            } else {
+                window.location.reload()
             }
             //window.location.reload()
         } catch (error) {
