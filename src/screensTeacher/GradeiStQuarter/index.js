@@ -27,6 +27,8 @@ import {
 } from '../../components/Inputs'
 import LoadingSpinner from '../../components/Loading'
 
+import { SlActionUndo } from "react-icons/sl";
+
 const IndexAttendance = () => {
 
     const navigate = useNavigate()
@@ -190,6 +192,10 @@ const IndexAttendance = () => {
         navigate(-2);
     }
 
+    const Return = () => {
+        navigate(-2)
+    };
+
     return (
         <Container>
             {loading ?
@@ -200,6 +206,7 @@ const IndexAttendance = () => {
                     {open === 'aberto' ? (
                         <ContainerStudent>
                             <DataSelected>
+                                <SlActionUndo fontSize={'30px'} onClick={Return} />
                                 <Info>
                                     <p>Bimestre: 1º Bimestre</p>
                                     <p>Disciplina: {Namematter}</p>

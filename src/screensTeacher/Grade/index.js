@@ -192,7 +192,7 @@ const Grade = () => {
                             </Select>
                         </Input>
                         <Input>
-                            <Label>Materia</Label>
+                            <Label>Disciplina</Label>
                             <Select
                                 id="id-matter"
                                 value={Selectmatter}

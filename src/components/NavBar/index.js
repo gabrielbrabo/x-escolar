@@ -13,6 +13,8 @@ import {
   Btt02,
 } from './styles';
 
+import { TiArrowSortedUp } from "react-icons/ti";
+
 export function NavBar({ menuIsVisible, setMenuIsVisible }) {
 
   const [positionAtSchool, setPositionAtSchool] = useState(null);
@@ -61,7 +63,7 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
         <DivButtomEdit>
           <Btt02 onClick={handleLogout}>Sair</Btt02>
         </DivButtomEdit>
-        <p>^</p>
+        <TiArrowSortedUp />
         <p>Perfil</p>
       </Emp>
       {positionAtSchool === 'DIRETOR/SUPERVISOR' && (

@@ -111,7 +111,7 @@ const Form = () => {
                                 }}
                                 value={description}
                                 onChange={setDescription}
-                                placeholder="Fincha Individual da Aluno"
+                                placeholder="Ficha Individual da Aluno"
                             />
                         </StyledQuillContainer>
                         {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}

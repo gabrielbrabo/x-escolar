@@ -32,9 +32,12 @@ import {
     ToGoBack,
     SignMessageButtonTextBold,
     SignMessageButtonText,
-    ContainerDelet
+    ContainerDelet,
+    DivButton
 } from './style';
 import LoadingSpinner from '../../components/Loading';
+
+import { SlActionUndo } from "react-icons/sl";
 
 const Grade = () => {
     const navigate = useNavigate();
@@ -232,13 +235,17 @@ const Grade = () => {
     };
     const Destroy = async () => {
         const res = await DestroyClass(IdClass)
-        if(res){
-            window.location.reload()     
+        if (res) {
+            window.location.reload()
         }
     };
 
     const messageButtonClick = () => {
         navigate(-1);
+    };
+
+    const Return = () => {
+        navigate(-1)
     };
 
     return (
@@ -251,7 +258,10 @@ const Grade = () => {
                         !RemoveClass &&
                         <StudentSection>
                             <h2>Registros de Aulas Lecionadas</h2>
-                            <Button onClick={handlePrint} style={{ marginBottom: '15px' }}>Imprimir</Button>
+                            <DivButton>
+                                <SlActionUndo fontSize={'30px'} onClick={Return} />
+                                <Button onClick={handlePrint} style={{ marginBottom: '15px' }}>Imprimir</Button>
+                            </DivButton>
                             <Table>
                                 <>
                                     {//isTeacher === id_employee && (

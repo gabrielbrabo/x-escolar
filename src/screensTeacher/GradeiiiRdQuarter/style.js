@@ -24,15 +24,20 @@ export const ContainerStudent = styled.div`
     align-items: center;
     flex-direction: column;
     max-width: 1000px;
-    padding: 5px;
+    padding: 20px;
     gap: 15px;
     border-radius: 5px;
     background-color: #f9f9f9;
+
+    @media(max-width: 768px) {
+      padding: 10px;
+    }
 `;
 export const DataSelected = styled.div`
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     width: 100%;
+    //padding-right: 20px;
 
     @media(max-width: 768px) {
         flex-direction: column;

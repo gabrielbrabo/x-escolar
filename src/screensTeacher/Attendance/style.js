@@ -41,11 +41,12 @@ export const DataSelected = styled.div`
 export const DivButton = styled.div`
     width: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    //align-items: flex-start;
     gap: 20px;
 
     @media(max-width: 768px) {
-        align-items: center;
+        //align-items: flex-start;
     }
 `;
 

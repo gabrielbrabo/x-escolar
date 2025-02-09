@@ -83,6 +83,12 @@ export const Emp = styled.div`
     height: 10px;
     font-size: 13px;
   }
+
+  svg{
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
   
 `;
 

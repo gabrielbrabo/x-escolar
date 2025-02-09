@@ -416,3 +416,15 @@ export const SignMessageButtonTextBold = styled.span`
     font-size: 14px;
   }
 `;
+
+export const DivButton = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    //align-items: flex-start;
+    gap: 20px;
+
+    @media(max-width: 768px) {
+        //align-items: flex-start;
+    }
+`;

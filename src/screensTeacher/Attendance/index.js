@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-//import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
     clssInfo,
     GetAttendanceFinalized,
@@ -42,9 +42,11 @@ import {
 } from '../../components/Inputs'
 import LoadingSpinner from '../../components/LoadingFrequence'
 
+import { SlActionUndo } from "react-icons/sl";
+
 const IndexAttendance = () => {
 
-    //const navigate = useNavigate()
+    const navigate = useNavigate()
     //const [matter, setMatter] = useState([])
     //const [Namematter, setNameMatter] = useState([])
     const [open, setopen] = useState('aberto')
@@ -273,6 +275,10 @@ const IndexAttendance = () => {
             window.location.reload()
         }
     };
+    
+    const Return = () => {
+        navigate(-1)
+    };
 
     //console.log("checked", checked)
     //console.log("RemoveAttendanceList", RemoveAttendanceList)
@@ -310,16 +316,16 @@ const IndexAttendance = () => {
                             open === 'aberto' ? (
                                 <ContainerStudent>
                                     <h2>Chamada</h2>
-                                    <DataSelected>
-                                        {/*<p>Disciplina: {Namematter}</p>*/}
-                                        <p style={{ color: "#158fa2" }}>Data: {day}/{month}/{year}</p>
-                                    </DataSelected>
                                     <DivButton>
-                                        
+                                        <SlActionUndo fontSize={'30px'} onClick={Return}/>
                                         <Btt02 onClick={clickRemovedate}>
                                             Selecionar outra data
                                         </Btt02>
                                     </DivButton>
+                                    <DataSelected>
+                                        {/*<p>Disciplina: {Namematter}</p>*/}
+                                        <p style={{ color: "#158fa2" }}>Data: {day}/{month}/{year}</p>
+                                    </DataSelected>
                                     {checked.length === 0 && RemoveAttendanceList.length === 0 &&
                                         <List>
 

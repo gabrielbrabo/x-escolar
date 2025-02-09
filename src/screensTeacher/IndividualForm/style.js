@@ -19,7 +19,6 @@ export const Container = styled.div`
 export const ContainerDivs = styled.div`
     width: 100%;
     max-width: 1000px; /* Limita a largura do conteúdo */
-    margin: 0 auto; /* Centraliza o conteúdo */
     padding: 20px;
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -29,7 +28,14 @@ export const ContainerDivs = styled.div`
     /* Para garantir que o conteúdo fique centralizado em telas maiores */
     display: flex;
     flex-direction: column;
-    align-items: center;
+    text-align: center;
+    //align-items: center;
+
+    svg {
+        //width: 100%;
+      display: flex;
+      align-items: center;
+    }
     
     @media (max-width: 1024px) {
         width: 90%; /* A largura será 90% da tela em dispositivos menores */

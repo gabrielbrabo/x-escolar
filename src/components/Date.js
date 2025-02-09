@@ -53,7 +53,7 @@ const SaveButton = styled.button`
 `;
 
 const ResponsivePickers = ({ setSelectedDate, setDay, setMonth, setYear }) => {
-    const [selected, setSelected] = React.useState(null);
+    const [selected, setSelected] = React.useState(dayjs());
 
     const handleChange = (date) => {
         // Atualiza a data selecionada

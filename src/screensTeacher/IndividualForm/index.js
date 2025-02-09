@@ -29,6 +29,9 @@ import {
 
 import LoadingSpinner from '../../components/Loading';
 
+import { TiArrowSortedDown } from "react-icons/ti";
+import { SlActionUndo } from "react-icons/sl";
+
 const IndividualForm = () => {
     const navigate = useNavigate();
     const [open, setopen] = useState()
@@ -75,10 +78,12 @@ const IndividualForm = () => {
     }, [year, id_class]);
 
     useEffect(() => {
-        // Carrega dados específicos após a seleção do bimestre
         const loadIndividualFormData = async () => {
+            setLoading(true);
             if (!Selectbimonthly) return;
-            setopen(Selectbimonthly.statusSupervisor)
+
+            setopen(Selectbimonthly.statusSupervisor);
+
             const bimestreMapping = {
                 "1º BIMESTRE": "id_iStQuarter",
                 "2º BIMESTRE": "id_iiNdQuarter",
@@ -87,9 +92,11 @@ const IndividualForm = () => {
                 "5º BIMESTRE": "id_vThQuarter",
                 "6º BIMESTRE": "id_viThQuarter",
             };
+
             const quarterIdKey = bimestreMapping[Selectbimonthly.bimonthly];
-            console.log('quarterIdKey', quarterIdKey)
-            console.log('Selectbimonthly', Selectbimonthly)
+            console.log('quarterIdKey', quarterIdKey);
+            console.log('Selectbimonthly', Selectbimonthly);
+
             if (quarterIdKey) {
                 try {
                     const idQuarter = Selectbimonthly._id;
@@ -101,37 +108,32 @@ const IndividualForm = () => {
                     });
 
                     console.log("individual form", res);
-                    const GradeRealized = res.data.map(res => {
-                        if (res) {
-                            return res.id_student._id
-                        } else {
-                            return []
-                        }
-                    });
+                    const GradeRealized = res.data.map(res => res?.id_student?._id || []);
+
                     const resClass = await clssInfo(id_class);
                     console.log("individual GradeRealized", GradeRealized);
-                    const student = resClass.data.data.find(res => res)?.id_student
-                        .filter(student => student && !GradeRealized.includes(student._id));
+
+                    const student = resClass.data.data.find(res => res)
+                        ?.id_student.filter(student => student && !GradeRealized.includes(student._id));
 
                     setStdt(student);
+
                     if (res.data) {
-                        const result = res.data.map( res => {
-                            if(res != null){
-                                return res
-                            } else {
-                                return undefined
-                            }
-                        })
-                        return setChecked(result);
+                        const result = res.data.filter(res => res != null);
+                        setChecked(result);
                     }
-                    console.log('resposta back', resClass)
+
+                    console.log('resposta back', resClass);
                     console.log("individual form", res.data);
 
-                    // Salva Selectbimonthly no sessionStorage
                     sessionStorage.setItem("Selectbimonthly", JSON.stringify(Selectbimonthly));
                 } catch (error) {
                     console.error("Erro ao buscar dados:", error);
+                } finally {
+                    setLoading(false); // Garantindo que sempre será executado
                 }
+            } else {
+                setLoading(false); // Se não houver quarterIdKey, evita travamento
             }
         };
 
@@ -162,6 +164,11 @@ const IndividualForm = () => {
     const messageButtonClick = () => {
         navigate(-1);
     };
+
+    const Return = () => {
+        navigate(-1)
+    };
+    
     console.log("open", open)
     console.log("stdt", stdt)
     console.log("checked", checked)
@@ -200,7 +207,8 @@ const IndividualForm = () => {
                     {Selectbimonthly && (
                         open === 'aberto' ? (
                             <>
-                                <h3>Click no aluno em que deseja adicionar ficha individual</h3>
+                                <SlActionUndo fontSize={'30px'} onClick={Return} />
+                                <h3>Click no aluno para adicionar a ficha individual</h3>
                                 <List>
                                     {stdt
                                         .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
@@ -214,6 +222,7 @@ const IndividualForm = () => {
                                 </List>
 
                                 <h3>Alunos que já têm ficha individual</h3>
+                                <TiArrowSortedDown fontSize={'30px'} style={{ width: "100%" }} />
                                 {
                                     <List>
                                         {checked

@@ -119,7 +119,7 @@ const Grade = () => {
                                         }}
                                         value={description}
                                         onChange={setDescription}
-                                        placeholder="Fincha Individual da Aluno"
+                                        placeholder="Descrição da aula lecionada"
                                     />
                                 </StyledQuillContainer>
                                 {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}

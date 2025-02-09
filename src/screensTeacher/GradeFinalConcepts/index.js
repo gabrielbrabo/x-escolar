@@ -40,6 +40,8 @@ import {
 } from '../../components/Inputs'
 import LoadingSpinner from '../../components/Loading'
 
+import { SlActionUndo } from "react-icons/sl";
+
 const Finalconcepts = () => {
 
     const navigate = useNavigate()
@@ -248,6 +250,10 @@ const Finalconcepts = () => {
         navigate(-1);
     }
 
+    const Return = () => {
+        navigate(-1)
+    };
+
     return (
         <Container>
             {loading ?
@@ -260,6 +266,7 @@ const Finalconcepts = () => {
                         <ContainerStudent>
                             {id_matter &&
                                 <DataSelected>
+                                    <SlActionUndo fontSize={'30px'} onClick={Return} />
                                     <Info>
                                         <p>Grade Final</p>
                                         <p>Disciplina: {Namematter}</p>
