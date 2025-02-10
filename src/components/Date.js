@@ -6,6 +6,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
+import "dayjs/locale/pt-br";
 
 dayjs.locale('pt-br');
 dayjs.extend(localizedFormat);
@@ -85,7 +86,7 @@ const ResponsivePickers = ({ setSelectedDate, setDay, setMonth, setYear }) => {
                     <DemoItem>
                         <DesktopDatePicker
                             views={['day', 'month']} // Permite selecionar apenas dia e mês
-                            value={selected}
+                            value={selected || dayjs()}
                             onChange={handleChange}
                             renderInput={(params) => <StyledInput {...params} />}
                             format="DD/MM"
