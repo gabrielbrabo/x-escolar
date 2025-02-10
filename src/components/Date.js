@@ -85,7 +85,7 @@ const ResponsivePickers = ({ setSelectedDate, setDay, setMonth, setYear }) => {
                     <DemoItem>
                         <DesktopDatePicker
                             views={['day', 'month']} // Permite selecionar apenas dia e mês
-                            value={selected || null}
+                            value={selected}
                             onChange={handleChange}
                             renderInput={(params) => <StyledInput {...params} />}
                             format="DD/MM"

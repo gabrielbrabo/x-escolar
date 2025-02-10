@@ -72,7 +72,7 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
           <a href="/employees" className="nav__link">Funcionários</a>
           <a href="/student" className="nav__link">Alunos</a>
           <a href="/class" className="nav__link">Turmas</a>
-          <a href="/annual-calendar" className="nav__link">Calendário</a>
+          <a href="/annual-calendar" className="nav__link">Bimestres</a>
           <a href="/matter" className="nav__link">Componentes curriculares</a>
         </nav>
       )}
@@ -82,7 +82,7 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
           <a href="/employees" className="nav__link">Funcionários</a>
           <a href="/student" className="nav__link">Alunos</a>
           <a href="/class" className="nav__link">Turmas</a>
-          <a href="/annual-calendar" className="nav__link">Calendário</a>
+          <a href="/annual-calendar" className="nav__link">Bimestres</a>
           <a href="/matter" className="nav__link">Componentes curriculares</a>
         </nav>
       )}
@@ -91,7 +91,7 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
           <nav>
             {/*<a href="/home/school">Home</a>*/}
             <a href="/myclasses" className="nav__link">Minhas Turmas</a>
-            <a href="/annual-calendar" className="nav__link">Calendário</a>
+            <a href="/annual-calendar" className="nav__link">Calendário Bimestral</a>
             <a href="/matter" className="nav__link">Componentes curriculares</a>
           </nav>
         </nav>

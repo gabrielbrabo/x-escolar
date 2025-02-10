@@ -280,6 +280,11 @@ const IndexAttendance = () => {
         navigate(-1)
     };
 
+    
+    const allStudentsMarked = stdt.every(stdt => 
+        attendanceList.some(att => att.id_student === stdt._id)
+    );
+
     //console.log("checked", checked)
     //console.log("RemoveAttendanceList", RemoveAttendanceList)
     //console.log("attendanceList", attendanceList)
@@ -363,9 +368,11 @@ const IndexAttendance = () => {
                                                         );
                                                     })
                                             }
-                                            <Btt02 onClick={Finalyze}>
+                                            <Btt02 onClick={Finalyze} disabled={!allStudentsMarked}>
                                                 Finalizar Chamada
                                             </Btt02>
+                                            {!allStudentsMarked && <p style={{ color: "red" }}>Todos os alunos devem ter um status antes de enviar.</p>}
+
                                         </List>
                                     }
                                     {stdt.length === 0 && RemoveAttendanceList.length === 0 &&
