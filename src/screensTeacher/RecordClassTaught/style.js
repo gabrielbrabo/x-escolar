@@ -16,11 +16,10 @@ export const ContainerDivs = styled.div`
 `;
 
 export const Label = styled.label`
-  align-self: flex-start;
+  padding: 10px;
   font-weight: bold;
-  @media (max-width: 768px) {
-    font-size: 14px;
-  }
+  color: wheat;
+  font-size: 20px;
 `;
 
 export const Select = styled.select`
@@ -35,13 +34,13 @@ export const Select = styled.select`
 
 export const InputArea = styled.div`
   width: 92%;
-  max-width: 1000px;
+  max-width: 700px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 50px;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #158fa2;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   @media (max-width: 768px) {
@@ -60,7 +59,15 @@ export const Input = styled.div`
 `;
 
 export const InputDate = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
+
+  input {
+    width: 300px;
+    height: 40px;
+  }
 `;
 
 export const Button = styled.button`
@@ -191,4 +198,20 @@ export const DescriptionContainer = styled.div`
     max-width: 800px; /* Ajuste o tamanho máximo conforme necessário */
     overflow-wrap: break-word; /* Quebra as palavras longas para evitar ultrapassar as bordas */
     text-align: left; /* Alinha o texto à esquerda */
+`;
+
+export const SaveButton = styled.button`
+    padding: 10px 20px; /* Padding do botão */
+    border: none;
+    border-radius: 4px; /* Bordas arredondadas do botão */
+    background-color: #007bff; /* Cor de fundo do botão */
+    color: white; /* Cor do texto */
+    margin-top: 30px;
+    cursor: pointer;
+    font-size: 16px; /* Tamanho da fonte */
+    transition: background-color 0.3s; /* Efeito de transição */
+
+    &:hover {
+        background-color: #0056b3; /* Cor do botão ao passar o mouse */
+    }
 `;

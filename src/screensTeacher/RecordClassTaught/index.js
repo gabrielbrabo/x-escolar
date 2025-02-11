@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Date from '../../components/Date';
+//import Date from '../../components/Date';
+import "react-datepicker/dist/react-datepicker.css";
+//import DatePicker from 'react-datepicker';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import {
@@ -17,15 +19,23 @@ import {
     Span,
     InputDate,
     ErrorMessage,
+    SaveButton,
     DescriptionContainer // Novo contêiner para descrição
 } from './style';
 import LoadingSpinner from '../../components/Loading';
-import { RecordClassTaught } from '../../Api';
+import {
+    RecordClassTaught,
+    getIstQuarter,
+    getIIndQuarter,
+    getIIIrdQuarter,
+    getIVthQuarter,
+} from '../../Api';
 
 const Grade = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [selectedDate, setSelectedDate] = useState('');
+    const [selected, setSelected] = useState('');
     const [day, setDay] = useState('');
     const [month, setMonth] = useState('');
     const [year, setYear] = useState('');
@@ -70,6 +80,92 @@ const Grade = () => {
         navigate(-1);
     };
 
+    const handleChange = (e) => {
+        const dateValue = e.target.value; // O valor do input será uma string no formato YYYY-MM-DD
+        const currentYear = new Date().getFullYear(); 
+        setSelected(dateValue);
+        // Extraindo o dia, mês e ano da data
+        const [year, month, day] = dateValue.split('-'); // Desestruturando a data
+
+        console.log('Ano:', year);
+        console.log('Mês:', month);
+        console.log('Dia:', day);
+
+        
+        setDay(day);
+        setMonth(month);
+        setYear(currentYear);
+    };
+
+    const handleDateChange = async () => {       
+
+        const fetchQuarters = async () => {
+            const idSchool = sessionStorage.getItem("id-school");
+            const year = new Date().getFullYear();
+            const dateSelected = new Date(year, month - 1, day);
+
+            const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
+            const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
+            const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
+            const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
+
+            const getQuarterStatus = (quarterData) => {
+                return quarterData.data.data
+                    .map((res) => {
+                        const startDate = new Date(year, res.startmonth - 1, res.startday);
+                        const endDate = new Date(year, res.endmonth - 1, res.endday);
+                        if (dateSelected >= startDate && dateSelected <= endDate) {
+                            console.log("startDade:", startDate);
+                            console.log("endDate:", endDate);
+                            console.log("dateSelected:", dateSelected);
+                            return res.statusSupervisor;
+                        }
+                        return null;
+                    })
+                    .find((res) => res); // Retorna o primeiro status válido encontrado
+            };
+
+            const dataIstQuarter = getQuarterStatus(IstQuarter);
+            const dataIIndQuarter = getQuarterStatus(IIndQuarter);
+            const dataIIIrdQuarter = getQuarterStatus(IIIrdQuarter);
+            const dataIVthQuarter = getQuarterStatus(IVthQuarter);
+
+            // Retorna os dados encontrados em um objeto
+
+            return {
+                IstQuarter: dataIstQuarter || null,
+                IIndQuarter: dataIIndQuarter || null,
+                IIIrdQuarter: dataIIIrdQuarter || null,
+                IVthQuarter: dataIVthQuarter || null,
+            };
+        }
+        try {
+            // Obtém os resultados de forma assíncrona
+            const result = await fetchQuarters();
+
+            // Define `open` com base nos resultados
+            const openQuarter =
+                result.IstQuarter === "aberto" ? "IstQuarter" :
+                    result.IIndQuarter === "aberto" ? "IIndQuarter" :
+                        result.IIIrdQuarter === "aberto" ? "IIIrdQuarter" :
+                            result.IVthQuarter === "aberto" ? "IVthQuarter" : null;
+
+            if (openQuarter) {
+               // console.log(`Bimestre aberto: ${openQuarter}`);
+                //setopen("aberto");
+                fetchQuarters();
+                setSelectedDate(selected)
+            } else {
+                alert("Bimestre fechado para adiciona aula contate o Diretor ou Supervisor.");
+                navigate(-1)
+            }
+
+        } catch (error) {
+            console.error("Erro ao buscar os trimestres:", error);
+            alert("Erro ao buscar informações. Tente novamente mais tarde.");
+        }
+    };
+
     return (
         <Container>
             {loading ? (
@@ -83,12 +179,12 @@ const Grade = () => {
                                 <InputArea>
                                     <InputDate>
                                         <Label>Data</Label>
-                                        <Date
-                                            setSelectedDate={setSelectedDate}
-                                            setDay={setDay}
-                                            setMonth={setMonth}
-                                            setYear={setYear}
+                                        <input
+                                            type="date"
+                                            value={selected}
+                                            onChange={handleChange}
                                         />
+                                        <SaveButton onClick={handleDateChange}>Salvar Data</SaveButton>
                                     </InputDate>
                                     <ToGoBack onClick={messageButtonClick}>
                                         <SignMessageButtonText>Voltar para a</SignMessageButtonText>

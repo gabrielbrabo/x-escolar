@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+//import { DemoContainer, /*DemoItem*/ } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import dayjs from 'dayjs';
-import localizedFormat from 'dayjs/plugin/localizedFormat';
+//import localizedFormat from 'dayjs/plugin/localizedFormat';
 import "dayjs/locale/pt-br";
 
 dayjs.locale('pt-br');
-dayjs.extend(localizedFormat);
+//dayjs.extend(localizedFormat);
 
 // Estilização dos componentes
 const Container = styled.div`
@@ -25,9 +25,9 @@ const Container = styled.div`
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra leve */
 `;
 
-const InputContainer = styled(DemoContainer)`
-    width: 100%; /* Faz com que o container use a largura total */
-`;
+/*const InputContainer = styled(DemoContainer)`
+    width: 100%; /* Faz com que o container use a largura total 
+`;*/
 
 const StyledInput = styled.input`
     width: 100%; /* O input ocupará toda a largura do container */
@@ -82,17 +82,13 @@ const ResponsivePickers = ({ setSelectedDate, setDay, setMonth, setYear }) => {
     return (
         <Container>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
-                <InputContainer components={['DesktopDatePicker']}>
-                    <DemoItem>
-                        <DesktopDatePicker
-                            views={['day', 'month']} // Permite selecionar apenas dia e mês
-                            value={selected || dayjs()}
-                            onChange={handleChange}
-                            renderInput={(params) => <StyledInput {...params} />}
-                            format="DD/MM"
-                        />
-                    </DemoItem>
-                </InputContainer>
+                <DesktopDatePicker
+                    views={['day', 'month']} // Permite selecionar apenas dia e mês
+                    value={selected || dayjs()}
+                    onChange={handleChange}
+                    renderInput={(params) => <StyledInput {...params} />}
+                    format="DD/MM"
+                />
                 <SaveButton onClick={handleSaveDate}>Salvar Data</SaveButton>
             </LocalizationProvider>
         </Container>
