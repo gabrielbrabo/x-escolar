@@ -204,8 +204,8 @@ export const SaveButton = styled.button`
     padding: 10px 20px; /* Padding do botão */
     border: none;
     border-radius: 4px; /* Bordas arredondadas do botão */
-    background-color: #007bff; /* Cor de fundo do botão */
-    color: white; /* Cor do texto */
+    background-color: #3e1fdd; /* Cor de fundo do botão */
+    color: wheat; /* Cor do texto */
     margin-top: 30px;
     cursor: pointer;
     font-size: 16px; /* Tamanho da fonte */
