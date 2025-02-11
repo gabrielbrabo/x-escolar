@@ -320,7 +320,7 @@ const Grade = () => {
                                                         {editingIndex === index && (
                                                             <EditContainer>
                                                                 <h3>Editando Aula</h3>
-                                                                <div className='data'>
+                                                                {/*<div className='data'>
                                                                     <label>Data</label>
                                                                 </div>
 
@@ -333,7 +333,7 @@ const Grade = () => {
                                                                         setMonth(newMonth);
                                                                     }}
                                                                     placeholder="Data (DD/MM)"
-                                                                />
+                                                                />*/}
                                                                 {/*<textarea
                                                                 value={editedDescription}
                                                                 onChange={(e) => setEditedDescription(e.target.value)}
