@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
     display: flex;
     flex-direction: column;
+    padding-top: 80px;
     width: 100%;
 
 `;
@@ -143,7 +144,7 @@ export const DivInfoDate = styled.div`
     background-color: #158fa2;
     width: 90%;
     max-width: 600px;
-    padding: 20px;
+    padding: 15px;
     padding-top: 40px;
     padding-bottom: 40px;
     gap: 30px;
@@ -153,7 +154,7 @@ export const DivInfoDate = styled.div`
     h3 {
         text-align: center;
         padding-bottom: 30px;
-        color: white;
+        color: wheat;
     }
 `;
 

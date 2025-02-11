@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
     display: flex;
     justify-content: center;
-    min-height: 100vh;
+    height: auto;
     width: 100%;
     background-color: #f4f4f9;
     padding: 20px;
@@ -18,8 +18,10 @@ export const Container = styled.div`
 // Div que contém as seções de conteúdo
 export const ContainerDivs = styled.div`
     width: 100%;
+    height: auto;
     max-width: 1000px; /* Limita a largura do conteúdo */
     padding: 20px;
+    padding-top: 30px;
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
@@ -43,6 +45,7 @@ export const ContainerDivs = styled.div`
     @media (max-width: 768px) {
         width: 100%; /* A largura será 100% da tela em dispositivos muito pequenos */
         padding: 10px;
+        padding-top: 30px;
     }
 `;
 

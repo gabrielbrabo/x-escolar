@@ -13,6 +13,7 @@ export const ContainerDivs = styled.div`
   width: 95%;
   max-width: 1000px;
   margin: 0 auto;
+  padding-top: 30px;
 `;
 
 export const Label = styled.label`
