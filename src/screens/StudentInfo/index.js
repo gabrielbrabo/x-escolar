@@ -249,7 +249,11 @@ const Student = () => {
                                                 <Span>celular da Mãe: {student.motherCellPhone}</Span>
                                                 <Span>Nome do Pai: {student.fatherName}</Span>
                                                 <Span>celular do Pai: {student.fatherCellPhone}</Span>
-                                                <Span>Data de Admissão: {new Date(student.admissionDate).toLocaleDateString('pt-BR')}</Span>
+                                                {student.admissionDate ? (
+                                                    <Span>Data de Admissão: {new Date(student.admissionDate).toLocaleDateString('pt-BR')}</Span>
+                                                ) : (
+                                                    <Span></Span>
+                                                )}
                                                 <Span>RS: {student.registerStudent}</Span>
                                             </ProfileInfo>
                                         </Pro>

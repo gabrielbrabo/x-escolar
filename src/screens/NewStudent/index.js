@@ -146,7 +146,7 @@ const NewStudent = () => {
           <p>Itens com * são obrigatorios</p>
           <>
             <InputArea>
-              <Label>*Nome Conpleto</Label>
+              <Label>*Nome Completo</Label>
               <Input
                 placeholder="Digite o nome"
                 value={name}
@@ -206,7 +206,7 @@ const NewStudent = () => {
                 onChange={(e) => setAddress(e.target.value)}
                 type="text"
               />
-              <Label>*Data de Admissão</Label>
+              <Label>Data de Admissão</Label>
               <Input
                 placeholder="Data de nascimento"
                 value={admissionDate}
