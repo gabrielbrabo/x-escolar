@@ -180,23 +180,25 @@ const Grade = () => {
     };
 
     const handlePrint = () => {
-        const printContent = document.getElementById('print-area');
-        const originalContent = document.body.innerHTML;
+        
         // Expande todas as descrições antes de imprimir
         setExpandedRows(recordClassTaught.map((_, index) => index));
+
+        const printContent = document.getElementById('print-area');
+        //const originalContent = document.body.innerHTML;
 
         // Aguarda o estado ser atualizado antes de imprimir
         setTimeout(() => {// Substitui o conteúdo do body apenas pelo conteúdo da área de impressão
             document.body.innerHTML = printContent.innerHTML;
             window.print();
-            document.body.innerHTML = originalContent;
+            //document.body.innerHTML = originalContent;
             window.location.reload(); // Recarrega a página para restaurar os eventos e estados do React
 
             // Reseta a expansão após 10 segundos da impressão
             setTimeout(() => {
                 setExpandedRows([]);
-            }, 10000); // 10000ms = 10 segundos
-        }, 0);
+            }, 20000); // 10000ms = 10 segundos
+        }, 1000);
     };
 
     const getDescriptionPreview = (description) => {
