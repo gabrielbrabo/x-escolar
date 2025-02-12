@@ -197,8 +197,8 @@ const Grade = () => {
             // Reseta a expansão após 10 segundos da impressão
             setTimeout(() => {
                 setExpandedRows([]);
-            }, 20000); // 10000ms = 10 segundos
-        }, 1000);
+            }, 10000); // 10000ms = 10 segundos
+        }, 0);
     };
 
     const getDescriptionPreview = (description) => {
