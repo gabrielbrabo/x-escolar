@@ -84,7 +84,7 @@ export function Header({ setMenuIsVisible }) {
                         {/*<ProfilePhoto />*/}
                         <ProfileInfo onClick={handlePerfil}>
                             <Name>{name}</Name>
-                            <Span>{position_at_school}</Span>
+                            <Span>{position_at_school}(A)</Span>
                             <Span>{school}</Span>
                         </ProfileInfo>
                     </Pro>

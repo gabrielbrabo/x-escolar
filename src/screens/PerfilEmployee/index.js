@@ -232,7 +232,7 @@ const EmployeeInformation = () => {
                                     </ProfilePhoto>*/}
                                     < ProfileInfo>
                                         <Span>{emp.name}</Span>
-                                        <Span>{emp.position_at_school}</Span>
+                                        <Span>{emp.position_at_school}(A)</Span>
                                         <Span>{school}</Span>
                                         <Span>Cerlular: {emp.cellPhone}</Span>
                                         <Span>Email: {emp.email}</Span>

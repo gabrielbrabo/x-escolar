@@ -55,7 +55,7 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
           <Pro>
             <ProfileInfo onClick={handlePerfil}>
               <Name>{name}</Name>
-              <Span>{positionAtSchool}</Span>
+              <Span>{positionAtSchool}(A)</Span>
               <Span>{school}</Span>
             </ProfileInfo>
           </Pro>

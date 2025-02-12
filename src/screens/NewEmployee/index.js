@@ -243,9 +243,9 @@ const NewEmployee = () => {
             onChange={(e) => setPositionAtSchool(e.target.value)}
           >
             <option value="">Selecione</option>
-            <option value="DIRETOR/SUPERVISOR">DIRETOR/SUPERVISOR</option>
-            <option value="SECRETARIO">SECRETARIO</option>
-            <option value="PROFESSOR">PROFESSOR</option>
+            <option value="DIRETOR/SUPERVISOR">DIRETOR(A)/SUPERVISOR(A)</option>
+            <option value="SECRETARIO">SECRETARIO(A)</option>
+            <option value="PROFESSOR">PROFESSOR(A)</option>
           </Select>
           <Label>Senha</Label>
           <Input
