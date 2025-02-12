@@ -300,7 +300,7 @@ export const ErrorMessage = styled.div`
 
 export const PrintStyleClasses = styled.div`
   @media print {
-    body {
+    body * {
       margin: 0;
       padding: 0;
     }
@@ -310,13 +310,20 @@ export const PrintStyleClasses = styled.div`
     }
 
     ${ContainerTable} {
-      overflow-x: hidden; /* Permite rolagem horizontal */
+      //overflow-x: hidden; /* Permite rolagem horizontal */
       page-break-inside: avoid;
+    }
+    
+    ${StudentSection} {
+      display: flex;
+      position: absolute;
+      z-index: 99999;
     }
 
     @page {
       size: A4;
-      margin: 2cm;
+      margin: 0px;
+      padding: 20px;
     }
 
     .table-container {

@@ -38,6 +38,7 @@ const Grade = () => {
     const [endm, setEndm] = useState("");
     const [endy, setEndy] = useState("");
 
+    const [nameSchool, setnameSchool] = useState("");
     const [id_teacher, setid_teacher] = useState("");
     const [id_class, setid_class] = useState("");
     const [bimonthlyDaily, setbimonthlyDaily] = useState([]);
@@ -65,6 +66,7 @@ const Grade = () => {
             const idSchool = SelectteacherDaily.id_school;
 
             //setPositionAtSchool(position);
+            setnameSchool(SelectteacherDaily.id_school.name);
             setid_teacher(SelectteacherDaily._id);
             setid_class(SelectclassDaily);
             setbimonthlyDaily(SelectbimonthlyDaily.bimonthly);
@@ -177,45 +179,18 @@ const Grade = () => {
         }
     };
 
-    /* const handleEdit = (index, res) => {
-         setEditingIndex(index);
-         setEditingId(res._id);
-         setEditedDescription(res.description);
-         //setDay(`${res.day}`);
-         //setMonth(`${res.month}`);
-     };*/
-
-    /*const handleSaveEdit = async () => {
-        try {
-            const res = await updateRecordClassTaughtADM(editedDescription, editingId);
-
-            if (res.data) {
-                alert('Aula atualizada com sucesso!');
-                setLoading(true);
-                setRecordClassTaught((prev) =>
-                    prev.map((item) =>
-                        item._id === editingId ? { ...item, description: editedDescription, } : item
-                    )
-                );
-
-                setEditingIndex(null);
-                setErrorMessage('');
-                setLoading(false);
-            } else {
-                setErrorMessage('Erro ao cadastrar. Verifique os dados e tente novamente.');
-            }
-        } catch (error) {
-            console.error("Erro ao atualizar aula:", error);
-            setErrorMessage('Ocorreu um erro ao salvar a edição. Tente novamente.');
-        }
-    };*/
     const handlePrint = () => {
+        const printContent = document.getElementById('print-area');
+        const originalContent = document.body.innerHTML;
         // Expande todas as descrições antes de imprimir
         setExpandedRows(recordClassTaught.map((_, index) => index));
 
         // Aguarda o estado ser atualizado antes de imprimir
-        setTimeout(() => {
+        setTimeout(() => {// Substitui o conteúdo do body apenas pelo conteúdo da área de impressão
+            document.body.innerHTML = printContent.innerHTML;
             window.print();
+            document.body.innerHTML = originalContent;
+            window.location.reload(); // Recarrega a página para restaurar os eventos e estados do React
 
             // Reseta a expansão após 10 segundos da impressão
             setTimeout(() => {
@@ -238,11 +213,12 @@ const Grade = () => {
             {loading ? (
                 <LoadingSpinner />
             ) : (
-                <ContainerDivs>
-                    <PrintStyleClasses>
-                        <StudentSection>
+                <ContainerDivs id='print-area'>
+                    <PrintStyleClasses >
+                        <StudentSection id="printable-content">
                             <h2>Registros de Aulas Lecionadas</h2>
                             <h3>{bimonthlyDaily}</h3>
+                            <span><strong>Escola:</strong> {nameSchool}</span>
                             < DataBimonthly>
                                 <span><strong>Inicio:</strong> {startd}/{startm}/{starty}</span>
                                 <span><strong>Término:</strong> {endd}/{endm}/{endy}</span>
@@ -291,20 +267,6 @@ const Grade = () => {
                                                                 </div>
                                                             </DescriptionCell>
                                                         </TableRow>
-                                                        {/*editingIndex === index && (
-                                                        <EditContainer>
-                                                            <h3>Editando Aula</h3>
-                                                            
-                                                            <textarea
-                                                                value={editedDescription}
-                                                                onChange={(e) => setEditedDescription(e.target.value)}
-                                                                placeholder="Descrição da aula"
-                                                            />
-                                                            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                                                            <Button onClick={handleSaveEdit}>Salvar</Button>
-                                                            <Button onClick={() => setEditingIndex(null)}>Cancelar</Button>
-                                                        </EditContainer>
-                                                    ) */}
                                                     </ContainerTable>
                                                 </React.Fragment>
                                             ))

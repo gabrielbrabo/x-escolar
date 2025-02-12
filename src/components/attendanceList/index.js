@@ -211,6 +211,7 @@ export default function AttendanceList() {
 
   const [stdt, setStdt] = useState([]);
   const [id_teacher, setid_teacher] = useState("");
+  const [nameSchool, setnameSchool] = useState("");
   const [id_class, setid_class] = useState("");
   const [attendanceData, setAttendanceData] = useState([]);
   const [bimonthlyDaily, setbimonthlyDaily] = useState([]);
@@ -231,10 +232,13 @@ export default function AttendanceList() {
       const idSchool = SelectteacherDaily.id_school;
 
       setid_teacher(SelectteacherDaily._id);
+      setnameSchool(SelectteacherDaily.id_school.name);
       setid_class(SelectclassDaily);
       setbimonthlyDaily(SelectbimonthlyDaily.bimonthly);
       setnameTeacher(SelectteacherDaily.name);
       setnameClass(Nameclass.serie);
+
+      //console.log(selec)
 
       if (SelectbimonthlyDaily.bimonthly === "1º BIMESTRE") {
         const IstQuarter = await getIstQuarter(year, idSchool);
@@ -423,7 +427,7 @@ export default function AttendanceList() {
       }, 500);
     }
   };
-console.log("attendanceData", attendanceData)
+console.log("nameSchool", nameSchool)
 
   return (
     <PrintStyle>
@@ -440,6 +444,7 @@ console.log("attendanceData", attendanceData)
             <CtnrBtt>
               <Button className="no-print" onClick={handlePrint}>Imprimir</Button>
             </CtnrBtt>
+            <span><strong>Escola:</strong> {nameSchool}</span>
             <span><strong>Professor:</strong> {nameTeacher}</span>
             <span><strong>Turma:</strong> {nameClass}</span>
           </ContInfo>
