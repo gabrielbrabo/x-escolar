@@ -162,7 +162,7 @@ const NewStudent = () => {
                   <option value="Masculino">Masculino</option>
                   <option value="Feminino">Feminino</option>
                 </Select>
-              <Label>*Raça</Label>
+              <Label>*Cor</Label>
               <Select value={race} onChange={(e) => setRace(e.target.value)}>
                 <option value="">Selecione</option>
                 <option value="Branca">Branca</option>
