@@ -104,6 +104,7 @@ const DelMatter = () => {
 
                         {
                             matter.filter((val) => {
+                                if (val.name === "EDUCAÇÃO FÍSICA") return false; // Exclui Educação Física
                                 if (!busca) {
                                     return (val)
                                 } else if (val.name.includes(busca.toUpperCase())) {

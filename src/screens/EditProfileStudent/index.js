@@ -9,7 +9,8 @@ import {
     Btt01,
     SignMessageButtonText,
     SignMessageButtonTextBold,
-    ErrorMessage
+    ErrorMessage,
+    Select
 } from './style';
 import LoadingSpinner from '../../components/Loading';
 
@@ -18,6 +19,8 @@ const EditProfile = () => {
     const [student, setStudent] = useState({});
     const [name, setName] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState('');
+    const [sex, setSex] = useState('');
+    const [race, setRace] = useState('');
     const [cpf, setCpf] = useState('');
     const [rg, setRg] = useState('');
     const [fatherCellPhone, setFatherCellPhone] = useState('');
@@ -38,6 +41,8 @@ const EditProfile = () => {
             setStudent(res.data);
             setName(res.data.name || '');
             setDateOfBirth(res.data.dateOfBirth || '');
+            setSex(res.data.sex || '');
+            setRace(res.data.race || '');
             setCpf(res.data.cpf || '');
             setRg(res.data.rg || '');
             setFatherCellPhone(res.data.fatherCellPhone || '')
@@ -63,6 +68,8 @@ const EditProfile = () => {
             student._id,
             name.toUpperCase(),
             dateOfBirth,
+            sex,
+            race,
             cpf,
             rg,
             motherName,
@@ -147,20 +154,24 @@ const EditProfile = () => {
                             onChange={(e) => setDateOfBirth(e.target.value)}
                             type='date'
                         />
-                        {/*<label>CPF</label>
-                        <Input
-                            name="cpf"
-                            value={cpf}
-                            onChange={handleChange}
-                            type="text"
-                            maxLength="14"
-                        />
-                        <label>RG</label>
-                        <Input
-                            name="rg"
-                            value={rg}
-                            onChange={handleChangeRg}
-                        />*/}
+                        <>*Sexo</>
+                        <Select
+                            value={sex}
+                            onChange={(e) => setSex(e.target.value)}
+                        >
+                            <option value="">Selecione</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Feminino">Feminino</option>
+                        </Select>
+                        <>*Raça</>
+                        <Select value={race} onChange={(e) => setRace(e.target.value)}>
+                            <option value="">Selecione</option>
+                            <option value="Branca">Branca</option>
+                            <option value="Preta">Preta</option>
+                            <option value="Parda">Parda</option>
+                            <option value="Indígena">Indígena</option>
+                            <option value="Outra">Outra</option>
+                        </Select>
                         <label>Nome da Mãe</label>
                         <Input
                             placeholder="Nome da Mãe"

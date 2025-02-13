@@ -14,7 +14,11 @@ import {
   Input,
   ToGoBack,
   Label,
-  ErrorMessage
+  ErrorMessage,
+  //CheckboxGroup,
+ // CheckboxLabel,
+  Select,
+
 } from './style';
 
 /*import {
@@ -37,11 +41,13 @@ const NewStudent = () => {
   const [idSchool, setIdschool] = useState('');
   const [name, setName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
-  const [cpf, /*setCpf*/] = useState('0');
+  const [race, setRace] = useState('');
+  const [sex, setSex] = useState('');
+  //const [cpf, /*setCpf*/] = useState('0');
   const [fatherCellPhone, setFatherCellPhone] = useState('');
   const [address, setAddress] = useState('');
   const [admissionDate, setadmissionDate] = useState('');
-  const [rg, /*setRg*/] = useState('0');
+  //const [rg, /*setRg*/] = useState('0');
   const [motherName, setmotherName] = useState()
   const [fatherName, setfatherName] = useState()
   const [motherCellPhone, setmotherCellPhone] = useState()
@@ -63,29 +69,14 @@ const NewStudent = () => {
     setLoading(true);
     const registerStudent = (Math.floor(Math.random() * 1111111 + 1000000))
 
-    console.log(
-      idSchool,
-      name,
-      dateOfBirth,
-      cpf,
-      rg,
-      fatherCellPhone,
-      admissionDate,
-      motherName,
-      fatherName,
-      motherCellPhone,
-     // cellPhone,
-      //cellPhoneOfParentsOrGuardians,
-      address,
-      registerStudent,
-      password,
-      confirmpassword
-    )
+    console.log('Sexo antes da requisição:', sex, 'Tipo de sexo:', typeof sex);
 
     const res = await NewStdt(
       idSchool,
       name,
       dateOfBirth,
+      sex,
+      race,
       fatherCellPhone,
       admissionDate,
       motherName,
@@ -130,10 +121,11 @@ const NewStudent = () => {
   const handleChangeFatherCellPhone = (e) => {
     setFatherCellPhone(maskcellPhone(e.target.value));
   };
-  
+
   const handleChangemotherCellPhone = (e) => {
     setmotherCellPhone(maskcellPhone(e.target.value));
   };
+  console.log("sexo", sex,)
 
 
   return (
@@ -161,6 +153,24 @@ const NewStudent = () => {
                 onChange={(e) => setDateOfBirth(e.target.value)}
                 type='date'
               />
+              <Label>*Sexo</Label>
+              <Select
+                  value={sex}
+                  onChange={(e) => setSex(e.target.value)}
+                >
+                  <option value="">Selecione</option>
+                  <option value="Masculino">Masculino</option>
+                  <option value="Feminino">Feminino</option>
+                </Select>
+              <Label>*Raça</Label>
+              <Select value={race} onChange={(e) => setRace(e.target.value)}>
+                <option value="">Selecione</option>
+                <option value="Branca">Branca</option>
+                <option value="Preta">Preta</option>
+                <option value="Parda">Parda</option>
+                <option value="Indígena">Indígena</option>
+                <option value="Outra">Outra</option>
+              </Select>
               {/*<Label>CPF</Label>
               <Input
                 placeholder="Digite o CPF"

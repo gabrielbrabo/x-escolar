@@ -18,7 +18,7 @@ export const Container = styled.div`
 
 export const InputArea = styled.div`
   width: 95%;
-  max-width: 500px;
+  max-width: 1000px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -105,4 +105,33 @@ export const ErrorMessage = styled.div`
   @media (max-width: 768px) {
     font-size: 12px;
   }
+`;
+
+
+export const CheckboxGroup = styled.div`
+  display: flex;
+
+  select {
+    width: 100%;
+  }
+`;
+
+export const CheckboxLabel = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+`;
+
+export const Select = styled.select`
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-top: 5px;
+`;
+
+export const Option = styled.option`
+  font-size: 16px;
 `;

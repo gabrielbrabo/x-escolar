@@ -21,7 +21,7 @@ export const InputArea = styled.div`
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     width: 92%;
-    max-width: 400px;
+    max-width: 1000px;
 
     @media (max-width: 768px) {
         width: 95%;
@@ -75,4 +75,14 @@ export const ErrorMessage = styled.div`
   @media (max-width: 768px) {
     font-size: 12px;
   }
+`;
+
+export const Select = styled.select`
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-top: 5px;
 `;

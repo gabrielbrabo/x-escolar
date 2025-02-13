@@ -217,6 +217,8 @@ export const updateStudent = async (
     idStudent,
     name,
     dateOfBirth,
+    sex,
+    race,
     cpf,
     rg,
     motherName,
@@ -230,6 +232,8 @@ export const updateStudent = async (
     return api.post(`/student-update/${idStudent}`, {
         name,
         dateOfBirth,
+        sex,
+        race,
         cpf,
         rg,
         motherName,
@@ -1428,6 +1432,8 @@ export const NewStdt = async (
     idSchool,
     name,
     dateOfBirth,
+    sex,
+    race,
     fatherCellPhone,
     admissionDate,
     motherName,
@@ -1439,9 +1445,13 @@ export const NewStdt = async (
     confirmpassword
 ) => {
 
+    console.log("sexApi", sex)
+
     return api.post(`/register/student/${idSchool}`, {
         name,
         dateOfBirth,
+        sex,
+        race,
         fatherCellPhone,
         admissionDate,
         motherName,
