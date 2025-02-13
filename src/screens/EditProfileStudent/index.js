@@ -163,7 +163,7 @@ const EditProfile = () => {
                             <option value="Masculino">Masculino</option>
                             <option value="Feminino">Feminino</option>
                         </Select>
-                        <>*Raça</>
+                        <>*Cor</>
                         <Select value={race} onChange={(e) => setRace(e.target.value)}>
                             <option value="">Selecione</option>
                             <option value="Branca">Branca</option>
