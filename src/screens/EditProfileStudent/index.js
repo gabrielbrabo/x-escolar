@@ -55,13 +55,6 @@ const EditProfile = () => {
         })();
     }, []);
 
-    /*const handleChange = (e) => {
-        setEmployee({
-            ...employee,
-            [e.target.name]: e.target.value
-        });
-    };*/
-
     const handleSubmit = async () => {
         setLoading(true);
         const res = await updateStudent(
@@ -95,29 +88,6 @@ const EditProfile = () => {
     const handleGoBack = () => {
         navigate(-1);
     };
-
-    /*const maskCPF = (value) => {
-        return value
-            .replace(/\D/g, '') // Remove tudo o que não é dígito
-            .replace(/(\d{3})(\d)/, '$1.$2') // Coloca o primeiro ponto
-            .replace(/(\d{3})(\d)/, '$1.$2') // Coloca o segundo ponto
-            .replace(/(\d{3})(\d{1,2})$/, '$1-$2') // Coloca o traço
-            .slice(0, 14); // Limita para 14 caracteres
-    };
-
-    const maskRG = (value) => {
-        return value
-            .replace(/\D/g, '') // Remove tudo o que não é dígito
-    };
-
-    
-    const handleChange = (e) => {
-        setCpf(maskCPF(e.target.value));
-    };
-
-    const handleChangeRg = (e) => {
-        setRg(maskRG(e.target.value));
-    };*/
 
     const maskcellPhone = (value) => {
         return value
@@ -167,7 +137,7 @@ const EditProfile = () => {
                         <Select value={race} onChange={(e) => setRace(e.target.value)}>
                             <option value="">Selecione</option>
                             <option value="Branca">Branca</option>
-                            <option value="Preta">Preta</option>
+                            <option value="Negra">Negra</option>
                             <option value="Parda">Parda</option>
                             <option value="Indígena">Indígena</option>
                             <option value="Outra">Outra</option>
