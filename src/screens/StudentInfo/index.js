@@ -271,7 +271,7 @@ const Student = () => {
                             Clss.map(clss => (
                                 <Emp key={clss._id} >
                                     <Span>Turma: {clss.serie}</Span>
-                                    <Span>Nivel: {clss.level}</Span>
+                                    {/*<Span>Nivel: {clss.level}</Span>*/}
                                     <Span>Turno: {clss.shift}</Span>
                                     <Span>Ano: {clss.year}</Span>
                                 </Emp>
