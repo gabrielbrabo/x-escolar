@@ -50,7 +50,7 @@ const Employees = () => {
             console.log(response)
             setLoading(false);
         })()
-    }, [ ])
+    }, [])
 
     employees.sort(function (a, b) {
         if (a.name < b.name) return -1
@@ -74,7 +74,7 @@ const Employees = () => {
 
     const employeeInformation = async (employee) => {
         setLoading(true);
-      //  sessionStorage.removeItem('EmployeeInformation')
+        //  sessionStorage.removeItem('EmployeeInformation')
         //sessionStorage.setItem("EmployeeInformation", employee._id)
         navigate(`/employee/info/${employee._id}`)
         setLoading(false);
@@ -125,7 +125,7 @@ const Employees = () => {
                         <Btt02 onClick={NewEmoloyee}>Novo Funcionario</Btt02>
                     </DivNewEmp>
                     <List>
-
+                        <p>Total de funcionários: {employees.length}</p>
                         {
                             employees.filter((fil) => {
                                 if (!filter) {

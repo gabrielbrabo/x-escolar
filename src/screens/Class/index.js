@@ -96,6 +96,7 @@ const Cla$$ = () => {
                         <DivNewEmp>
                             <Btt02 onClick={NewClass}>Nova Turma</Btt02>
                         </DivNewEmp>
+                        <p>Total de Turmas: {Clss.length}</p>
                         {Clss.filter((fil) => (!filter || fil.year === filter))
                             .filter((val) => (!busca || val.serie.includes(busca.toUpperCase())))
                             .map((Clss) => (

@@ -24,18 +24,18 @@ export const List = styled.div`
 
   display: flex;
   flex-direction: column;
-  align-items: center;
-
+ // align-items: center;
+  
   @media (max-width: 768px) {
     margin-top: 10px;
-    width: 95%;
+    width: 100%;
   }
 `;
 
 // Estilo para cada empregado na lista
 export const Emp = styled.div`
   display: flex;
-  width: 100%;
+  width: auto;
   justify-content: space-between;
   align-items: center;
   padding: 15px;
