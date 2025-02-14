@@ -256,6 +256,7 @@ const Student = () => {
                                                 ) : (
                                                     <Span></Span>
                                                 )}
+                                                <Span>Endereço: {student.address}</Span>
                                                 <Span>RS: {student.registerStudent}</Span>
                                             </ProfileInfo>
                                         </Pro>

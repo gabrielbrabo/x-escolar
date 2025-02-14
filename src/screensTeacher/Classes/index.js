@@ -272,6 +272,8 @@ const Grade = () => {
                                         </Register>
                                         //                                )
                                     }
+                                    
+                                    <p>Total de aulas: {recordClassTaught.length}</p>
                                     {recordClassTaught.length > 0 ? (
                                         recordClassTaught
                                             .sort((a, b) => new Date(b.year, b.month - 1, b.day) - new Date(a.year, a.month - 1, a.day))

@@ -140,6 +140,7 @@ const MyCla$$Info = () => {
                     </ButtonContainer>
                     <StudentSection>
                         <h2 style={{ color: "#158fa2" }}>Alunos</h2>
+                        <p>Total de alunos: {stdt.length}</p>
                         {stdt.length > 0 ? (
                             stdt.map(stdt => (
                                 <StudentItem onClick={() => StudentInformation(stdt)}>{stdt.name}</StudentItem>

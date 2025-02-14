@@ -315,6 +315,7 @@ export const PrintStyleClasses = styled.div`
     }
     
     ${StudentSection} {
+      width: 100%;
       display: flex;
       position: absolute;
       z-index: 99999;
