@@ -244,20 +244,26 @@ const Student = () => {
                                             < ProfileInfo>
                                                 <Span>{student.name}</Span>
                                                 {/*<Span>RG: {student.rg}</Span>*/}
-                                                <Span>Nascimento: {new Date(student.dateOfBirth).toLocaleDateString('pt-BR')}</Span>
+                                                <Span>Nascimento: {new Date(student.dateOfBirth + "T00:00:00").toLocaleDateString('pt-BR')}</Span>
                                                 <Span>Sexo: {student.sex}</Span>
                                                 <Span>Cor: {student.race}</Span>
                                                 <Span>Nome da Mãe: {student.motherName}</Span>
                                                 <Span>celular da Mãe: {student.motherCellPhone}</Span>
                                                 <Span>Nome do Pai: {student.fatherName}</Span>
                                                 <Span>celular do Pai: {student.fatherCellPhone}</Span>
+                                                <Span>Endereço: {student.address}</Span>
+                                                <Span>RS: {student.registerStudent}</Span>
                                                 {student.admissionDate ? (
-                                                    <Span>Data de Admissão: {new Date(student.admissionDate).toLocaleDateString('pt-BR')}</Span>
+                                                    <Span>Data de Admissão: {new Date(student.admissionDate + "T00:00:00").toLocaleDateString('pt-BR')}</Span>
                                                 ) : (
                                                     <Span></Span>
                                                 )}
-                                                <Span>Endereço: {student.address}</Span>
-                                                <Span>RS: {student.registerStudent}</Span>
+                                                <Span style={{ color: "green" }}>Data de Ingresso na Escola: {new Date(student.entryDate + "T00:00:00").toLocaleDateString('pt-BR')}</Span>
+                                                {student.departureDate ? (
+                                                    <Span style={{ color: "red" }}>Data de Saida: {new Date(student.departureDate + "T00:00:00").toLocaleDateString('pt-BR')}</Span>
+                                                ) : (
+                                                    <Span></Span>
+                                                )}
                                             </ProfileInfo>
                                         </Pro>
                                         <DivButtomEdit>

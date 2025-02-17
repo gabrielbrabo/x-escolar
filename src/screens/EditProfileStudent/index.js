@@ -24,6 +24,8 @@ const EditProfile = () => {
     const [cpf, setCpf] = useState('');
     const [rg, setRg] = useState('');
     const [fatherCellPhone, setFatherCellPhone] = useState('');
+    const [entryDate, setentryDate] = useState('');
+    const [departureDate, setdepartureDate] = useState('');
     const [admissionDate, setadmissionDate] = useState('');
     const [motherName, setmotherName] = useState()
     const [fatherName, setfatherName] = useState()
@@ -46,6 +48,8 @@ const EditProfile = () => {
             setCpf(res.data.cpf || '');
             setRg(res.data.rg || '');
             setFatherCellPhone(res.data.fatherCellPhone || '')
+            setentryDate(res.data.entryDate || '')
+            setdepartureDate(res.data.departureDate || '')
             setadmissionDate(res.data.admissionDate || '')
             setmotherName(res.data.motherName || '')
             setfatherName(res.data.fatherName || '')
@@ -71,6 +75,8 @@ const EditProfile = () => {
             fatherCellPhone,
             address.toUpperCase(),
             admissionDate,
+            entryDate,
+            departureDate
         );
         console.log(
             "name", name, "dateofBirth", dateOfBirth, "cpf", cpf
@@ -179,11 +185,25 @@ const EditProfile = () => {
                             onChange={(e) => setAddress(e.target.value)}
                             type="text"
                         />
+                        <label>Data de Ingresso na Escola</label>
+                        <Input
+                            placeholder="Data de ingresso"
+                            value={entryDate}
+                            onChange={(e) => setentryDate(e.target.value)}
+                            type='date'
+                        />
                         <label>Data de Admissão</label>
                         <Input
-                            placeholder="Data de nascimento"
+                            placeholder="Data de admissão"
                             value={admissionDate}
                             onChange={(e) => setadmissionDate(e.target.value)}
+                            type='date'
+                        />
+                        <label>Data de Saida</label>
+                        <Input
+                            placeholder="Data de admissão"
+                            value={departureDate}
+                            onChange={(e) => setdepartureDate(e.target.value)}
                             type='date'
                         />
                         {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}

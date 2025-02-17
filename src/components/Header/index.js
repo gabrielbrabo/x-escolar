@@ -50,7 +50,7 @@ export function Header({ setMenuIsVisible }) {
             <section className="desktop-nav">
                 {position_at_school === "SECRETARIO" && (
                     <nav>
-                        <a href="/home/school">Home</a>
+                        {/*<a href="/home/school">Home</a>*/}
                         <a href="/employees" className="nav__link">Funcionários</a>
                         <a href="/student" className="nav__link">Alunos</a>
                         <a href="/class" className="nav__link">Turmas</a>
@@ -60,7 +60,7 @@ export function Header({ setMenuIsVisible }) {
                 )}
                 {position_at_school === 'DIRETOR/SUPERVISOR' && (
                     <nav>
-                        <a href="/home/school">Home</a>
+                        {/*<a href="/home/school">Home</a>*/}
                         <a href="/employees" className="nav__link">Funcionários</a>
                         <a href="/student" className="nav__link">Alunos</a>
                         <a href="/class" className="nav__link">Turmas</a>

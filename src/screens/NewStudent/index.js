@@ -45,6 +45,7 @@ const NewStudent = () => {
   const [sex, setSex] = useState('');
   //const [cpf, /*setCpf*/] = useState('0');
   const [fatherCellPhone, setFatherCellPhone] = useState('');
+  const [entryDate, setentryDate] = useState('');
   const [address, setAddress] = useState('');
   const [admissionDate, setadmissionDate] = useState('');
   //const [rg, /*setRg*/] = useState('0');
@@ -78,6 +79,7 @@ const NewStudent = () => {
       sex,
       race,
       fatherCellPhone,
+      entryDate,
       admissionDate,
       motherName,
       fatherName,
@@ -216,9 +218,16 @@ const NewStudent = () => {
                 onChange={(e) => setAddress(e.target.value)}
                 type="text"
               />
+              <Label>*Data de Ingresso na Escola</Label>
+              <Input
+                placeholder="Data de ingresso"
+                value={entryDate}
+                onChange={(e) => setentryDate(e.target.value)}
+                type='date'
+              />
               <Label>Data de Admissão</Label>
               <Input
-                placeholder="Data de nascimento"
+                placeholder="Data de admissão"
                 value={admissionDate}
                 onChange={(e) => setadmissionDate(e.target.value)}
                 type='date'

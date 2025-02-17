@@ -312,6 +312,7 @@ export default function AttendanceList() {
         if (res) {
           setAttendanceData(res.data.data);
         }
+        console.log("resclass", res.data.data)
         setLoading(false);
       }
     };

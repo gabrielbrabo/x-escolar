@@ -226,7 +226,9 @@ export const updateStudent = async (
     motherCellPhone,
     fatherCellPhone,
     address,
-    admissionDate
+    admissionDate,
+    entryDate,
+    departureDate
 ) => {
 
     return api.post(`/student-update/${idStudent}`, {
@@ -241,7 +243,9 @@ export const updateStudent = async (
         motherCellPhone,
         fatherCellPhone,
         address,
-        admissionDate
+        admissionDate,
+        entryDate,
+        departureDate
     })
 
         .catch((error) => {
@@ -1435,6 +1439,7 @@ export const NewStdt = async (
     sex,
     race,
     fatherCellPhone,
+    entryDate,
     admissionDate,
     motherName,
     fatherName,
@@ -1453,6 +1458,7 @@ export const NewStdt = async (
         sex,
         race,
         fatherCellPhone,
+        entryDate,
         admissionDate,
         motherName,
         fatherName,

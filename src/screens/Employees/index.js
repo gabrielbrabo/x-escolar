@@ -115,9 +115,9 @@ const Employees = () => {
                                 }
                             >
                                 <option value="">Todos</option>
-                                <option value="DIRETOR/SUPERVISOR">DIRETOR/SUPERVISOR</option>
-                                <option value="SECRETARIO">SECRETARIO</option>
-                                <option value="PROFESSOR">PROFESSOR</option>
+                                <option value="DIRETOR/SUPERVISOR">DIRETOR(A)/SUPERVISOR(A)</option>
+                                <option value="SECRETARIO">SECRETARIO(A)</option>
+                                <option value="PROFESSOR">PROFESSOR(A)</option>
                             </Select>
                         </FormFilter>
                     </Search>
@@ -125,7 +125,7 @@ const Employees = () => {
                         <Btt02 onClick={NewEmoloyee}>Novo Funcionario</Btt02>
                     </DivNewEmp>
                     <List>
-                        <p>Total de funcionários: {employees.length}</p>
+                        <p>Total de Funcionários Cadastados: {employees.length}</p>
                         {
                             employees.filter((fil) => {
                                 if (!filter) {

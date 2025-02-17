@@ -130,7 +130,7 @@ const Student = () => {
                         <DivNewEmp>
                             <Btt02 onClick={NewStudent}>Novo Aluno</Btt02>
                         </DivNewEmp>
-                        <p>Total de Alunos: {student.length}</p>
+                        <p>Total de Alunos Cadastados: {student.length}</p>
 
                         {
                             student.filter((fil) => {

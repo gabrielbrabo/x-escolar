@@ -56,15 +56,15 @@ const Cla$$Info = () => {
             })
             console.log("yearClass", yearClass)
             setyearclss(yearClass)
-            const student = res.data.data.find(res => {
-                return res
-            }).id_student.map(res => {
-                if (res) {
-                    return (res)
-                } else {
-                    return null
-                }
-            })
+            const student = [
+                ...new Map(
+                    res.data.data.find(res => res)
+                        .id_student
+                        .filter(res => res.id_class.includes(id_class))
+                        .map(res => [res._id, res]) // Usa _id como chave para garantir unicidade
+                ).values()
+            ];
+            console.log("student", student)
             const classRegentEmployee = res.data.data.find(res => {
                 return res
             }).classRegentTeacher.map(res => {
@@ -224,7 +224,7 @@ const Cla$$Info = () => {
                             </DivInfo>
                         )
                     }
-                    
+
                     {
                         physicalEducationTeacher.length > 0 ? (
                             <DivInfo>

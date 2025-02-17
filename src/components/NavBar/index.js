@@ -68,7 +68,7 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
       </Emp>
       {positionAtSchool === 'DIRETOR/SUPERVISOR' && (
         <nav>
-          <a href="/home/school">Home</a>
+          {/*<a href="/home/school">Home</a>*/}
           <a href="/employees" className="nav__link">Funcionários</a>
           <a href="/student" className="nav__link">Alunos</a>
           <a href="/class" className="nav__link">Turmas</a>
@@ -78,7 +78,7 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
       )}
       {positionAtSchool === 'SECRETARIO' && (
         <nav>
-          <a href="/home/school">Home</a>
+          {/*<a href="/home/school">Home</a>*/}
           <a href="/employees" className="nav__link">Funcionários</a>
           <a href="/student" className="nav__link">Alunos</a>
           <a href="/class" className="nav__link">Turmas</a>
