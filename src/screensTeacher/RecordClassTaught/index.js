@@ -100,6 +100,7 @@ const Grade = () => {
     const handleDateChange = async () => {       
 
         const fetchQuarters = async () => {
+            setLoading(true)
             const idSchool = sessionStorage.getItem("id-school");
             const year = new Date().getFullYear();
             const dateSelected = new Date(year, month - 1, day);
@@ -164,6 +165,7 @@ const Grade = () => {
             console.error("Erro ao buscar os trimestres:", error);
             alert("Erro ao buscar informações. Tente novamente mais tarde.");
         }
+        setLoading(false)
     };
 
     return (

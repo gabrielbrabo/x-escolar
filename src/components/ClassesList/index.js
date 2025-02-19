@@ -49,7 +49,7 @@ const Grade = () => {
     const [expandedRows, setExpandedRows] = useState([]);
     const [printing, setPrinting] = useState(false); // Novo estado para controlar o modo de impressão
 
-   // const [editingIndex, setEditingIndex] = useState(null);
+    // const [editingIndex, setEditingIndex] = useState(null);
     //const [editingId, setEditingId] = useState('');
     //const [editedDescription, setEditedDescription] = useState('');
     //const [errorMessage, setErrorMessage] = useState('');
@@ -180,7 +180,7 @@ const Grade = () => {
     };
 
     const handlePrint = () => {
-        
+
         // Expande todas as descrições antes de imprimir
         setExpandedRows(recordClassTaught.map((_, index) => index));
 
@@ -221,10 +221,15 @@ const Grade = () => {
                             <h2>Registros de Aulas Lecionadas</h2>
                             <h3>{bimonthlyDaily}</h3>
                             <span><strong>Escola:</strong> {nameSchool}</span>
-                            < DataBimonthly>
-                                <span><strong>Inicio:</strong> {startd}/{startm}/{starty}</span>
-                                <span><strong>Término:</strong> {endd}/{endm}/{endy}</span>
+                            <DataBimonthly>
+                                <span>
+                                    <strong>Início:</strong> {String(startd).padStart(2, '0')}/{String(startm).padStart(2, '0')}/{starty}
+                                </span>
+                                <span>
+                                    <strong>Término:</strong> {String(endd).padStart(2, '0')}/{String(endm).padStart(2, '0')}/{endy}
+                                </span>
                             </DataBimonthly>
+
                             <CtnrBtt>
                                 <Button02 className='no-print' onClick={handlePrint} style={{ marginBottom: '15px' }}>Imprimir</Button02>
                             </CtnrBtt>

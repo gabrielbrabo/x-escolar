@@ -53,7 +53,7 @@ export const StudentSection = styled.div`
   h2 {
     margin-bottom: 10px;
     color: #333;
-    font-size: 12pt; /* Formato ABNT */
+    //font-size: 12pt; /* Formato ABNT */
   }
 
   @media print {

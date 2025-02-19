@@ -428,7 +428,7 @@ export default function AttendanceList() {
       }, 500);
     }
   };
-console.log("nameSchool", nameSchool)
+  console.log("nameSchool", nameSchool)
 
   return (
     <PrintStyle>
@@ -438,9 +438,14 @@ console.log("nameSchool", nameSchool)
         <AttendanceContainer id="printable-content" className="printable-content">
           <h2>Lista de Presença do {bimonthlyDaily}</h2>
           <DataBimonthly className="data">
-            <span><strong>Inicio:</strong> {startd}/{startm}/{starty}</span>
-            <span><strong>Término:</strong> {endd}/{endm}/{endy}</span>
+            <span>
+              <strong>Início:</strong> {String(startd).padStart(2, '0')}/{String(startm).padStart(2, '0')}/{starty}
+            </span>
+            <span>
+              <strong>Término:</strong> {String(endd).padStart(2, '0')}/{String(endm).padStart(2, '0')}/{endy}
+            </span>
           </DataBimonthly>
+
           <ContInfo className="info">
             <CtnrBtt>
               <Button className="no-print" onClick={handlePrint}>Imprimir</Button>

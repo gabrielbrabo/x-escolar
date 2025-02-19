@@ -37,6 +37,7 @@ const IndividualFormList = () => {
 
     const [bimonthly, setBimonthly] = useState([])
 
+    const [nameSchool, setnameSchool] = useState("");
     const [id_teacher, setid_teacher] = useState("");
     const [id_class, setid_class] = useState("");
     const [bimonthlyDaily, setbimonthlyDaily] = useState([]);
@@ -57,6 +58,7 @@ const IndividualFormList = () => {
             const SelectclassDaily = sessionStorage.getItem("Selectclass-daily");
             const idSchool = SelectteacherDaily.id_school;
 
+            setnameSchool(SelectteacherDaily.id_school.name);
             setid_teacher(SelectteacherDaily._id);
             setid_class(SelectclassDaily);
             setbimonthlyDaily(SelectbimonthlyDaily.bimonthly);
@@ -201,7 +203,7 @@ const IndividualFormList = () => {
         }
     };
 
-    const handlePrint = () => {
+    /*const handlePrint = () => {
         // Expande todas as descrições antes de imprimir
         setExpandedRows(IndividualForm.map((_, index) => index));
 
@@ -214,7 +216,7 @@ const IndividualFormList = () => {
                 setExpandedRows([]);
             }, 10000); // 10000ms = 10 segundos
         }, 0);
-    };
+    };*/
 
     const getDescriptionPreview = (description) => {
         const maxLength = 100;
@@ -227,19 +229,46 @@ const IndividualFormList = () => {
 
     console.log("res form", IndividualForm)
 
+    const handlePrint = () => {
+
+        // Expande todas as descrições antes de imprimir
+        setExpandedRows(IndividualForm.map((_, index) => index));
+
+        const printContent = document.getElementById('print-area');
+        //const originalContent = document.body.innerHTML;
+
+        // Aguarda o estado ser atualizado antes de imprimir
+        setTimeout(() => {// Substitui o conteúdo do body apenas pelo conteúdo da área de impressão
+            document.body.innerHTML = printContent.innerHTML;
+            window.print();
+            //document.body.innerHTML = originalContent;
+            window.location.reload(); // Recarrega a página para restaurar os eventos e estados do React
+
+            // Reseta a expansão após 10 segundos da impressão
+            setTimeout(() => {
+                setExpandedRows([]);
+            }, 10000); // 10000ms = 10 segundos
+        }, 0);
+    };
+
     return (
         <Container>
             {loading ? (
                 <LoadingSpinner />
             ) : (
-                <ContainerDivs>
+                <ContainerDivs id='print-area'>
                     <PrintStyleClasses>
-                        <StudentSection>
+                        <StudentSection id="printable-content">
                             <h2>Fichas Individuais de Alunos</h2>
                             <h3>{bimonthlyDaily}</h3>
-                            < DataBimonthly>
-                                <span><strong>Inicio:</strong> {startd}/{startm}/{starty}</span>
-                                <span><strong>Término:</strong> {endd}/{endm}/{endy}</span>
+                            <span><strong>Escola:</strong> {nameSchool}</span>
+                            <DataBimonthly >
+                                <span>
+                                    <strong>Início:</strong> {String(startd).padStart(2, '0')}/{String(startm).padStart(2, '0')}/{starty}
+                                </span>
+                                <span>
+                                    <strong>Término:</strong> {String(endd).padStart(2, '0')}/{String(endm).padStart(2, '0')}/{endy}
+                                </span>
                             </DataBimonthly>
                             <CtnrBtt>
                                 <Button02 className='no-print' onClick={handlePrint} style={{ marginBottom: '15px' }}>Imprimir</Button02>
@@ -291,7 +320,7 @@ const IndividualFormList = () => {
                             </Table>
                         </StudentSection>
                     </PrintStyleClasses>
-                    <ToGoBack onClick={messageButtonClick}>
+                    <ToGoBack onClick={messageButtonClick} className="no-print">
                         <SignMessageButtonText>Voltar para o</SignMessageButtonText>
                         <SignMessageButtonTextBold>Perfil do Professor</SignMessageButtonTextBold>
                     </ToGoBack>

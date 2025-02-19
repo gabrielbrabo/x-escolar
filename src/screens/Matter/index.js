@@ -54,7 +54,7 @@ const Matter = () => {
                 console.log("resposta backend", resNewMatter);
                 setIsSubmitting(true)
                 window.location.reload()
-            } else{
+            } else {
                 setIsSubmitting(false)
             }
         }
@@ -89,6 +89,8 @@ const Matter = () => {
     const DeleteMatter = async () => {
         navigate('/delete/matter');
     };
+
+    const colors = ["#A5D6A7", "#90CAF9", "#FFCC80", "#CE93D8", "#80DEEA", "#FFAB91", "#DCE775", "#B0BEC5"];
 
     console.log("matter", matter)
     return (
@@ -135,8 +137,8 @@ const Matter = () => {
                                             if (val.name.toUpperCase().includes(busca.toUpperCase())) return val;
                                             return null;
                                         })
-                                        .map((matter) => (
-                                            <Emp key={matter._id}>
+                                        .map((matter, index) => (
+                                            <Emp key={matter._id} style={{ backgroundColor: colors[index % colors.length] }}>
                                                 <Span>{matter.name}</Span>
                                             </Emp>
                                         ))}

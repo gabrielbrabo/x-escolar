@@ -30,6 +30,7 @@ const IndividualFormList = () => {
     const [year, setyear] = useState("");
 
     const [stdt, setStdt] = useState([]);
+    const [nameSchool, setnameSchool] = useState("");
     const [id_teacher, setid_teacher] = useState("");
     const [id_class, setid_class] = useState("");
 
@@ -47,6 +48,7 @@ const IndividualFormList = () => {
             const Nameclass = JSON.parse(sessionStorage.getItem("Nameclass-daily"));
             const SelectclassDaily = sessionStorage.getItem("Selectclass-daily");
 
+            setnameSchool(SelectteacherDaily.id_school.name);
             setid_teacher(SelectteacherDaily._id);
             setid_class(SelectclassDaily);
 
@@ -116,6 +118,74 @@ const IndividualFormList = () => {
         navigate(-1);
     };
 
+    const handlePrint = () => {
+        const printContent = document.getElementById("printable-content");
+
+        if (printContent) {
+            const printWindow = window.open("", "_blank");
+            printWindow.document.write(`
+            <html>
+              <head>
+                <title>Impressão</title>
+                <style>
+                  body { font-family: Arial, sans-serif; margin: 20px; }
+                  table { width: 100%; border-collapse: collapse; }
+                  th, td { 
+                    text-align: center;
+                    border: 1px solid #ddd;
+                    font-size: 8px;
+                    padding: 1px; 
+                  }
+                    tr {
+                      
+                    }
+                    .name-cell {
+                        text-align: start;
+                    }
+                  @page {
+                    size: A4 landscape; /* Define o formato da página como paisagem */
+                    margin: 0;
+                  }  
+                  ContTable {
+                    overflow-x: hidden; /* Permite rolagem horizontal */
+                    width: max-content; /* Garante que a tabela ocupe a largura do conteúdo */
+                    margin-left: auto; /* Centraliza horizontalmente */
+                    margin-right: auto; /* Centraliza horizontalmente */
+                  }
+                    .printable-content {
+                      visibility: visible; /* Exibe apenas o conteúdo dentro desta classe */
+                      font-size: 15px;
+                      //transform: scale(1); /* Ajusta a escala da tabela */
+                    }
+                  .data {
+                    display: flex;
+                    gap:15px;
+                  }
+                  .info {
+                    display: flex;
+                    flex-direction: column;
+                  }
+                    .no-print {
+                      display: none !important;
+                    }
+                </style>
+              </head>
+              <body>
+                ${printContent.innerHTML} 
+              </body>
+            </html>
+          `);
+
+            printWindow.document.close();
+
+            // Força um pequeno delay antes de chamar print()
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 500);
+        }
+    };
+
     console.log("res form", IndividualForm)
 
     return (
@@ -123,16 +193,17 @@ const IndividualFormList = () => {
             {loading ? (
                 <LoadingSpinner />
             ) : (
-                <AttendanceContainer className="printable-content">
+                <AttendanceContainer id="printable-content" className="printable-content">
                     <h2>Conceitos Finais</h2>
-                    <ContInfo>
+                    <ContInfo className="info">
                         <CtnrBtt>
-                            <Button className="no-print" onClick={() => window.print()}>Imprimir</Button>
+                            <Button className="no-print" onClick={handlePrint}>Imprimir</Button>
                         </CtnrBtt>
+                        <span><strong>Escola:</strong> {nameSchool}</span>
                         <span><strong>Professor:</strong> {nameTeacher}</span>
                         <span><strong>Turma:</strong> {nameClass}</span>
                     </ContInfo>
-                    <DataBimonthly>
+                    <DataBimonthly className="data">
                         <span>
                             <strong>Ano: {year}</strong>
                         </span>
@@ -172,7 +243,7 @@ const IndividualFormList = () => {
                         )
                         }
                     </ContTable>
-                    <ToGoBack onClick={messageButtonClick}>
+                    <ToGoBack onClick={messageButtonClick} className="no-print">
                         <SignMessageButtonText>Voltar para o</SignMessageButtonText>
                         <SignMessageButtonTextBold>Perfil do Professor</SignMessageButtonTextBold>
                     </ToGoBack>

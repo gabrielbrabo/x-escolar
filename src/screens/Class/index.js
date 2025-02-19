@@ -104,7 +104,7 @@ const Cla$$ = () => {
                                     onClick={() => classInformation(Clss)}
                                     key={Clss._id}
                                 >
-                                    <Span>{Clss.serie}</Span>
+                                    <Span style={{ color: "#003e4f" }}>{Clss.serie}</Span>
                                 </Emp>
                             ))}
                     </List>

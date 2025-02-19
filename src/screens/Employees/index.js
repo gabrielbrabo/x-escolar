@@ -32,9 +32,11 @@ const Employees = () => {
     const navigate = useNavigate()
     const [employees, setEmployees] = useState([])
     const [busca, setBusca] = useState("")
-    const [filter, setFilter] = useState()
+    const [filter, setFilter] = useState(sessionStorage.getItem("selectedFilter") || "")
     const [filterMatter, setFilterMatter] = useState([])
     const [loading, setLoading] = useState(false);
+
+    //const isNavigatingToEmployeeInfo = useRef(false); // UseRef para persistência
     //const [matter, setMatter] = useState()
 
     useEffect(() => {
@@ -48,9 +50,12 @@ const Employees = () => {
             //setStudent(response.data.data)
             setFilterMatter(res.data.data)
             console.log(response)
+
+            sessionStorage.setItem("selectedFilter", filter);
+
             setLoading(false);
         })()
-    }, [])
+    }, [filter])
 
     employees.sort(function (a, b) {
         if (a.name < b.name) return -1
@@ -73,6 +78,7 @@ const Employees = () => {
     }
 
     const employeeInformation = async (employee) => {
+        //isNavigatingToEmployeeInfo.current = true; // Define como true antes da navegação
         setLoading(true);
         //  sessionStorage.removeItem('EmployeeInformation')
         //sessionStorage.setItem("EmployeeInformation", employee._id)
@@ -152,7 +158,7 @@ const Employees = () => {
                                         employeeInformation(employee)
                                     }
                                     key={employee._id} >
-                                    <Span>{employee.name}</Span>
+                                    <Span style={{ color: "#003e4f" }}>{employee.name}</Span>
                                 </Emp>
                             ))
                         }

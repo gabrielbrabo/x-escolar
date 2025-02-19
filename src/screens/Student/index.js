@@ -163,7 +163,7 @@ const Student = () => {
                                     }
                                     key={student._id}
                                 >
-                                    <Span>{student.name}</Span>
+                                    <Span style={{ color: "#003e4f" }}>{student.name}</Span>
                                 </Emp>
                             ))
                         }
