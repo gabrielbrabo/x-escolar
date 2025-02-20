@@ -13,8 +13,9 @@ import {
     Btt02
 } from "./styles";
 
-import logo from "../../assests/logoDev.png"
+//import logo from "../../assests/logo192.png"
 
+import { DiReact } from "react-icons/di";
 
 export function Header({ setMenuIsVisible }) {
     const [position_at_school, setPosition_at_school] = useState();
@@ -46,7 +47,10 @@ export function Header({ setMenuIsVisible }) {
 
     return (
         <Container>
-            <div className="logoHome"><img src={logo} alt="Logo do Sistema" width="150" /> Diario Escolar Virtual</div>
+            <div className="logoHome"><DiReact style={{
+                //color: "#61dafb", // Cor padrão do React
+                filter: "drop-shadow(0 0 5px #ffffff)", // Efeito na bolinha (não é exato)
+            }} />{/*<img src={logo} alt="Logo do Sistema" width="150" />*/} Diario Escolar Virtual</div>
             <section className="desktop-nav">
                 {position_at_school === "SECRETARIO" && (
                     <nav>

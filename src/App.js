@@ -6,7 +6,7 @@ import './App.css';
 import { NavBar } from './components/NavBar';
 import { Header } from './components/Header';
 
-import logo from "./assests/logoDev.png"
+import { DiReact } from "react-icons/di";
 
 const AuthenticatedApp = () => {
   const token = sessionStorage.getItem("token");
@@ -22,7 +22,10 @@ const AuthenticatedApp = () => {
           <Header setMenuIsVisible={setMenuIsVisible} />
         </>
       ) : (
-        <div className="logo"><img src={logo} alt="Logo do Sistema" width="150" /> Diario Escolar Virtual</div>
+        <div className="logo"><DiReact style={{
+          //color: "#61dafb", // Cor padrão do React
+          filter: "drop-shadow(0 0 5px #ffffff)", // Efeito na bolinha (não é exato)
+        }} /> Diario Escolar Virtual</div>
       )}
     </>
   )

@@ -16,7 +16,24 @@ export const Container = styled.header`
     color: #3a3a3a;
     gap: 5px;
 
+    svg {
+      height: 80px;
+      width: 80px;
+      color: #0056b3;
+      animation: rotateLogo 70s linear infinite; /* Animação de rotação */
+    }
+
+    @keyframes rotateLogo {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
     img{
+      color: #007fff;
       height: 55px;
       width: 60px;
     }
@@ -29,6 +46,21 @@ export const Container = styled.header`
       img{
         height: 40px;
         width: 45px;
+      }
+
+      svg {
+        height: 40px;
+        width: 45px;
+        animation: rotateLogoMobile 70s linear infinite;
+      }
+    }
+
+    @keyframes rotateLogoMobile {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
       }
     }
   }
