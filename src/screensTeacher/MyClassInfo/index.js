@@ -113,22 +113,74 @@ const MyCla$$Info = () => {
         navigate(-1);
     };
 
+    const getRandomColor = () => {
+        const letters = "0123456789ABCDEF";
+        let color = "#";
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    };
+
+    // Função para gerar o fundo com gradiente aleatório
+    const getStoredColor = () => {
+        let storedColor = sessionStorage.getItem("backgroundColor");
+
+        if (!storedColor) {
+            // Gerar um gradiente aleatório diretamente aqui
+            const color1 = getRandomColor();
+            const color2 = getRandomColor();
+            const angle = Math.floor(Math.random() * 360); // Rotaciona o gradiente aleatoriamente
+            storedColor = `linear-gradient(${angle}deg, ${color1}, ${color2})`; // Salva o gradiente gerado
+            sessionStorage.setItem("backgroundColor", storedColor);
+        }
+
+        return storedColor;
+    };
+
+    // Determina a cor de fundo baseada no índice salvo
+    const bgColor = getStoredColor();
+
+    // Função para determinar a cor do texto baseada no brilho do fundo
+    const getTextColor = (bgColor) => {
+        if (!bgColor) return "#FFF"; // Se não houver cor, usa o branco como padrão
+
+        // Quando o fundo for gradiente, podemos calcular a média das cores
+        const regex = /#([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})/i;
+        const matches = bgColor.match(regex);
+
+        if (!matches) return "#FFF"; // Se não conseguir processar, usa o branco
+
+        const r = parseInt(matches[1], 16);
+        const g = parseInt(matches[2], 16);
+        const b = parseInt(matches[3], 16);
+
+        // Calcula o brilho com base na fórmula YIQ
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        return brightness > 128 ? "#000" : "#FFF"; // Se o fundo for claro, o texto será preto, caso contrário branco
+    };
+
+
+    const textColor = getTextColor(bgColor)
+
     return (
         <Container>
             {loading ?
                 <LoadingSpinner />
                 :
                 <ContainerDivs>
-                    {
-                        clss.map(clss => (
-                            <ClassDetails style={{ backgroundColor: "#FF5733", color: "#FFF" }} key={clss._id} >
-                                <ClassInfo style={{ color: "#FFF" }}>{clss.serie}</ClassInfo>
-                               { /*<ClassInfo>Nivel: {clss.level}</ClassInfo>*/}
-                                <ClassInfo style={{ color: "#FFF" }}>Turno: {clss.shift}</ClassInfo>
-                                {/*<ClassInfo>Numero da Sala: {clss.classroom_number}</ClassInfo>*/}
-                            </ClassDetails>
-                        ))
-                    }
+                    {clss.map((clss) => (
+                        <ClassDetails
+                            key={clss._id}
+                            style={{
+                                background: bgColor, // Aplica o gradiente como fundo
+                                color: textColor, // Aplica a cor do texto calculada
+                            }}
+                        >
+                            <ClassInfo style={{color: textColor}}>{clss.serie}</ClassInfo>
+                            <ClassInfo style={{color: textColor}}>Turno: {clss.shift}</ClassInfo>
+                        </ClassDetails>
+                    ))}
                     <ButtonContainer>
                         <button onClick={() => { navigate(/*'/test-attendance'*/'/attendance') }}>Frequência</button>
                         <button onClick={() => { navigate('/classes') }}>Aulas</button>
