@@ -96,6 +96,19 @@ export const getSchoolsData = async (idSchools) => {
         });
 }
 
+export const getSchool = async (idSchool) => {
+    console.log("idSchoolAPI", idSchool)
+    return api.post('/get/school', {
+        idSchool
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(error.response.data.message);
+                alert(result);
+                window.location.reload();
+            }
+        });
+}
 
 export const Refresh = async (
     id
@@ -120,6 +133,24 @@ export const NameSchool = async (
     return api.post('/school/index', {
         idSchool
     })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
+
+export const GetLogo = async (
+    idlogo
+) => {
+
+    return api.post('/get-logo', {
+        idlogo
+    })
+
         .catch((error) => {
             if (error) {
                 const result = JSON.stringify(
@@ -396,6 +427,43 @@ export const RegisterIstQuarter = async (
         }, [])
 }
 
+export const RegisterIstQuarter$grade = async (
+    year,
+    startday,
+    startmonth,
+    startyear,
+    endday,
+    endmonth,
+    endyear,
+    totalGrade,
+    averageGrade,
+    id_school
+) => {
+
+    return api.post(`/register/istQuarter_grade`, {
+        year,
+        startday,
+        startmonth,
+        startyear,
+        endday,
+        endmonth,
+        endyear,
+        totalGrade,
+        averageGrade,
+        id_school
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
 export const getI_stQuarterDetails = async (
     idIstQuarter
 ) => {
@@ -485,6 +553,42 @@ export const RegisterIIndQuarter = async (
         endyear,
         //totalGrade,
         //averageGrade,
+        id_school
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+export const RegisterIIndQuarter$grade = async (
+    year,
+    startday,
+    startmonth,
+    startyear,
+    endday,
+    endmonth,
+    endyear,
+    totalGrade,
+    averageGrade,
+    id_school
+) => {
+
+    return api.post(`/register/iindQuarter_grade`, {
+        year,
+        startday,
+        startmonth,
+        startyear,
+        endday,
+        endmonth,
+        endyear,
+        totalGrade,
+        averageGrade,
         id_school
     })
 
@@ -601,6 +705,42 @@ export const RegisterIIIrdQuarter = async (
             }
         }, [])
 }
+export const RegisterIIIrdQuarter$grade = async (
+    year,
+    startday,
+    startmonth,
+    startyear,
+    endday,
+    endmonth,
+    endyear,
+    totalGrade,
+    averageGrade,
+    id_school
+) => {
+
+    return api.post(`/register/iii_rdQuarter_grade`, {
+        year,
+        startday,
+        startmonth,
+        startyear,
+        endday,
+        endmonth,
+        endyear,
+        totalGrade,
+        averageGrade,
+        id_school
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
 
 export const getIII_rdQuarterDetails = async (
     idIstQuarter
@@ -691,6 +831,42 @@ export const RegisterIVthQuarter = async (
         endyear,
         //totalGrade,
         //averageGrade,
+        id_school
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+export const RegisterIVthQuarter$grade = async (
+    year,
+    startday,
+    startmonth,
+    startyear,
+    endday,
+    endmonth,
+    endyear,
+    totalGrade,
+    averageGrade,
+    id_school
+) => {
+
+    return api.post(`/register/iv_thQuarter_grade`, {
+        year,
+        startday,
+        startmonth,
+        startyear,
+        endday,
+        endmonth,
+        endyear,
+        totalGrade,
+        averageGrade,
         id_school
     })
 
@@ -963,6 +1139,7 @@ export const RegisterGradeIstQuarter = async (
     id_iStQuarter,
     id_student,
     id_teacher,
+    id_teacher02,
     id_matter,
     id_class
 ) => {
@@ -976,9 +1153,27 @@ export const RegisterGradeIstQuarter = async (
         id_iStQuarter,
         id_student,
         id_teacher,
+        id_teacher02,
         id_matter,
         id_class
     })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const RegisterNumericalGrade = async (
+    grades
+) => {
+
+    return api.post(`/register/numerical-grade`, {grades})
 
         .catch((error) => {
             if (error) {
@@ -1009,16 +1204,90 @@ export const GetGradeIstQuarter = async (
             }
         }, [])
 }
+export const GetNumericalGradeIstQuarter = async (
+    year, id_matter, id_iStQuarter, id_class
+) => {
+
+    return api.post(`/index/numerical-gradei`, {
+        year, id_matter, id_iStQuarter, id_class
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+export const GetNumericalGradeIINdQuarter = async (
+    year, id_matter, id_iiNdQuarter, id_class
+) => {
+
+    return api.post(`/index/numerical-gradeii`, {
+        year, id_matter, id_iiNdQuarter, id_class
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const GetNumericalGradeIIIRdQuarter = async (
+    year, id_matter, id_iiiRdQuarter, id_class
+) => {
+
+    return api.post(`/index/numerical-gradeiii`, {
+        year, id_matter, id_iiiRdQuarter, id_class
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+export const GetNumericalGradeIVThQuarter = async (
+    year, id_matter, id_ivThQuarter, id_class
+) => {
+
+    return api.post(`/index/numerical-gradeiv`, {
+        year, id_matter, id_ivThQuarter, id_class
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
 
 export const RegisterGradeIIndQuarter = async (
     year,
     bimonthly,
-    totalGrade,
-    averageGrade,
+    //totalGrade,
+    //averageGrade,
     studentGrade,
     id_iiNdQuarter,
     id_student,
     id_teacher,
+    id_teacher02,
     id_matter,
     id_class
 ) => {
@@ -1026,12 +1295,13 @@ export const RegisterGradeIIndQuarter = async (
     return api.post(`/register/grade`, {
         year,
         bimonthly,
-        totalGrade,
-        averageGrade,
+        //totalGrade,
+        //averageGrade,
         studentGrade,
         id_iiNdQuarter,
         id_student,
         id_teacher,
+        id_teacher02,
         id_matter,
         id_class
     })
@@ -1068,12 +1338,13 @@ export const GetGradeIINdQuarter = async (
 export const RegisterGradeIIIrdQuarter = async (
     year,
     bimonthly,
-    totalGrade,
-    averageGrade,
+    //totalGrade,
+    //averageGrade,
     studentGrade,
     id_iiiRdQuarter,
     id_student,
     id_teacher,
+    id_teacher02,
     id_matter,
     id_class
 ) => {
@@ -1081,12 +1352,13 @@ export const RegisterGradeIIIrdQuarter = async (
     return api.post(`/register/grade`, {
         year,
         bimonthly,
-        totalGrade,
-        averageGrade,
+        //totalGrade,
+        //averageGrade,
         studentGrade,
         id_iiiRdQuarter,
         id_student,
         id_teacher,
+        id_teacher02,
         id_matter,
         id_class
     })
@@ -1123,12 +1395,13 @@ export const GetGradeIIIrdQuarter = async (
 export const RegisterGradeIVthQuarter = async (
     year,
     bimonthly,
-    totalGrade,
-    averageGrade,
+    //totalGrade,
+    //averageGrade,
     studentGrade,
     id_ivThQuarter,
     id_student,
     id_teacher,
+    id_teacher02,
     id_matter,
     id_class
 ) => {
@@ -1136,12 +1409,13 @@ export const RegisterGradeIVthQuarter = async (
     return api.post(`/register/grade`, {
         year,
         bimonthly,
-        totalGrade,
-        averageGrade,
+        //totalGrade,
+        //averageGrade,
         studentGrade,
         id_ivThQuarter,
         id_student,
         id_teacher,
+        id_teacher02,
         id_matter,
         id_class
     })
@@ -1286,6 +1560,25 @@ export const GetGradeVIthQuarter = async (
         }, [])
 }
 
+export const GetNumericalGrade = async (
+    year, bimonthly, id_student
+) => {
+
+    return api.post(`/get-numerical-grade`, {
+        year, bimonthly, id_student
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
 export const GetGrades = async (
     year, bimonthly, id_student
 ) => {
@@ -1310,6 +1603,27 @@ export const updateGrade = async (
 ) => {
 
     return api.post(`/update/grade`, {
+        update_id_grade,
+        update_studentGrade
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const updateNumericalGrade = async (
+    update_id_grade,
+    update_studentGrade
+) => {
+
+    return api.post(`/update/numerical-grade`, {
         update_id_grade,
         update_studentGrade
     })
@@ -1631,6 +1945,28 @@ export const addTchr = async (
 ) => {
 
     return api.post(`/add/teacher`, {
+        id_employee,
+        id_class,
+        //id_matter
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
+
+export const addTchr02 = async (
+    id_employee,
+    id_class,
+    //id_matter
+) => {
+
+    return api.post(`/add/teacher02`, {
         id_employee,
         id_class,
         //id_matter
@@ -2154,6 +2490,7 @@ export const createIndividualForm = async ({
     description,
     id_student,
     id_teacher,
+    id_teacher02,
     id_iStQuarter,
     id_iiNdQuarter,
     id_iiiRdQuarter,
@@ -2169,6 +2506,7 @@ export const createIndividualForm = async ({
             description,
             id_student,
             id_teacher,
+            id_teacher02,
             id_iStQuarter,
             id_iiNdQuarter,
             id_iiiRdQuarter,
@@ -2214,9 +2552,9 @@ export const FormEdit = async ({
         }, [])
 };
 
-export const FinalConcepts = async (year, studentGrade, id_matter, id_employee, id_student, id_class) => {
+export const FinalConcepts = async (year, studentGrade, id_matter, id_employee, id_teacher02, id_student, id_class) => {
     return api
-        .post(`/register/final-concepts`, { year, studentGrade, id_matter, id_employee, id_student, id_class })
+        .post(`/register/final-concepts`, { year, studentGrade, id_matter, id_employee, id_teacher02, id_student, id_class })
         .catch((error) => {
             if (error.response) {
                 console.error("Erro na API:", error.response.data.msg);
@@ -2348,6 +2686,72 @@ export const IndexGradeDaily = async (
             }
         }, [])
 };
+export const IndexGradeDailyTeacher02 = async (
+    year,
+    id_class,
+    id_teacher02,
+    id_iStQuarter,
+    id_iiNdQuarter,
+    id_iiiRdQuarter,
+    id_ivThQuarter,
+    id_vThQuarter,
+    id_viThQuarter,
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/grade-daily-teacher02`, {
+        year,
+        id_class,
+        id_teacher02,
+        id_iStQuarter,
+        id_iiNdQuarter,
+        id_iiiRdQuarter,
+        id_ivThQuarter,
+        id_vThQuarter,
+        id_viThQuarter,
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+};
+export const IndexNumericalGradeDaily = async (
+    year,
+    id_class,
+    id_teacher,
+    id_iStQuarter,
+    id_iiNdQuarter,
+    id_iiiRdQuarter,
+    id_ivThQuarter,
+    id_vThQuarter,
+    id_viThQuarter,
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/numerical-grade-daily`, {
+        year,
+        id_class,
+        id_teacher,
+        id_iStQuarter,
+        id_iiNdQuarter,
+        id_iiiRdQuarter,
+        id_ivThQuarter,
+        id_vThQuarter,
+        id_viThQuarter,
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+};
 
 export const RecordClassTaughtDaily = async (
     year, id_teacher, id_class, startd, startm, starty, endd, endm, endy
@@ -2373,6 +2777,23 @@ export const FinalConceptsDaily = async (
     // Faz a chamada para a rota com os parâmetros opcionais
     return api.post(`/final-concepts/daily`,
         year, id_class, id_teacher
+    )
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+};
+export const FinalConceptsDailyTeacher02 = async (
+    year, id_class, id_teacher02,
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/final-concepts/daily-teacher02`,
+        year, id_class, id_teacher02
     )
         .catch((error) => {
             if (error) {
@@ -2461,6 +2882,23 @@ export const indexGrades = async (
         }, [])
 };
 
+export const indexNumericalGradesCard = async (
+    year, id_student
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/numerical-grades-card`, {
+        year, id_student
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+};
 export const indexGradesCard = async (
     year, id_student
 ) => {

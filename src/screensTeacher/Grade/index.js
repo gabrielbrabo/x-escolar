@@ -30,6 +30,7 @@ import LoadingSpinner from '../../components/Loading'
 const Grade = () => {
 
     const navigate = useNavigate()
+    const [assessmentFormat, setassessmentFormat] = useState('');
     const [I, setI] = useState([])
     const [II, setII] = useState([])
     const [III, setIII] = useState([])
@@ -49,7 +50,10 @@ const Grade = () => {
         (async () => {
             setLoading(true);
             const idSchool = sessionStorage.getItem("id-school");
+            const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
+            setassessmentFormat($assessmentFormat)
             const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
+            const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
             const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
             const Id_employee = localStorage.getItem("Id_employee");
             const year = new Date().getFullYear();
@@ -91,6 +95,17 @@ const Grade = () => {
             }
             console.log("disciplinas", res.data.data)
             if (classRegentTeacher === Id_employee) {
+                const filterMatter = res.data.data.filter(res => {
+                    if (res.name !== 'EDUCAÇÃO FÍSICA') {
+                        if (res !== null) {
+                            return res
+                        }
+                    }
+                    return null
+                })
+                setMatter(filterMatter);
+                console.log("filterMatter professor regent", filterMatter)
+            } else if (classRegentTeacher02 === Id_employee) {
                 const filterMatter = res.data.data.filter(res => {
                     if (res.name !== 'EDUCAÇÃO FÍSICA') {
                         if (res !== null) {
@@ -144,16 +159,37 @@ const Grade = () => {
 
         if (Selectbimonthly === I) {
             sessionStorage.setItem("id-I", I)
-            navigate('/grade-istquarter')
+            if (assessmentFormat === "grade") {
+                console.log("assessmentFormat", assessmentFormat)
+                navigate('/$st-quarter-grade') 
+            } else {
+               navigate('/grade-istquarter') 
+            }
+            
         } else if (Selectbimonthly === II) {
             sessionStorage.setItem("id-II", II)
-            navigate('/grade-iindquarter')
+            if (assessmentFormat === "grade") {
+                console.log("assessmentFormat", assessmentFormat)
+                navigate('/$$nd-quarter-grade') 
+            } else {
+                navigate('/grade-iindquarter') 
+            }
         } else if (Selectbimonthly === III) {
             sessionStorage.setItem("id-III", III)
-            navigate('/grade-iiirdquarter')
+            if (assessmentFormat === "grade") {
+                console.log("assessmentFormat", assessmentFormat)
+                navigate('/$$$rd-quarter-grade') 
+            } else {
+                navigate('/grade-iiirdquarter')
+            }
         } else if (Selectbimonthly === IV) {
             sessionStorage.setItem("id-IV", IV)
-            navigate('/grade-ivthquarter')
+            if (assessmentFormat === "grade") {
+                console.log("assessmentFormat", assessmentFormat)
+                navigate('/$$$$th-quarter-grade') 
+            } else {
+                navigate('/grade-ivthquarter')
+            }
         } else if (Selectbimonthly === V) {
             sessionStorage.setItem("id-V", V)
             navigate('/grade-vthquarter')

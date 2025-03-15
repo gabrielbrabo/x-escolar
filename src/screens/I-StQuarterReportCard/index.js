@@ -28,7 +28,7 @@ import {
 
 import GlobalStyle from './style';
 
-import { GetGrades, AttendanceBimonthly, indexGradesCard } from '../../Api';
+import { GetGrades, AttendanceBimonthly, indexGradesCard, GetLogo } from '../../Api';
 
 import { IoCheckmarkSharp, IoCloseSharp } from "react-icons/io5";
 
@@ -40,6 +40,7 @@ const GradeIstquarter = () => {
 
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true);
+  const [logo, setLogo] = useState([])
   const [grade, setGrade] = useState([])
   const [stdtName, setStdtName] = useState([])
   const [teacherName, setTeacherName] = useState('')
@@ -71,9 +72,21 @@ const GradeIstquarter = () => {
       const id_student = sessionStorage.getItem("StudentInformation");
       const nameSchool = sessionStorage.getItem("School");
       const stdtName = sessionStorage.getItem("stdt-name");
+      const idlogo = sessionStorage.getItem("id_logo");
       setStdtName(stdtName)
       setNameSchool(nameSchool)
       setid_student(id_student)
+      
+      if (idlogo && /^[0-9a-fA-F]{24}$/.test(idlogo)) { 
+        const logo = await GetLogo(idlogo);
+        if (logo?.data?.Logo?.url) {
+          console.log('getlogo', logo.data.Logo.url);
+          setLogo(logo.data.Logo.url);
+        }
+      } else {
+        console.error("idlogo inválido:", idlogo);
+      }
+
       const resGrade = await GetGrades(year, bimonthly, id_student)
       setGrade(resGrade.data.data)
       console.log("resGrade", resGrade.data.data)
@@ -190,6 +203,8 @@ const GradeIstquarter = () => {
   const countPresences = highlightedDays.length;
   const countAbsences = highlightedDaysF.length;
 
+  console.log('logo', logo)
+
   return (
     <Container>
       <GlobalStyle /> {/* Adicionando estilos globais */}
@@ -198,6 +213,12 @@ const GradeIstquarter = () => {
       ) : (
         <>
           <ContainerDivs>
+            {
+              logo.length > 0 && (
+                <img src={logo} alt="Imagem" />
+              )
+            }
+
             <PrintButton className="no-print" onClick={handlePrint}>
               Imprimir
             </PrintButton>

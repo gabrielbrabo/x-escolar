@@ -24,8 +24,8 @@ import {
     EmployeeInfo,
     DivButtomEdit,
     Btt02,
-    //Btt01,
-    //ButtonCancel,
+    Btt01,
+    ButtonCancel,
     AddMatterSection,
     WarningBox,
     Button,
@@ -54,6 +54,7 @@ import LoadingSpinner from '../../components/Loading'
 const Student = () => {
 
     const navigate = useNavigate()
+    const [assessmentFormat, setassessmentFormat] = useState('');
     const currentYear = new Date().getFullYear().toString();
     const [I, setI] = useState([])
     const [II, setII] = useState([])
@@ -70,6 +71,8 @@ const Student = () => {
     const [loading, setLoading] = useState(false);
     const [removeStudent, setRemoveStudent] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    
+    const [positionAtSchool, setPositionAtSchool] = useState('');
 
     const { id_student } = useParams()
     console.log(currentYear)
@@ -79,6 +82,8 @@ const Student = () => {
             setLoading(true);
 
             const idSchool = sessionStorage.getItem("id-school");
+            const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
+            setassessmentFormat($assessmentFormat)
             // const id_student = sessionStorage.getItem("StudentInformation");
             const year = new Date().getFullYear();
             console.log("idSchool", idSchool)
@@ -89,8 +94,8 @@ const Student = () => {
                 return;
             }
 
-            //const position = localStorage.getItem('position_at_school');
-            //setPositionAtSchool(position);
+            const position = localStorage.getItem('position_at_school');
+            setPositionAtSchool(position);
             //sessionStorage.removeItem('StudentInformation')
             sessionStorage.setItem("StudentInformation", id_student)
             const res = await StdtInfo(id_student)
@@ -196,16 +201,36 @@ const Student = () => {
 
         if (Selectbimonthly === I) {
             sessionStorage.setItem("id-I", I)
-            navigate('/ist-quarter-report-card')
+            if (assessmentFormat === "grade") {
+                console.log("assessmentFormat", assessmentFormat)
+                navigate('/ist-numerical-grade-card') 
+            } else {
+                navigate('/ist-quarter-report-card') 
+            }
         } else if (Selectbimonthly === II) {
             sessionStorage.setItem("id-II", II)
-            navigate('/iind-quarter-report-card')
+            if (assessmentFormat === "grade") {
+                console.log("assessmentFormat", assessmentFormat)
+                navigate('/iind-numerical-grade-card') 
+            } else {
+                navigate('/iind-quarter-report-card')
+            }
         } else if (Selectbimonthly === III) {
             sessionStorage.setItem("id-III", III)
-            navigate('/iiird-quarter-report-card')
+            if (assessmentFormat === "grade") {
+                console.log("assessmentFormat", assessmentFormat)
+                navigate('/iiird-numerical-grade-card') 
+            } else {
+                navigate('/iiird-quarter-report-card')
+            }
         } else if (Selectbimonthly === IV) {
             sessionStorage.setItem("id-IV", IV)
-            navigate('/ivth-quarter-report-card')
+            if (assessmentFormat === "grade") {
+                console.log("assessmentFormat", assessmentFormat)
+                navigate('/ivth-numerical-grade-card') 
+            } else {
+                navigate('/ivth-quarter-report-card')
+            }
         } else if (Selectbimonthly === V) {
             sessionStorage.setItem("id-V", V)
             navigate('/vth-quarter-report-card')
@@ -215,7 +240,12 @@ const Student = () => {
         } else if (Selectbimonthly === 'FinalConcepts') {
             console.log("boletim final", Selectbimonthly)
             //sessionStorage.setItem("id-VI", VI)
-            navigate('/final-concepts-report-card')
+            if (assessmentFormat === "grade") {
+                console.log("assessmentFormat", assessmentFormat)
+                navigate('/final-numerical-grade-card') 
+            } else {
+                navigate('/final-concepts-report-card')
+            }
         } else {
             setErrorMessage('Erro, Verifique os dados e tente novamente.');
         }
@@ -232,7 +262,8 @@ const Student = () => {
                 <LoadingSpinner />
                 :
                 <>
-                    <ContainerDivs>
+                    { removeStudent === false &&
+                        <ContainerDivs>
                         {
                             student.map(student => (
                                 <Emp key={student._id} >
@@ -309,17 +340,21 @@ const Student = () => {
                             </ContainerCalendar>
                         }
                     </ContainerDivs>
-                    {/*positionAtSchool === "DIRETOR/SUPERVISOR"
+                    }
+                    {positionAtSchool === "DIRETOR/SUPERVISOR"
                         &&
                         <ButtonCancel>
                             <Btt01 onClick={() => { setRemoveStudent(true) }}>Remover Estudante</Btt01>
                         </ButtonCancel>
-                    */}
+                    }
                     {removeStudent === true && (
                         <AddMatterSection>
                             <WarningBox>
                                 {student.map(student => (
-                                    <Span>Tem certeza que deseja remover {student.name}?</Span>
+                                    <Span>
+                                        Isso apagara todos os dados do aluno nessa Escola.
+                                        Tem certeza que deseja remover {student.name}?
+                                    </Span>
                                 ))}
                             </WarningBox>
                             <ActionButtons>

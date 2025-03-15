@@ -146,6 +146,7 @@ export const Span = styled.span`
   display: block;
   margin-bottom: 10px;
   font-size: 16px;
+  color: #333;
   @media (max-width: 768px) {
     font-size: 14px;
   }

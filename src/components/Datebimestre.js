@@ -14,18 +14,18 @@ dayjs.extend(localizedFormat);
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
+    //align-items: center;
     justify-content: center;
-    padding: 20px;
-    width: 600px; /* Largura máxima do componente */
-    height: 370px; /* Largura máxima do componente */
-    margin: auto; /* Centraliza horizontalmente */
+    //padding: 20px;
+    //width: 600px; /* Largura máxima do componente */
+    //height: 370px; /* Largura máxima do componente */
+    //margin: auto; /* Centraliza horizontalmente */
     background: #f9f9f9; /* Cor de fundo */
     border-radius: 8px; /* Bordas arredondadas */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    //box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra leve */
 
     @media (max-width: 768px) {
-        width: 350px; /* Largura máxima do componente */
+        width: 100%; /* Largura máxima do componente */
         height: 370px; /* Largura máxima do componente */
     }
 `;
@@ -95,7 +95,7 @@ const ResponsivePickers = ({ setSelectedDateStart, setDayStart, setMonthStart, s
                         />
                     </DemoItem>
                 </InputContainer>
-                <p>Fim:</p>
+                <p>Término:</p>
                 <InputContainer components={['DesktopDatePicker']}>
                     <DemoItem>
                         <DesktopDatePicker

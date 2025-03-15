@@ -111,6 +111,7 @@ export const Span = styled.div`
   font-size: 10pt; /* Formato ABNT */
   justify-content: flex-start;
   align-items: flex-start;
+  gap: 3px;
 
   div {
     display: flex;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { clssInfo, FinalConceptsDaily } from '../../Api';
+import { clssInfo, FinalConceptsDaily, FinalConceptsDailyTeacher02 } from '../../Api';
 import { useNavigate } from 'react-router-dom';
 import {
     //Container,
@@ -40,6 +40,8 @@ const IndividualFormList = () => {
     const [nameTeacher, setnameTeacher] = useState([]);
     const [nameClass, setnameClass] = useState([]);
 
+    const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
+
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -56,6 +58,11 @@ const IndividualFormList = () => {
             setnameClass(Nameclass.serie);
             setyear(year);
 
+            const Employee02 = await Nameclass.classRegentTeacher02.find(res => {
+                return res
+            })
+
+            setclassRegentTeacher02(Employee02)
 
             if (year && id_class) {
 
@@ -66,28 +73,47 @@ const IndividualFormList = () => {
                 setStdt(student);
 
                 try {
-                    const res = await FinalConceptsDaily({
-                        year,
-                        id_class,
-                        id_teacher,
-                    })
-                    const resForm = await res.data.data.filter(res => {
-                        if (! null) {
-                            return (res)
-                        } else {
-                            return (null)
-                        }
-                    })
-                    setIndividualForm(resForm)
-                    console.log("individual form", res);
-                    console.log("Form", resForm);
+                    if (RegentTeacher02 === id_teacher) {
+                        
+                        const id_teacher02 = RegentTeacher02
+
+                        const res = await FinalConceptsDailyTeacher02({
+                            year,
+                            id_class,
+                            id_teacher02
+                        })
+                        const resForm = await res.data.data.filter(res => {
+                            if (! null) {
+                                return (res)
+                            } else {
+                                return (null)
+                            }
+                        })
+                        setIndividualForm(resForm)
+                    } else {
+                        const res = await FinalConceptsDaily({
+                            year,
+                            id_class,
+                            id_teacher,
+                        })
+                        const resForm = await res.data.data.filter(res => {
+                            if (! null) {
+                                return (res)
+                            } else {
+                                return (null)
+                            }
+                        })
+                        setIndividualForm(resForm)
+                        console.log("individual form", res);
+                        console.log("Form", resForm);
+                    }
                 } catch (error) {
                     console.error("Erro ao buscar dados:", error);
                 }
                 setLoading(false);
             }
         })();
-    }, [id_class, id_teacher,]);
+    }, [id_class, id_teacher, RegentTeacher02]);
 
     /*IndividualForm.sort(function (a, b) {
         if (a.id_student.name < b.id_student.name) return -1

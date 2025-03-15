@@ -57,11 +57,21 @@ const Employees = () => {
         })()
     }, [filter])
 
-    employees.sort(function (a, b) {
-        if (a.name < b.name) return -1
-        if (a.name > b.name) return 1
-        return 0
-    })
+    employees.sort((a, b) =>
+        a.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").localeCompare(
+            b.name.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            "pt-BR",
+            { sensitivity: "base" }
+        )
+    );
+
+    const normalizeString = (str) => {
+        return str
+            .normalize("NFD") // Separa os caracteres acentuados
+            .replace(/[\u0300-\u036f]/g, "") // Remove os acentos
+            .replace(/[^\w\s]/gi, "") // Remove pontuações
+            .toUpperCase(); // Converte para maiúsculas
+    };
 
     filterMatter.sort(function (a, b) {
         if (a.name < b.name) return -1
@@ -141,12 +151,8 @@ const Employees = () => {
                                 }
                                 return null
                             }).filter((val) => {
-                                if (!busca) {
-                                    return (val)
-                                } else if (val.name.includes(busca.toUpperCase())) {
-                                    return (val)
-                                }
-                                return null
+                                if (!busca) return val;
+                                return normalizeString(val.name).includes(normalizeString(busca));
                             })/*.filter((employee) => {
                                if(employee._id !== JSON.parse(loggedInEmployeeId)) {
                                     return employee

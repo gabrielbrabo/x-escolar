@@ -31,10 +31,13 @@ import Class from "./screens/Class"
 import NewClass from "./screens/NewClass"
 import Matter from "./screens/Matter"
 import NewMatter from "./screens/NewMatter"
+
 import AddMatter from "./screens/AddMatter"
 import AddStudent from "./screens/AddStudent"
 import AddTeacher from "./screens/AddTeacher"
+import AddRegentTeacher02 from "./screens/AddRegentTeacher02"
 import AddphysicalTeacher from "./screens/AddphysicalTeacher"
+
 import StudentInfo from "./screens/StudentInfo"
 import EmployeeInfo from "./screens/EmployeeInfo"
 import PerfilEmployee from "./screens/PerfilEmployee"
@@ -67,13 +70,26 @@ import MyClasses from "./screensTeacher/MyClasses"
 import MyClassesInfo from "./screensTeacher/MyClassInfo"
 import Attendance from "./screensTeacher/Attendance"
 import TestAttendance from "./screensTeacher/TestAttendance"
+
 import Grade from "./screensTeacher/Grade"
+
+import IstQuarterGrade from "./screensTeacher/1stQuarterGrade"
+import IIndQuarterGrade from "./screensTeacher/2ndQuarterGrade"
+import IIIrdQuarterGrade from "./screensTeacher/3rdQuarterGrade"
+import IVthQuarterGrade from "./screensTeacher/4thQuarterGrade"
+
 import GradeiStQuarter from "./screensTeacher/GradeiStQuarter"
 import GradeiiNdQuarter from "./screensTeacher/GradeiiNdQuarter"
 import GradeiiiRdQuarter from "./screensTeacher/GradeiiiRdQuarter"
 import GradeivThQuarter from "./screensTeacher/GradeivThQuarter"
 import GradevThQuarter from "./screensTeacher/GradevThQuarter"
 import GradeviThQuarter from "./screensTeacher/GradeviThQuarter"
+
+import IStNumericalGradeCard from "./screens/I-StNumericalGradeCard"
+import IINdNumericalGradeCard from "./screens/II-NdNumericalGradeCard"
+import IIIRdNumericalGradeCard from "./screens/III-RdNumericalGradeCard"
+import IVThNumericalGradeCard from "./screens/IV-ThNumericalGradeCard"
+import FinalNumericalGradescard from "./screens/FinalNumericalGradescard"
 
 import IStQuarterReportCard from "./screens/I-StQuarterReportCard"
 import IINdQuarterReportCard from "./screens/II-NdQuarterReportCard"
@@ -265,6 +281,7 @@ const AppRoutes = () => {
                             <AddMatter />
                         </Private>
                     } />
+
                     <Route exact path="/add/student" element={
                         <Private>
                             <AddStudent />
@@ -275,11 +292,17 @@ const AppRoutes = () => {
                             <AddTeacher />
                         </Private>
                     } />
+                    <Route exact path="/add/teacher02/:id_class" element={
+                        <Private>
+                            <AddRegentTeacher02 />
+                        </Private>
+                    } />
                     <Route exact path="/add/physicalteacher/:id_class" element={
                         <Private>
                             <AddphysicalTeacher/>
                         </Private>
                     } />
+
                     <Route exact path="/student/info/:id_student" element={
                         <Private>
                             <StudentInfo />
@@ -346,6 +369,28 @@ const AppRoutes = () => {
                             <Grade />
                         </Private>
                     } />
+
+                    <Route exact path="/$st-quarter-grade" element={
+                        <Private>
+                            <IstQuarterGrade/>
+                        </Private>
+                    } />
+                    <Route exact path="/$$nd-quarter-grade" element={
+                        <Private>
+                            <IIndQuarterGrade/>
+                        </Private>
+                    } />
+                    <Route exact path="/$$$rd-quarter-grade" element={
+                        <Private>
+                            <IIIrdQuarterGrade/>
+                        </Private>
+                    } />
+                    <Route exact path="/$$$$th-quarter-grade" element={
+                        <Private>
+                            <IVthQuarterGrade/>
+                        </Private>
+                    } />
+                    
                     <Route exact path="/grade-istquarter" element={
                         <Private>
                             <GradeiStQuarter />
@@ -376,6 +421,33 @@ const AppRoutes = () => {
                             <GradeviThQuarter />
                         </Private>
                     } />
+
+                    <Route exact path="/ist-numerical-grade-card" element={
+                        <Private>
+                            <IStNumericalGradeCard/>
+                        </Private>
+                    } />
+                    <Route exact path="/iind-numerical-grade-card" element={
+                        <Private>
+                            <IINdNumericalGradeCard/>
+                        </Private>
+                    } />
+                    <Route exact path="/iiird-numerical-grade-card" element={
+                        <Private>
+                            <IIIRdNumericalGradeCard/>
+                        </Private>
+                    } />
+                    <Route exact path="/ivth-numerical-grade-card" element={
+                        <Private>
+                            <IVThNumericalGradeCard/>
+                        </Private>
+                    } />
+                    <Route exact path="/final-numerical-grade-card" element={
+                        <Private>
+                            <FinalNumericalGradescard/>
+                        </Private>
+                    } />
+                    
                     <Route exact path="/ist-quarter-report-card" element={
                         <Private>
                             <IStQuarterReportCard/>
@@ -411,6 +483,7 @@ const AppRoutes = () => {
                             <FinalConceptscard/>
                         </Private>
                     } />
+
                     <Route exact path="/record-class-taught" element={
                         <Private>
                             <RecordClassTaught/>

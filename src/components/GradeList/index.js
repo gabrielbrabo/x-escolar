@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { clssInfo, IndexGradeDaily, getIstQuarter, getIIndQuarter, getIIIrdQuarter, getIVthQuarter, getVthQuarter, getVIthQuarter } from '../../Api';
+import { clssInfo, IndexGradeDaily, IndexGradeDailyTeacher02, getIstQuarter, getIIndQuarter, getIIIrdQuarter, getIVthQuarter, getVthQuarter, getVIthQuarter } from '../../Api';
 import { useNavigate } from 'react-router-dom';
 import {
     //Container,
@@ -49,6 +49,8 @@ const IndividualFormList = () => {
     const [nameTeacher, setnameTeacher] = useState([]);
     const [nameClass, setnameClass] = useState([]);
 
+    const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
+
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -65,6 +67,12 @@ const IndividualFormList = () => {
             setbimonthlyDaily(SelectbimonthlyDaily.bimonthly);
             setnameTeacher(SelectteacherDaily.name);
             setnameClass(Nameclass.serie);
+
+            const Employee02 = await Nameclass.classRegentTeacher02.find(res => {
+                return res
+            })
+
+            setclassRegentTeacher02(Employee02)
 
             if (SelectbimonthlyDaily.bimonthly === "1º BIMESTRE") {
                 const IstQuarter = await getIstQuarter(year, idSchool);
@@ -157,22 +165,49 @@ const IndividualFormList = () => {
                         console.log("idEmployee", id_teacher)
                         console.log("id_class", id_class)
                         console.log("year", year)
-                        const res = await IndexGradeDaily({
-                            year,
-                            id_class,
-                            id_teacher,
-                            [quarterIdKey]: idQuarter,
-                        })
-                        const resForm = await res.data.data.filter(res => {
-                            if (! null) {
-                                return (res)
-                            } else {
-                                return (null)
-                            }
-                        })
-                        setIndividualForm(resForm)
-                        console.log("individual form", res);
-                        console.log("Form", resForm);
+
+                        if (RegentTeacher02 === id_teacher) {
+                            console.log("#$RegentTeacher02", RegentTeacher02)
+                            console.log("#$idEmployee", id_teacher)
+
+                            const id_teacher02 = RegentTeacher02
+
+                            const res = await IndexGradeDailyTeacher02({
+                                year,
+                                id_class,
+                                id_teacher02,
+                                [quarterIdKey]: idQuarter,
+                            })
+                            const resForm = await res.data.data.filter(res => {
+                                if (! null) {
+                                    return (res)
+                                } else {
+                                    return (null)
+                                }
+                            })
+                            setIndividualForm(resForm)
+                            //console.log("individual form", res);
+                            //console.log("Form", resForm);
+                        } else {
+                            console.log("diferente", id_teacher)
+                            const res = await IndexGradeDaily({
+                                year,
+                                id_class,
+                                id_teacher,
+                                [quarterIdKey]: idQuarter,
+                            })
+                            const resForm = await res.data.data.filter(res => {
+                                if (! null) {
+                                    return (res)
+                                } else {
+                                    return (null)
+                                }
+                            })
+                            setIndividualForm(resForm)
+                            console.log("individual form", res);
+                            console.log("Form", resForm);
+                        }
+
                     } catch (error) {
                         console.error("Erro ao buscar dados:", error);
                     }
@@ -180,8 +215,9 @@ const IndividualFormList = () => {
                 setLoading(false);
             }
         })();
-    }, [bimonthly, id_class, id_teacher, startd, startm, starty, endd, endm, endy]);
-
+    }, [bimonthly, id_class, id_teacher, startd, startm, starty, endd, endm, endy, RegentTeacher02]);
+    console.log("RegentTeacher02", RegentTeacher02)
+    console.log("idEmployee", id_teacher)
     /*IndividualForm.sort(function (a, b) {
         if (a.id_student.name < b.id_student.name) return -1
         if (a.id_student.name > b.id_student.name) return 1

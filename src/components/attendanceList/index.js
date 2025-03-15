@@ -147,6 +147,21 @@ export const SignMessageButtonTextBold = styled.span`
   }
 `;
 
+const InfoText = styled.div`
+  display: flex;
+  width: 100%;
+  color: #777;
+  font-size: 16px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+
+  @media print {
+    display: none;
+  }
+`;
+
 const PrintStyle = styled.div`
   @media print {
     body *{
@@ -220,6 +235,10 @@ export default function AttendanceList() {
 
   const [loading, setLoading] = useState(false);
 
+  const [RegentTeacher, setclassRegentTeacher] = useState([]);
+  const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
+
+
   useEffect(() => {
     const fetchAttendanceData = async () => {
 
@@ -237,6 +256,16 @@ export default function AttendanceList() {
       setbimonthlyDaily(SelectbimonthlyDaily.bimonthly);
       setnameTeacher(SelectteacherDaily.name);
       setnameClass(Nameclass.serie);
+
+      const Employee02 = await Nameclass.classRegentTeacher02.find(res => {
+        return res
+      })
+      const Employee = await Nameclass.classRegentTeacher.find(res => {
+        return res
+      })
+
+      setclassRegentTeacher(Employee)
+      setclassRegentTeacher02(Employee02)
 
       //console.log(selec)
 
@@ -308,16 +337,30 @@ export default function AttendanceList() {
         });
         setStdt(student);
 
-        const res = await AttendanceByTeacherAndClass(year, id_teacher, id_class, startd, startm, starty, endd, endm, endy);
-        if (res) {
-          setAttendanceData(res.data.data);
+        if (RegentTeacher02 === id_teacher) {
+          const res = await AttendanceByTeacherAndClass(year, RegentTeacher, id_class, startd, startm, starty, endd, endm, endy);
+          if (res) {
+            setAttendanceData(res.data.data);
+          } else {
+            setAttendanceData([]);
+          }
+          // console.log("resclass", res.data.data)
+          setLoading(false);
+        } else {
+
+          const res = await AttendanceByTeacherAndClass(year, id_teacher, id_class, startd, startm, starty, endd, endm, endy);
+          if (res) {
+            setAttendanceData(res.data.data);
+          } else {
+            setAttendanceData([]);
+          }
+          // console.log("resclass", res.data.data)
+          setLoading(false);
         }
-        console.log("resclass", res.data.data)
-        setLoading(false);
       }
     };
     fetchAttendanceData();
-  }, [id_teacher, id_class, startd, startm, starty, endd, endm, endy]);
+  }, [id_teacher, id_class, startd, startm, starty, endd, endm, endy, RegentTeacher, RegentTeacher02]);
 
   const getAttendanceStatus = (studentId, date) => {
     const attendanceForDate = attendanceData.find(
@@ -455,35 +498,39 @@ export default function AttendanceList() {
             <span><strong>Turma:</strong> {nameClass}</span>
           </ContInfo>
           <ContTable>
-            <Table>
-              <TableHeader>
-                <tr>
-                  <th className="name-cell">Nome do Aluno</th>
-                  {uniqueDates.map((date, index) => (
-                    <th key={index} className="date-cell">
-                      {formatDisplayDate(date)}
-                    </th>
-                  ))}
-                  <th className="total-presence">Total P</th>
-                  <th className="total-absence">Total F</th>
-                </tr>
-              </TableHeader>
-              <TableBody>
-                {stdt
-                  .sort((a, b) => a.name.localeCompare(b.name)) // Ordena alfabeticamente
-                  .map((student) => {
-                    const totals = calculateTotals(student._id);
-                    return (
-                      <tr key={student._id}>
-                        <td className="name-cell">{student.name}</td>
-                        {uniqueDates.map((date) => getAttendanceStatus(student._id, date))}
-                        <td className="total-presence">{totals.totalPresence}</td>
-                        <td className="total-absence">{totals.totalAbsence}</td>
-                      </tr>
-                    );
-                  })}
-              </TableBody>
-            </Table>
+            {attendanceData.length > 0 && !null && !undefined ? (
+              <Table>
+                <TableHeader>
+                  <tr>
+                    <th className="name-cell">Nome do Aluno</th>
+                    {uniqueDates.map((date, index) => (
+                      <th key={index} className="date-cell">
+                        {formatDisplayDate(date)}
+                      </th>
+                    ))}
+                    <th className="total-presence">Total P</th>
+                    <th className="total-absence">Total F</th>
+                  </tr>
+                </TableHeader>
+                <TableBody>
+                  {stdt
+                    .sort((a, b) => a.name.localeCompare(b.name)) // Ordena alfabeticamente
+                    .map((student) => {
+                      const totals = calculateTotals(student._id);
+                      return (
+                        <tr key={student._id}>
+                          <td className="name-cell">{student.name}</td>
+                          {uniqueDates.map((date) => getAttendanceStatus(student._id, date))}
+                          <td className="total-presence">{totals.totalPresence}</td>
+                          <td className="total-absence">{totals.totalAbsence}</td>
+                        </tr>
+                      );
+                    })}
+                </TableBody>
+              </Table>
+            ) : (
+              <InfoText>Não há nenhum registro</InfoText>
+            )}
           </ContTable>
           <ToGoBack onClick={messageButtonClick} className="no-print">
             <SignMessageButtonText>Voltar para o</SignMessageButtonText>

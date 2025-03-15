@@ -28,6 +28,7 @@ const Preload = () => {
                     const response = await Refresh(JSON.parse(id));
 
                     if (response && response.data) {
+                        console.log("response", response)
                         // Processa os dados se a resposta existir
                         const IdEmployee = response.data.id;
                         const loggedEmployee = response.data.CPF;
@@ -39,6 +40,8 @@ const Preload = () => {
                         const id_matter = response.data.id_matter;
                         const id_class = response.data.id_class;
                         const id_reporter_cardid_class = response.data.id_reporter_card;
+                        //const assessmentFormat = response.data.assessmentFormat
+                        //const idLogo = response.data.logoSchool
                         const nameSchool = await NameSchool(id_school);
 
                         sessionStorage.setItem("School", nameSchool.data.data);
@@ -49,6 +52,8 @@ const Preload = () => {
                         localStorage.setItem("type", type);
                         localStorage.setItem("position_at_school", position_at_school);
                         sessionStorage.setItem("id-school", JSON.stringify(id_school));
+                        //sessionStorage.setItem("assessmentFormat", assessmentFormat)
+                        //sessionStorage.setItem("id_logo", idLogo)
                         sessionStorage.setItem("id_matter", id_matter);
                         sessionStorage.setItem("id_class", id_class);
                         sessionStorage.setItem("id_reporter_cardid_class", id_reporter_cardid_class);

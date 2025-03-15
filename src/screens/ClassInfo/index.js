@@ -34,6 +34,7 @@ const Cla$$Info = () => {
     const [clss, setClss] = useState([])
     const [yearclss, setyearclss] = useState('')
     const [classRegentEmployee, setclassRegentEmployee] = useState([])
+    const [classRegentEmployee02, setclassRegentEmployee02] = useState([])
     const [physicalEducationTeacher, setphysicalEducationTeacher] = useState([])
     //const [matter, setMatter] = useState("")
     const [stdt, setStdt] = useState([])
@@ -50,7 +51,7 @@ const Cla$$Info = () => {
             //const id_clas = sessionStorage.getItem("ClassInformation")
             const res = await clssInfo(id_class)
             setClss(res.data.data)
-            console.log(res.data.data)
+            console.log( 'reposta', res.data.data)
             const yearClass = res.data.data.find(clss => {
                 return clss.year
             })
@@ -74,6 +75,17 @@ const Cla$$Info = () => {
                     return (null)
                 }
             })
+            
+            const classRegentEmployee02 = res.data.data.find(res => {
+                return res
+            }).classRegentTeacher02.map(res => {
+                if (res) {
+                    return (res)
+                } else {
+                    return (null)
+                }
+            })
+
             const physicalEducationTeacher = res.data.data.find(res => {
                 return res
             }).physicalEducationTeacher.map(res => {
@@ -85,6 +97,7 @@ const Cla$$Info = () => {
             })
             //RegentTeacher
             setclassRegentEmployee(classRegentEmployee)
+            setclassRegentEmployee02(classRegentEmployee02)
             setphysicalEducationTeacher(physicalEducationTeacher)
             setStdt(student)
             //setMatter(matter)
@@ -102,6 +115,9 @@ const Cla$$Info = () => {
 
     const addTeacher = async () => {
         navigate(`/add/teacher/${id_class}`)
+    }
+    const addTeacher02 = async () => {
+        navigate(`/add/teacher02/${id_class}`)
     }
     const addPhysicalTeacher = async () => {
         navigate(`/add/physicalteacher/${id_class}`)
@@ -224,6 +240,65 @@ const Cla$$Info = () => {
                             </DivInfo>
                         )
                     }
+                    {
+                        classRegentEmployee02.length > 0 ? (
+                            <DivInfo>
+                                <TitleInfo>Professor Regente de Truma 02:</TitleInfo>
+                                {/*!showTeacher &&
+                                    <DivShowMatter>
+                                        <Btt02 onClick={() => { setShowTeacher(true) }}>Ver Professores <TiArrowDownThick fontSize={'17px'} /></Btt02>
+                                    </DivShowMatter>
+                                    */
+                                }
+                                {
+                                    <>
+                                        {yearclss.year === currentYear
+                                            &&
+                                            <DivAddEmp>
+                                                {/*<AddEmp>
+                                                    <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
+                                                </AddEmp>*/}
+                                                <AddEmp>
+                                                    <Btt02 onClick={RemoveTeacher}>Remover</Btt02>
+                                                </AddEmp>
+                                            </DivAddEmp>
+                                        }
+                                        <Matter>
+
+                                            {
+                                                classRegentEmployee02.map(emp => (
+                                                    <div onClick={() => handleEmployee(emp)} key={emp._id}>
+                                                        <Span>{emp.name}</Span>
+                                                    </div>
+                                                ))
+                                            }
+                                        </Matter>
+                                        {
+                                            /*<DivShowMatter>
+                                            <Btt02 onClick={() => { setShowTeacher(false) }}>Fecha<TiArrowUpThick fontSize={'17px'} /></Btt02>
+                                        </DivShowMatter>
+                                        */
+                                        }
+                                    </>
+                                }
+                            </DivInfo>
+                        ) : (
+                            <DivInfo>
+                                <TitleInfo>Professor Regente de Truma 02:</TitleInfo>
+                                {yearclss.year === currentYear
+                                    &&
+                                    <DivAddEmp>
+                                        <AddEmp>
+                                            <Btt02 onClick={addTeacher02}>Add Prefessor</Btt02>
+                                        </AddEmp>
+                                    </DivAddEmp>
+                                }
+                                <Matter>
+                                    <>Não há nenhum Professor</>
+                                </Matter>
+                            </DivInfo>
+                        )
+                    }
 
                     {
                         physicalEducationTeacher.length > 0 ? (
@@ -284,6 +359,8 @@ const Cla$$Info = () => {
                             ?
                             <DivInfo>
                                 <TitleInfo>Alunos:</TitleInfo>
+                                
+                                <p>Total de Alunos: {stdt.length}</p>
                                 {/*!showStudent &&
                                     <DivShowMatter>
                                         <Btt02 onClick={() => { setShowStudent(true) }}>Ver Alunos <TiArrowDownThick fontSize={'17px'} /></Btt02>

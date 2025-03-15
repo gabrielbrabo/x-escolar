@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }) => {
 
         sessionStorage.removeItem("user")
         sessionStorage.removeItem("token")
-        sessionStorage.removeItem("patient")
+        //sessionStorage.removeItem("patient")
         api.defaults.headers.Authorization = null
         setUser(null)
 

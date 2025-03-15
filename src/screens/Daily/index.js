@@ -1,4 +1,4 @@
-//import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Container,
   Butons,
@@ -11,11 +11,20 @@ import {
 import AttendanceList from '../../components/attendanceList/index';
 import Classes from '../../components/ClassesList/index';
 import IndividualFormList from '../../components/IndividualFormList/index';
+import NumericalGradeList from '../../components/NumericalGradeList';
 import GradeList from '../../components/GradeList/index';
 import FinalGradeList from '../../components/FinalGradeList/index';
 
 const Daily = () => {
   const activeComponent = sessionStorage.getItem('activeComponent') || 'attendanceList';
+  const [assessmentFormat, setassessmentFormat] = useState('');
+
+  useEffect(() => {
+    (async () => {
+      const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
+      setassessmentFormat($assessmentFormat)
+    })();
+  }, []);
 
   const handleComponentChange = (component) => {
     if (activeComponent !== component) {
@@ -34,6 +43,8 @@ const Daily = () => {
         return <IndividualFormList />;
       case 'concepts':
         return <GradeList />;
+      case 'numericalGrades':
+        return <NumericalGradeList/>;
       case 'finalConcepts':
         return <FinalGradeList />;
       default:
@@ -44,15 +55,28 @@ const Daily = () => {
   return (
     <Container>
       <Butons>
+
         <UpperButons>
           <Btt02 onClick={() => handleComponentChange('attendanceList')}>Frequência</Btt02>
           <Btt02 onClick={() => handleComponentChange('classes')}>Aulas Lecionadas</Btt02>
-          <Btt02 onClick={() => handleComponentChange('concepts')}>Conceitos</Btt02>
+          {assessmentFormat !== 'grade'
+            ?
+            (
+              <Btt02 onClick={() => handleComponentChange('concepts')}>Conceitos</Btt02>
+            ) : (
+              <Btt02 onClick={() => handleComponentChange('numericalGrades')}>Notas</Btt02>
+            )
+          }
         </UpperButons>
-        <BottomButons>
-          <Btt02 onClick={() => handleComponentChange('individualRecords')}>Fichas Individuais</Btt02>
-          <Btt02 onClick={() => handleComponentChange('finalConcepts')}>Conceitos Finais</Btt02>
-        </BottomButons>
+
+        {assessmentFormat !== "grade"
+          &&
+          <BottomButons>
+            <Btt02 onClick={() => handleComponentChange('individualRecords')}>Fichas Individuais</Btt02>
+            <Btt02 onClick={() => handleComponentChange('finalConcepts')}>Conceitos Finais</Btt02>
+          </BottomButons>
+        }
+
       </Butons>
       <Context>
         {renderActiveComponent()} {/* Renderiza o componente ativo */}

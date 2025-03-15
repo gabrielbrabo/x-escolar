@@ -9,7 +9,7 @@ import {
     Span,
     Search,
     FormFilter,
-   // FormSearch,
+    // FormSearch,
     //AreaEmp,
     //InputEmp,
     Select,
@@ -23,7 +23,7 @@ const MyCla$$ = () => {
     const currentYear = new Date().getFullYear().toString();
     const [Clss, setClss] = useState([])
     const [filter, setFilter] = useState()
-   // const [busca, setBusca] = useState()
+    // const [busca, setBusca] = useState()
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -46,6 +46,9 @@ const MyCla$$ = () => {
                     return null
                 }
             })
+            sessionStorage.removeItem("classRegentTeacher", JSON.stringify(res._id))
+            sessionStorage.removeItem("classRegentTeacher02", JSON.stringify(res._id))
+            sessionStorage.removeItem("physicalEducationTeacher", JSON.stringify(res._id))
             setClss(clss)
             setLoading(false);
             console.log("clss", clss)

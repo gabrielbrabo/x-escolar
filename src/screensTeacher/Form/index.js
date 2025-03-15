@@ -34,6 +34,10 @@ const Form = () => {
     const [bimonthly, setbimonthly] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    const [RegentTeacher, setclassRegentTeacher] = useState([]);
+    const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
+    const [physicalEducation, setphysicalEducationTeacher] = useState([]);
+
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -42,6 +46,15 @@ const Form = () => {
             const id_student = JSON.parse(sessionStorage.getItem("stdt"));
             const Selectbimonthly = JSON.parse(sessionStorage.getItem("Selectbimonthly"));
             const nameStudent = sessionStorage.getItem("nmstdt");
+
+            const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
+            const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
+            const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
+
+            setclassRegentTeacher(JSON.parse(classRegentTeacher))
+            setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
+            setphysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
+
             setnameStudent(nameStudent)
             setbimonthly(Selectbimonthly.bimonthly)
             setSelectbimonthly(Selectbimonthly)
@@ -69,11 +82,29 @@ const Form = () => {
         if (quarterIdKey) {
             try {
                 const idQuarter = selectbimonthly._id;
-                const res = await createIndividualForm({ year, id_class, description, id_student, id_teacher, [quarterIdKey]: idQuarter })
-                if(res) {
-                    navigate(-1)
+                if (RegentTeacher === id_teacher) {
+                    const id_teacher02 = RegentTeacher02
+                    const res = await createIndividualForm({ year, id_class, description, id_student, id_teacher: RegentTeacher, id_teacher02, [quarterIdKey]: idQuarter })
+                    if (res) {
+                        navigate(-1)
+                    }
+                    console.log("individual form regente 01", res);
+                } else if (RegentTeacher02 === id_teacher) {
+                    const id_teacher02 = RegentTeacher02
+                    const res = await createIndividualForm({ year, id_class, description, id_student, id_teacher: RegentTeacher, id_teacher02, [quarterIdKey]: idQuarter })
+                    if (res) {
+                        navigate(-1)
+                    }
+                    console.log("individual form regente 02", res);
+                } else if (physicalEducation === id_teacher) {
+                    const id_teacher02 = null;
+                    const res = await createIndividualForm({ year, id_class, description, id_student, id_teacher, id_teacher02, [quarterIdKey]: idQuarter })
+                    if (res) {
+                        navigate(-1)
+                    }
+                    console.log("individual form", res);
                 }
-                console.log("individual form", res);
+
             } catch (error) {
                 setErrorMessage('Erro, Verifique os dados e tente novamente.');
             }

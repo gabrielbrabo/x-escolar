@@ -51,11 +51,15 @@ const Student = () => {
         })()
     }, [currentYear])
     //console.log("clss",Clss)
-    student.sort(function (a, b) {
-        if (a.name < b.name) return -1
-        if (a.name > b.name) return 1
-        return 0
-    })
+    const normalizeString = (str) => {
+        return str
+            .normalize("NFD") // Separa caracteres acentuados
+            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+            .replace(/[^\w\s]/gi, "") // Remove pontuações
+            .toUpperCase(); // Converte para maiúsculas
+    };
+
+    student.sort((a, b) => normalizeString(a.name).localeCompare(normalizeString(b.name)));
 
     if (filter) {
         /*student.map((fil) => {
@@ -82,7 +86,7 @@ const Student = () => {
     const StudentInformation = async (student) => {
         setLoading(true);
         //sessionStorage.removeItem('StudentInformation')
-       // sessionStorage.setItem("StudentInformation", student._id)
+        // sessionStorage.setItem("StudentInformation", student._id)
         navigate(`/student/info/${student._id}`)
         setLoading(false);
     }
@@ -150,12 +154,8 @@ const Student = () => {
                                 }
                                 return null
                             }).filter((val) => {
-                                if (!busca) {
-                                    return (val)
-                                } else if (val.name.includes(busca.toUpperCase())) {
-                                    return (val)
-                                }
-                                return null
+                                if (!busca) return val;
+                                return normalizeString(val.name).includes(normalizeString(busca));
                             }).map(student => (
                                 <Emp
                                     onClick={() =>

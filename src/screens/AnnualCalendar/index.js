@@ -34,6 +34,7 @@ const HomeSchool = () => {
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [assessmentFormat, setassessmentFormat] = useState('');
   const [IStQuarter, setIStQuarter] = useState([]);
   const [IIndQuarter, setIIndQuarter] = useState([]);
   const [IIIrdQuarter, setIIIrdQuarter] = useState([]);
@@ -47,6 +48,8 @@ const HomeSchool = () => {
       setLoading(true);
       const idSchool = sessionStorage.getItem("id-school");
       const position = localStorage.getItem('position_at_school');
+      const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
+      setassessmentFormat($assessmentFormat)
       setPosition_at_school(position);
       const year = new Date().getFullYear();
 
@@ -196,8 +199,15 @@ const HomeSchool = () => {
           <DivDados>
             {data.map(res => (
               <React.Fragment key={res._id}>
+                {console.log("data", data)}
                 <p>Início: {String(res.startday).padStart(2, '0')}/{String(res.startmonth).padStart(2, '0')}/{res.startyear}</p>
                 <p>Término: {String(res.endday).padStart(2, '0')}/{String(res.endmonth).padStart(2, '0')}/{res.endyear}</p>
+                {assessmentFormat === "grade" &&
+                  <>
+                    <p style={{ color: 'green' }}>Nota Total: {String(res.totalGrade)}</p>
+                    <p style={{ color: 'blue' }}>Nota Média: {String(res.averageGrade)}</p>
+                  </>
+                }
               </React.Fragment>
             ))}
           </DivDados>

@@ -48,12 +48,13 @@ const Finalconcepts = () => {
     const [Namematter, setNameMatter] = useState([])
     const [year, setYear] = useState('');
     const [id_matter, setSelectMatter] = useState('');
-    const [matter, setMttr] = useState([]);
+    const [matter, setMatter] = useState([]);
     const [id_employee, setid_employee] = useState('');
     const [id_class, setId_class] = useState('')
     const [studentGrade, setStudentGrade] = useState('');
     const [stdt, setStdt] = useState([])
     const [checked, setChecked] = useState([])
+    const [id_teacher, setId_teacher] = useState([])
     const [namestudent, setNamestudent] = useState('')
     const [update_id_grade, setUpdateIdGrade] = useState(null);
     const [update_studentGrade, setUpdateStudentGrade] = useState(null);
@@ -66,12 +67,17 @@ const Finalconcepts = () => {
     const [iiiRdQuarter, setIIIrdQuarter] = useState([]);
     const [ivThQuarter, setIVthQuarter] = useState([]);
 
+    const [RegentTeacher, setclassRegentTeacher] = useState([]);
+    const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
+    const [physicalEducation, setphysicalEducationTeacher] = useState([]);
+
     useEffect(() => {
         (async () => {
             setLoading(true);
 
             const idSchool = sessionStorage.getItem("id-school");
             const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
+            const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
             const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
             const Id_employee = localStorage.getItem("Id_employee");
             const id_teacher = JSON.parse(localStorage.getItem("Id_employee"));
@@ -83,9 +89,14 @@ const Finalconcepts = () => {
                 setSelectMatter(Selectmatt)
             }
 
+            setclassRegentTeacher(JSON.parse(classRegentTeacher))
+            setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
+            setphysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
+
             setid_employee(id_teacher);
             setYear(currentYear); // Certifique-se de que o ano é definido aqui.
             setId_class(id_cla$$);
+            setId_teacher(JSON.parse(Id_employee))
 
             if (year && id_class && id_matter) {
                 const grades = await indexGrades(year, id_class, id_matter)
@@ -158,11 +169,21 @@ const Finalconcepts = () => {
                     }
                     return null
                 })
-                setMttr(filterMatter);
+                setMatter(filterMatter);
+                console.log("filterMatter professor regent", filterMatter)
+            } else if (classRegentTeacher02 === Id_employee) {
+                const filterMatter = res.data.data.filter(res => {
+                    if (res.name !== 'EDUCAÇÃO FÍSICA') {
+                        if (res !== null) {
+                            return res
+                        }
+                    }
+                    return null
+                })
+                setMatter(filterMatter);
                 console.log("filterMatter professor regent", filterMatter)
             } else if (physicalEducationTeacher === Id_employee) {
                 const filterMatter = res.data.data.filter(res => {
-                    //Educação Física
                     if (res.name === 'EDUCAÇÃO FÍSICA') {
                         if (res !== null) {
                             return res
@@ -170,7 +191,7 @@ const Finalconcepts = () => {
                     }
                     return null
                 })
-                setMttr(filterMatter);
+                setMatter(filterMatter);
                 console.log("filterMatter", filterMatter)
             }
 
@@ -191,43 +212,129 @@ const Finalconcepts = () => {
 
         console.log("year", year)
         const id_student = stdt._id
-        console.log("year", year, "studentGrade", studentGrade, "id_student", id_student, "id_teacher", id_employee, "id_matter", id_matter)
-        const res = await FinalConcepts(year, studentGrade, id_matter, id_employee, id_student, id_class)
-        if (res) {
-            console.log("res", res)
-            const resGrade = await GetGradeFinalConcepts(year, id_matter)
-            const resClass = await clssInfo(id_class)
-            const GradeRealized = await resGrade.data.data.map(res => {
-                return res.id_student._id
-            })
-            const checkedStudent = await resGrade.data.data.map(res => {
-                return res
-            })
-            const student = await resClass.data.data.find(res => {
-                return res
-            }).id_student.map(res => {
-                return res
-            }).filter(studentId => {
-                if (!GradeRealized.includes(studentId._id)) {
-                    return studentId
-                }
-                return null
-            })
-            setStdt(student)
-            setChecked(checkedStudent)
-            console.log("res", res)
-            console.log("GradeRealized", GradeRealized)
-            console.log("checkedStudent", checkedStudent)
-            console.log("student", student)
-            console.log("resGrade", resGrade)
-            console.log("resClass", resClass)
-            setErrorMessage('')
-        } else {
-            setErrorMessage('Erro, Verifique os dados e tente novamente.');
+        console.log("year", year, "studentGrade", studentGrade, "id_student", id_student, "id_teacher", id_teacher, "id_matter", id_matter)
+        if (RegentTeacher === id_teacher) {
+
+            const id_teacher02 = RegentTeacher02
+            const res = await FinalConcepts(year, studentGrade, id_matter, id_employee, id_teacher02, id_student, id_class)
+            if (res) {
+                const resGrade = await GetGradeFinalConcepts(year, id_matter)
+                const resClass = await clssInfo(id_class)
+                const GradeRealized = await resGrade.data.data.map(res => {
+                    return res.id_student._id
+                })
+                const checkedStudent = await resGrade.data.data.map(res => {
+                    return res
+                })
+                const student = await resClass.data.data.find(res => {
+                    return res
+                }).id_student.map(res => {
+                    return res
+                }).filter(studentId => {
+                    if (!GradeRealized.includes(studentId._id)) {
+                        return studentId
+                    }
+                    return null
+                })
+                setStdt(student)
+                setChecked(checkedStudent)
+                console.log("res", res)
+                console.log("GradeRealized", GradeRealized)
+                console.log("checkedStudent", checkedStudent)
+                console.log("student", student)
+                console.log("resGrade", resGrade)
+                console.log("resClass", resClass)
+                setErrorMessage('')
+            } else {
+                setErrorMessage('Erro, Verifique os dados e tente novamente.');
+            }
+            //console.log("res", res)
+            setStudentGrade([])
+            console.log("res", setStudentGrade)
+
+            console.log("filterMatter professor regent", RegentTeacher)
+        } else if (RegentTeacher02 === id_teacher) {
+            console.log("filterMatter professor regent02", RegentTeacher02)
+
+            //setId_teacher(RegentTeacher)
+
+            const id_teacher02 = RegentTeacher02
+            const res = await FinalConcepts(year, studentGrade, id_matter, RegentTeacher, id_teacher02, id_student, id_class)
+            if (res) {
+                const resGrade = await GetGradeFinalConcepts(year, id_matter)
+                const resClass = await clssInfo(id_class)
+                const GradeRealized = await resGrade.data.data.map(res => {
+                    return res.id_student._id
+                })
+                const checkedStudent = await resGrade.data.data.map(res => {
+                    return res
+                })
+                const student = await resClass.data.data.find(res => {
+                    return res
+                }).id_student.map(res => {
+                    return res
+                }).filter(studentId => {
+                    if (!GradeRealized.includes(studentId._id)) {
+                        return studentId
+                    }
+                    return null
+                })
+                setStdt(student)
+                setChecked(checkedStudent)
+                console.log("res", res)
+                console.log("GradeRealized", GradeRealized)
+                console.log("checkedStudent", checkedStudent)
+                console.log("student", student)
+                console.log("resGrade", resGrade)
+                console.log("resClass", resClass)
+                setErrorMessage('')
+            } else {
+                setErrorMessage('Erro, Verifique os dados e tente novamente.');
+            }
+            //console.log("res", res)
+            setStudentGrade([])
+            console.log("res", setStudentGrade)
+
+        } else if (physicalEducation === id_teacher) {
+            console.log("filterMatter", physicalEducation)
+            const id_teacher02 = null;
+            const res = await FinalConcepts(year, studentGrade, id_matter, id_employee, id_teacher02, id_student, id_class)
+
+            if (res) {
+                const resGrade = await GetGradeFinalConcepts(year, id_matter)
+                const resClass = await clssInfo(id_class)
+                const GradeRealized = await resGrade.data.data.map(res => {
+                    return res.id_student._id
+                })
+                const checkedStudent = await resGrade.data.data.map(res => {
+                    return res
+                })
+                const student = await resClass.data.data.find(res => {
+                    return res
+                }).id_student.map(res => {
+                    return res
+                }).filter(studentId => {
+                    if (!GradeRealized.includes(studentId._id)) {
+                        return studentId
+                    }
+                    return null
+                })
+                setStdt(student)
+                setChecked(checkedStudent)
+                console.log("res", res)
+                console.log("GradeRealized", GradeRealized)
+                console.log("checkedStudent", checkedStudent)
+                console.log("student", student)
+                console.log("resGrade", resGrade)
+                console.log("resClass", resClass)
+                setErrorMessage('')
+            } else {
+                setErrorMessage('Erro, Verifique os dados e tente novamente.');
+            }
+            //console.log("res", res)
+            setStudentGrade([])
+            console.log("res", setStudentGrade)
         }
-        //console.log("res", res)
-        setStudentGrade([])
-        console.log("res", setStudentGrade)
         setLoading(false)
     }
 

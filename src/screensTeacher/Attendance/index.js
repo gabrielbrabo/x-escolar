@@ -35,7 +35,10 @@ import {
     BoxButton,
     BoxButtonEdit,
     //BoxButtonStatus,
-    //EmpEdit
+    //EmpEdit,
+    ToGoBack,
+    SignMessageButtonText,
+    SignMessageButtonTextBold,
 } from './style';
 
 import {
@@ -69,6 +72,11 @@ const IndexAttendance = () => {
     const [attendanceList, setAttendanceList] = useState([]);
     const [RemoveAttendanceList, setRemoveAttendanceList] = useState([]);
 
+    const [RegentTeacher, setclassRegentTeacher] = useState([]);
+    const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
+    const [physicalEducation, setphysicalEducationTeacher] = useState([]);
+
+
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -93,6 +101,15 @@ const IndexAttendance = () => {
                 setDay(JSON.parse(Day));
                 setMonth(JSON.parse(Month));
                 setYear(JSON.parse(Year));
+
+                const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
+                const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
+                const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
+
+                setclassRegentTeacher(JSON.parse(classRegentTeacher))
+                setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
+                setphysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
+
             }
 
             // setId_teacher(idTeacher || "");
@@ -106,41 +123,90 @@ const IndexAttendance = () => {
                     id_class,
                     id_teacher, // Deve ser string aqui
                 });
-                const resAtt = await GetAttendanceFinalized(month, year, day, id_class, id_teacher);
-                console.log("resAtt", resAtt)
-                const resClass = await clssInfo(id_class);
-                const attRealized = await resAtt.data.data.map(res => res.id_student._id);
-                const checkedStudent = await resAtt.data.data;
-                const student = await resClass.data.data.find(res => res).id_student
-                    .filter(studentId => !attRealized.includes(studentId._id))
-                    .sort((a, b) => a.name.localeCompare(b.name)); // Ordena `stdt` em ordem alfabética
+                if (RegentTeacher02 === id_teacher) {
+                    const resAtt = await GetAttendanceFinalized(month, year, day, id_class, RegentTeacher);
+                    console.log("resAtt", resAtt)
+                    const resClass = await clssInfo(id_class);
+                    const attRealized = await resAtt.data.data.map(res => res.id_student._id);
+                    const checkedStudent = await resAtt.data.data;
+                    const student = await resClass.data.data.find(res => res).id_student
+                        .filter(studentId => !attRealized.includes(studentId._id))
+                        .sort((a, b) => a.name.localeCompare(b.name)); // Ordena `stdt` em ordem alfabética
 
-                setStdt(student);
-                setChecked(checkedStudent.sort((a, b) => a.id_student.name.localeCompare(b.id_student.name))); // Ordena `checked` em ordem alfabética
+                    setStdt(student);
+                    setChecked(checkedStudent.sort((a, b) => a.id_student.name.localeCompare(b.id_student.name))); // Ordena `checked` em ordem alfabética
+
+                } else {
+                    const resAtt = await GetAttendanceFinalized(month, year, day, id_class, id_teacher);
+                    console.log("resAtt", resAtt)
+                    const resClass = await clssInfo(id_class);
+                    const attRealized = await resAtt.data.data.map(res => res.id_student._id);
+                    const checkedStudent = await resAtt.data.data;
+                    const student = await resClass.data.data.find(res => res).id_student
+                        .filter(studentId => !attRealized.includes(studentId._id))
+                        .sort((a, b) => a.name.localeCompare(b.name)); // Ordena `stdt` em ordem alfabética
+
+                    setStdt(student);
+                    setChecked(checkedStudent.sort((a, b) => a.id_student.name.localeCompare(b.id_student.name))); // Ordena `checked` em ordem alfabética
+
+                }
             }
 
             setLoading(false);
         })();
-    }, [day, id_teacher, month, year]);
+    }, [day, id_teacher, month, year, RegentTeacher, RegentTeacher02, ]);
 
     // Exemplo de como inicializar todos os alunos com "presença"
     useEffect(() => {
-        const initialAttendanceList = stdt.map(stdt => ({
-            id_student: stdt._id,
-            status: "P", // Marca todos os alunos como presença inicialmente
-            day: day,
-            month: month,
-            year: year,
-            id_teacher: id_teacher,
-            id_class: id_class
-        }));
-        setAttendanceList(initialAttendanceList);
+        if (RegentTeacher === id_teacher) {
+            const id_teacher02 = RegentTeacher02
+            const initialAttendanceList = stdt.map(stdt => ({
+                id_student: stdt._id,
+                status: "P", // Marca todos os alunos como presença inicialmente
+                day: day,
+                month: month,
+                year: year,
+                id_teacher: id_teacher,
+                id_teacher02: id_teacher02,
+                id_class: id_class
+            }));
+            setAttendanceList(initialAttendanceList);
+        } else if (RegentTeacher02 === id_teacher) {
+            const id_teacher02 = RegentTeacher02
+            const initialAttendanceList = stdt.map(stdt => ({
+                id_student: stdt._id,
+                status: "P", // Marca todos os alunos como presença inicialmente
+                day: day,
+                month: month,
+                year: year,
+                id_teacher: RegentTeacher,
+                id_teacher02: id_teacher02,
+                id_class: id_class
+            }));
+            setAttendanceList(initialAttendanceList);
+        } else if (physicalEducation === id_teacher) {
+            const id_teacher02 = null;
+            const initialAttendanceList = stdt.map(stdt => ({
+                id_student: stdt._id,
+                status: "P", // Marca todos os alunos como presença inicialmente
+                day: day,
+                month: month,
+                year: year,
+                id_teacher: id_teacher,
+                id_teacher02: id_teacher02,
+                id_class: id_class
+            }));
+            setAttendanceList(initialAttendanceList);
+        }
     }, [stdt,
         day,
         month,
         year,
         id_teacher,
         id_class,
+        RegentTeacher,
+        RegentTeacher02,
+        physicalEducation
     ]); // Isso assume que você tem a lista de alunos em "students"
 
     if (selectedDate) {
@@ -207,6 +273,7 @@ const IndexAttendance = () => {
         })
         fetchQuarters();
     }
+
     const clickRemovedate = () => {
         setLoading(true)
         sessionStorage.removeItem("selectedDate")
@@ -220,6 +287,7 @@ const IndexAttendance = () => {
         setYear('')
         setLoading(false)
     }
+
     const Finalyze = async () => {
         setLoading(true)
         const res = await Attendance(attendanceList)
@@ -233,20 +301,56 @@ const IndexAttendance = () => {
     }
 
     const handleCheckAttendance = (id_student, status) => {
-        setAttendanceList(prevList => {
-            const existing = prevList.find(att => att.id_student === id_student);
 
-            // Se já existe um registro e clicou no mesmo status, remove a marcação
-            if (existing?.status === status) {
-                return prevList.filter(att => att.id_student !== id_student);
-            }
+        if (RegentTeacher === id_teacher) {
+            setAttendanceList(prevList => {
+                const id_teacher02 = RegentTeacher02
+                const existing = prevList.find(att => att.id_student === id_student);
 
-            // Atualiza a lista, garantindo que o aluno tenha apenas um status ativo
-            return [
-                ...prevList.filter(att => att.id_student !== id_student),
-                { id_student, status, day, month, year, id_teacher, id_class }
-            ];
-        });
+                // Se já existe um registro e clicou no mesmo status, remove a marcação
+                if (existing?.status === status) {
+                    return prevList.filter(att => att.id_student !== id_student);
+                }
+
+                // Atualiza a lista, garantindo que o aluno tenha apenas um status ativo
+                return [
+                    ...prevList.filter(att => att.id_student !== id_student),
+                    { id_student, status, day, month, year, id_teacher, id_teacher02, id_class }
+                ];
+            })
+        } else if (RegentTeacher02 === id_teacher) {
+            setAttendanceList(prevList => {
+                const id_teacher02 = RegentTeacher02
+                const existing = prevList.find(att => att.id_student === id_student);
+
+                // Se já existe um registro e clicou no mesmo status, remove a marcação
+                if (existing?.status === status) {
+                    return prevList.filter(att => att.id_student !== id_student);
+                }
+
+                // Atualiza a lista, garantindo que o aluno tenha apenas um status ativo
+                return [
+                    ...prevList.filter(att => att.id_student !== id_student),
+                    { id_student, status, day, month, year, id_teacher: RegentTeacher, id_teacher02, id_class }
+                ];
+            })
+        } else if (physicalEducation === id_teacher) {
+            setAttendanceList(prevList => {
+                const id_teacher02 = null;
+                const existing = prevList.find(att => att.id_student === id_student);
+
+                // Se já existe um registro e clicou no mesmo status, remove a marcação
+                if (existing?.status === status) {
+                    return prevList.filter(att => att.id_student !== id_student);
+                }
+
+                // Atualiza a lista, garantindo que o aluno tenha apenas um status ativo
+                return [
+                    ...prevList.filter(att => att.id_student !== id_student),
+                    { id_student, status, day, month, year, id_teacher, id_teacher02, id_class }
+                ];
+            })
+        }
     };
 
     const startEditing = (checkedStdt) => {
@@ -275,19 +379,19 @@ const IndexAttendance = () => {
             window.location.reload()
         }
     };
-    
+
     const Return = () => {
         navigate(-1)
     };
 
-    
-    const allStudentsMarked = stdt.every(stdt => 
+
+    const allStudentsMarked = stdt.every(stdt =>
         attendanceList.some(att => att.id_student === stdt._id)
     );
 
     //console.log("checked", checked)
     //console.log("RemoveAttendanceList", RemoveAttendanceList)
-    //console.log("attendanceList", attendanceList)
+    console.log("attendanceList", attendanceList)
     //console.log("matter", id_matter)
     /*console.log("day", day)
     console.log("month", month)
@@ -322,7 +426,7 @@ const IndexAttendance = () => {
                                 <ContainerStudent>
                                     <h2>Chamada</h2>
                                     <DivButton>
-                                        <SlActionUndo fontSize={'30px'} onClick={Return}/>
+                                        <SlActionUndo fontSize={'30px'} onClick={Return} />
                                         <Btt02 onClick={clickRemovedate}>
                                             Selecionar outra data
                                         </Btt02>
@@ -401,6 +505,10 @@ const IndexAttendance = () => {
                                             </Btt02>
                                         </ListChecked>
                                     }
+                                    <ToGoBack onClick={Return}>
+                                        <SignMessageButtonText>Voltar para a</SignMessageButtonText>
+                                        <SignMessageButtonTextBold>Turma</SignMessageButtonTextBold>
+                                    </ToGoBack>
                                 </ContainerStudent>
                             ) : (
                                 <>

@@ -48,13 +48,17 @@ const IndividualFormList = () => {
     const [expandedRows, setExpandedRows] = useState([]);
     const [printing, setPrinting] = useState(false); // Novo estado para controlar o modo de impressão
 
+    const [RegentTeacher, setclassRegentTeacher] = useState([]);
+    const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
+    //const [physicalEducation, setphysicalEducationTeacher] = useState([]);
+
     useEffect(() => {
         (async () => {
             setLoading(true);
             const year = new Date().getFullYear().toString();
             const SelectbimonthlyDaily = JSON.parse(sessionStorage.getItem("Selectbimonthly-daily"));
             const SelectteacherDaily = JSON.parse(sessionStorage.getItem("Selectteacher-daily"));
-            //const Nameclass = JSON.parse(sessionStorage.getItem("Nameclass-daily"));
+            const Nameclass = JSON.parse(sessionStorage.getItem("Nameclass-daily"));
             const SelectclassDaily = sessionStorage.getItem("Selectclass-daily");
             const idSchool = SelectteacherDaily.id_school;
 
@@ -64,6 +68,25 @@ const IndividualFormList = () => {
             setbimonthlyDaily(SelectbimonthlyDaily.bimonthly);
             //setnameTeacher(SelectteacherDaily.name);
             //setnameClass(Nameclass.serie);
+
+            //const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
+            //const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
+            //const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
+
+            //setclassRegentTeacher(JSON.parse(classRegentTeacher))
+            //setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
+
+            //if (!classRegentTeacher && !classRegentTeacher02) {
+            const Employee02 = await Nameclass.classRegentTeacher02.find(res => {
+                return res
+            })
+            const Employee = await Nameclass.classRegentTeacher.find(res => {
+                return res
+            })
+
+            setclassRegentTeacher(Employee)
+            setclassRegentTeacher02(Employee02)
+            //}
 
             if (SelectbimonthlyDaily.bimonthly === "1º BIMESTRE") {
                 const IstQuarter = await getIstQuarter(year, idSchool);
@@ -146,22 +169,39 @@ const IndividualFormList = () => {
                 if (quarterIdKey) {
                     try {
                         const idQuarter = SelectbimonthlyDaily._id;
-                        const res = await IndexIndividualForm({
-                            year,
-                            id_class,
-                            id_teacher,
-                            [quarterIdKey]: idQuarter,
-                        })
-                        const resForm = res.data.filter(res => {
-                            if (! null) {
-                                return (res)
-                            } else {
-                                return (null)
-                            }
-                        })
-                        setIndividualForm(resForm)
-                        console.log("individual form", res);
-                        console.log("Form", resForm);
+                        if (RegentTeacher02 === id_teacher) {
+                            const res = await IndexIndividualForm({
+                                year,
+                                id_class,
+                                id_teacher: RegentTeacher,
+                                [quarterIdKey]: idQuarter,
+                            });
+                            const resForm = res.data.filter(res => {
+                                if (! null) {
+                                    return (res)
+                                } else {
+                                    return (null)
+                                }
+                            })
+                            setIndividualForm(resForm)
+                        } else {
+                            const res = await IndexIndividualForm({
+                                year,
+                                id_class,
+                                id_teacher,
+                                [quarterIdKey]: idQuarter,
+                            });
+                            const resForm = res.data.filter(res => {
+                                if (! null) {
+                                    return (res)
+                                } else {
+                                    return (null)
+                                }
+                            })
+                            setIndividualForm(resForm)
+                        }
+                        //console.log("individual form", res);
+                        //console.log("Form", resForm);
                     } catch (error) {
                         console.error("Erro ao buscar dados:", error);
                     }
@@ -169,8 +209,8 @@ const IndividualFormList = () => {
                 setLoading(false);
             }
         })();
-    }, [bimonthly, id_class, id_teacher, startd, startm, starty, endd, endm, endy]);
-
+    }, [bimonthly, id_class, id_teacher, startd, startm, starty, endd, endm, endy, RegentTeacher, RegentTeacher02]);
+    console.log("IndexForm", IndividualForm)
     /*IndividualForm.sort(function (a, b) {
         if (a.id_student.name < b.id_student.name) return -1
         if (a.id_student.name > b.id_student.name) return 1
@@ -282,7 +322,10 @@ const IndividualFormList = () => {
                                                 <React.Fragment key={index}>
                                                     <ContainerTable>
                                                         <Span>
-                                                            <div>Professor: <p>{res.id_teacher.name}</p></div>
+                                                            <div>Professor 01: <p>{res.id_teacher.name}</p></div>
+                                                            {res.id_teacher02 && (
+                                                                <div>Professor 02: <p>{res.id_teacher02.name}</p></div>
+                                                            )}
                                                             <div>Turma: <p>{res.id_class.serie}</p></div>
                                                             <div>Aluno: <p>{res.id_student.name}</p></div>
                                                         </Span>

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import {
     Container,
     ToGoBack,
-    //Input,
+    Input,
     DivDados,
     Btt01,
     SignMessageButtonText,
@@ -16,6 +16,7 @@ import ResponsivePickers from '../../components/Datebimestre';
 
 const EditProfile = () => {
     const navigate = useNavigate();
+    const [assessmentFormat, setassessmentFormat] = useState('');
     const [id_IstQuarter, setid_IstQuarter] = useState({});
     const [startday, setStartday] = useState('');
     const [startmonth, setStartmonth] = useState('');
@@ -38,6 +39,8 @@ const EditProfile = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
+            const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
+            setassessmentFormat($assessmentFormat)
 
             const idIstQuarter = sessionStorage.getItem("IstQuarterInformation");
             const res = await getI_stQuarterDetails(idIstQuarter);
@@ -98,22 +101,51 @@ const EditProfile = () => {
                             setMonthEnd={setEndmonth}
                             setYearEnd={setEndyear}
                         />
-                        {/* <p>Nota Total:
-                            <Input
-                                placeholder="Digite a Nota Total"
-                                value={totalGrade}
-                                onChange={(e) => setTotalGrade(e.target.value)}
-                                type='number'
-                            />
-                        </p>
-                        <p>Nota Media:
-                            <Input
-                                placeholder="Digite a Nota Media"
-                                value={averageGrade}
-                                onChange={(e) => setAverageGrade(e.target.value)}
-                                type='number'
-                            />
-                        </p>*/}
+                        {assessmentFormat === "grade" &&
+                            <>
+                                <p>Nota Total:
+                                    <Input
+                                        placeholder="Digite a Nota Total"
+                                        value={totalGrade}
+                                        onChange={(e) => {
+                                            let value = e.target.value.replace(".", ","); // Substitui ponto por vírgula
+                                            value = value.replace(/[^0-9,]/g, ""); // Permite apenas números e uma única vírgula
+
+                                            // Garante que tenha apenas uma vírgula e impede valores fora do intervalo
+                                            if ((value.match(/,/g) || []).length <= 1) {
+                                                const numericValue = parseFloat(value.replace(",", "."));
+                                                if (!isNaN(numericValue) && numericValue >= 0 && numericValue <= 100) {
+                                                    setTotalGrade(value);
+                                                } else if (value === "") {
+                                                    setTotalGrade("");
+                                                }
+                                            }
+                                        }}
+                                    />
+                                </p>
+                                <p>Nota Média:
+                                    <Input
+                                        placeholder="Digite a Nota Média"
+                                        value={averageGrade}
+                                        onChange={(e) => {
+                                            let value = e.target.value.replace(".", ","); // Substitui ponto por vírgula
+                                            value = value.replace(/[^0-9,]/g, ""); // Permite apenas números e uma única vírgula
+
+                                            // Garante que tenha apenas uma vírgula e impede valores fora do intervalo
+                                            if ((value.match(/,/g) || []).length <= 1) {
+                                                const numericValue = parseFloat(value.replace(",", "."));
+                                                if (!isNaN(numericValue) && numericValue >= 0 && numericValue <= 100) {
+                                                    setAverageGrade(value);
+                                                } else if (value === "") {
+                                                    setAverageGrade("");
+                                                }
+                                            }
+                                        }}
+                                    />
+                                </p>
+
+                            </>
+                        }
                     </DivDados>
                     {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                     <Btt01 onClick={handleSubmit}>Salvar Alterações</Btt01>

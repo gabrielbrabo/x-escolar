@@ -21,10 +21,12 @@ export const Context = styled.div`
 export const Butons = styled.div`
     width: 100%;
     display: flex;
-    min-height: 10vh;
+    //min-height: 10vh;
     max-height: 10vh;
     background-color: #ced1c0;
     gap: 20px;
+    padding-top: 20px;
+      padding-bottom: 20px;
     box-shadow: 0px 0px 7px inset black;
 
     @media screen and (max-width: 768px) {

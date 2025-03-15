@@ -44,6 +44,11 @@ const IndividualForm = () => {
     const [checked, setChecked] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    const [RegentTeacher, setclassRegentTeacher] = useState([]);
+    const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
+    //const [physicalEducation, setphysicalEducationTeacher] = useState([]);
+
+
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -72,6 +77,15 @@ const IndividualForm = () => {
             const vi = VIthQuarter.data.data.find(res => res) || null;
 
             setBimonthly([i, ii, iii, iv, v, vi].filter(res => res !== null));
+
+            const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
+            const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
+            //const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
+
+            setclassRegentTeacher(JSON.parse(classRegentTeacher))
+            setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
+            //setphysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
+
             setLoading(false);
         })()
 
@@ -100,31 +114,60 @@ const IndividualForm = () => {
             if (quarterIdKey) {
                 try {
                     const idQuarter = Selectbimonthly._id;
-                    const res = await IndexIndividualForm({
-                        year,
-                        id_class,
-                        id_teacher,
-                        [quarterIdKey]: idQuarter,
-                    });
+                    if (RegentTeacher02 === id_teacher) {
+                        const res = await IndexIndividualForm({
+                            year,
+                            id_class,
+                            id_teacher: RegentTeacher,
+                            [quarterIdKey]: idQuarter,
+                        });
 
-                    console.log("individual form", res);
-                    const GradeRealized = res.data.map(res => res?.id_student?._id || []);
+                        console.log("individual form", res);
+                        const GradeRealized = res.data.map(res => res?.id_student?._id || []);
 
-                    const resClass = await clssInfo(id_class);
-                    console.log("individual GradeRealized", GradeRealized);
+                        const resClass = await clssInfo(id_class);
+                        console.log("individual GradeRealized", GradeRealized);
 
-                    const student = resClass.data.data.find(res => res)
-                        ?.id_student.filter(student => student && !GradeRealized.includes(student._id));
+                        const student = resClass.data.data.find(res => res)
+                            ?.id_student.filter(student => student && !GradeRealized.includes(student._id));
 
-                    setStdt(student);
+                        setStdt(student);
 
-                    if (res.data) {
-                        const result = res.data.filter(res => res != null);
-                        setChecked(result);
+                        if (res.data) {
+                            const result = res.data.filter(res => res != null);
+                            setChecked(result);
+                        }
+
+                        console.log('resposta back', resClass);
+                        console.log("individual form", res.data);
+
+                    } else {
+                        const res = await IndexIndividualForm({
+                            year,
+                            id_class,
+                            id_teacher,
+                            [quarterIdKey]: idQuarter,
+                        });
+
+                        console.log("individual form", res);
+                        const GradeRealized = res.data.map(res => res?.id_student?._id || []);
+
+                        const resClass = await clssInfo(id_class);
+                        console.log("individual GradeRealized", GradeRealized);
+
+                        const student = resClass.data.data.find(res => res)
+                            ?.id_student.filter(student => student && !GradeRealized.includes(student._id));
+
+                        setStdt(student);
+
+                        if (res.data) {
+                            const result = res.data.filter(res => res != null);
+                            setChecked(result);
+                        }
+
+                        console.log('resposta back', resClass);
+                        console.log("individual form", res.data);
                     }
-
-                    console.log('resposta back', resClass);
-                    console.log("individual form", res.data);
 
                     sessionStorage.setItem("Selectbimonthly", JSON.stringify(Selectbimonthly));
                 } catch (error) {
@@ -138,7 +181,7 @@ const IndividualForm = () => {
         };
 
         loadIndividualFormData();
-    }, [Selectbimonthly, year, id_class, id_teacher]);
+    }, [Selectbimonthly, year, id_class, id_teacher, RegentTeacher, RegentTeacher02]);
 
     const handleBimonthlyChange = (e) => {
         const selectedBimonthly = JSON.parse(e.target.value);
@@ -168,7 +211,7 @@ const IndividualForm = () => {
     const Return = () => {
         navigate(-1)
     };
-    
+
     console.log("open", open)
     console.log("stdt", stdt)
     console.log("checked", checked)

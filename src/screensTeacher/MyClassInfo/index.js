@@ -22,6 +22,7 @@ import LoadingSpinner from '../../components/Loading'
 const MyCla$$Info = () => {
 
     const navigate = useNavigate()
+    const [assessmentFormat, setassessmentFormat] = useState('');
     const [clss, setClss] = useState([])
     //const [NameMatter, setNameMatter] = useState([])
     const [stdt, setStdt] = useState([])
@@ -33,6 +34,8 @@ const MyCla$$Info = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
+            const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
+            setassessmentFormat($assessmentFormat)
             sessionStorage.removeItem("Selectbimonthly");
             sessionStorage.removeItem("Selectmatt")
             console.log('useParamsClass', id_class)
@@ -66,6 +69,19 @@ const MyCla$$Info = () => {
                     return null
                 }
             })
+            
+            const classRegentTeacher02 = await resClass.data.data.find(res => {
+                return res
+            }).classRegentTeacher02.map(res => {
+                return (res)
+            }).find(res => {
+                if (res) {
+                    sessionStorage.setItem("classRegentTeacher02", JSON.stringify(res._id))
+                    return (res)
+                } else {
+                    return null
+                }
+            })
 
             const physicalEducationTeacher = await resClass.data.data.find(res => {
                 return res
@@ -81,6 +97,7 @@ const MyCla$$Info = () => {
             })
 
             console.log("classRegentTeacher", classRegentTeacher);
+            console.log("classRegentTeacher02", classRegentTeacher02);
             console.log("physicalEducationTeacher", physicalEducationTeacher);
 
             sessionStorage.removeItem("attendance_ idmatter")
@@ -177,19 +194,29 @@ const MyCla$$Info = () => {
                                 color: textColor, // Aplica a cor do texto calculada
                             }}
                         >
-                            <ClassInfo style={{color: textColor}}>{clss.serie}</ClassInfo>
-                            <ClassInfo style={{color: textColor}}>Turno: {clss.shift}</ClassInfo>
+                            <ClassInfo style={{ color: textColor }}>{clss.serie}</ClassInfo>
+                            <ClassInfo style={{ color: textColor }}>Turno: {clss.shift}</ClassInfo>
                         </ClassDetails>
                     ))}
                     <ButtonContainer>
                         <button onClick={() => { navigate(/*'/test-attendance'*/'/attendance') }}>Frequência</button>
                         <button onClick={() => { navigate('/classes') }}>Aulas</button>
-                        <button onClick={() => { navigate('/grade') }}>Conceitos</button>
+                        {assessmentFormat !== 'grade'
+                            ?
+                            (
+                                <button onClick={() => { navigate('/grade') }}>Conceitos</button>
+                            ) : (
+                                <button onClick={() => { navigate('/grade') }}>Notas</button>
+                            )
+                        }
                     </ButtonContainer>
-                    <ButtonContainer>
-                        <button onClick={() => { navigate('/individual-form') }}>Ficha Individual</button>
-                        <button onClick={() => { navigate('/final-concepts') }}>Conceitos Finais</button>
-                    </ButtonContainer>
+                    {assessmentFormat !== 'grade'
+                        &&
+                        <ButtonContainer>
+                            <button onClick={() => { navigate('/individual-form') }}>Ficha Individual</button>
+                            <button onClick={() => { navigate('/final-concepts') }}>Conceitos Finais</button>
+                        </ButtonContainer>
+                    }
                     <StudentSection>
                         <h2 style={{ color: "#158fa2" }}>Alunos</h2>
                         <p>Total de alunos: {stdt.length}</p>

@@ -184,7 +184,10 @@ export const WarningBox = styled.div`
 
 export const ActionButtons = styled.div`
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  //flex-direction: column;
   gap: 10px;
   @media (max-width: 768px) {
     flex-direction: column;
@@ -210,7 +213,7 @@ export const Button = styled.button`
   }
 `;
 export const ButtonRemove= styled.button`
-  width: 100%;
+  width: 50%;
   padding: 15px;
   background-color: #d9534f;
   color: white;
