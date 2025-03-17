@@ -1,9 +1,10 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom';
 import {
     Route,
     Routes,
-    Navigate
+    Navigate,
+    useLocation
 } from "react-router-dom"
 
 import { AuthProvider, AuthContext } from './contexts/auth'
@@ -124,8 +125,19 @@ const AppRoutes = () => {
         return children
     }
 
+    const ScrollToTop = () => {
+        const { pathname } = useLocation();
+
+        useEffect(() => {
+            window.scrollTo(0, 0);
+        }, [pathname]);
+
+        return null;
+    };
+
     return (
         <Router>
+            <ScrollToTop />
             <AuthProvider>
                 <Routes>
                     <Route exact path="/login/selection" element={<LoginSelection />} />
@@ -173,12 +185,12 @@ const AppRoutes = () => {
                     } />
                     <Route exact path="/edit-student" element={
                         <Private>
-                            <EditProfileStudent/>
+                            <EditProfileStudent />
                         </Private>
                     } />
                     <Route exact path="/edit-class" element={
                         <Private>
-                            <EditClass/>
+                            <EditClass />
                         </Private>
                     } />
                     <Route exact path="/annual-calendar" element={
@@ -188,62 +200,62 @@ const AppRoutes = () => {
                     } />
                     <Route exact path="/createi-stquarter" element={
                         <Private>
-                            <CreateiStQuarter/>
+                            <CreateiStQuarter />
                         </Private>
                     } />
                     <Route exact path="/updatei-stquarter" element={
                         <Private>
-                            <EditiStQuarter/>
+                            <EditiStQuarter />
                         </Private>
                     } />
                     <Route exact path="/createii-ndquarter" element={
                         <Private>
-                            <CreateiiNdQuarter/>
+                            <CreateiiNdQuarter />
                         </Private>
                     } />
                     <Route exact path="/updateii-ndquarter" element={
                         <Private>
-                            <EditiiNdQuarter/>
+                            <EditiiNdQuarter />
                         </Private>
                     } />
                     <Route exact path="/createiii-rdquarter" element={
                         <Private>
-                            <CreateiiiRdQuarter/>
+                            <CreateiiiRdQuarter />
                         </Private>
                     } />
                     <Route exact path="/updateiii-rdquarter" element={
                         <Private>
-                            <EditiiiRdQuarter/>
+                            <EditiiiRdQuarter />
                         </Private>
                     } />
                     <Route exact path="/createiv-thquarter" element={
                         <Private>
-                            <CreateivThQuarter/>
+                            <CreateivThQuarter />
                         </Private>
                     } />
                     <Route exact path="/updateiv-thquarter" element={
                         <Private>
-                            <EditivThQuarter/>
+                            <EditivThQuarter />
                         </Private>
                     } />
                     <Route exact path="/createv-thquarter" element={
                         <Private>
-                            <CreatevThQuarter/>
+                            <CreatevThQuarter />
                         </Private>
                     } />
                     <Route exact path="/updatev-thquarter" element={
                         <Private>
-                            <EditvThQuarter/>
+                            <EditvThQuarter />
                         </Private>
                     } />
                     <Route exact path="/createvi-thquarter" element={
                         <Private>
-                            <CreateviThQuarter/>
+                            <CreateviThQuarter />
                         </Private>
                     } />
                     <Route exact path="/updatevi-thquarter" element={
                         <Private>
-                            <EditviThQuarter/>
+                            <EditviThQuarter />
                         </Private>
                     } />
                     <Route exact path="/new/student" element={
@@ -299,7 +311,7 @@ const AppRoutes = () => {
                     } />
                     <Route exact path="/add/physicalteacher/:id_class" element={
                         <Private>
-                            <AddphysicalTeacher/>
+                            <AddphysicalTeacher />
                         </Private>
                     } />
 
@@ -372,25 +384,25 @@ const AppRoutes = () => {
 
                     <Route exact path="/$st-quarter-grade" element={
                         <Private>
-                            <IstQuarterGrade/>
+                            <IstQuarterGrade />
                         </Private>
                     } />
                     <Route exact path="/$$nd-quarter-grade" element={
                         <Private>
-                            <IIndQuarterGrade/>
+                            <IIndQuarterGrade />
                         </Private>
                     } />
                     <Route exact path="/$$$rd-quarter-grade" element={
                         <Private>
-                            <IIIrdQuarterGrade/>
+                            <IIIrdQuarterGrade />
                         </Private>
                     } />
                     <Route exact path="/$$$$th-quarter-grade" element={
                         <Private>
-                            <IVthQuarterGrade/>
+                            <IVthQuarterGrade />
                         </Private>
                     } />
-                    
+
                     <Route exact path="/grade-istquarter" element={
                         <Private>
                             <GradeiStQuarter />
@@ -424,119 +436,119 @@ const AppRoutes = () => {
 
                     <Route exact path="/ist-numerical-grade-card" element={
                         <Private>
-                            <IStNumericalGradeCard/>
+                            <IStNumericalGradeCard />
                         </Private>
                     } />
                     <Route exact path="/iind-numerical-grade-card" element={
                         <Private>
-                            <IINdNumericalGradeCard/>
+                            <IINdNumericalGradeCard />
                         </Private>
                     } />
                     <Route exact path="/iiird-numerical-grade-card" element={
                         <Private>
-                            <IIIRdNumericalGradeCard/>
+                            <IIIRdNumericalGradeCard />
                         </Private>
                     } />
                     <Route exact path="/ivth-numerical-grade-card" element={
                         <Private>
-                            <IVThNumericalGradeCard/>
+                            <IVThNumericalGradeCard />
                         </Private>
                     } />
                     <Route exact path="/final-numerical-grade-card" element={
                         <Private>
-                            <FinalNumericalGradescard/>
+                            <FinalNumericalGradescard />
                         </Private>
                     } />
-                    
+
                     <Route exact path="/ist-quarter-report-card" element={
                         <Private>
-                            <IStQuarterReportCard/>
+                            <IStQuarterReportCard />
                         </Private>
                     } />
                     <Route exact path="/iind-quarter-report-card" element={
                         <Private>
-                            <IINdQuarterReportCard/>
+                            <IINdQuarterReportCard />
                         </Private>
                     } />
                     <Route exact path="/iiird-quarter-report-card" element={
                         <Private>
-                            <IIIRdQuarterReportCard/>
+                            <IIIRdQuarterReportCard />
                         </Private>
                     } />
                     <Route exact path="/ivth-quarter-report-card" element={
                         <Private>
-                            <IVThQuarterReportCard/>
+                            <IVThQuarterReportCard />
                         </Private>
                     } />
                     <Route exact path="/vth-quarter-report-card" element={
                         <Private>
-                            <VThQuarterReportCard/>
+                            <VThQuarterReportCard />
                         </Private>
                     } />
                     <Route exact path="/vith-quarter-report-card" element={
                         <Private>
-                            <VIThQuarterReportCard/>
+                            <VIThQuarterReportCard />
                         </Private>
                     } />
                     <Route exact path="/final-concepts-report-card" element={
                         <Private>
-                            <FinalConceptscard/>
+                            <FinalConceptscard />
                         </Private>
                     } />
 
                     <Route exact path="/record-class-taught" element={
                         <Private>
-                            <RecordClassTaught/>
+                            <RecordClassTaught />
                         </Private>
                     } />
                     <Route exact path="/classes" element={
                         <Private>
-                            <Classes/>
+                            <Classes />
                         </Private>
                     } />
                     <Route exact path="/employee-already-registered" element={
                         <Private>
-                            <EmployeeAlreadyRegistered/>
+                            <EmployeeAlreadyRegistered />
                         </Private>
                     } />
                     <Route exact path="/manager-already-registered" element={
                         <Private>
-                            <ManagerAlreadyRegistered/>
+                            <ManagerAlreadyRegistered />
                         </Private>
                     } />
                     <Route exact path="/individual-form" element={
                         <Private>
-                            <IndividualForm/>
+                            <IndividualForm />
                         </Private>
                     } />
                     <Route exact path="/form" element={
                         <Private>
-                            <Form/>
+                            <Form />
                         </Private>
                     } />
                     <Route exact path="/exist-form/:id_form" element={
                         <Private>
-                            <ExistForm/>
+                            <ExistForm />
                         </Private>
                     } />
                     <Route exact path="/final-concepts" element={
                         <Private>
-                            <GradeFinalConcepts/>
+                            <GradeFinalConcepts />
                         </Private>
                     } />
                     <Route exact path="/daily" element={
                         <Private>
-                            <Daily/>
+                            <Daily />
                         </Private>
                     } />
                     <Route exact path="/perfil/:id_employee" element={
                         <Private>
-                            <PerfilEmployee/>
+                            <PerfilEmployee />
                         </Private>
                     } />
                     <Route exact path="/password-rest/:cpf/:id" element={
                         <Private>
-                            <PasswordReset/>
+                            <PasswordReset />
                         </Private>
                     } />
                 </Routes>
