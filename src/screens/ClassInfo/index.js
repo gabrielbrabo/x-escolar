@@ -400,7 +400,7 @@ const Cla$$Info = () => {
                             </DivInfo>
                             :
                             <DivInfo>
-                                <TitleInfo>Estudantes:</TitleInfo>
+                                <TitleInfo>Alunos:</TitleInfo>
                                 {yearclss.year === currentYear
                                     &&
                                     <DivAddEmp>
