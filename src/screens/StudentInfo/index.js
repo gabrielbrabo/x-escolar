@@ -24,8 +24,8 @@ import {
     EmployeeInfo,
     DivButtomEdit,
     Btt02,
-    Btt01,
-    ButtonCancel,
+    //Btt01,
+    //ButtonCancel,
     AddMatterSection,
     WarningBox,
     Button,
@@ -72,7 +72,7 @@ const Student = () => {
     const [removeStudent, setRemoveStudent] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     
-    const [positionAtSchool, setPositionAtSchool] = useState('');
+    const [/*positionAtSchool*/, setPositionAtSchool] = useState('');
 
     const { id_student } = useParams()
     console.log(currentYear)
@@ -341,11 +341,11 @@ const Student = () => {
                         }
                     </ContainerDivs>
                     }
-                    {positionAtSchool === "DIRETOR/SUPERVISOR"
+                    {/*positionAtSchool === "DIRETOR/SUPERVISOR"
                         &&
                         <ButtonCancel>
                             <Btt01 onClick={() => { setRemoveStudent(true) }}>Remover Estudante</Btt01>
-                        </ButtonCancel>
+                        </ButtonCancel>*/
                     }
                     {removeStudent === true && (
                         <AddMatterSection>

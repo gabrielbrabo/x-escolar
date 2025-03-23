@@ -435,7 +435,7 @@ const IndexAttendance = () => {
                                         {/*<p>Disciplina: {Namematter}</p>*/}
                                         <p style={{ color: "#158fa2" }}>Data: {day}/{month}/{year}</p>
                                     </DataSelected>
-                                    {checked.length === 0 && RemoveAttendanceList.length === 0 &&
+                                    {/*checked.length === 0 && */ stdt.length > 0 && RemoveAttendanceList.length === 0 &&
                                         <List>
 
                                             {
@@ -479,7 +479,7 @@ const IndexAttendance = () => {
 
                                         </List>
                                     }
-                                    {stdt.length === 0 && RemoveAttendanceList.length === 0 &&
+                                    {/*stdt.length === 0 &&*/checked.length > 0 && RemoveAttendanceList.length === 0 &&
                                         <ListChecked>
                                             {checked
                                                 .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética

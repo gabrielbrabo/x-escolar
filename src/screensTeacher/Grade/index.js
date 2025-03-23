@@ -161,35 +161,36 @@ const Grade = () => {
             sessionStorage.setItem("id-I", I)
             if (assessmentFormat === "grade") {
                 console.log("assessmentFormat", assessmentFormat)
-                navigate('/$st-quarter-grade') 
+                //navigate('/$st-quarter-grade') 
+                navigate('/$st-activities') 
             } else {
                navigate('/grade-istquarter') 
             }
             
         } else if (Selectbimonthly === II) {
-            sessionStorage.setItem("id-II", II)
+            /*sessionStorage.setItem("id-II", II)
             if (assessmentFormat === "grade") {
                 console.log("assessmentFormat", assessmentFormat)
                 navigate('/$$nd-quarter-grade') 
             } else {
                 navigate('/grade-iindquarter') 
-            }
+            }*/
         } else if (Selectbimonthly === III) {
-            sessionStorage.setItem("id-III", III)
+            /*sessionStorage.setItem("id-III", III)
             if (assessmentFormat === "grade") {
                 console.log("assessmentFormat", assessmentFormat)
                 navigate('/$$$rd-quarter-grade') 
             } else {
                 navigate('/grade-iiirdquarter')
-            }
+            }*/
         } else if (Selectbimonthly === IV) {
-            sessionStorage.setItem("id-IV", IV)
+           /* sessionStorage.setItem("id-IV", IV)
             if (assessmentFormat === "grade") {
                 console.log("assessmentFormat", assessmentFormat)
                 navigate('/$$$$th-quarter-grade') 
             } else {
                 navigate('/grade-ivthquarter')
-            }
+            }*/
         } else if (Selectbimonthly === V) {
             sessionStorage.setItem("id-V", V)
             navigate('/grade-vthquarter')

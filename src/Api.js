@@ -1173,7 +1173,7 @@ export const RegisterNumericalGrade = async (
     grades
 ) => {
 
-    return api.post(`/register/numerical-grade`, {grades})
+    return api.post(`/register/numerical-grade`, { grades })
 
         .catch((error) => {
             if (error) {
@@ -1204,6 +1204,26 @@ export const GetGradeIstQuarter = async (
             }
         }, [])
 }
+
+export const GetGradeActivity = async (
+    id_activity
+) => {
+
+    return api.post(`/get-grade-activity`, {
+        id_activity
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
 export const GetNumericalGradeIstQuarter = async (
     year, id_matter, id_iStQuarter, id_class
 ) => {
@@ -1561,10 +1581,29 @@ export const GetGradeVIthQuarter = async (
 }
 
 export const GetNumericalGrade = async (
-    year, bimonthly, id_student
+    id_activity
 ) => {
 
     return api.post(`/get-numerical-grade`, {
+        id_activity
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const GetNumGrade = async (
+    year, bimonthly, id_student
+) => {
+
+    return api.post(`/get-num-grade`, {
         year, bimonthly, id_student
     })
 
@@ -1605,6 +1644,31 @@ export const updateGrade = async (
     return api.post(`/update/grade`, {
         update_id_grade,
         update_studentGrade
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const updateAvaliacao = async (
+    UpdateIdActivity,
+    EditedDescription,
+    EditedTipo,
+    EditedValor
+) => {
+
+    return api.post(`/update-avaliacao`, {
+        UpdateIdActivity,
+        EditedDescription,
+        EditedTipo,
+        EditedValor
     })
 
         .catch((error) => {
@@ -3012,6 +3076,90 @@ export const tocloseIV_thQuarter = async (
         throw error;
     }
 };
+
+export const createActivity = async ({
+    year,
+    bimonthly,
+    descricao,
+    tipo,
+    valor,
+    id_teacher02,
+    id_teacher,
+    id_matter,
+    id_class,
+    id_iStQuarter,
+    id_iiNdQuarter,
+    id_iiiRdQuarter,
+    id_ivThQuarter,
+    id_vThQuarter,
+    id_viThQuarter
+}) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post('/create-activity', {
+        year,
+        bimonthly,
+        descricao,
+        tipo,
+        valor,
+        id_teacher02,
+        id_teacher,
+        id_matter,
+        id_class,
+        id_iStQuarter,
+        id_iiNdQuarter,
+        id_iiiRdQuarter,
+        id_ivThQuarter,
+        id_vThQuarter,
+        id_viThQuarter
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+};
+
+export const GetActivity = async (
+    year, bimonthly, id_matter, id_class
+) => {
+
+    return api.post(`/get-activity`, {
+        year, bimonthly, id_matter, id_class
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const DestroyActivity = async (
+    idActivity
+) => {
+
+    return api.post(`/destroy-activity`, {
+        idActivity
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
 
 /*export const getavatar = async () => {
 

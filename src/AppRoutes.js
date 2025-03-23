@@ -74,10 +74,14 @@ import TestAttendance from "./screensTeacher/TestAttendance"
 
 import Grade from "./screensTeacher/Grade"
 
+import IstEvaluativeActivities from "./screensTeacher/1stEvaluativeActivities"
+
 import IstQuarterGrade from "./screensTeacher/1stQuarterGrade"
 import IIndQuarterGrade from "./screensTeacher/2ndQuarterGrade"
 import IIIrdQuarterGrade from "./screensTeacher/3rdQuarterGrade"
 import IVthQuarterGrade from "./screensTeacher/4thQuarterGrade"
+
+import NumQuarterGrade from "./screensTeacher/NumQuarterGrade"
 
 import GradeiStQuarter from "./screensTeacher/GradeiStQuarter"
 import GradeiiNdQuarter from "./screensTeacher/GradeiiNdQuarter"
@@ -382,6 +386,18 @@ const AppRoutes = () => {
                         </Private>
                     } />
 
+                    <Route exact path="/$st-activities" element={
+                        <Private>
+                            <IstEvaluativeActivities />
+                        </Private>
+                    } />
+                    
+                    <Route exact path="/$num-quarter-grade" element={
+                        <Private>
+                            <NumQuarterGrade />
+                        </Private>
+                    } />
+                    
                     <Route exact path="/$st-quarter-grade" element={
                         <Private>
                             <IstQuarterGrade />

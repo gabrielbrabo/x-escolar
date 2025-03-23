@@ -310,23 +310,31 @@ export const DivBimCell = styled.div`
   padding: 3px;
   border: 1px solid #ddd;
   color: ${props => {
-    const grade = parseFloat(props.grade); // Converte a nota para número
-    const average = parseFloat(props.averageGrade); // Converte a média para número
-    const total = parseFloat(props.totalGrade); // Converte a nota total para número
+    // Verificar o valor das props
+    console.log('result props:', props);  // Log para verificar se as props estão sendo passadas corretamente
 
-    if (!isNaN(grade)) {
+    // Certificar-se de que as props são válidas antes de usá-las
+    const grade = parseFloat(props.grade);  // Converte a nota para número
+    const average = parseFloat(props.averageGrade);  // Converte a média para número
+    const total = parseFloat(props.totalGrade);  // Converte a nota total para número
+
+    // Log para verificar se as props são válidas
+    console.log('result grade:', grade, 'average:', average, 'total:', total);
+
+    if (!isNaN(grade) && !isNaN(average) && !isNaN(total)) {
       if (grade >= 0.9 * total) {
-        return '#1d7f14'; // Verde (maior ou igual a 90% da nota total)
+        return '#1d7f14';  // Verde (maior ou igual a 90% da nota total)
       } else if (grade < average) {
-        return 'red'; // Azul (maior ou igual à média)
+        return 'red';  // Vermelho (menor que a média)
       } else {
-        return 'blue'; // Vermelho (menor que a média)
+        return 'blue';  // Azul (maior ou igual à média)
       }
     }
-    return 'black'; // Caso o valor não seja um número válido
+    return 'black';  // Caso o valor não seja um número válido
   }};
   font-weight: bold;
 `;
+
 
 const GlobalStyle = createGlobalStyle`
   @media print {

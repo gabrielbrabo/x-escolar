@@ -199,14 +199,14 @@ const MyCla$$Info = () => {
                         </ClassDetails>
                     ))}
                     <ButtonContainer>
-                        <button onClick={() => { navigate(/*'/test-attendance'*/'/attendance') }}>Frequência</button>
+                        <button onClick={() => { navigate(/*'/test-attendance'*/'/attendance') }}>Chamada</button>
                         <button onClick={() => { navigate('/classes') }}>Aulas</button>
                         {assessmentFormat !== 'grade'
                             ?
                             (
                                 <button onClick={() => { navigate('/grade') }}>Conceitos</button>
                             ) : (
-                                <button onClick={() => { navigate('/grade') }}>Notas</button>
+                                <button onClick={() => { navigate('/grade') }}>Avaliações</button>
                             )
                         }
                     </ButtonContainer>

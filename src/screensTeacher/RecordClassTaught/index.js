@@ -222,7 +222,7 @@ const Grade = () => {
                                 </StyledQuillContainer>
                                 {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                             </Input>
-                            <Button onClick={handleSubmit}>Cadastrar Aula</Button>
+                            <Button onClick={handleSubmit}>Registrar Aula</Button>
                             <ToGoBack onClick={messageButtonClick}>
                                 <SignMessageButtonText>Voltar para a</SignMessageButtonText>
                                 <SignMessageButtonTextBold>Turma</SignMessageButtonTextBold>
