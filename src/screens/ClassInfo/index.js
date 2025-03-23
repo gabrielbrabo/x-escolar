@@ -225,7 +225,7 @@ const Cla$$Info = () => {
                             </DivInfo>
                         ) : (
                             <DivInfo>
-                                <TitleInfo>Professor Regente de Truma:</TitleInfo>
+                                <TitleInfo>Professor Regente de Turma:</TitleInfo>
                                 {yearclss.year === currentYear
                                     &&
                                     <DivAddEmp>
@@ -243,7 +243,7 @@ const Cla$$Info = () => {
                     {
                         classRegentEmployee02.length > 0 ? (
                             <DivInfo>
-                                <TitleInfo>Professor Regente de Truma 02:</TitleInfo>
+                                <TitleInfo>Professor Regente de Turma 02:</TitleInfo>
                                 {/*!showTeacher &&
                                     <DivShowMatter>
                                         <Btt02 onClick={() => { setShowTeacher(true) }}>Ver Professores <TiArrowDownThick fontSize={'17px'} /></Btt02>
@@ -284,7 +284,7 @@ const Cla$$Info = () => {
                             </DivInfo>
                         ) : (
                             <DivInfo>
-                                <TitleInfo>Professor Regente de Truma 02:</TitleInfo>
+                                <TitleInfo>Professor Regente de Turma 02:</TitleInfo>
                                 {yearclss.year === currentYear
                                     &&
                                     <DivAddEmp>
@@ -400,7 +400,7 @@ const Cla$$Info = () => {
                             </DivInfo>
                             :
                             <DivInfo>
-                                <TitleInfo>Estudantes:</TitleInfo>
+                                <TitleInfo>Alunos:</TitleInfo>
                                 {yearclss.year === currentYear
                                     &&
                                     <DivAddEmp>
