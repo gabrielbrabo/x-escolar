@@ -154,7 +154,7 @@ const IndexAttendance = () => {
 
             setLoading(false);
         })();
-    }, [day, id_teacher, month, year, RegentTeacher, RegentTeacher02, ]);
+    }, [day, id_teacher, month, year, RegentTeacher, RegentTeacher02,]);
 
     // Exemplo de como inicializar todos os alunos com "presença"
     useEffect(() => {
@@ -389,6 +389,14 @@ const IndexAttendance = () => {
         attendanceList.some(att => att.id_student === stdt._id)
     );
 
+    const normalizeString = (str) => {
+        return str
+            .normalize("NFD") // Separa caracteres acentuados
+            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+            .replace(/[^\w\s]/gi, "") // Remove pontuações
+            .toUpperCase(); // Converte para maiúsculas
+    };
+
     //console.log("checked", checked)
     //console.log("RemoveAttendanceList", RemoveAttendanceList)
     console.log("attendanceList", attendanceList)
@@ -441,7 +449,7 @@ const IndexAttendance = () => {
 
                                             {
                                                 stdt
-                                                    .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
+                                                    .sort((a, b) => normalizeString(a.name).localeCompare(normalizeString(b.name))) // Ordena em ordem alfabética
                                                     .map(stdt => {
                                                         const attendance = attendanceList.find(att => att.id_student === stdt._id);
                                                         const isPresent = attendance?.status === "P";
@@ -484,7 +492,7 @@ const IndexAttendance = () => {
                                     {checked.length > 0 && RemoveAttendanceList.length === 0 &&
                                         <ListChecked>
                                             {checked
-                                                .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
+                                                .sort((a, b) => normalizeString(a.id_student.name).localeCompare(normalizeString(b.id_student.name))) // Ordena em ordem alfabética
                                                 .map(checkedStdt => (
                                                     <Emp key={checkedStdt._id}>
                                                         <SpanChecked>{checkedStdt.id_student.name}</SpanChecked>

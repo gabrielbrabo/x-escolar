@@ -69,7 +69,7 @@ const MyCla$$Info = () => {
                     return null
                 }
             })
-            
+
             const classRegentTeacher02 = await resClass.data.data.find(res => {
                 return res
             }).classRegentTeacher02.map(res => {
@@ -120,11 +120,15 @@ const MyCla$$Info = () => {
 
     console.log("student", stdt)
 
-    stdt.sort(function (a, b) {
-        if (a.name < b.name) return -1
-        if (a.name > b.name) return 1
-        return 0
-    })
+    const normalizeString = (str) => {
+        return str
+            .normalize("NFD") // Separa caracteres acentuados
+            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+            .replace(/[^\w\s]/gi, "") // Remove pontuações
+            .toUpperCase(); // Converte para maiúsculas
+    };
+
+    stdt.sort((a, b) => normalizeString(a.name).localeCompare(normalizeString(b.name)));
 
     const messageButtonClick = () => {
         navigate(-1);

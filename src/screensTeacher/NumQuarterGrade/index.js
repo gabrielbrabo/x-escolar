@@ -375,6 +375,14 @@ const IndexAttendance = () => {
         }
     };
 
+    const normalizeString = (str) => {
+        return str
+            .normalize("NFD") // Separa caracteres acentuados
+            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+            .replace(/[^\w\s]/gi, "") // Remove pontuações
+            .toUpperCase(); // Converte para maiúsculas
+    };
+
     console.log('grades', grades)
 
     return (
@@ -405,7 +413,7 @@ const IndexAttendance = () => {
                                 <List>
                                     {
                                         stdt
-                                            .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
+                                            .sort((a, b) => normalizeString(a.name).localeCompare(normalizeString(b.name))) // Ordena em ordem alfabética
                                             .map(stdt => (
                                                 <>
                                                     <Emp
@@ -455,7 +463,7 @@ const IndexAttendance = () => {
                                     <ListChecked>
                                         {
                                             checked
-                                                .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
+                                                .sort((a, b) => normalizeString(a.id_student.name).localeCompare(normalizeString(b.id_student.name))) // Ordena em ordem alfabética
                                                 .map(stdt => {
                                                     const studentGrade = (stdt.studentGrade.toString().replace(',', '.')) || 0;
                                                     let gradeColor = 'blue'; // Padrão: azul para notas iguais ou maiores que a média

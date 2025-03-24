@@ -471,6 +471,14 @@ export default function AttendanceList() {
       }, 500);
     }
   };
+
+  const normalizeString = (str) => {
+    return str
+      .normalize("NFD") // Separa caracteres acentuados
+      .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+      .replace(/[^\w\s]/gi, "") // Remove pontuações
+      .toUpperCase(); // Converte para maiúsculas
+  };
   console.log("nameSchool", nameSchool)
 
   return (
@@ -514,7 +522,7 @@ export default function AttendanceList() {
                 </TableHeader>
                 <TableBody>
                   {stdt
-                    .sort((a, b) => a.name.localeCompare(b.name)) // Ordena alfabeticamente
+                    .sort((a, b) => normalizeString(a.name).localeCompare(normalizeString(b.name))) // Ordena alfabeticamente
                     .map((student) => {
                       const totals = calculateTotals(student._id);
                       return (
