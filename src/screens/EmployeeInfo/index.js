@@ -273,7 +273,7 @@ const EmployeeInformation = () => {
                                     <Span>{emp.name}</Span>
                                         <Span>{emp.position_at_school}(A)</Span>
                                         <Span>{school}</Span>
-                                        <Span>Cerlular: {emp.cellPhone}</Span>
+                                        <Span>Celular: {emp.cellPhone}</Span>
                                         <Span>Email: {emp.email}</Span>
                                         <Span>CPF: {emp.cpf}</Span>
                                         <Span>Nascimento: {new Date(emp.dateOfBirth + "T00:00:00").toLocaleDateString('pt-BR')}</Span>

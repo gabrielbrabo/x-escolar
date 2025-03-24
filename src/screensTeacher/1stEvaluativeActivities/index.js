@@ -469,7 +469,7 @@ const IndexAttendance = () => {
                                             </ToGoBack>
                                         </ListChecked>
                                     ) : (
-                                        <p>Não a Avaliações cadastradas!</p>
+                                        <p>Não há Avaliações cadastradas!</p>
                                     )
                                     }
                                 </>
