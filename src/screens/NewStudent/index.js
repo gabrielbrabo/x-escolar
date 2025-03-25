@@ -234,7 +234,7 @@ const NewStudent = () => {
                 type='date'
               />
               {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-              <Btt01 onClick={SignClick}>Cadastra</Btt01>
+              <Btt01 onClick={SignClick}>Cadastrar</Btt01>
               <ToGoBack onClick={MessageButtomclick}>
                 <SignMessageButtonText>Voltar para a</SignMessageButtonText>
                 <SignMessageButtonTextBold>Lista de Alunos</SignMessageButtonTextBold>
