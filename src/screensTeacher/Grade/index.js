@@ -168,13 +168,13 @@ const Grade = () => {
             }
             
         } else if (Selectbimonthly === II) {
-            /*sessionStorage.setItem("id-II", II)
+            sessionStorage.setItem("id-II", II)
             if (assessmentFormat === "grade") {
                 console.log("assessmentFormat", assessmentFormat)
-                navigate('/$$nd-quarter-grade') 
+                navigate('/$$st-activities') 
             } else {
                 navigate('/grade-iindquarter') 
-            }*/
+            }
         } else if (Selectbimonthly === III) {
             /*sessionStorage.setItem("id-III", III)
             if (assessmentFormat === "grade") {

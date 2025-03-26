@@ -69,6 +69,7 @@ const IndexAttendance = () => {
     //const [Status, setStatus] = useState('');
     const [loading, setLoading] = useState(false);
 
+    const [excludedStudents, setExcludedStudents] = useState([]);
     const [attendanceList, setAttendanceList] = useState([]);
     const [RemoveAttendanceList, setRemoveAttendanceList] = useState([]);
 
@@ -459,22 +460,43 @@ const IndexAttendance = () => {
                                                             <Emp key={stdt._id}>
                                                                 <Span>{stdt.name}</Span>
                                                                 <BoxButton>
-                                                                    <label style={{ color: isPresent ? "green" : "black" }}>
+                                                                    <div className='nota'>
+                                                                        <label style={{ color: isPresent ? "green" : "black" }}>
+                                                                            <input
+                                                                                type="checkbox"
+                                                                                checked={isPresent}
+                                                                                disabled={excludedStudents.includes(stdt._id)} // Desativa se marcado
+                                                                                onChange={() => handleCheckAttendance(stdt._id, "P")}
+                                                                            />
+                                                                            Presença
+                                                                        </label>
+                                                                        <label style={{ color: isAbsent ? "red" : "black" }}>
+                                                                            <input
+                                                                                type="checkbox"
+                                                                                checked={isAbsent}
+                                                                                disabled={excludedStudents.includes(stdt._id)} // Desativa se marcado                                                                
+                                                                                onChange={() => handleCheckAttendance(stdt._id, "F")}
+                                                                            />
+                                                                            Ausência
+                                                                        </label>
+                                                                    </div>
+                                                                    <div className='nota'>
+                                                                        {/* Checkbox para marcar alunos sem nota */}
+                                                                        <label>Não adicionar nota</label>
                                                                         <input
                                                                             type="checkbox"
-                                                                            checked={isPresent}
-                                                                            onChange={() => handleCheckAttendance(stdt._id, "P")}
+                                                                            checked={excludedStudents.includes(stdt._id)}
+                                                                            onChange={() => {
+                                                                                setExcludedStudents((prev) =>
+                                                                                    prev.includes(stdt._id)
+                                                                                        ? prev.filter((id) => id !== stdt._id) // Remove da lista
+                                                                                        : [...prev, stdt._id] // Adiciona à lista
+                                                                                );
+                                                                                handleCheckAttendance(stdt._id, "-")
+
+                                                                            }}
                                                                         />
-                                                                        Presença
-                                                                    </label>
-                                                                    <label style={{ color: isAbsent ? "red" : "black" }}>
-                                                                        <input
-                                                                            type="checkbox"
-                                                                            checked={isAbsent}
-                                                                            onChange={() => handleCheckAttendance(stdt._id, "F")}
-                                                                        />
-                                                                        Ausência
-                                                                    </label>
+                                                                    </div>
                                                                 </BoxButton>
                                                             </Emp>
 
@@ -498,15 +520,19 @@ const IndexAttendance = () => {
                                                         <SpanChecked>{checkedStdt.id_student.name}</SpanChecked>
 
                                                         <BoxButton>
-                                                            <Btt02 style={{
-                                                                backgroundColor: checkedStdt.status === 'P' ? 'green' : 'red'
-                                                            }}>
-                                                                {checkedStdt.status}
-                                                            </Btt02>
+                                                            <div className='check'>
+                                                                <Btt02 style={{
+                                                                    backgroundColor: checkedStdt.status === 'P' ? 'green' :
+                                                                        checkedStdt.status === '-' ? 'black' :
+                                                                            'red'
+                                                                }}>
+                                                                    {checkedStdt.status}
+                                                                </Btt02>
 
-                                                            <Btt02 onClick={() => startEditing(checkedStdt)} style={{ backgroundColor: 'blue' }}>
-                                                                Editar
-                                                            </Btt02>
+                                                                <Btt02 onClick={() => startEditing(checkedStdt)} style={{ backgroundColor: 'blue' }}>
+                                                                    Editar
+                                                                </Btt02>
+                                                            </div>
                                                         </BoxButton>
                                                     </Emp>
                                                 ))}
@@ -541,11 +567,29 @@ const IndexAttendance = () => {
                             {console.log("editingStudent", namestudent.id_student.name)}
                             <select
                                 value={editingStatus}
+                                disabled={excludedStudents.includes(stdt._id)} // Desativa se marcado
                                 onChange={(e) => setEditingStatus(e.target.value)}
                             >
                                 <option value="P">Presença</option>
                                 <option value="F">Ausência</option>
                             </select>
+                            <div className='nota'>
+                                {/* Checkbox para marcar alunos sem nota */}
+                                <label>Não adicionar nota</label>
+                                <input
+                                    type="checkbox"
+                                    checked={excludedStudents.includes(stdt._id)}
+                                    onChange={() => {
+                                        setExcludedStudents((prev) =>
+                                            prev.includes(stdt._id)
+                                                ? prev.filter((id) => id !== stdt._id) // Remove da lista
+                                                : [...prev, stdt._id] // Adiciona à lista
+                                        );
+                                        setEditingStatus('-')
+
+                                    }}
+                                />
+                            </div>
                             <BoxButtonEdit>
                                 <Btt02 onClick={saveEdit}>Salvar</Btt02>
                                 <Btt02 onClick={() => setEditingStudent(null)}>Cancelar</Btt02>

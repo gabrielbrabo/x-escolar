@@ -297,9 +297,17 @@ export const AttendanceButton = styled.button`
 `;
 
 export const BoxButton = styled.div`
-    display: flex;
+    display: grid;
     gap: 50px;
     justify-content: space-between;
+
+    .nota {
+      display: flex;
+    }
+    .check {
+      display: flex;
+      gap: 10px;
+    }
 
     label {
         @media (min-width: 1024px) {

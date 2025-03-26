@@ -28,7 +28,7 @@ import {
 
 import GlobalStyle from './style';
 
-import { GetNumericalGrade, AttendanceBimonthly, indexNumericalGradesCard, GetLogo, getIstQuarter } from '../../Api';
+import { GetNumGrade, AttendanceBimonthly, indexNumericalGradesCard, GetLogo, getIstQuarter } from '../../Api';
 
 import { IoCheckmarkSharp, IoCloseSharp } from "react-icons/io5";
 
@@ -65,7 +65,7 @@ const GradeIstquarter = () => {
   const [highlightedDaysF, setHighlightedDaysF] = React.useState([]);
 
   const [iStQuarter, setiStQuarter] = useState([]);
-  const [iiNdQuarter, setiiNdQuarter] = useState([]);
+  // const [iiNdQuarter, setiiNdQuarter] = useState([]);
   ////const [iiiRdQuarter, setIIIrdQuarter] = useState([]);
   ////const [ivThQuarter, setIVthQuarter] = useState([]);
 
@@ -77,10 +77,10 @@ const GradeIstquarter = () => {
       const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
 
       const tgIst = await IstQuarter.data.data.map(res => {
-        return res.totalGrade
+        return res.totalGrade.replace(',', '.')
       })
       const agIst = await IstQuarter.data.data.map(res => {
-        return res.averageGrade
+        return res.averageGrade.replace(',', '.')
       })
       setTotalGradeIst(tgIst)
       setAverageGradeIst(agIst)
@@ -103,7 +103,7 @@ const GradeIstquarter = () => {
         console.error("idlogo inválido:", idlogo);
       }
 
-      const resGrade = await GetNumericalGrade(year, bimonthly, id_student)
+      const resGrade = await GetNumGrade(year, bimonthly, id_student)
       setGrade(resGrade.data.data)
       console.log("resGrade", resGrade.data.data)
 
@@ -123,13 +123,14 @@ const GradeIstquarter = () => {
 
           // Filtra os objetos para cada bimestre
           const firstQuarter = grades.data.data.filter(res => res.bimonthly === "1º BIMESTRE");
-          const secondQuarter = grades.data.data.filter(res => res.bimonthly === "2º BIMESTRE");
+          //const secondQuarter = grades.data.data.filter(res => res.bimonthly === "2º BIMESTRE");
           //const thirdQuarter = grades.data.data.filter(res => res.bimonthly === "3º BIMESTRE");
           //const fourthQuarter = grades.data.data.filter(res => res.bimonthly === "4º BIMESTRE");
 
           // Atualiza os estados com os arrays filtrados
+          console.log("firstQuarter", firstQuarter)
           setiStQuarter(firstQuarter);
-          setiiNdQuarter(secondQuarter);
+          //setiiNdQuarter(secondQuarter);
           //setIIIrdQuarter(thirdQuarter)
           //setIVthQuarter(fourthQuarter)
 
@@ -152,8 +153,8 @@ const GradeIstquarter = () => {
           console.log('totalGrade', res.id_iiNdQuarter.totalGrade)
           console.log('averageGrade', res.id_iiNdQuarter.averageGrade)
 
-          const tg = res.id_iiNdQuarter.totalGrade
-          const ag = res.id_iiNdQuarter.averageGrade
+          const tg = res.id_iiNdQuarter.totalGrade.replace(',', '.')
+          const ag = res.id_iiNdQuarter.averageGrade.replace(',', '.')
 
           setTotalGrade(tg)
           setAverageGrade(ag)
@@ -230,7 +231,60 @@ const GradeIstquarter = () => {
   const countPresences = highlightedDays.length;
   const countAbsences = highlightedDaysF.length;
 
-  console.log('logo', logo)
+  const groupedGrades = grade.reduce((acc, grd) => {
+    // Verifica se a matéria já existe no acumulador
+    const existingMatter = acc.find(item => item.id_matter === grd.id_matter._id);
+
+    if (!existingMatter) {
+      // Se a matéria não existir no acumulador, adicionamos ela
+      acc.push({
+        id_matter: grd.id_matter._id,
+        matterName: grd.id_matter.name,
+        grade: 0,  // Inicializa a soma das notas
+      });
+    }
+
+    // Somando as notas, garantindo que sejam números (usando parseFloat)
+    const totalGradeForMatter = parseFloat(grd.studentGrade) || 0;
+
+    // Atualiza a soma das notas para a matéria no acumulador
+    const updatedMatter = acc.find(item => item.id_matter === grd.id_matter._id);
+    if (updatedMatter) {
+      updatedMatter.grade += totalGradeForMatter;
+    }
+
+    return acc;
+  }, []);
+
+  const groupedGradesIst = iStQuarter.reduce((acc, grd) => {
+    // Verifica se a matéria já existe no acumulador
+    const existingMatter = acc.find(item => item.id_matter === grd.id_matter._id);
+
+    if (!existingMatter) {
+      // Se a matéria não existir no acumulador, adicionamos ela
+      acc.push({
+        id_matter: grd.id_matter._id,
+        matterName: grd.id_matter.name,
+        grade: 0,  // Inicializa a soma das notas
+      });
+    }
+
+    // Somando as notas, garantindo que sejam números (usando parseFloat)
+    const totalGradeForMatter = parseFloat(grd.studentGrade) || 0;
+
+    // Atualiza a soma das notas para a matéria no acumulador
+    const updatedMatter = acc.find(item => item.id_matter === grd.id_matter._id);
+    if (updatedMatter) {
+      updatedMatter.grade += totalGradeForMatter;
+    }
+
+    return acc;
+  }, []);
+
+  console.log('iStQuarter', iStQuarter)
+  console.log('groupedGradesIst', groupedGradesIst)
+  console.log('groupedGrades', groupedGrades)
+  console.log('grade', grade)
 
   return (
     <Container>
@@ -270,38 +324,43 @@ const GradeIstquarter = () => {
               <DivDados>
                 <List>
                   {
-                    grade
+                    groupedGrades
                       .sort((a, b) => {
-                        const nameA = a.id_matter.name.toUpperCase(); // Ignorar maiúsculas e minúsculas
-                        const nameB = b.id_matter.name.toUpperCase();
+                        const nameA = a.id_matter.name//.toUpperCase(); // Ignorar maiúsculas e minúsculas
+                        const nameB = b.id_matter.name//.toUpperCase();
                         return nameA < nameB ? -1 : nameA > nameB ? 1 : 0; // Comparação alfabética
                       })
                       .map(grd => (
                         <Emp
                           key={grd._id} >
                           <DivNameMatter>
-                            <SpanNameMatter>{grd.id_matter.name}</SpanNameMatter>
+                            <SpanNameMatter>{grd.matterName}</SpanNameMatter>
                           </DivNameMatter>
                           <Grade>
                             <DivBimTable>
                               <DivBimRow>
                                 <DivBimHeader>1º Bim</DivBimHeader>
                                 <DivBimCell
-                                  grade={iStQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}
-                                  averageGrade={averageGradeIst}
-                                  totalGrade={totalGradeIst}
+                                  grade={
+                                    groupedGradesIst.find(res => String(res.id_matter) === String(grd.id_matter))?.grade || 0
+                                  }
+                                  averageGrade={parseFloat(averageGradeIst) || 0}  // Garantir que a média é válida
+                                  totalGrade={parseFloat(totalGradeIst) || 0}  // Garantir que o total é válido
                                 >
-                                  {iStQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}
+                                  {groupedGradesIst
+                                    .filter(res => String(res.id_matter) === String(grd.id_matter))
+                                    .map(res => res.grade)}
                                 </DivBimCell>
                               </DivBimRow>
                               <DivBimRow>
                                 <DivBimHeader>2º Bim</DivBimHeader>
                                 <DivBimCell
-                                  grade={iiNdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}
-                                  averageGrade={averageGrade}
-                                  totalGrade={totalGrade}
+                                  grade={parseFloat(grd.grade) || 0}  // Garantir que é um número válido, senão 0
+                                  averageGrade={parseFloat(averageGrade) || 0}  // Garantir que a média é válida
+                                  totalGrade={parseFloat(totalGrade) || 0}  // Garantir que o total é válido
                                 >
-                                  {iiNdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}
+                                  {console.log('resultIndex', grd.grade, averageGrade, totalGrade)}
+                                  {grd.grade || "N/A"}
                                 </DivBimCell>
                               </DivBimRow>
                               <DivBimRow>

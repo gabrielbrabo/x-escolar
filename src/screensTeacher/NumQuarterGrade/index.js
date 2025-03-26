@@ -65,6 +65,7 @@ const IndexAttendance = () => {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState([]);
 
+    const [excludedStudents, setExcludedStudents] = useState([]);
     const [grades, setGrades] = useState([]); // Estado para armazenar as notas individuais
 
     const [RegentTeacher, setclassRegentTeacher] = useState([]);
@@ -114,8 +115,8 @@ const IndexAttendance = () => {
                         .filter(studentId => !attRealized.includes(studentId._id))
                         .sort((a, b) => a.name.localeCompare(b.name)); // Ordena `stdt` em ordem alfabética
 
-                        setChecked(checkedStudent)
-                        setStdt(student);
+                    setChecked(checkedStudent)
+                    setStdt(student);
 
                     console.log("resGrade", checkedStudent)
                     console.log("students", student)
@@ -184,8 +185,8 @@ const IndexAttendance = () => {
         console.log("allStudentsGraded", allStudentsGraded)
         if (!allStudentsGraded) {
             alert("Nem todos os estudantes receberam nota! Verifique antes de enviar.");
-            setLoading(false)
-            return;
+            //setLoading(false)
+            //return;
         }
 
         const res = await RegisterNumericalGrade(grades)
@@ -209,8 +210,8 @@ const IndexAttendance = () => {
     const saveEdit = async () => {
         setLoading(true);
 
-        const editedGrade = parseFloat(update_studentGrade.toString().replace(',', '.')) || 0;
-        const maxGrade = parseFloat(totalGrade.toString().replace(',', '.')) || 0;
+        const editedGrade = parseFloat(update_studentGrade.toString().replace(',', '.')) || '-';
+        const maxGrade = parseFloat(totalGrade.toString().replace(',', '.')) || '-';
 
         console.log("Nota editada:", editedGrade);
         console.log("Nota máxima:", maxGrade);
@@ -253,7 +254,7 @@ const IndexAttendance = () => {
         console.log("Teste studentId:", studentId);
 
         if ((value.match(/,/g) || []).length <= 1) {
-            const numericValue = parseFloat(value.replace(",", "."));
+            //const numericValue = parseFloat(value.replace(",", "."));
 
             /* if (isNaN(numericValue) || numericValue > totalGrade) {
                  alert("Nota inválida:", numericValue);
@@ -266,114 +267,129 @@ const IndexAttendance = () => {
                 setGrades(prevGrades => {
                     console.log("Antes da atualização:", prevGrades);
                     // Remove a nota se o campo estiver vazio
-                    if (value.trim() === "") {
+                    /*if (value.trim() === "") {
                         return prevGrades.filter(item => item.studentId !== studentId);
+                    }*/
+
+                    //if (numericValue >= 0 && numericValue <= 100) {
+                    // Verifica se o aluno já tem uma nota no array
+                    const existingIndex = prevGrades.findIndex(item => item.studentId === studentId);
+
+                    if (existingIndex !== -1) {
+                        // Se já existir, atualiza a nota
+                        const updatedGrades = [...prevGrades];
+                        updatedGrades[existingIndex].value = value;
+
+                        console.log("Depois da atualização:", updatedGrades);
+                        return updatedGrades;
+                    } else {
+
+                        console.log("Nova lista de notas:", prevGrades);
+                        // Se não existir, adiciona um novo objeto
+                        return [...prevGrades, {
+                            studentId,
+                            idActivity,
+                            value,
+                            year,
+                            bimonthly,
+                            [quarterIdKey]: id_bim,
+                            id_teacher,
+                            id_teacher02,
+                            id_matter,
+                            id_class
+                        }];
                     }
-
-                    if (numericValue >= 0 && numericValue <= 100) {
-                        // Verifica se o aluno já tem uma nota no array
-                        const existingIndex = prevGrades.findIndex(item => item.studentId === studentId);
-
-                        if (existingIndex !== -1) {
-                            // Se já existir, atualiza a nota
-                            const updatedGrades = [...prevGrades];
-                            updatedGrades[existingIndex].value = value;
-
-                            console.log("Depois da atualização:", updatedGrades);
-                            return updatedGrades;
-                        } else {
-
-                            console.log("Nova lista de notas:", prevGrades);
-                            // Se não existir, adiciona um novo objeto
-                            return [...prevGrades, {
-                                studentId,
-                                idActivity,
-                                value,
-                                year,
-                                bimonthly,
-                                [quarterIdKey]: id_bim,
-                                id_teacher,
-                                id_teacher02,
-                                id_matter,
-                                id_class
-                            }];
-                        }
-                    }
-                    return prevGrades;
+                    // }
+                    // return prevGrades;
                 });
             } else if (RegentTeacher02 === id_teacher) {
                 const id_teacher02 = RegentTeacher02
                 setGrades(prevGrades => {
                     // Remove a nota se o campo estiver vazio
-                    if (value.trim() === "") {
+                    /*if (value.trim() === "") {
                         return prevGrades.filter(item => item.studentId !== studentId);
-                    }
+                    }*/
 
-                    if (numericValue >= 0 && numericValue <= 100) {
-                        // Verifica se o aluno já tem uma nota no array
-                        const existingIndex = prevGrades.findIndex(item => item.studentId === studentId);
+                    //if (numericValue >= 0 && numericValue <= 100) {
+                    // Verifica se o aluno já tem uma nota no array
+                    const existingIndex = prevGrades.findIndex(item => item.studentId === studentId);
 
-                        if (existingIndex !== -1) {
-                            // Se já existir, atualiza a nota
-                            const updatedGrades = [...prevGrades];
-                            updatedGrades[existingIndex].value = value;
-                            return updatedGrades;
-                        } else {
-                            // Se não existir, adiciona um novo objeto
-                            return [...prevGrades, {
-                                studentId,
-                                idActivity,
-                                value,
-                                year,
-                                bimonthly,
-                                [quarterIdKey]: id_bim,
-                                id_teacher: RegentTeacher,
-                                id_teacher02,
-                                id_matter,
-                                id_class
-                            }];
-                        }
+                    if (existingIndex !== -1) {
+                        // Se já existir, atualiza a nota
+                        const updatedGrades = [...prevGrades];
+                        updatedGrades[existingIndex].value = value;
+                        return updatedGrades;
+                    } else {
+                        // Se não existir, adiciona um novo objeto
+                        return [...prevGrades, {
+                            studentId,
+                            idActivity,
+                            value,
+                            year,
+                            bimonthly,
+                            [quarterIdKey]: id_bim,
+                            id_teacher: RegentTeacher,
+                            id_teacher02,
+                            id_matter,
+                            id_class
+                        }];
                     }
-                    return prevGrades;
+                    //}
+                    //return prevGrades;
                 });
             } else if (physicalEducation === id_teacher) {
                 const id_teacher02 = null;
                 setGrades(prevGrades => {
                     // Remove a nota se o campo estiver vazio
-                    if (value.trim() === "") {
-                        return prevGrades.filter(item => item.studentId !== studentId);
-                    }
+                    /* if (value.trim() === "") {
+                         return prevGrades.filter(item => item.studentId !== studentId);
+                     }*/
 
-                    if (numericValue >= 0 && numericValue <= 100) {
-                        // Verifica se o aluno já tem uma nota no array
-                        const existingIndex = prevGrades.findIndex(item => item.studentId === studentId);
+                    //if (numericValue >= 0 && numericValue <= 100) {
+                    // Verifica se o aluno já tem uma nota no array
+                    const existingIndex = prevGrades.findIndex(item => item.studentId === studentId);
 
-                        if (existingIndex !== -1) {
-                            // Se já existir, atualiza a nota
-                            const updatedGrades = [...prevGrades];
-                            updatedGrades[existingIndex].value = value;
-                            return updatedGrades;
-                        } else {
-                            // Se não existir, adiciona um novo objeto
-                            return [...prevGrades, {
-                                studentId,
-                                idActivity,
-                                value,
-                                year,
-                                bimonthly,
-                                [quarterIdKey]: id_bim,
-                                id_teacher,
-                                id_teacher02,
-                                id_matter,
-                                id_class
-                            }];
-                        }
+                    if (existingIndex !== -1) {
+                        // Se já existir, atualiza a nota
+                        const updatedGrades = [...prevGrades];
+                        updatedGrades[existingIndex].value = value;
+                        return updatedGrades;
+                    } else {
+                        // Se não existir, adiciona um novo objeto
+                        return [...prevGrades, {
+                            studentId,
+                            idActivity,
+                            value,
+                            year,
+                            bimonthly,
+                            [quarterIdKey]: id_bim,
+                            id_teacher,
+                            id_teacher02,
+                            id_matter,
+                            id_class
+                        }];
                     }
-                    return prevGrades;
+                    // }
+                    //return prevGrades;
                 });
             }
         }
     };
+
+    /*const toggleExcludeStudent = (studentId) => {
+        setExcludedStudents((prev) =>
+            prev.includes(studentId)
+                ? prev.filter((id) => id !== studentId) // Remove da lista (reativa o campo)
+                : [...prev, studentId] // Adiciona à lista (desativa o campo)
+        );
+    
+        // Se o aluno for marcado para não receber nota, zera a nota dele
+        setGrades((prev) => ({
+            ...prev,
+            [studentId]: prev[studentId] ? "" : prev[studentId], 
+        }));
+    };*/
+
 
     const normalizeString = (str) => {
         return str
@@ -421,28 +437,48 @@ const IndexAttendance = () => {
                                                     >
                                                         <Span>{stdt.name}</Span>
                                                         <Grade>
-                                                            <p>Nota:</p>
-                                                            <Input
-                                                                type='number'
-                                                                placeholder="N/A"
-                                                                value={grades[stdt._id]}
-                                                                max={totalGrade} // Impede valores maiores no campo
-                                                                onChange={(e) => {
+                                                            <div className='nota'>
+                                                                <p>Nota:</p>
+                                                                <Input
+                                                                    type='number'
+                                                                    placeholder="N/A"
+                                                                    value={excludedStudents.includes(stdt._id) ? "" : grades[stdt._id]}
+                                                                    max={totalGrade} // Impede valores maiores no campo
+                                                                    disabled={excludedStudents.includes(stdt._id)} // Desativa se marcado
+                                                                    onChange={(e) => {
 
-                                                                    let numericValue = parseFloat(e.target.value);
+                                                                        let numericValue = parseFloat(e.target.value);
 
-                                                                    // Impede que valores maiores que totalGrade sejam digitados
-                                                                    if (numericValue > totalGrade) {
-                                                                        e.target.value = ""; // Limpa o campo se ultrapassar
-                                                                        return;
+                                                                        // Impede que valores maiores que totalGrade sejam digitados
+                                                                        if (numericValue > totalGrade) {
+                                                                            e.target.value = ""; // Limpa o campo se ultrapassar
+                                                                            return;
+                                                                        }
+
+                                                                        handleInputChange(e, stdt._id)
+                                                                        console.log('dados a ser enviados', e.target.value, stdt._id)
                                                                     }
 
-                                                                    handleInputChange(e, stdt._id)
-                                                                    console.log('dados a ser enviados', e.target.value, stdt._id)
-                                                                }
-
-                                                                }
-                                                            />
+                                                                    }
+                                                                />
+                                                            </div>
+                                                            <div className='nota'>
+                                                                {/* Checkbox para marcar alunos sem nota */}
+                                                                <label>Não adicionar nota</label>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    value={'-'[stdt._id]}
+                                                                    checked={excludedStudents.includes(stdt._id)}
+                                                                    onChange={(e) => {
+                                                                        setExcludedStudents((prev) =>
+                                                                            prev.includes(stdt._id)
+                                                                                ? prev.filter((id) => id !== stdt._id) // Remove da lista
+                                                                                : [...prev, stdt._id] // Adiciona à lista
+                                                                        );
+                                                                        handleInputChange(e, stdt._id);
+                                                                    }}
+                                                                />
+                                                            </div>
                                                         </Grade>
                                                         {/*<Btt01 onClick={() => handleGrade(stdt)}>Definir</Btt01>*/}
                                                     </Emp>
@@ -465,7 +501,7 @@ const IndexAttendance = () => {
                                             checked
                                                 .sort((a, b) => normalizeString(a.id_student.name).localeCompare(normalizeString(b.id_student.name))) // Ordena em ordem alfabética
                                                 .map(stdt => {
-                                                    const studentGrade = (stdt.studentGrade.toString().replace(',', '.')) || 0;
+                                                    const studentGrade = (stdt.studentGrade.toString().replace(',', '.')) || '-';
                                                     let gradeColor = 'blue'; // Padrão: azul para notas iguais ou maiores que a média
 
                                                     if (studentGrade < (totalGrade * 0.6)) {
@@ -503,12 +539,33 @@ const IndexAttendance = () => {
                                 <EmpEdit>
                                     <SpanEdit>{namestudent.id_student.name}</SpanEdit>
                                     <Grade id='nota'>
-                                        <p>Nota:</p>
-                                        <Input
-                                            placeholder="N/A"
-                                            value={update_studentGrade}
-                                            onChange={(e) => setUpdateStudentGrade(e.target.value)}
-                                        />
+                                        <div className='nota'>
+                                            <p>Nota:</p>
+                                            <Input
+                                                placeholder="N/A"
+                                                value={update_studentGrade}
+                                                disabled={excludedStudents.includes(stdt._id)} // Desativa se marcado
+                                                onChange={(e) => setUpdateStudentGrade(e.target.value)}
+                                            />
+
+                                        </div>
+                                        <div className='nota'>
+                                            {/* Checkbox para marcar alunos sem nota */}
+                                            <label>Não adicionar nota</label>
+                                            <input
+                                                type="checkbox"
+                                                value={'-'}
+                                                checked={excludedStudents.includes(stdt._id)}
+                                                onChange={(e) => {
+                                                    setExcludedStudents((prev) =>
+                                                        prev.includes(stdt._id)
+                                                            ? prev.filter((id) => id !== stdt._id) // Remove da lista
+                                                            : [...prev, stdt._id] // Adiciona à lista
+                                                    );
+                                                    setUpdateStudentGrade(e.target.value)
+                                                }}
+                                            />
+                                        </div>
                                     </Grade>
                                 </EmpEdit>
                                 {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
