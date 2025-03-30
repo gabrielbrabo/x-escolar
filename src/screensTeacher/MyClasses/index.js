@@ -119,6 +119,7 @@ const MyCla$$ = () => {
                             </Select>
                         </FormFilter>
                     </Search>
+                       <p> Clique para acessar a turma! 🚀</p>
                     <List>
                         {
                             Clss.filter((fil) => {
