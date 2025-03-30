@@ -241,6 +241,10 @@ const IndexAttendance = () => {
     };
 
     const handleActivities = async () => {
+        if(totalGrade.length <= 0 || averageGrade.length <= 0) {
+            alert('⚠️ Não é possível adicionar avaliação, pois as notas total e média ainda não foram configuradas. Entre em contato com a secretaria para que as devidas configurações sejam realizadas.')
+            return
+        }
         setActivities(true)
     }
 
