@@ -212,7 +212,7 @@ export const Button = styled.button`
     font-size: 14px;
   }
 `;
-export const ButtonRemove= styled.button`
+export const ButtonRemove = styled.button`
   width: 50%;
   padding: 15px;
   background-color: #d9534f;
@@ -284,3 +284,112 @@ export const ErrorMessage = styled.div`
 export const ContainerCalendar = styled.div`
   width: 100%;
 `;
+
+export const TableContainer = styled.div`
+    width: 100%;
+    overflow-x: auto;
+`;
+
+export const StyledTable = styled.table`
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+`;
+
+export const TableHeader = styled.thead`
+    background-color: #f4f4f4;
+`;
+
+export const TableRow = styled.tr`
+
+ h3 {
+  margin-bottom: 50px;
+ }
+    &:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+`;
+
+export const TableCell = styled.td`
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+
+    @media (max-width: 768px) {
+    padding: 5px;
+  }
+`;
+
+export const StatusChip = styled.span`
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    background-color: ${({ status }) =>
+    status === "ativo" ? "#28a745" :
+      status === "transferido" ? "#ffc107" :
+        "#dc3545"};
+`;
+
+export const SelectStatus = styled.select`
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    background-color: #fff;
+    &:focus {
+        outline: none;
+        border-color: #007bff;
+    }
+`;
+
+export const TableBody = styled.tbody`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 80vh;
+  width: 100%;
+  gap: 30px;
+
+  div {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+  }
+`;
+
+export const MenuItem = styled.div`
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
+`;
+
+export const Chip = styled.span`
+  display: inline-block;
+  padding: 4px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background-color: ${props => {
+    if (props.color === "ativo") return "#28a745"; // verde
+    if (props.color === "transferido") return "#ffc107"; // laranja
+    if (props.color === "inativo") return "#dc3545"; // vermelho
+    return "#007bff"; // cor padrão
+  }};
+  border-radius: 16px;
+  text-align: center;
+  white-space: nowrap;
+`;
+

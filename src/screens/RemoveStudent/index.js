@@ -17,6 +17,15 @@ import {
     Div,
     Btt02,
     ButtonCancel,
+    ConfirmContainer,
+    ConfirmContent,
+    ConfirmTitle,
+    ConfirmButtonGroup,
+    ConfirmButton,
+    Overlay,
+    ModalContent,
+    ButtonGroup,
+    Button,
 } from './style';
 
 import LoadingSpinner from '../../components/Loading'
@@ -66,11 +75,16 @@ const RemoveStudent = () => {
 
     }, [])
 
-    student.sort(function (a, b) {
-        if (a.serie < b.serie) return -1
-        if (a.serie > b.serie) return 1
-        return 0
-    })
+    const normalizeString = (str) => {
+        return str
+            .normalize("NFD") // Separa caracteres acentuados
+            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+            .replace(/[^\w\s]/gi, "") // Remove pontuações
+            .toUpperCase(); // Converte para maiúsculas
+    };
+
+    student.sort((a, b) => normalizeString(a.name).localeCompare(normalizeString(b.name)));
+
 
     /*year.sort(function (a, b) {
         if(a < b) return -1
@@ -111,9 +125,9 @@ const RemoveStudent = () => {
     }
 
     const Cancel = async () => {
-        navigate(-1); 
+        navigate(-1);
     }
-    
+
     return (
         <Container>
             {loading ?
@@ -153,6 +167,13 @@ const RemoveStudent = () => {
                                     key={student._id}
                                 >
                                     <Span>{student.name}</Span>
+                                    {/* Verificação do status do aluno */}
+                                    {student.status === "ativo" && (
+                                        <Span style={{ marginLeft: '10px', color: 'green', fontWeight: 'bold' }}>Ativo</Span>
+                                    )}
+                                    {student.status === "inativo" && (
+                                        <Span style={{ marginLeft: '10px', color: 'red', fontWeight: 'bold' }}>Inativo</Span>
+                                    )}
                                 </Emp>
                             ))
                         }
@@ -160,18 +181,15 @@ const RemoveStudent = () => {
                     {
                         name_student
                         &&
-                        <Add>
-
-                            {
-                                <Div>
-                                     <p>Tem certeza que deseja remover {name_student} do {serie} ?</p>
-                                    <DivButtonAdd>
-                                        <Btt01 onClick={SignClick}>Remover</Btt01>
-                                        <Btt01 onClick={Return}>Voltar</Btt01>
-                                    </DivButtonAdd>
-                                </Div>
-                            }
-                        </Add>
+                        <Overlay>
+                            <ModalContent>
+                                <ConfirmTitle>Tem certeza que deseja remover {name_student} do {serie}?</ConfirmTitle>
+                                <ButtonGroup>
+                                    <Button onClick={SignClick}>Remover</Button>
+                                    <Btt01 onClick={Return}>Voltar</Btt01>
+                                </ButtonGroup>
+                            </ModalContent>
+                        </Overlay>
                     }
                 </>
             }

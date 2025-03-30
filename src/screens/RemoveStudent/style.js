@@ -168,3 +168,72 @@ export const Div = styled.div`
   align-items: center;
 
 `;
+
+
+/// Estilização do fundo com efeito blur
+export const Overlay = styled.div`
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.5); /* Cor semitransparente */
+backdrop-filter: blur(5px); /* Efeito de desfocagem */
+display: flex;
+align-items: center;
+justify-content: center;
+z-index: 9999; /* Coloca sobre outros elementos */
+`;
+
+// Estilização da janela de confirmação
+export const ModalContent = styled.div`
+background-color: white;
+border-radius: 10px;
+padding: 30px;
+text-align: center;
+width: 80%;
+max-width: 500px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+`;
+
+// Título da janela de confirmação
+export const ConfirmTitle = styled.p`
+font-size: 18px;
+font-weight: bold;
+color: #333;
+margin-bottom: 20px;
+`;
+
+// Grupo de botões
+export const ButtonGroup = styled.div`
+display: flex;
+justify-content: space-between;
+gap: 15px;
+`;
+
+// Estilização dos botões
+export const Button = styled.button`
+background-color: #ff5733;
+color: white;
+padding: 10px 20px;
+font-size: 16px;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+transition: background-color 0.3s;
+
+margin-top: 10px;
+
+&:hover {
+  background-color: #c43d21;
+}
+
+&:active {
+  background-color: #9e2e13;
+}
+
+@media (max-width: 768px) {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+`;

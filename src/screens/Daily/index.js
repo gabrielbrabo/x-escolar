@@ -44,7 +44,7 @@ const Daily = () => {
       case 'concepts':
         return <GradeList />;
       case 'numericalGrades':
-        return <NumericalGradeList/>;
+        return //<NumericalGradeList/>;
       case 'finalConcepts':
         return <FinalGradeList />;
       default:
@@ -64,7 +64,7 @@ const Daily = () => {
             (
               <Btt02 onClick={() => handleComponentChange('concepts')}>Conceitos</Btt02>
             ) : (
-              <Btt02 onClick={() => handleComponentChange('numericalGrades')}>Notas</Btt02>
+              <Btt02 onClick={() => handleComponentChange('numericalGrades')}>Avaliações</Btt02>
             )
           }
         </UpperButons>

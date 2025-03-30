@@ -37,6 +37,10 @@ const Cla$$Info = () => {
     const [classRegentEmployee02, setclassRegentEmployee02] = useState([])
     const [physicalEducationTeacher, setphysicalEducationTeacher] = useState([])
     //const [matter, setMatter] = useState("")
+
+    const [studentTransfer, setstudentTransfer] = useState()
+    const [studentTransferMap, setstudentTransferMap] = useState([])
+
     const [stdt, setStdt] = useState([])
     const [loading, setLoading] = useState(false);
     //const [showStudent, setShowStudent] = useState(false);
@@ -51,7 +55,15 @@ const Cla$$Info = () => {
             //const id_clas = sessionStorage.getItem("ClassInformation")
             const res = await clssInfo(id_class)
             setClss(res.data.data)
-            console.log( 'reposta', res.data.data)
+            console.log('reposta', res.data.data)
+            const transferStdtMap = res.data.data.find(res => {
+                return res
+            }).transferStudents
+            setstudentTransferMap(transferStdtMap)
+            const Transfer = transferStdtMap.map(res => {
+                return res._id
+            })
+            setstudentTransfer(Transfer)
             const yearClass = res.data.data.find(clss => {
                 return clss.year
             })
@@ -75,7 +87,7 @@ const Cla$$Info = () => {
                     return (null)
                 }
             })
-            
+
             const classRegentEmployee02 = res.data.data.find(res => {
                 return res
             }).classRegentTeacher02.map(res => {
@@ -109,7 +121,12 @@ const Cla$$Info = () => {
 
     }, [id_class])
 
+
+    console.log("studentTransfer", studentTransfer)
+    console.log("studentTransferMap", studentTransferMap)
+
     const addStudent = async () => {
+        sessionStorage.setItem("studentTransfer", studentTransfer)
         navigate('/add/student')
     }
 
@@ -359,8 +376,9 @@ const Cla$$Info = () => {
                             ?
                             <DivInfo>
                                 <TitleInfo>Alunos:</TitleInfo>
-                                
+
                                 <p>Total de Alunos: {stdt.length}</p>
+                               { studentTransferMap.length > 0 && <p>Total de Alunos Transferidos: {studentTransferMap.length}</p>}
                                 {/*!showStudent &&
                                     <DivShowMatter>
                                         <Btt02 onClick={() => { setShowStudent(true) }}>Ver Alunos <TiArrowDownThick fontSize={'17px'} /></Btt02>
@@ -384,11 +402,37 @@ const Cla$$Info = () => {
                                             {
                                                 stdt
                                                     .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
-                                                    .map(stdt => (
-                                                        <Span onClick={() => StudentInformation(stdt)} key={stdt.id}>{stdt.name}</Span>
-                                                    ))
+                                                    .map(stdt => {
+                                                        return (
+                                                            <div key={stdt.id} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                                                <Span onClick={() => StudentInformation(stdt)}>{stdt.name}</Span>
+                                                                {stdt.status === "inativo" && (
+                                                                    <Span style={{ color: 'red', fontWeight: 'bold' }}>Inativo</Span>
+                                                                )}
+                                                            </div>
+                                                        );
+                                                    })
                                             }
+
                                         </Matter>
+                                        {studentTransferMap.length > 0 && (
+                                            <Matter>
+                                                <TitleInfo>⚠️ Alunos Transferidos e Remanejados</TitleInfo>
+                                                {studentTransferMap
+                                                    .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
+                                                    .map(stdt => {
+                                                        return (
+                                                            <div key={stdt.id} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                                                <Span onClick={() => StudentInformation(stdt)}>{stdt.name}</Span>
+                                                                {stdt.status === "transferido" && (
+                                                                    <Span style={{ color: 'orange', fontWeight: 'bold' }}>Transferido</Span>
+                                                                )}
+                                                            </div>
+                                                        );
+                                                    })}
+                                            </Matter>
+                                        )}
+
                                         {
                                             /*<DivShowMatter>
                                             <Btt02 onClick={() => { setShowStudent(false) }}>Fecha<TiArrowUpThick fontSize={'17px'} /></Btt02>

@@ -62,6 +62,7 @@ export const InputEmp = styled.input`
 
 export const Add = styled.div`
   display: flex;
+  flex-direction: column;
   position: absolute;
   justify-content: center;
   align-items: center;
@@ -160,3 +161,98 @@ export const ButtonCancel = styled.div`
   justify-content: center;
   align-items: flex-end;
 `;
+
+export const ModalOverlay = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+`;
+
+export const ModalContent = styled.div`
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+`;
+
+export const ButtonContainer = styled.div`
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+
+    button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+
+    button:first-child {
+        background: #28a745;
+        color: white;
+    }
+
+    button:last-child {
+        background: #dc3545;
+        color: white;
+    }
+
+    button:hover {
+        opacity: 0.8;
+    }
+`;
+
+// Estilo para a janela de aviso
+export const ModalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+`;
+
+// Estilo da caixa de diálogo
+/*export const ModalContent = styled.div`
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  width: 80%;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+`;*/
+
+// Estilo do título ou mensagem
+export const Title = styled.p`
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+`;
+
+// Estilo dos botões
+/*export const DivButtonAdd = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+`;*/
+

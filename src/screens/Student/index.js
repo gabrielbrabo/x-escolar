@@ -45,7 +45,8 @@ const Student = () => {
             }).filter(y => {
                 return y !== undefined;
             })
-            setStudent(response.data.data)
+            console.log("response", response.data.data)
+            setStudent(response.data.data.id_student)
             setClss(Year)
             setLoading(false);
         })()
@@ -134,7 +135,7 @@ const Student = () => {
                         <DivNewEmp>
                             <Btt02 onClick={NewStudent}>Novo Aluno</Btt02>
                         </DivNewEmp>
-                        <p>Total de Alunos Cadastados: {student.length}</p>
+                        <p>Total de Alunos: {student.length}</p>
 
                         {
                             student.filter((fil) => {
@@ -156,6 +157,15 @@ const Student = () => {
                             }).filter((val) => {
                                 if (!busca) return val;
                                 return normalizeString(val.name).includes(normalizeString(busca));
+                            }).sort((a, b) => {
+                                // Colocar alunos com status 'ativo' no início, e 'transferido' ou 'inativo' no final
+                                if (a.status === "ativo" && b.status !== "ativo") {
+                                    return -1; // 'ativo' vem antes
+                                } else if (b.status === "ativo" && a.status !== "ativo") {
+                                    return 1; // 'ativo' vem depois
+                                } else {
+                                    return 0; // Mantém a ordem original para os demais status
+                                }
                             }).map(student => (
                                 <Emp
                                     onClick={() =>
@@ -164,6 +174,23 @@ const Student = () => {
                                     key={student._id}
                                 >
                                     <Span style={{ color: "#003e4f" }}>{student.name}</Span>
+
+                                    {/* Verificação do status do aluno */}
+                                    {student.status === "ativo" && (
+                                        <span style={{ color: "green", marginLeft: "8px", fontWeight: "bold" }}>
+                                            {student.status}
+                                        </span>
+                                    )}
+                                    {student.status === "transferido" && (
+                                        <span style={{ color: "orange", marginLeft: "8px", fontWeight: "bold" }}>
+                                            {student.status}
+                                        </span>
+                                    )}
+                                    {student.status === "inativo" && (
+                                        <span style={{ color: "red", marginLeft: "8px", fontWeight: "bold" }}>
+                                            {student.status}
+                                        </span>
+                                    )}
                                 </Emp>
                             ))
                         }

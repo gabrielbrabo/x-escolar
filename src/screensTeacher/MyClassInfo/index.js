@@ -26,6 +26,8 @@ const MyCla$$Info = () => {
     const [clss, setClss] = useState([])
     //const [NameMatter, setNameMatter] = useState([])
     const [stdt, setStdt] = useState([])
+    const [studentTransferMap, setstudentTransferMap] = useState([]);
+
     const { id_class } = useParams();
     const { id_teacher } = useParams();
     const [loading, setLoading] = useState(false);
@@ -56,6 +58,11 @@ const MyCla$$Info = () => {
             setStdt(student)
             setClss(resClass.data.data)
             //setNameMatter(res.data.data)
+
+            const transferStdtMap = resClass.data.data.find(res => {
+                return res
+            }).transferStudents
+            setstudentTransferMap(transferStdtMap)
 
             const classRegentTeacher = await resClass.data.data.find(res => {
                 return res
@@ -224,9 +231,22 @@ const MyCla$$Info = () => {
                     <StudentSection>
                         <h2 style={{ color: "#158fa2" }}>Alunos</h2>
                         <p>Total de alunos: {stdt.length}</p>
+                        { studentTransferMap.length > 0 && <p>Total de Alunos Transferidos: {studentTransferMap.length}</p>}
                         {stdt.length > 0 ? (
                             stdt.map(stdt => (
-                                <StudentItem onClick={() => StudentInformation(stdt)}>{stdt.name}</StudentItem>
+                                <StudentItem onClick={() => StudentInformation(stdt)}>
+                                    {stdt.name}
+                                    {stdt.status === "inativo" && (
+                                        <span style={{ color: "red", marginLeft: "8px", fontWeight: "bold" }}>
+                                            {stdt.status}
+                                        </span>
+                                    )}
+                                    {stdt.status === "ativo" && (
+                                        <span style={{ color: "green", marginLeft: "8px", fontWeight: "bold" }}>
+                                            {stdt.status}
+                                        </span>
+                                    )}
+                                </StudentItem>
                             ))
                         )
                             :
@@ -234,6 +254,20 @@ const MyCla$$Info = () => {
                                 <InfoText>Não há nenhum estudante</InfoText>
                             )
                         }
+
+                        {studentTransferMap.length > 0 && (
+                            <>
+                                <>⚠️ Alunos Transferidos e Remanejados</>
+                                {studentTransferMap.map(stdt => (
+                                    <StudentItem key={stdt._id} onClick={() => StudentInformation(stdt)}>
+                                        {stdt.name}
+                                        <span style={{ color: "orange", marginLeft: "8px", fontWeight: "bold" }}>
+                                            {stdt.status}
+                                        </span>
+                                    </StudentItem>
+                                ))}
+                            </>
+                        )}
                     </StudentSection>
                     {
                         /* <MatterSection>

@@ -3161,6 +3161,45 @@ export const DestroyActivity = async (
         }, [])
 }
 
+export const updateStatus = async (
+    id_student, status, exitDate
+) => {
+
+    return api.post(`/status-update`, 
+        id_student, status, exitDate
+    )
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+// Função para atualizar o status do aluno
+export const returnedStudent = async (
+    id_student, id_class
+) => {
+
+    return api.post(`/returned-studen`,{ 
+        id_student, id_class
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
 /*export const getavatar = async () => {
 
     return api.get('/avatar')

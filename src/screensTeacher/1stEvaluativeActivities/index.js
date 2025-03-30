@@ -159,7 +159,7 @@ const IndexAttendance = () => {
 
     useEffect(() => {
         if (id_matter && year && id_iStQuarter && id_class) {
-            setTimeout(() => setLoading(true), 0); // Força atualização no próximo ciclo de renderização
+            //setTimeout(() => setLoading(true), 0); // Força atualização no próximo ciclo de renderização
 
             const fetchActivities = async () => {
                 try {
@@ -241,6 +241,10 @@ const IndexAttendance = () => {
     };
 
     const handleActivities = async () => {
+        if(totalGrade.length <= 0 || averageGrade.length <= 0) {
+            alert('⚠️ Não é possível adicionar avaliação, pois as notas total e média ainda não foram configuradas. Entre em contato com a secretaria para que as devidas configurações sejam realizadas.')
+            return
+        }
         setActivities(true)
     }
 

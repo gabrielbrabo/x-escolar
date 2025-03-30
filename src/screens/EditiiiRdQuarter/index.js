@@ -71,7 +71,7 @@ const EditProfile = () => {
         );
 
         if (res) {
-            alert('Turma atualizado com sucesso!');
+            alert('Bimestre atualizado com sucesso!');
             navigate(-1);
         } else {
             setErrorMessage('Erro ao cadastrar. Verifique os dados e tente novamente.');

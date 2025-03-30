@@ -225,6 +225,8 @@ export default function AttendanceList() {
   const [endy, setEndy] = useState("");
 
   const [stdt, setStdt] = useState([]);
+  const [studentTransferMap, setstudentTransferMap] = useState([]);
+
   const [id_teacher, setid_teacher] = useState("");
   const [nameSchool, setnameSchool] = useState("");
   const [id_class, setid_class] = useState("");
@@ -336,6 +338,10 @@ export default function AttendanceList() {
           return res || null;
         });
         setStdt(student);
+        const transferStdtMap = resClass.data.data.find(res => {
+          return res
+        }).transferStudents
+        setstudentTransferMap(transferStdtMap)
 
         if (RegentTeacher02 === id_teacher) {
           const res = await AttendanceByTeacherAndClass(year, RegentTeacher, id_class, startd, startm, starty, endd, endm, endy);
@@ -361,7 +367,8 @@ export default function AttendanceList() {
     };
     fetchAttendanceData();
   }, [id_teacher, id_class, startd, startm, starty, endd, endm, endy, RegentTeacher, RegentTeacher02]);
-
+  console.log("attendanceData", attendanceData)
+  console.log("studentTransferMap", studentTransferMap)
   const getAttendanceStatus = (studentId, date) => {
     const attendanceForDate = attendanceData.find(
       (attendance) => attendance.id_student._id === studentId && `${attendance.day}/${attendance.month}` === date
@@ -534,6 +541,34 @@ export default function AttendanceList() {
                         </tr>
                       );
                     })}
+                  {studentTransferMap.length > 0 && (
+                    <>
+                      <tr>
+                        <td colSpan={uniqueDates.length + 3} style={{ textAlign: "left", fontWeight: "bold", padding: "5px", background: "#f8d7da", color: "#721c24" }}>
+                          ⚠️ Alunos Transferidos e Remanejados
+                        </td>
+                      </tr>
+                      {studentTransferMap
+                        .sort((a, b) => normalizeString(a.name).localeCompare(normalizeString(b.name)))
+                        .map((student) => {
+                          const totals = calculateTotals(student._id);
+                          return (
+                            <tr key={student._id}>
+                              <td className="name-cell">
+                                {student.name}
+                                <span style={{ color: "orange", marginLeft: "8px", fontWeight: "bold" }}>
+                                  {student.status}
+                                </span>
+                              </td>
+                              {uniqueDates.map((date) => getAttendanceStatus(student._id, date))}
+                              <td className="total-presence">{totals.totalPresence}</td>
+                              <td className="total-absence">{totals.totalAbsence}</td>
+                            </tr>
+                          );
+                        })}
+                    </>
+                  )}
+
                 </TableBody>
               </Table>
             ) : (
