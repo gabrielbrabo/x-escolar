@@ -300,16 +300,6 @@ export const TableHeader = styled.thead`
     background-color: #f4f4f4;
 `;
 
-export const TableRow = styled.tr`
-
- h3 {
-  margin-bottom: 50px;
- }
-    &:nth-child(even) {
-        background-color: #f9f9f9;
-    }
-`;
-
 export const TableCell = styled.td`
     padding: 10px;
     border: 1px solid #ddd;
@@ -393,3 +383,31 @@ export const Chip = styled.span`
   white-space: nowrap;
 `;
 
+export const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+`;
+
+export const ModalContent = styled.div`
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  width: 600px;
+  text-align: center;
+`;
+
+export const TableRow = styled.tr`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+`;

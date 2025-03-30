@@ -40,10 +40,12 @@ import {
     ErrorMessage,
     ContainerCalendar,
     TableRow,
-    TableCell,
+    //TableCell,
     Chip,
     //MenuItem,
-    TableBody,
+    //TableBody,
+    ModalOverlay,
+    ModalContent,
 } from './style';
 
 /*import {
@@ -386,79 +388,55 @@ const Student = () => {
 
                     {removeStudent === true && (
 
-                        <TableBody>
-                            {student.map((student) => (
-                                <TableBody>
+                        <ModalOverlay>
+                            <ModalContent>
+                                {student.map((student) => (
                                     <TableRow key={student._id}>
                                         <h3>Alterar Status do Aluno</h3>
-                                        <TableCell>{student.name}</TableCell>
-                                        <TableCell>
-                                            <Chip
-                                                color={student.status}
-                                            > {student.status}</Chip>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Select
-                                                value={selectedStatus.status}
-                                                onChange={(e) => handleChangeStatus(student._id, e.target.value)}
-                                            >
-                                                <option value="">Selecione</option>
-                                                {student.status !== "ativo" && <option value="ativo">Ativar</option>}
-                                                {student.status !== "transferido" && <option value="transferido">Transferir</option>}
-                                                {student.status !== "inativo" && <option value="inativo">Inativar</option>}
-                                            </Select>
-                                        </TableCell>
-                                    </TableRow>
+                                        <p>{student.name}</p>
+                                        <Chip color={student.status}>{student.status}</Chip>
+                                        <label>Novo Status: </label>
+                                        <Select
+                                            value={selectedStatus.status}
+                                            onChange={(e) => {
+                                                handleChangeStatus(student._id, e.target.value)
+                                                setExitDate(e.target.value === "transferido" || e.target.value === "inativo" ? new Date().toISOString().split('T')[0] : null);
+           
+                                            }}
+                                        >
+                                            <option value="">Selecione</option>
+                                            {student.status !== "ativo" && <option value="ativo">Ativar</option>}
+                                            {student.status !== "transferido" && <option value="transferido">Transferir</option>}
+                                            {student.status !== "inativo" && <option value="inativo">Inativar</option>}
+                                        </Select>
 
-                                    {/* Mensagem de aviso ao selecionar "transferido" */}
-                                    {selectedStatus.value === "transferido" && (
-                                        <TableRow>
-                                            <TableCell colSpan={3} style={{ color: "red", fontWeight: "bold" }}>
+                                        {selectedStatus.value === "transferido" && (
+                                            <p style={{ color: "red", fontWeight: "bold" }}>
                                                 ⚠ Se o aluno for transferido, ele será removido da turma atual!
-                                            </TableCell>
-                                        </TableRow>
-                                    )}
+                                            </p>
+                                        )}
 
-                                    {/* Seletor de Data (Aparece apenas para status "transferido" ou "inativo") */}
+                                        {(selectedStatus.value === "transferido" || selectedStatus.value === "inativo") && (
+                                            <div>
+                                                <label>Data de Saída: </label>
+                                                <input
+                                                    type="date"
+                                                    value={exitDate}
+                                                    onChange={(e) => setExitDate(e.target.value)}
+                                                    min="1900-01-01"
+                                                    max={new Date().toISOString().split('T')[0]}
+                                                />
+                                            </div>
+                                        )}
 
-                                    {(selectedStatus.value === "transferido" || selectedStatus.value === "inativo") && (
-                                        <TableCell>
-                                            <label>Data de Saida: </label>
-                                            <input
-                                                type="date"
-                                                value={exitDate}
-                                                onChange={(e) => setExitDate(e.target.value)} // Armazena o valor da data diretamente
-                                                min="1900-01-01" // Data mínima possível
-                                                max={new Date().toISOString().split('T')[0]} // Data máxima = hoje
-                                            />
-
-                                        </TableCell>
-                                    )}
-
-                                    <div>
-                                        <Button onClick={() => upStatus()}>Salvar</Button>
-                                        <Button onClick={() => { setRemoveStudent(false) }}>Cancelar</Button>
-                                    </div>
-                                </TableBody>
-                            ))}
-                        </TableBody>
-
-                        /*<AddMatterSection>
-                            <WarningBox>
-                                {student.map(student => (
-                                    <Span>
-                                        Isso apagara todos os dados do aluno nessa Escola.
-                                        Tem certeza que deseja remover {student.name}?
-                                    </Span>
+                                        <div>
+                                            <Button onClick={() => upStatus()}>Salvar</Button>
+                                            <Button onClick={() => setRemoveStudent(false)}>Cancelar</Button>
+                                        </div>
+                                    </TableRow>
                                 ))}
-                            </WarningBox>
-                            <ActionButtons>
-                                <div>
-                                    <ButtonRemove onClick={destroyStudent} >Remover</ButtonRemove>
-                                    <Button onClick={() => { setRemoveStudent(false) }}>Cancelar</Button>
-                                </div>
-                            </ActionButtons>
-                        </AddMatterSection>*/
+                            </ModalContent>
+                        </ModalOverlay>
                     )}
                 </>
             }
