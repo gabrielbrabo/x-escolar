@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
     StdtInfo,
-    DestroyStudent,
+    //DestroyStudent,
     getIstQuarter,
     getIIndQuarter,
     getIIIrdQuarter,
@@ -42,7 +42,7 @@ import {
     TableRow,
     TableCell,
     Chip,
-    MenuItem,
+    //MenuItem,
     TableBody,
 } from './style';
 
@@ -56,8 +56,8 @@ import {
 Btt02, 
 }from '../../components/Buttons';*/
 import LoadingSpinner from '../../components/Loading'
-import { DatePicker } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
+//import { DatePicker } from "@mui/x-date-pickers";
+//import dayjs from "dayjs";
 
 const Student = () => {
 
@@ -198,14 +198,14 @@ const Student = () => {
         navigate('/edit-student')
     }
 
-    const destroyStudent = async () => {
+    /*const destroyStudent = async () => {
         const idStudent = sessionStorage.getItem("StudentInformation")
         const res = await DestroyStudent(idStudent)
         if (res) {
             alert('Aluno removido com sucesso!')
             navigate(-1);
         }
-    }
+    }*/
 
     const signClick = async () => {
         setLoading(true);

@@ -11,7 +11,7 @@ import {
 import AttendanceList from '../../components/attendanceList/index';
 import Classes from '../../components/ClassesList/index';
 import IndividualFormList from '../../components/IndividualFormList/index';
-import NumericalGradeList from '../../components/NumericalGradeList';
+//import NumericalGradeList from '../../components/NumericalGradeList';
 import GradeList from '../../components/GradeList/index';
 import FinalGradeList from '../../components/FinalGradeList/index';
 
