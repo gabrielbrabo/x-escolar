@@ -158,7 +158,7 @@ const IndexAttendance = () => {
     }, [year, averageGrade, totalGrade,])
 
     useEffect(() => {
-        if (id_matter && year && id_iStQuarter /*&& id_class*/) {
+        if (id_matter && year && id_iStQuarter && id_class) {
             setTimeout(() => setLoading(true), 0); // Força atualização no próximo ciclo de renderização
 
             const fetchActivities = async () => {
@@ -237,7 +237,7 @@ const IndexAttendance = () => {
     };
 
     const Return = () => {
-        navigate(-1)
+        navigate(-2)
     };
 
     const handleActivities = async () => {
@@ -386,6 +386,7 @@ const IndexAttendance = () => {
 
 
     console.log("startEditing", startEditing._id)
+    console.log("NotaDistri", NotaDistri)
 
     return (
         <Container>
