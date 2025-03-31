@@ -159,7 +159,7 @@ const IndexAttendance = () => {
 
     useEffect(() => {
         if (id_matter && year && id_iStQuarter && id_class) {
-            setTimeout(() => setLoading(true), 0); // Força atualização no próximo ciclo de renderização
+            //setTimeout(() => setLoading(true), 0); // Força atualização no próximo ciclo de renderização
 
             const fetchActivities = async () => {
                 try {
@@ -294,22 +294,7 @@ const IndexAttendance = () => {
                     });
 
                     if (res) {
-                        const resActivity = await GetActivity(year, bimonthly, id_matter, id_class)
-                        if (resActivity && resActivity.data.data.length > 0) {
-                            console.log("resActivity", resActivity.data.data);
-                            setChecked(resActivity.data.data);
-
-                            // Soma os valores das atividades cadastradas
-                            const totalNotas = resActivity.data.data.reduce((sum, activity) => {
-                                return sum + Number(activity.valor); // Converte para número e soma
-                            }, 0);
-
-                            setNotaDistri(totalNotas);
-                            setActivities(null);
-                            setForm({ descricao: "", tipo: "Normal", valor: "" });
-                        } else {
-                            setNotaDistri(0);
-                        }
+                        window.location.reload()
                         setLoading(false)
                         console.log("res", res);
                     } else {
@@ -332,22 +317,7 @@ const IndexAttendance = () => {
                     });
 
                     if (res) {
-                        const resActivity = await GetActivity(year, bimonthly, id_matter, id_class)
-                        if (resActivity && resActivity.data.data.length > 0) {
-                            console.log("resActivity", resActivity.data.data);
-                            setChecked(resActivity.data.data);
-
-                            // Soma os valores das atividades cadastradas
-                            const totalNotas = resActivity.data.data.reduce((sum, activity) => {
-                                return sum + Number(activity.valor); // Converte para número e soma
-                            }, 0);
-
-                            setNotaDistri(totalNotas);
-                            setActivities(null);
-                            setForm({ descricao: "", tipo: "Normal", valor: "" });
-                        } else {
-                            setNotaDistri(0);
-                        }
+                        window.location.reload()
                         setLoading(false)
                         console.log("res", res);
                     } else {
@@ -373,6 +343,7 @@ const IndexAttendance = () => {
         if (res) {
             window.location.reload();
         }
+        window.location.reload();
         setLoading(false)
     };
 
