@@ -216,7 +216,7 @@ const StudentAdd = () => {
                         <List>
                             {student
                                 .filter((val) =>
-                                    busca ? val.name.includes(busca.toUpperCase()) : val
+                                    busca ? normalizeString(val.name).includes(normalizeString(busca).toUpperCase()) : val
                                 ).sort((a, b) => {
                                     // Colocar alunos com status 'ativo' no início, e 'transferido' ou 'inativo' no final
                                     if (a.status === "ativo" && b.status !== "ativo") {
