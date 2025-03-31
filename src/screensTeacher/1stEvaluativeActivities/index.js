@@ -120,7 +120,7 @@ const IndexAttendance = () => {
             const id_bimonthly = sessionStorage.getItem("id-I")
             const nameMatter = sessionStorage.getItem("nameMatter")
             const id_mttr = sessionStorage.getItem("Selectmatter")
-            const id_class = sessionStorage.getItem("class-info")
+            const idClass = sessionStorage.getItem("class-info")
             // const resClass = await clssInfo(id_class)
             console.log(IstQuarter)
 
@@ -146,7 +146,7 @@ const IndexAttendance = () => {
 
             console.log('tg', tgString, "ag", agString)
             setNameMatter(nameMatter)
-            setId_class(id_class)
+            setId_class(idClass)
             setBimonthly(bimString)
             setTotalGrade(tgString)
             setAverageGrade(agString)
@@ -158,8 +158,8 @@ const IndexAttendance = () => {
     }, [year, averageGrade, totalGrade,])
 
     useEffect(() => {
-        if (id_matter && year && id_iStQuarter && id_class) {
-            //setTimeout(() => setLoading(true), 0); // Força atualização no próximo ciclo de renderização
+        if (id_matter && year && id_iStQuarter /*&& id_class*/) {
+            setTimeout(() => setLoading(true), 0); // Força atualização no próximo ciclo de renderização
 
             const fetchActivities = async () => {
                 try {
