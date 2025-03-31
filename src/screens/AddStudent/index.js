@@ -57,7 +57,7 @@ const StudentAdd = () => {
                 // Verifica se o ano da turma corresponde ao ano atual
                 if (res.year.trim() === currentYear) {
                     return res; // Retorna os estudantes dessa turma
-                } 
+                }
                 return null
             }).map(res => res.id_student); // Após o filtro, mapeia para obter um array de estudantes
 
@@ -65,8 +65,11 @@ const StudentAdd = () => {
                 return res
             })
             console.log("$tudent", $tudent)
+
+            //esta acontecendo erro ao renderizar alunos disponiveis para adicionar em trumas
+
             // Passo 1: Criar um array com todos os IDs de estudantes já cadastrados em turmas
-            const registeredStudentIds = currentYearClasses.flat(); // Isso achata todos os arrays de IDs em um único array
+            /*const registeredStudentIds = currentYearClasses.flat(); // Isso achata todos os arrays de IDs em um único array
 
             // Passo 2: Filtrar os estudantes para excluir os que já estão registrados
             const studentsToDisplay = $tudent.filter((val) => {
@@ -75,13 +78,17 @@ const StudentAdd = () => {
                     return val
                 }
                 return null
-            });
+            });*/
 
             // Passo 3: Exibir os estudantes restantes
-            console.log("Estudantes disponíveis para adicionar:", studentsToDisplay);
+            //console.log("Estudantes disponíveis para adicionar:", studentsToDisplay);
 
             console.log("cla$$", currentYearClasses)
-            setStudent(studentsToDisplay);
+
+            //esta acontecendo erro ao renderizar alunos disponiveis para adicionar em trumas
+            //setStudent(studentsToDisplay);
+
+            setStudent($tudent);
             setLoading(false);
         })();
     }, []);

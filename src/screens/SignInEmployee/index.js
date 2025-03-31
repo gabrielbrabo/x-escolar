@@ -36,6 +36,10 @@ const SignInEmployee = () => {
         if (response) {
             const Schools = response.data.schools
 
+            const now = Date.now();
+            // Salva novo horário de atividade
+            localStorage.setItem("lastLogin", now);
+
             if (Schools) {
                 const schools = response.data.schools;
                 const userCPF = cpf;
@@ -69,7 +73,7 @@ const SignInEmployee = () => {
             localStorage.setItem("type", type)
             localStorage.setItem("position_at_school", position_at_school)
             sessionStorage.setItem("id-school", JSON.stringify(id_school))
-           // sessionStorage.setItem("assessmentFormat", assessmentFormat)
+            // sessionStorage.setItem("assessmentFormat", assessmentFormat)
             //sessionStorage.setItem("id_logo", idLogo)
             sessionStorage.setItem("id_matter", id_matter)
             sessionStorage.setItem("id_class", id_class)
