@@ -3200,6 +3200,25 @@ export const returnedStudent = async (
         }, [])
 }
 
+export const ReassignStudent = async (
+    id_student, oldClass, newClass
+) => {
+
+    return api.post(`/reassign-student`,{ 
+        id_student, oldClass, newClass
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
 /*export const getavatar = async () => {
 
     return api.get('/avatar')

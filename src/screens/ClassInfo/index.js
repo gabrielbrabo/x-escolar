@@ -129,6 +129,10 @@ const Cla$$Info = () => {
         sessionStorage.setItem("studentTransfer", studentTransfer)
         navigate('/add/student')
     }
+    const ReassignStdt = async () => {
+        sessionStorage.setItem("idClassTransfer", id_class)
+        navigate('/reassign-student')
+    }
 
     const addTeacher = async () => {
         navigate(`/add/teacher/${id_class}`)
@@ -391,6 +395,9 @@ const Cla$$Info = () => {
                                             &&
                                             <DivAddEmp>
                                                 <AddEmp>
+                                                    <Btt02 onClick={ReassignStdt}>Remanejar</Btt02>
+                                                </AddEmp>
+                                                <AddEmp>
                                                     <Btt02 onClick={addStudent}>Add Aluno</Btt02>
                                                 </AddEmp>
                                                 <AddEmp>
@@ -424,6 +431,12 @@ const Cla$$Info = () => {
                                                         return (
                                                             <div key={stdt.id} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                                                 <Span onClick={() => StudentInformation(stdt)}>{stdt.name}</Span>
+                                                                {stdt.status === "ativo" && (
+                                                                    <Span style={{ color: 'blue', fontWeight: 'bold' }}>Remanejado</Span>
+                                                                )}
+                                                                {stdt.status === "inativo" && (
+                                                                    <Span style={{ color: 'blue', fontWeight: 'bold' }}>Remanejado</Span>
+                                                                )}
                                                                 {stdt.status === "transferido" && (
                                                                     <Span style={{ color: 'orange', fontWeight: 'bold' }}>Transferido</Span>
                                                                 )}
