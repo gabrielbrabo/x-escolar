@@ -482,7 +482,7 @@ const IndexAttendance = () => {
                                                                     </div>
                                                                     <div className='nota'>
                                                                         {/* Checkbox para marcar alunos sem nota */}
-                                                                        <label>Não adicionar nota</label>
+                                                                        <label>Não adicionar frequência</label>
                                                                         <input
                                                                             type="checkbox"
                                                                             checked={excludedStudents.includes(stdt._id)}
