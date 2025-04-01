@@ -30,6 +30,8 @@ import { getFinalConcepts, AttendanceFinalConcepts, indexGradesCard } from '../.
 
 import { IoCheckmarkSharp, IoCloseSharp } from "react-icons/io5";
 
+import { FcSurvey } from "react-icons/fc";
+
 import { useNavigate } from 'react-router-dom';
 
 import LoadingSpinner from '../../components/Loading';
@@ -48,6 +50,7 @@ const FinalConcepts = () => {
 
   const [highlightedDays, setHighlightedDays] = React.useState([]);
   const [highlightedDaysF, setHighlightedDaysF] = React.useState([]);
+  const [highlightedDaysFJ, setHighlightedDaysFJ] = React.useState([]);
 
   const [iStQuarter, setiStQuarter] = useState([]);
   const [iiNdQuarter, setiiNdQuarter] = useState([]);
@@ -128,10 +131,12 @@ const FinalConcepts = () => {
 
             // Filtrando e mapeando as faltas (F)
             const attendancef = data.filter(res => res.status === "F");
+            const attendancefj = data.filter(res => res.status === "FJ");
 
             // Garantir que as variáveis não sejam nulas ou indefinidas
             setHighlightedDays(attendance.length ? attendance : []);
             setHighlightedDaysF(attendancef.length ? attendancef : []);
+            setHighlightedDaysFJ(attendancef.length ? attendancefj : []);
           } else {
             console.warn("Nenhum dado de frequência disponível.");
           }
@@ -156,6 +161,7 @@ const FinalConcepts = () => {
 
   const countPresences = highlightedDays.length;
   const countAbsences = highlightedDaysF.length;
+  const countjustifiedAbsence = highlightedDaysFJ.length;
 
   return (
     <Container>
@@ -178,7 +184,8 @@ const FinalConcepts = () => {
                 <span><strong>Professor:</strong> {teacherName}</span>
                 <span><strong>Aluno:</strong> {stdtName}</span>
                 <SpanFrequency>
-                  <span><IoCheckmarkSharp color='#00fa00' font-size="30px" />Presenças: {countPresences} | <IoCloseSharp color='#ff050a' font-size="30px" />Ausências: {countAbsences}</span>
+                  <span><IoCheckmarkSharp color='#00fa00' font-size="30px" />Presenças: {countPresences} | <IoCloseSharp color='#ff050a' font-size="30px" />Faltas: {countAbsences}</span>
+                  <span><FcSurvey font-size="25px" />Faltas justificada: {countjustifiedAbsence}</span>
                 </SpanFrequency>
                 <LegendBox>
                   <h3>Legenda</h3>

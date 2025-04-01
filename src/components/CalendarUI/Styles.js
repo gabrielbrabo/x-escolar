@@ -17,6 +17,13 @@ export const StyledContainer = styled.div`
     margin: 0px;
   }
 
+  .contFrequenci {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   @media (max-width: 768px) {
     padding: 5px;
     width: 97%;

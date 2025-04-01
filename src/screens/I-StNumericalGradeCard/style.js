@@ -138,7 +138,7 @@ export const Grade = styled.div`
 export const DadosStdt = styled.div`
   display: flex;
   padding: 10px;
-  gap: 5px;
+  gap: 10px;
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
@@ -187,8 +187,11 @@ export const SpanFrequency = styled.div`
   width: 80%;
   height: 0px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   position: absolute;
+  gap: 10px;
+  margin-top: 30px;
 
   @media (max-width: 768px) {
     height: 15px;
@@ -365,10 +368,15 @@ const GlobalStyle = createGlobalStyle`
       width: 90%;
       height: 0px;
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       position: absolute;
+      
+      margin-left: 250px;
 
       color: #000; /* Ajuste a cor se necessário */
+    }
+    ${AddEmp} {
+      margin-bottom: 50px;
     }
     ${LegendBox} {
       padding-left: 15px;

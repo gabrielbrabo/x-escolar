@@ -97,11 +97,18 @@ const TableBody = styled.tbody`
   & .presence {
     font-size: 0.8em;
     color: green;
+    font-weight: bold;
   }
 
   & .absence {
     font-size: 0.8em;
     color: red;
+    font-weight: bold;
+  }
+  & .justifiedAbsence {
+    font-size: 0.8em;
+    color: #7E57C2;
+    font-weight: bold;
   }
 
   & .total-presence {
@@ -113,6 +120,11 @@ const TableBody = styled.tbody`
   & .total-absence {
     font-size: 0.8em;
     color: #f82410;
+    font-weight: bold;
+  }
+  & .total-justifiedAbsence {
+    font-size: 0.8em;
+    color: #7E57C2;
     font-weight: bold;
   }
 `;
@@ -375,7 +387,14 @@ export default function AttendanceList() {
     );
     if (attendanceForDate) {
       return (
-        <td className={`status-cell ${attendanceForDate.status === "P" ? "presence" : "absence"}`}>
+        <td
+          className={`status-cell ${attendanceForDate.status === "P"
+            ? "presence"
+            : attendanceForDate.status === "FJ"
+              ? "justifiedAbsence"
+              : "absence"
+            }`}
+        >
           {attendanceForDate.status}
         </td>
       );
@@ -389,7 +408,8 @@ export default function AttendanceList() {
     );
     const totalPresence = attendanceForStudent.filter((att) => att.status === "P").length;
     const totalAbsence = attendanceForStudent.filter((att) => att.status === "F").length;
-    return { totalPresence, totalAbsence };
+    const totaljustifiedAbsence = attendanceForStudent.filter((att) => att.status === "FJ").length;
+    return { totalPresence, totalAbsence, totaljustifiedAbsence };
   };
 
   const uniqueDates = [
@@ -525,6 +545,7 @@ export default function AttendanceList() {
                     ))}
                     <th className="total-presence">Total P</th>
                     <th className="total-absence">Total F</th>
+                    <th className="total-justifiedAbsence">Total FJ</th>
                   </tr>
                 </TableHeader>
                 <TableBody>
@@ -538,6 +559,7 @@ export default function AttendanceList() {
                           {uniqueDates.map((date) => getAttendanceStatus(student._id, date))}
                           <td className="total-presence">{totals.totalPresence}</td>
                           <td className="total-absence">{totals.totalAbsence}</td>
+                          <td className="total-justifiedAbsence">{totals.totaljustifiedAbsence}</td>
                         </tr>
                       );
                     })}
@@ -556,13 +578,20 @@ export default function AttendanceList() {
                             <tr key={student._id}>
                               <td className="name-cell">
                                 {student.name}
-                                <span style={{ color: "orange", marginLeft: "8px", fontWeight: "bold" }}>
-                                  {student.status}
-                                </span>
+                                {student.status === "ativo" && (
+                                  <span style={{ color: 'blue', fontWeight: 'bold' }}>Remanejado</span>
+                                )}
+                                {student.status === "inativo" && (
+                                  <span style={{ color: 'blue', fontWeight: 'bold' }}>Remanejado</span>
+                                )}
+                                {student.status === "transferido" && (
+                                  <span style={{ color: 'orange', fontWeight: 'bold' }}>Transferido</span>
+                                )}
                               </td>
                               {uniqueDates.map((date) => getAttendanceStatus(student._id, date))}
                               <td className="total-presence">{totals.totalPresence}</td>
                               <td className="total-absence">{totals.totalAbsence}</td>
+                              <td className="total-justifiedAbsence">{totals.totaljustifiedAbsence}</td>
                             </tr>
                           );
                         })}

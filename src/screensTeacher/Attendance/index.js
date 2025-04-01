@@ -398,7 +398,7 @@ const IndexAttendance = () => {
             .toUpperCase(); // Converte para maiúsculas
     };
 
-    //console.log("checked", checked)
+    console.log("checked", checked)
     //console.log("RemoveAttendanceList", RemoveAttendanceList)
     console.log("attendanceList", attendanceList)
     //console.log("matter", id_matter)
@@ -441,8 +441,10 @@ const IndexAttendance = () => {
                                         </Btt02>
                                     </DivButton>
                                     <DataSelected>
-                                        {/*<p>Disciplina: {Namematter}</p>*/}
-                                        <p style={{ color: "#158fa2" }}>Data: {day}/{month}/{year}</p>
+                                        {/*<p>Disciplina: {Namematter}</p>*/}<p style={{ color: "#158fa2" }}>
+                                            Data: {String(day).padStart(2, "0")}/{String(month).padStart(2, "0")}/{year}
+                                        </p>
+
                                     </DataSelected>
 
                                     {stdt.length > 0 && RemoveAttendanceList.length === 0 &&
@@ -455,6 +457,7 @@ const IndexAttendance = () => {
                                                         const attendance = attendanceList.find(att => att.id_student === stdt._id);
                                                         const isPresent = attendance?.status === "P";
                                                         const isAbsent = attendance?.status === "F";
+                                                        const justifiedAbsence = attendance?.status === "FJ";
 
                                                         return (
                                                             <Emp key={stdt._id}>
@@ -477,12 +480,25 @@ const IndexAttendance = () => {
                                                                                 disabled={excludedStudents.includes(stdt._id)} // Desativa se marcado                                                                
                                                                                 onChange={() => handleCheckAttendance(stdt._id, "F")}
                                                                             />
-                                                                            Ausência
+                                                                            Falta
                                                                         </label>
                                                                     </div>
                                                                     <div className='nota'>
                                                                         {/* Checkbox para marcar alunos sem nota */}
-                                                                        <label>Não adicionar frequência</label>
+                                                                        <label>Falta justificada</label>
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            checked={justifiedAbsence}
+                                                                            disabled={excludedStudents.includes(stdt._id)} // Desativa se marcado                                                                
+                                                                            onChange={() => {
+                                                                                handleCheckAttendance(stdt._id, "FJ")
+
+                                                                            }}
+                                                                        />
+                                                                    </div>
+                                                                    <div className='nota'>
+                                                                        {/* Checkbox para marcar alunos sem nota */}
+                                                                        <label>Não adicionar</label>
                                                                         <input
                                                                             type="checkbox"
                                                                             checked={excludedStudents.includes(stdt._id)}
@@ -524,6 +540,7 @@ const IndexAttendance = () => {
                                                                 <Btt02 style={{
                                                                     backgroundColor: checkedStdt.status === 'P' ? 'green' :
                                                                         checkedStdt.status === '-' ? 'black' :
+                                                                        checkedStdt.status === 'FJ' ? '#158fa2' :
                                                                             'red'
                                                                 }}>
                                                                     {checkedStdt.status}
@@ -571,11 +588,12 @@ const IndexAttendance = () => {
                                 onChange={(e) => setEditingStatus(e.target.value)}
                             >
                                 <option value="P">Presença</option>
-                                <option value="F">Ausência</option>
+                                <option value="F">Falta</option>
+                                <option value="FJ">Falta justificada</option>
                             </select>
                             <div className='nota'>
                                 {/* Checkbox para marcar alunos sem nota */}
-                                <label>Não adicionar nota</label>
+                                <label>Não adicionar</label>
                                 <input
                                     type="checkbox"
                                     checked={excludedStudents.includes(stdt._id)}

@@ -18,6 +18,8 @@ import { IoCheckmarkSharp, IoCloseSharp } from "react-icons/io5";
 //import { styled } from '@mui/material/styles';
 import { StyledContainer, StyledDateCalendar, } from './Styles';
 
+import { FcSurvey } from "react-icons/fc";
+
 //import { containerCalendar } from './Styles';
 const diasDaSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
 const monthsPtBr = [
@@ -34,7 +36,8 @@ function fakeFetch( /*date,*/ signal) {
             //const daysInMonth = date.daysInMonth();
             const daysToHighlight = [];
             const daysToHighlightF = [];
-            resolve({ daysToHighlight, daysToHighlightF });
+            const daysToHighlightFJ = [];
+            resolve({ daysToHighlight, daysToHighlightF, daysToHighlightFJ });
         });
         signal.onabort = () => {
             clearTimeout(timeout);
@@ -45,16 +48,18 @@ function fakeFetch( /*date,*/ signal) {
 
 
 function ServerDay(props) {
-    const { highlightedDays = [], highlightedDaysF = [], day, outsideCurrentMonth, ...other } = props;
+    const { highlightedDays = [], highlightedDaysF = [], highlightedDaysFJ = [], day, outsideCurrentMonth, ...other } = props;
     const isSelected =
         !props.outsideCurrentMonth && highlightedDays.indexOf(props.day.date()) >= 0;
     const isSelectedF =
         !props.outsideCurrentMonth && highlightedDaysF.indexOf(props.day.date()) >= 0;
+    const isSelectedFJ =
+        !props.outsideCurrentMonth && highlightedDaysFJ.indexOf(props.day.date()) >= 0;
     return (
         <Badge
             key={props.day.toString()}
             overlap="circular"
-            badgeContent={isSelected ? <IoCheckmarkSharp color='#00fa00' font-size="30px" /> : undefined || isSelectedF ? <IoCloseSharp color='#ff050a' font-size="30px" /> : undefined}
+            badgeContent={isSelected ? <IoCheckmarkSharp color='#00fa00' font-size="30px" /> : undefined || isSelectedF ? <IoCloseSharp color='#ff050a' font-size="30px" /> : undefined || isSelectedFJ ? <FcSurvey font-size="30px" /> : undefined}
         >
             <PickersDay {...other} outsideCurrentMonth={outsideCurrentMonth} day={day} />
         </Badge>
@@ -67,6 +72,7 @@ export default function DateCalendarServerRequest() {
     const [isLoading, setIsLoading] = React.useState(false);
     const [highlightedDays, setHighlightedDays] = React.useState([]);
     const [highlightedDaysF, setHighlightedDaysF] = React.useState([]);
+    const [highlightedDaysFJ, setHighlightedDaysFJ] = React.useState([]);
     const Year = new Date().getFullYear();
     const Month = new Date().getMonth() + 1;
     var [month, setMonth] = React.useState([Month]);
@@ -102,8 +108,20 @@ export default function DateCalendarServerRequest() {
                     }
                     return null
                 })
+                const justifiedAbsence = await resGetAttendance.data.data.map(res => {
+                    if (res.status === "FJ") {
+                        return JSON.parse(res.day)
+                    }
+                    return null
+                }).filter(res => {
+                    if (res != null) {
+                        return res
+                    }
+                    return null
+                })
                 setHighlightedDays(attendance);
                 setHighlightedDaysF(attendancef);
+                setHighlightedDaysFJ(justifiedAbsence);
             }
 
         })()
@@ -151,12 +169,16 @@ export default function DateCalendarServerRequest() {
 
     const countPresences = highlightedDays.length;
     const countAbsences = highlightedDaysF.length;
+    const countjustifiedAbsence = highlightedDaysFJ.length;
 
     return (
         <StyledContainer>
             <LocalizationProvider locale={dayjs.locale('pt-br', { months: monthsPtBr, weekdays: diasDaSemana, })} utils={DayjsUtils} dateAdapter={AdapterDayjs}>
                 <h3>Frequencia</h3>
-                <p><IoCheckmarkSharp color='#00fa00' font-size="30px" />Presenças: {countPresences} | <IoCloseSharp color='#ff050a' font-size="30px" />Ausências: {countAbsences}</p>
+                <div className='contFrequenci'>
+                    <p><IoCheckmarkSharp color='#00fa00' font-size="30px" />Presenças: {countPresences} | <IoCloseSharp color='#ff050a' font-size="30px" />Faltas: {countAbsences}</p>
+                    <p><FcSurvey font-size="25px" />Faltas Justificadas: {countjustifiedAbsence}</p>
+                </div>
                 <StyledDateCalendar
                     defaultValue={initialValue}
                     loading={isLoading}
@@ -168,7 +190,8 @@ export default function DateCalendarServerRequest() {
                     slotProps={{
                         day: {
                             highlightedDays,
-                            highlightedDaysF
+                            highlightedDaysF,
+                            highlightedDaysFJ
                         },
                     }}
                     views={['day']}

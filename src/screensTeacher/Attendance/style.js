@@ -298,7 +298,7 @@ export const AttendanceButton = styled.button`
 
 export const BoxButton = styled.div`
     display: grid;
-    gap: 50px;
+    gap: 15px;
     justify-content: space-between;
 
     .nota {
