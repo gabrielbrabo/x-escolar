@@ -463,38 +463,43 @@ const IndexAttendance = () => {
                                                             <Emp key={stdt._id}>
                                                                 <Span>{stdt.name}</Span>
                                                                 <BoxButton>
-                                                                    <div className='nota'>
+                                                                    <div className='Presence' >
+
                                                                         <label style={{ color: isPresent ? "green" : "black" }}>
+                                                                            Presença
                                                                             <input
                                                                                 type="checkbox"
                                                                                 checked={isPresent}
                                                                                 disabled={excludedStudents.includes(stdt._id)} // Desativa se marcado
                                                                                 onChange={() => handleCheckAttendance(stdt._id, "P")}
                                                                             />
-                                                                            Presença
                                                                         </label>
+                                                                    </div>
+                                                                    <div className='Absence'>
                                                                         <label style={{ color: isAbsent ? "red" : "black" }}>
+                                                                            Falta
                                                                             <input
                                                                                 type="checkbox"
                                                                                 checked={isAbsent}
                                                                                 disabled={excludedStudents.includes(stdt._id)} // Desativa se marcado                                                                
                                                                                 onChange={() => handleCheckAttendance(stdt._id, "F")}
                                                                             />
-                                                                            Falta
                                                                         </label>
                                                                     </div>
-                                                                    <div className='nota'>
+                                                                    <div className='justifi'>
                                                                         {/* Checkbox para marcar alunos sem nota */}
-                                                                        <label>Falta justificada</label>
-                                                                        <input
-                                                                            type="checkbox"
-                                                                            checked={justifiedAbsence}
-                                                                            disabled={excludedStudents.includes(stdt._id)} // Desativa se marcado                                                                
-                                                                            onChange={() => {
-                                                                                handleCheckAttendance(stdt._id, "FJ")
+                                                                        <label style={{ color: justifiedAbsence ? "#6a0dad" : "black" }}>
+                                                                            Falta Justificada (Atestado)
+                                                                            <input
+                                                                                type="checkbox"
+                                                                                checked={justifiedAbsence}
+                                                                                disabled={excludedStudents.includes(stdt._id)} // Desativa se marcado                                                                
+                                                                                onChange={() => {
+                                                                                    handleCheckAttendance(stdt._id, "FJ")
 
-                                                                            }}
-                                                                        />
+                                                                                }}
+                                                                            />
+                                                                        </label>
                                                                     </div>
                                                                     {/*<div className='nota'>
                                                                         <label>Não adicionar</label>
@@ -539,8 +544,8 @@ const IndexAttendance = () => {
                                                                 <Btt02 style={{
                                                                     backgroundColor: checkedStdt.status === 'P' ? 'green' :
                                                                         checkedStdt.status === '-' ? 'black' :
-                                                                        checkedStdt.status === 'FJ' ? '#158fa2' :
-                                                                            'red'
+                                                                            checkedStdt.status === 'FJ' ? '#158fa2' :
+                                                                                'red'
                                                                 }}>
                                                                     {checkedStdt.status}
                                                                 </Btt02>
@@ -590,7 +595,7 @@ const IndexAttendance = () => {
                                 <option value="F">Falta</option>
                                 <option value="FJ">Falta justificada</option>
                             </select>
-                           { /*<div className='nota'>
+                            { /*<div className='nota'>
                                 
                                 <label>Não adicionar</label>
                                 <input

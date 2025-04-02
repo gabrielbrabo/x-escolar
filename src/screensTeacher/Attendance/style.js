@@ -99,6 +99,7 @@ export const Emp = styled.div`
     gap: 15px;
     min-width: 90%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f0f0f0;
 
     @media(max-width: 768px) {
         width: 100%;
@@ -297,12 +298,36 @@ export const AttendanceButton = styled.button`
 `;
 
 export const BoxButton = styled.div`
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 15px;
-    justify-content: space-between;
 
     .nota {
       display: flex;
+    }
+    .Presence {
+        display: flex;
+        border: 2px solid #008000; /* Verde forte */
+        //background-color: #d4edda; /* Verde claro para contraste */
+        box-shadow: 0 0 5px rgba(0, 128, 0, 0.5); /* Sombra verde para destacar */
+        padding: 5px;
+        border-radius: 8px;
+    }
+    .Absence {
+        display: flex;
+        border: 2px solid #cc0000; /* Vermelho forte */
+        //background-color: #f8d7da; /* Vermelho claro para contraste */
+        box-shadow: 0 0 5px rgba(204, 0, 0, 0.5); /* Sombra vermelha para destacar */
+        padding: 5px;
+        border-radius: 8px;
+    }
+    .justifi {
+      display: flex;
+      border: 2px solid #6a0dad; /* Roxo forte */
+        //background-color: #e6ccff; /* Lilás suave para contraste */
+        box-shadow: 0 0 5px rgba(106, 13, 173, 0.5); /* Sombra roxa para destacar */
+        padding: 3px;
+        border-radius: 8px;
     }
     .check {
       display: flex;
@@ -322,7 +347,7 @@ export const BoxButton = styled.div`
 
 
     @media(max-width: 768px) {
-        gap: 5px;
+        gap: 10px;
     }
 `;
 

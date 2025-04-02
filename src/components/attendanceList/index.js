@@ -107,7 +107,7 @@ const TableBody = styled.tbody`
   }
   & .justifiedAbsence {
     font-size: 0.8em;
-    color: #7E57C2;
+    color: #6a0dad;
     font-weight: bold;
   }
 
@@ -124,7 +124,7 @@ const TableBody = styled.tbody`
   }
   & .total-justifiedAbsence {
     font-size: 0.8em;
-    color: #7E57C2;
+    color: #6a0dad;
     font-weight: bold;
   }
 `;
