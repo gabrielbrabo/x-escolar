@@ -60,6 +60,10 @@ const EditProfile = () => {
     }, []);
 
     const handleSubmit = async () => {
+        if (!name || !dateOfBirth || !sex || !race ) {
+            setErrorMessage('Todos os campos devem ser preenchidos.');
+            return;
+        }
         setLoading(true);
         const res = await updateStudent(
             student._id,

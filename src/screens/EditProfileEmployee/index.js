@@ -9,7 +9,8 @@ import {
     Select,
     Btt01,
     SignMessageButtonText,
-    SignMessageButtonTextBold
+    SignMessageButtonTextBold,
+    ErrorMessage,
 } from './style';
 import LoadingSpinner from '../../components/Loading';
 
@@ -25,6 +26,7 @@ const EditProfile = () => {
     const [address, setAddress] = useState('');
     const [position_at_school, setPositionAtSchool] = useState('');
     const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         (async () => {
@@ -54,6 +56,10 @@ const EditProfile = () => {
     };*/
 
     const handleSubmit = async () => {
+        if (!name || !dateOfBirth || !cpf || !rg || !email || !cellPhone || !address) {
+            setErrorMessage('Todos os campos devem ser preenchidos.');
+            return;
+        }
         setLoading(true);
         const res = await updateEmployee(employee._id, 
             name.toUpperCase(),
@@ -177,6 +183,7 @@ const EditProfile = () => {
                             <option value="SECRETARIO">SECRETARIO</option>
                             <option value="PROFESSOR">PROFESSOR</option>
                         </Select>
+                        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                         <Btt01 onClick={handleSubmit}>Salvar Alterações</Btt01>
                         <ToGoBack onClick={handleGoBack}>
                             <SignMessageButtonText>Voltar ao</SignMessageButtonText>

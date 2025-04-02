@@ -336,9 +336,11 @@ const Student = () => {
                                                     )}
                                                 </ProfileInfo>
                                             </Pro>
-                                            <DivButtomEdit>
-                                                <Btt02 onClick={Edit}>Editar</Btt02>
-                                            </DivButtomEdit>
+                                            {(positionAtSchool === "DIRETOR/SUPERVISOR" || positionAtSchool === "SECRETARIO") &&
+                                                <DivButtomEdit>
+                                                    <Btt02 onClick={Edit}>Editar</Btt02>
+                                                </DivButtomEdit>
+                                            }
                                         </EmployeeInfo>
                                     </Emp>
                                 ))
@@ -401,7 +403,7 @@ const Student = () => {
                                             onChange={(e) => {
                                                 handleChangeStatus(student._id, e.target.value)
                                                 setExitDate(e.target.value === "transferido" || e.target.value === "inativo" ? new Date().toISOString().split('T')[0] : null);
-           
+
                                             }}
                                         >
                                             <option value="">Selecione</option>

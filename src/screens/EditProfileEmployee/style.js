@@ -79,3 +79,12 @@ export const SignMessageButtonTextBold = styled.span`
     font-weight: bold;
     margin-left: 5px;
 `;
+
+export const ErrorMessage = styled.div`
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+`;
