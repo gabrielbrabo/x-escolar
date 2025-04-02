@@ -496,8 +496,7 @@ const IndexAttendance = () => {
                                                                             }}
                                                                         />
                                                                     </div>
-                                                                    <div className='nota'>
-                                                                        {/* Checkbox para marcar alunos sem nota */}
+                                                                    {/*<div className='nota'>
                                                                         <label>Não adicionar</label>
                                                                         <input
                                                                             type="checkbox"
@@ -512,7 +511,7 @@ const IndexAttendance = () => {
 
                                                                             }}
                                                                         />
-                                                                    </div>
+                                                                    </div>*/}
                                                                 </BoxButton>
                                                             </Emp>
 
@@ -591,8 +590,8 @@ const IndexAttendance = () => {
                                 <option value="F">Falta</option>
                                 <option value="FJ">Falta justificada</option>
                             </select>
-                            <div className='nota'>
-                                {/* Checkbox para marcar alunos sem nota */}
+                           { /*<div className='nota'>
+                                
                                 <label>Não adicionar</label>
                                 <input
                                     type="checkbox"
@@ -607,7 +606,7 @@ const IndexAttendance = () => {
 
                                     }}
                                 />
-                            </div>
+                            </div>*/}
                             <BoxButtonEdit>
                                 <Btt02 onClick={saveEdit}>Salvar</Btt02>
                                 <Btt02 onClick={() => setEditingStudent(null)}>Cancelar</Btt02>
