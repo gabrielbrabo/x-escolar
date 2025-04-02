@@ -40,6 +40,10 @@ const EditProfile = () => {
     }, []);
 
     const handleSubmit = async () => {
+        if (!serie || !level || !shift || !classroom_number) {
+            setErrorMessage('Todos os campos devem ser preenchidos.');
+            return;
+        }
         setLoading(true);
         const res = await updateClass(
             cla$$._id,

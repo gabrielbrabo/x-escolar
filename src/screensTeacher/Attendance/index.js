@@ -593,7 +593,7 @@ const IndexAttendance = () => {
                             >
                                 <option value="P">Presença</option>
                                 <option value="F">Falta</option>
-                                <option value="FJ">Falta justificada</option>
+                                <option value="FJ">Falta Justificada (Atestado)</option>
                             </select>
                             { /*<div className='nota'>
                                 
