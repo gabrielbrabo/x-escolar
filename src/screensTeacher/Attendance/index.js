@@ -69,7 +69,7 @@ const IndexAttendance = () => {
     //const [Status, setStatus] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const [excludedStudents, setExcludedStudents] = useState([]);
+    const [excludedStudents, /*setExcludedStudents*/] = useState([]);
     const [attendanceList, setAttendanceList] = useState([]);
     const [RemoveAttendanceList, setRemoveAttendanceList] = useState([]);
 
