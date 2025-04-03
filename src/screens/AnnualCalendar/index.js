@@ -162,7 +162,7 @@ const HomeSchool = () => {
         <>
           <AddEmp>
             <h3>{title}</h3>
-            {position_at_school === "DIRETOR/SUPERVISOR" ? (
+            {position_at_school === "DIRETOR/SUPERVISOR" || position_at_school === "SECRETARIO" ? (
               data.map(res => {
                 console.log("_id", res._id)
                 console.log("status", res.status)
@@ -175,7 +175,10 @@ const HomeSchool = () => {
                   );
                 } else if (res.status === "fechado" && res.statusSupervisor === "aberto") {
                   return (
-                    <Btt02 key={res._id} onClick={() => onToclose(id)}>Fecha Bimestre</Btt02>
+                    <div style={{ display: "grid", gap: "8px" }}>
+                      <Btt02 key={res._id} onClick={() => onToclose(id)}>Fecha Bimestre</Btt02>
+                      <Btt02 onClick={onEdit}>Editar Bimestre</Btt02>
+                    </div>
                   );
                 } else if (res.status !== "fechado") {
                   return (

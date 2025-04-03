@@ -234,6 +234,8 @@ const Grade = () => {
                                 <Button02 className='no-print' onClick={handlePrint} style={{ marginBottom: '15px' }}>Imprimir</Button02>
                             </CtnrBtt>
                             <Table>
+
+                                <h4 className='total-aulas-lecionadas'>Total de aulas lecionadas: {recordClassTaught.length}</h4>
                                 <>
                                     {recordClassTaught.length > 0 && !null ? (
                                         recordClassTaught

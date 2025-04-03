@@ -22,14 +22,14 @@ const Preload = () => {
             const id = localStorage.getItem("Id_employee");
             const token = localStorage.getItem("token");
             const lastLogin = localStorage.getItem("lastLogin"); // Obtém o último login salvo
-            
+
             const now = Date.now();
             const expirationTime = 24 * 60 * 60 * 1000; // 24 horas em milissegundos
 
             //teste
             //const expirationTime = 1 * 60 * 1000; // 1 minuto em milissegundos (60000)
 
-    
+
             // Se não houver token ou já passou o tempo de expiração, força logout
             if (!token || !lastLogin || now - lastLogin > expirationTime) {
                 localStorage.clear();
@@ -37,17 +37,34 @@ const Preload = () => {
                 navigate('/signin/employee');
                 return;
             }
-    
+
             try {
                 // Atualiza o token
                 const response = await Refresh(JSON.parse(id));
-    
+
                 if (response && response.data) {
                     console.log("response", response);
-    
+
                     // Salva novo horário de atividade
                     localStorage.setItem("lastLogin", now);
-    
+
+                    const Schools = response.data.schools
+
+                    if (Schools) {
+                        const schools = response.data.schools;
+                        const userCPF = response.data.schools.map( res => res.cpf);
+
+                        console.log("Schools", schools);
+                        console.log("userCPF", userCPF);
+                        // Verifica se as escolas estão disponíveis e o CPF tem um valor definido
+                        if (schools && userCPF) {
+                            setTimeout(() => {
+                                navigate('/school/selection', { state: { schools, cpf: userCPF } });
+                                return; // Sai da função aqui para evitar a execução do restante
+                            }, 0);
+                        }
+                    }
+
                     // Processa os dados recebidos
                     const IdEmployee = response.data.id;
                     const loggedEmployee = response.data.CPF;
@@ -59,9 +76,12 @@ const Preload = () => {
                     const id_matter = response.data.id_matter;
                     const id_class = response.data.id_class;
                     const id_reporter_cardid_class = response.data.id_reporter_card;
-    
-                    const nameSchool = await NameSchool(id_school);
-                    sessionStorage.setItem("School", nameSchool.data.data);
+
+                    if (!Schools) {
+                        const nameSchool = await NameSchool(id_school);
+                        sessionStorage.setItem("School", nameSchool.data.data);
+                    }
+                    
                     localStorage.setItem("Id_employee", JSON.stringify(IdEmployee));
                     sessionStorage.setItem("cpf", loggedEmployee);
                     sessionStorage.setItem("name", name);
@@ -74,7 +94,7 @@ const Preload = () => {
                     sessionStorage.setItem("id_reporter_cardid_class", id_reporter_cardid_class);
                     localStorage.setItem("token", token);
                     sessionStorage.setItem("token", token);
-    
+
                     api.defaults.headers.Authorization = `Bearer ${token}`;
                     loginEmployee(loggedEmployee);
                 } else {

@@ -68,6 +68,26 @@ export const Table = styled.div`
   border-collapse: collapse;
   margin-top: 20px;
 
+  .total-aulas-lecionadas {
+    color: #333;
+    position: relative;
+    display: inline-block;
+  }
+
+  .total-aulas-lecionadas::after {
+    content: "";
+    position: absolute;
+    left: -15px; /* Ajuste para aumentar o sublinhado para os lados */
+    right: -15px; /* Ajuste para aumentar o sublinhado para os lados */
+    bottom: -2px; /* Distância do sublinhado em relação ao texto */
+    height: 2px; /* Espessura do sublinhado */
+    background-color: #37d60a; /* Cor do sublinhado */
+  }
+
+  p{
+    color: #158fa2;
+  }
+
   @media (max-width: 768px) {
     display: block;
   }
@@ -80,7 +100,7 @@ export const Table = styled.div`
 
 export const ContainerTable = styled.div`
   padding: 10px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 2px solid #6a0dad;
   background-color: #f0f0f0;
   width: 100%;
   max-width: 100%;
