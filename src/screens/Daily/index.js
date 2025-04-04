@@ -11,6 +11,7 @@ import {
 import AttendanceList from '../../components/attendanceList/index';
 import Classes from '../../components/ClassesList/index';
 import IndividualFormList from '../../components/IndividualFormList/index';
+//import BimonthlyAssessments from '../../components/BimonthlyAssessments/index';
 //import NumericalGradeList from '../../components/NumericalGradeList';
 import GradeList from '../../components/GradeList/index';
 import FinalGradeList from '../../components/FinalGradeList/index';
@@ -43,6 +44,8 @@ const Daily = () => {
         return <IndividualFormList />;
       case 'concepts':
         return <GradeList />;
+      /*case 'assessments':
+        return <BimonthlyAssessments/>*/
       case 'numericalGrades':
         return //<NumericalGradeList/>;
       case 'finalConcepts':
@@ -64,7 +67,7 @@ const Daily = () => {
             (
               <Btt02 onClick={() => handleComponentChange('concepts')}>Conceitos</Btt02>
             ) : (
-              <Btt02 onClick={() => handleComponentChange('numericalGrades')}>Avaliações</Btt02>
+              <Btt02 onClick={() => handleComponentChange('assessments')}>Avaliações</Btt02>
             )
           }
         </UpperButons>

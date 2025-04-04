@@ -153,17 +153,18 @@ const IndexAttendance = () => {
             setId_teacher(JSON.parse(id_teacher))
 
 
-           // setLoading(false);
+            // setLoading(false);
         })()
     }, [year, averageGrade, totalGrade,])
 
     useEffect(() => {
         if (id_matter && year && id_iStQuarter && id_class) {
-            //setTimeout(() => setLoading(true), 0); // Força atualização no próximo ciclo de renderização
+            setTimeout(() => setLoading(true), 0); // Força atualização no próximo ciclo de renderização
 
             const fetchActivities = async () => {
                 try {
                     const resActivity = await GetActivity(year, bimonthly, id_matter, id_class);
+                    console.log("Resposta da API:", resActivity);
                     if (resActivity.data.data) {
                         console.log("resActivity", resActivity.data.data);
                         setChecked(resActivity.data.data);
@@ -175,8 +176,6 @@ const IndexAttendance = () => {
 
                         const totalNotas = await resActivity.data.data.reduce((sum, activity) => sum + Number(activity.valor), 0);
                         setNotaDistri(totalNotas);
-                    } else {
-                        setChecked([]); // Se não houver atividades, garantir que fique vazio
                     }
                 } catch (error) {
                     console.error("Erro ao buscar atividades:", error);
@@ -241,7 +240,7 @@ const IndexAttendance = () => {
     };
 
     const handleActivities = async () => {
-        if(totalGrade.length <= 0 || averageGrade.length <= 0) {
+        if (totalGrade.length <= 0 || averageGrade.length <= 0) {
             alert('⚠️ Não é possível adicionar avaliação, pois as notas total e média ainda não foram configuradas. Entre em contato com a secretaria para que as devidas configurações sejam realizadas.')
             return
         }
@@ -422,7 +421,7 @@ const IndexAttendance = () => {
                                             </List>
                                         </FloatingWindow>
                                     }
-                                    {checked.length > 0 ? (
+                                    { checked && checked.length > 0 ? (
 
                                         <ListChecked>
                                             {

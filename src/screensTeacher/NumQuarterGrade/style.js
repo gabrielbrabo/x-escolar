@@ -75,7 +75,7 @@ export const ListChecked = styled.div`
     position: relative; /* Necessário para o título */
     
     &:before {
-        content: 'Conceito adicionado'; /* Texto da borda */
+        content: 'Notas adicionadas'; /* Texto da borda */
         position: absolute;
         top: -15px; /* Ajuste conforme necessário */
         left: 50%;

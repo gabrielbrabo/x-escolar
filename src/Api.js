@@ -2783,6 +2783,41 @@ export const IndexGradeDailyTeacher02 = async (
             }
         }, [])
 };
+
+export const IndexActivitiesDaily = async (
+    year,
+    id_class,
+    id_teacher,
+    id_iStQuarter,
+    id_iiNdQuarter,
+    id_iiiRdQuarter,
+    id_ivThQuarter,
+    id_vThQuarter,
+    id_viThQuarter,
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/activities-daily`, {
+        year,
+        id_class,
+        id_teacher,
+        id_iStQuarter,
+        id_iiNdQuarter,
+        id_iiiRdQuarter,
+        id_ivThQuarter,
+        id_vThQuarter,
+        id_viThQuarter,
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+};
+
 export const IndexNumericalGradeDaily = async (
     year,
     id_class,

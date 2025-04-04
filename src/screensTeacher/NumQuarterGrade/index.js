@@ -513,11 +513,10 @@ const IndexAttendance = () => {
                                                     return (
                                                         <Emp key={stdt._id}>
                                                             <Span>{stdt.id_student.name}</Span>
-                                                            <Grade>
+                                                            <Grade className='nota'>
                                                                 <Conceito style={{ color: gradeColor }}>
                                                                     {studentGrade}
                                                                 </Conceito>
-                                                                <span>pts</span>
                                                             </Grade>
                                                             <Btt02 onClick={() => startEditing(stdt)}>Editar</Btt02>
                                                         </Emp>
