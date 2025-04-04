@@ -161,11 +161,11 @@ const IndexAttendance = () => {
         if (id_matter && year && id_iStQuarter && id_class) {
             setTimeout(() => setLoading(true), 0); // Força atualização no próximo ciclo de renderização
 
-            const fetchActivities = async () => {
+            const fetchActivities = async (retry = false) => {
                 try {
                     const resActivity = await GetActivity(year, bimonthly, id_matter, id_class);
                     console.log("Resposta da API:", resActivity);
-                    if (resActivity.data.data) {
+                    if (resActivity.data.data && resActivity.data.data.length > 0) {
                         console.log("resActivity", resActivity.data.data);
                         setChecked(resActivity.data.data);
 
@@ -176,6 +176,9 @@ const IndexAttendance = () => {
 
                         const totalNotas = await resActivity.data.data.reduce((sum, activity) => sum + Number(activity.valor), 0);
                         setNotaDistri(totalNotas);
+                    } else if (!retry) {
+                        // Tenta novamente após um pequeno atraso
+                        setTimeout(() => fetchActivities(true), 1000);
                     }
                 } catch (error) {
                     console.error("Erro ao buscar atividades:", error);
@@ -421,7 +424,7 @@ const IndexAttendance = () => {
                                             </List>
                                         </FloatingWindow>
                                     }
-                                    { checked && checked.length > 0 ? (
+                                    {checked && checked.length > 0 ? (
 
                                         <ListChecked>
                                             {
