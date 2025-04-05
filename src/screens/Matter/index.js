@@ -86,9 +86,9 @@ const Matter = () => {
         navigate('/new/matter');
     };
 
-    const DeleteMatter = async () => {
+    /*const DeleteMatter = async () => {
         navigate('/delete/matter');
-    };
+    };*/
 
     const colors = ["#A5D6A7", "#90CAF9", "#FFCC80", "#CE93D8", "#80DEEA", "#FFAB91", "#DCE775", "#B0BEC5"];
 
@@ -99,10 +99,10 @@ const Matter = () => {
                 <LoadingSpinner />
             ) : (
                 <>
-                    <h2>Componentes curriculares</h2>
+                    <h2>Componentes Curriculares</h2>
                     <Search>
                         <FormSearch>
-                            <label>Buscar Disciplinas</label>
+                            <label>Buscar</label>
                             <AreaEmp>
                                 <InputEmp
                                     type="text"
@@ -115,18 +115,18 @@ const Matter = () => {
                     </Search>
                     <List>
 
-                        <p>Adicione uma disciplina de cada vez !!!</p>
+                        {/*<p>Adicione uma disciplina de cada vez !!!</p>*/}
                         <DivAddEmp>
                             {positionAtSchool !== 'PROFESSOR' && (
                                 <DivNewEmp>
-                                    <Btt02 onClick={NewMatter}>Nova Disciplinas</Btt02>
+                                    <Btt02 onClick={NewMatter}>Cadastrar</Btt02>
                                 </DivNewEmp>
                             )}
-                            {positionAtSchool === 'DIRETOR/SUPERVISOR' && (
+                            {/*positionAtSchool === 'DIRETOR/SUPERVISOR' && (
                                 <DivNewEmp>
-                                    <Btt02 onClick={DeleteMatter}>Deletar Disciplina</Btt02>
+                                    <Btt02 onClick={DeleteMatter}>Apagar</Btt02>
                                 </DivNewEmp>
-                            )}
+                            )*/}
                         </DivAddEmp>
                         {matter.length > 0
                             ? (

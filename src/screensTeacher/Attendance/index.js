@@ -433,7 +433,7 @@ const IndexAttendance = () => {
                         && (
                             open === 'aberto' ? (
                                 <ContainerStudent>
-                                    <h2>Chamada</h2>
+                                    <h2>Frequência</h2>
                                     <DivButton>
                                         <SlActionUndo fontSize={'30px'} onClick={Return} />
                                         <Btt02 onClick={clickRemovedate}>

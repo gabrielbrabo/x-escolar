@@ -141,7 +141,7 @@ const Employees = () => {
                         <Btt02 onClick={NewEmoloyee}>Novo Funcionario</Btt02>
                     </DivNewEmp>
                     <List>
-                        <p>Total de Funcionários Cadastados: {employees.length}</p>
+                        <p>Total de Funcionários Cadastrados: {employees.length}</p>
                         {
                             employees.filter((fil) => {
                                 if (!filter) {
