@@ -113,7 +113,7 @@ const Matter = () => {
             setLoading(false)
             return;
         }
-    
+
         await updateMatter(EditingMatter, EditingName.toLocaleUpperCase())
         window.location.reload()
         //setLoading(false)
@@ -167,9 +167,11 @@ const Matter = () => {
                                         .map((matter, index) => (
                                             <Emp key={matter._id} style={{ backgroundColor: colors[index % colors.length] }}>
                                                 <Span>{matter.name}</Span>
-                                                <Btt02 onClick={() => startEditing(matter)} style={{ backgroundColor: 'white', color: "black" }}>
-                                                    Editar
-                                                </Btt02>
+                                                {positionAtSchool !== 'PROFESSOR' &&
+                                                    <Btt02 onClick={() => startEditing(matter)} style={{ backgroundColor: 'white', color: "black" }}>
+                                                        Editar
+                                                    </Btt02>
+                                                }
                                             </Emp>
                                         ))}
                                 </>
