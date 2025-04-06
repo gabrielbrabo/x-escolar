@@ -2401,6 +2401,25 @@ export const updateAttendance = async (
         }, [])
 }
 
+export const updateMatter = async (
+    update_Matter, update_Name
+) => {
+
+    return api.post(`/update/matter`, {
+        update_Matter, update_Name
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
 export const AttendanceBimonthly = async (
     startd, startm, starty, endd, endm, endy, id_student, id_teacher
 ) => {

@@ -106,3 +106,55 @@ export const LoadingSpinnerContainer = styled.div`
   align-items: center;
   height: 100vh;
 `;
+
+export const EditContainer = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+
+    & > div {
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 90%;
+        max-width: 500px;
+    }
+
+    h3 {
+        margin: 0;
+        font-size: 1.5rem;
+        color: #333;
+    }
+
+    input {
+        padding: 10px 14px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        outline: none;
+        transition: border-color 0.3s;
+
+        &:focus {
+            border-color: #0077ff;
+        }
+    }
+`;
+
+export const BoxButtonEdit = styled.div`
+    display: flex;
+    gap: 100px;
+    justify-content: space-between;
+`;
