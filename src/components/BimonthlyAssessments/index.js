@@ -32,6 +32,7 @@ import {
 } from './style';
 
 import LoadingSpinner from '../../components/Loading';
+//import NumQuarterGradeDaily from '../../components/NumQuarterGradeDaily';
 
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
@@ -65,6 +66,7 @@ const IndividualFormList = () => {
 
     const [RegentTeacher, setclassRegentTeacher] = useState([]);
     const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
+
     const [openMatters, setOpenMatters] = useState({});
 
     useEffect(() => {
@@ -296,73 +298,7 @@ const IndividualFormList = () => {
 
     //console.log("res form", IndividualForm)
 
-    //const handlePrint = () => {
-        const printContent = document.getElementById("printable-content");
 
-        if (printContent) {
-            const printWindow = window.open("", "_blank");
-            printWindow.document.write(`
-            <html>
-              <head>
-                <title>Impressão</title>
-                <style>
-                  body { font-family: Arial, sans-serif; margin: 20px; }
-                  table { width: 100%; border-collapse: collapse; }
-                  th, td { 
-                    text-align: center;
-                    border: 1px solid #ddd;
-                    font-size: 8px;
-                    padding: 1px; 
-                  }
-                    tr {
-                      
-                    }
-                    .name-cell {
-                        text-align: start;
-                    }
-                  @page {
-                    size: A4 landscape; /* Define o formato da página como paisagem */
-                    margin: 0;
-                  }  
-                  ContTable {
-                    overflow-x: hidden; /* Permite rolagem horizontal */
-                    width: max-content; /* Garante que a tabela ocupe a largura do conteúdo */
-                    margin-left: auto; /* Centraliza horizontalmente */
-                    margin-right: auto; /* Centraliza horizontalmente */
-                  }
-                    .printable-content {
-                      visibility: visible; /* Exibe apenas o conteúdo dentro desta classe */
-                      font-size: 15px;
-                      //transform: scale(1); /* Ajusta a escala da tabela */
-                    }
-                  .data {
-                    display: flex;
-                    gap:15px;
-                  }
-                  .info {
-                    display: flex;
-                    flex-direction: column;
-                  }
-                    .no-print {
-                      display: none !important;
-                    }
-                </style>
-              </head>
-              <body>
-                ${printContent.innerHTML} 
-              </body>
-            </html>
-          `);
-
-            printWindow.document.close();
-
-            // Força um pequeno delay antes de chamar print()
-            setTimeout(() => {
-                printWindow.print();
-                printWindow.close();
-            }, 500);
-        }
-    //};
 
     const toggleMatter = (matterId) => {
         setOpenMatters((prev) => ({
@@ -380,6 +316,12 @@ const IndividualFormList = () => {
         return acc;
     }, {});
 
+    const Seenotes = (activity) => {
+        sessionStorage.setItem("id-activity", activity._id)
+        sessionStorage.getItem("classRegentTeacher", RegentTeacher)
+        sessionStorage.getItem("classRegentTeacher02", RegentTeacher02)
+        navigate('/num-quarter-grade-daily')
+    }
 
     return (
         <PrintStyle>
@@ -434,7 +376,11 @@ const IndividualFormList = () => {
                                                 <p><strong>Valor:</strong> <span style={{ color: '#FFA500' }}>{activity.valor}</span> pts</p>
                                             </ActivityInfo>
                                             <div className='btn'>
-                                                <EditButton>Ver Notas</EditButton>
+                                                <EditButton
+                                                    onClick={ () => Seenotes(activity)}
+                                                >
+                                                    Ver Notas
+                                                </EditButton>
                                             </div>
                                         </ActivityContainer>
                                     ))}

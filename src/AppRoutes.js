@@ -115,6 +115,8 @@ import GradeFinalConcepts from "./screensTeacher/GradeFinalConcepts"
 
 import Daily from "./screens/Daily"
 
+import NumQuarterGradeDaily from "./components/NumQuarterGradeDaily"
+
 const AppRoutes = () => {
 
     const Private = ({ children }) => {
@@ -577,6 +579,12 @@ const AppRoutes = () => {
                     <Route exact path="/password-rest/:cpf/:id" element={
                         <Private>
                             <PasswordReset />
+                        </Private>
+                    } />
+                    
+                    <Route exact path="/num-quarter-grade-daily" element={
+                        <Private>
+                            <NumQuarterGradeDaily/>
                         </Private>
                     } />
                 </Routes>

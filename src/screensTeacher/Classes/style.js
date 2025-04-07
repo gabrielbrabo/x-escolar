@@ -101,6 +101,7 @@ export const Span = styled.div`
     font-size: 10px;
     justify-content: flex-start;
     align-items: flex-start;
+    gap: 10px;
 
     div {
         display: flex;
@@ -115,13 +116,16 @@ export const Span = styled.div`
 
     @media (max-width: 345px)  {
       font-size: 9px; /* Smartphones pequenos */
+      gap: 5px;
     }
     @media (min-width: 345px) {
       font-size: 8pt; /* Smartphones pequenos */
+      gap: 5px;
     }
 
     @media (min-width: 481px) and (max-width: 768px) {
       font-size: 9pt; /* Tablets */
+      gap: 5px;
     }
 `;
 
