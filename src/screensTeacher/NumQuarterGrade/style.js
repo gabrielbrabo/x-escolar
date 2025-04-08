@@ -450,6 +450,16 @@ export const Input = styled.input`
   border-radius: 4px;
   @media (max-width: 768px) {
   }
+
+  &[type='number']::-webkit-outer-spin-button,
+  &[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &[type='number'] {
+    -moz-appearance: textfield; /* OK usar, mesmo com o aviso */
+  }
 `;
 export const BoxBtt = styled.div`
   display: flex;
