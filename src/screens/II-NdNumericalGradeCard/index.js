@@ -324,8 +324,18 @@ const GradeIstquarter = () => {
                 </SpanFrequency>
                 <LegendBox>
                   <h3>Legenda</h3>
-                  <p>Nota Total: <strong style={{ color: '#1d7f14' }}>{totalGrade}</strong></p>
-                  <p>Nota Média: <strong style={{ color: 'blue' }}>{averageGrade}</strong></p>
+                  <p>
+                    Nota Total:{" "}
+                    <strong style={{ color: '#1d7f14' }}>
+                      {parseFloat(totalGrade).toFixed(1)}
+                    </strong>
+                  </p>
+                  <p>
+                    Nota Média:{" "}
+                    <strong style={{ color: 'blue' }}>
+                      {parseFloat(averageGrade).toFixed(1)}
+                    </strong>
+                  </p>
                 </LegendBox>
               </DadosStdt>
               <DivDados>
@@ -351,12 +361,15 @@ const GradeIstquarter = () => {
                                   grade={
                                     groupedGradesIst.find(res => String(res.id_matter) === String(grd.id_matter))?.grade || 0
                                   }
-                                  averageGrade={parseFloat(averageGradeIst) || 0}  // Garantir que a média é válida
-                                  totalGrade={parseFloat(totalGradeIst) || 0}  // Garantir que o total é válido
+                                  averageGrade={parseFloat(averageGradeIst) || 0}
+                                  totalGrade={parseFloat(totalGradeIst) || 0}
                                 >
                                   {groupedGradesIst
                                     .filter(res => String(res.id_matter) === String(grd.id_matter))
-                                    .map(res => res.grade)}
+                                    .map(res => {
+                                      const gradeValue = parseFloat(res.grade?.toString().replace(',', '.'));
+                                      return !isNaN(gradeValue) ? gradeValue.toFixed(1) : "N/A";
+                                    })}
                                 </DivBimCell>
                               </DivBimRow>
                               <DivBimRow>
@@ -367,7 +380,9 @@ const GradeIstquarter = () => {
                                   totalGrade={parseFloat(totalGrade) || 0}  // Garantir que o total é válido
                                 >
                                   {console.log('resultIndex', grd.grade, averageGrade, totalGrade)}
-                                  {grd.grade || "N/A"}
+                                  {grd.grade !== undefined && grd.grade !== null
+                                    ? parseFloat(grd.grade).toFixed(1)
+                                    : "N/A"}
                                 </DivBimCell>
                               </DivBimRow>
                               <DivBimRow>

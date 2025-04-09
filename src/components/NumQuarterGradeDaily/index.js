@@ -107,7 +107,7 @@ const IndexAttendance = () => {
                     const idClass = firstActivity.id_class?._id;
                     setId_class(idClass);
                     const resGrade = await GetNumericalGrade(idActivity)
-                   // const attRealized = await resGrade.data.data.map(res => res.id_student._id);
+                    // const attRealized = await resGrade.data.data.map(res => res.id_student._id);
                     const checkedStudent = resGrade.data.data; // lista dos alunos com nota lançada
 
                     const resClass = await clssInfo(idClass);
@@ -203,7 +203,13 @@ const IndexAttendance = () => {
                                 </Info>
                                 <LegendBox>
                                     <h3>Legenda</h3>
-                                    <p>Valor da Avaliação: <strong style={{ color: '#1d7f14' }}>{totalGrade}</strong></p>
+                                    <p>
+                                        Valor da Avaliação:{" "}
+                                        <strong style={{ color: '#1d7f14' }}>
+                                            {parseFloat(totalGrade).toFixed(1)}
+                                        </strong>
+                                    </p>
+
                                 </LegendBox>
                             </BoxDescr>
                         </DataSelected>
@@ -219,7 +225,10 @@ const IndexAttendance = () => {
                                             checked
                                                 .sort((a, b) => normalizeString(a.id_student.name).localeCompare(normalizeString(b.id_student.name))) // Ordena em ordem alfabética
                                                 .map(stdt => {
-                                                    const studentGrade = (stdt.studentGrade.toString().replace(',', '.')) || '-';
+                                                    const studentGrade = stdt.studentGrade
+                                                        ? parseFloat(stdt.studentGrade.toString().replace(',', '.')).toFixed(1)
+                                                        : '-';
+
                                                     let gradeColor = 'blue'; // Padrão: azul para notas iguais ou maiores que a média
 
                                                     if (studentGrade < (totalGrade * 0.6)) {

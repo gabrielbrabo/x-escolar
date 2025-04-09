@@ -188,6 +188,21 @@ export const AddEmp = styled.div`
   justify-content: center;
 `;
 
+export const AddImpre = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  p {
+    color: #8000ff; /* roxo vibrante */
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    &:hover {
+      color: #a64dff; /* roxo mais claro ao passar o mouse */
+      text-decoration: underline;
+    }
+  }
+`;
+
 export const Matter = styled.div`
   display: flex;
   flex-direction: column;

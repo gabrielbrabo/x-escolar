@@ -117,6 +117,8 @@ import Daily from "./screens/Daily"
 
 import NumQuarterGradeDaily from "./components/NumQuarterGradeDaily"
 
+import PrintableAttendanceSheet from "./screens/PrintableAttendanceSheet"
+
 const AppRoutes = () => {
 
     const Private = ({ children }) => {
@@ -585,6 +587,12 @@ const AppRoutes = () => {
                     <Route exact path="/num-quarter-grade-daily" element={
                         <Private>
                             <NumQuarterGradeDaily/>
+                        </Private>
+                    } />
+                    
+                    <Route exact path="/printable-attendance-sheet" element={
+                        <Private>
+                            <PrintableAttendanceSheet/>
                         </Private>
                     } />
                 </Routes>

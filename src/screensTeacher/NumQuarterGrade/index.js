@@ -501,7 +501,10 @@ const IndexAttendance = () => {
                                             checked
                                                 .sort((a, b) => normalizeString(a.id_student.name).localeCompare(normalizeString(b.id_student.name))) // Ordena em ordem alfabética
                                                 .map(stdt => {
-                                                    const studentGrade = (stdt.studentGrade.toString().replace(',', '.')) || '-';
+                                                    const studentGrade = stdt.studentGrade
+                                                        ? parseFloat(stdt.studentGrade.toString().replace(',', '.')).toFixed(1)
+                                                        : '-';
+
                                                     let gradeColor = 'blue'; // Padrão: azul para notas iguais ou maiores que a média
 
                                                     if (studentGrade < (totalGrade * 0.6)) {

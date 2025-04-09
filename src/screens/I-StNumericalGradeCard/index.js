@@ -283,8 +283,18 @@ const GradeIstquarter = () => {
                 </SpanFrequency>
                 <LegendBox>
                   <h3>Legenda</h3>
-                  <p>Nota Total: <strong style={{ color: '#1d7f14' }}>{totalGrade}</strong></p>
-                  <p>Nota Média: <strong style={{ color: 'blue' }}>{averageGrade}</strong></p>
+                  <p>
+                    Nota Total:{" "}
+                    <strong style={{ color: '#1d7f14' }}>
+                      {parseFloat(totalGrade).toFixed(1)}
+                    </strong>
+                  </p>
+                  <p>
+                    Nota Média:{" "}
+                    <strong style={{ color: 'blue' }}>
+                      {parseFloat(averageGrade).toFixed(1)}
+                    </strong>
+                  </p>
                 </LegendBox>
               </DadosStdt>
               <DivDados>
@@ -307,14 +317,17 @@ const GradeIstquarter = () => {
                               <DivBimRow>
                                 <DivBimHeader>1º Bim</DivBimHeader>
                                 <DivBimCell
-                                  grade={parseFloat(grd.grade) || 0}  // Garantir que é um número válido, senão 0
-                                  averageGrade={parseFloat(averageGrade) || 0}  // Garantir que a média é válida
-                                  totalGrade={parseFloat(totalGrade) || 0}  // Garantir que o total é válido
+                                  grade={parseFloat(grd.grade) || 0}
+                                  averageGrade={parseFloat(averageGrade) || 0}
+                                  totalGrade={parseFloat(totalGrade) || 0}
                                 >
                                   {console.log('resultIndex', grd.grade, averageGrade, totalGrade)}
-                                  {grd.grade || "N/A"}
+                                  {grd.grade !== undefined && grd.grade !== null
+                                    ? parseFloat(grd.grade).toFixed(1)
+                                    : "N/A"}
                                 </DivBimCell>
                               </DivBimRow>
+
                               <DivBimRow>
                                 <DivBimHeader>2º Bim</DivBimHeader>
                                 <DivBimCell /*grade={iiNdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}*/>

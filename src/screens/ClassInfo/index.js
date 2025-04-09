@@ -17,6 +17,7 @@ import {
     DivButtomEdit,
     ProfileInfo,
     Btt02,
+    AddImpre
     //DivShowMatter,
     //ButtonCancel,
     //Btt01
@@ -40,19 +41,23 @@ const Cla$$Info = () => {
 
     const [studentTransfer, setstudentTransfer] = useState()
     const [studentTransferMap, setstudentTransferMap] = useState([])
+    
+    const [nameSchool, setnameSchool] = useState([])
 
     const [stdt, setStdt] = useState([])
     const [loading, setLoading] = useState(false);
     //const [showStudent, setShowStudent] = useState(false);
     //const [showTeacher, setShowTeacher] = useState(false);
     const { id_class } = useParams();
+    
     console.log(currentYear)
 
     useEffect(() => {
         (async () => {
             setLoading(true);
             console.log('useParamsClass', id_class)
-            //const id_clas = sessionStorage.getItem("ClassInformation")
+            const nameSchool = sessionStorage.getItem('School')
+            setnameSchool(nameSchool)
             const res = await clssInfo(id_class)
             setClss(res.data.data)
             console.log('reposta', res.data.data)
@@ -170,6 +175,23 @@ const Cla$$Info = () => {
     const StudentInformation = async (stdt) => {
         setLoading(true);
         navigate(`/student/info/${stdt._id}`)
+        setLoading(false);
+    }
+
+    const PrintableAttendanceSheet = async () => {
+        setLoading(true);
+        const serie = clss.map(clss => {
+            return clss.serie
+        }) 
+        console.log("resutado a ser eviado", stdt)
+        navigate('/printable-attendance-sheet', {
+            state: {
+                students: stdt,
+                schoolName: nameSchool,
+                className: serie,
+                teacherName: classRegentEmployee
+            }
+        });
         setLoading(false);
     }
 
@@ -380,9 +402,11 @@ const Cla$$Info = () => {
                             ?
                             <DivInfo>
                                 <TitleInfo>Alunos:</TitleInfo>
-
+                                <AddImpre>
+                                    <p onClick={PrintableAttendanceSheet}>Imprimir Lista de alunos</p>
+                                </AddImpre>
                                 <p>Total de Alunos: {stdt.length}</p>
-                               { studentTransferMap.length > 0 && <p>Total de Alunos Transferidos: {studentTransferMap.length}</p>}
+                                {studentTransferMap.length > 0 && <p>Total de Alunos Transferidos: {studentTransferMap.length}</p>}
                                 {/*!showStudent &&
                                     <DivShowMatter>
                                         <Btt02 onClick={() => { setShowStudent(true) }}>Ver Alunos <TiArrowDownThick fontSize={'17px'} /></Btt02>

@@ -347,8 +347,18 @@ const IndividualFormList = () => {
                         <span><strong>Turma:</strong> {nameClass}</span>
                         <LegendBox>
                             <h3>Legenda</h3>
-                            <p>Nota Total: <strong style={{ color: '#1d7f14' }}>{totalGrade}</strong></p>
-                            <p>Nota Média: <strong style={{ color: 'blue' }}>{averageGrade}</strong></p>
+                            <p>
+                                Nota Total:{" "}
+                                <strong style={{ color: '#1d7f14' }}>
+                                    {parseFloat(totalGrade).toFixed(1)}
+                                </strong>
+                            </p>
+                            <p>
+                                Nota Média:{" "}
+                                <strong style={{ color: 'blue' }}>
+                                    {parseFloat(averageGrade).toFixed(1)}
+                                </strong>
+                            </p>
                         </LegendBox>
                     </ContInfo>
                     {Object.keys(groupedActivities).length > 0 ? (
@@ -377,7 +387,7 @@ const IndividualFormList = () => {
                                             </ActivityInfo>
                                             <div className='btn'>
                                                 <EditButton
-                                                    onClick={ () => Seenotes(activity)}
+                                                    onClick={() => Seenotes(activity)}
                                                 >
                                                     Ver Notas
                                                 </EditButton>
