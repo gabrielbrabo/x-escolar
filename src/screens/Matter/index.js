@@ -167,11 +167,14 @@ const Matter = () => {
                                         .map((matter, index) => (
                                             <Emp key={matter._id} style={{ backgroundColor: colors[index % colors.length] }}>
                                                 <Span>{matter.name}</Span>
-                                                {positionAtSchool !== 'PROFESSOR' &&
-                                                    <Btt02 onClick={() => startEditing(matter)} style={{ backgroundColor: 'white', color: "black" }}>
+                                                {positionAtSchool !== 'PROFESSOR' && matter.name.toUpperCase() !== 'EDUCAÇÃO FÍSICA' && (
+                                                    <Btt02
+                                                        onClick={() => startEditing(matter)}
+                                                        style={{ backgroundColor: 'white', color: 'black' }}
+                                                    >
                                                         Editar
                                                     </Btt02>
-                                                }
+                                                )}
                                             </Emp>
                                         ))}
                                 </>
@@ -179,10 +182,11 @@ const Matter = () => {
                             :
                             (
                                 <>
-                                    <p>nenhuma disciplina cadastrada</p>
+                                    <p>nenhuma componente cadastrada</p>
                                 </>
                             )
                         }
+
                     </List>
 
                     {EditingMatter && (
