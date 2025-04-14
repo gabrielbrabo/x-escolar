@@ -170,3 +170,18 @@ export const SignMessageButtonTextBold = styled.span`
     font-size: 14px;
   }
 `;
+
+export const AddImpre = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  p {
+    color: #8000ff; /* roxo vibrante */
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    &:hover {
+      color: #a64dff; /* roxo mais claro ao passar o mouse */
+      text-decoration: underline;
+    }
+  }
+`;

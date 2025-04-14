@@ -72,22 +72,6 @@ const Matter = () => {
         }
     }, [matter, name, idSchool, isSubmitting]);
 
-
-    /*useEffect(() => {
-        const createMatter = async () => {
-            const name = 'EDUCAÇÃO FÍSICA';
-            if (matter.length <= 0) {
-                const resNewMatter = await NewMttr(idSchool, name);
-                if (resNewMatter) {
-                    window.location.reload()
-                }
-                console.log("resNewMatter", resNewMatter);
-            }
-        };
-
-        createMatter();
-    }, [matter, idSchool]);*/
-
     matter.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
 
     const NewMatter = async () => {

@@ -15,7 +15,8 @@ import {
     StudentSection,
     StudentItem,
     InfoText,
-    ContainerDivs
+    ContainerDivs,
+    AddImpre
 } from './style';
 import LoadingSpinner from '../../components/Loading'
 
@@ -28,6 +29,10 @@ const MyCla$$Info = () => {
     const [stdt, setStdt] = useState([])
     const [studentTransferMap, setstudentTransferMap] = useState([]);
 
+    const [classRegentEmployee, setclassRegentEmployee] = useState([])
+
+    const [nameSchool, setnameSchool] = useState([])
+
     const { id_class } = useParams();
     const { id_teacher } = useParams();
     const [loading, setLoading] = useState(false);
@@ -36,6 +41,8 @@ const MyCla$$Info = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
+            const nameSchool = sessionStorage.getItem('School')
+            setnameSchool(nameSchool)
             const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
             setassessmentFormat($assessmentFormat)
             sessionStorage.removeItem("Selectbimonthly");
@@ -76,6 +83,7 @@ const MyCla$$Info = () => {
                     return null
                 }
             })
+            setclassRegentEmployee(classRegentEmployee)
 
             const classRegentTeacher02 = await resClass.data.data.find(res => {
                 return res
@@ -117,7 +125,7 @@ const MyCla$$Info = () => {
             setLoading(false)
         })()
 
-    }, [id_class, id_teacher])
+    }, [id_class, id_teacher, classRegentEmployee])
 
     const StudentInformation = async (stdt) => {
         setLoading(true);
@@ -191,6 +199,23 @@ const MyCla$$Info = () => {
 
     const textColor = getTextColor(bgColor)
 
+    const PrintableAttendanceSheet = async () => {
+        setLoading(true);
+        const serie = clss.map(clss => {
+            return clss.serie
+        })
+        console.log("resutado a ser eviado", stdt)
+        navigate('/printable-attendance-sheet', {
+            state: {
+                students: stdt,
+                schoolName: nameSchool,
+                className: serie,
+                teacherName: classRegentEmployee
+            }
+        });
+        setLoading(false);
+    }
+
     return (
         <Container>
             {loading ?
@@ -230,8 +255,11 @@ const MyCla$$Info = () => {
                     }
                     <StudentSection>
                         <h2 style={{ color: "#158fa2" }}>Alunos</h2>
+                        <AddImpre>
+                            <p onClick={PrintableAttendanceSheet}>Imprimir Lista de Presença</p>
+                        </AddImpre>
                         <p>Total de alunos: {stdt.length}</p>
-                        { studentTransferMap.length > 0 && <p>Total de Alunos Transferidos: {studentTransferMap.length}</p>}
+                        {studentTransferMap.length > 0 && <p>Total de Alunos Transferidos: {studentTransferMap.length}</p>}
                         {stdt.length > 0 ? (
                             stdt.map(stdt => (
                                 <StudentItem onClick={() => StudentInformation(stdt)}>
