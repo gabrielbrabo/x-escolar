@@ -153,7 +153,7 @@ const IndexAttendance = () => {
             setId_teacher(JSON.parse(id_teacher))
 
 
-           // setLoading(false);
+            // setLoading(false);
         })()
     }, [year, averageGrade, totalGrade,])
 
@@ -241,7 +241,7 @@ const IndexAttendance = () => {
     };
 
     const handleActivities = async () => {
-        if(totalGrade.length <= 0 || averageGrade.length <= 0) {
+        if (totalGrade.length <= 0 || averageGrade.length <= 0) {
             alert('⚠️ Não é possível adicionar avaliação, pois as notas total e média ainda não foram configuradas. Entre em contato com a secretaria para que as devidas configurações sejam realizadas.')
             return
         }
@@ -292,26 +292,10 @@ const IndexAttendance = () => {
                         id_class,
                         [quarterIdKey]: id_iiNdQuarter
                     });
-
+                    console.log("res creatActivit", res)
                     if (res) {
-                        const resActivity = await GetActivity(year, bimonthly, id_matter, id_class)
-                        if (resActivity && resActivity.data.data.length > 0) {
-                            console.log("resActivity", resActivity.data.data);
-                            setChecked(resActivity.data.data);
-
-                            // Soma os valores das atividades cadastradas
-                            const totalNotas = resActivity.data.data.reduce((sum, activity) => {
-                                return sum + Number(activity.valor); // Converte para número e soma
-                            }, 0);
-
-                            setNotaDistri(totalNotas);
-                            setActivities(null);
-                            setForm({ descricao: "", tipo: "Normal", valor: "" });
-                        } else {
-                            setNotaDistri(0);
-                        }
-                        setLoading(false)
-                        console.log("res", res);
+                        sessionStorage.setItem('id-activity', res.data.activity._id)
+                        navigate('/$num-quarter-grade')
                     } else {
                         setErrorMessage('Erro, verifique os dados e tente novamente.');
                     }
@@ -330,26 +314,10 @@ const IndexAttendance = () => {
                         id_class,
                         [quarterIdKey]: id_iiNdQuarter
                     });
-
                     if (res) {
-                        const resActivity = await GetActivity(year, bimonthly, id_matter, id_class)
-                        if (resActivity && resActivity.data.data.length > 0) {
-                            console.log("resActivity", resActivity.data.data);
-                            setChecked(resActivity.data.data);
-
-                            // Soma os valores das atividades cadastradas
-                            const totalNotas = resActivity.data.data.reduce((sum, activity) => {
-                                return sum + Number(activity.valor); // Converte para número e soma
-                            }, 0);
-
-                            setNotaDistri(totalNotas);
-                            setActivities(null);
-                            setForm({ descricao: "", tipo: "Normal", valor: "" });
-                        } else {
-                            setNotaDistri(0);
-                        }
-                        setLoading(false)
-                        console.log("res", res);
+                        sessionStorage.setItem('id-activity', res.data.activity._id)
+                        navigate('/$num-quarter-grade')
+                        console.log("res creatActivit", res.data.activity._id)
                     } else {
                         setErrorMessage('Erro, verifique os dados e tente novamente.');
                     }
@@ -358,7 +326,6 @@ const IndexAttendance = () => {
             }
 
         }
-        /*window.location.reload() */
     };
 
     const handleOpenModal = async (activity) => {

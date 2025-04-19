@@ -10,6 +10,7 @@ import {
 import { AuthProvider, AuthContext } from './contexts/auth'
 
 import LoginSelection from "./screens/LoginSelection"
+import SignUpEducationDepartment from "./screens/SignUpEducationDepartment"
 import SignUpSchool from "./screens/SignUpSchool"
 import SignInSchool from "./screens/SignInSchool"
 import HomeSchool from "./screens/HomeSchool"
@@ -25,6 +26,7 @@ import Employees from "./screens/Employees"
 import NewEmployees from "./screens/NewEmployee"
 import EmployeeAlreadyRegistered from "./screens/EmployeeAlreadyRegistered"
 import ManagerAlreadyRegistered from "./screens/ManagerAlreadyRegistered"
+import FirstEmployeeEducationDepartment from "./screens/FirstEmployeeEducationDepartment"
 import FirstEmployee from "./screens/FirstEmployee"
 import NewStudent from "./screens/NewStudent"
 import Student from "./screens/Student"
@@ -151,6 +153,7 @@ const AppRoutes = () => {
             <AuthProvider>
                 <Routes>
                     <Route exact path="/login/selection" element={<LoginSelection />} />
+                    <Route exact path="/signup/education-department" element={<SignUpEducationDepartment />} />
                     <Route exact path="/signup/school" element={<SignUpSchool />} />
                     <Route exact path="/signin/school" element={<SignInSchool />} />
                     <Route exact path="/signin/employee" element={<SignInEmployee />} />
@@ -171,6 +174,11 @@ const AppRoutes = () => {
                     <Route exact path="/employees" element={
                         <Private>
                             <Employees />
+                        </Private>
+                    } />
+                    <Route exact path="/first/employee-education-department" element={
+                        <Private>
+                            <FirstEmployeeEducationDepartment />
                         </Private>
                     } />
                     <Route exact path="/first/employee" element={

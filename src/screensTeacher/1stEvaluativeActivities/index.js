@@ -296,9 +296,8 @@ const IndexAttendance = () => {
                     });
 
                     if (res) {
-                        window.location.reload()
-                        setLoading(false)
-                        console.log("res", res);
+                        sessionStorage.setItem('id-activity', res.data.activity._id)
+                        navigate('/$num-quarter-grade')
                     } else {
                         setErrorMessage('Erro, verifique os dados e tente novamente.');
                     }
@@ -319,9 +318,8 @@ const IndexAttendance = () => {
                     });
 
                     if (res) {
-                        window.location.reload()
-                        setLoading(false)
-                        console.log("res", res);
+                        sessionStorage.setItem('id-activity', res.data.activity._id)
+                        navigate('/$num-quarter-grade')
                     } else {
                         setErrorMessage('Erro, verifique os dados e tente novamente.');
                     }

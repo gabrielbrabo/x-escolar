@@ -4,6 +4,29 @@ export const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL
 })
 
+export const registerEducationDepartment = async (
+    name,
+    email,
+    municipality,
+    state,
+) => {
+    return api.post('/register/education-department', {
+        name,
+        email,
+        municipality,
+        state,
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                window.location.reload()
+                alert(result)
+            }
+        }, [])
+}
+
 export const registerSchool = async (
     name,
     email,
@@ -22,6 +45,22 @@ export const registerSchool = async (
                     error.response.data.msg
                 )
                 window.location.reload()
+                alert(result)
+            }
+        }, [])
+}
+
+export const createSessionEducationDepartment = async (
+    id
+) => {
+    return api.post('/session/education-department', {
+        id
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
                 alert(result)
             }
         }, [])
@@ -3219,7 +3258,7 @@ export const updateStatus = async (
     id_student, status, exitDate
 ) => {
 
-    return api.post(`/status-update`, 
+    return api.post(`/status-update`,
         id_student, status, exitDate
     )
 
@@ -3239,7 +3278,7 @@ export const returnedStudent = async (
     id_student, id_class
 ) => {
 
-    return api.post(`/returned-studen`,{ 
+    return api.post(`/returned-studen`, {
         id_student, id_class
     })
 
@@ -3258,7 +3297,7 @@ export const ReassignStudent = async (
     id_student, oldClass, newClass
 ) => {
 
-    return api.post(`/reassign-student`,{ 
+    return api.post(`/reassign-student`, {
         id_student, oldClass, newClass
     })
 

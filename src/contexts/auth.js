@@ -38,6 +38,11 @@ export const AuthProvider = ({ children }) => {
         setUser(loggedSchool)
         navigate('/first/employee')
     }
+    
+    const loginEducationDepartment = async (loggedEducationDepartment) => {
+        setUser(loggedEducationDepartment)
+        navigate('/first/employee-education-department')
+    }
 
     const loginEmployee = async (loggedEmployee) => {
         setUser(loggedEmployee)
@@ -62,6 +67,7 @@ export const AuthProvider = ({ children }) => {
                     user,
                     loading,
                     loginSchool,
+                    loginEducationDepartment,
                     loginEmployee,
                     logout
                 }
