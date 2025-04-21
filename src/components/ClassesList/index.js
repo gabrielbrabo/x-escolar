@@ -239,7 +239,11 @@ const Grade = () => {
                                 <>
                                     {recordClassTaught.length > 0 && !null ? (
                                         recordClassTaught
-                                            .sort((a, b) => new Date(b.year, b.month - 1, b.day) + new Date(a.year, a.month - 1, a.day))
+                                            .sort((a, b) => {
+                                                const dateA = new Date(a.year, a.month - 1, a.day);
+                                                const dateB = new Date(b.year, b.month - 1, b.day);
+                                                return dateA - dateB; // ordem crescente
+                                            })
                                             .map((res, index) => (
                                                 <React.Fragment key={index}>
                                                     <ContainerTable>
