@@ -213,6 +213,12 @@ const IndexAttendance = () => {
     const saveEdit = async () => {
         setLoading(true);
 
+        if (!EditedDescription || !EditedTipo || EditedValor === "" || EditedValor === null || EditedValor === undefined) {
+            setErrorMessage("Por favor, preencha todos os campos antes de salvar.");
+            setLoading(false);
+            return;
+        }        
+
         const editedValorNum = parseFloat(EditedValor.toString().replace(',', '.')) || 0;
         const notaDistriNum = parseFloat(NotaDistri.toString().replace(',', '.')) || 0;
         const totalGradeNum = parseFloat(totalGrade.toString().replace(',', '.')) || 0;

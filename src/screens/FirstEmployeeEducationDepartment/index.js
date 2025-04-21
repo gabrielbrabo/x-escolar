@@ -47,7 +47,7 @@ const FristEmployee = () => {
     (async () => {
       setLoading(true);
       const loggedEducationDepartment = sessionStorage.getItem("loggedEducationDepartment")
-      setloggedEducationDepartment(JSON.parse(loggedEducationDepartment))
+      setloggedEducationDepartment(loggedEducationDepartment)
       setLoading(false);
     })()
   }, [])
@@ -353,7 +353,7 @@ const FristEmployee = () => {
           >
             <option value="">Selecione</option>
             <option value="SECRETÁRIO(A) DE EDUCAÇÃO">SECRETÁRIO(A) DE EDUCAÇÃO</option>
-            <option value="SECRETARIO">SECRETARIO</option>
+            <option value="ASSISTENTE ADMINISTRATIVO">ASSISTENTE ADMINISTRATIVO</option>
           </Select>
           <Label>Senha</Label>
           <Input

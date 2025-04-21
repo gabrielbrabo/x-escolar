@@ -30,6 +30,7 @@ const SignUpSchool = () => {
 
   const [municipality, setMunicipality] = useState('');
   const [state, setState] = useState('');
+  const [address, setAddress] = useState('');
 
   const [loading, setLoading] = useState(false);
 
@@ -41,6 +42,7 @@ const SignUpSchool = () => {
       email,
       municipality,
       state,
+      address,
     )
     console.log("res01", res)
 
@@ -102,6 +104,16 @@ const SignUpSchool = () => {
                 }
               />
             </Area>
+            <>Estado</>
+            <Area>
+              <Input
+                placeholder="Digite o estado"
+                value={state}
+                onChange={
+                  (e) => setState(e.target.value)
+                }
+              />
+            </Area>
             <>Municipio</>
             <Area>
               <Input
@@ -112,14 +124,12 @@ const SignUpSchool = () => {
                 }
               />
             </Area>
-            <>Estado</>
+            <>Endereço</>
             <Area>
               <Input
-                placeholder="Digite o estado"
-                value={state}
-                onChange={
-                  (e) => setState(e.target.value)
-                }
+                placeholder="Digite o endereço"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
               />
             </Area>
             <Btt type='submit'>Cadastra</Btt>

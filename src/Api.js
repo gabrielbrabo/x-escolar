@@ -9,12 +9,14 @@ export const registerEducationDepartment = async (
     email,
     municipality,
     state,
+    address
 ) => {
     return api.post('/register/education-department', {
         name,
         email,
         municipality,
         state,
+        address
     })
         .catch((error) => {
             if (error) {
