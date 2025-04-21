@@ -441,6 +441,7 @@ const IndexAttendance = () => {
                                                                 <p>Nota:</p>
                                                                 <Input
                                                                     type='number'
+                                                                    min="0" // Impede digitação de valores menores que 0
                                                                     placeholder="N/A"
                                                                     value={excludedStudents.includes(stdt._id) ? "" : grades[stdt._id]}
                                                                     max={totalGrade} // Impede valores maiores no campo
@@ -449,9 +450,9 @@ const IndexAttendance = () => {
 
                                                                         let numericValue = parseFloat(e.target.value);
 
-                                                                        // Impede que valores maiores que totalGrade sejam digitados
-                                                                        if (numericValue > totalGrade) {
-                                                                            e.target.value = ""; // Limpa o campo se ultrapassar
+                                                                        // Impede valores inválidos (abaixo de 0 ou acima de totalGrade)
+                                                                        if (isNaN(numericValue) || numericValue < 0 || numericValue > totalGrade) {
+                                                                            e.target.value = ""; // Limpa o campo se for inválido
                                                                             return;
                                                                         }
 
