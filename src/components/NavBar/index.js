@@ -17,20 +17,29 @@ import { TiArrowSortedUp } from "react-icons/ti";
 
 export function NavBar({ menuIsVisible, setMenuIsVisible }) {
 
+  const [positionAtEducationDepartment, setpositionAtEducationDepartment] = useState(null);
   const [positionAtSchool, setPositionAtSchool] = useState(null);
   const [name, setName] = useState(null);
+  const [department, setDepartment] = useState(null);
   const [school, setSchool] = useState(null);
 
   useEffect(() => {
     document.body.style.overflowY = menuIsVisible ? 'hidden' : 'auto';
 
+    const positionAtEducationDepartment = localStorage.getItem('positionAtEducationDepartment');
     const position = localStorage.getItem('position_at_school');
     const userName = localStorage.getItem('name');
+    const Department = sessionStorage.getItem('name-department');
     const School = sessionStorage.getItem('School');
 
-    setPositionAtSchool(position);
+    if (positionAtEducationDepartment) {
+      setpositionAtEducationDepartment(positionAtEducationDepartment);
+      setDepartment(Department);
+    } else {
+      setPositionAtSchool(position);
+      setSchool(School);
+    }
     setName(userName);
-    setSchool(School);
   }, [menuIsVisible]);
 
   const handleLogout = () => {
@@ -50,22 +59,42 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
   return (
     <Container isVisible={menuIsVisible}>
       <IoClose size={50} onClick={() => setMenuIsVisible(false)} />
-      <Emp>
-        <EmployeeInfo>
-          <Pro>
-            <ProfileInfo onClick={handlePerfil}>
-              <Name>{name}</Name>
-              <Span>{positionAtSchool}(A)</Span>
-              <Span>{school}</Span>
-            </ProfileInfo>
-          </Pro>
-        </EmployeeInfo>
-        <DivButtomEdit>
-          <Btt02 onClick={handleLogout}>Sair</Btt02>
-        </DivButtomEdit>
-        <TiArrowSortedUp />
-        <p>Perfil</p>
-      </Emp>
+      {!positionAtEducationDepartment ? (
+        <Emp>
+          <EmployeeInfo>
+            <Pro>
+              <ProfileInfo onClick={handlePerfil}>
+                <Name>{name}</Name>
+                <Span>{positionAtSchool}(A)</Span>
+                <Span>{school}</Span>
+              </ProfileInfo>
+            </Pro>
+          </EmployeeInfo>
+          <DivButtomEdit>
+            <Btt02 onClick={handleLogout}>Sair</Btt02>
+          </DivButtomEdit>
+          <TiArrowSortedUp />
+          <p>Perfil</p>
+        </Emp>
+      ) : (
+        <Emp>
+          <EmployeeInfo>
+            <Pro>
+              <ProfileInfo onClick={handlePerfil}>
+                <Name>{name}</Name>
+                <Span>{positionAtEducationDepartment}</Span>
+                <Span>{department}</Span>
+              </ProfileInfo>
+            </Pro>
+          </EmployeeInfo>
+          <DivButtomEdit>
+            <Btt02 onClick={handleLogout}>Sair</Btt02>
+          </DivButtomEdit>
+          <TiArrowSortedUp />
+          <p>Perfil</p>
+        </Emp>
+      )
+      }
       {positionAtSchool === 'DIRETOR/SUPERVISOR' && (
         <nav>
           {/*<a href="/home/school">Home</a>*/}

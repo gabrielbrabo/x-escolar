@@ -329,6 +329,14 @@ export const BoxButton = styled.div`
         padding: 3px;
         border-radius: 8px;
     }
+    .not {
+        display: flex;
+        border: 2px solid #2c2c2c; /* Cinza quase preto */
+        //background-color: #1e1e1e; /* Fundo escuro */
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Sombra discreta */
+        padding: 3px;
+        border-radius: 8px;
+    }
     .check {
       display: flex;
       gap: 10px;

@@ -69,7 +69,7 @@ const IndexAttendance = () => {
     //const [Status, setStatus] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const [excludedStudents, /*setExcludedStudents*/] = useState([]);
+    const [excludedStudents, setExcludedStudents] = useState([]);
     const [attendanceList, setAttendanceList] = useState([]);
     const [RemoveAttendanceList, setRemoveAttendanceList] = useState([]);
 
@@ -501,7 +501,7 @@ const IndexAttendance = () => {
                                                                             />
                                                                         </label>
                                                                     </div>
-                                                                    {/*<div className='nota'>
+                                                                    {<div className='not'>
                                                                         <label>Não adicionar</label>
                                                                         <input
                                                                             type="checkbox"
@@ -516,7 +516,7 @@ const IndexAttendance = () => {
 
                                                                             }}
                                                                         />
-                                                                    </div>*/}
+                                                                    </div>}
                                                                 </BoxButton>
                                                             </Emp>
 
@@ -595,7 +595,7 @@ const IndexAttendance = () => {
                                 <option value="F">Falta</option>
                                 <option value="FJ">Falta Justificada (Atestado)</option>
                             </select>
-                            { /*<div className='nota'>
+                            { <div className='not'>
                                 
                                 <label>Não adicionar</label>
                                 <input
@@ -611,7 +611,7 @@ const IndexAttendance = () => {
 
                                     }}
                                 />
-                            </div>*/}
+                            </div>}
                             <BoxButtonEdit>
                                 <Btt02 onClick={saveEdit}>Salvar</Btt02>
                                 <Btt02 onClick={() => setEditingStudent(null)}>Cancelar</Btt02>

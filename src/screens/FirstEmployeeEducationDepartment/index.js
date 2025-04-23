@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useContext, } from 'react';
 import { AuthContext, } from '../../contexts/auth'
 
-import { api, NewEmp, createSessionEmployee, NameSchool, loginWithSchool, checkEmployee } from '../../Api'
+import { api, NewEmpEducationDepartament, createSessionEmployeeEducationDepartment, } from '../../Api'
 
 //import { AuthContext, } from '../../contexts/auth'
-import { useNavigate } from 'react-router-dom'
+//import { useNavigate } from 'react-router-dom'
 
 import {
   Container,
@@ -14,9 +14,6 @@ import {
   Select,
   Btt01,
   ErrorMessage,
-  WarningContainer,
-  WarningMessage,
-  WarningButton
   //ToGoBack
 } from './style';
 
@@ -24,8 +21,8 @@ import LoadingSpinner from '../../components/Loading'
 
 const FristEmployee = () => {
 
-  const navigate = useNavigate();
-  const { loginEmployee } = useContext(AuthContext)
+  //const navigate = useNavigate();
+  const { loginEmployeeEducationDepartment } = useContext(AuthContext)
   const [loggedEducationDepartment, setloggedEducationDepartment] = useState('');
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');
@@ -39,9 +36,9 @@ const FristEmployee = () => {
   const [confirmpassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [employeeExists, setEmployeeExists] = useState(false);
-  const [registeredEmployeeInfo, setRegisteredEmployeeInfo] = useState(null);
-  const [showWarning, setShowWarning] = useState(false);
+  //const [employeeExists, setEmployeeExists] = useState(false);
+  //const [registeredEmployeeInfo, setRegisteredEmployeeInfo] = useState(null);
+  //const [showWarning, setShowWarning] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -52,7 +49,7 @@ const FristEmployee = () => {
     })()
   }, [])
 
-  const checkIfEmployeeExists = useCallback(async () => {
+  /*const checkIfEmployeeExists = useCallback(async () => {
     const response = await checkEmployee(cpf);
     console.log("response", response);
     setEmployeeExists(response.data.exists);
@@ -72,7 +69,7 @@ const FristEmployee = () => {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [cpf, checkIfEmployeeExists]);
+  }, [cpf, checkIfEmployeeExists]);*/
 
   const signClick = async () => {
     setLoading(true);
@@ -85,7 +82,7 @@ const FristEmployee = () => {
       confirmpassword
     )
 
-    const res = await NewEmp(
+    const res = await NewEmpEducationDepartament(
       loggedEducationDepartment,
       name,
       dateOfBirth,
@@ -105,95 +102,27 @@ const FristEmployee = () => {
       //sessionStorage.removeItem("name-school")
       localStorage.removeItem("type")
       localStorage.removeItem("id_employee")
-      sessionStorage.removeItem("id_matter")
-      sessionStorage.removeItem("id_class")
       localStorage.removeItem("token")
       sessionStorage.removeItem("token")
-      const response = await createSessionEmployee(cpf, password)
+      const response = await createSessionEmployeeEducationDepartment(cpf, password)
       if (response) {
-
-        const Schools = response.data.schools
-
-        const id_school = sessionStorage.getItem("id-school")
-        console.log("id_school", id_school)
-        console.log("response", response)
-
-        if (Schools) {
-
-          console.log("Schools", Schools)
-          const schoolId = JSON.parse(id_school);
-          const userCPF = cpf;
-          // Verifica se as escolas estão disponíveis e o CPF tem um valor definido
-          if (schoolId && userCPF) {
-            const response = await loginWithSchool(cpf, schoolId)
-
-            if (response) {
-              console.log("loginWithSchool", response)
-
-              const IdEmployee = response.data.id
-              const loggedEmployee = response.data.CPF
-              const token = response.data.token
-              const name = response.data.name
-              const type = response.data.type
-              const position_at_school = response.data.position_at_school
-              const id_school = response.data.id_school
-              //console.log("id_school", id_school.join(''))
-              const id_matter = response.data.id_matter
-              const id_class = response.data.id_class
-              const id_reporter_cardid_class = response.data.id_reporter_card
-              //const avatar = response.data.avatar
-              const nameSchool = await NameSchool(id_school)
-              sessionStorage.setItem("School", nameSchool.data.data)
-              localStorage.setItem("Id_employee", JSON.stringify(IdEmployee))
-              sessionStorage.setItem("cpf", loggedEmployee)
-              sessionStorage.setItem("name", name)
-              localStorage.setItem("name", name)
-              localStorage.setItem("type", type)
-              localStorage.setItem("position_at_school", position_at_school)
-              //sessionStorage.setItem("id-school", JSON.stringify(id_school))
-              sessionStorage.setItem("id_matter", id_matter)
-              sessionStorage.setItem("id_class", id_class)
-              sessionStorage.setItem("id_reporter_cardid_class", id_reporter_cardid_class)
-              localStorage.setItem("token", token)
-              sessionStorage.setItem("token", token)
-
-              /*if (avatar) {
-                  sessionStorage.setItem("avatar", avatar)
-              }*/
-
-              api.defaults.headers.Authorization = `Bearer ${token}`
-              loginEmployee(loggedEmployee)
-              window.location.reload()
-            }
-            //navigate('/school/selection', { state: { schools, cpf: userCPF } });
-            return; // Sai da função aqui para evitar a execução do restante
-          }
-        }
 
         const IdEmployee = response.data.id
         const loggedEmployee = response.data.CPF
         const token = response.data.token
         const name = response.data.name
         const type = response.data.type
-        const position_at_school = response.data.position_at_school
-        //const id_school = response.data.id_school
-        //console.log("id_school", id_school)
-        const id_matter = response.data.id_matter
-        const id_class = response.data.id_class
-        const id_reporter_cardid_class = response.data.id_reporter_card
-        //const avatar = response.data.avatar
-        const nameSchool = await NameSchool(JSON.parse(id_school))
-        sessionStorage.setItem("School", nameSchool.data.data)
+        const positionAtEducationDepartment = response.data.positionAtEducationDepartment
+        //const idEducationDepartment = response.data.idEducationDepartment
+        //const nameSchool = await NameSchool(JSON.parse(idEducationDepartment))
+
+        //sessionStorage.setItem("School", nameSchool.data.data)
         localStorage.setItem("Id_employee", JSON.stringify(IdEmployee))
         sessionStorage.setItem("cpf", loggedEmployee)
         sessionStorage.setItem("name", name)
         localStorage.setItem("name", name)
         localStorage.setItem("type", type)
-        localStorage.setItem("position_at_school", position_at_school)
-        //sessionStorage.setItem("id-school", JSON.stringify(id_school))
-        sessionStorage.setItem("id_matter", id_matter)
-        sessionStorage.setItem("id_class", id_class)
-        sessionStorage.setItem("id_reporter_cardid_class", id_reporter_cardid_class)
+        localStorage.setItem("positionAtEducationDepartment", positionAtEducationDepartment)
         localStorage.setItem("token", token)
         sessionStorage.setItem("token", token)
 
@@ -202,7 +131,7 @@ const FristEmployee = () => {
         }*/
 
         api.defaults.headers.Authorization = `Bearer ${token}`
-        loginEmployee(loggedEmployee)
+        loginEmployeeEducationDepartment(loggedEmployee)
         window.location.reload()
       }
       setLoading(false);
@@ -211,8 +140,6 @@ const FristEmployee = () => {
     }
     setLoading(false);
   }
-
-  console.log("response", employeeExists);
 
   const maskCPF = (value) => {
     return value
@@ -245,7 +172,7 @@ const FristEmployee = () => {
     setCellPhone(maskcellPhone(e.target.value));
   };
 
-  const handleRegister = () => {
+  /*const handleRegister = () => {
 
     if (registeredEmployeeInfo) {
 
@@ -265,33 +192,12 @@ const FristEmployee = () => {
     }
 
     navigate('/manager-already-registered');
-  };
-
-
-  const handleCancel = () => {
-    setShowWarning(false);
-    setCpf('');
-  };
+  };*/
 
   return (
     <Container>
       {loading ? (
         <LoadingSpinner />
-      ) : showWarning ? (
-        <WarningContainer>
-          <WarningMessage>
-            Funcionário já cadastrado em outra escola. Deseja cadastrá-lo nesta escola também?
-          </WarningMessage>
-          {registeredEmployeeInfo && (
-            <div>
-              <h3>Informações do Funcionário:</h3>
-              <p><strong>Nome:</strong> {registeredEmployeeInfo.name}</p>
-              <p><strong>CPF:</strong> {registeredEmployeeInfo.cpf}</p>
-            </div>
-          )}
-          <WarningButton onClick={handleRegister}>Sim</WarningButton>
-          <WarningButton onClick={handleCancel}>Não</WarningButton>
-        </WarningContainer>
       ) : (
         <InputArea>
           <h1>Cadastro do Gestor</h1>

@@ -68,6 +68,25 @@ export const createSessionEducationDepartment = async (
         }, [])
 }
 
+export const createSessionEmployeeEducationDepartment = async (
+    cpf,
+    password
+) => {
+    return api.post('/session/employee-education-department', {
+        cpf,
+        password
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                window.location.reload()
+            }
+        }, [])
+}
+
 export const createSessionSchool = async (
     email,
     password
@@ -164,6 +183,22 @@ export const Refresh = async (
                 )
                 alert(result)*/
                 window.location.reload()
+            }
+        }, [])
+}
+
+export const EducationDepartamentName = async (
+    idEducationDepartment
+) => {
+    return api.post('/education-department/index-name', {
+        idEducationDepartment
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
             }
         }, [])
 }
@@ -395,6 +430,44 @@ export const NewEmp = async (
         cellPhone,
         address,
         position_at_school,
+        password,
+        confirmpassword
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const NewEmpEducationDepartament = async (
+    EducationDepartment,
+    name,
+    dateOfBirth,
+    cpf,
+    rg,
+    email,
+    cellPhone,
+    address,
+    positionAtEducationDepartment,
+    password,
+    confirmpassword
+) => {
+
+    return api.post(`/register/employee-education-department/${EducationDepartment}`, {
+        name,
+        dateOfBirth,
+        cpf,
+        rg,
+        email,
+        cellPhone,
+        address,
+        positionAtEducationDepartment,
         password,
         confirmpassword
     })

@@ -14,12 +14,14 @@ import SignUpEducationDepartment from "./screens/SignUpEducationDepartment"
 import SignUpSchool from "./screens/SignUpSchool"
 import SignInSchool from "./screens/SignInSchool"
 import HomeSchool from "./screens/HomeSchool"
+import SignInEmployeesEducationDepartment from "./screens/SignInEmployeesEducationDepartment"
 import SignInEmployee from "./screens/SignInEmployee"
 import ForgotPassword from "./screens/ForgotPassword"
 import PasswordRecovery from "./screens/PasswordRecovery"
 import PasswordReset from "./screens/PasswordReset"
 import SchoolSelection from "./screens/SchoolSelection"
 import Preload from "./screens/Preload"
+import HomeEmployeeEducationDepartment from "./screens/HomeEmployeeEducationDepartment"
 import HomeEmployee from "./screens/HomeEmployee"
 import AnnualCalendar from "./screens/AnnualCalendar"
 import Employees from "./screens/Employees"
@@ -156,6 +158,7 @@ const AppRoutes = () => {
                     <Route exact path="/signup/education-department" element={<SignUpEducationDepartment />} />
                     <Route exact path="/signup/school" element={<SignUpSchool />} />
                     <Route exact path="/signin/school" element={<SignInSchool />} />
+                    <Route exact path="/signin/employee-education-department" element={<SignInEmployeesEducationDepartment />} />
                     <Route exact path="/signin/employee" element={<SignInEmployee />} />
                     <Route exact path="/forgot-password" element={<ForgotPassword />} />
                     <Route exact path="/reset-password/:cpf/:id/:reset_token" element={<PasswordRecovery />} />
@@ -164,6 +167,11 @@ const AppRoutes = () => {
                     <Route exact path="/home/school" element={
                         <Private>
                             <HomeSchool />
+                        </Private>
+                    } />
+                    <Route exact path="/home/employee-education-department" element={
+                        <Private>
+                            <HomeEmployeeEducationDepartment />
                         </Private>
                     } />
                     <Route exact path="/home/employee" element={

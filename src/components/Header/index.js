@@ -18,17 +18,27 @@ import {
 import { DiReact } from "react-icons/di";
 
 export function Header({ setMenuIsVisible }) {
+    const [positionAtEducationDepartment, setpositionAtEducationDepartment] = useState(null);
     const [position_at_school, setPosition_at_school] = useState();
     const [name, setname] = useState();
+    const [department, setDepartment] = useState(null);
     const [school, setSchool] = useState(null);
 
     useEffect(() => {
         const position_at_school = localStorage.getItem("position_at_school");
+        const positionAtEducationDepartment = localStorage.getItem('positionAtEducationDepartment');
         const name = localStorage.getItem("name");
+        const Department = sessionStorage.getItem('name-department');
         const School = sessionStorage.getItem('School');
-        setPosition_at_school(position_at_school);
+
+        if (positionAtEducationDepartment) {
+            setpositionAtEducationDepartment(positionAtEducationDepartment);
+            setDepartment(Department);
+        } else {
+            setPosition_at_school(position_at_school);
+            setSchool(School);
+        }
         setname(name);
-        setSchool(School);
     }, []);
 
     const handleLogout = () => {
@@ -82,18 +92,34 @@ export function Header({ setMenuIsVisible }) {
                     </nav>
                 )}
             </section>
-            <Emp className="desktop-user-info">
-                <EmployeeInfo>
-                    <Pro>
-                        {/*<ProfilePhoto />*/}
-                        <ProfileInfo onClick={handlePerfil}>
-                            <Name>{name}</Name>
-                            <Span>{position_at_school}(A)</Span>
-                            <Span>{school}</Span>
-                        </ProfileInfo>
-                    </Pro>
-                </EmployeeInfo>
-            </Emp>
+            {!positionAtEducationDepartment ? (
+                <Emp className="desktop-user-info">
+                    <EmployeeInfo>
+                        <Pro>
+                            {/*<ProfilePhoto />*/}
+                            <ProfileInfo onClick={handlePerfil}>
+                                <Name>{name}</Name>
+                                <Span>{position_at_school}(A)</Span>
+                                <Span>{school}</Span>
+                            </ProfileInfo>
+                        </Pro>
+                    </EmployeeInfo>
+                </Emp>
+            ) : (
+                <Emp className="desktop-user-info">
+                    <EmployeeInfo>
+                        <Pro>
+                            {/*<ProfilePhoto />*/}
+                            <ProfileInfo onClick={handlePerfil}>
+                                <Name>{name}</Name>
+                                <Span>{positionAtEducationDepartment}</Span>
+                                <Span>{department}</Span>
+                            </ProfileInfo>
+                        </Pro>
+                    </EmployeeInfo>
+                </Emp>
+            )
+            }
             <DivButtomEdit>
                 <Btt02 onClick={handleLogout}>Sair</Btt02>
             </DivButtomEdit>
