@@ -7,7 +7,7 @@ import {
 
 const HomeSchool = () => {
 
-  const [positionAtEducationDepartment, setpositionAtEducationDepartment] = useState(null);
+  const [/*positionAtEducationDepartment*/, setpositionAtEducationDepartment] = useState(null);
   const [name, setName] = useState('')
 
   useEffect(() => {
