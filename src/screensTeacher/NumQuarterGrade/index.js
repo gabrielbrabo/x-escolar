@@ -446,6 +446,12 @@ const IndexAttendance = () => {
                                                                     value={excludedStudents.includes(stdt._id) ? "" : grades[stdt._id]}
                                                                     max={totalGrade} // Impede valores maiores no campo
                                                                     disabled={excludedStudents.includes(stdt._id)} // Desativa se marcado
+                                                                    onWheel={(e) => e.preventDefault()} // 👈 Evita mudar o valor e mantém o foco
+                                                                    onKeyDown={(e) => {
+                                                                        if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+                                                                            e.preventDefault(); // bloqueia setas ↑ ↓
+                                                                        }
+                                                                    }}
                                                                     onChange={(e) => {
 
                                                                         let numericValue = parseFloat(e.target.value);
