@@ -23,7 +23,11 @@ import {
   DivBimRow,
   DivBimHeader,
   DivBimCell,
-  DivNameMatter
+  DivNameMatter,
+  DivSignatureArea,
+  SignatureBlock,
+  Line,
+  Label,
 } from './style';
 
 import GlobalStyle from './style';
@@ -407,6 +411,18 @@ const GradeIstquarter = () => {
                   }
                 </List>
               </DivDados>
+              {/* Espaço para assinatura do Professor e dos Pais */}
+              <DivSignatureArea>
+                  <SignatureBlock>
+                    <Line />
+                    <Label>Assinatura do Professor</Label>
+                  </SignatureBlock>
+
+                  <SignatureBlock>
+                    <Line />
+                    <Label>Assinatura dos Pais ou Responsável</Label>
+                  </SignatureBlock>
+                </DivSignatureArea>
             </DivAddEmp>
           </ContainerDivs>
           <ToGoBack onClick={messageButtonClick}>

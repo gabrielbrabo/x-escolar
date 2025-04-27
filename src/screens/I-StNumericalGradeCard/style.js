@@ -65,8 +65,12 @@ export const DivDados = styled.div`
   background-color: #fafafa;
   width: 100%;
   padding: 5px;
+  margin-top: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  border-bottom: 1px solid #6a0dad;
+  border-top: 1px solid #6a0dad;
 
   @media (max-width: 768px) {
     padding: 0px;
@@ -92,7 +96,7 @@ export const Emp = styled.div`
   //align-items: center;
   justify-content: space-around;
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #6a0dad;
   font-size: 1.2em;
 
   &:last-child {
@@ -452,6 +456,36 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 `;
+
+export const DivSignatureArea = styled.div`
+  display: none;
+
+  @media print {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 60px;
+    padding: 20px;
+  }
+`;
+
+export const SignatureBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const Line = styled.div`
+  width: 200px;
+  border-bottom: 1px solid #000;
+  margin-bottom: 8px;
+`;
+
+export const Label = styled.span`
+  font-size: 14px;
+  color: #000;
+`;
+
+
 
 
 export default GlobalStyle;
