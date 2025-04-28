@@ -5,14 +5,15 @@ import {
   Context,
   Btt02,
   BottomButons,
-  UpperButons
+  UpperButons,
+  ButtonGroup
 } from './style';
 
 import AttendanceList from '../../components/attendanceList/index';
 import Classes from '../../components/ClassesList/index';
 import IndividualFormList from '../../components/IndividualFormList/index';
 import BimonthlyAssessments from '../../components/BimonthlyAssessments/index';
-//import NumericalGradeList from '../../components/NumericalGradeList';
+import NumericalGradeList from '../../components/NumericalGradeList';
 import GradeList from '../../components/GradeList/index';
 import FinalGradeList from '../../components/FinalGradeList/index';
 
@@ -45,9 +46,9 @@ const Daily = () => {
       case 'concepts':
         return <GradeList />;
       case 'assessments':
-        return <BimonthlyAssessments/>
+        return <BimonthlyAssessments />
       case 'numericalGrades':
-        return //<NumericalGradeList/>;
+        return <NumericalGradeList />;
       case 'finalConcepts':
         return <FinalGradeList />;
       default:
@@ -62,14 +63,21 @@ const Daily = () => {
         <UpperButons>
           <Btt02 onClick={() => handleComponentChange('attendanceList')}>Frequência</Btt02>
           <Btt02 onClick={() => handleComponentChange('classes')}>Aulas Lecionadas</Btt02>
-          {assessmentFormat !== 'grade'
-            ?
-            (
-              <Btt02 onClick={() => handleComponentChange('concepts')}>Conceitos</Btt02>
-            ) : (
-              <Btt02 onClick={() => handleComponentChange('assessments')}>Avaliações</Btt02>
-            )
-          }
+          {assessmentFormat !== 'grade' ? (
+            <Btt02 onClick={() => handleComponentChange('concepts')}>
+              Conceitos
+            </Btt02>
+          ) : (
+            <ButtonGroup>
+              <Btt02 onClick={() => handleComponentChange('assessments')}>
+                Avaliações
+              </Btt02>
+              <Btt02 onClick={() => handleComponentChange('numericalGrades')}>
+                Notas
+              </Btt02>
+            </ButtonGroup>
+          )}
+
         </UpperButons>
 
         {assessmentFormat !== "grade"

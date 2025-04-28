@@ -265,19 +265,22 @@ const IndividualFormList = () => {
     const uniqueMatters = [...new Set(IndividualForm.map((item) => item.id_matter.name))];
     // const uniqueGrade = [...new Set(IndividualForm.map((item) => item))];
 
-    const getGrade = (studentId, date, index) => {
-        const Grade = IndividualForm.find(
-            (gradeFrom) => gradeFrom.id_student._id === studentId && gradeFrom.id_matter.name === date
+    const getGrade = (studentId, matterName, index) => {
+        const grades = IndividualForm.filter(
+            (gradeFrom) => gradeFrom.id_student._id === studentId && gradeFrom.id_matter.name === matterName
         );
-        if (Grade) {
-            return (
-                <td className={`status-cell matter-cell-${index}`}>
-                    {Grade.studentGrade}
-                </td>
-            );
-        }
-        return <td className={`status-cell matter-cell-${index}`}>-</td>;
+
+        const totalGrade = grades.reduce((sum, current) => {
+            return sum + (parseFloat(current.studentGrade) || 0);
+        }, 0);
+
+        return (
+            <td className={`status-cell matter-cell-${index}`}>
+                {grades.length > 0 ? totalGrade.toFixed(1) : "-"}
+            </td>
+        );
     };
+
 
     const messageButtonClick = () => {
         navigate(-1);

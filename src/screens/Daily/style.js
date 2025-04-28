@@ -45,7 +45,7 @@ export const UpperButons = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-around;
-    align-items: center;
+    align-items: flex-start;
     
 `;
 
@@ -68,5 +68,18 @@ export const Btt02 = styled.button`
 
   @media (max-width: 768px) {
     padding: 8px 16px;
+  }
+`;
+
+export const ButtonGroup = styled.div`
+  width: 30%;
+  display: flex;
+  gap: 50px;
+  justify-content: space-between;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 20px; /* Pode reduzir o espaço se quiser no mobile */
   }
 `;
