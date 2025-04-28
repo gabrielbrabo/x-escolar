@@ -23,7 +23,11 @@ import {
   DivBimRow,
   DivBimHeader,
   DivBimCell,
-  DivNameMatter
+  DivNameMatter,
+  DivSignatureArea,
+  SignatureBlock,
+  Line,
+  Label,
 } from './style';
 
 import GlobalStyle from './style';
@@ -79,8 +83,8 @@ const GradeIstquarter = () => {
       setStdtName(stdtName)
       setNameSchool(nameSchool)
       setid_student(id_student)
-      
-      if (idlogo && /^[0-9a-fA-F]{24}$/.test(idlogo)) { 
+
+      if (idlogo && /^[0-9a-fA-F]{24}$/.test(idlogo)) {
         const logo = await GetLogo(idlogo);
         if (logo?.data?.Logo?.url) {
           console.log('getlogo', logo.data.Logo.url);
@@ -300,6 +304,18 @@ const GradeIstquarter = () => {
                   }
                 </List>
               </DivDados>
+              {/* Espaço para assinatura do Professor e dos Pais */}
+              <DivSignatureArea>
+                <SignatureBlock>
+                  <Line />
+                  <Label>Assinatura do Professor</Label>
+                </SignatureBlock>
+
+                <SignatureBlock>
+                  <Line />
+                  <Label>Assinatura dos Pais ou Responsável</Label>
+                </SignatureBlock>
+              </DivSignatureArea>
             </DivAddEmp>
           </ContainerDivs>
           <ToGoBack onClick={messageButtonClick}>
