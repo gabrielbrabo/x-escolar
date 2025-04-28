@@ -328,26 +328,26 @@ const GradeIstquarter = () => {
                                   {console.log('resultIndex', grd.grade, averageGrade, totalGrade)}
                                   {grd.grade !== undefined && grd.grade !== null
                                     ? parseFloat(grd.grade).toFixed(1)
-                                    : "N/A"}
+                                    : "-"}
                                 </DivBimCell>
                               </DivBimRow>
 
                               <DivBimRow>
                                 <DivBimHeader>2º Bim</DivBimHeader>
                                 <DivBimCell /*grade={iiNdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}*/>
-                                  {/*iiNdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade ||*/ "N/A"}
+                                  {/*iiNdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade ||*/ "-"}
                                 </DivBimCell>
                               </DivBimRow>
                               <DivBimRow>
                                 <DivBimHeader>3º Bim</DivBimHeader>
                                 <DivBimCell /*grade={iiiRdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}*/>
-                                  {/*iiiRdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade ||*/ "N/A"}
+                                  {/*iiiRdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade ||*/ "-"}
                                 </DivBimCell>
                               </DivBimRow>
                               <DivBimRow>
                                 <DivBimHeader>4º Bim</DivBimHeader>
                                 <DivBimCell /*grade={ivThQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}*/>
-                                  {/*ivThQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade ||*/ "N/A"}
+                                  {/*ivThQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade ||*/ "-"}
                                 </DivBimCell>
                               </DivBimRow>
                             </DivBimTable>

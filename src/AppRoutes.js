@@ -81,6 +81,7 @@ import Grade from "./screensTeacher/Grade"
 
 import IstEvaluativeActivities from "./screensTeacher/1stEvaluativeActivities"
 import IIndEvaluativeActivities from "./screensTeacher/2ndEvaluativeActivities"
+import IIIrdEvaluativeActivities from "./screensTeacher/3rdEvaluativeActivities"
 
 import IstQuarterGrade from "./screensTeacher/1stQuarterGrade"
 import IIndQuarterGrade from "./screensTeacher/2ndQuarterGrade"
@@ -421,6 +422,11 @@ const AppRoutes = () => {
                     <Route exact path="/$$st-activities" element={
                         <Private>
                             <IIndEvaluativeActivities />
+                        </Private>
+                    } />
+                    <Route exact path="/$$$st-activities" element={
+                        <Private>
+                            <IIIrdEvaluativeActivities />
                         </Private>
                     } />
                     
