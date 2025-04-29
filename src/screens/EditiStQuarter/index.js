@@ -59,24 +59,36 @@ const EditProfile = () => {
     }, []);
 
     const handleSubmit = async () => {
-        setLoading(true);
-        const res = await UpdateIstQuarter(
-            id_IstQuarter,
-            startday,
-            startmonth,
-            endday,
-            endmonth,
-            totalGrade,
-            averageGrade
-        );
-
-        if (res) {
-            alert('Bimestre atualizado com sucesso!');
-            navigate(-1);
-        } else {
-            setErrorMessage('Erro ao cadastrar. Verifique os dados e tente novamente.');
+        // Verificação dos campos obrigatórios
+        if (!totalGrade || !averageGrade) {
+            setErrorMessage('Preencha todos os campos de nota antes de continuar.');
+            return;
         }
-        setLoading(false);
+
+        setLoading(true);
+
+        try {
+            const res = await UpdateIstQuarter(
+                id_IstQuarter,
+                startday,
+                startmonth,
+                endday,
+                endmonth,
+                totalGrade,
+                averageGrade
+            );
+
+            if (res) {
+                alert('Bimestre atualizado com sucesso!');
+                navigate(-1);
+            } else {
+                setErrorMessage('Erro ao cadastrar. Verifique os dados e tente novamente.');
+            }
+        } catch (error) {
+            setErrorMessage('Ocorreu um erro inesperado. Tente novamente mais tarde.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleGoBack = () => {

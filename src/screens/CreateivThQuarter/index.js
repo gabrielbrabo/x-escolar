@@ -60,6 +60,25 @@ const HomeSchool = () => {
   console.log('averageGrade', averageGrade)
 
   const setBimester = async () => {
+    setErrorMessage('');
+
+    // Verificação de campos obrigatórios
+    if (
+      !year || !startday || !startmonth || !startyear ||
+      !endday || !endmonth || !endyear || !id_school
+    ) {
+      setErrorMessage('Preencha todos os campos obrigatórios do bimestre.');
+      return;
+    }
+
+    // Validação adicional se for formato de nota
+    if (assessmentFormat === "grade") {
+      if (!totalGrade || !averageGrade) {
+        setErrorMessage('Informe a nota total e a média para o bimestre.');
+        return;
+      }
+    }
+    
     setLoading(true);
     console.log("teste ass", assessmentFormat)
     if (assessmentFormat === "grade") {
