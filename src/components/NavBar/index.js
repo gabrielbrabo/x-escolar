@@ -48,6 +48,14 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
     window.location.reload();
   };
 
+  const handleLogoutEducationDep = () => {
+    localStorage.clear();
+    sessionStorage.clear();
+
+    window.location.href = `/signin/employee-education-department`;
+    //window.location.reload();
+  };
+
   const handlePerfil = async () => {
     const id_employee = JSON.parse(localStorage.getItem('Id_employee'))
     sessionStorage.setItem("EmployeeInformation", id_employee)
@@ -87,9 +95,16 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
               </ProfileInfo>
             </Pro>
           </EmployeeInfo>
-          <DivButtomEdit>
-            <Btt02 onClick={handleLogout}>Sair</Btt02>
-          </DivButtomEdit>
+          {!positionAtEducationDepartment ? (
+            <DivButtomEdit>
+              <Btt02 onClick={handleLogout}>Sair</Btt02>
+            </DivButtomEdit>
+          ) : (
+            <DivButtomEdit>
+              <Btt02 onClick={handleLogoutEducationDep}>Sair</Btt02>
+            </DivButtomEdit>
+          )
+          }
           <TiArrowSortedUp />
           <p>Perfil</p>
         </Emp>
@@ -123,6 +138,14 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
             <a href="/annual-calendar" className="nav__link">Calendário Bimestral</a>
             <a href="/matter" className="nav__link">Componentes curriculares</a>
           </nav>
+        </nav>
+      )}
+      {positionAtEducationDepartment && (
+        <nav>
+          {/*<a href="/home/school">Home</a>*/}
+          <a href="/schools" className="nav__link">Escolas</a>
+          <a href="/myclasses" className="nav__link">Funcionarios</a>
+
         </nav>
       )}
     </Container>

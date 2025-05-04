@@ -43,6 +43,7 @@ const SignInEmployee = () => {
             const idEducationDepartment = response.data.idEducationDepartment
             const educationDepartment = await EducationDepartamentName(idEducationDepartment)
 
+            sessionStorage.setItem("idDepartment", idEducationDepartment)
             sessionStorage.setItem("name-department", educationDepartment.data.data)
             localStorage.setItem("Id_employee", JSON.stringify(IdEmployee))
             sessionStorage.setItem("cpf", loggedEmployee)

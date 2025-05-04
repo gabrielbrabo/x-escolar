@@ -21,19 +21,26 @@ import PasswordRecovery from "./screens/PasswordRecovery"
 import PasswordReset from "./screens/PasswordReset"
 import SchoolSelection from "./screens/SchoolSelection"
 import Preload from "./screens/Preload"
+
 import HomeEmployeeEducationDepartment from "./screens/HomeEmployeeEducationDepartment"
+import Schools from "./screens/Schools"
+
 import HomeEmployee from "./screens/HomeEmployee"
 import AnnualCalendar from "./screens/AnnualCalendar"
 import Employees from "./screens/Employees"
 import NewEmployees from "./screens/NewEmployee"
 import EmployeeAlreadyRegistered from "./screens/EmployeeAlreadyRegistered"
 import ManagerAlreadyRegistered from "./screens/ManagerAlreadyRegistered"
+
 import FirstEmployeeEducationDepartment from "./screens/FirstEmployeeEducationDepartment"
 import FirstEmployee from "./screens/FirstEmployee"
+
 import NewStudent from "./screens/NewStudent"
 import Student from "./screens/Student"
+
 import Class from "./screens/Class"
 import NewClass from "./screens/NewClass"
+
 import Matter from "./screens/Matter"
 import NewMatter from "./screens/NewMatter"
 
@@ -173,6 +180,11 @@ const AppRoutes = () => {
                     <Route exact path="/home/employee-education-department" element={
                         <Private>
                             <HomeEmployeeEducationDepartment />
+                        </Private>
+                    } />
+                    <Route exact path="/schools" element={
+                        <Private>
+                            <Schools />
                         </Private>
                     } />
                     <Route exact path="/home/employee" element={

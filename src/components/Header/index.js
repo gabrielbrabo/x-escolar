@@ -46,6 +46,13 @@ export function Header({ setMenuIsVisible }) {
         sessionStorage.clear();
         window.location.reload();
     };
+    const handleLogoutEducationDep = () => {
+        localStorage.clear();
+        sessionStorage.clear();
+        
+        window.location.href = `/signin/employee-education-department`;
+        //window.location.reload();
+    };
 
     const handlePerfil = async () => {
         const id_employee = JSON.parse(localStorage.getItem('Id_employee'))
@@ -91,6 +98,14 @@ export function Header({ setMenuIsVisible }) {
 
                     </nav>
                 )}
+                {positionAtEducationDepartment && (
+                    <nav>
+                        {/*<a href="/home/school">Home</a>*/}
+                        <a href="/schools" className="nav__link">Escolas</a>
+                        <a href="/myclasses" className="nav__link">Funcionarios</a>
+
+                    </nav>
+                )}
             </section>
             {!positionAtEducationDepartment ? (
                 <Emp className="desktop-user-info">
@@ -120,9 +135,16 @@ export function Header({ setMenuIsVisible }) {
                 </Emp>
             )
             }
-            <DivButtomEdit>
-                <Btt02 onClick={handleLogout}>Sair</Btt02>
-            </DivButtomEdit>
+            {!positionAtEducationDepartment ?  (
+                <DivButtomEdit>
+                    <Btt02 onClick={handleLogout}>Sair</Btt02>
+                </DivButtomEdit>
+            ) : (
+                <DivButtomEdit>
+                    <Btt02 onClick={handleLogoutEducationDep}>Sair</Btt02>
+                </DivButtomEdit>
+            )
+            }
             <section>
                 <RiMenu3Fill color="black" style={{ strokeWidth: '1px' }} onClick={() => setMenuIsVisible(true)} className="mobile-icon" />
             </section>

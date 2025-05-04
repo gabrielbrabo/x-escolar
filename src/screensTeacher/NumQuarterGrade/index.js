@@ -248,8 +248,7 @@ const IndexAttendance = () => {
         }
 
         console.log("Valor digitado:", inputValue); // 🔥 Isso precisa aparecer!
-
-        let value = inputValue.replace(".", ",").replace(/[^0-9,]/g, "");
+        let value = inputValue.replace(",", ".")/*.replace(/[^0-9,]/g, "");*/
         console.log("Valor formatado:", value)
         console.log("Teste studentId:", studentId);
 
