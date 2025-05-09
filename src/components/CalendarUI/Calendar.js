@@ -110,6 +110,8 @@ export default function DateCalendarServerRequest() {
                 })
                 const justifiedAbsence = await resGetAttendance.data.data.map(res => {
                     if (res.status === "FJ") {
+
+                        console.log("highlightedDaysFJ", res._id)
                         return JSON.parse(res.day)
                     }
                     return null
@@ -122,6 +124,7 @@ export default function DateCalendarServerRequest() {
                 setHighlightedDays(attendance);
                 setHighlightedDaysF(attendancef);
                 setHighlightedDaysFJ(justifiedAbsence);
+
             }
 
         })()
