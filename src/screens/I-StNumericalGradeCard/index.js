@@ -193,6 +193,7 @@ const GradeIstquarter = () => {
   }, [startd, startm, starty, endd, endm, endy]);
 
   console.log("id_teacher teste", id_teacher)
+  console.log("id_student teste", id_student)
   useEffect(() => {
     const fetchAttendance = async () => {
       if (startd && startm && starty && endd && endm && endy && id_student && id_teacher) {
@@ -207,7 +208,8 @@ const GradeIstquarter = () => {
 
             setHighlightedDays(attendance.length ? attendance : []);
             setHighlightedDaysF(attendancef.length ? attendancef : []);
-            setHighlightedDaysFJ(attendancef.length ? attendancefj : []);
+            setHighlightedDaysFJ(attendancefj.length ? attendancefj : []);
+
           } else {
             console.warn("Nenhum dado de frequência disponível.");
           }
