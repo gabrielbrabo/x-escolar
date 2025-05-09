@@ -101,14 +101,12 @@ const GradeIstquarter = () => {
       setGrade(resGrade.data.data)
       console.log("resGrade", resGrade.data.data)
 
-      if (resGrade.data.data) {
-        const idTeacher = resGrade.data.data.map(res => {
-          return res.id_class.classRegentTeacher
-        })
-        const Teacher = idTeacher[0];
-        setId_teacher(Teacher)
-        console.log("idTeacher", Teacher)
-      }
+      if (resGrade.data.data && resGrade.data.data.length > 0) {
+        const teacherArray = resGrade.data.data[0].id_class.classRegentTeacher;
+        const Teacher = Array.isArray(teacherArray) ? teacherArray[0] : teacherArray;
+        setId_teacher(Teacher);
+        console.log("idTeacher", Teacher);
+      }      
 
       if (year && id_student) {
         const grades = await indexNumericalGradesCard(year, id_student)
@@ -194,6 +192,7 @@ const GradeIstquarter = () => {
 
   }, [startd, startm, starty, endd, endm, endy]);
 
+  console.log("id_teacher teste", id_teacher)
   useEffect(() => {
     const fetchAttendance = async () => {
       if (startd && startm && starty && endd && endm && endy && id_student && id_teacher) {
