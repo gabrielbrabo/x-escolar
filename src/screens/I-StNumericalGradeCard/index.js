@@ -137,13 +137,13 @@ const GradeIstquarter = () => {
         const allGrades = resGrade.data.data;
 
         // Verifica se há pelo menos uma matéria com o nome "EDUCAÇÃO FÍSICA"
-        const hasPE = allGrades.some(res => res.name === "EDUCAÇÃO FÍSICA");
+        const hasPE = allGrades.some(res => res.id_matter.name === "EDUCAÇÃO FÍSICA");
 
         // Se tiver, move para o final; senão, mantém a ordem original
         const sortedResGrade = hasPE
           ? [
-            ...allGrades.filter(res => res.name !== "EDUCAÇÃO FÍSICA"),
-            ...allGrades.filter(res => res.name === "EDUCAÇÃO FÍSICA"),
+            ...allGrades.filter(res => res.id_matter.name !== "EDUCAÇÃO FÍSICA"),
+            ...allGrades.filter(res => res.id_matter.name === "EDUCAÇÃO FÍSICA"),
           ]
           : allGrades;
 
