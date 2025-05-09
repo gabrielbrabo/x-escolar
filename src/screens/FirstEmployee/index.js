@@ -99,7 +99,7 @@ const FristEmployee = () => {
       confirmpassword
     )
 
-    if (res) {
+    if (res) {/*
       //sessionStorage.removeItem("id-school")
       //sessionStorage.removeItem("email-school")
       //sessionStorage.removeItem("name-school")
@@ -157,9 +157,6 @@ const FristEmployee = () => {
               localStorage.setItem("token", token)
               sessionStorage.setItem("token", token)
 
-              /*if (avatar) {
-                  sessionStorage.setItem("avatar", avatar)
-              }*/
 
               api.defaults.headers.Authorization = `Bearer ${token}`
               loginEmployee(loggedEmployee)
@@ -197,15 +194,14 @@ const FristEmployee = () => {
         localStorage.setItem("token", token)
         sessionStorage.setItem("token", token)
 
-        /*if (avatar) {
-            sessionStorage.setItem("avatar", avatar)
-        }*/
 
         api.defaults.headers.Authorization = `Bearer ${token}`
         loginEmployee(loggedEmployee)
         window.location.reload()
       }
-      setLoading(false);
+      setLoading(false);*/
+      alert("Cadastro realizado com sucesso! Agora, repasse ao funcionário os dados de login para que ele possa acessar a plataforma da escola.")
+      navigate('/schools')
     } else {
       setErrorMessage('Erro ao cadastrar. Verifique os dados e tente novamente.');
     }

@@ -145,7 +145,6 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
           {/*<a href="/home/school">Home</a>*/}
           <a href="/schools" className="nav__link">Escolas</a>
           <a href="/myclasses" className="nav__link">Funcionarios</a>
-
         </nav>
       )}
     </Container>

@@ -31,15 +31,23 @@ export const registerEducationDepartment = async (
 
 export const registerSchool = async (
     name,
-    email,
+    //email,
+    city,
+    address,
+    assessmentFormat,
     password,
-    confirmpassword
+    confirmpassword,
+    educationDep
 ) => {
     return api.post('/register/school', {
         name,
-        email,
+        //email,
+        city,
+        address,
+        assessmentFormat,
         password,
-        confirmpassword
+        confirmpassword,
+        educationDep
     })
         .catch((error) => {
             if (error) {
@@ -88,11 +96,11 @@ export const createSessionEmployeeEducationDepartment = async (
 }
 
 export const createSessionSchool = async (
-    email,
+    id,
     password
 ) => {
     return api.post('/session/school', {
-        email,
+        id,
         password
     })
         .catch((error) => {

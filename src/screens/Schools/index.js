@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { GetEmployees, GetMatter } from '../../Api'
+import { IndexInfoDepEdu, } from '../../Api'
 
 import {
     Container,
@@ -9,10 +9,10 @@ import {
     Span,
     Search,
     DivNewEmp,
-    FormFilter,
+   // FormFilter,
     FormSearch,
     Area,
-    Select,
+    //Select,
     InputEmp,
     Btt02
 } from './style';
@@ -30,10 +30,9 @@ import LoadingSpinner from '../../components/Loading'
 const Employees = () => {
 
     const navigate = useNavigate()
-    const [employees, setEmployees] = useState([])
+    const [Schools, setSchools] = useState([])
     const [busca, setBusca] = useState("")
-    const [filter, setFilter] = useState(sessionStorage.getItem("selectedFilter") || "")
-    const [filterMatter, setFilterMatter] = useState([])
+    //const [filter, setFilter] = useState(sessionStorage.getItem("selectedFilter") || "")
     const [loading, setLoading] = useState(false);
 
     //const isNavigatingToEmployeeInfo = useRef(false); // UseRef para persistência
@@ -42,22 +41,22 @@ const Employees = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
-            const idSchool = sessionStorage.getItem("id-school")
-            const response = await GetEmployees(JSON.parse(idSchool))
-            setEmployees(response.data.data)
+            const idEducationDepartment = sessionStorage.getItem("idDepartment")
+            const response = await IndexInfoDepEdu(idEducationDepartment)
+            setSchools(response.data.data.id_schools)
 
-            const res = await GetMatter(JSON.parse(idSchool))
+            //const res = await GetMatter(JSON.parse(idSchool))
             //setStudent(response.data.data)
-            setFilterMatter(res.data.data)
+            //setFilterMatter(res.data.data)
             console.log(response)
 
-            sessionStorage.setItem("selectedFilter", filter);
+            //sessionStorage.setItem("selectedFilter", filter);
 
             setLoading(false);
         })()
-    }, [filter])
+    }, [])
 
-    employees.sort((a, b) =>
+    Schools.sort((a, b) =>
         a.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").localeCompare(
             b.name.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             "pt-BR",
@@ -73,26 +72,16 @@ const Employees = () => {
             .toUpperCase(); // Converte para maiúsculas
     };
 
-    filterMatter.sort(function (a, b) {
-        if (a.name < b.name) return -1
-        if (a.name > b.name) return 1
-        return 0
-    })
-
-    /*if(filter) {
-        console.log('filter', filter)
-    }*/
-
     const NewEmoloyee = async () => {
-        navigate('/new/employees')
+        navigate('/signup/school')
     }
 
-    const employeeInformation = async (employee) => {
+    const schoolInformation = async (school) => {
         //isNavigatingToEmployeeInfo.current = true; // Define como true antes da navegação
         setLoading(true);
         //  sessionStorage.removeItem('EmployeeInformation')
         //sessionStorage.setItem("EmployeeInformation", employee._id)
-        navigate(`/employee/info/${employee._id}`)
+        //navigate(`/employee/info/${employee._id}`)
         setLoading(false);
     }
 
@@ -122,7 +111,7 @@ const Employees = () => {
                                 />
                             </Area>
                         </FormSearch>
-                        <FormFilter>
+                        {/*<FormFilter>
                             <label>Filtra por cargo: </label>
                             <Select id="position"
                                 value={filter}
@@ -135,22 +124,22 @@ const Employees = () => {
                                 <option value="SECRETARIO">SECRETARIO(A)</option>
                                 <option value="PROFESSOR">PROFESSOR(A)</option>
                             </Select>
-                        </FormFilter>
+                        </FormFilter>*/}
                     </Search>
                     <DivNewEmp>
-                        <Btt02 onClick={NewEmoloyee}>Novo Funcionario</Btt02>
+                        <Btt02 onClick={NewEmoloyee}>Cadastrar</Btt02>
                     </DivNewEmp>
                     <List>
-                        <p>Total de Funcionários Cadastrados: {employees.length}</p>
+                        <p>Total de Funcionários Cadastrados: {Schools.length}</p>
                         {
-                            employees.filter((fil) => {
+                            Schools/*.filter((fil) => {
                                 if (!filter) {
                                     return (fil)
                                 } else if (fil.position_at_school === filter) {
                                     return (fil)
                                 }
                                 return null
-                            }).filter((val) => {
+                            })*/.filter((val) => {
                                 if (!busca) return val;
                                 return normalizeString(val.name).includes(normalizeString(busca));
                             })/*.filter((employee) => {
@@ -158,13 +147,13 @@ const Employees = () => {
                                     return employee
                                }
                                return null
-                            })*/.map(employee => (
+                            })*/.map(school => (
                                 <Emp
                                     onClick={() =>
-                                        employeeInformation(employee)
+                                        schoolInformation(school)
                                     }
-                                    key={employee._id} >
-                                    <Span style={{ color: "#003e4f" }}>{employee.name}</Span>
+                                    key={school._id} >
+                                    <Span style={{ color: "#003e4f" }}>{school.name}</Span>
                                 </Emp>
                             ))
                         }

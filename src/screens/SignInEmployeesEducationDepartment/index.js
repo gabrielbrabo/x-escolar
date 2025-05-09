@@ -86,7 +86,7 @@ const SignInEmployee = () => {
                 <LoadingSpinner />
                 :
                 <>
-                    <h1>Login</h1>
+                    <h1>login Secretaria de Educação</h1>
                     <InputArea onSubmit={SignClick}>
                         <>CPF</>
                         <Area>
