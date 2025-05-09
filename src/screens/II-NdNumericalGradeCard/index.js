@@ -147,7 +147,20 @@ const GradeIstquarter = () => {
       }
 
       if (resGrade) {
-        const tchr = resGrade.data.data.map(res => res.id_teacher.name);
+        const allGrades = resGrade.data.data;
+
+        // Verifica se há pelo menos uma matéria com o nome "EDUCAÇÃO FÍSICA"
+        const hasPE = allGrades.some(res => res.id_matter.name === "EDUCAÇÃO FÍSICA");
+
+        // Se tiver, move para o final; senão, mantém a ordem original
+        const sortedResGrade = hasPE
+          ? [
+            ...allGrades.filter(res => res.id_matter.name !== "EDUCAÇÃO FÍSICA"),
+            ...allGrades.filter(res => res.id_matter.name === "EDUCAÇÃO FÍSICA"),
+          ]
+          : allGrades;
+
+        const tchr = sortedResGrade.map(res => res.id_teacher.name);
         const firstTeacher = tchr[0];  // Acessa o primeiro elemento
         console.log("firstTeacher", firstTeacher);
         setTeacherName(firstTeacher);  // Define apenas o primeiro elemento
@@ -413,16 +426,16 @@ const GradeIstquarter = () => {
               </DivDados>
               {/* Espaço para assinatura do Professor e dos Pais */}
               <DivSignatureArea>
-                  <SignatureBlock>
-                    <Line />
-                    <Label>Assinatura do Professor</Label>
-                  </SignatureBlock>
+                <SignatureBlock>
+                  <Line />
+                  <Label>Assinatura do Professor</Label>
+                </SignatureBlock>
 
-                  <SignatureBlock>
-                    <Line />
-                    <Label>Assinatura dos Pais ou Responsável</Label>
-                  </SignatureBlock>
-                </DivSignatureArea>
+                <SignatureBlock>
+                  <Line />
+                  <Label>Assinatura dos Pais ou Responsável</Label>
+                </SignatureBlock>
+              </DivSignatureArea>
             </DivAddEmp>
           </ContainerDivs>
           <ToGoBack onClick={messageButtonClick}>
