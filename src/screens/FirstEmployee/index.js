@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
-import { AuthContext, } from '../../contexts/auth'
+import React, { useState, useEffect, /*useContext,*/ useCallback } from 'react';
+//import { AuthContext, } from '../../contexts/auth'
 
-import { api, NewEmp, createSessionEmployee, NameSchool, loginWithSchool, checkEmployee } from '../../Api'
+import {  NewEmp, /*createSessionEmployee, NameSchool, loginWithSchool,*/ checkEmployee } from '../../Api'
 
 //import { AuthContext, } from '../../contexts/auth'
 import { useNavigate } from 'react-router-dom'
@@ -25,7 +25,7 @@ import LoadingSpinner from '../../components/Loading'
 const FristEmployee = () => {
 
   const navigate = useNavigate();
-  const { loginEmployee } = useContext(AuthContext)
+  //const { loginEmployee } = useContext(AuthContext)
   const [idSchool, setIdschool] = useState('');
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');
