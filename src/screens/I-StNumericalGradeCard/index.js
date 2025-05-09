@@ -241,6 +241,8 @@ const GradeIstquarter = () => {
   const countAbsences = highlightedDaysF.length;
   const countjustifiedAbsence = highlightedDaysFJ.length;
 
+  console.log('highlightedDaysFJ', highlightedDaysFJ)
+  console.log('countjustifiedAbsence', countjustifiedAbsence)
   console.log('GetNumGrade', grade)
 
   const groupedGrades = grade.reduce((acc, grd) => {
