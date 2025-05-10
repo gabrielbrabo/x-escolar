@@ -178,7 +178,7 @@ const GradeIstquarter = () => {
 
             setHighlightedDays(attendance.length ? attendance : []);
             setHighlightedDaysF(attendancef.length ? attendancef : []);
-            setHighlightedDaysFJ(attendancef.length ? attendancefj : []);
+            setHighlightedDaysFJ(attendancefj.length ? attendancefj : []);
           } else {
             console.warn("Nenhum dado de frequência disponível.");
           }

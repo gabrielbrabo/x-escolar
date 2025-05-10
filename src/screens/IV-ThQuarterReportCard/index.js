@@ -164,7 +164,7 @@ const GradeIstquarter = () => {
 
             setHighlightedDays(attendance.length ? attendance : []);
             setHighlightedDaysF(attendancef.length ? attendancef : []);
-            setHighlightedDaysFJ(attendancef.length ? attendancefj : []);
+            setHighlightedDaysFJ(attendancefj.length ? attendancefj : []);
           } else {
             console.warn("Nenhum dado de frequência disponível.");
           }
@@ -237,8 +237,8 @@ const GradeIstquarter = () => {
                   {
                     grade
                       .sort((a, b) => {
-                        const nameA = a.id_matter.name.toUpperCase(); // Ignorar maiúsculas e minúsculas
-                        const nameB = b.id_matter.name.toUpperCase();
+                        const nameA = a.matterName;// Ignorar maiúsculas e minúsculas
+                        const nameB = b.matterName;
                         return nameA < nameB ? -1 : nameA > nameB ? 1 : 0; // Comparação alfabética
                       })
                       .map(grd => (

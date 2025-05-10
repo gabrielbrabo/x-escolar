@@ -149,7 +149,7 @@ const FinalConcepts = () => {
             // Garantir que as variáveis não sejam nulas ou indefinidas
             setHighlightedDays(attendance.length ? attendance : []);
             setHighlightedDaysF(attendancef.length ? attendancef : []);
-            setHighlightedDaysFJ(attendancef.length ? attendancefj : []);
+            setHighlightedDaysFJ(attendancefj.length ? attendancefj : []);
           } else {
             console.warn("Nenhum dado de frequência disponível.");
           }

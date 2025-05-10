@@ -323,8 +323,8 @@ const GradeIstquarter = () => {
                   {
                     groupedGrades
                       .sort((a, b) => {
-                        const nameA = a.id_matter.name;// Ignorar maiúsculas e minúsculas
-                        const nameB = b.id_matter.name;
+                        const nameA = a.matterName;// Ignorar maiúsculas e minúsculas
+                        const nameB = b.matterName;
                         return nameA < nameB ? -1 : nameA > nameB ? 1 : 0; // Comparação alfabética
                       })
                       .map(grd => (
