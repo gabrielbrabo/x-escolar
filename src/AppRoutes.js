@@ -24,6 +24,7 @@ import Preload from "./screens/Preload"
 
 import HomeEmployeeEducationDepartment from "./screens/HomeEmployeeEducationDepartment"
 import Schools from "./screens/Schools"
+import SchoolInfo from "./screens/SchoolInfo"
 
 import HomeEmployee from "./screens/HomeEmployee"
 import AnnualCalendar from "./screens/AnnualCalendar"
@@ -185,6 +186,11 @@ const AppRoutes = () => {
                     <Route exact path="/schools" element={
                         <Private>
                             <Schools />
+                        </Private>
+                    } />
+                    <Route exact path="/school/info/:id" element={
+                        <Private>
+                            <SchoolInfo />
                         </Private>
                     } />
                     <Route exact path="/home/employee" element={

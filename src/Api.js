@@ -229,6 +229,24 @@ export const IndexInfoDepEdu = async (
         }, [])
 }
 
+export const indexSchool = async (
+    idSchool
+) => {
+
+    return api.post('/index-school', {
+        idSchool
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
+
 export const NameSchool = async (
     idSchool
 ) => {

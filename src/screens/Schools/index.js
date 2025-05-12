@@ -9,7 +9,7 @@ import {
     Span,
     Search,
     DivNewEmp,
-   // FormFilter,
+    // FormFilter,
     FormSearch,
     Area,
     //Select,
@@ -79,9 +79,9 @@ const Employees = () => {
     const schoolInformation = async (school) => {
         //isNavigatingToEmployeeInfo.current = true; // Define como true antes da navegação
         setLoading(true);
-        //  sessionStorage.removeItem('EmployeeInformation')
-        //sessionStorage.setItem("EmployeeInformation", employee._id)
-        //navigate(`/employee/info/${employee._id}`)
+        //sessionStorage.removeItem('EmployeeInformation')
+        //sessionStorage.setItem("EmployeeInformation", school._id)
+        navigate(`/school/info/${school._id}`)
         setLoading(false);
     }
 

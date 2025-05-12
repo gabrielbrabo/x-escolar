@@ -86,6 +86,10 @@ const SignInEmployee = () => {
                 <LoadingSpinner />
                 :
                 <>
+
+                    {/* Google tag (gtag.js)*/}
+                    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7W99STL6XT"></script>
+
                     <h1>login Secretaria de Educação</h1>
                     <InputArea onSubmit={SignClick}>
                         <>CPF</>
