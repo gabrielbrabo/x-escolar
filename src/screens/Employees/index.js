@@ -31,6 +31,7 @@ const Employees = () => {
 
     const navigate = useNavigate()
     const [employees, setEmployees] = useState([])
+    const [positionAtEducationDepartment, setPositionAtEducationDepartment] = useState('')
     const [busca, setBusca] = useState("")
     const [filter, setFilter] = useState(sessionStorage.getItem("selectedFilter") || "")
     const [filterMatter, setFilterMatter] = useState([])
@@ -43,8 +44,10 @@ const Employees = () => {
         (async () => {
             setLoading(true);
             const idSchool = sessionStorage.getItem("id-school")
+            const positionAtEducationDepartment = localStorage.getItem("positionAtEducationDepartment")
             const response = await GetEmployees(JSON.parse(idSchool))
             setEmployees(response.data.data)
+            setPositionAtEducationDepartment(positionAtEducationDepartment)
 
             const res = await GetMatter(JSON.parse(idSchool))
             //setStudent(response.data.data)
@@ -137,9 +140,12 @@ const Employees = () => {
                             </Select>
                         </FormFilter>
                     </Search>
-                    <DivNewEmp>
-                        <Btt02 onClick={NewEmoloyee}>Novo Funcionario</Btt02>
-                    </DivNewEmp>
+                    { !positionAtEducationDepartment
+                        &&
+                        <DivNewEmp>
+                            <Btt02 onClick={NewEmoloyee}>Novo Funcionario</Btt02>
+                        </DivNewEmp>
+                    }
                     <List>
                         <p>Total de Funcionários Cadastrados: {employees.length}</p>
                         {

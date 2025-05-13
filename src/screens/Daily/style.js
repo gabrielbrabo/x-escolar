@@ -58,6 +58,13 @@ export const Btt02 = styled.button`
   cursor: pointer;
   transition: background-color 0.3s;
 
+  &.active {
+    background-color: #0056b3;
+    border-bottom: 3px solid #d35400;
+    color: white;
+    border-radius: 4px;
+  }
+
   &:hover {
     background-color: #0056b3;
   }

@@ -152,7 +152,7 @@ export const loginWithSchool = async (
 }
 
 export const getSchoolsData = async (idSchools) => {
-    return api.post('/index-school', {
+    return api.post('/index-schools', {
         idSchools
     })
         .catch((error) => {

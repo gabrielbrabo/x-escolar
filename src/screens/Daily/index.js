@@ -35,6 +35,9 @@ const Daily = () => {
     }
   };
 
+
+  const isActive = (component) => activeComponent === component;
+
   const renderActiveComponent = () => {
     switch (activeComponent) {
       case 'attendanceList':
@@ -61,18 +64,35 @@ const Daily = () => {
       <Butons>
 
         <UpperButons>
-          <Btt02 onClick={() => handleComponentChange('attendanceList')}>Frequência</Btt02>
-          <Btt02 onClick={() => handleComponentChange('classes')}>Aulas Lecionadas</Btt02>
+          <Btt02
+            className={isActive('attendanceList') ? 'active' : ''}
+            onClick={() => handleComponentChange('attendanceList')}
+          >
+            Frequência
+          </Btt02>
+          <Btt02 className={isActive('classes') ? 'active' : ''}
+            onClick={() => handleComponentChange('classes')}
+          >
+            Aulas Lecionadas
+          </Btt02>
           {assessmentFormat !== 'grade' ? (
-            <Btt02 onClick={() => handleComponentChange('concepts')}>
+            <Btt02
+              className={isActive('concepts') ? 'active' : ''}
+              onClick={() => handleComponentChange('concepts')}
+            >
               Conceitos
             </Btt02>
           ) : (
             <ButtonGroup>
-              <Btt02 onClick={() => handleComponentChange('assessments')}>
+              <Btt02 className={isActive('assessments') ? 'active' : ''}
+                onClick={() => handleComponentChange('assessments')}
+              >
                 Avaliações
               </Btt02>
-              <Btt02 onClick={() => handleComponentChange('numericalGrades')}>
+              <Btt02
+                className={isActive('numericalGrades') ? 'active' : ''}
+                onClick={() => handleComponentChange('numericalGrades')}
+              >
                 Notas
               </Btt02>
             </ButtonGroup>
@@ -83,8 +103,18 @@ const Daily = () => {
         {assessmentFormat !== "grade"
           &&
           <BottomButons>
-            <Btt02 onClick={() => handleComponentChange('individualRecords')}>Fichas Individuais</Btt02>
-            <Btt02 onClick={() => handleComponentChange('finalConcepts')}>Conceitos Finais</Btt02>
+            <Btt02
+              className={isActive('individualRecords') ? 'active' : ''}
+              onClick={() => handleComponentChange('individualRecords')}
+            >
+              Fichas Individuais
+            </Btt02>
+            <Btt02
+              className={isActive('finalConcepts') ? 'active' : ''}
+              onClick={() => handleComponentChange('finalConcepts')}
+            >
+              Conceitos Finais
+            </Btt02>
           </BottomButons>
         }
 

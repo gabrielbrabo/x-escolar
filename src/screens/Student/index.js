@@ -26,6 +26,7 @@ const Student = () => {
     const navigate = useNavigate()
     const currentYear = new Date().getFullYear().toString();
     const [student, setStudent] = useState([])
+    const [positionAtEducationDepartment, setPositionAtEducationDepartment] = useState('')
     const [Clss, setClss] = useState([])
     const [busca, setBusca] = useState("")
     const [filter, setFilter] = useState()
@@ -35,6 +36,7 @@ const Student = () => {
         (async () => {
             setLoading(true);
             const idSchool = sessionStorage.getItem("id-school")
+            const positionAtEducationDepartment = localStorage.getItem("positionAtEducationDepartment")
             const response = await GetStudent(JSON.parse(idSchool))
             const resClass = await GetClass(JSON.parse(idSchool))
             const Year = resClass.data.data.map(y => {
@@ -48,6 +50,7 @@ const Student = () => {
             console.log("response", response.data.data)
             setStudent(response.data.data.id_student)
             setClss(Year)
+            setPositionAtEducationDepartment(positionAtEducationDepartment)
             setLoading(false);
         })()
     }, [currentYear])
@@ -132,9 +135,12 @@ const Student = () => {
                         </FormFilter>
                     </Search>
                     <List>
-                        <DivNewEmp>
-                            <Btt02 onClick={NewStudent}>Novo Aluno</Btt02>
-                        </DivNewEmp>
+                        {!positionAtEducationDepartment
+                            &&
+                            <DivNewEmp>
+                                <Btt02 onClick={NewStudent}>Novo Aluno</Btt02>
+                            </DivNewEmp>
+                        }
                         <p>Total de Alunos: {student.length}</p>
 
                         {

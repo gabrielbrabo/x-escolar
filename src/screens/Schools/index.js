@@ -79,8 +79,7 @@ const Employees = () => {
     const schoolInformation = async (school) => {
         //isNavigatingToEmployeeInfo.current = true; // Define como true antes da navegação
         setLoading(true);
-        //sessionStorage.removeItem('EmployeeInformation')
-        //sessionStorage.setItem("EmployeeInformation", school._id)
+        sessionStorage.setItem("id-school", JSON.stringify(school._id))
         navigate(`/school/info/${school._id}`)
         setLoading(false);
     }
