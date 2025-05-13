@@ -18,7 +18,9 @@ import GradeList from '../../components/GradeList/index';
 import FinalGradeList from '../../components/FinalGradeList/index';
 
 const Daily = () => {
-  const activeComponent = sessionStorage.getItem('activeComponent') || 'attendanceList';
+  const [activeComponent, setActiveComponent] = useState(() => {
+    return sessionStorage.getItem('activeComponent') || 'attendanceList';
+  });
   const [assessmentFormat, setassessmentFormat] = useState('');
 
   useEffect(() => {
@@ -30,11 +32,10 @@ const Daily = () => {
 
   const handleComponentChange = (component) => {
     if (activeComponent !== component) {
-      sessionStorage.setItem('activeComponent', component); // Salva o componente ativo
-      window.location.reload(); // Recarrega a página
+      sessionStorage.setItem('activeComponent', component);
+      setActiveComponent(component); // Agora apenas atualiza o estado
     }
   };
-
 
   const isActive = (component) => activeComponent === component;
 
