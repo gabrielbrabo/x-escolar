@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, } from 'react';
 import { /*useLocation,*/ useNavigate } from 'react-router-dom';
-import { AuthContext, } from '../../contexts/auth'
-import { api, NewEmp, createSessionEmployee, NameSchool, } from '../../Api';
+//import { AuthContext, } from '../../contexts/auth'
+import { NewEmp, } from '../../Api';
 import {
   Container,
   InputArea,
@@ -20,7 +20,7 @@ const EmployeeAlreadyRegistered = () => {
   const navigate = useNavigate();
   ///const { employee } = location.state || {};
 
-  const { loginEmployee } = useContext(AuthContext);
+  //const { loginEmployee } = useContext(AuthContext);
   const [idSchool, setIdSchool] = useState('');
   const [name, setName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
@@ -114,7 +114,7 @@ const EmployeeAlreadyRegistered = () => {
     if (res) {
       setLoading(true);
       //loginEmployee(cpf, password)
-      const response = await createSessionEmployee(cpf, password)
+      /*const response = await createSessionEmployee(cpf, password)
       if (response) {
         const Schools = response.data.schools
 
@@ -155,15 +155,15 @@ const EmployeeAlreadyRegistered = () => {
         localStorage.setItem("token", token)
         sessionStorage.setItem("token", token)
 
-        /*if (avatar) {
-            sessionStorage.setItem("avatar", avatar)
-        }*/
+        
 
         api.defaults.headers.Authorization = `Bearer ${token}`
         loginEmployee(loggedEmployee)
         window.location.reload()
       }
-      setLoading(false);
+      setLoading(false);*/
+      alert("Cadastro realizado com sucesso! Agora, repasse ao funcionário os dados de login para que ele possa acessar a plataforma da escola.")
+      navigate('/schools')
     } else {
       setErrorMessage('Erro ao cadastrar. Verifique os dados e tente novamente.');
       navigate(-1)

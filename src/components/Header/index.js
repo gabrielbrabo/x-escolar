@@ -49,7 +49,7 @@ export function Header({ setMenuIsVisible }) {
     const handleLogoutEducationDep = () => {
         localStorage.clear();
         sessionStorage.clear();
-        
+
         window.location.href = `/signin/employee-education-department`;
         //window.location.reload();
     };
@@ -62,6 +62,11 @@ export function Header({ setMenuIsVisible }) {
         window.location.href = `/perfil/${id_employee}`;
     }
 
+    const currentPath = window.location.pathname;
+
+    const isActive = (path) => currentPath === path ? 'active' : '';
+
+
     return (
         <Container>
             <div className="logoHome"><DiReact style={{
@@ -69,41 +74,26 @@ export function Header({ setMenuIsVisible }) {
                 filter: "drop-shadow(0 0 5px #ffffff)", // Efeito na bolinha (não é exato)
             }} />{/*<img src={logo} alt="Logo do Sistema" width="150" />*/} Diario Escolar Virtual</div>
             <section className="desktop-nav">
-                {position_at_school === "SECRETARIO" && (
+                {(position_at_school === "SECRETARIO" || position_at_school === 'DIRETOR/SUPERVISOR') && (
                     <nav>
-                        {/*<a href="/home/school">Home</a>*/}
-                        <a href="/employees" className="nav__link">Funcionários</a>
-                        <a href="/student" className="nav__link">Alunos</a>
-                        <a href="/class" className="nav__link">Turmas</a>
-                        <a href="/annual-calendar" className="nav__link">Bimestres</a>
-                        <a href="/matter" className="nav__link">Componentes curriculares</a>
-                    </nav>
-                )}
-                {position_at_school === 'DIRETOR/SUPERVISOR' && (
-                    <nav>
-                        {/*<a href="/home/school">Home</a>*/}
-                        <a href="/employees" className="nav__link">Funcionários</a>
-                        <a href="/student" className="nav__link">Alunos</a>
-                        <a href="/class" className="nav__link">Turmas</a>
-                        <a href="/annual-calendar" className="nav__link">Bimestres</a>
-                        <a href="/matter" className="nav__link">Componentes curriculares</a>
+                        <a href="/employees" className={`nav__link ${isActive('/employees')}`}>Funcionários</a>
+                        <a href="/student" className={`nav__link ${isActive('/student')}`}>Alunos</a>
+                        <a href="/class" className={`nav__link ${isActive('/class')}`}>Turmas</a>
+                        <a href="/annual-calendar" className={`nav__link ${isActive('/annual-calendar')}`}>Bimestres</a>
+                        <a href="/matter" className={`nav__link ${isActive('/matter')}`}>Componentes curriculares</a>
                     </nav>
                 )}
                 {position_at_school === "PROFESSOR" && (
                     <nav>
-                        {/*<a href="/home/school">Home</a>*/}
-                        <a href="/myclasses" className="nav__link">Minhas Turmas</a>
-                        <a href="/annual-calendar" className="nav__link">Calendário Bimestral</a>
-                        <a href="/matter" className="nav__link">Componentes curriculares</a>
-
+                        <a href="/myclasses" className={`nav__link ${isActive('/myclasses')}`}>Minhas Turmas</a>
+                        <a href="/annual-calendar" className={`nav__link ${isActive('/annual-calendar')}`}>Calendário Bimestral</a>
+                        <a href="/matter" className={`nav__link ${isActive('/matter')}`}>Componentes curriculares</a>
                     </nav>
                 )}
                 {positionAtEducationDepartment && (
                     <nav>
-                        {/*<a href="/home/school">Home</a>*/}
-                        <a href="/schools" className="nav__link">Escolas</a>
-                        <a href="/myclasses" className="nav__link">Funcionarios</a>
-
+                        <a href="/schools" className={`nav__link ${isActive('/schools')}`}>Escolas</a>
+                        <a href="/myclasses" className={`nav__link ${isActive('/myclasses')}`}>Funcionários</a>
                     </nav>
                 )}
             </section>
@@ -135,7 +125,7 @@ export function Header({ setMenuIsVisible }) {
                 </Emp>
             )
             }
-            {!positionAtEducationDepartment ?  (
+            {!positionAtEducationDepartment ? (
                 <DivButtomEdit>
                     <Btt02 onClick={handleLogout}>Sair</Btt02>
                 </DivButtomEdit>

@@ -80,6 +80,12 @@ export const Container = styled.header`
       display: flex;
       gap: 1.8rem;
 
+      .nav__link.active {
+        color: #1466b8;
+        font-weight: bold;
+        border-bottom: 3px solid #ff8830;
+      }
+
       a {
         color: #007fff;
         font-size: 18px;

@@ -80,6 +80,7 @@ const Employees = () => {
         //isNavigatingToEmployeeInfo.current = true; // Define como true antes da navegação
         setLoading(true);
         sessionStorage.setItem("id-school", JSON.stringify(school._id))
+        sessionStorage.setItem("assessmentFormat", school.assessmentFormat)
         navigate(`/school/info/${school._id}`)
         setLoading(false);
     }
@@ -129,7 +130,7 @@ const Employees = () => {
                         <Btt02 onClick={NewEmoloyee}>Cadastrar</Btt02>
                     </DivNewEmp>
                     <List>
-                        <p>Total de Funcionários Cadastrados: {Schools.length}</p>
+                        <p>Total de Escolas: {Schools.length}</p>
                         {
                             Schools/*.filter((fil) => {
                                 if (!filter) {

@@ -19,6 +19,9 @@ import LoadingSpinner from '../../components/Loading'
 
 import Employees from '../Employees/index';
 import Student from '../Student/index';
+import Class from '../Class/index';
+import AnnualCalendar from '../AnnualCalendar/index';
+import Matter from '../Matter/index';
 
 const SchoolInformation = () => {
 
@@ -103,12 +106,12 @@ const SchoolInformation = () => {
                 return <Employees />; // substitua com seu componente real
             case 'students':
                 return <Student />;
-            /*case 'classes':
-                return <TurmasPage />;
-            case 'bimesters':
-                return <BimestresPage />;
-            case 'components':
-                return <ComponentesPage />;*/
+            case 'classes':
+                return <Class />;
+           case 'bimesters':
+                return <AnnualCalendar />;
+             case 'components':
+                return <Matter />;
             default:
                 return null;
         }

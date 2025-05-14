@@ -41,6 +41,7 @@ const HomeSchool = () => {
   const [IVthQuarter, setIVthQuarter] = useState([]);
   const [/*VthQuarter*/, setVthQuarter] = useState([]);
   const [/*VIthQuarter*/, setVIthQuarter] = useState([]);
+  const [positionAtEducationDepartment, setPositionAtEducationDepartment] = useState('')
   const [position_at_school, setPosition_at_school] = useState('');
 
   useEffect(() => {
@@ -48,9 +49,11 @@ const HomeSchool = () => {
       setLoading(true);
       const idSchool = sessionStorage.getItem("id-school");
       const position = localStorage.getItem('position_at_school');
+      const positionAtEducationDepartment = localStorage.getItem('positionAtEducationDepartment');
       const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
       setassessmentFormat($assessmentFormat)
       setPosition_at_school(position);
+      setPositionAtEducationDepartment(positionAtEducationDepartment)
       const year = new Date().getFullYear();
 
       const [IstQuarter, IIndQuarter, IIIrdQuarter, IVthQuarter, VthQuarter, VIthQuarter] = await Promise.all([
@@ -162,7 +165,7 @@ const HomeSchool = () => {
         <>
           <AddEmp>
             <h3>{title}</h3>
-            {position_at_school === "DIRETOR/SUPERVISOR" || position_at_school === "SECRETARIO" ? (
+            { positionAtEducationDepartment || position_at_school === "DIRETOR/SUPERVISOR" || position_at_school === "SECRETARIO" ? (
               data.map(res => {
                 console.log("_id", res._id)
                 console.log("status", res.status)

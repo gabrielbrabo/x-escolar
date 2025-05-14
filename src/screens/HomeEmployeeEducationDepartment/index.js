@@ -21,6 +21,13 @@ const HomeSchool = () => {
     const position = localStorage.getItem('positionAtEducationDepartment');
     setpositionAtEducationDepartment(position);
     setName(name)
+
+    const timer = setTimeout(() => {
+      window.location.href = '/schools'; // Altere para o caminho desejado
+    }, 2000);
+  
+    return () => clearTimeout(timer); // Limpa o timer se o componente for desmontado
+
   }, [])
 
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GetMatter, NewMttr, updateMatter } from '../../Api';
 
@@ -36,6 +36,8 @@ const Matter = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [loading, setLoading] = useState(false);
 
+    const hasCreated = useRef(false); // ← flag de controle
+
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -53,20 +55,23 @@ const Matter = () => {
     console.log("isSubmitting", isSubmitting)
     useEffect(() => {
         const createMatter = async () => {
-
-            console.log("name", name)
-            console.log("idSchool", idSchool)
-            console.log("matterTest", matter)
+            if (hasCreated.current) return; // impede execução múltipla
+            hasCreated.current = true;
+    
+            console.log("name", name);
+            console.log("idSchool", idSchool);
+            console.log("matterTest", matter);
+    
             const resNewMatter = await NewMttr(idSchool, name);
             if (resNewMatter.status === 200) {
                 console.log("resposta backend", resNewMatter);
-                setIsSubmitting(true)
-                window.location.reload()
+                setIsSubmitting(true);
+                window.location.reload();
             } else {
-                setIsSubmitting(false)
+                setIsSubmitting(false);
             }
-        }
-
+        };
+    
         if (matter.length <= 0 && !isSubmitting && name && idSchool) {
             createMatter();
         }

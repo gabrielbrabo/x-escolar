@@ -33,6 +33,7 @@ const Cla$$Info = () => {
     const currentYear = new Date().getFullYear().toString();
     //const [year, setYear] = useState([])
     const [clss, setClss] = useState([])
+    const [positionAtEducationDepartment, setPositionAtEducationDepartment] = useState('')
     const [yearclss, setyearclss] = useState('')
     const [classRegentEmployee, setclassRegentEmployee] = useState([])
     const [classRegentEmployee02, setclassRegentEmployee02] = useState([])
@@ -41,7 +42,7 @@ const Cla$$Info = () => {
 
     const [studentTransfer, setstudentTransfer] = useState()
     const [studentTransferMap, setstudentTransferMap] = useState([])
-    
+
     const [nameSchool, setnameSchool] = useState([])
 
     const [stdt, setStdt] = useState([])
@@ -49,7 +50,7 @@ const Cla$$Info = () => {
     //const [showStudent, setShowStudent] = useState(false);
     //const [showTeacher, setShowTeacher] = useState(false);
     const { id_class } = useParams();
-    
+
     console.log(currentYear)
 
     useEffect(() => {
@@ -57,7 +58,9 @@ const Cla$$Info = () => {
             setLoading(true);
             console.log('useParamsClass', id_class)
             const nameSchool = sessionStorage.getItem('School')
+            const positionAtEducationDepartment = localStorage.getItem("positionAtEducationDepartment")
             setnameSchool(nameSchool)
+            setPositionAtEducationDepartment(positionAtEducationDepartment)
             const res = await clssInfo(id_class)
             setClss(res.data.data)
             console.log('reposta', res.data.data)
@@ -182,7 +185,7 @@ const Cla$$Info = () => {
         setLoading(true);
         const serie = clss.map(clss => {
             return clss.serie
-        }) 
+        })
         console.log("resutado a ser eviado", stdt)
         navigate('/printable-attendance-sheet', {
             state: {
@@ -213,12 +216,12 @@ const Cla$$Info = () => {
                                     <Span>Turno: {clss.shift}</Span>
                                     {/*<Span>Numero da Sala: {clss.classroom_number}</Span>*/}
                                 </ProfileInfo>
-                                {clss.year === currentYear
-                                    &&
+                                {clss.year === currentYear && !positionAtEducationDepartment && (
                                     <DivButtomEdit>
                                         <Btt02 onClick={Edit}>Editar</Btt02>
                                     </DivButtomEdit>
-                                }
+                                )}
+
 
                             </Emp>
                         ))
@@ -236,8 +239,7 @@ const Cla$$Info = () => {
                                 }
                                 {
                                     <>
-                                        {yearclss.year === currentYear
-                                            &&
+                                        {yearclss.year === currentYear && !positionAtEducationDepartment && (
                                             <DivAddEmp>
                                                 {/*<AddEmp>
                                                     <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
@@ -246,7 +248,7 @@ const Cla$$Info = () => {
                                                     <Btt02 onClick={RemoveTeacher}>Remover</Btt02>
                                                 </AddEmp>
                                             </DivAddEmp>
-                                        }
+                                        )}
                                         <Matter>
 
                                             {
@@ -269,14 +271,13 @@ const Cla$$Info = () => {
                         ) : (
                             <DivInfo>
                                 <TitleInfo>Professor Regente de Turma:</TitleInfo>
-                                {yearclss.year === currentYear
-                                    &&
+                                {yearclss.year === currentYear && !positionAtEducationDepartment && (
                                     <DivAddEmp>
                                         <AddEmp>
                                             <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
                                         </AddEmp>
                                     </DivAddEmp>
-                                }
+                                )}
                                 <Matter>
                                     <>Não há nenhum Professor</>
                                 </Matter>
@@ -295,8 +296,7 @@ const Cla$$Info = () => {
                                 }
                                 {
                                     <>
-                                        {yearclss.year === currentYear
-                                            &&
+                                        {yearclss.year === currentYear && !positionAtEducationDepartment && (
                                             <DivAddEmp>
                                                 {/*<AddEmp>
                                                     <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
@@ -305,7 +305,7 @@ const Cla$$Info = () => {
                                                     <Btt02 onClick={RemoveTeacher}>Remover</Btt02>
                                                 </AddEmp>
                                             </DivAddEmp>
-                                        }
+                                        )}
                                         <Matter>
 
                                             {
@@ -328,14 +328,13 @@ const Cla$$Info = () => {
                         ) : (
                             <DivInfo>
                                 <TitleInfo>Professor Regente de Turma 02:</TitleInfo>
-                                {yearclss.year === currentYear
-                                    &&
+                                {yearclss.year === currentYear && !positionAtEducationDepartment && (
                                     <DivAddEmp>
                                         <AddEmp>
                                             <Btt02 onClick={addTeacher02}>Add Prefessor</Btt02>
                                         </AddEmp>
                                     </DivAddEmp>
-                                }
+                                )}
                                 <Matter>
                                     <>Não há nenhum Professor</>
                                 </Matter>
@@ -349,8 +348,7 @@ const Cla$$Info = () => {
                                 <TitleInfo>Professor de Educação Fisica:</TitleInfo>
                                 {
                                     <>
-                                        {yearclss.year === currentYear
-                                            &&
+                                        {yearclss.year === currentYear && !positionAtEducationDepartment && (
                                             <DivAddEmp>
                                                 {/*<AddEmp>
                                                     <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
@@ -359,7 +357,7 @@ const Cla$$Info = () => {
                                                     <Btt02 onClick={RemovephysicalTeacher}>Remover</Btt02>
                                                 </AddEmp>
                                             </DivAddEmp>
-                                        }
+                                        )}
                                         <Matter>
 
                                             {
@@ -382,14 +380,13 @@ const Cla$$Info = () => {
                         ) : (
                             <DivInfo>
                                 <TitleInfo>Professor de Educação Fisica:</TitleInfo>
-                                {yearclss.year === currentYear
-                                    &&
+                                {yearclss.year === currentYear && !positionAtEducationDepartment && (
                                     <DivAddEmp>
                                         <AddEmp>
                                             <Btt02 onClick={addPhysicalTeacher}>Add Prefessor</Btt02>
                                         </AddEmp>
                                     </DivAddEmp>
-                                }
+                                )}
                                 <Matter>
                                     <>Não há nenhum Professor</>
                                 </Matter>
@@ -415,8 +412,7 @@ const Cla$$Info = () => {
                                 }
                                 {
                                     <>
-                                        {yearclss.year === currentYear
-                                            &&
+                                        {yearclss.year === currentYear && !positionAtEducationDepartment && (
                                             <DivAddEmp>
                                                 <AddEmp>
                                                     <Btt02 onClick={ReassignStdt}>Remanejar</Btt02>
@@ -428,7 +424,7 @@ const Cla$$Info = () => {
                                                     <Btt02 onClick={RemoveStudent}>Remover</Btt02>
                                                 </AddEmp>
                                             </DivAddEmp>
-                                        }
+                                        )}
                                         <Matter>
                                             {
                                                 stdt

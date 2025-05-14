@@ -140,10 +140,15 @@ const Employees = () => {
                             </Select>
                         </FormFilter>
                     </Search>
-                    { !positionAtEducationDepartment
+                    {!positionAtEducationDepartment
                         &&
                         <DivNewEmp>
                             <Btt02 onClick={NewEmoloyee}>Novo Funcionario</Btt02>
+                        </DivNewEmp>
+                    }
+                    {positionAtEducationDepartment && employees.length <= 0 &&
+                        <DivNewEmp>
+                            <Btt02 onClick={ () => navigate('/first/employee')}>Primeiro Funcionario</Btt02>
                         </DivNewEmp>
                     }
                     <List>

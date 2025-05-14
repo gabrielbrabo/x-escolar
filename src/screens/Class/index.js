@@ -19,11 +19,12 @@ import {
 import LoadingSpinner from '../../components/Loading';
 
 const Cla$$ = () => {
-    
+
     const navigate = useNavigate();
     const currentYear = new Date().getFullYear();
     const [year, setYear] = useState([]);
     const [Clss, setClss] = useState([]);
+    const [positionAtEducationDepartment, setPositionAtEducationDepartment] = useState('')
     const [busca, setBusca] = useState("");
     const [filter, setFilter] = useState(currentYear.toString());
     const [loading, setLoading] = useState(true);
@@ -31,8 +32,10 @@ const Cla$$ = () => {
     useEffect(() => {
         (async () => {
             const idSchool = sessionStorage.getItem("id-school");
+            const positionAtEducationDepartment = localStorage.getItem("positionAtEducationDepartment")
             const resClass = await GetClass(JSON.parse(idSchool));
             setClss(resClass.data.data);
+            setPositionAtEducationDepartment(positionAtEducationDepartment)
 
             const Year = resClass.data.data
                 .map(y => y.year)
@@ -93,9 +96,12 @@ const Cla$$ = () => {
                         </FormFilter>
                     </Search>
                     <List>
-                        <DivNewEmp>
-                            <Btt02 onClick={NewClass}>Nova Turma</Btt02>
-                        </DivNewEmp>
+                        {!positionAtEducationDepartment
+                            &&
+                            <DivNewEmp>
+                                <Btt02 onClick={NewClass}>Nova Turma</Btt02>
+                            </DivNewEmp>
+                        }
                         <p>Total de Turmas: {Clss.length}</p>
                         {Clss.filter((fil) => (!filter || fil.year === filter))
                             .filter((val) => (!busca || val.serie.includes(busca.toUpperCase())))
