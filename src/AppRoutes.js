@@ -16,7 +16,9 @@ import SignInSchool from "./screens/SignInSchool"
 import HomeSchool from "./screens/HomeSchool"
 import SignInEmployeesEducationDepartment from "./screens/SignInEmployeesEducationDepartment"
 import SignInEmployee from "./screens/SignInEmployee"
+import ForgotPasswordEducationDepartment from "./screens/ForgotPasswordEducationDepartment"
 import ForgotPassword from "./screens/ForgotPassword"
+import PasswordRecoveryEducationDepartment from "./screens/PasswordRecoveryEducationDepartment"
 import PasswordRecovery from "./screens/PasswordRecovery"
 import PasswordReset from "./screens/PasswordReset"
 import SchoolSelection from "./screens/SchoolSelection"
@@ -54,6 +56,7 @@ import AddphysicalTeacher from "./screens/AddphysicalTeacher"
 
 import StudentInfo from "./screens/StudentInfo"
 import EmployeeInfo from "./screens/EmployeeInfo"
+import PerfilEmployeeEducationDepartment from "./screens/PerfilEmployeeEducationDepartment"
 import PerfilEmployee from "./screens/PerfilEmployee"
 import ClassInfo from "./screens/ClassInfo"
 import RemoveTeacher from "./screens/RemoveTeacher"
@@ -169,7 +172,9 @@ const AppRoutes = () => {
                     <Route exact path="/signin/school" element={<SignInSchool />} />
                     <Route exact path="/signin/employee-education-department" element={<SignInEmployeesEducationDepartment />} />
                     <Route exact path="/signin/employee" element={<SignInEmployee />} />
+                    <Route exact path="/forgot-password-education-department" element={<ForgotPasswordEducationDepartment />} />
                     <Route exact path="/forgot-password" element={<ForgotPassword />} />
+                    <Route exact path="/reset-password-education-department/:cpf/:id/:reset_token" element={<PasswordRecoveryEducationDepartment />} />
                     <Route exact path="/reset-password/:cpf/:id/:reset_token" element={<PasswordRecovery />} />
                     <Route exact path="/school/selection" element={<SchoolSelection />} />
                     <Route exact path="/" element={<Preload />} />
@@ -613,11 +618,18 @@ const AppRoutes = () => {
                             <Daily />
                         </Private>
                     } />
+
+                    <Route exact path="/perfil-education-department/:id_employee" element={
+                        <Private>
+                            <PerfilEmployeeEducationDepartment />
+                        </Private>
+                    } />
                     <Route exact path="/perfil/:id_employee" element={
                         <Private>
                             <PerfilEmployee />
                         </Private>
                     } />
+
                     <Route exact path="/password-rest/:cpf/:id" element={
                         <Private>
                             <PasswordReset />

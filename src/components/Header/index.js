@@ -54,6 +54,14 @@ export function Header({ setMenuIsVisible }) {
         //window.location.reload();
     };
 
+    const handlePerfilEducationDepartment = async () => {
+        const id_employee = JSON.parse(localStorage.getItem('Id_employee'))
+        sessionStorage.setItem("EmployeeInformation", id_employee)
+        console.log("id_employee", id_employee)
+        // Redireciona para a URL
+        window.location.href = `/perfil-education-department/${id_employee}`;
+    }
+    
     const handlePerfil = async () => {
         const id_employee = JSON.parse(localStorage.getItem('Id_employee'))
         sessionStorage.setItem("EmployeeInformation", id_employee)
@@ -115,7 +123,7 @@ export function Header({ setMenuIsVisible }) {
                     <EmployeeInfo>
                         <Pro>
                             {/*<ProfilePhoto />*/}
-                            <ProfileInfo onClick={handlePerfil}>
+                            <ProfileInfo onClick={handlePerfilEducationDepartment}>
                                 <Name>{name}</Name>
                                 <Span>{positionAtEducationDepartment}</Span>
                                 <Span>{department}</Span>

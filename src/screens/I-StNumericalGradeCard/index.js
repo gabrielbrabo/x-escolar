@@ -8,9 +8,6 @@ import {
   AddEmp,
   DivDados,
   Grade,
-  //SpanTotalGrade,
-  //SpanGradeStudent,
-  //SpanAverageGrade,
   SpanNameMatter,
   DadosStdt,
   ToGoBack,
@@ -64,15 +61,9 @@ const GradeIstquarter = () => {
   const [endm, setEndm] = useState('')
   const [endy, setEndy] = useState('')
 
-
   const [highlightedDays, setHighlightedDays] = React.useState([]);
   const [highlightedDaysF, setHighlightedDaysF] = React.useState([]);
   const [highlightedDaysFJ, setHighlightedDaysFJ] = React.useState([]);
-
-  //const [iStQuarter, setiStQuarter] = useState([]);
-  ////const [iiNdQuarter, setiiNdQuarter] = useState([]);
-  ////const [iiiRdQuarter, setIIIrdQuarter] = useState([]);
-  ////const [ivThQuarter, setIVthQuarter] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -112,21 +103,6 @@ const GradeIstquarter = () => {
         const grades = await indexNumericalGradesCard(year, id_student)
         if (grades) {
           console.log("grades", grades.data.data);
-
-          // Filtra os objetos para cada bimestre
-          //const firstQuarter = grades.data.data.filter(res => res.bimonthly === "1º BIMESTRE");
-          //const secondQuarter = grades.data.data.filter(res => res.bimonthly === "2º BIMESTRE");
-          //const thirdQuarter = grades.data.data.filter(res => res.bimonthly === "3º BIMESTRE");
-          //const fourthQuarter = grades.data.data.filter(res => res.bimonthly === "4º BIMESTRE");
-
-          // Atualiza os estados com os arrays filtrados
-          //setiStQuarter(firstQuarter);
-          //setiiNdQuarter(secondQuarter);
-          //setIIIrdQuarter(thirdQuarter)
-          //setIVthQuarter(fourthQuarter)
-
-          //console.log("1º Bimestre", firstQuarter);
-          //console.log("2º Bimestre", secondQuarter);
         }
       }
 

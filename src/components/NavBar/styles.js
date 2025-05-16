@@ -36,6 +36,12 @@ export const Container = styled.section`
     transform: scale(0.7);
     transition: 0.7s;
 
+    .nav__link.active {
+        color: #ff8830;
+        font-weight: bold;
+        border-bottom: 3px solid  white;
+      }
+
     a {
       color: white;
       font-size: 18px;

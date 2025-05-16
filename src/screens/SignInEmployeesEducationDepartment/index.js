@@ -115,7 +115,7 @@ const SignInEmployee = () => {
                         </Area>
                         <Btt type='submit'>Login</Btt>
                     </InputArea>
-                    <SignMessageButton onClick={() => navigate('/forgot-password')}>
+                    <SignMessageButton onClick={() => navigate('/forgot-password-education-department')}>
                         <SignMessageButtonText>Esqueceu sua </SignMessageButtonText>
                         <SignMessageButtonTextBold>Senha?</SignMessageButtonTextBold>
                     </SignMessageButton>

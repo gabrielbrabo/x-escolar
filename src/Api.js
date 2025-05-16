@@ -2241,6 +2241,23 @@ export const StdtInfo = async (
         }, [])
 }
 
+export const EmpEducationDepartmentInfo = async (
+    id_employee
+) => {
+
+    return api.post(`/employee-education-department/info/${id_employee}`)
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+
+            }
+        }, [])
+}
+
 export const EmpInfo = async (
     id_employee
 ) => {
@@ -3082,6 +3099,25 @@ export const FinalConceptsDailyTeacher02 = async (
         }, [])
 };
 
+export const ResetPasswordEducationDepartment = async (
+    cpf, id, token, newPassword
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/reset-password-education-department`, {
+        cpf, id, token, newPassword
+    })
+        .catch((error) => {
+            if (error) {
+                if (error.response && error.response.data.error) {
+                    alert(error.response.data.error); // Mostra o erro retornado do backend
+                } else {
+                    alert('Erro desconhecido.');
+                }
+                // window.location.reload()
+            }
+        }, [])
+};
+
 export const ResetPassword = async (
     cpf, id, token, newPassword
 ) => {
@@ -3119,6 +3155,24 @@ export const UpdatePassword = async (
                 window.location.reload()
             }
             throw error; // Propaga o erro para o chamador se necessário
+        }, [])
+};
+
+export const ForgotPasswordEduDep = async (
+    cpf
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/forgot-password-education-department`, {
+        cpf
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
         }, [])
 };
 

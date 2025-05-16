@@ -25,10 +25,6 @@ import {
 import LoadingSpinner from '../../components/Loading';
 import {
     RecordClassTaught,
-    getIstQuarter,
-    getIIndQuarter,
-    getIIIrdQuarter,
-    getIVthQuarter,
 } from '../../Api';
 
 const Grade = () => {
@@ -98,8 +94,8 @@ const Grade = () => {
     };
 
     const handleDateChange = async () => {       
-
-        const fetchQuarters = async () => {
+        setSelectedDate(selected)
+        /*const fetchQuarters = async () => {
             setLoading(true)
             const idSchool = sessionStorage.getItem("id-school");
             const year = new Date().getFullYear();
@@ -164,7 +160,7 @@ const Grade = () => {
         } catch (error) {
             console.error("Erro ao buscar os trimestres:", error);
             alert("Erro ao buscar informações. Tente novamente mais tarde.");
-        }
+        }*/
         setLoading(false)
     };
 
