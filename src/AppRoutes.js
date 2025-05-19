@@ -50,6 +50,7 @@ import NewMatter from "./screens/NewMatter"
 import AddMatter from "./screens/AddMatter"
 import AddStudent from "./screens/AddStudent"
 import ReassignStudent from "./screens/ReassignStudent"
+import TransferStudent from "./screens/TransferStudent"
 import AddTeacher from "./screens/AddTeacher"
 import AddRegentTeacher02 from "./screens/AddRegentTeacher02"
 import AddphysicalTeacher from "./screens/AddphysicalTeacher"
@@ -352,6 +353,11 @@ const AppRoutes = () => {
                     <Route exact path="/reassign-student" element={
                         <Private>
                             <ReassignStudent />
+                        </Private>
+                    } />
+                    <Route exact path="/transfer-student" element={
+                        <Private>
+                            <TransferStudent />
                         </Private>
                     } />
                     <Route exact path="/add/teacher/:id_class" element={

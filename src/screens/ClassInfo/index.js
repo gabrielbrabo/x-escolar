@@ -141,6 +141,11 @@ const Cla$$Info = () => {
         sessionStorage.setItem("idClassTransfer", id_class)
         navigate('/reassign-student')
     }
+    
+    const TransferStdt = async () => {
+        //sessionStorage.setItem("idClassTransfer", id_class)
+        navigate('/transfer-student')
+    }
 
     const addTeacher = async () => {
         navigate(`/add/teacher/${id_class}`)
@@ -274,7 +279,7 @@ const Cla$$Info = () => {
                                 {yearclss.year === currentYear && !positionAtEducationDepartment && (
                                     <DivAddEmp>
                                         <AddEmp>
-                                            <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
+                                            <Btt02 onClick={addTeacher}>Adicionar</Btt02>
                                         </AddEmp>
                                     </DivAddEmp>
                                 )}
@@ -331,7 +336,7 @@ const Cla$$Info = () => {
                                 {yearclss.year === currentYear && !positionAtEducationDepartment && (
                                     <DivAddEmp>
                                         <AddEmp>
-                                            <Btt02 onClick={addTeacher02}>Add Prefessor</Btt02>
+                                            <Btt02 onClick={addTeacher02}>Adicionar</Btt02>
                                         </AddEmp>
                                     </DivAddEmp>
                                 )}
@@ -383,7 +388,7 @@ const Cla$$Info = () => {
                                 {yearclss.year === currentYear && !positionAtEducationDepartment && (
                                     <DivAddEmp>
                                         <AddEmp>
-                                            <Btt02 onClick={addPhysicalTeacher}>Add Prefessor</Btt02>
+                                            <Btt02 onClick={addPhysicalTeacher}>Adicionar</Btt02>
                                         </AddEmp>
                                     </DivAddEmp>
                                 )}
@@ -415,10 +420,13 @@ const Cla$$Info = () => {
                                         {yearclss.year === currentYear && !positionAtEducationDepartment && (
                                             <DivAddEmp>
                                                 <AddEmp>
+                                                    <Btt02 onClick={addStudent}>Adicionar</Btt02>
+                                                </AddEmp>
+                                                <AddEmp>
                                                     <Btt02 onClick={ReassignStdt}>Remanejar</Btt02>
                                                 </AddEmp>
                                                 <AddEmp>
-                                                    <Btt02 onClick={addStudent}>Add Aluno</Btt02>
+                                                    <Btt02 onClick={TransferStdt}>Transferir</Btt02>
                                                 </AddEmp>
                                                 <AddEmp>
                                                     <Btt02 onClick={RemoveStudent}>Remover</Btt02>

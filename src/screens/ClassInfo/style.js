@@ -181,11 +181,23 @@ export const DivAddEmp = styled.div`
   gap: 10px;
   margin-top: 20px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
 `;
 
 export const AddEmp = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  //flex: 1;
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 export const AddImpre = styled.div`

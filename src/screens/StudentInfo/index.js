@@ -414,7 +414,9 @@ const Student = () => {
 
                                         {selectedStatus.value === "transferido" && (
                                             <p style={{ color: "red", fontWeight: "bold" }}>
-                                                ⚠ Se o aluno for transferido, ele será removido da turma atual!
+                                                ⚠ Atenção:
+                                                Ao transferir um aluno, ele será removido da turma atual.
+                                                Antes de continuar, certifique-se de que todos os dados estão preenchidos corretamente e salvos.
                                             </p>
                                         )}
 
