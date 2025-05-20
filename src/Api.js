@@ -195,6 +195,23 @@ export const Refresh = async (
         }, [])
 }
 
+export const RefreshDepEdu = async (
+    id
+) => {
+    return api.post('/refresh/employee-dep-edu', {
+        id
+    })
+        .catch((error) => {
+            if (error) {
+                /*const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)*/
+                window.location.reload()
+            }
+        }, [])
+}
+
 export const EducationDepartamentName = async (
     idEducationDepartment
 ) => {
@@ -299,11 +316,45 @@ export const GetEmployees = async (
         }, [])
 }
 
+export const GetEmployeesEduDep = async (
+    idEducationDepartment
+) => {
+
+    return api.post('/employee-dep-edu', {
+        idEducationDepartment
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
+
 export const getEmployeeDetails = async (
     idEmployee
 ) => {
 
     return api.get(`/employee-details/${idEmployee}`)
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
+
+export const getEmployeeDetailsEduDep = async (
+    idEmployee
+) => {
+
+    return api.get(`/employee-details-edu-dep/${idEmployee}`)
 
         .catch((error) => {
             if (error) {
@@ -336,6 +387,39 @@ export const updateEmployee = async (
         cellPhone,
         address,
         position_at_school
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
+
+export const updateEmployeeEduDep = async (
+    idEmployee,
+    name,
+    dateOfBirth,
+    cpf,
+    rg,
+    email,
+    cellPhone,
+    address,
+    positionAtEducationDepartment
+) => {
+
+    return api.post(`/employee-edu-dep-update/${idEmployee}`, {
+        name,
+        dateOfBirth,
+        cpf,
+        rg,
+        email,
+        cellPhone,
+        address,
+        positionAtEducationDepartment
     })
 
         .catch((error) => {
@@ -3142,6 +3226,27 @@ export const UpdatePassword = async (
 ) => {
     // Faz a chamada para a rota com os parâmetros opcionais
     return api.post(`/update-password`, {
+        cpf, id, password, newPassword
+    })
+        .catch((error) => {
+            if (error.response && error.response.data && error.response.data.error) {
+                // Mostra o erro específico retornado pelo backend
+                alert(error.response.data.error);
+                window.location.reload()
+            } else {
+                // Mensagem genérica para erros inesperados
+                alert('Ocorreu um erro desconhecido. Tente novamente mais tarde.');
+                window.location.reload()
+            }
+            throw error; // Propaga o erro para o chamador se necessário
+        }, [])
+};
+
+export const UpdatePasswordEmpEduDep = async (
+    cpf, id, password, newPassword
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`/update-password-emp-edu-dep`, {
         cpf, id, password, newPassword
     })
         .catch((error) => {

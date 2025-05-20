@@ -8,7 +8,8 @@ import {
     InputArea,
     Area,
     Input,
-    Btt
+    Btt,
+    AccessTopButton
 } from './style';
 
 import {
@@ -33,6 +34,10 @@ const SignInEmployee = () => {
         //loginEmployee(cpf, password)
         const response = await createSessionEmployeeEducationDepartment(cpf, password)
         if (response) {
+
+            const now = Date.now();
+            // Salva novo horário de atividade
+            localStorage.setItem("lastLogin", now);
 
             const IdEmployee = response.data.id
             const loggedEmployee = response.data.CPF
@@ -89,8 +94,11 @@ const SignInEmployee = () => {
 
                     {/* Google tag (gtag.js)*/}
                     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7W99STL6XT"></script>
+                    <AccessTopButton onClick={() => navigate('/signin/employee')}>
+                        Acessar Instituição de Ensino
+                    </AccessTopButton>
 
-                    <h1>login Secretaria de Educação</h1>
+                    <h1>Login SEMEDE</h1>
                     <InputArea onSubmit={SignClick}>
                         <>CPF</>
                         <Area>

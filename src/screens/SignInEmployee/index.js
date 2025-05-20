@@ -8,13 +8,14 @@ import {
     InputArea,
     Area,
     Input,
-    Btt
+    Btt,
+    AccessTopButton
 } from './style';
 
 import {
     SignMessageButton,
     SignMessageButtonText,
-    SignMessageButtonTextBold
+    SignMessageButtonTextBold,
 } from '../../components/Buttons';
 
 import LoadingSpinner from '../../components/Loading'
@@ -116,8 +117,10 @@ const SignInEmployee = () => {
 
                     {/* Google tag (gtag.js)*/}
                     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7W99STL6XT"></script>
-                    
-                    <h1>Login</h1>
+                    <AccessTopButton onClick={() => navigate('/signin/employee-education-department')}>
+                        Acessar SEMEDE
+                    </AccessTopButton>
+                    <h1>Login Instituição de Ensino</h1>
                     <InputArea onSubmit={SignClick}>
                         <>CPF</>
                         <Area>

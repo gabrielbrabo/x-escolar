@@ -76,3 +76,28 @@ export const Btt = styled.button`
     align-items: center;
     justify-content: center; 
 `;
+
+export const AccessTopButton = styled.button`
+  align-self: flex-end;
+  margin: 20px 0; /* espaço acima e abaixo */
+  padding: 10px 18px;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  background-color: transparent;
+  color: #007bff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    background-color: #007bff;
+    color: white;
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    text-align: center;
+    margin-top: 40px; /* espaço específico no topo no mobile */
+  }
+`;
+

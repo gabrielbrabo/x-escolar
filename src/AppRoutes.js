@@ -21,6 +21,7 @@ import ForgotPassword from "./screens/ForgotPassword"
 import PasswordRecoveryEducationDepartment from "./screens/PasswordRecoveryEducationDepartment"
 import PasswordRecovery from "./screens/PasswordRecovery"
 import PasswordReset from "./screens/PasswordReset"
+import PasswordResetEmpEduDep from "./screens/PasswordResetEmpEduDep"
 import SchoolSelection from "./screens/SchoolSelection"
 import Preload from "./screens/Preload"
 
@@ -31,7 +32,9 @@ import SchoolInfo from "./screens/SchoolInfo"
 import HomeEmployee from "./screens/HomeEmployee"
 import AnnualCalendar from "./screens/AnnualCalendar"
 import Employees from "./screens/Employees"
+import EmployeesEduDep from "./screens/EmployeesEduDep"
 import NewEmployees from "./screens/NewEmployee"
+import NewEmployeeEduDep from "./screens/NewEmployeeEduDep"
 import EmployeeAlreadyRegistered from "./screens/EmployeeAlreadyRegistered"
 import ManagerAlreadyRegistered from "./screens/ManagerAlreadyRegistered"
 
@@ -57,6 +60,7 @@ import AddphysicalTeacher from "./screens/AddphysicalTeacher"
 
 import StudentInfo from "./screens/StudentInfo"
 import EmployeeInfo from "./screens/EmployeeInfo"
+import EmployeeInfoEduDep from "./screens/EmployeeInfoEduDep"
 import PerfilEmployeeEducationDepartment from "./screens/PerfilEmployeeEducationDepartment"
 import PerfilEmployee from "./screens/PerfilEmployee"
 import ClassInfo from "./screens/ClassInfo"
@@ -67,7 +71,9 @@ import RemoveMatter from "./screens/RemoveMatter"
 import DeleteMatter from "./screens/DeleteMatter"
 
 import EditMyProfile from "./screens/EditMyProfile"
+import EditMyProfileEduDep from "./screens/EditMyProfileEduDep"
 import EditProfileEmployee from "./screens/EditProfileEmployee"
+import EditProfileEmployeeEduDep from "./screens/EditProfileEmployeeEduDep"
 import EditProfileStudent from "./screens/EditProfileStudent"
 import EditClass from "./screens/EditClass"
 
@@ -209,6 +215,11 @@ const AppRoutes = () => {
                             <Employees />
                         </Private>
                     } />
+                    <Route exact path="/employees-edu-dep" element={
+                        <Private>
+                            <EmployeesEduDep />
+                        </Private>
+                    } />
                     <Route exact path="/first/employee-education-department" element={
                         <Private>
                             <FirstEmployeeEducationDepartment />
@@ -224,14 +235,29 @@ const AppRoutes = () => {
                             <NewEmployees />
                         </Private>
                     } />
+                    <Route exact path="/new/employees-edu-dep" element={
+                        <Private>
+                            <NewEmployeeEduDep />
+                        </Private>
+                    } />
                     <Route exact path="/edit-my-profile" element={
                         <Private>
                             <EditMyProfile />
                         </Private>
                     } />
+                    <Route exact path="/edit-my-profile-edu-dep" element={
+                        <Private>
+                            <EditMyProfileEduDep />
+                        </Private>
+                    } />
                     <Route exact path="/edit-profile" element={
                         <Private>
                             <EditProfileEmployee />
+                        </Private>
+                    } />
+                    <Route exact path="/edit-profile-edu-dep" element={
+                        <Private>
+                            <EditProfileEmployeeEduDep />
                         </Private>
                     } />
                     <Route exact path="/edit-student" element={
@@ -384,6 +410,11 @@ const AppRoutes = () => {
                     <Route exact path="/employee/info/:id_employee" element={
                         <Private>
                             <EmployeeInfo />
+                        </Private>
+                    } />
+                    <Route exact path="/employee/info-edu-dep/:id_employee" element={
+                        <Private>
+                            <EmployeeInfoEduDep />
                         </Private>
                     } />
                     <Route exact path="/class/info/:id_class" element={
@@ -639,6 +670,11 @@ const AppRoutes = () => {
                     <Route exact path="/password-rest/:cpf/:id" element={
                         <Private>
                             <PasswordReset />
+                        </Private>
+                    } />
+                    <Route exact path="/password-rest-emp-edu-dep/:cpf/:id" element={
+                        <Private>
+                            <PasswordResetEmpEduDep/>
                         </Private>
                     } />
                     

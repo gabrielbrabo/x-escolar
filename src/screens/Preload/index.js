@@ -5,112 +5,129 @@ import { AuthContext, } from '../../contexts/auth'
 import { useNavigate } from 'react-router-dom'
 
 import {
-    Container,
+  Container,
 } from './style';
 
-import { api, Refresh, NameSchool } from '../../Api'
+import { api, Refresh, NameSchool, RefreshDepEdu, EducationDepartamentName } from '../../Api'
 
 import LoadingSpinner from '../../components/Loading'
 
 const Preload = () => {
 
-    const navigate = useNavigate()
-    const { loginEmployee } = useContext(AuthContext)
+  const navigate = useNavigate()
+  const { loginEmployee } = useContext(AuthContext)
+  const { loginEmployeeEducationDepartment } = useContext(AuthContext)
 
-    useEffect(() => {
-        (async () => {
-            const id = localStorage.getItem("Id_employee");
-            const token = localStorage.getItem("token");
-            const lastLogin = localStorage.getItem("lastLogin"); // Obtém o último login salvo
+  useEffect(() => {
+    (async () => {
+      const id = localStorage.getItem("Id_employee");
+      const posi = localStorage.getItem("positionAtEducationDepartment");
+      const token = localStorage.getItem("token");
+      const lastLogin = localStorage.getItem("lastLogin");
 
-            const now = Date.now();
-            const expirationTime = 24 * 60 * 60 * 1000; // 24 horas em milissegundos
+      console.log(">>> ID:", id);
+      console.log(">>> POSIÇÃO:", posi);
+      console.log(">>> TOKEN:", token);
+      console.log(">>> LAST LOGIN:", lastLogin);
+      
+      const now = Date.now();
+      const expirationTime = 24 * 60 * 60 * 1000;
 
-            //teste
-            //const expirationTime = 1 * 60 * 1000; // 1 minuto em milissegundos (60000)
+      if (!token || !lastLogin || now - lastLogin > expirationTime) {
+        localStorage.clear();
+        sessionStorage.clear();
+        if (posi) {
+          navigate('/signin/employee-education-department'); // Login da SEMEDE
+        } else {
+          navigate('/signin/employee'); // Login da escola
+        }
+        return;
+      }
+
+      try {
+        // ✅ Verifica se é funcionário da SEMEDE
+        if (posi) {
+          const response = await RefreshDepEdu(JSON.parse(id)); // Outra função para SEMEDE
+          if (response && response.data) {
+            const data = response.data;
+            localStorage.setItem("lastLogin", now);
 
 
-            // Se não houver token ou já passou o tempo de expiração, força logout
-            if (!token || !lastLogin || now - lastLogin > expirationTime) {
-                localStorage.clear();
-                sessionStorage.clear();
-                navigate('/signin/employee');
-                return;
-            }
+            const educationDepartment = await EducationDepartamentName(data.idEducationDepartment)
 
-            try {
-                // Atualiza o token
-                const response = await Refresh(JSON.parse(id));
+            //const loggedEmployee = data.CPF
+            sessionStorage.setItem("idDepartment", data.idEducationDepartment);
+            sessionStorage.setItem("name-department", educationDepartment.data.data)
+            localStorage.setItem("Id_employee", JSON.stringify(data.id))
+            sessionStorage.setItem("name", data.name);
+            localStorage.setItem("name", data.name)
+            sessionStorage.setItem("cpf", data.CPF);
+            localStorage.setItem("type", data.type)
+            sessionStorage.setItem("token", data.token);
+            localStorage.setItem("positionAtEducationDepartment", data.positionAtEducationDepartment);
+            localStorage.setItem("token", data.token);
+            sessionStorage.setItem("token", data.token)
 
-                if (response && response.data) {
-                    console.log("response", response);
+            api.defaults.headers.Authorization = `Bearer ${data.token}`;
 
-                    // Salva novo horário de atividade
-                    localStorage.setItem("lastLogin", now);
+            loginEmployeeEducationDepartment(data.CPF)
 
-                    const Schools = response.data.schools
+            // Redireciona para painel da SEMEDE
+            //navigate('/home/education-department');
+            return;
+          } else {
+            navigate('/signin/employee-education-department');
+          }
+        }
 
-                    if (Schools) {
-                        const schools = response.data.schools;
-                        const userCPF = response.data.schools.map( res => res.cpf);
+        // 👉 Caso seja funcionário da escola
+        const response = await Refresh(JSON.parse(id));
+        if (response && response.data) {
+          localStorage.setItem("lastLogin", now);
 
-                        console.log("Schools", schools);
-                        console.log("userCPF", userCPF);
-                        // Verifica se as escolas estão disponíveis e o CPF tem um valor definido
-                        if (schools && userCPF) {
-                            setTimeout(() => {
-                                navigate('/school/selection', { state: { schools, cpf: userCPF } });
-                                return; // Sai da função aqui para evitar a execução do restante
-                            }, 0);
-                        }
-                    }
+          const data = response.data;
+          const Schools = data.schools;
 
-                    // Processa os dados recebidos
-                    const IdEmployee = response.data.id;
-                    const loggedEmployee = response.data.CPF;
-                    const token = response.data.token;
-                    const name = response.data.name;
-                    const type = response.data.type;
-                    const position_at_school = response.data.position_at_school;
-                    const id_school = response.data.id_school;
-                    const id_matter = response.data.id_matter;
-                    const id_class = response.data.id_class;
-                    const id_reporter_cardid_class = response.data.id_reporter_card;
+          if (Schools) {
+            const userCPF = data.schools.map(res => res.cpf);
+            navigate('/school/selection', { state: { schools: Schools, cpf: userCPF } });
+            return;
+          }
 
-                    if (!Schools) {
-                        const nameSchool = await NameSchool(id_school);
-                        sessionStorage.setItem("School", nameSchool.data.data);
-                    }
-                    
-                    localStorage.setItem("Id_employee", JSON.stringify(IdEmployee));
-                    sessionStorage.setItem("cpf", loggedEmployee);
-                    sessionStorage.setItem("name", name);
-                    localStorage.setItem("name", name);
-                    localStorage.setItem("type", type);
-                    localStorage.setItem("position_at_school", position_at_school);
-                    sessionStorage.setItem("id-school", JSON.stringify(id_school));
-                    sessionStorage.setItem("id_matter", id_matter);
-                    sessionStorage.setItem("id_class", id_class);
-                    sessionStorage.setItem("id_reporter_cardid_class", id_reporter_cardid_class);
-                    localStorage.setItem("token", token);
-                    sessionStorage.setItem("token", token);
+          const nameSchool = await NameSchool(data.id_school);
+          sessionStorage.setItem("School", nameSchool.data.data);
 
-                    api.defaults.headers.Authorization = `Bearer ${token}`;
-                    loginEmployee(loggedEmployee);
-                } else {
-                    navigate('/signin/employee');
-                }
-            } catch (error) {
-                navigate('/signin/employee');
-            }
-        })();
-    }, [navigate, loginEmployee]);
+          localStorage.setItem("Id_employee", JSON.stringify(data.id));
+          sessionStorage.setItem("cpf", data.CPF);
+          sessionStorage.setItem("name", data.name);
+          localStorage.setItem("name", data.name);
+          localStorage.setItem("type", data.type);
+          localStorage.setItem("position_at_school", data.position_at_school);
+          sessionStorage.setItem("id-school", JSON.stringify(data.id_school));
+          sessionStorage.setItem("id_matter", data.id_matter);
+          sessionStorage.setItem("id_class", data.id_class);
+          sessionStorage.setItem("id_reporter_cardid_class", data.id_reporter_card);
+          localStorage.setItem("token", data.token);
+          sessionStorage.setItem("token", data.token);
 
-    return (
-        <Container>
-            <LoadingSpinner />
-        </Container>
-    )
+          api.defaults.headers.Authorization = `Bearer ${data.token}`;
+          loginEmployee(data.CPF);
+        } else {
+          navigate('/signin/employee');
+        }
+      } catch (error) {
+        localStorage.clear();
+        sessionStorage.clear();
+        navigate('/signin/employee');
+      }
+    })();
+  }, [navigate, loginEmployee, loginEmployeeEducationDepartment]);
+
+  return (
+    <Container>
+      <LoadingSpinner />
+    </Container>
+  )
 }
 
 export default Preload

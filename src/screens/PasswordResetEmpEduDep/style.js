@@ -7,7 +7,6 @@ export const Container = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 40px;
 `;
 
 export const InputArea = styled.form`
@@ -19,9 +18,10 @@ export const InputArea = styled.form`
     align-items: center;
     justify-content: center;
     padding: 20px;
+    background-color: #1465bb;
     gap: 15px;
     font-size: 20px;
-    //color: white;
+    color: white;
 
     @media screen and (max-width: 768px) {
         width: 70%;
@@ -32,7 +32,7 @@ export const InputArea = styled.form`
 
 export const Area = styled.div`
   display: Flex;
-  width: 450px;
+  width: 350px;
   height: 40px;
   margin-bottom: 10px;
   background-color: #ebe7eb;
@@ -40,12 +40,7 @@ export const Area = styled.div`
   align-items: center;
   justify-content: center; 
 
-  @media (max-width: 375px)  {
-    width: 300px;
-    height: 45px;
-  }
-
-  @media (min-width: 375px) and (max-width: 768px) {
+  @media screen and (max-width: 768px) {
     width: 330px;
     height: 45px;
   }
@@ -69,7 +64,7 @@ export const Btt = styled.button`
     width: 80%;
     margin-top: 20px;
     margin-bottom: 20px;
-    background-color: #158fa2;
+    background-color: #8cfa81;
     font-size: 20px;
     border-radius: 30px;
     border: none;
@@ -77,26 +72,29 @@ export const Btt = styled.button`
     justify-content: center; 
 `;
 
-export const AccessTopButton = styled.button`
-  //align-self: flex-end;
-  margin: 20px 0; /* espaço acima e abaixo */
-  padding: 10px 18px;
-  border: 2px solid #2e7d32;
+export const WarningContainer = styled.div`
+  background-color: #fff3cd; // Cor de fundo do aviso
+  border: 1px solid #ffeeba; // Borda do aviso
+  padding: 20px;
   border-radius: 8px;
-  background-color: transparent;
-  color: #2e7d32;
-  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+`;
+
+export const WarningMessage = styled.p`
+  color: #856404; // Cor do texto do aviso
+`;
+
+export const WarningButton = styled.button`
+  margin: 10px;
+  background-color: #007bff; // Cor do botão
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
   cursor: pointer;
-  transition: 0.3s;
 
   &:hover {
-    background-color: #2e7d32;
-    color: white;
-  }
-
-  @media (max-width: 600px) {
-    width: 100%;
-    text-align: center;
-    margin-top: 40px; /* espaço específico no topo no mobile */
+    background-color: #0056b3; // Cor do botão ao passar o mouse
   }
 `;

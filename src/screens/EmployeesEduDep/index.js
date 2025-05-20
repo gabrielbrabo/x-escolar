@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { IndexInfoDepEdu, } from '../../Api'
+import { GetEmployeesEduDep,} from '../../Api'
 
 import {
     Container,
@@ -8,13 +8,13 @@ import {
     Emp,
     Span,
     Search,
-    //DivNewEmp,
-    // FormFilter,
+    DivNewEmp,
+    FormFilter,
     FormSearch,
     Area,
-    //Select,
+    Select,
     InputEmp,
-    //Btt02
+    Btt02
 } from './style';
 
 /*import {
@@ -30,10 +30,10 @@ import LoadingSpinner from '../../components/Loading'
 const Employees = () => {
 
     const navigate = useNavigate()
-    const [Schools, setSchools] = useState([])
-    //const [Posi, setPosi] = useState("")
+    const [employees, setEmployees] = useState([])
+    const [positionAtEducationDepartment, setPositionAtEducationDepartment] = useState('')
     const [busca, setBusca] = useState("")
-    //const [filter, setFilter] = useState(sessionStorage.getItem("selectedFilter") || "")
+    const [filter, setFilter] = useState(sessionStorage.getItem("selectedFilter") || "")
     const [loading, setLoading] = useState(false);
 
     //const isNavigatingToEmployeeInfo = useRef(false); // UseRef para persistência
@@ -42,24 +42,20 @@ const Employees = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
-            //const posi = localStorage.getItem("positionAtEducationDepartment")
-           // setPosi(posi)
             const idEducationDepartment = sessionStorage.getItem("idDepartment")
-            const response = await IndexInfoDepEdu(idEducationDepartment)
-            setSchools(response.data.data.id_schools)
-
-            //const res = await GetMatter(JSON.parse(idSchool))
-            //setStudent(response.data.data)
-            //setFilterMatter(res.data.data)
+            const positionAtEducationDepartment = localStorage.getItem("positionAtEducationDepartment")
+            const response = await GetEmployeesEduDep(idEducationDepartment)
+            setEmployees(response.data.data)
+            setPositionAtEducationDepartment(positionAtEducationDepartment)
             console.log(response)
 
-            //sessionStorage.setItem("selectedFilter", filter);
+            sessionStorage.setItem("selectedFilter", filter);
 
             setLoading(false);
         })()
-    }, [])
+    }, [filter])
 
-    Schools.sort((a, b) =>
+    employees.sort((a, b) =>
         a.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").localeCompare(
             b.name.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             "pt-BR",
@@ -75,24 +71,18 @@ const Employees = () => {
             .toUpperCase(); // Converte para maiúsculas
     };
 
-    /*const NewEmoloyee = async () => {
-        navigate('/signup/school')
-    }*/
-
-    const schoolInformation = async (school) => {
-        //isNavigatingToEmployeeInfo.current = true; // Define como true antes da navegação
-        setLoading(true);
-        sessionStorage.setItem("id-school", JSON.stringify(school._id))
-        sessionStorage.setItem("assessmentFormat", school.assessmentFormat)
-        navigate(`/school/info/${school._id}`)
-        setLoading(false);
+    const NewEmpoloyee = async () => {
+        navigate('/new/employees-edu-dep')
     }
 
-    //const loggedInEmployeeId = localStorage.getItem("Id_employee");
-
-    //console.log('res', employees)
-
-    //console.log('matter', matter)
+    const employeeInformation = async (employee) => {
+        //isNavigatingToEmployeeInfo.current = true; // Define como true antes da navegação
+        setLoading(true);
+        //  sessionStorage.removeItem('EmployeeInformation')
+        //sessionStorage.setItem("EmployeeInformation", employee._id)
+        navigate(`/employee/info-edu-dep/${employee._id}`)
+        setLoading(false);
+    }
 
     return (
         <Container>
@@ -102,7 +92,7 @@ const Employees = () => {
                 <>
                     <Search>
                         <FormSearch>
-                            <label>Buscar Ecola</label>
+                            <label>Buscar Funcionario</label>
                             <Area>
                                 <InputEmp
                                     type="text"
@@ -114,7 +104,7 @@ const Employees = () => {
                                 />
                             </Area>
                         </FormSearch>
-                        {/*<FormFilter>
+                        <FormFilter>
                             <label>Filtra por cargo: </label>
                             <Select id="position"
                                 value={filter}
@@ -127,24 +117,25 @@ const Employees = () => {
                                 <option value="SECRETARIO">SECRETARIO(A)</option>
                                 <option value="PROFESSOR">PROFESSOR(A)</option>
                             </Select>
-                        </FormFilter>*/}
+                        </FormFilter>
                     </Search>
-                    { /*Posi === "SECRETÁRIO(A) DE EDUCAÇÃO" &&
+                    {positionAtEducationDepartment === "SECRETÁRIO(A) DE EDUCAÇÃO"
+                        &&
                         <DivNewEmp>
-                            <Btt02 onClick={NewEmoloyee}>Cadastrar</Btt02>
+                            <Btt02 onClick={NewEmpoloyee}>Novo Funcionario</Btt02>
                         </DivNewEmp>
-                    */}
+                    }
                     <List>
-                        <p>Total de Escolas: {Schools.length}</p>
+                        <p>Total de Funcionários Cadastrados: {employees.length}</p>
                         {
-                            Schools/*.filter((fil) => {
+                            employees.filter((fil) => {
                                 if (!filter) {
                                     return (fil)
                                 } else if (fil.position_at_school === filter) {
                                     return (fil)
                                 }
                                 return null
-                            })*/.filter((val) => {
+                            }).filter((val) => {
                                 if (!busca) return val;
                                 return normalizeString(val.name).includes(normalizeString(busca));
                             })/*.filter((employee) => {
@@ -152,13 +143,13 @@ const Employees = () => {
                                     return employee
                                }
                                return null
-                            })*/.map(school => (
+                            })*/.map(employee => (
                                 <Emp
                                     onClick={() =>
-                                        schoolInformation(school)
+                                        employeeInformation(employee)
                                     }
-                                    key={school._id} >
-                                    <Span style={{ color: "#003e4f" }}>{school.name}</Span>
+                                    key={employee._id} >
+                                    <Span style={{ color: "#003e4f" }}>{employee.name}</Span>
                                 </Emp>
                             ))
                         }

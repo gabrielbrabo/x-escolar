@@ -141,7 +141,7 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
       {positionAtEducationDepartment && (
         <nav>
           <a href="/schools" className={`nav__link ${isActive('/schools')}`}>Escolas</a>
-          <a href="/myclasses" className={`nav__link ${isActive('/myclasses')}`}>Funcionários</a>
+          <a href="/employees-edu-dep" className={`nav__link ${isActive('/employees-edu-dep')}`}>Funcionários</a>
         </nav>
       )}
     </Container>

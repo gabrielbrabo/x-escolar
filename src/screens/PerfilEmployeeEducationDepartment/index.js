@@ -39,7 +39,7 @@ const EmployeeInformation = () => {
             //setPositionAtSchool(position);
             console.log("id_employee", id_employee)
             const res = await EmpEducationDepartmentInfo(id_employee)
-            
+
             console.log("res", res)
             const position_at_school = res.data.data.map(res => {
                 if (res.position_at_school === "SECRETARIO" || res.position_at_school === "DIRETOR/SUPERVISOR") {
@@ -58,7 +58,7 @@ const EmployeeInformation = () => {
                 //setPosition_at_school(position_at_school)
             }
             setEmployee(res.data.data)
-           
+
             setLoading(false);
 
         })()
@@ -66,15 +66,15 @@ const EmployeeInformation = () => {
     }, [currentYear, id_employee])
 
     const Edit = async () => {
-        navigate('/edit-my-profile')
+        navigate('/edit-my-profile-edu-dep')
     }
-    
+
     const PasswordReset = async () => {
-        const cpf = employee.map( res => {
+        const cpf = employee.map(res => {
             return res.cpf
         })
         console.log("id_employee", id_employee, "cpf", cpf)
-        navigate(`/password-rest/${cpf}/${id_employee}`)
+        navigate(`/password-rest-emp-edu-dep/${cpf}/${id_employee}`)
     }
 
     //const nameEmployee = sessionStorage.getItem("name")
@@ -99,7 +99,7 @@ const EmployeeInformation = () => {
                                     </ProfilePhoto>*/}
                                     < ProfileInfo>
                                         <Span>{emp.name}</Span>
-                                        <Span>{emp.position_at_school}(A)</Span>
+                                        <Span>{emp.positionAtEducationDepartment}</Span>
                                         <Span>Celular: {emp.cellPhone}</Span>
                                         <Span>Email: {emp.email}</Span>
                                         <Span>CPF: {emp.cpf}</Span>
