@@ -82,7 +82,7 @@ const SignUpSchool = () => {
         <LoadingSpinner />
         :
         <>
-          <h1>Cadastro de Instituição</h1>
+          <h1>Cadastro SEMEDE</h1>
           <InputArea onSubmit={SignClick}>
             <>Nome da Instituição</>
             <Area>

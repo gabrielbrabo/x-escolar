@@ -1,46 +1,47 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    width: 100%;
-    height: 90vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 40px;
+  width: 100%;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 40px;
 `;
 
 export const InputArea = styled.form`
-    border-radius: 20px;
-    display: flex;
-    width: 40%;
-    gap: 15px;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    gap: 15px;
-    font-size: 20px;
-    //color: white;
+  border-radius: 20px;
+  display: flex;
+  width: 40%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  gap: 15px;
+  font-size: 20px;
 
-    @media screen and (max-width: 768px) {
-        width: 70%;
-        padding: 40px;
-        gap: 20px;
-    }
+  background-color: #e6f3ff;
+  box-shadow: 0 0 20px rgba(0, 123, 255, 0.4);
+
+  @media screen and (max-width: 768px) {
+    width: 70%;
+    padding: 40px;
+    gap: 20px;
+  }
 `;
 
 export const Area = styled.div`
-  display: Flex;
+  display: flex;
   width: 450px;
   height: 40px;
   margin-bottom: 10px;
-  background-color: #ebe7eb;
+  background-color: #d0e9ff;
   border-radius: 30px;
   align-items: center;
-  justify-content: center; 
+  justify-content: center;
 
-  @media (max-width: 375px)  {
+  @media (max-width: 375px) {
     width: 300px;
     height: 45px;
   }
@@ -50,6 +51,7 @@ export const Area = styled.div`
     height: 45px;
   }
 `;
+
 export const Input = styled.input`
   width: 90%;
   height: 20px;
@@ -58,28 +60,29 @@ export const Input = styled.input`
   border-top: transparent;
   border-left: transparent;
   border-right: transparent;
-
-    @media screen and (max-width: 768px) {
-        
-    }
 `;
 
 export const Btt = styled.button`
-    height: 50px;
-    width: 80%;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    background-color: #158fa2;
-    font-size: 20px;
-    border-radius: 30px;
-    border: none;
-    align-items: center;
-    justify-content: center; 
+  height: 50px;
+  width: 80%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #007bff;
+  color: white;
+  font-size: 20px;
+  border-radius: 30px;
+  border: none;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    opacity: 0.9;
+  }
 `;
 
 export const AccessTopButton = styled.button`
   align-self: flex-end;
-  margin: 20px 0; /* espaço acima e abaixo */
+  margin: 20px 0;
   padding: 10px 18px;
   border: 2px solid #007bff;
   border-radius: 8px;
@@ -97,7 +100,6 @@ export const AccessTopButton = styled.button`
   @media (max-width: 600px) {
     width: 100%;
     text-align: center;
-    margin-top: 40px; /* espaço específico no topo no mobile */
+    margin-top: 40px;
   }
 `;
-
