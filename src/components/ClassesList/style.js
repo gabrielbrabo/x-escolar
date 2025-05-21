@@ -191,6 +191,14 @@ export const DescriptionCell = styled.div`
   position: relative;
 
   .description {
+    color: black !important;
+
+    * {
+      color: black !important;
+    }
+  }
+
+  .description {
     transition: height 0.3s ease;
 
     &.collapsed {
