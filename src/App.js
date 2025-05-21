@@ -25,7 +25,7 @@ const AuthenticatedApp = () => {
         <div className="logo"><DiReact style={{
           //color: "#61dafb", // Cor padrão do React
           filter: "drop-shadow(0 0 5px #ffffff)", // Efeito na bolinha (não é exato)
-        }} /> Diario Escolar Virtual</div>
+        }} /> Diário Escolar Virtual</div>
       )}
     </>
   )
