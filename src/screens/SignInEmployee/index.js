@@ -118,7 +118,7 @@ const SignInEmployee = () => {
                     {/* Google tag (gtag.js)*/}
                     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7W99STL6XT"></script>
                     <AccessTopButton onClick={() => navigate('/signin/employee-education-department')}>
-                        Acessar SEMEDE
+                        Acessar SEMED
                     </AccessTopButton>
                     <h1>Login Instituição de Ensino</h1>
                     <InputArea onSubmit={SignClick}>

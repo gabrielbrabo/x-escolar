@@ -202,6 +202,10 @@ const Cla$$Info = () => {
         });
         setLoading(false);
     }
+    
+    const PrintableAllTheBulletinsGrades = async () => {        
+        navigate(`/allTheBulletins-grades/${id_class}`)
+    }
 
     console.log("student", stdt)
     //console.log("employee", employee)
@@ -407,6 +411,9 @@ const Cla$$Info = () => {
                                 <AddImpre>
                                     <p onClick={PrintableAttendanceSheet}>Imprimir Lista de alunos</p>
                                 </AddImpre>
+                                {/*<AddImpre>
+                                    <p onClick={PrintableAllTheBulletinsGrades}>Emitir boletins da turma</p>
+                                </AddImpre>*/}
                                 <p>Total de Alunos: {stdt.length}</p>
                                 {studentTransferMap.length > 0 && <p>Total de Alunos Transferidos: {studentTransferMap.length}</p>}
                                 {/*!showStudent &&

@@ -1878,6 +1878,34 @@ export const GetGrades = async (
             }
         }, [])
 }
+
+export const allTheBulletinsGrades = async (
+    idClass,
+    id_iStQuarter,
+    id_iiNdQuarter,
+    id_iiiRdQuarter,
+    id_ivThQuarter,
+) => {
+
+    return api.post(`allTheBulletins-grades`, {
+        idClass,
+        id_iStQuarter,
+        id_iiNdQuarter,
+        id_iiiRdQuarter,
+        id_ivThQuarter,
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
 export const updateGrade = async (
     update_id_grade,
     update_studentGrade

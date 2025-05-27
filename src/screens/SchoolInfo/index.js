@@ -41,6 +41,7 @@ const SchoolInformation = () => {
             const res = await indexSchool(id)
             console.log("res info schools", res.data.data)
             setSchool(res.data.data)
+            sessionStorage.setItem("School", res.data.data.name)
             setLoading(false);
         })()
 

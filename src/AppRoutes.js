@@ -121,6 +121,8 @@ import IIIRdNumericalGradeCard from "./screens/III-RdNumericalGradeCard"
 import IVThNumericalGradeCard from "./screens/IV-ThNumericalGradeCard"
 import FinalNumericalGradescard from "./screens/FinalNumericalGradescard"
 
+import AllTheBulletinsGrades from "./screens/AllTheBulletinsGrades"
+
 import IStQuarterReportCard from "./screens/I-StQuarterReportCard"
 import IINdQuarterReportCard from "./screens/II-NdQuarterReportCard"
 import IIIRdQuarterReportCard from "./screens/III-RdQuarterReportCard"
@@ -607,6 +609,11 @@ const AppRoutes = () => {
                     <Route exact path="/final-concepts-report-card" element={
                         <Private>
                             <FinalConceptscard />
+                        </Private>
+                    } />
+                    <Route exact path="/allTheBulletins-grades/:idClass" element={
+                        <Private>
+                            <AllTheBulletinsGrades />
                         </Private>
                     } />
 

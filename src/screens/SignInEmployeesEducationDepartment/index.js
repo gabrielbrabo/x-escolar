@@ -98,7 +98,7 @@ const SignInEmployee = () => {
                         Acessar Instituição de Ensino
                     </AccessTopButton>
 
-                    <h1>Login SEMEDE</h1>
+                    <h1>Login SEMED</h1>
                     <InputArea onSubmit={SignClick}>
                         <>CPF</>
                         <Area>
