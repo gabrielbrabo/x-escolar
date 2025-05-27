@@ -203,9 +203,9 @@ const Cla$$Info = () => {
         setLoading(false);
     }
     
-    const PrintableAllTheBulletinsGrades = async () => {        
+   /* const PrintableAllTheBulletinsGrades = async () => {        
         navigate(`/allTheBulletins-grades/${id_class}`)
-    }
+    }*/
 
     console.log("student", stdt)
     //console.log("employee", employee)
