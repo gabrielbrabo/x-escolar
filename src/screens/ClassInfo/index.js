@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { clssInfo } from '../../Api'
+import {
+    clssInfo,
+    getIstQuarter,
+    getIIndQuarter,
+    getIIIrdQuarter,
+    getIVthQuarter,
+    getVthQuarter,
+    getVIthQuarter,
+} from '../../Api'
 
 import {
     Container,
@@ -17,7 +25,13 @@ import {
     DivButtomEdit,
     ProfileInfo,
     Btt02,
-    AddImpre
+    AddImpre,
+    Input,
+    Label,
+    Select,
+    ButtonContainer,
+    ContainerModal,
+    ModalContent,
     //DivShowMatter,
     //ButtonCancel,
     //Btt01
@@ -34,6 +48,7 @@ const Cla$$Info = () => {
     //const [year, setYear] = useState([])
     const [clss, setClss] = useState([])
     const [positionAtEducationDepartment, setPositionAtEducationDepartment] = useState('')
+    const [assessmentFormat, setassessmentFormat] = useState('');
     const [yearclss, setyearclss] = useState('')
     const [classRegentEmployee, setclassRegentEmployee] = useState([])
     const [classRegentEmployee02, setclassRegentEmployee02] = useState([])
@@ -46,6 +61,13 @@ const Cla$$Info = () => {
     const [nameSchool, setnameSchool] = useState([])
 
     const [stdt, setStdt] = useState([])
+
+    const [bimonthly, setBimonthly] = useState([]);
+
+    //const [Selectbimonthly, setSelectbimonthly] = useState();
+
+    const [AllBimBull, setBimAllBull] = useState(false);
+
     const [loading, setLoading] = useState(false);
     //const [showStudent, setShowStudent] = useState(false);
     //const [showTeacher, setShowTeacher] = useState(false);
@@ -57,6 +79,9 @@ const Cla$$Info = () => {
         (async () => {
             setLoading(true);
             console.log('useParamsClass', id_class)
+            const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
+            setassessmentFormat($assessmentFormat)
+            const idSchool = sessionStorage.getItem("id-school");
             const nameSchool = sessionStorage.getItem('School')
             const positionAtEducationDepartment = localStorage.getItem("positionAtEducationDepartment")
             setnameSchool(nameSchool)
@@ -123,11 +148,29 @@ const Cla$$Info = () => {
             //setMatter(matter)
             console.log("classRegentEmployee", classRegentEmployee)
             console.log("physicalEducationTeacher", physicalEducationTeacher)
+
+            const year = new Date().getFullYear();
+            const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
+            const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
+            const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
+            const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
+            const VthQuarter = await getVthQuarter(year, JSON.parse(idSchool))
+            const VIthQuarter = await getVIthQuarter(year, JSON.parse(idSchool))
+
+            const i = IstQuarter.data.data.find(res => res) || null;
+            const ii = IIndQuarter.data.data.find(res => res) || null;
+            const iii = IIIrdQuarter.data.data.find(res => res) || null;
+            const iv = IVthQuarter.data.data.find(res => res) || null;
+            const v = VthQuarter.data.data.find(res => res) || null;
+            const vi = VIthQuarter.data.data.find(res => res) || null;
+
+            setBimonthly([i, ii, iii, iv, v, vi].filter(res => res !== null));
+
             //console.log("matter", matter)
             setLoading(false);
         })()
 
-    }, [id_class])
+    }, [id_class,])
 
 
     console.log("studentTransfer", studentTransfer)
@@ -141,7 +184,7 @@ const Cla$$Info = () => {
         sessionStorage.setItem("idClassTransfer", id_class)
         navigate('/reassign-student')
     }
-    
+
     const TransferStdt = async () => {
         //sessionStorage.setItem("idClassTransfer", id_class)
         navigate('/transfer-student')
@@ -202,10 +245,34 @@ const Cla$$Info = () => {
         });
         setLoading(false);
     }
-    
-   /* const PrintableAllTheBulletinsGrades = async () => {        
-        navigate(`/allTheBulletins-grades/${id_class}`)
-    }*/
+
+    const PrintableAllTheBulletinsGrades = async () => {
+        setBimAllBull(true)
+    }
+
+    const handleBimonthlyChange = (e) => {
+
+        const selectedBimonthly = JSON.parse(e.target.value);
+        const idBim = selectedBimonthly._id
+        console.log("selectedBimonthly", selectedBimonthly)
+        console.log("assessmentFormat", assessmentFormat)
+
+        if (assessmentFormat === 'grade') {
+            if (selectedBimonthly.bimonthly === "1º BIMESTRE") {
+                navigate(`/Ist-allTheBulletins-grades/${id_class}/${idBim}`)
+            }
+            if (selectedBimonthly.bimonthly === "2º BIMESTRE") {
+                navigate(`/IInd-allTheBulletins-grades/${id_class}/${idBim}`)
+            }
+            if (selectedBimonthly.bimonthly === "3º BIMESTRE") {
+                navigate(`/IIIrd-allTheBulletins-grades/${id_class}/${idBim}`)
+            }
+        }
+
+        if (assessmentFormat === 'concept') {
+            alert("Ainda em desenvolvimento!!!")
+        }
+    };
 
     console.log("student", stdt)
     //console.log("employee", employee)
@@ -411,9 +478,9 @@ const Cla$$Info = () => {
                                 <AddImpre>
                                     <p onClick={PrintableAttendanceSheet}>Imprimir Lista de alunos</p>
                                 </AddImpre>
-                                {/*<AddImpre>
+                                <AddImpre>
                                     <p onClick={PrintableAllTheBulletinsGrades}>Emitir boletins da turma</p>
-                                </AddImpre>*/}
+                                </AddImpre>
                                 <p>Total de Alunos: {stdt.length}</p>
                                 {studentTransferMap.length > 0 && <p>Total de Alunos Transferidos: {studentTransferMap.length}</p>}
                                 {/*!showStudent &&
@@ -507,12 +574,41 @@ const Cla$$Info = () => {
                             </DivInfo>
                     }
 
+                    {AllBimBull && (
+                        <ContainerModal>
+                            <ModalContent>
+                                <h2>Selecione o Bimestre</h2>
+                                <Input>
+                                    <Label>Bimestres</Label>
+                                    <Select
+                                        id="id-bimonthly"
+                                        //value={Selectbimonthly ? JSON.stringify(Selectbimonthly) : ""}
+                                        onChange={handleBimonthlyChange}
+                                    >
+                                        <option value="">Selecione</option>
+                                        {bimonthly.map(res => (
+                                            <option
+                                                key={res._id}
+                                                value={JSON.stringify({ _id: res._id, bimonthly: res.bimonthly })}
+                                            >
+                                                {res.bimonthly}
+                                            </option>
+                                        ))}
+                                    </Select>
+                                    <ButtonContainer>
+                                        <button onClick={() => setBimAllBull(false)}>Cancelar</button>
+                                    </ButtonContainer>
+                                </Input>
+                            </ModalContent>
+                        </ContainerModal>
+                    )}
+
                     {/* <ButtonCancel>
                         <Btt01 >Remover Turma</Btt01>
                     </ButtonCancel>*/}
                 </ContainerDivs>
             }
-        </Container>
+        </Container >
     )
 }
 

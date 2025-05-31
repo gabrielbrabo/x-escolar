@@ -2,10 +2,7 @@ import React, { useState, useEffect, } from 'react';
 import {
   Container,
   ContainerDivs,
-  InputArea,
-  Input,
   Label,
-  Select,
   DivAddEmp,
   AddEmp,
   DadosStdt,
@@ -25,18 +22,17 @@ import {
   DivNameMatter,
   SpanNameMatter,
   Grade,
+  PrintButton,
   SignMessageButtonText,
   SignMessageButtonTextBold
 } from './style';
 
+
+import GlobalStyle from './style';
+
 import {
+  allTheBulletinsGrades,
   getIstQuarter,
-  getIIndQuarter,
-  getIIIrdQuarter,
-  getIVthQuarter,
-  getVthQuarter,
-  getVIthQuarter,
-  allTheBulletinsGrades
 } from '../../Api';
 
 //import GlobalStyle from './style';
@@ -52,9 +48,9 @@ import LoadingSpinner from '../../components/Loading';
 const AllTheBulletins = () => {
 
   const navigate = useNavigate()
-  const [Selectbimonthly, setSelectbimonthly] = useState();
   const [bimestre, setBimestre] = useState({});
-  const [bimonthly, setBimonthly] = useState([]);
+  const [Istbimonthly, setIstBimonthly] = useState([]);
+  const [BulletinsIst, setBulletinsIst] = useState([]);
   const [Bulletins, setBulletins] = useState([]);
   const [cla$$, setClass] = useState([]);
   const [teacher, setTeacher] = useState([]);
@@ -62,139 +58,94 @@ const AllTheBulletins = () => {
   const [loading, setLoading] = useState(true);
 
   const { idClass } = useParams();
+  const { idBim } = useParams();
 
   useEffect(() => {
     (async () => {
       setLoading(true);
+      console.log("idClass", idClass, "idBim", idBim)
       const idSchool = sessionStorage.getItem("id-school");
       const nameSchool = sessionStorage.getItem("School");
       setNameSchool(nameSchool)
+      const res = await allTheBulletinsGrades({
+        idClass,
+        id_iiNdQuarter: idBim,
+      });
+      console.log("resposta boletins", res);
+      // Aqui você pode setar os dados no estado, se quiser
+      setBulletins(res.data.data.boletins);
+      setClass(res.data.data.turma);
+      setBimestre(res.data.data.bimestre);
+
+      const regentTeachers = res.data.data.turma.regente;
+
+      if (regentTeachers.length > 0) {
+        setTeacher(regentTeachers[0]); // Se quiser só o primeiro
+        // OU
+        // setTeacher(regentTeachers); // Se quiser todos em um array
+      } else {
+        setTeacher(null);
+      }
+
       const year = new Date().getFullYear();
       const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
-      const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
-      const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
-      const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
-      const VthQuarter = await getVthQuarter(year, JSON.parse(idSchool))
-      const VIthQuarter = await getVIthQuarter(year, JSON.parse(idSchool))
-
       const i = IstQuarter.data.data.find(res => res) || null;
-      const ii = IIndQuarter.data.data.find(res => res) || null;
-      const iii = IIIrdQuarter.data.data.find(res => res) || null;
-      const iv = IVthQuarter.data.data.find(res => res) || null;
-      const v = VthQuarter.data.data.find(res => res) || null;
-      const vi = VIthQuarter.data.data.find(res => res) || null;
+      setIstBimonthly([i].filter(res => res !== null));
 
-      setBimonthly([i, ii, iii, iv, v, vi].filter(res => res !== null));
+      const resIst = await allTheBulletinsGrades({
+        idClass,
+        id_iStQuarter: i._id,
+      });
+
+      setBulletinsIst(resIst.data.data.boletins);
+
+      console.log("resIst", resIst)
 
       setLoading(false);
     })();
 
-  }, []);
-
-  useEffect(() => {
-    const fetchBulletins = async () => {
-      setLoading(true);
-
-      if (Selectbimonthly) {
-        console.log("Bimestre selecionado:", Selectbimonthly);
-
-        const bimestreMapping = {
-          "1º BIMESTRE": "id_iStQuarter",
-          "2º BIMESTRE": "id_iiNdQuarter",
-          "3º BIMESTRE": "id_iiiRdQuarter",
-          "4º BIMESTRE": "id_ivThQuarter",
-          "5º BIMESTRE": "id_vThQuarter",
-          "6º BIMESTRE": "id_viThQuarter",
-        };
-
-        const quarterIdKey = bimestreMapping[Selectbimonthly.bimonthly];
-
-        console.log('quarterIdKey', quarterIdKey);
-        console.log('Selectbimonthly', Selectbimonthly);
-
-        if (quarterIdKey) {
-          const idQuarter = Selectbimonthly._id;
-          try {
-            const res = await allTheBulletinsGrades({
-              idClass,
-              [quarterIdKey]: idQuarter,
-            });
-            console.log("resposta boletins", res);
-            // Aqui você pode setar os dados no estado, se quiser
-            setBulletins(res.data.data.boletins);
-            setClass(res.data.data.turma);
-            setBimestre(res.data.data.bimestre);
-
-            const regentTeachers = res.data.data.turma.regente;
-
-            if (regentTeachers.length > 0) {
-              setTeacher(regentTeachers[0]); // Se quiser só o primeiro
-              // OU
-              // setTeacher(regentTeachers); // Se quiser todos em um array
-            } else {
-              setTeacher(null);
-            }
-          } catch (error) {
-            console.error("Erro ao buscar boletins:", error);
-          }
-        }
-      }
-
-      setLoading(false);
-    };
-
-    fetchBulletins();
-  }, [Selectbimonthly, idClass]);
+  }, [idBim, idClass]);
 
   const messageButtonClick = () => {
     navigate(-1);
   };
 
-  const handleBimonthlyChange = (e) => {
-    const selectedBimonthly = JSON.parse(e.target.value);
-    setSelectbimonthly(selectedBimonthly);
+  const handlePrint = () => {
+    window.print();
   };
 
   console.log("Bulletins", Bulletins)
+  console.log("BulletinsIst", BulletinsIst)
   console.log("cla$$", cla$$)
   console.log("teacher", teacher)
+  console.log("bimonthly", Istbimonthly)
 
   return (
     <Container>
-      {/*<GlobalStyle />*/} {/* Adicionando estilos globais */}
+      {<GlobalStyle />}
       {loading ? (
         <LoadingSpinner />
       ) : (
         <>
           <ContainerDivs>
-            <InputArea>
-              {!Selectbimonthly && (
-                <>
-                  <h2>Selecione o Bimestre</h2>
-                  <Input>
-                    <Label>Bimestres</Label>
-                    <Select
-                      id="id-bimonthly"
-                      value={Selectbimonthly ? JSON.stringify(Selectbimonthly) : ""}
-                      onChange={handleBimonthlyChange}
-                    >
-                      <option value="">Selecione</option>
-                      {bimonthly.map(res => (
-                        <option key={res._id} value={JSON.stringify({ _id: res._id, bimonthly: res.bimonthly, })}>
-                          {res.bimonthly}
-                        </option>
-                      ))}
-                    </Select>
-                  </Input>
-                </>
-              )}
-              {
-                Selectbimonthly &&
-                Bulletins.map((aluno, index) => (
-                  <DivAddEmp key={aluno.id || index}>
+            <PrintButton className="no-print" onClick={handlePrint}>
+              Imprimir
+            </PrintButton>
+            {Bulletins
+              .slice()
+              .sort((a, b) => a.nome.localeCompare(b.nome))
+              .map((aluno, index) => {
+                const alunoIst = BulletinsIst.find(item => item.id === aluno.id);
+                const bim1 = Istbimonthly.find(item => item.bimonthly === "1º BIMESTRE");
+
+                console.log('bim1 averageGrade:', bim1?.averageGrade);
+                console.log('bim1 totalGrade:', bim1?.totalGrade);
+
+                return (
+                  <DivAddEmp id="containerDivs" key={aluno.id || index}>
                     <h2>Boletim</h2>
                     <AddEmp>
-                      <h3>1º Bimestre</h3>
+                      <h3>2º Bimestre</h3>
                     </AddEmp>
                     <DadosStdt>
                       <span><strong>Escola:</strong> {nameSchool}</span>
@@ -224,7 +175,6 @@ const AllTheBulletins = () => {
                           </strong>
                         </p>
                       </LegendBox>
-
                     </DadosStdt>
 
                     <DivDados>
@@ -245,17 +195,32 @@ const AllTheBulletins = () => {
                                   <DivBimRow>
                                     <DivBimHeader>1º Bim</DivBimHeader>
                                     <DivBimCell
-                                      grade={parseFloat(grd.grade) || 0}
-                                     averageGrade={parseFloat(bimestre.averageGrade) || 0}
-                                     totalGrade={parseFloat(bimestre.totalGrade) || 0}
+                                      grade={
+                                        alunoIst && alunoIst.totalPorMateria && alunoIst.totalPorMateria[grd.matterName] !== undefined
+                                          ? parseFloat(alunoIst.totalPorMateria[grd.matterName])
+                                          : 0
+                                      }
+                                      averageGrade={bim1 ? parseFloat(bim1.averageGrade) : 0}
+                                      totalGrade={bim1 ? parseFloat(bim1.totalGrade) : 0}
                                     >
-                                      {parseFloat(grd.grade).toFixed(1)}
+                                      {(() => {
+                                        const val = alunoIst && alunoIst.totalPorMateria && alunoIst.totalPorMateria[grd.matterName] !== undefined
+                                          ? parseFloat(alunoIst.totalPorMateria[grd.matterName]).toFixed(1)
+                                          : '-';
+                                        return val;
+                                      })()}
                                     </DivBimCell>
                                   </DivBimRow>
 
                                   <DivBimRow>
                                     <DivBimHeader>2º Bim</DivBimHeader>
-                                    <DivBimCell>-</DivBimCell>
+                                    <DivBimCell
+                                      grade={parseFloat(grd.grade) || 0}
+                                      averageGrade={parseFloat(bimestre.averageGrade) || 0}
+                                      totalGrade={parseFloat(bimestre.totalGrade) || 0}
+                                    >
+                                      {parseFloat(grd.grade).toFixed(1)}
+                                    </DivBimCell>
                                   </DivBimRow>
 
                                   <DivBimRow>
@@ -272,7 +237,6 @@ const AllTheBulletins = () => {
                             </Emp>
                           ))}
                       </List>
-
                     </DivDados>
 
                     <DivSignatureArea>
@@ -287,9 +251,8 @@ const AllTheBulletins = () => {
                       </SignatureBlock>
                     </DivSignatureArea>
                   </DivAddEmp>
-                ))
-              }
-            </InputArea>
+                );
+              })}
           </ContainerDivs>
           <ToGoBack onClick={messageButtonClick}>
             <SignMessageButtonText>Voltar para a</SignMessageButtonText>
@@ -298,7 +261,8 @@ const AllTheBulletins = () => {
         </>
       )}
     </Container>
-  )
+  );
+
 }
 
 export default AllTheBulletins

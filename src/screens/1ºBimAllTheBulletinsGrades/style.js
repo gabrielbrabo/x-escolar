@@ -1,5 +1,5 @@
 import styled from "styled-components";
-//import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
@@ -123,6 +123,14 @@ export const DivAddEmp = styled.div`
     font-size: 2em;
     color: #333;
     margin-bottom: 20px;
+  }
+
+  break-after: page;
+  page-break-after: always;
+
+  &:last-child {
+    break-after: auto;
+    page-break-after: auto;
   }
 `;
 
@@ -372,3 +380,154 @@ export const Grade = styled.div`
     justify-content: center;
   }
 `;
+
+export const PrintButton = styled.button`
+  display: flex;
+  left: 70%;
+  position: absolute;
+  color: white;
+  background-color: #4caf50;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  &:hover {
+    background-color: #45a049;
+  }
+  @media (max-width: 768px) {
+    padding: 8px 16px;
+  }
+`;
+
+export const SpanTotalGrade = styled.span`
+  color: #28a745;
+`;
+
+export const SpanAverageGrade = styled.span`
+  color: #007bff;
+`;
+
+export const SpanGradeStudent = styled.span`
+  color: ${props => {
+    return props.grade === 'A' ? '#1d7f14' :
+      props.grade === 'B' ? 'blue' :
+        props.grade === 'C' ? 'orange' : 'black';
+  }};
+  font-weight: bold;
+`;
+
+const GlobalStyle = createGlobalStyle`
+  @media print {
+    body * {
+      visibility: hidden; /* Oculta todos os elementos da página */
+      margin: 0;
+      padding: 0;
+    }
+
+    #containerDivs, #containerDivs * {
+      visibility: visible; /* Mostra apenas o conteúdo de DivAddEmp */
+    }
+    ${ContainerDivs} {
+      //display: flex;
+      justify-content: center;
+      padding-top: 0;
+    }
+
+    #containerDivs {
+      //position: absolute;
+      width: 100%; /* Certifique-se de que ocupa toda a largura */
+      height: auto; /* Permite o ajuste automático da altura */
+      box-sizing: border-box; /* Inclui o padding e a borda na largura total */
+    }
+
+    ${SpanFrequency} {
+      visibility: visible;
+      width: 90%;
+      height: 0px;
+      display: flex;
+      justify-content: center;
+      position: absolute;
+      
+      margin-left: 250px;
+
+      color: #000; /* Ajuste a cor se necessário */
+    }
+    ${AddEmp} {
+      margin-bottom: 50px;
+    }
+    ${LegendBox} {
+      padding-left: 15px;
+      padding-right: 15px;
+      padding-bottom: 5px;
+      h3 {
+        font-size: 1em;
+      }
+      p {
+        font-size: 0.9em;
+      }
+
+    }
+    
+    @page {
+      size: A4; /* Define o tamanho do papel */
+      margin: 10mm; /* Ajuste as margens conforme necessário */
+    }
+
+    .no-print {
+      display: none; /* Ocultar botões ou elementos com a classe no-print */
+    }
+
+    h2, h3 {
+      font-size: 1.5em; /* Ajuste os tamanhos de fonte para impressão */
+    }
+
+    span {
+      font-size: 0.8em;
+    }
+
+    ${List} {
+      padding: 0;
+    }
+
+    ${Emp} {
+      display: flex !important;
+      justify-content: space-between;
+      flex-direction: row !important;
+      //width: 100%;
+      padding: 5px;
+    }
+
+
+    ${Grade} {
+      display: flex;
+      margin: 0;
+      padding: 0;
+      //width: 80%;
+      justify-content: flex-start;
+    }
+    
+   ${DivNameMatter} {
+      margin: 0;
+      padding: 0;
+      height: 0px;
+    }
+
+    ${DivBimHeader} {
+      font-size: 0.7em;
+    }
+    
+    ${DivBimCell} {
+      font-size: 0.7em;
+    }
+
+    ${SpanNameMatter} { /* Ajuste a margem inferior para evitar quebra de página */
+      font-size: 0.8em;
+    }
+
+    /*${SpanTotalGrade}, ${SpanAverageGrade}, ${SpanGradeStudent} {
+      font-size: 0.5em; 
+    }*/
+  }
+`;
+
+export default GlobalStyle;

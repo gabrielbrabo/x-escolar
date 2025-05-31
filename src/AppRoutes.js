@@ -121,7 +121,9 @@ import IIIRdNumericalGradeCard from "./screens/III-RdNumericalGradeCard"
 import IVThNumericalGradeCard from "./screens/IV-ThNumericalGradeCard"
 import FinalNumericalGradescard from "./screens/FinalNumericalGradescard"
 
-import AllTheBulletinsGrades from "./screens/AllTheBulletinsGrades"
+import IstBimAllTheBulletinsGrades from "./screens/1ºBimAllTheBulletinsGrades"
+import IIndBimAllTheBulletinsGrades from "./screens/2ºBimAllTheBulletinsGrades"
+import IIIrdBimAllTheBulletinsGrades from "./screens/3ºBimAllTheBulletinsGrades"
 
 import IStQuarterReportCard from "./screens/I-StQuarterReportCard"
 import IINdQuarterReportCard from "./screens/II-NdQuarterReportCard"
@@ -611,9 +613,20 @@ const AppRoutes = () => {
                             <FinalConceptscard />
                         </Private>
                     } />
-                    <Route exact path="/allTheBulletins-grades/:idClass" element={
+
+                    <Route exact path="/Ist-allTheBulletins-grades/:idClass/:idBim" element={
                         <Private>
-                            <AllTheBulletinsGrades />
+                            <IstBimAllTheBulletinsGrades />
+                        </Private>
+                    } />
+                    <Route exact path="/IInd-allTheBulletins-grades/:idClass/:idBim" element={
+                        <Private>
+                            <IIndBimAllTheBulletinsGrades />
+                        </Private>
+                    } />
+                    <Route exact path="/IIIrd-allTheBulletins-grades/:idClass/:idBim" element={
+                        <Private>
+                            <IIIrdBimAllTheBulletinsGrades />
                         </Private>
                     } />
 
