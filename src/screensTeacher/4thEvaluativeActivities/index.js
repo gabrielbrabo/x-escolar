@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { clssInfo, getIIIrdQuarter, GetActivity, updateAvaliacao, createActivity, DestroyActivity } from '../../Api'
+import { clssInfo, getIVthQuarter, GetActivity, updateAvaliacao, createActivity, DestroyActivity } from '../../Api'
 
 import {
     Container,
@@ -61,7 +61,7 @@ const IndexAttendance = () => {
     const [id_matter, setMatter] = useState('');
     const [id_class, setId_class] = useState([])
     //const [studentGrade, setStudentGrade] = useState([]);
-    const [id_iiiRdQuarter, setId_iiiRdQuarter] = useState('');
+    const [id_ivThQuarter, setId_ivThQuarter] = useState('');
     //const [stdt, setStdt] = useState([])
     const [checked, setChecked] = useState([])
     const [id_teacher, setId_teacher] = useState([])
@@ -105,8 +105,8 @@ const IndexAttendance = () => {
             setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
             // setphysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
 
-            const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
-            const open = await IIIrdQuarter.data.data.map(res => {
+            const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
+            const open = await IVthQuarter.data.data.map(res => {
                 return res.statusSupervisor
 
             }).find(res => {
@@ -117,7 +117,7 @@ const IndexAttendance = () => {
 
             const id_teacher = localStorage.getItem("Id_employee");
             const currentYear = sessionStorage.getItem("yearGrade");
-            const id_bimonthly = sessionStorage.getItem("id-III")
+            const id_bimonthly = sessionStorage.getItem("id-IV")
             const nameMatter = sessionStorage.getItem("nameMatter")
             const id_mttr = sessionStorage.getItem("Selectmatter")
             const id_class = sessionStorage.getItem("class-info")
@@ -125,16 +125,16 @@ const IndexAttendance = () => {
 
             setMatter(id_mttr)
             setYear(currentYear)
-            setId_iiiRdQuarter(id_bimonthly)
+            setId_ivThQuarter(id_bimonthly)
 
-            const bim = await IIIrdQuarter.data.data.map(res => {
+            const bim = await IVthQuarter.data.data.map(res => {
                 return res.bimonthly
 
             })
-            const tg = await IIIrdQuarter.data.data.map(res => {
+            const tg = await IVthQuarter.data.data.map(res => {
                 return res.totalGrade
             })
-            const ag = await IIIrdQuarter.data.data.map(res => {
+            const ag = await IVthQuarter.data.data.map(res => {
                 return res.averageGrade
             })
 
@@ -157,7 +157,7 @@ const IndexAttendance = () => {
     }, [year, averageGrade, totalGrade,])
 
     useEffect(() => {
-        if (id_matter && year && id_iiiRdQuarter && id_class) {
+        if (id_matter && year && id_ivThQuarter && id_class) {
             setTimeout(() => setLoading(true), 0); // Força atualização no próximo ciclo de renderização
 
             const fetchActivities = async () => {
@@ -188,7 +188,7 @@ const IndexAttendance = () => {
         }
 
         //setLoading(false);
-    }, [id_matter, year, id_iiiRdQuarter, id_class, bimonthly]);
+    }, [id_matter, year, id_ivThQuarter, id_class, bimonthly]);
 
 
     console.log("checked", checked)
@@ -289,7 +289,7 @@ const IndexAttendance = () => {
                         id_teacher: RegentTeacher,
                         id_matter,
                         id_class,
-                        [quarterIdKey]: id_iiiRdQuarter
+                        [quarterIdKey]: id_ivThQuarter
                     });
                     console.log("res creatActivit", res)
                     if (res) {
@@ -311,7 +311,7 @@ const IndexAttendance = () => {
                         id_teacher,
                         id_matter,
                         id_class,
-                        [quarterIdKey]: id_iiiRdQuarter
+                        [quarterIdKey]: id_ivThQuarter
                     });
                     if (res) {
                         sessionStorage.setItem('id-activity', res.data.activity._id)
@@ -365,7 +365,7 @@ const IndexAttendance = () => {
                             <DataSelected>
                                 <SlActionUndo fontSize={'30px'} onClick={Return} />
                                 <Info>
-                                    <p>Bimestre: 3º Bimestre</p>
+                                    <p>Bimestre: 4º Bimestre</p>
                                     <p>Disciplina: {Namematter}</p>
                                 </Info>
                                 <LegendBox>

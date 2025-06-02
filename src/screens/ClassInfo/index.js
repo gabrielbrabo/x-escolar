@@ -267,6 +267,9 @@ const Cla$$Info = () => {
             if (selectedBimonthly.bimonthly === "3º BIMESTRE") {
                 navigate(`/IIIrd-allTheBulletins-grades/${id_class}/${idBim}`)
             }
+            if (selectedBimonthly.bimonthly === "4º BIMESTRE") {
+                navigate(`/IVth-allTheBulletins-grades/${id_class}/${idBim}`)
+            }
         }
 
         if (assessmentFormat === 'concept') {

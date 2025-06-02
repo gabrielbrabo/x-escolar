@@ -68,6 +68,9 @@ export const DivDados = styled.div`
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
+  border-bottom: 1px solid #6a0dad;
+  border-top: 1px solid #6a0dad;
+
   @media (max-width: 768px) {
     padding: 0px;
   }
@@ -92,7 +95,7 @@ export const Emp = styled.div`
   //align-items: center;
   justify-content: space-around;
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #6a0dad;
   font-size: 1.2em;
 
   &:last-child {
@@ -138,7 +141,7 @@ export const Grade = styled.div`
 export const DadosStdt = styled.div`
   display: flex;
   padding: 10px;
-  gap: 5px;
+  gap: 10px;
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
@@ -187,8 +190,11 @@ export const SpanFrequency = styled.div`
   width: 80%;
   height: 0px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   position: absolute;
+  gap: 10px;
+  margin-top: 30px;
 
   @media (max-width: 768px) {
     height: 15px;
@@ -357,10 +363,15 @@ const GlobalStyle = createGlobalStyle`
       width: 90%;
       height: 0px;
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       position: absolute;
+      
+      margin-left: 250px;
 
       color: #000; /* Ajuste a cor se necessário */
+    }
+    ${AddEmp} {
+      margin-bottom: 50px;
     }
     ${LegendBox} {
       padding-left: 15px;
@@ -435,6 +446,34 @@ const GlobalStyle = createGlobalStyle`
       font-size: 0.5em; /* Ajuste os tamanhos de fonte para impressão */
     }
   }
+`;
+
+export const DivSignatureArea = styled.div`
+  display: none;
+
+  @media print {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 60px;
+    padding: 20px;
+  }
+`;
+
+export const SignatureBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const Line = styled.div`
+  width: 200px;
+  border-bottom: 1px solid #000;
+  margin-bottom: 8px;
+`;
+
+export const Label = styled.span`
+  font-size: 14px;
+  color: #000;
 `;
 
 

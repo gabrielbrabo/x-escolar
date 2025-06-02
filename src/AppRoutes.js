@@ -100,6 +100,7 @@ import Grade from "./screensTeacher/Grade"
 import IstEvaluativeActivities from "./screensTeacher/1stEvaluativeActivities"
 import IIndEvaluativeActivities from "./screensTeacher/2ndEvaluativeActivities"
 import IIIrdEvaluativeActivities from "./screensTeacher/3rdEvaluativeActivities"
+import IVthEvaluativeActivities from "./screensTeacher/4thEvaluativeActivities"
 
 import IstQuarterGrade from "./screensTeacher/1stQuarterGrade"
 import IIndQuarterGrade from "./screensTeacher/2ndQuarterGrade"
@@ -124,6 +125,7 @@ import FinalNumericalGradescard from "./screens/FinalNumericalGradescard"
 import IstBimAllTheBulletinsGrades from "./screens/1ºBimAllTheBulletinsGrades"
 import IIndBimAllTheBulletinsGrades from "./screens/2ºBimAllTheBulletinsGrades"
 import IIIrdBimAllTheBulletinsGrades from "./screens/3ºBimAllTheBulletinsGrades"
+import IVthBimAllTheBulletinsGrades from "./screens/4ºBimAllTheBulletinsGrades"
 
 import IstBimAllTheBulletinsConcept from "./screens/1ºBimAllTheBulletinsConcept"
 import IIndBimAllTheBulletinsConcept from "./screens/2ºBimAllTheBulletinsConcept"
@@ -498,6 +500,11 @@ const AppRoutes = () => {
                             <IIIrdEvaluativeActivities />
                         </Private>
                     } />
+                    <Route exact path="/$$$$th-activities" element={
+                        <Private>
+                            <IVthEvaluativeActivities />
+                        </Private>
+                    } />
                     
                     <Route exact path="/$num-quarter-grade" element={
                         <Private>
@@ -632,6 +639,11 @@ const AppRoutes = () => {
                     <Route exact path="/IIIrd-allTheBulletins-grades/:idClass/:idBim" element={
                         <Private>
                             <IIIrdBimAllTheBulletinsGrades />
+                        </Private>
+                    } />
+                    <Route exact path="/IVth-allTheBulletins-grades/:idClass/:idBim" element={
+                        <Private>
+                            <IVthBimAllTheBulletinsGrades />
                         </Private>
                     } />
                     
