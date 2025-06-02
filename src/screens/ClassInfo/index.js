@@ -270,7 +270,18 @@ const Cla$$Info = () => {
         }
 
         if (assessmentFormat === 'concept') {
-            alert("Ainda em desenvolvimento!!!")
+            if (selectedBimonthly.bimonthly === "1º BIMESTRE") {
+                navigate(`/Ist-allTheBulletins-concept/${id_class}/${idBim}`)
+            }
+            if (selectedBimonthly.bimonthly === "2º BIMESTRE") {
+                navigate(`/IInd-allTheBulletins-concept/${id_class}/${idBim}`)
+            }
+            if (selectedBimonthly.bimonthly === "3º BIMESTRE") {
+                navigate(`/IIIrd-allTheBulletins-concept/${id_class}/${idBim}`)
+            }
+            if (selectedBimonthly.bimonthly === "4º BIMESTRE") {
+                navigate(`/IVth-allTheBulletins-concept/${id_class}/${idBim}`)
+            }
         }
     };
 

@@ -125,6 +125,11 @@ import IstBimAllTheBulletinsGrades from "./screens/1ºBimAllTheBulletinsGrades"
 import IIndBimAllTheBulletinsGrades from "./screens/2ºBimAllTheBulletinsGrades"
 import IIIrdBimAllTheBulletinsGrades from "./screens/3ºBimAllTheBulletinsGrades"
 
+import IstBimAllTheBulletinsConcept from "./screens/1ºBimAllTheBulletinsConcept"
+import IIndBimAllTheBulletinsConcept from "./screens/2ºBimAllTheBulletinsConcept"
+import IIIrdBimAllTheBulletinsConcept from "./screens/3ºBimAllTheBulletinsConcept"
+import IVthBimAllTheBulletinsConcept from "./screens/4ºBimAllTheBulletinsConcept"
+
 import IStQuarterReportCard from "./screens/I-StQuarterReportCard"
 import IINdQuarterReportCard from "./screens/II-NdQuarterReportCard"
 import IIIRdQuarterReportCard from "./screens/III-RdQuarterReportCard"
@@ -627,6 +632,27 @@ const AppRoutes = () => {
                     <Route exact path="/IIIrd-allTheBulletins-grades/:idClass/:idBim" element={
                         <Private>
                             <IIIrdBimAllTheBulletinsGrades />
+                        </Private>
+                    } />
+                    
+                    <Route exact path="/Ist-allTheBulletins-concept/:idClass/:idBim" element={
+                        <Private>
+                            <IstBimAllTheBulletinsConcept/>
+                        </Private>
+                    } />
+                    <Route exact path="/IInd-allTheBulletins-concept/:idClass/:idBim" element={
+                        <Private>
+                            <IIndBimAllTheBulletinsConcept/>
+                        </Private>
+                    } />
+                    <Route exact path="/IIIrd-allTheBulletins-concept/:idClass/:idBim" element={
+                        <Private>
+                            <IIIrdBimAllTheBulletinsConcept/>
+                        </Private>
+                    } />
+                    <Route exact path="/IVth-allTheBulletins-concept/:idClass/:idBim" element={
+                        <Private>
+                            <IVthBimAllTheBulletinsConcept/>
                         </Private>
                     } />
 
