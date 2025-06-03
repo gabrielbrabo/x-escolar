@@ -117,8 +117,7 @@ const FinalConcepts = () => {
             ...allGrades.filter(res => res.id_matter.name === "EDUCAÇÃO FÍSICA"),
           ]
           : allGrades;
-
-        const tchr = sortedResGrade.map(res => res.id_teacher.name);
+        const tchr = sortedResGrade.map(res => res.id_employee.name);
         const firstTeacher = tchr[0];  // Acessa o primeiro elemento
         console.log("firstTeacher", firstTeacher);
         setTeacherName(firstTeacher);  // Define apenas o primeiro elemento
