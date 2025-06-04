@@ -255,12 +255,16 @@ const FinalConcepts = () => {
     }
 
     // Somando as notas, garantindo que sejam números (usando parseFloat)
-    const totalGradeForMatter = parseFloat(grd.studentGrade) || 0;
+    const totalGradeForMatter = parseFloat(
+      grd.studentGrade.toString().replace(',', '.')
+    ) || 0;
 
     // Atualiza a soma das notas para a matéria no acumulador
-    const updatedMatter = acc.find(item => item.id_matter === grd.id_matter._id);
+    const updatedMatter = acc.find(item => item.id_matter === String(grd.id_matter._id));
     if (updatedMatter) {
-      updatedMatter.grade += totalGradeForMatter;
+      updatedMatter.grade = parseFloat(
+        (updatedMatter.grade + totalGradeForMatter).toFixed(2) // Garante duas casas decimais
+      );
     }
 
     return acc;
@@ -280,7 +284,9 @@ const FinalConcepts = () => {
     }
 
     // Somando as notas, garantindo que sejam números (usando parseFloat)
-    const totalGradeForMatter = parseFloat(grd.studentGrade) || 0;
+    const totalGradeForMatter = parseFloat(
+      grd.studentGrade.toString().replace(',', '.')
+    ) || 0;
 
     // Atualiza a soma das notas para a matéria no acumulador
     const updatedMatter = acc.find(item => item.id_matter === grd.id_matter._id);
@@ -305,7 +311,9 @@ const FinalConcepts = () => {
     }
 
     // Somando as notas, garantindo que sejam números (usando parseFloat)
-    const totalGradeForMatter = parseFloat(grd.studentGrade) || 0;
+    const totalGradeForMatter = parseFloat(
+      grd.studentGrade.toString().replace(',', '.')
+    ) || 0;
 
     // Atualiza a soma das notas para a matéria no acumulador
     const updatedMatter = acc.find(item => item.id_matter === grd.id_matter._id);
@@ -330,7 +338,9 @@ const FinalConcepts = () => {
     }
 
     // Somando as notas, garantindo que sejam números (usando parseFloat)
-    const totalGradeForMatter = parseFloat(grd.studentGrade) || 0;
+    const totalGradeForMatter = parseFloat(
+      grd.studentGrade.toString().replace(',', '.')
+    ) || 0;
 
     // Atualiza a soma das notas para a matéria no acumulador
     const updatedMatter = acc.find(item => item.id_matter === grd.id_matter._id);
@@ -395,23 +405,16 @@ const FinalConcepts = () => {
                       return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
                     })
                     .map(grd => {
-                      const gradeIst = parseFloat(
-                        groupedGradesIst.find(res => String(res.id_matter) === String(grd.id_matter))?.grade?.toString().replace(',', '.') || '0'
-                      );
+                      const getGrade = (grouped, id) => {
+                        return grouped.find(res => String(res.id_matter) === String(id))?.grade || 0;
+                      };
 
-                      const gradeIInd = parseFloat(
-                        groupedGradesIInd.find(res => String(res.id_matter) === String(grd.id_matter))?.grade?.toString().replace(',', '.') || '0'
-                      );
+                      const gradeIst = getGrade(groupedGradesIst, grd.id_matter);
+                      const gradeIInd = getGrade(groupedGradesIInd, grd.id_matter);
+                      const gradeIIIrd = getGrade(groupedGradesIIIrd, grd.id_matter);
+                      const gradeIVth = getGrade(groupedGradesIVth, grd.id_matter);
 
-                      const gradeIIIrd = parseFloat(
-                        groupedGradesIIIrd.find(res => String(res.id_matter) === String(grd.id_matter))?.grade?.toString().replace(',', '.') || '0'
-                      );
-
-                      const gradeIVth = parseFloat(
-                        groupedGradesIVth.find(res => String(res.id_matter) === String(grd.id_matter))?.grade?.toString().replace(',', '.') || '0'
-                      );
-
-                      const totalGrade = (gradeIst + gradeIInd + gradeIIIrd + gradeIVth).toFixed(1);
+                      const totalGrade = gradeIst + gradeIInd + gradeIIIrd + gradeIVth;
 
                       return (
                         <Emp key={grd._id}>
