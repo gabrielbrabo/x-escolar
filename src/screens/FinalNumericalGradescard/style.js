@@ -7,7 +7,6 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f0f0f5;
 
   @media (max-width: 768px) {
     padding: 0px;
@@ -34,8 +33,8 @@ export const ContainerDivs = styled.div`
   }
 
   @media (max-width: 768px) {
-    width: 95%;
-    padding: 0;
+    width: 100%;
+    padding: 0px;
     padding-top: 15px;
   }
 `;
@@ -69,6 +68,9 @@ export const DivDados = styled.div`
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
+  border-bottom: 1px solid #6a0dad;
+  border-top: 1px solid #6a0dad;
+
   @media (max-width: 768px) {
     padding: 0px;
   }
@@ -93,7 +95,7 @@ export const Emp = styled.div`
   //align-items: center;
   justify-content: space-around;
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #6a0dad;
   font-size: 1.2em;
 
   &:last-child {
@@ -139,7 +141,7 @@ export const Grade = styled.div`
 export const DadosStdt = styled.div`
   display: flex;
   padding: 10px;
-  gap: 5px;
+  gap: 10px;
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
@@ -175,12 +177,11 @@ export const SpanAverageGrade = styled.span`
   color: #007bff;
 `;
 
-export const SpanGradeStudent = styled.div`
+export const SpanGradeStudent = styled.span`
   color: ${props => {
     return props.grade === 'A' ? '#1d7f14' :
       props.grade === 'B' ? 'blue' :
-        props.grade === 'C' ? 'orange' :
-          props.grade === 'D' ? 'red' : 'black';
+        props.grade === 'C' ? 'orange' : 'black';
   }};
   font-weight: bold;
 `;
@@ -255,7 +256,9 @@ export const PrintButton = styled.button`
 `;
 
 export const LegendBox = styled.div`
-  max-width: 400px;
+  //display: grid;
+  //flex-direction: column;
+  width: 400px;
   background-color: #fff;
   border-radius: 5px;
   padding: 10px;
@@ -269,10 +272,12 @@ export const LegendBox = styled.div`
   }
 
   @media (max-width: 375px)  {
+    width: 200px;
     font-size: 9pt; /* Smartphones pequenos */
     padding: 0;
   }
   @media (min-width: 375px) and (max-width: 768px) {
+    width: 200px;
     font-size: 10pt; /* Smartphones pequenos */
     padding: 0;
   }
@@ -333,6 +338,8 @@ const GlobalStyle = createGlobalStyle`
   @media print {
     body * {
       visibility: hidden; /* Oculta todos os elementos da página */
+      margin: 0;
+      padding: 0;
     }
 
     #containerDivs, #containerDivs * {
@@ -341,6 +348,7 @@ const GlobalStyle = createGlobalStyle`
     ${ContainerDivs} {
       display: flex;
       justify-content: center;
+      padding-top: 0;
     }
 
     #containerDivs {
@@ -355,12 +363,20 @@ const GlobalStyle = createGlobalStyle`
       width: 90%;
       height: 0px;
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       position: absolute;
+      
+      margin-left: 250px;
 
       color: #000; /* Ajuste a cor se necessário */
     }
+    ${AddEmp} {
+      margin-bottom: 50px;
+    }
     ${LegendBox} {
+      padding-left: 15px;
+      padding-right: 15px;
+      padding-bottom: 5px;
       h3 {
         font-size: 1em;
       }
@@ -372,7 +388,7 @@ const GlobalStyle = createGlobalStyle`
     
     @page {
       size: A4; /* Define o tamanho do papel */
-      margin: 0mm; /* Ajuste as margens conforme necessário */
+      margin: 10mm; /* Ajuste as margens conforme necessário */
     }
 
     .no-print {
@@ -423,13 +439,41 @@ const GlobalStyle = createGlobalStyle`
     }
 
     ${SpanNameMatter} { /* Ajuste a margem inferior para evitar quebra de página */
-      font-size: 0.7em;
+      font-size: 0.8em;
     }
 
     ${SpanTotalGrade}, ${SpanAverageGrade}, ${SpanGradeStudent} {
-      //font-size: 0.7em; /* Ajuste os tamanhos de fonte para impressão */
+      font-size: 0.5em; /* Ajuste os tamanhos de fonte para impressão */
     }
   }
+`;
+
+export const DivSignatureArea = styled.div`
+  display: none;
+
+  @media print {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 60px;
+    padding: 20px;
+  }
+`;
+
+export const SignatureBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const Line = styled.div`
+  width: 200px;
+  border-bottom: 1px solid #000;
+  margin-bottom: 8px;
+`;
+
+export const Label = styled.span`
+  font-size: 14px;
+  color: #000;
 `;
 
 
