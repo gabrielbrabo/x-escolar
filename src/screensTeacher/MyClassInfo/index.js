@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { clssInfo } from '../../Api'
+import {
+    clssInfo,
+    getIstQuarter,
+    getIIndQuarter,
+    getIIIrdQuarter,
+    getIVthQuarter,
+    getVthQuarter,
+    getVIthQuarter,
+} from '../../Api'
 
 import {
     Container,
@@ -16,7 +24,12 @@ import {
     StudentItem,
     InfoText,
     ContainerDivs,
-    AddImpre
+    AddImpre,
+    ContainerModal,
+    ModalContent,
+    Input,
+    Label,
+    Select,
 } from './style';
 import LoadingSpinner from '../../components/Loading'
 
@@ -33,6 +46,10 @@ const MyCla$$Info = () => {
 
     const [nameSchool, setnameSchool] = useState([])
 
+    const [AllBimBull, setBimAllBull] = useState(false);
+
+    const [bimonthly, setBimonthly] = useState([]);
+
     const { id_class } = useParams();
     const { id_teacher } = useParams();
     const [loading, setLoading] = useState(false);
@@ -41,6 +58,7 @@ const MyCla$$Info = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
+            const idSchool = sessionStorage.getItem("id-school");
             const nameSchool = sessionStorage.getItem('School')
             setnameSchool(nameSchool)
             const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
@@ -120,6 +138,23 @@ const MyCla$$Info = () => {
             sessionStorage.removeItem("day")
             sessionStorage.removeItem("month")
             sessionStorage.removeItem("year")
+
+            const year = new Date().getFullYear();
+            const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
+            const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
+            const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
+            const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
+            const VthQuarter = await getVthQuarter(year, JSON.parse(idSchool))
+            const VIthQuarter = await getVIthQuarter(year, JSON.parse(idSchool))
+
+            const i = IstQuarter.data.data.find(res => res) || null;
+            const ii = IIndQuarter.data.data.find(res => res) || null;
+            const iii = IIIrdQuarter.data.data.find(res => res) || null;
+            const iv = IVthQuarter.data.data.find(res => res) || null;
+            const v = VthQuarter.data.data.find(res => res) || null;
+            const vi = VIthQuarter.data.data.find(res => res) || null;
+
+            setBimonthly([i, ii, iii, iv, v, vi].filter(res => res !== null));
 
             //console.log("matter", res.data.data)
             setLoading(false)
@@ -216,6 +251,60 @@ const MyCla$$Info = () => {
         setLoading(false);
     }
 
+    const PrintableAllTheBulletinsGrades = async () => {
+        setBimAllBull(true)
+    }
+
+    const handleBimonthlyChange = (e) => {
+
+        const value = e.target.value;
+
+        if (value === "FinalConcepts") {
+            if (assessmentFormat === 'grade') {
+                console.log("value grade", value)
+            }
+            if (assessmentFormat === 'concept') {
+                console.log("value concept", value)
+            }
+            return; // para não continuar o código abaixo
+        }
+
+        const selectedBimonthly = JSON.parse(e.target.value);
+        const idBim = selectedBimonthly._id
+        console.log("selectedBimonthly", selectedBimonthly)
+        console.log("assessmentFormat", assessmentFormat)
+
+        if (assessmentFormat === 'grade') {
+            if (selectedBimonthly.bimonthly === "1º BIMESTRE") {
+                navigate(`/Ist-allTheBulletins-grades/${id_class}/${idBim}`)
+            }
+            if (selectedBimonthly.bimonthly === "2º BIMESTRE") {
+                navigate(`/IInd-allTheBulletins-grades/${id_class}/${idBim}`)
+            }
+            if (selectedBimonthly.bimonthly === "3º BIMESTRE") {
+                navigate(`/IIIrd-allTheBulletins-grades/${id_class}/${idBim}`)
+            }
+            if (selectedBimonthly.bimonthly === "4º BIMESTRE") {
+                navigate(`/IVth-allTheBulletins-grades/${id_class}/${idBim}`)
+            }
+        }
+
+        if (assessmentFormat === 'concept') {
+            if (selectedBimonthly.bimonthly === "1º BIMESTRE") {
+                navigate(`/Ist-allTheBulletins-concept/${id_class}/${idBim}`)
+            }
+            if (selectedBimonthly.bimonthly === "2º BIMESTRE") {
+                navigate(`/IInd-allTheBulletins-concept/${id_class}/${idBim}`)
+            }
+            if (selectedBimonthly.bimonthly === "3º BIMESTRE") {
+                navigate(`/IIIrd-allTheBulletins-concept/${id_class}/${idBim}`)
+            }
+            if (selectedBimonthly.bimonthly === "4º BIMESTRE") {
+                navigate(`/IVth-allTheBulletins-concept/${id_class}/${idBim}`)
+            }
+        }
+    };
+
     return (
         <Container>
             {loading ?
@@ -257,6 +346,9 @@ const MyCla$$Info = () => {
                         <h2 style={{ color: "#158fa2" }}>Alunos</h2>
                         <AddImpre>
                             <p onClick={PrintableAttendanceSheet}>Imprimir Lista de Presença</p>
+                        </AddImpre>
+                        <AddImpre>
+                            <p onClick={PrintableAllTheBulletinsGrades}>Emitir boletins da turma</p>
                         </AddImpre>
                         <p>Total de alunos: {stdt.length}</p>
                         {studentTransferMap.length > 0 && <p>Total de Alunos Transferidos: {studentTransferMap.length}</p>}
@@ -314,6 +406,36 @@ const MyCla$$Info = () => {
                         <SignMessageButtonText>Voltar para a</SignMessageButtonText>
                         <SignMessageButtonTextBold>Lista de Turmas</SignMessageButtonTextBold>
                     </ToGoBack>
+
+                    {AllBimBull && (
+                        <ContainerModal>
+                            <ModalContent>
+                                <h2>Selecione o Bimestre</h2>
+                                <Input>
+                                    <Label>Bimestres</Label>
+                                    <Select
+                                        id="id-bimonthly"
+                                        //value={Selectbimonthly ? JSON.stringify(Selectbimonthly) : ""}
+                                        onChange={handleBimonthlyChange}
+                                    >
+                                        <option value="">Selecione</option>
+                                        {bimonthly.map(res => (
+                                            <option
+                                                key={res._id}
+                                                value={JSON.stringify({ _id: res._id, bimonthly: res.bimonthly })}
+                                            >
+                                                {res.bimonthly}
+                                            </option>
+                                        ))},
+                                        <option value="FinalConcepts">Resultado Final</option>
+                                    </Select>
+                                    <ButtonContainer>
+                                        <button onClick={() => setBimAllBull(false)}>Cancelar</button>
+                                    </ButtonContainer>
+                                </Input>
+                            </ModalContent>
+                        </ContainerModal>
+                    )}
                 </ContainerDivs>
             }
         </Container>

@@ -189,8 +189,11 @@ export const SpanFrequency = styled.div`
   width: 80%;
   height: 0px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   position: absolute;
+  gap: 10px;
+  margin-top: 30px;
 
   @media (max-width: 768px) {
     height: 15px;

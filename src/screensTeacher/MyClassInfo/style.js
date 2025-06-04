@@ -185,3 +185,51 @@ export const AddImpre = styled.div`
     }
   }
 `;
+
+export const ContainerModal = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(6px);
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+`;
+
+export const ModalContent = styled.div`
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+
+    h2 {
+        margin-bottom: 20px;
+    }
+`;
+
+export const Input = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+`;
+
+export const Label = styled.label`
+    font-weight: 600;
+    text-align: left;
+`;
+
+export const Select = styled.select`
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
+`;

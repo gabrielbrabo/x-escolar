@@ -26,9 +26,11 @@ import {
 
 import GlobalStyle from './style';
 
-import { GetNumericalGrade, AttendanceFinalConcepts, indexNumericalGradesCard, getIstQuarter, getIIndQuarter, getIIIrdQuarter, getIVthQuarter } from '../../Api';
+import { GetNumGrade, AttendanceFinalConcepts, indexNumericalGradesCard, getIstQuarter, getIIndQuarter, getIIIrdQuarter, getIVthQuarter } from '../../Api';
 
 import { IoCheckmarkSharp, IoCloseSharp } from "react-icons/io5";
+
+import { FcSurvey } from "react-icons/fc";
 
 import { useNavigate } from 'react-router-dom';
 
@@ -62,6 +64,7 @@ const FinalConcepts = () => {
 
   const [highlightedDays, setHighlightedDays] = React.useState([]);
   const [highlightedDaysF, setHighlightedDaysF] = React.useState([]);
+  const [highlightedDaysFJ, setHighlightedDaysFJ] = React.useState([]);
 
   const [iStQuarter, setiStQuarter] = useState([]);
   const [iiNdQuarter, setiiNdQuarter] = useState([]);
@@ -106,7 +109,7 @@ const FinalConcepts = () => {
       setyear(year)
       setNameSchool(nameSchool)
       setid_student(id_student)
-      const resGrade = await GetNumericalGrade(year, bimonthly, id_student)
+      const resGrade = await GetNumGrade(year, bimonthly, id_student)
       setGrade(resGrade.data.data)
       console.log("resGrade", resGrade.data.data)
 
@@ -142,7 +145,20 @@ const FinalConcepts = () => {
       }
 
       if (resGrade) {
-        const tchr = resGrade.data.data.map(res => res.id_teacher.name);
+        const allGrades = resGrade.data.data;
+
+        // Verifica se há pelo menos uma matéria com o nome "EDUCAÇÃO FÍSICA"
+        const hasPE = allGrades.some(res => res.id_matter.name === "EDUCAÇÃO FÍSICA");
+
+        // Se tiver, move para o final; senão, mantém a ordem original
+        const sortedResGrade = hasPE
+          ? [
+            ...allGrades.filter(res => res.id_matter.name !== "EDUCAÇÃO FÍSICA"),
+            ...allGrades.filter(res => res.id_matter.name === "EDUCAÇÃO FÍSICA"),
+          ]
+          : allGrades;
+
+        const tchr = sortedResGrade.map(res => res.id_teacher.name);
         const firstTeacher = tchr[0];  // Acessa o primeiro elemento
         console.log("firstTeacher", firstTeacher);
         setTeacherName(firstTeacher);  // Define apenas o primeiro elemento
@@ -181,15 +197,13 @@ const FinalConcepts = () => {
 
           // Verifique se os dados estão disponíveis e não estão vazios
           if (data.length > 0) {
-            // Filtrando e mapeando as presenças (P)
             const attendance = data.filter(res => res.status === "P");
-
-            // Filtrando e mapeando as faltas (F)
             const attendancef = data.filter(res => res.status === "F");
+            const attendancefj = data.filter(res => res.status === "FJ");
 
-            // Garantir que as variáveis não sejam nulas ou indefinidas
             setHighlightedDays(attendance.length ? attendance : []);
             setHighlightedDaysF(attendancef.length ? attendancef : []);
+            setHighlightedDaysFJ(attendancefj.length ? attendancefj : []);
           } else {
             console.warn("Nenhum dado de frequência disponível.");
           }
@@ -202,7 +216,130 @@ const FinalConcepts = () => {
     fetchAttendance();
   }, [year, id_student, id_teacher]);
 
+  const groupedGrades = grade.reduce((acc, grd) => {
+    // Verifica se a matéria já existe no acumulador
+    const existingMatter = acc.find(item => item.id_matter === grd.id_matter._id);
 
+    if (!existingMatter) {
+      // Se a matéria não existir no acumulador, adicionamos ela
+      acc.push({
+        id_matter: grd.id_matter._id,
+        matterName: grd.id_matter.name,
+        grade: 0,  // Inicializa a soma das notas
+      });
+    }
+
+    // Somando as notas, garantindo que sejam números (usando parseFloat)
+    const totalGradeForMatter = parseFloat(grd.studentGrade) || 0;
+
+    // Atualiza a soma das notas para a matéria no acumulador
+    const updatedMatter = acc.find(item => item.id_matter === grd.id_matter._id);
+    if (updatedMatter) {
+      updatedMatter.grade += totalGradeForMatter;
+    }
+
+    return acc;
+  }, []);
+
+  const groupedGradesIst = iStQuarter.reduce((acc, grd) => {
+    // Verifica se a matéria já existe no acumulador
+    const existingMatter = acc.find(item => item.id_matter === grd.id_matter._id);
+
+    if (!existingMatter) {
+      // Se a matéria não existir no acumulador, adicionamos ela
+      acc.push({
+        id_matter: grd.id_matter._id,
+        matterName: grd.id_matter.name,
+        grade: 0,  // Inicializa a soma das notas
+      });
+    }
+
+    // Somando as notas, garantindo que sejam números (usando parseFloat)
+    const totalGradeForMatter = parseFloat(grd.studentGrade) || 0;
+
+    // Atualiza a soma das notas para a matéria no acumulador
+    const updatedMatter = acc.find(item => item.id_matter === grd.id_matter._id);
+    if (updatedMatter) {
+      updatedMatter.grade += totalGradeForMatter;
+    }
+
+    return acc;
+  }, []);
+
+  const groupedGradesIInd = iiNdQuarter.reduce((acc, grd) => {
+    // Verifica se a matéria já existe no acumulador
+    const existingMatter = acc.find(item => item.id_matter === grd.id_matter._id);
+
+    if (!existingMatter) {
+      // Se a matéria não existir no acumulador, adicionamos ela
+      acc.push({
+        id_matter: grd.id_matter._id,
+        matterName: grd.id_matter.name,
+        grade: 0,  // Inicializa a soma das notas
+      });
+    }
+
+    // Somando as notas, garantindo que sejam números (usando parseFloat)
+    const totalGradeForMatter = parseFloat(grd.studentGrade) || 0;
+
+    // Atualiza a soma das notas para a matéria no acumulador
+    const updatedMatter = acc.find(item => item.id_matter === grd.id_matter._id);
+    if (updatedMatter) {
+      updatedMatter.grade += totalGradeForMatter;
+    }
+
+    return acc;
+  }, []);
+
+  const groupedGradesIIIrd = iiiRdQuarter.reduce((acc, grd) => {
+    // Verifica se a matéria já existe no acumulador
+    const existingMatter = acc.find(item => item.id_matter === grd.id_matter._id);
+
+    if (!existingMatter) {
+      // Se a matéria não existir no acumulador, adicionamos ela
+      acc.push({
+        id_matter: grd.id_matter._id,
+        matterName: grd.id_matter.name,
+        grade: 0,  // Inicializa a soma das notas
+      });
+    }
+
+    // Somando as notas, garantindo que sejam números (usando parseFloat)
+    const totalGradeForMatter = parseFloat(grd.studentGrade) || 0;
+
+    // Atualiza a soma das notas para a matéria no acumulador
+    const updatedMatter = acc.find(item => item.id_matter === grd.id_matter._id);
+    if (updatedMatter) {
+      updatedMatter.grade += totalGradeForMatter;
+    }
+
+    return acc;
+  }, []);
+
+  const groupedGradesIVth = ivThQuarter.reduce((acc, grd) => {
+    // Verifica se a matéria já existe no acumulador
+    const existingMatter = acc.find(item => item.id_matter === grd.id_matter._id);
+
+    if (!existingMatter) {
+      // Se a matéria não existir no acumulador, adicionamos ela
+      acc.push({
+        id_matter: grd.id_matter._id,
+        matterName: grd.id_matter.name,
+        grade: 0,  // Inicializa a soma das notas
+      });
+    }
+
+    // Somando as notas, garantindo que sejam números (usando parseFloat)
+    const totalGradeForMatter = parseFloat(grd.studentGrade) || 0;
+
+    // Atualiza a soma das notas para a matéria no acumulador
+    const updatedMatter = acc.find(item => item.id_matter === grd.id_matter._id);
+    if (updatedMatter) {
+      updatedMatter.grade += totalGradeForMatter;
+    }
+
+    return acc;
+  }, []);
 
   const messageButtonClick = () => {
     navigate(-1);
@@ -214,6 +351,7 @@ const FinalConcepts = () => {
 
   const countPresences = highlightedDays.length;
   const countAbsences = highlightedDaysF.length;
+  const countjustifiedAbsence = highlightedDaysFJ.length;
 
   console.log('nota total anual', totalGrade)
   console.log('nota media anual', averageGrade)
@@ -240,6 +378,7 @@ const FinalConcepts = () => {
                 <span><strong>Aluno:</strong> {stdtName}</span>
                 <SpanFrequency>
                   <span><IoCheckmarkSharp color='#00fa00' font-size="30px" />Presenças: {countPresences} | <IoCloseSharp color='#ff050a' font-size="30px" />Ausências: {countAbsences}</span>
+                  <span><FcSurvey font-size="25px" />Faltas Justificadas: {countjustifiedAbsence}</span>
                 </SpanFrequency>
                 <LegendBox>
                   <h3>Legenda</h3>
@@ -249,93 +388,110 @@ const FinalConcepts = () => {
               </DadosStdt>
               <DivDados>
                 <List>
-                  {
-                    grade
-                      .sort((a, b) => {
-                        const nameA = a.id_matter.name.toUpperCase(); // Ignorar maiúsculas e minúsculas
-                        const nameB = b.id_matter.name.toUpperCase();
-                        return nameA < nameB ? -1 : nameA > nameB ? 1 : 0; // Comparação alfabética
-                      })
-                      .map(grd => (
-                        <Emp
-                          key={grd._id} >
+                  {groupedGrades
+                    .sort((a, b) => {
+                      const nameA = a.matterName.toUpperCase();
+                      const nameB = b.matterName.toUpperCase();
+                      return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
+                    })
+                    .map(grd => {
+                      const gradeIst = parseFloat(
+                        groupedGradesIst.find(res => String(res.id_matter) === String(grd.id_matter))?.grade?.toString().replace(',', '.') || '0'
+                      );
+
+                      const gradeIInd = parseFloat(
+                        groupedGradesIInd.find(res => String(res.id_matter) === String(grd.id_matter))?.grade?.toString().replace(',', '.') || '0'
+                      );
+
+                      const gradeIIIrd = parseFloat(
+                        groupedGradesIIIrd.find(res => String(res.id_matter) === String(grd.id_matter))?.grade?.toString().replace(',', '.') || '0'
+                      );
+
+                      const gradeIVth = parseFloat(
+                        groupedGradesIVth.find(res => String(res.id_matter) === String(grd.id_matter))?.grade?.toString().replace(',', '.') || '0'
+                      );
+
+                      const totalGrade = (gradeIst + gradeIInd + gradeIIIrd + gradeIVth).toFixed(1);
+
+                      return (
+                        <Emp key={grd._id}>
                           <DivNameMatter>
-                            <SpanNameMatter>{grd.id_matter.name}</SpanNameMatter>
+                            <SpanNameMatter>{grd.matterName}</SpanNameMatter>
                           </DivNameMatter>
+
                           <Grade>
                             <DivBimTable>
+
                               <DivBimRow>
                                 <DivBimHeader>1º Bim</DivBimHeader>
                                 <DivBimCell
-                                  grade={iStQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}
-                                  averageGrade={averageGradeIst}
-                                  totalGrade={totalGradeIst}
+                                  grade={gradeIst}
+                                  averageGrade={parseFloat(averageGradeIst) || 0}
+                                  totalGrade={parseFloat(totalGradeIst) || 0}
                                 >
-                                  {iStQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}
+                                  {gradeIst > 0 ? gradeIst.toFixed(1) : '-'}
                                 </DivBimCell>
                               </DivBimRow>
+
                               <DivBimRow>
                                 <DivBimHeader>2º Bim</DivBimHeader>
                                 <DivBimCell
-                                  grade={iiNdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}
-                                  averageGrade={averageGradeIInd}
-                                  totalGrade={totalGradeIInd}
+                                  grade={gradeIInd}
+                                  averageGrade={parseFloat(averageGradeIInd) || 0}
+                                  totalGrade={parseFloat(totalGradeIInd) || 0}
                                 >
-                                  {iiNdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}
+                                  {gradeIInd > 0 ? gradeIInd.toFixed(1) : '-'}
                                 </DivBimCell>
                               </DivBimRow>
+
                               <DivBimRow>
                                 <DivBimHeader>3º Bim</DivBimHeader>
                                 <DivBimCell
-                                  grade={iiiRdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}
-                                  averageGrade={averageGradeIIIrd}
-                                  totalGrade={totalGradeIIIrd}
+                                  grade={gradeIIIrd}
+                                  averageGrade={parseFloat(averageGradeIIIrd) || 0}
+                                  totalGrade={parseFloat(totalGradeIIIrd) || 0}
                                 >
-                                  {iiiRdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}
+                                  {gradeIIIrd > 0 ? gradeIIIrd.toFixed(1) : '-'}
                                 </DivBimCell>
                               </DivBimRow>
+
                               <DivBimRow>
                                 <DivBimHeader>4º Bim</DivBimHeader>
                                 <DivBimCell
-                                  grade={ivThQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}
-                                  averageGrade={averageGradeIVth}
-                                  totalGrade={totalGradeIVth}
+                                  grade={gradeIVth}
+                                  averageGrade={parseFloat(averageGradeIVth) || 0}
+                                  totalGrade={parseFloat(totalGradeIVth) || 0}
                                 >
-                                  {ivThQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}
+                                  {gradeIVth > 0 ? gradeIVth.toFixed(1) : '-'}
                                 </DivBimCell>
                               </DivBimRow>
+
                               <DivBimRow>
-                                <DivBimHeader>Final</DivBimHeader>
+                                <DivBimHeader>Total</DivBimHeader>
                                 <DivBimCell
-                                  grade={
-                                    (
-                                      Number(iStQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || 0) +
-                                      Number(iiNdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || 0) +
-                                      Number(iiiRdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || 0) +
-                                      Number(ivThQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || 0)
-                                    )
+                                  grade={parseFloat(totalGrade)}
+                                  averageGrade={
+                                    parseFloat(averageGradeIst) +
+                                    parseFloat(averageGradeIInd) +
+                                    parseFloat(averageGradeIIIrd) +
+                                    parseFloat(averageGradeIVth)
                                   }
-                                  averageGrade={averageGrade}
-                                  totalGrade={totalGrade}
+                                  totalGrade={
+                                    parseFloat(totalGradeIst) +
+                                    parseFloat(totalGradeIInd) +
+                                    parseFloat(totalGradeIIIrd) +
+                                    parseFloat(totalGradeIVth)
+                                  }
                                 >
-                                  {(
-                                    (
-                                      Number(iStQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || 0) +
-                                      Number(iiNdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || 0) +
-                                      Number(iiiRdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || 0) +
-                                      Number(ivThQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || 0))
-                                    ).toFixed(2)
-                                  }
+                                  {totalGrade}
                                 </DivBimCell>
                               </DivBimRow>
+
                             </DivBimTable>
-                            {/*<SpanTotalGrade><p>Total</p>{grd.totalGrade}</SpanTotalGrade>
-                          <SpanAverageGrade><p>Media</p>{grd.averageGrade}</SpanAverageGrade>*/}
-                            {/*<SpanGradeStudent grade={grd.studentGrade} /*average={grd.averageGrade}><p>Desempenho</p>{grd.studentGrade}</SpanGradeStudent>*/}
                           </Grade>
                         </Emp>
-                      ))
-                  }
+                      );
+                    })}
                 </List>
               </DivDados>
             </DivAddEmp>
