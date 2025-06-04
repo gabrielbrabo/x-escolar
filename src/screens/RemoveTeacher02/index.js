@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { clssInfo, removeTeacher } from '../../Api'
+import { clssInfo, removeTeacher02 } from '../../Api'
 
 import {
     Container,
@@ -48,13 +48,14 @@ const RemoveTeacher = () => {
 
             const employee = res.data.data.find(res => {
                 return res
-            }).classRegentTeacher.map(res => {
+            }).classRegentTeacher02.map(res => {
                 if (res) {
                     return (res)
                 } else {
                     return (null)
                 }
             })
+            console.log("res enployee", res)
             setId_class(id)
             setEmployee(employee)
             setLoading(false);
@@ -80,7 +81,7 @@ const RemoveTeacher = () => {
     console.log("id_teacher", id_teacher)
     const SignClick = async () => {
         setLoading(true);
-        const res = await removeTeacher(id_teacher, id_class, /*id_matter, addTeacher*/)
+        const res = await removeTeacher02(id_teacher, id_class, /*id_matter, addTeacher*/)
         if (res) {
             alert('Professor Removido com sucesso.')
             navigate(-1);
@@ -109,7 +110,7 @@ const RemoveTeacher = () => {
     }
 
     const Cancel = async () => {
-        navigate(-1); 
+        navigate(-1);
     }
 
     return (

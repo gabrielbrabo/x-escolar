@@ -65,6 +65,7 @@ import PerfilEmployeeEducationDepartment from "./screens/PerfilEmployeeEducation
 import PerfilEmployee from "./screens/PerfilEmployee"
 import ClassInfo from "./screens/ClassInfo"
 import RemoveTeacher from "./screens/RemoveTeacher"
+import RemoveTeacher02 from "./screens/RemoveTeacher02"
 import RemovephysicalTeacher from "./screens/RemovephysicalTeacher"
 import RemoveStudent from "./screens/RemoveStudent"
 import RemoveMatter from "./screens/RemoveMatter"
@@ -436,6 +437,11 @@ const AppRoutes = () => {
                     <Route exact path="/remove/teacher" element={
                         <Private>
                             <RemoveTeacher />
+                        </Private>
+                    } />
+                    <Route exact path="/remove/teacher02" element={
+                        <Private>
+                            <RemoveTeacher02 />
                         </Private>
                     } />
                     <Route exact path="/remove/physicalteacher" element={

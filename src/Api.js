@@ -2456,6 +2456,31 @@ export const removeTeacher = async (
         }, [])
 }
 
+export const removeTeacher02 = async (
+    id_teacher,
+    id_class,
+    //id_matter,
+    //addTeacher
+) => {
+
+    return api.post(`/remove/teacher02`, {
+        id_teacher,
+        id_class,
+        //id_matter,
+        //addTeacher
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
 export const removephysicalTeacher = async (
     id_teacher,
     id_class,
