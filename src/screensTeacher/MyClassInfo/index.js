@@ -261,7 +261,7 @@ const MyCla$$Info = () => {
 
         if (value === "FinalConcepts") {
             if (assessmentFormat === 'grade') {
-                console.log("value grade", value)
+                navigate(`/allTheFinalBulletins-grades/${id_class}`)
             }
             if (assessmentFormat === 'concept') {
                 console.log("value concept", value)

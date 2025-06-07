@@ -255,6 +255,18 @@ const Cla$$Info = () => {
 
     const handleBimonthlyChange = (e) => {
 
+        const value = e.target.value;
+
+        if (value === "FinalConcepts") {
+            if (assessmentFormat === 'grade') {
+                navigate(`/allTheFinalBulletins-grades/${id_class}`)
+            }
+            if (assessmentFormat === 'concept') {
+                console.log("value concept", value)
+            }
+            return; // para não continuar o código abaixo
+        }
+
         const selectedBimonthly = JSON.parse(e.target.value);
         const idBim = selectedBimonthly._id
         console.log("selectedBimonthly", selectedBimonthly)
@@ -611,6 +623,7 @@ const Cla$$Info = () => {
                                                 {res.bimonthly}
                                             </option>
                                         ))}
+                                        <option value="FinalConcepts">Resultado Final</option>
                                     </Select>
                                     <ButtonContainer>
                                         <button onClick={() => setBimAllBull(false)}>Cancelar</button>

@@ -252,7 +252,7 @@ const Grade = () => {
                                                             <div>Turma: <p>{res.id_class.serie}</p></div>
                                                         </Span>
 
-                                                        <TableRow>
+                                                        <TableRow >
                                                             <DateCell>{`${res.day}/${res.month}/${res.year}`}</DateCell>
                                                             <DescriptionCell>
                                                                 <div className={`description ${expandedRows.includes(index) ? 'expanded' : 'collapsed'}`}>

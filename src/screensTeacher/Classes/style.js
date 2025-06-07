@@ -163,24 +163,39 @@ export const DescriptionCell = styled.div`
     position: relative;
 
     .description {
-        transition: height 0.3s ease;
+        color: black !important;
+
+        * {
+        color: black !important;
+        }
+
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        word-break: break-word;
+        white-space: pre-wrap;
+        transition: max-height 0.3s ease;
 
         &.collapsed {
-            height: 10px;
+        -webkit-line-clamp: 3;
+        max-height: 4.5em;
         }
 
         &.expanded {
-            height: auto;
+        -webkit-line-clamp: unset;
+        max-height: none;
         }
 
-        @media (max-width: 345px)  {
-            font-size: 13px; /* Smartphones pequenos */
+        @media (max-width: 345px) {
+        font-size: 13px;
         }
 
         @media print {
-            height: auto; // Força a exibição completa na impressão
-            white-space: pre-wrap; // Mantém a formatação
-            word-wrap: break-word; // Permite quebra de linha
+        -webkit-line-clamp: unset;
+        max-height: none;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        font-size: 12pt;
         }
     }
 

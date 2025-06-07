@@ -127,6 +127,7 @@ import IstBimAllTheBulletinsGrades from "./screens/1ºBimAllTheBulletinsGrades"
 import IIndBimAllTheBulletinsGrades from "./screens/2ºBimAllTheBulletinsGrades"
 import IIIrdBimAllTheBulletinsGrades from "./screens/3ºBimAllTheBulletinsGrades"
 import IVthBimAllTheBulletinsGrades from "./screens/4ºBimAllTheBulletinsGrades"
+import AllTheFinalBulletinsGrades from "./screens/AllTheFinalBulletinsGrades"
 
 import IstBimAllTheBulletinsConcept from "./screens/1ºBimAllTheBulletinsConcept"
 import IIndBimAllTheBulletinsConcept from "./screens/2ºBimAllTheBulletinsConcept"
@@ -650,6 +651,11 @@ const AppRoutes = () => {
                     <Route exact path="/IVth-allTheBulletins-grades/:idClass/:idBim" element={
                         <Private>
                             <IVthBimAllTheBulletinsGrades />
+                        </Private>
+                    } />
+                    <Route exact path="/allTheFinalBulletins-grades/:idClass" element={
+                        <Private>
+                            <AllTheFinalBulletinsGrades />
                         </Private>
                     } />
                     
