@@ -133,6 +133,7 @@ import IstBimAllTheBulletinsConcept from "./screens/1ºBimAllTheBulletinsConcept
 import IIndBimAllTheBulletinsConcept from "./screens/2ºBimAllTheBulletinsConcept"
 import IIIrdBimAllTheBulletinsConcept from "./screens/3ºBimAllTheBulletinsConcept"
 import IVthBimAllTheBulletinsConcept from "./screens/4ºBimAllTheBulletinsConcept"
+import AllTheFinalBulletinsConcept from "./screens/AllTheFinalBulletinsConcept"
 
 import IStQuarterReportCard from "./screens/I-StQuarterReportCard"
 import IINdQuarterReportCard from "./screens/II-NdQuarterReportCard"
@@ -677,6 +678,11 @@ const AppRoutes = () => {
                     <Route exact path="/IVth-allTheBulletins-concept/:idClass/:idBim" element={
                         <Private>
                             <IVthBimAllTheBulletinsConcept/>
+                        </Private>
+                    } />
+                    <Route exact path="/allTheFinalBulletins-concept/:idClass" element={
+                        <Private>
+                            <AllTheFinalBulletinsConcept/>
                         </Private>
                     } />
 

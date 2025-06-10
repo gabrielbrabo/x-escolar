@@ -262,7 +262,7 @@ const Cla$$Info = () => {
                 navigate(`/allTheFinalBulletins-grades/${id_class}`)
             }
             if (assessmentFormat === 'concept') {
-                console.log("value concept", value)
+                navigate(`/allTheFinalBulletins-concept/${id_class}`)
             }
             return; // para não continuar o código abaixo
         }

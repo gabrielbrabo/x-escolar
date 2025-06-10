@@ -337,7 +337,7 @@ const AllTheBulletins = () => {
                                       averageGrade={parseFloat(bimestre.averageGrade) || 0}
                                       totalGrade={parseFloat(bimestre.totalGrade) || 0}
                                     >
-                                      {parseFloat(grd.grade).toFixed(1)}
+                                      {parseFloat(grd.grade).toFixed(1) || "-"}
                                     </DivBimCell>
                                   </DivBimRow>
 

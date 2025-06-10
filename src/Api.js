@@ -1933,6 +1933,25 @@ export const allTheBulletinsConcept = async (
         }, [])
 }
 
+export const allTheFinalBulletinsConcept = async (
+    idClass,
+) => {
+
+    return api.post(`/allTheFinalBulletins-concept`, {
+        idClass,
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
 export const updateGrade = async (
     update_id_grade,
     update_studentGrade
