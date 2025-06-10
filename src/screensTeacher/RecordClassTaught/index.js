@@ -78,7 +78,7 @@ const Grade = () => {
 
     const handleChange = (e) => {
         const dateValue = e.target.value; // O valor do input será uma string no formato YYYY-MM-DD
-        const currentYear = new Date().getFullYear(); 
+        //const currentYear = new Date().getFullYear(); 
         setSelected(dateValue);
         // Extraindo o dia, mês e ano da data
         const [year, month, day] = dateValue.split('-'); // Desestruturando a data
@@ -90,7 +90,7 @@ const Grade = () => {
         
         setDay(day);
         setMonth(month);
-        setYear(currentYear);
+        setYear(year);
     };
 
     const handleDateChange = async () => {       

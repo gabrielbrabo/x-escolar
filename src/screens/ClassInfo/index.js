@@ -199,7 +199,7 @@ const Cla$$Info = () => {
     const addPhysicalTeacher = async () => {
         navigate(`/add/physicalteacher/${id_class}`)
     }
-    const RemoveTeacher = async () => {
+   /* const RemoveTeacher = async () => {
         navigate('/remove/teacher')
     }
     const RemoveTeacher02 = async () => {
@@ -207,7 +207,7 @@ const Cla$$Info = () => {
     }
     const RemovephysicalTeacher = async () => {
         navigate('/remove/physicalteacher')
-    }
+    }*/
     const RemoveStudent = async () => {
         navigate('/remove/student')
     }
@@ -349,9 +349,9 @@ const Cla$$Info = () => {
                                                 {/*<AddEmp>
                                                     <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
                                                 </AddEmp>*/}
-                                                <AddEmp>
+                                                {/*<AddEmp>
                                                     <Btt02 onClick={RemoveTeacher}>Remover</Btt02>
-                                                </AddEmp>
+                                                </AddEmp>*/}
                                             </DivAddEmp>
                                         )}
                                         <Matter>
@@ -406,9 +406,9 @@ const Cla$$Info = () => {
                                                 {/*<AddEmp>
                                                     <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
                                                 </AddEmp>*/}
-                                                <AddEmp>
+                                                {/*<AddEmp>
                                                     <Btt02 onClick={RemoveTeacher02}>Remover</Btt02>
-                                                </AddEmp>
+                                                </AddEmp>*/}
                                             </DivAddEmp>
                                         )}
                                         <Matter>
@@ -458,9 +458,9 @@ const Cla$$Info = () => {
                                                 {/*<AddEmp>
                                                     <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
                                                 </AddEmp>*/}
-                                                <AddEmp>
+                                                {/*<AddEmp>
                                                     <Btt02 onClick={RemovephysicalTeacher}>Remover</Btt02>
-                                                </AddEmp>
+                                                </AddEmp>*/}
                                             </DivAddEmp>
                                         )}
                                         <Matter>
