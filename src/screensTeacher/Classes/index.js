@@ -66,7 +66,7 @@ const Grade = () => {
             const id_emp = localStorage.getItem("Id_employee");
             const id_class = sessionStorage.getItem("class-info");
             const year = new Date().getFullYear();
-            const res = await indexRecordClassTaught(year, id_class, JSON.parse(id_emp));
+            const res = await indexRecordClassTaught(year, id_class, /*JSON.parse(id_emp)*/);
             console.log("res", res)
             setRecordClassTaught(res.data.data || []);
             setId_employee(JSON.parse(id_emp));
@@ -272,7 +272,7 @@ const Grade = () => {
                                         </Register>
                                         //                                )
                                     }
-                                    
+
                                     <p>Total de aulas: {recordClassTaught.length}</p>
                                     {recordClassTaught.length > 0 ? (
                                         recordClassTaught
@@ -282,6 +282,7 @@ const Grade = () => {
                                                     <ContainerTable>
                                                         <Span>
                                                             <div>Professor: <p>{res.id_teacher.name}</p></div>
+                                                            <div>Professor 02: <p>{res.id_teacher02?.name || '---'}</p></div>
                                                             <div>Turma: <p>{res.id_class.serie}</p></div>
                                                         </Span>
 

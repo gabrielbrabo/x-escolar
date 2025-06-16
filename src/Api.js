@@ -2788,11 +2788,11 @@ export const AttendanceBimonthly = async (
 }
 
 export const RecordClassTaught = async (
-    day, month, year, description, id_teacher, id_class
+    day, month, year, description, id_teacher, id_teacher02, id_class
 ) => {
 
     return api.post(`/record-class-taught`, {
-        day, month, year, description, id_teacher, id_class
+        day, month, year, description, id_teacher, id_teacher02, id_class
     })
         .catch((error) => {
             if (error) {
@@ -2808,13 +2808,13 @@ export const RecordClassTaught = async (
 export const indexRecordClassTaught = async (
     year,
     id_class,
-    id_employee
+    //id_employee
 ) => {
 
     return api.post(`/index-record-class`, {
         year,
         id_class,
-        id_employee
+        //id_employee
     })
         .catch((error) => {
             if (error) {

@@ -37,6 +37,10 @@ const Grade = () => {
     const [year, setYear] = useState('');
     const [description, setDescription] = useState('');
     const [id_employee, setId_employee] = useState('');
+    
+    const [RegentTeacher, setclassRegentTeacher] = useState([]);
+    const [id_teacher02, setclassRegentTeacher02] = useState([]);
+
     const [id_class, setId_class] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -44,6 +48,12 @@ const Grade = () => {
         (async () => {
             setLoading(true);
             const id_employee = localStorage.getItem("Id_employee");
+            const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
+            const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
+
+            setclassRegentTeacher(JSON.parse(classRegentTeacher))
+            setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
+            
             const id_class = sessionStorage.getItem("class-info");
             setId_employee(JSON.parse(id_employee));
             setId_class(id_class);
@@ -63,7 +73,7 @@ const Grade = () => {
         console.log('id_employee:', id_employee);
         console.log('id_class:', id_class);
 
-        const res = await RecordClassTaught(day, month, year, plainDescription, id_employee, id_class);
+        const res = await RecordClassTaught(day, month, year, plainDescription, RegentTeacher, id_teacher02, id_class);
 
         if (res) {
             navigate(-1);
