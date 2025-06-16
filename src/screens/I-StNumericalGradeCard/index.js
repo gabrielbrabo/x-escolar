@@ -95,7 +95,7 @@ const GradeIstquarter = () => {
       if (resGrade.data.data && resGrade.data.data.length > 0) {
         const teacherArray = resGrade.data.data[0].id_class.classRegentTeacher;
         const Teacher = Array.isArray(teacherArray) ? teacherArray[0] : teacherArray;
-        setId_teacher(Teacher);
+        //setId_teacher(Teacher);
         console.log("idTeacher", Teacher);
       }      
 
@@ -122,6 +122,9 @@ const GradeIstquarter = () => {
           : allGrades;
 
         const tchr = sortedResGrade.map(res => res.id_teacher.name);
+        const idTchr = sortedResGrade.map(res => res.id_teacher._id);
+        setId_teacher(idTchr[0]);
+        console.log("idTchr", idTchr);
         const firstTeacher = tchr[0];  // Acessa o primeiro elemento
         console.log("firstTeacher", firstTeacher);
         setTeacherName(firstTeacher);  // Define apenas o primeiro elemento

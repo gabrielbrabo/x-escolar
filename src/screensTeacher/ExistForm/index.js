@@ -28,7 +28,7 @@ const StudentRecordDescription = () => {
     const [nameStudent, setNameStudent] = useState('');
     const [bimonthly, setBimonthly] = useState('');
     const [formData, setFormData] = useState([]);
-    const [isTeacher, setIsTeacher] = useState([]);
+    const [/*isTeacher,*/ setIsTeacher] = useState([]);
     const [update_idForm, setUpdateidForm] = useState(null);
     const [editedDescription, setEditedDescription] = useState('');
     const [RemoveForm, setRemoveForm] = useState(null);
@@ -59,7 +59,7 @@ const StudentRecordDescription = () => {
         };
 
         fetchData();
-    }, [id_form]);
+    }, [id_form, setIsTeacher]);
 
     const messageButtonClick = () => {
         navigate(-1);
@@ -113,12 +113,12 @@ const StudentRecordDescription = () => {
                         <Span>
                             <PrintButton onClick={handlePrint}>Imprimir Ficha</PrintButton> {/* Botão de impressão acima */}
                         </Span>
-                        {isTeacher.length > 0 && (
+                        {/*isTeacher.length > 0 && (*/}
                             <BoxButton>
                                 <Button onClick={handleDestroy}>Apagar</Button>
                                 <Button onClick={startEditing}>Editar</Button>
                             </BoxButton>
-                        )}
+                        {/*)*/}
                     </ContainerSpan>
                     <RecordDescription>
                         {formData ? (

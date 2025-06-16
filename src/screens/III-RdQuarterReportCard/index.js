@@ -86,7 +86,7 @@ const GradeIstquarter = () => {
           return res.id_class.classRegentTeacher
         })
         const Teacher = idTeacher[0];
-        setId_teacher(Teacher)
+        //setId_teacher(Teacher)
         console.log("idTeacher", Teacher)
       }
 
@@ -127,6 +127,8 @@ const GradeIstquarter = () => {
           : allGrades;
 
         const tchr = sortedResGrade.map(res => res.id_teacher.name);
+        const idTchr = sortedResGrade.map(res => res.id_teacher._id);
+        setId_teacher(idTchr[0]);
         const firstTeacher = tchr[0];  // Acessa o primeiro elemento
         console.log("firstTeacher", firstTeacher);
         setTeacherName(firstTeacher);  // Define apenas o primeiro elemento
