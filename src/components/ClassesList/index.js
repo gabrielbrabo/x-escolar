@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { RecordClassTaughtDaily, /*updateRecordClassTaughtADM,*/ getIstQuarter, getIIndQuarter, getIIIrdQuarter, getIVthQuarter, getVthQuarter, getVIthQuarter } from '../../Api';
+import { RecordClassTaughtDaily, updateRecordClassTaught, /*updateRecordClassTaughtADM,*/ getIstQuarter, getIIndQuarter, getIIIrdQuarter, getIVthQuarter, getVthQuarter, getVIthQuarter } from '../../Api';
 import { useNavigate } from 'react-router-dom';
 import {
     Container,
@@ -14,6 +14,7 @@ import {
     InfoText,
     Button,
     Button02,
+    ButtonEdit,
     DescriptionCell,
     HiddenOnPrint,
     PrintStyleClasses,
@@ -21,15 +22,17 @@ import {
     SignMessageButtonTextBold,
     SignMessageButtonText,
     DataBimonthly,
-    //EditContainer,
-    //ErrorMessage,
+    EditContainer,
+    ErrorMessage,
 } from './style';
 import LoadingSpinner from '../../components/Loading';
+
+import ReactQuill from 'react-quill';
 
 const Grade = () => {
     const navigate = useNavigate();
 
-    //const [positionAtSchool, setPositionAtSchool] = useState(null);
+    const [positionAtSchool, setPositionAtSchool] = useState(null);
 
     const [startd, setStartd] = useState("");
     const [startm, setStartm] = useState("");
@@ -49,29 +52,44 @@ const Grade = () => {
     const [expandedRows, setExpandedRows] = useState([]);
     const [printing, setPrinting] = useState(false); // Novo estado para controlar o modo de impressão
 
-    // const [editingIndex, setEditingIndex] = useState(null);
-    //const [editingId, setEditingId] = useState('');
-    //const [editedDescription, setEditedDescription] = useState('');
-    //const [errorMessage, setErrorMessage] = useState('');
+    const [RegentTeacher, setclassRegentTeacher] = useState([]);
+    const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
+
+    const [day, setDay] = useState('');
+    const [month, setMonth] = useState('');
+    const [editingIndex, setEditingIndex] = useState(null);
+    const [editingId, setEditingId] = useState('');
+    const [editedDescription, setEditedDescription] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         (async () => {
             setLoading(true);
             const year = new Date().getFullYear().toString();
-            //const position = localStorage.getItem('position_at_school');
+            const position = localStorage.getItem('position_at_school');
             const SelectbimonthlyDaily = JSON.parse(sessionStorage.getItem("Selectbimonthly-daily"));
             const SelectteacherDaily = JSON.parse(sessionStorage.getItem("Selectteacher-daily"));
-            //const Nameclass = JSON.parse(sessionStorage.getItem("Nameclass-daily"));
+            const Nameclass = JSON.parse(sessionStorage.getItem("Nameclass-daily"));
             const SelectclassDaily = sessionStorage.getItem("Selectclass-daily");
             const idSchool = SelectteacherDaily.id_school;
 
-            //setPositionAtSchool(position);
+            setPositionAtSchool(position);
             setnameSchool(SelectteacherDaily.id_school.name);
             setid_teacher(SelectteacherDaily._id);
             setid_class(SelectclassDaily);
             setbimonthlyDaily(SelectbimonthlyDaily.bimonthly);
             //setnameTeacher(SelectteacherDaily.name);
             //setnameClass(Nameclass.serie);
+
+            const Employee02 = await Nameclass.classRegentTeacher02.find(res => {
+                return res
+            })
+            const Employee = await Nameclass.classRegentTeacher.find(res => {
+                return res
+            })
+
+            setclassRegentTeacher(Employee)
+            setclassRegentTeacher02(Employee02)
 
             if (SelectbimonthlyDaily.bimonthly === "1º BIMESTRE") {
                 const IstQuarter = await getIstQuarter(year, idSchool);
@@ -135,10 +153,22 @@ const Grade = () => {
             }
 
             if (year && id_teacher && id_class && startd && startm && starty && endd && endm && endy) {
-                const res = await RecordClassTaughtDaily(year, /*id_teacher,*/ id_class, startd, startm, starty, endd, endm, endy)
-                console.log('classes', res)
-                if (res) {
-                    setRecordClassTaught(res.data.data);
+
+                //const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
+                //const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
+
+                if (RegentTeacher02 === id_teacher) {
+                    const res = await RecordClassTaughtDaily(year, RegentTeacher, id_class, startd, startm, starty, endd, endm, endy)
+                    console.log('classes', res)
+                    if (res) {
+                        setRecordClassTaught(res.data.data);
+                    }
+                } else {
+                    const res = await RecordClassTaughtDaily(year, id_teacher, id_class, startd, startm, starty, endd, endm, endy)
+                    console.log('classes', res)
+                    if (res) {
+                        setRecordClassTaught(res.data.data);
+                    }
                 }
                 //setId_employee(JSON.parse(id_employee));
 
@@ -151,7 +181,7 @@ const Grade = () => {
             }
             setLoading(false);
         })();
-    }, [id_class, id_teacher, startd, startm, starty, endd, endm, endy]);
+    }, [id_class, id_teacher, startd, startm, starty, endd, endm, endy, RegentTeacher, RegentTeacher02]);
 
     useEffect(() => {
         const handleBeforePrint = () => {
@@ -204,6 +234,40 @@ const Grade = () => {
     const getDescriptionPreview = (description) => {
         const maxLength = 100;
         return description.length > maxLength ? `${description.slice(0, maxLength)}...` : description;
+    };
+
+    const handleEdit = async (index, res) => {
+        setDay(`${res.day}`);
+        setMonth(`${res.month}`);
+
+        setEditingIndex(index);
+        setEditingId(res._id);
+        setEditedDescription(res.description);
+    }
+
+    const handleSaveEdit = async () => {
+        try {
+            const res = await updateRecordClassTaught(editedDescription, day, month, editingId);
+
+            if (res.data) {
+                alert('Aula atualizada com sucesso!');
+                setLoading(true);
+                setRecordClassTaught((prev) =>
+                    prev.map((item) =>
+                        item._id === editingId ? { ...item, description: editedDescription, day: day, month: month } : item
+                    )
+                );
+
+                setEditingIndex(null);
+                setErrorMessage('');
+                setLoading(false);
+            } else {
+                setErrorMessage('Erro ao cadastrar. Verifique os dados e tente novamente.');
+            }
+        } catch (error) {
+            console.error("Erro ao atualizar aula:", error);
+            setErrorMessage('Ocorreu um erro ao salvar a edição. Tente novamente.');
+        }
     };
 
     const messageButtonClick = () => {
@@ -273,13 +337,60 @@ const Grade = () => {
                                                                             {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
                                                                         </Button>
                                                                     )}
-                                                                    {/*expandedRows.includes(index) && /*positionAtSchool === 'DIRETOR/SUPERVISOR' && (
-                                                                        <Button className={HiddenOnPrint}>Editar</Button>
-                                                                    )*/}
+                                                                    {expandedRows.includes(index) && positionAtSchool === 'DIRETOR/SUPERVISOR' && (
+                                                                        <Button onClick={() => handleEdit(index, res)} className={HiddenOnPrint}>
+                                                                            Editar
+                                                                        </Button>
+                                                                    )}
 
                                                                 </div>
                                                             </DescriptionCell>
                                                         </TableRow>
+                                                        {editingIndex === index && (
+                                                            <EditContainer>
+                                                                <h3>Editando Aula</h3>
+                                                                {/*<div className='data'>
+                                                                    <label>Data</label>
+                                                                </div>
+
+                                                                <input
+                                                                    type="text"
+                                                                    value={`${day}/${month}`}
+                                                                    onChange={(e) => {
+                                                                        const [newDay, newMonth] = e.target.value.split('/');
+                                                                        setDay(newDay);
+                                                                        setMonth(newMonth);
+                                                                    }}
+                                                                    placeholder="Data (DD/MM)"
+                                                                />*/}
+                                                                {/*<textarea
+                                                                value={editedDescription}
+                                                                onChange={(e) => setEditedDescription(e.target.value)}
+                                                                placeholder="Descrição da aula"
+                                                            />*/}
+                                                                <ReactQuill
+                                                                    theme="snow"
+                                                                    modules={{
+                                                                        toolbar: [
+                                                                            [{ 'font': [] }],
+                                                                            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                                                            ['bold', 'italic', 'underline'],
+                                                                            [{ 'color': [] }, { 'background': [] }],
+                                                                            ['clean']
+                                                                        ]
+                                                                    }}
+                                                                    value={editedDescription}
+                                                                    onChange={(e) => setEditedDescription(e)}
+                                                                    placeholder="Descrição da aula"
+                                                                    style={{ height: '250px', position: 'relative', overflow: 'hidden', maxHeight: '250px', zIndex: 0 }}  // Define a altura aqui
+                                                                />
+                                                                {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                                                <div style={{ position: 'relative', zIndex: 10, marginTop: '30px', }} className='BoxBtt'>
+                                                                    <ButtonEdit onClick={handleSaveEdit}>Salvar</ButtonEdit>
+                                                                    <ButtonEdit onClick={() => setEditingIndex(null)}>Cancelar</ButtonEdit>
+                                                                </div>
+                                                            </EditContainer>
+                                                        )}
                                                     </ContainerTable>
                                                 </React.Fragment>
                                             ))

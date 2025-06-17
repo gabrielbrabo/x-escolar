@@ -3230,11 +3230,11 @@ export const IndexNumericalGradeDaily = async (
 };
 
 export const RecordClassTaughtDaily = async (
-    year, /*id_teacher,*/ id_class, startd, startm, starty, endd, endm, endy
+    year, id_teacher, id_class, startd, startm, starty, endd, endm, endy
 ) => {
     // Faz a chamada para a rota com os parâmetros opcionais
     return api.post(`/record-class-daily`, {
-        year, /*id_teacher,*/ id_class, startd, startm, starty, endd, endm, endy
+        year, id_teacher, id_class, startd, startm, starty, endd, endm, endy
     })
         .catch((error) => {
             if (error) {

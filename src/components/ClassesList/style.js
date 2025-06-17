@@ -438,10 +438,10 @@ export const SignMessageButtonTextBold = styled.span`
 
 export const EditContainer = styled.div`
     background-color: #f9f9f9;
-    border: 1px solid #ddd;
+    border: 2px solid #FF5733;
     padding: 15px;
+    height: 400px;
     border-radius: 8px;
-    margin-top: 10px;
     display: flex;
     flex-direction: column;
 
@@ -449,6 +449,11 @@ export const EditContainer = styled.div`
         margin: 0;
         margin-bottom: 10px;
         color: #333;
+    }
+
+    .data {
+        display: flex;
+        padding-left: 5px;
     }
 
     input,
@@ -465,6 +470,13 @@ export const EditContainer = styled.div`
     textarea {
         resize: vertical;
         height: 250px;
+    }
+
+    .BoxBtt {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-evenly;
     }
 
     button {
