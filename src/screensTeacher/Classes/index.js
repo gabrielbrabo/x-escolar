@@ -66,9 +66,21 @@ const Grade = () => {
             const id_emp = localStorage.getItem("Id_employee");
             const id_class = sessionStorage.getItem("class-info");
             const year = new Date().getFullYear();
-            const res = await indexRecordClassTaught(year, id_class, /*JSON.parse(id_emp)*/);
-            console.log("res", res)
-            setRecordClassTaught(res.data.data || []);
+
+            const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
+            const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
+            //const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
+
+            if (id_emp === classRegentTeacher02) {
+                const res = await indexRecordClassTaught(year, id_class, JSON.parse(classRegentTeacher));
+                console.log("res", res)
+                setRecordClassTaught(res.data.data || []);
+            } else {
+                const res = await indexRecordClassTaught(year, id_class, JSON.parse(id_emp));
+                console.log("res", res)
+                setRecordClassTaught(res.data.data || []);
+            }
+
             setId_employee(JSON.parse(id_emp));
 
             const resClass = await clssInfo(id_class);
@@ -288,6 +300,8 @@ const Grade = () => {
 
                                                         <TableRow>
                                                             <DateCell>{`${res.day}/${res.month}/${res.year}`}</DateCell>
+                                                            {console.log("id_teacher", res.id_teacher)}
+                                                            {console.log("id_teacher02", res.id_teacher02)}
                                                             <DescriptionCell>
                                                                 <div className={`description ${expandedRows.includes(index) ? 'expanded' : 'collapsed'}`}>
                                                                     <div
@@ -301,19 +315,19 @@ const Grade = () => {
                                                                     />
                                                                 </div>
                                                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                                    {!printing && (
-                                                                        <Button onClick={() => toggleRowExpansion(index)} className={HiddenOnPrint}>
-                                                                            {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
-                                                                        </Button>
-                                                                    )}
                                                                     {expandedRows.includes(index) && /*isTeacher === id_employee && */(
                                                                         <Button onClick={() => handleDestroy(res)} className={HiddenOnPrint}>
                                                                             Apagar
                                                                         </Button>
                                                                     )}
-                                                                    {expandedRows.includes(index) && /*isTeacher === id_employee && */(
+                                                                    {expandedRows.includes(index) && /*res.id_teacher._id === id_employee || res.id_teacher02 !== null && */(
                                                                         <Button onClick={() => handleEdit(index, res)} className={HiddenOnPrint}>
                                                                             Editar
+                                                                        </Button>
+                                                                    )}
+                                                                    {!printing && (
+                                                                        <Button onClick={() => toggleRowExpansion(index)} className={HiddenOnPrint}>
+                                                                            {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
                                                                         </Button>
                                                                     )}
                                                                 </div>

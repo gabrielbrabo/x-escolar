@@ -2808,13 +2808,13 @@ export const RecordClassTaught = async (
 export const indexRecordClassTaught = async (
     year,
     id_class,
-    //id_employee
+    id_employee
 ) => {
 
     return api.post(`/index-record-class`, {
         year,
         id_class,
-        //id_employee
+        id_employee
     })
         .catch((error) => {
             if (error) {
