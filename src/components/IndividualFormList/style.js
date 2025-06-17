@@ -163,13 +163,22 @@ export const DescriptionCell = styled.div`
   .description {
     transition: height 0.3s ease;
 
-    &.collapsed {
-      height: 10px;
-    }
+    display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        word-break: break-word;
+        white-space: pre-wrap;
+        transition: max-height 0.3s ease;
 
-    &.expanded {
-      height: auto;
-    }
+        &.collapsed {
+        -webkit-line-clamp: 3;
+        max-height: 4.5em;
+        }
+
+        &.expanded {
+        -webkit-line-clamp: unset;
+        max-height: none;
+        }
 
     @media (max-width: 345px)  {
       font-size: 13px; /* Smartphones pequenos */
