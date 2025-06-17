@@ -157,19 +157,19 @@ const Grade = () => {
                 //const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
                 //const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
 
-                if (RegentTeacher02 === id_teacher) {
+                /*if (RegentTeacher02 === id_teacher) {
                     const res = await RecordClassTaughtDaily(year, RegentTeacher, id_class, startd, startm, starty, endd, endm, endy)
                     console.log('classes', res)
                     if (res) {
                         setRecordClassTaught(res.data.data);
                     }
-                } else {
+                } else {*/
                     const res = await RecordClassTaughtDaily(year, id_teacher, id_class, startd, startm, starty, endd, endm, endy)
                     console.log('classes', res)
                     if (res) {
                         setRecordClassTaught(res.data.data);
                     }
-                }
+                //}
                 //setId_employee(JSON.parse(id_employee));
 
                 //const resClass = await clssInfo(id_class);

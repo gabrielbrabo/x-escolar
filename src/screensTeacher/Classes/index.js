@@ -71,15 +71,15 @@ const Grade = () => {
             const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
             //const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
 
-            if (id_emp === classRegentTeacher02) {
+            /*if (id_emp === classRegentTeacher02) {
                 const res = await indexRecordClassTaught(year, id_class, JSON.parse(classRegentTeacher));
                 console.log("res", res)
                 setRecordClassTaught(res.data.data || []);
-            } else {
+            } else {*/
                 const res = await indexRecordClassTaught(year, id_class, JSON.parse(id_emp));
                 console.log("res", res)
                 setRecordClassTaught(res.data.data || []);
-            }
+            //}
 
             setId_employee(JSON.parse(id_emp));
 
