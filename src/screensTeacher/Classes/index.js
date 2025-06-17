@@ -294,7 +294,7 @@ const Grade = () => {
                                                     <ContainerTable>
                                                         <Span>
                                                             <div>Professor: <p>{res.id_teacher.name}</p></div>
-                                                            <div>Professor 02: <p>{res.id_teacher02?.name || '---'}</p></div>
+                                                            {/*<div>Professor 02: <p>{res.id_teacher02?.name || '---'}</p></div>*/}
                                                             <div>Turma: <p>{res.id_class.serie}</p></div>
                                                         </Span>
 

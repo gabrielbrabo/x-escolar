@@ -233,3 +233,33 @@ export const Select = styled.select`
     padding: 8px;
   }
 `;
+
+export const DiaryWrapper = styled.div`
+  background-color: #f7f7f7;
+  padding: 16px;
+  border-radius: 12px;
+  margin: 20px auto;
+  max-width: 800px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+`;
+
+export const DiaryBimester = styled.div`
+  margin-bottom: 12px;
+
+  h3 {
+    margin-bottom: 4px;
+    color: #0b698e;
+  }
+`;
+
+export const StatusLine = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  span {
+    font-size: 0.95rem;
+    color: #333;
+  }
+`;

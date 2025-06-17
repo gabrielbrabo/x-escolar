@@ -30,6 +30,9 @@ import {
     Input,
     Label,
     Select,
+    ////DiaryWrapper,
+    ////DiaryBimester,
+    ////StatusLine,
 } from './style';
 import LoadingSpinner from '../../components/Loading'
 
@@ -38,7 +41,7 @@ const MyCla$$Info = () => {
     const navigate = useNavigate()
     const [assessmentFormat, setassessmentFormat] = useState('');
     const [clss, setClss] = useState([])
-    //const [NameMatter, setNameMatter] = useState([])
+    const [DailyClass, setDailyClass] = useState([])
     const [stdt, setStdt] = useState([])
     const [studentTransferMap, setstudentTransferMap] = useState([]);
 
@@ -49,6 +52,11 @@ const MyCla$$Info = () => {
     const [AllBimBull, setBimAllBull] = useState(false);
 
     const [bimonthly, setBimonthly] = useState([]);
+
+    //const [idTeacher, setId_teacher] = useState('')
+    //const [RegentTeacher, setclassRegentTeacher] = useState([]);
+    //const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
+    //const [physicalEducation, setphysicalEducationTeacher] = useState([]);
 
     const { id_class } = useParams();
     const { id_teacher } = useParams();
@@ -69,6 +77,12 @@ const MyCla$$Info = () => {
             console.log('useParamsTeacher', id_teacher)
             const resClass = await clssInfo(id_class)
             console.log("resClass", resClass.data.data)
+
+            const Daily = await resClass.data.data.find(res => {
+                return res
+            }).dailyStatus
+            //console.log("Daily", Daily)
+            setDailyClass(Daily)
             //const res = await GetInfoMyClass(id_class, id_teacher)
             //console.log(res.data.data)
             const student = await resClass.data.data.find(res => {
@@ -128,6 +142,12 @@ const MyCla$$Info = () => {
                     return null
                 }
             })
+            //const idTeacher = JSON.parse(localStorage.getItem("Id_employee") || '""'); // Remove aspas extras
+            //setId_teacher(idTeacher);
+
+            //setclassRegentTeacher(classRegentTeacher._id)
+            //setclassRegentTeacher02(classRegentTeacher02._id)
+            //setphysicalEducationTeacher(physicalEducationTeacher._id)
 
             console.log("classRegentTeacher", classRegentTeacher);
             console.log("classRegentTeacher02", classRegentTeacher02);
@@ -161,6 +181,9 @@ const MyCla$$Info = () => {
         })()
 
     }, [id_class, id_teacher, classRegentEmployee])
+
+    //console.log("isRegente", isRegente, "isRegente02", isRegente02, "isEdFisica", isEdFisica)
+
 
     const StudentInformation = async (stdt) => {
         setLoading(true);
@@ -305,6 +328,16 @@ const MyCla$$Info = () => {
         }
     };
 
+    /*const handleClose = (bimester, field) => {
+        /*const updatedDaily = { ...daily };
+        updatedDaily[bimester][field] = "fechado";
+        setDaily(updatedDaily); // se estiver usando state
+        // Aqui você pode também fazer uma requisição para salvar no banco se desejar
+      };*/
+
+
+    console.log("Daily", DailyClass)
+
     return (
         <Container>
             {loading ?
@@ -342,6 +375,30 @@ const MyCla$$Info = () => {
                             <button onClick={() => { navigate('/final-concepts') }}>Conceitos Finais</button>
                         </ButtonContainer>
                     }
+                    {/*<DiaryWrapper>
+                        <h2 style={{ color: "#158fa2", marginBottom: "10px" }}>Diário da Turma</h2>
+                        {Object.entries(DailyClass).map(([bimester, status], index) => (
+                            <DiaryBimester key={index}>
+                                <h3>{bimester}</h3>
+                                <StatusLine>
+                                    {(RegentTeacher === idTeacher || RegentTeacher02 === idTeacher) && status.regentTeacher === "aberto" && (
+                                        <>
+                                            <span><strong>Professor Regente:</strong> {status.regentTeacher}</span>
+                                            <button onClick={() => handleClose(bimester, "regentTeacher")}>Fechar Bimestre</button>
+                                        </>
+                                    )}
+                                    {physicalEducation === idTeacher && status.physicalEducationTeacher === "aberto" && (
+                                        <>
+                                            <span><strong>Ed. Física:</strong> {status.physicalEducationTeacher}</span>
+                                            <button onClick={() => handleClose(bimester, "physicalEducationTeacher")}>Fechar Bimestre</button>
+                                        </>
+                                    )}
+                                </StatusLine>
+                            </DiaryBimester>
+                        ))}
+                    </DiaryWrapper>*/}
+
+
                     <StudentSection>
                         <h2 style={{ color: "#158fa2" }}>Alunos</h2>
                         <AddImpre>
