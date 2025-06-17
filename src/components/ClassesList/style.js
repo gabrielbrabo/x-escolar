@@ -284,6 +284,23 @@ export const Button02 = styled.button`
     font-size: 14px;
   }
 `;
+export const ButtonEdit = styled.button`
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+
+    &:hover {
+        background-color: #0056b3;
+    }
+
+    @media print {
+        display: none; // Oculta na impressão
+    }
+`;
+
 
 export const Register = styled.div`
   width: 100%;

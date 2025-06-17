@@ -40,6 +40,7 @@ const Grade = () => {
     
     const [RegentTeacher, setclassRegentTeacher] = useState([]);
     const [id_teacher02, setclassRegentTeacher02] = useState([]);
+    const [physicalEducationTeacher, setPhysicalEducationTeacher] = useState([]);
 
     const [id_class, setId_class] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -50,9 +51,11 @@ const Grade = () => {
             const id_employee = localStorage.getItem("Id_employee");
             const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
             const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
+            const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
 
             setclassRegentTeacher(JSON.parse(classRegentTeacher))
             setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
+            setPhysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
             
             const id_class = sessionStorage.getItem("class-info");
             setId_employee(JSON.parse(id_employee));
@@ -73,12 +76,20 @@ const Grade = () => {
         console.log('id_employee:', id_employee);
         console.log('id_class:', id_class);
 
-        const res = await RecordClassTaught(day, month, year, plainDescription, RegentTeacher, id_teacher02, id_class);
-
-        if (res) {
-            navigate(-1);
+        if(id_employee === physicalEducationTeacher) {
+            const res = await RecordClassTaught(day, month, year, plainDescription, id_employee, id_teacher02, id_class);
+            if (res) {
+                navigate(-1);
+            } else {
+                setErrorMessage('Erro, Verifique os dados e tente novamente.');
+            }
         } else {
-            setErrorMessage('Erro, Verifique os dados e tente novamente.');
+            const res = await RecordClassTaught(day, month, year, plainDescription, RegentTeacher, id_teacher02, id_class);
+            if (res) {
+                navigate(-1);
+            } else {
+                setErrorMessage('Erro, Verifique os dados e tente novamente.');
+            }
         }
     };
 

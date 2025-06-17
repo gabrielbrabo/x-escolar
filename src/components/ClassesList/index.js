@@ -135,7 +135,7 @@ const Grade = () => {
             }
 
             if (year && id_teacher && id_class && startd && startm && starty && endd && endm && endy) {
-                const res = await RecordClassTaughtDaily(year, id_teacher, id_class, startd, startm, starty, endd, endm, endy)
+                const res = await RecordClassTaughtDaily(year, /*id_teacher,*/ id_class, startd, startm, starty, endd, endm, endy)
                 console.log('classes', res)
                 if (res) {
                     setRecordClassTaught(res.data.data);
@@ -249,6 +249,7 @@ const Grade = () => {
                                                     <ContainerTable>
                                                         <Span>
                                                             <div>Professor: <p>{res.id_teacher.name}</p></div>
+                                                            <div>Professor 02: <p>{res.id_teacher02?.name || '---'}</p></div>
                                                             <div>Turma: <p>{res.id_class.serie}</p></div>
                                                         </Span>
 
@@ -272,11 +273,10 @@ const Grade = () => {
                                                                             {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
                                                                         </Button>
                                                                     )}
-                                                                    {/*expandedRows.includes(index) && positionAtSchool === 'DIRETOR/SUPERVISOR' && (
-                                                                        <Button onClick={() => handleEdit(index, res)} className={HiddenOnPrint}>
-                                                                            Editar
-                                                                        </Button>
+                                                                    {/*expandedRows.includes(index) && /*positionAtSchool === 'DIRETOR/SUPERVISOR' && (
+                                                                        <Button className={HiddenOnPrint}>Editar</Button>
                                                                     )*/}
+
                                                                 </div>
                                                             </DescriptionCell>
                                                         </TableRow>
