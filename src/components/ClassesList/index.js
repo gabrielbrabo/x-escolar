@@ -348,46 +348,35 @@ const Grade = () => {
                                                         </TableRow>
                                                         {editingIndex === index && (
                                                             <EditContainer>
-                                                                <h3>Editando Aula</h3>
-                                                                {/*<div className='data'>
-                                                                    <label>Data</label>
-                                                                </div>
-
-                                                                <input
-                                                                    type="text"
-                                                                    value={`${day}/${month}`}
-                                                                    onChange={(e) => {
-                                                                        const [newDay, newMonth] = e.target.value.split('/');
-                                                                        setDay(newDay);
-                                                                        setMonth(newMonth);
-                                                                    }}
-                                                                    placeholder="Data (DD/MM)"
-                                                                />*/}
-                                                                {/*<textarea
-                                                                value={editedDescription}
-                                                                onChange={(e) => setEditedDescription(e.target.value)}
-                                                                placeholder="Descrição da aula"
-                                                            />*/}
-                                                                <ReactQuill
-                                                                    theme="snow"
-                                                                    modules={{
-                                                                        toolbar: [
-                                                                            [{ 'font': [] }],
-                                                                            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                                                                            ['bold', 'italic', 'underline'],
-                                                                            [{ 'color': [] }, { 'background': [] }],
-                                                                            ['clean']
-                                                                        ]
-                                                                    }}
-                                                                    value={editedDescription}
-                                                                    onChange={(e) => setEditedDescription(e)}
-                                                                    placeholder="Descrição da aula"
-                                                                    style={{ height: '250px', position: 'relative', overflow: 'hidden', maxHeight: '250px', zIndex: 0 }}  // Define a altura aqui
-                                                                />
-                                                                {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                                                                <div style={{ position: 'relative', zIndex: 10, marginTop: '30px', }} className='BoxBtt'>
-                                                                    <ButtonEdit onClick={handleSaveEdit}>Salvar</ButtonEdit>
-                                                                    <ButtonEdit onClick={() => setEditingIndex(null)}>Cancelar</ButtonEdit>
+                                                                <div className="modal-content">
+                                                                    <h3>Editando Aula</h3>
+                                                                    <ReactQuill
+                                                                        theme="snow"
+                                                                        modules={{
+                                                                            toolbar: [
+                                                                                [{ 'font': [] }],
+                                                                                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                                                                ['bold', 'italic', 'underline'],
+                                                                                [{ 'color': [] }, { 'background': [] }],
+                                                                                ['clean']
+                                                                            ]
+                                                                        }}
+                                                                        value={editedDescription}
+                                                                        onChange={(e) => setEditedDescription(e)}
+                                                                        placeholder="Descrição da aula"
+                                                                        style={{
+                                                                            height: 'auto', // aumentado de 250px para 350px
+                                                                            maxHeight: '550px',
+                                                                            overflow: 'auto',
+                                                                            zIndex: 0,
+                                                                            position: 'relative'
+                                                                        }}
+                                                                    />
+                                                                    {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                                                    <div style={{ position: 'relative', zIndex: 10, marginTop: '30px', }} className='BoxBtt'>
+                                                                        <ButtonEdit onClick={handleSaveEdit}>Salvar</ButtonEdit>
+                                                                        <ButtonEdit onClick={() => setEditingIndex(null)}>Cancelar</ButtonEdit>
+                                                                    </div>
                                                                 </div>
                                                             </EditContainer>
                                                         )}

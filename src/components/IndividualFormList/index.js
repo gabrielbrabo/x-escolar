@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { IndexIndividualForm, getIstQuarter, getIIndQuarter, getIIIrdQuarter, getIVthQuarter, getVthQuarter, getVIthQuarter } from '../../Api';
+import { IndexIndividualForm, FormEdit, getIstQuarter, getIIndQuarter, getIIIrdQuarter, getIVthQuarter, getVthQuarter, getVIthQuarter } from '../../Api';
 import { useNavigate } from 'react-router-dom';
 import {
     Container,
@@ -14,15 +14,19 @@ import {
     InfoText,
     Button,
     Button02,
+    ButtonEdit,
     DescriptionCell,
     HiddenOnPrint,
     PrintStyleClasses,
     ToGoBack,
     SignMessageButtonTextBold,
     SignMessageButtonText,
-    DataBimonthly
+    DataBimonthly,
+    EditContainer,
+    ErrorMessage,
 } from './style';
 import LoadingSpinner from '../../components/Loading';
+import ReactQuill from 'react-quill';
 
 const IndividualFormList = () => {
     const navigate = useNavigate();
@@ -34,6 +38,7 @@ const IndividualFormList = () => {
     const [endm, setEndm] = useState("");
     const [endy, setEndy] = useState("");
 
+    const [positionAtSchool, setPositionAtSchool] = useState(null);
 
     const [bimonthly, setBimonthly] = useState([])
 
@@ -52,16 +57,24 @@ const IndividualFormList = () => {
     const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
     //const [physicalEducation, setphysicalEducationTeacher] = useState([]);
 
+    //const [formData, setFormData] = useState([]);
+    const [editingIndex, setEditingIndex] = useState(null);
+    const [update_idForm, setEditingId] = useState();
+    const [editedDescription, setEditedDescription] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
     useEffect(() => {
         (async () => {
             setLoading(true);
             const year = new Date().getFullYear().toString();
+            const position = localStorage.getItem('position_at_school');
             const SelectbimonthlyDaily = JSON.parse(sessionStorage.getItem("Selectbimonthly-daily"));
             const SelectteacherDaily = JSON.parse(sessionStorage.getItem("Selectteacher-daily"));
             const Nameclass = JSON.parse(sessionStorage.getItem("Nameclass-daily"));
             const SelectclassDaily = sessionStorage.getItem("Selectclass-daily");
             const idSchool = SelectteacherDaily.id_school;
 
+            setPositionAtSchool(position);
             setnameSchool(SelectteacherDaily.id_school.name);
             setid_teacher(SelectteacherDaily._id);
             setid_class(SelectclassDaily);
@@ -291,6 +304,33 @@ const IndividualFormList = () => {
         }, 0);
     };
 
+    const handleEdit = async (index, res) => {
+        setEditingIndex(index);
+        setEditingId(res._id);
+        setEditedDescription(res.description);
+    }
+
+    const handleSaveEdit = async () => {
+        try {
+            const res = await FormEdit({ update_idForm, editedDescription });
+
+            if (res) {
+                alert('Ficha atualizada com sucesso!');
+                setLoading(true);
+
+                setEditingIndex(null);
+
+                setErrorMessage('');
+                window.location.reload()
+            } else {
+                setErrorMessage('Erro ao cadastrar. Verifique os dados e tente novamente.');
+            }
+        } catch (error) {
+            console.error("Erro ao atualizar aula:", error);
+            setErrorMessage('Ocorreu um erro ao salvar a edição. Tente novamente.');
+        }
+    };
+    console.log("editingId", update_idForm)
     return (
         <Container>
             {loading ? (
@@ -350,9 +390,48 @@ const IndividualFormList = () => {
                                                                             {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
                                                                         </Button>
                                                                     )}
+                                                                    {expandedRows.includes(index) && positionAtSchool === 'DIRETOR/SUPERVISOR' && (
+                                                                        <Button onClick={() => handleEdit(index, res)} className={HiddenOnPrint}>
+                                                                            Editar
+                                                                        </Button>
+                                                                    )}
                                                                 </div>
                                                             </DescriptionCell>
                                                         </TableRow>
+                                                        {editingIndex === index && (
+                                                            <EditContainer>
+                                                                <div className="modal-content">
+                                                                    <h3>Editando Aula</h3>
+                                                                    <ReactQuill
+                                                                        theme="snow"
+                                                                        modules={{
+                                                                            toolbar: [
+                                                                                [{ 'font': [] }],
+                                                                                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                                                                ['bold', 'italic', 'underline'],
+                                                                                [{ 'color': [] }, { 'background': [] }],
+                                                                                ['clean']
+                                                                            ]
+                                                                        }}
+                                                                        value={editedDescription}
+                                                                        onChange={(e) => setEditedDescription(e)}
+                                                                        placeholder="Descrição da aula"
+                                                                        style={{
+                                                                            height: 'auto', // aumentado de 250px para 350px
+                                                                            maxHeight: '550px',
+                                                                            overflow: 'auto',
+                                                                            zIndex: 0,
+                                                                            position: 'relative'
+                                                                        }}
+                                                                    />
+                                                                    {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                                                    <div style={{ position: 'relative', zIndex: 10, marginTop: '30px', }} className='BoxBtt'>
+                                                                        <ButtonEdit onClick={handleSaveEdit}>Salvar</ButtonEdit>
+                                                                        <ButtonEdit onClick={() => setEditingIndex(null)}>Cancelar</ButtonEdit>
+                                                                    </div>
+                                                                </div>
+                                                            </EditContainer>
+                                                        )}
                                                     </ContainerTable>
                                                 </React.Fragment>
                                             ))

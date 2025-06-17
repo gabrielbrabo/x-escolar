@@ -374,3 +374,117 @@ export const SignMessageButtonTextBold = styled.span`
     font-size: 14px;
   }
 `;
+
+export const EditContainer = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+
+    .ql-toolbar.ql-snow {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 0px;
+      padding: 0px;
+      margin-bottom: 10px;
+    }
+
+
+    .modal-content {
+        background-color: #f9f9f9;
+        border: 2px solid #FF5733;
+        padding: 20px;
+        width: 90%;
+        max-width: 750px;
+        min-height: 500px; /* Aumenta a altura mínima */
+        max-height: 90vh; /* Garante que não ultrapasse a tela */
+        overflow-y: auto;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+
+        h3 {
+            margin: 0 0 15px 0;
+            color: #333;
+        }
+
+        .data {
+            display: flex;
+            padding-left: 5px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            margin-bottom: 12px;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 250px;
+        }
+
+        .BoxBtt {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: space-evenly;
+            margin-top: 20px;
+        }
+
+        button {
+            align-self: flex-start;
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            padding: 12px;
+
+            h3 {
+                font-size: 18px;
+            }
+
+            button {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+        }
+
+        @media print {
+            display: none;
+        }
+    }
+
+    @media print {
+        display: none;
+    }
+`;
+
+export const ButtonEdit = styled.button`
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+
+    &:hover {
+        background-color: #0056b3;
+    }
+
+    @media print {
+        display: none; // Oculta na impressão
+    }
+`;
