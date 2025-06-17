@@ -67,8 +67,8 @@ const Grade = () => {
             const id_class = sessionStorage.getItem("class-info");
             const year = new Date().getFullYear();
 
-            const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
-            const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
+           // const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
+           // const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
             //const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
 
             /*if (id_emp === classRegentTeacher02) {
