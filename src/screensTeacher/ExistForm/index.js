@@ -38,7 +38,7 @@ const StudentRecordDescription = () => {
         const fetchData = async () => {
             const selectBimonthly = JSON.parse(sessionStorage.getItem("Selectbimonthly"));
             const studentName = JSON.parse(sessionStorage.getItem("nmstdt"));
-            const id_employee = localStorage.getItem("Id_employee");
+           // const id_employee = localStorage.getItem("Id_employee");
             const individualFormId = id_form;
 
             setNameStudent(studentName || '');
@@ -47,10 +47,10 @@ const StudentRecordDescription = () => {
             if (individualFormId && individualFormId !== "undefined") {
                 const response = await GetIndividualForm({ id_individualForm: individualFormId });
                 if (response) {
-                    const isTeacher = await response.data.data.id_teacher._id;
+                   /* const isTeacher = await response.data.data.id_teacher._id;
                     if (isTeacher === JSON.parse(id_employee)) {
                         setIsTeacher(isTeacher);
-                    }
+                    }*/
                     setFormData(response.data.data);
                 }
             } else {
