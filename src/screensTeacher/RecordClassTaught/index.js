@@ -40,7 +40,7 @@ const Grade = () => {
     
     //const [RegentTeacher, setclassRegentTeacher] = useState([]);
     //const [id_teacher02, setclassRegentTeacher02] = useState([]);
-    const [physicalEducationTeacher, setPhysicalEducationTeacher] = useState([]);
+    //const [physicalEducationTeacher, setPhysicalEducationTeacher] = useState([]);
 
     const [id_class, setId_class] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
