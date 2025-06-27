@@ -38,8 +38,8 @@ const Grade = () => {
     const [description, setDescription] = useState('');
     const [id_employee, setId_employee] = useState('');
     
-    const [RegentTeacher, setclassRegentTeacher] = useState([]);
-    const [id_teacher02, setclassRegentTeacher02] = useState([]);
+    //const [RegentTeacher, setclassRegentTeacher] = useState([]);
+    //const [id_teacher02, setclassRegentTeacher02] = useState([]);
     const [physicalEducationTeacher, setPhysicalEducationTeacher] = useState([]);
 
     const [id_class, setId_class] = useState('');
@@ -49,13 +49,13 @@ const Grade = () => {
         (async () => {
             setLoading(true);
             const id_employee = localStorage.getItem("Id_employee");
-            const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
-            const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
-            const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
+            //const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
+            //const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
+            //const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
 
-            setclassRegentTeacher(JSON.parse(classRegentTeacher))
-            setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
-            setPhysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
+            //setclassRegentTeacher(JSON.parse(classRegentTeacher))
+            //setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
+            //setPhysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
             
             const id_class = sessionStorage.getItem("class-info");
             setId_employee(JSON.parse(id_employee));
