@@ -76,7 +76,7 @@ const Grade = () => {
         console.log('id_employee:', id_employee);
         console.log('id_class:', id_class);
 
-        if(id_employee === physicalEducationTeacher) {
+       /*if(id_employee === physicalEducationTeacher) {
             const res = await RecordClassTaught(day, month, year, plainDescription, id_employee, id_teacher02, id_class);
             if (res) {
                 navigate(-1);
@@ -90,6 +90,12 @@ const Grade = () => {
             } else {
                 setErrorMessage('Erro, Verifique os dados e tente novamente.');
             }
+        }*/
+        const res = await RecordClassTaught(day, month, year, plainDescription, id_employee, /*id_teacher02,*/ id_class);
+        if (res) {
+            navigate(-1);
+        } else {
+            setErrorMessage('Erro, Verifique os dados e tente novamente.');
         }
     };
 
