@@ -2788,11 +2788,11 @@ export const AttendanceBimonthly = async (
 }
 
 export const RecordClassTaught = async (
-    day, month, year, description, id_teacher, id_teacher02, id_class
+    day, month, year, description, id_teacher, /*id_teacher02,*/ id_class
 ) => {
 
     return api.post(`/record-class-taught`, {
-        day, month, year, description, id_teacher, id_teacher02, id_class
+        day, month, year, description, id_teacher, /*id_teacher02,*/ id_class
     })
         .catch((error) => {
             if (error) {
