@@ -975,7 +975,7 @@ export const ToggleButton = styled.button`
 
 export const GradesTableContainer = styled.div`
   width: 100%;
-  overflow-x: auto;  // Permite rolagem horizontal
+  //overflow-x: auto;  // Permite rolagem horizontal
   -webkit-overflow-scrolling: touch; // Rolagem suave no iOS
   margin-top: 2rem;
 

@@ -1020,73 +1020,75 @@ export default function Daily() {
                 </p>
               </LegendBox>
               {Object.entries(groupedGrades).length > 0 ? (
-                <GradesTable>
-                  <GradesTableHeader>
-                    <tr>
-                      <th className="name-cell">Nome do Aluno</th>
-                      {Object.entries(groupedGrades).map(([matterId, matterData]) => (
-                        <th key={matterId} className="matter-cell">
-                          {matterData.name}
-                        </th>
-                      ))}
-                    </tr>
-                  </GradesTableHeader>
-                  <GradesTableBody>
-                    {Object.values(
-                      Object.entries(groupedGrades).reduce((acc, [, matterData]) => {
-                        Object.entries(matterData.students).forEach(([studentId, studentData]) => {
-                          if (!acc[studentId]) {
-                            acc[studentId] = { name: studentData.name, grades: {} };
-                          }
-                          acc[studentId].grades[matterData.name] = studentData.total;
-                        });
-                        return acc;
-                      }, {})
-                    )
-                      .sort((a, b) => a.name.localeCompare(b.name))
-                      .map((student) => (
-                        <tr
-                          key={student.name}
-                          className={`grade-row ${selectedStudentGrades === student.name ? 'selected' : ''}`}
-                          onClick={() =>
-                            setSelectedStudentGrades((prev) =>
-                              prev === student.name ? null : student.name
-                            )
-                          }
-                        >
-                          <td className="name-cell">{student.name}</td>
-                          {Object.entries(groupedGrades).map(([_, matterData]) => {
-                            const nota = student.grades[matterData.name];
-                            let notaClass = '';
-
-                            if (nota !== undefined) {
-                              const notaTotal = parseFloat(data.totalGrade);
-                              const notaMedia = parseFloat(data.averageGrade);
-
-                              if (nota >= notaTotal * 0.9) {
-                                notaClass = 'grade-green';
-                              } else if (nota >= notaMedia) {
-                                notaClass = 'grade-blue';
-                              } else {
-                                notaClass = 'grade-red';
-                              }
+                <div style={{ overflowX: 'auto' }}>
+                  <GradesTable>
+                    <GradesTableHeader>
+                      <tr>
+                        <th className="name-cell">Nome do Aluno</th>
+                        {Object.entries(groupedGrades).map(([matterId, matterData]) => (
+                          <th key={matterId} className="matter-cell">
+                            {matterData.name}
+                          </th>
+                        ))}
+                      </tr>
+                    </GradesTableHeader>
+                    <GradesTableBody>
+                      {Object.values(
+                        Object.entries(groupedGrades).reduce((acc, [, matterData]) => {
+                          Object.entries(matterData.students).forEach(([studentId, studentData]) => {
+                            if (!acc[studentId]) {
+                              acc[studentId] = { name: studentData.name, grades: {} };
                             }
+                            acc[studentId].grades[matterData.name] = studentData.total;
+                          });
+                          return acc;
+                        }, {})
+                      )
+                        .sort((a, b) => a.name.localeCompare(b.name))
+                        .map((student) => (
+                          <tr
+                            key={student.name}
+                            className={`grade-row ${selectedStudentGrades === student.name ? 'selected' : ''}`}
+                            onClick={() =>
+                              setSelectedStudentGrades((prev) =>
+                                prev === student.name ? null : student.name
+                              )
+                            }
+                          >
+                            <td className="name-cell">{student.name}</td>
+                            {Object.entries(groupedGrades).map(([_, matterData]) => {
+                              const nota = student.grades[matterData.name];
+                              let notaClass = '';
 
-                            return (
-                              <td
-                                key={matterData.name}
-                                className={`matter-cell ${notaClass}`}
-                              >
-                                {nota !== undefined
-                                  ? nota.toFixed(1).replace('.', ',')
-                                  : '-'}
-                              </td>
-                            );
-                          })}
-                        </tr>
-                      ))}
-                  </GradesTableBody>
-                </GradesTable>
+                              if (nota !== undefined) {
+                                const notaTotal = parseFloat(data.totalGrade);
+                                const notaMedia = parseFloat(data.averageGrade);
+
+                                if (nota >= notaTotal * 0.9) {
+                                  notaClass = 'grade-green';
+                                } else if (nota >= notaMedia) {
+                                  notaClass = 'grade-blue';
+                                } else {
+                                  notaClass = 'grade-red';
+                                }
+                              }
+
+                              return (
+                                <td
+                                  key={matterData.name}
+                                  className={`matter-cell ${notaClass}`}
+                                >
+                                  {nota !== undefined
+                                    ? nota.toFixed(1).replace('.', ',')
+                                    : '-'}
+                                </td>
+                              );
+                            })}
+                          </tr>
+                        ))}
+                    </GradesTableBody>
+                  </GradesTable>
+                </div>
               ) : (
                 <GradesTable>
                   <tr><td>Não há nenhum registro</td></tr>
