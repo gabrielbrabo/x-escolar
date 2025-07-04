@@ -38,7 +38,7 @@ const StudentRecordDescription = () => {
         const fetchData = async () => {
             const selectBimonthly = JSON.parse(sessionStorage.getItem("Selectbimonthly"));
             const studentName = JSON.parse(sessionStorage.getItem("nmstdt"));
-            //const id_employee = localStorage.getItem("Id_employee");
+            // const id_employee = localStorage.getItem("Id_employee");
             const individualFormId = id_form;
 
             setNameStudent(studentName || '');
@@ -47,7 +47,7 @@ const StudentRecordDescription = () => {
             if (individualFormId && individualFormId !== "undefined") {
                 const response = await GetIndividualForm({ id_individualForm: individualFormId });
                 if (response) {
-                    /*const isTeacher = await response.data.data.id_teacher._id;
+                   /* const isTeacher = await response.data.data.id_teacher._id;
                     if (isTeacher === JSON.parse(id_employee)) {
                         setIsTeacher(isTeacher);
                     }*/
@@ -89,8 +89,8 @@ const StudentRecordDescription = () => {
 
     const Destroy = async () => {
         const res = await DestroyForm(id_form)
-        if(res){
-            navigate(-1)    
+        if (res) {
+            navigate(-1)
         }
     };
 
@@ -114,10 +114,10 @@ const StudentRecordDescription = () => {
                             <PrintButton onClick={handlePrint}>Imprimir Ficha</PrintButton> {/* Botão de impressão acima */}
                         </Span>
                         {/*isTeacher.length > 0 && (*/}
-                            <BoxButton>
-                                <Button onClick={handleDestroy}>Apagar</Button>
-                                <Button onClick={startEditing}>Editar</Button>
-                            </BoxButton>
+                        <BoxButton>
+                            <Button onClick={handleDestroy}>Apagar</Button>
+                            <Button onClick={startEditing}>Editar</Button>
+                        </BoxButton>
                         {/*)*/}
                     </ContainerSpan>
                     <RecordDescription>

@@ -45,10 +45,10 @@ const Grade = () => {
     const [year, setYear] = useState('');
     const [description, setDescription] = useState('');
     const [id_employee, setId_employee] = useState('');
-
+    
     //const [RegentTeacher, setclassRegentTeacher] = useState([]);
-    //const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
-    const [physicalEducation, setphysicalEducationTeacher] = useState([]);
+    //const [id_teacher02, setclassRegentTeacher02] = useState([]);
+    const [physicalEducation, setPhysicalEducationTeacher] = useState([]);
 
     const [id_class, setId_class] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -65,7 +65,8 @@ const Grade = () => {
 
             //setclassRegentTeacher(JSON.parse(classRegentTeacher))
             //setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
-            setphysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
+            setPhysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
+            
 
             const id_class = sessionStorage.getItem("class-info");
             setId_employee(JSON.parse(id_employee));
@@ -86,7 +87,7 @@ const Grade = () => {
         console.log('id_employee:', id_employee);
         console.log('id_class:', id_class);
 
-        /*if(id_employee === physicalEducationTeacher) {
+       /*if(id_employee === physicalEducationTeacher) {
             const res = await RecordClassTaught(day, month, year, plainDescription, id_employee, id_teacher02, id_class);
             if (res) {
                 navigate(-1);
