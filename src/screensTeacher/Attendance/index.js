@@ -233,7 +233,7 @@ const IndexAttendance = () => {
                         const startDate = new Date(res.startyear, res.startmonth - 1, res.startday);
                         const endDate = new Date(res.endyear, res.endmonth - 1, res.endday);
                         if (dateSelected >= startDate && dateSelected <= endDate) {
-                            return res.statusSupervisor;
+                            return res.bimonthly/*.statusSupervisor*/;
                         }
                         return null;
                     })
@@ -253,26 +253,51 @@ const IndexAttendance = () => {
                 IVthQuarter: dataIVthQuarter || null,
             };
         };
-        // Chamando a função e lidando com o resultado
-        fetchQuarters().then((result) => {
+
+
+        const run = async () => {
+            const result = await fetchQuarters();
+            const resClass = await clssInfo(id_class); // ✅ Aqui você espera a Promise
+
+            const turma = resClass.data.data[0];
+            console.log("result class:", resClass.data.data);
+            console.log("result turma:", turma.dailyStatus);
+
             if (result.IstQuarter) {
                 console.log("dataIstQuarter", result.IstQuarter);
-                setopen(result.IstQuarter)
+                if (id_teacher !== physicalEducation) {
+                    setopen(turma.dailyStatus["1º BIMESTRE"].regentTeacher);
+                } else {
+                    setopen(turma.dailyStatus["1º BIMESTRE"].physicalEducationTeacher);
+                }
             }
             if (result.IIndQuarter) {
                 console.log("dataIIndQuarter", result.IIndQuarter);
-                setopen(result.IIndQuarter)
+                if (id_teacher !== physicalEducation) {
+                    setopen(turma.dailyStatus["2º BIMESTRE"].regentTeacher);
+                } else {
+                    setopen(turma.dailyStatus["2º BIMESTRE"].physicalEducationTeacher);
+                }
             }
             if (result.IIIrdQuarter) {
                 console.log("dataIIIrdQuarter", result.IIIrdQuarter);
-                setopen(result.IIIrdQuarter)
+                if (id_teacher !== physicalEducation) {
+                    setopen(turma.dailyStatus["3º BIMESTRE"].regentTeacher);
+                } else {
+                    setopen(turma.dailyStatus["3º BIMESTRE"].physicalEducationTeacher);
+                }
             }
             if (result.IVthQuarter) {
                 console.log("dataIVthQuarter", result.IVthQuarter);
-                setopen(result.IVthQuarter)
+                if (id_teacher !== physicalEducation) {
+                    setopen(turma.dailyStatus["4º BIMESTRE"].regentTeacher);
+                } else {
+                    setopen(turma.dailyStatus["4º BIMESTRE"].physicalEducationTeacher);
+                }
             }
-        })
-        fetchQuarters();
+        };
+
+        run();
     }
 
     const clickRemovedate = () => {
@@ -406,8 +431,9 @@ const IndexAttendance = () => {
     console.log("month", month)
     console.log("year", year)
     console.log("stdt", stdt)
-    console.log("open", open)
     console.log("Status", Status)*/
+
+    console.log("open", open)
 
     return (
         <Container>
@@ -595,8 +621,8 @@ const IndexAttendance = () => {
                                 <option value="F">Falta</option>
                                 <option value="FJ">Falta Justificada (Atestado)</option>
                             </select>
-                            { <div className='not'>
-                                
+                            {<div className='not'>
+
                                 <label>Não adicionar</label>
                                 <input
                                     type="checkbox"

@@ -20,16 +20,24 @@ import {
     InputDate,
     ErrorMessage,
     SaveButton,
-    DescriptionContainer // Novo contêiner para descrição
+   //DescriptionContainer // Novo contêiner para descrição
 } from './style';
 import LoadingSpinner from '../../components/Loading';
 import {
     RecordClassTaught,
+    getIstQuarter,
+    getIIndQuarter,
+    getIIIrdQuarter,
+    getIVthQuarter,
+    clssInfo,
 } from '../../Api';
 
 const Grade = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
+
+    const [open, setopen] = useState('aberto')
+    const [id_teacher, setId_teacher] = useState('')
     const [selectedDate, setSelectedDate] = useState('');
     const [selected, setSelected] = useState('');
     const [day, setDay] = useState('');
@@ -37,10 +45,10 @@ const Grade = () => {
     const [year, setYear] = useState('');
     const [description, setDescription] = useState('');
     const [id_employee, setId_employee] = useState('');
-    
-    const [RegentTeacher, setclassRegentTeacher] = useState([]);
-    const [id_teacher02, setclassRegentTeacher02] = useState([]);
-    const [physicalEducationTeacher, setPhysicalEducationTeacher] = useState([]);
+
+    //const [RegentTeacher, setclassRegentTeacher] = useState([]);
+    //const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
+    const [physicalEducation, setphysicalEducationTeacher] = useState([]);
 
     const [id_class, setId_class] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -48,15 +56,17 @@ const Grade = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
+            const idTeacher = JSON.parse(localStorage.getItem("Id_employee") || '""'); // Remove aspas extras
+            setId_teacher(idTeacher);
             const id_employee = localStorage.getItem("Id_employee");
-            const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
-            const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
+            //const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
+            //const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
             const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
 
-            setclassRegentTeacher(JSON.parse(classRegentTeacher))
-            setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
-            setPhysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
-            
+            //setclassRegentTeacher(JSON.parse(classRegentTeacher))
+            //setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
+            setphysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
+
             const id_class = sessionStorage.getItem("class-info");
             setId_employee(JSON.parse(id_employee));
             setId_class(id_class);
@@ -76,7 +86,7 @@ const Grade = () => {
         console.log('id_employee:', id_employee);
         console.log('id_class:', id_class);
 
-        if(id_employee === physicalEducationTeacher) {
+        /*if(id_employee === physicalEducationTeacher) {
             const res = await RecordClassTaught(day, month, year, plainDescription, id_employee, id_teacher02, id_class);
             if (res) {
                 navigate(-1);
@@ -90,6 +100,12 @@ const Grade = () => {
             } else {
                 setErrorMessage('Erro, Verifique os dados e tente novamente.');
             }
+        }*/
+        const res = await RecordClassTaught(day, month, year, plainDescription, id_employee, /*id_teacher02,*/ id_class);
+        if (res) {
+            navigate(-1);
+        } else {
+            setErrorMessage('Erro, Verifique os dados e tente novamente.');
         }
     };
 
@@ -108,35 +124,32 @@ const Grade = () => {
         console.log('Mês:', month);
         console.log('Dia:', day);
 
-        
+
         setDay(day);
         setMonth(month);
         setYear(year);
     };
 
-    const handleDateChange = async () => {       
+    const handleDateChange = async () => {
         setSelectedDate(selected)
-        /*const fetchQuarters = async () => {
-            setLoading(true)
+        const fetchQuarters = async () => {
             const idSchool = sessionStorage.getItem("id-school");
-            const year = new Date().getFullYear();
+
             const dateSelected = new Date(year, month - 1, day);
 
             const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
             const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
             const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
             const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
-
+            //const VthQuarter = await getVthQuarter(year, JSON.parse(idSchool))
+            //const VIthQuarter = await getVIthQuarter(year, JSON.parse(idSchool))
             const getQuarterStatus = (quarterData) => {
                 return quarterData.data.data
                     .map((res) => {
-                        const startDate = new Date(year, res.startmonth - 1, res.startday);
-                        const endDate = new Date(year, res.endmonth - 1, res.endday);
+                        const startDate = new Date(res.startyear, res.startmonth - 1, res.startday);
+                        const endDate = new Date(res.endyear, res.endmonth - 1, res.endday);
                         if (dateSelected >= startDate && dateSelected <= endDate) {
-                            console.log("startDade:", startDate);
-                            console.log("endDate:", endDate);
-                            console.log("dateSelected:", dateSelected);
-                            return res.statusSupervisor;
+                            return res.bimonthly/*.statusSupervisor*/;
                         }
                         return null;
                     })
@@ -149,41 +162,62 @@ const Grade = () => {
             const dataIVthQuarter = getQuarterStatus(IVthQuarter);
 
             // Retorna os dados encontrados em um objeto
-
             return {
                 IstQuarter: dataIstQuarter || null,
                 IIndQuarter: dataIIndQuarter || null,
                 IIIrdQuarter: dataIIIrdQuarter || null,
                 IVthQuarter: dataIVthQuarter || null,
             };
-        }
-        try {
-            // Obtém os resultados de forma assíncrona
+        };
+
+
+        const run = async () => {
             const result = await fetchQuarters();
+            const resClass = await clssInfo(id_class); // ✅ Aqui você espera a Promise
 
-            // Define `open` com base nos resultados
-            const openQuarter =
-                result.IstQuarter === "aberto" ? "IstQuarter" :
-                    result.IIndQuarter === "aberto" ? "IIndQuarter" :
-                        result.IIIrdQuarter === "aberto" ? "IIIrdQuarter" :
-                            result.IVthQuarter === "aberto" ? "IVthQuarter" : null;
+            const turma = resClass.data.data[0];
+            console.log("result class:", resClass.data.data);
+            console.log("result turma:", turma.dailyStatus);
 
-            if (openQuarter) {
-               // console.log(`Bimestre aberto: ${openQuarter}`);
-                //setopen("aberto");
-                fetchQuarters();
-                setSelectedDate(selected)
-            } else {
-                alert("Bimestre fechado para adiciona aula contate o Diretor ou Supervisor.");
-                navigate(-1)
+            if (result.IstQuarter) {
+                console.log("dataIstQuarter", result.IstQuarter);
+                if (id_teacher !== physicalEducation) {
+                    setopen(turma.dailyStatus["1º BIMESTRE"].regentTeacher);
+                } else {
+                    setopen(turma.dailyStatus["1º BIMESTRE"].physicalEducationTeacher);
+                }
             }
+            if (result.IIndQuarter) {
+                console.log("dataIIndQuarter", result.IIndQuarter);
+                if (id_teacher !== physicalEducation) {
+                    setopen(turma.dailyStatus["2º BIMESTRE"].regentTeacher);
+                } else {
+                    setopen(turma.dailyStatus["2º BIMESTRE"].physicalEducationTeacher);
+                }
+            }
+            if (result.IIIrdQuarter) {
+                console.log("dataIIIrdQuarter", result.IIIrdQuarter);
+                if (id_teacher !== physicalEducation) {
+                    setopen(turma.dailyStatus["3º BIMESTRE"].regentTeacher);
+                } else {
+                    setopen(turma.dailyStatus["3º BIMESTRE"].physicalEducationTeacher);
+                }
+            }
+            if (result.IVthQuarter) {
+                console.log("dataIVthQuarter", result.IVthQuarter);
+                if (id_teacher !== physicalEducation) {
+                    setopen(turma.dailyStatus["4º BIMESTRE"].regentTeacher);
+                } else {
+                    setopen(turma.dailyStatus["4º BIMESTRE"].physicalEducationTeacher);
+                }
+            }
+        };
 
-        } catch (error) {
-            console.error("Erro ao buscar os trimestres:", error);
-            alert("Erro ao buscar informações. Tente novamente mais tarde.");
-        }*/
+        run();
         setLoading(false)
     };
+
+    console.log('open', open)
 
     return (
         <Container>
@@ -214,45 +248,51 @@ const Grade = () => {
                         )}
                     </ContainerDivs>
                     {selectedDate && (
-                        <ContainerDivs>
-                            <h2>Descrição da Aula</h2>
-                            <Input>
-                                <Span>
-                                    <div>Data da Aula: <p>{day}/{month}/{year}</p></div>
-                                </Span>
-                                <StyledQuillContainer>
-                                    <ReactQuill
-                                        theme="snow"
-                                        modules={{
-                                            toolbar: [
-                                                [{ 'font': [] }],
-                                                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                                                ['bold', 'italic', 'underline'],
-                                                [{ 'color': [] }, { 'background': [] }],
-                                                ['clean']
-                                            ]
-                                        }}
-                                        value={description}
-                                        onChange={setDescription}
-                                        placeholder="Descrição da aula lecionada"
-                                    />
-                                </StyledQuillContainer>
-                                {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                            </Input>
-                            <Button onClick={handleSubmit}>Registrar Aula</Button>
-                            <ToGoBack onClick={messageButtonClick}>
-                                <SignMessageButtonText>Voltar para a</SignMessageButtonText>
-                                <SignMessageButtonTextBold>Turma</SignMessageButtonTextBold>
-                            </ToGoBack>
-                        </ContainerDivs>
+                        open === 'aberto' ? (
+                            <ContainerDivs>
+                                <h2>Descrição da Aula</h2>
+                                <Input>
+                                    <Span>
+                                        <div>Data da Aula: <p>{day}/{month}/{year}</p></div>
+                                    </Span>
+                                    <StyledQuillContainer>
+                                        <ReactQuill
+                                            theme="snow"
+                                            modules={{
+                                                toolbar: [
+                                                    [{ 'font': [] }],
+                                                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                                    ['bold', 'italic', 'underline'],
+                                                    [{ 'color': [] }, { 'background': [] }],
+                                                    ['clean']
+                                                ]
+                                            }}
+                                            value={description}
+                                            onChange={setDescription}
+                                            placeholder="Descrição da aula lecionada"
+                                        />
+                                    </StyledQuillContainer>
+                                    {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                </Input>
+                                <Button onClick={handleSubmit}>Registrar Aula</Button>
+                                <ToGoBack onClick={messageButtonClick}>
+                                    <SignMessageButtonText>Voltar para a</SignMessageButtonText>
+                                    <SignMessageButtonTextBold>Turma</SignMessageButtonTextBold>
+                                </ToGoBack>
+                            </ContainerDivs>
+                        ) : (
+                            <>
+                                <h3> Bimestre fechado, para editar contate o Diretor ou Supervisor.</h3>
+                            </>
+                        )
                     )}
                     {/* Renderizando a descrição após ser salva */}
-                    <DescriptionContainer>
+                   {/* <DescriptionContainer>
                         <h2>Descrição da Aula</h2>
                         <div style={{ textAlign: 'left', margin: '20px', maxWidth: '800px', overflowWrap: 'break-word' }}>
                             {stripHtml(description)}
                         </div>
-                    </DescriptionContainer>
+                    </DescriptionContainer>*/}
                 </>
             )}
         </Container>

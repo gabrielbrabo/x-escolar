@@ -51,7 +51,7 @@ import { SlActionUndo } from "react-icons/sl";
 const IndexAttendance = () => {
 
     const navigate = useNavigate()
-    const [open, setopen] = useState()
+    const [open, setopen] = useState('aberto')
     const [Namematter, setNameMatter] = useState([])
     const [year, setYear] = useState('');
     const [bimonthly, setBimonthly] = useState([]);
@@ -99,21 +99,19 @@ const IndexAttendance = () => {
             const idSchool = sessionStorage.getItem("id-school");
             const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
             const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
-            //const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
+            const physicalEducation = sessionStorage.getItem("physicalEducationTeacher");
 
             setclassRegentTeacher(JSON.parse(classRegentTeacher))
             setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
-            // setphysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
 
             const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
-            const open = await IstQuarter.data.data.map(res => {
+            /*const open = await IstQuarter.data.data.map(res => {
                 return res.statusSupervisor
 
             }).find(res => {
                 return res
             })
-            setopen(open)
-            console.log("open", open)
+                setopen(open)*/
 
             const id_teacher = localStorage.getItem("Id_employee");
             const currentYear = sessionStorage.getItem("yearGrade");
@@ -127,6 +125,21 @@ const IndexAttendance = () => {
             setMatter(id_mttr)
             setYear(currentYear)
             setId_iStQuarter(id_bimonthly)
+
+            const resClass = await clssInfo(idClass); // ✅ Aqui você espera a Promise
+
+            if (resClass?.data?.data && resClass.data.data.length > 0) {
+                const turma = resClass.data.data[0];
+                console.log("turma:", turma);
+
+                if (id_teacher !== physicalEducation) {
+                    setopen(turma.dailyStatus["1º BIMESTRE"].regentTeacher);
+                } else {
+                    setopen(turma.dailyStatus["1º BIMESTRE"].physicalEducationTeacher);
+                }
+            } else {
+                console.warn("❌ resClass veio vazio ou sem dados:", resClass);
+            }
 
             const bim = await IstQuarter.data.data.map(res => {
                 return res.bimonthly
@@ -155,7 +168,7 @@ const IndexAttendance = () => {
 
             // setLoading(false);
         })()
-    }, [year, averageGrade, totalGrade,])
+    }, [year, averageGrade, totalGrade, id_class, open])
 
     useEffect(() => {
         if (id_matter && year && id_iStQuarter && id_class) {
@@ -169,6 +182,7 @@ const IndexAttendance = () => {
                         console.log("resActivity", resActivity.data.data);
                         setChecked(resActivity.data.data);
 
+                        console.log('erro class', id_class)
                         const resClass = await clssInfo(id_class);
                         const contStudent = await resClass.data.data.find(res => res)?.id_student;
                         console.log('cont stdt', contStudent);
@@ -217,7 +231,7 @@ const IndexAttendance = () => {
             setErrorMessage("Por favor, preencha todos os campos antes de salvar.");
             setLoading(false);
             return;
-        }        
+        }
 
         const editedValorNum = parseFloat(EditedValor.toString().replace(',', '.')) || 0;
         const notaDistriNum = parseFloat(NotaDistri.toString().replace(',', '.')) || 0;
@@ -364,6 +378,9 @@ const IndexAttendance = () => {
 
     console.log("startEditing", startEditing._id)
     console.log("NotaDistri", NotaDistri)
+
+    
+    console.log("open", open)
 
     return (
         <Container>

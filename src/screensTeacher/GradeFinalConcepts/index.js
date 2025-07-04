@@ -45,6 +45,7 @@ import { SlActionUndo } from "react-icons/sl";
 const Finalconcepts = () => {
 
     const navigate = useNavigate()
+    const [open, setopen] = useState('aberto')
     const [Namematter, setNameMatter] = useState([])
     const [year, setYear] = useState('');
     const [id_matter, setSelectMatter] = useState('');
@@ -97,6 +98,21 @@ const Finalconcepts = () => {
             setYear(currentYear); // Certifique-se de que o ano é definido aqui.
             setId_class(id_cla$$);
             setId_teacher(JSON.parse(Id_employee))
+
+            const resClass = await clssInfo(id_cla$$);
+
+            if (resClass?.data?.data && resClass.data.data.length > 0) {
+                const turma = resClass.data.data[0];
+                console.log("turma:", turma);
+
+                if (id_teacher !== physicalEducationTeacher) {
+                    setopen(turma.dailyStatus["4º BIMESTRE"].regentTeacher);
+                } else {
+                    setopen(turma.dailyStatus["4º BIMESTRE"].physicalEducationTeacher);
+                }
+            } else {
+                console.warn("❌ resClass veio vazio ou sem dados:", resClass);
+            }
 
             if (year && id_class && id_matter) {
                 const grades = await indexGrades(year, id_class, id_matter)
@@ -370,174 +386,178 @@ const Finalconcepts = () => {
 
                     <ContainerDivs>
                         <h2>Grade Final</h2>
-                        <ContainerStudent>
-                            {id_matter &&
-                                <DataSelected>
-                                    <SlActionUndo fontSize={'30px'} onClick={Return} />
-                                    <Info>
-                                        <p>Grade Final</p>
-                                        <p>Disciplina: {Namematter}</p>
-                                    </Info>
-                                    <LegendBox>
-                                        <h3>Legenda</h3>
-                                        <p><strong style={{ color: '#1d7f14' }}>A</strong> - Alcançou com êxito as capacidades básicas</p>
-                                        <p><strong style={{ color: 'blue' }}>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
-                                        <p><strong style={{ color: 'orange' }}>C</strong> - Alcançou parcialmente as capacidades básicas</p>
-                                        <p><strong style={{ color: 'red' }}>D</strong> - Não alcançou as capacidades básicas</p>
-                                    </LegendBox>
-                                </DataSelected>
-                            }
-                            {stdt.length > 0 && !update_id_grade &&
-                                <>
-                                    <List>
-                                        {
-                                            stdt
-                                                .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
-                                                .map(stdt =>
-                                                    <>
-                                                        <Emp
-                                                            key={stdt._id}
-                                                        >
-                                                            <Span>{stdt.name}</Span>
-                                                            <DivBimTable>
-                                                                <DivBimRow>
-                                                                    <DivBimHeader>1º Bim</DivBimHeader>
-                                                                    <DivBimCell grade={iStQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
-                                                                        {iStQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
-                                                                    </DivBimCell>
-                                                                </DivBimRow>
-                                                                <DivBimRow>
-                                                                    <DivBimHeader>2º Bim</DivBimHeader>
-                                                                    <DivBimCell grade={iiNdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
-                                                                        {iiNdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
-                                                                    </DivBimCell>
-                                                                </DivBimRow>
-                                                                <DivBimRow>
-                                                                    <DivBimHeader>3º Bim</DivBimHeader>
-                                                                    <DivBimCell grade={iiiRdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
-                                                                        {iiiRdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
-                                                                    </DivBimCell>
-                                                                </DivBimRow>
-                                                                <DivBimRow>
-                                                                    <DivBimHeader>4º Bim</DivBimHeader>
-                                                                    <DivBimCell grade={ivThQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
-                                                                        {ivThQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
-                                                                    </DivBimCell>
-                                                                </DivBimRow>
-                                                            </DivBimTable>
-                                                            <Grade>
-                                                                <p>Conceito:</p>
-                                                                <Select
-                                                                    //id="position"
-                                                                    //value={update_studentGrade}
-                                                                    onChange={(e) => setStudentGrade(e.target.value)}
-                                                                >
-                                                                    <option value="">Selecione</option>
-                                                                    <option value="A">A</option>
-                                                                    <option value="B">B</option>
-                                                                    <option value="C">C</option>
-                                                                    <option value="D">D</option>
-                                                                </Select>
-                                                                {/*<span>pts</span>*/}
-                                                            </Grade>
-                                                            <Btt01 onClick={() => handleGrade(stdt)}>Definir</Btt01>
-                                                        </Emp>
-                                                        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                                                    </>
-                                                )
-                                        }
-                                    </List>
-                                </>
-                            }
+                        {open === 'aberto' ? (
+                            <ContainerStudent>
+                                {id_matter &&
+                                    <DataSelected>
+                                        <SlActionUndo fontSize={'30px'} onClick={Return} />
+                                        <Info>
+                                            <p>Grade Final</p>
+                                            <p>Disciplina: {Namematter}</p>
+                                        </Info>
+                                        <LegendBox>
+                                            <h3>Legenda</h3>
+                                            <p><strong style={{ color: '#1d7f14' }}>A</strong> - Alcançou com êxito as capacidades básicas</p>
+                                            <p><strong style={{ color: 'blue' }}>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
+                                            <p><strong style={{ color: 'orange' }}>C</strong> - Alcançou parcialmente as capacidades básicas</p>
+                                            <p><strong style={{ color: 'red' }}>D</strong> - Não alcançou as capacidades básicas</p>
+                                        </LegendBox>
+                                    </DataSelected>
+                                }
+                                {stdt.length > 0 && !update_id_grade &&
+                                    <>
+                                        <List>
+                                            {
+                                                stdt
+                                                    .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
+                                                    .map(stdt =>
+                                                        <>
+                                                            <Emp
+                                                                key={stdt._id}
+                                                            >
+                                                                <Span>{stdt.name}</Span>
+                                                                <DivBimTable>
+                                                                    <DivBimRow>
+                                                                        <DivBimHeader>1º Bim</DivBimHeader>
+                                                                        <DivBimCell grade={iStQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
+                                                                            {iStQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
+                                                                        </DivBimCell>
+                                                                    </DivBimRow>
+                                                                    <DivBimRow>
+                                                                        <DivBimHeader>2º Bim</DivBimHeader>
+                                                                        <DivBimCell grade={iiNdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
+                                                                            {iiNdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
+                                                                        </DivBimCell>
+                                                                    </DivBimRow>
+                                                                    <DivBimRow>
+                                                                        <DivBimHeader>3º Bim</DivBimHeader>
+                                                                        <DivBimCell grade={iiiRdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
+                                                                            {iiiRdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
+                                                                        </DivBimCell>
+                                                                    </DivBimRow>
+                                                                    <DivBimRow>
+                                                                        <DivBimHeader>4º Bim</DivBimHeader>
+                                                                        <DivBimCell grade={ivThQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
+                                                                            {ivThQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
+                                                                        </DivBimCell>
+                                                                    </DivBimRow>
+                                                                </DivBimTable>
+                                                                <Grade>
+                                                                    <p>Conceito:</p>
+                                                                    <Select
+                                                                        //id="position"
+                                                                        //value={update_studentGrade}
+                                                                        onChange={(e) => setStudentGrade(e.target.value)}
+                                                                    >
+                                                                        <option value="">Selecione</option>
+                                                                        <option value="A">A</option>
+                                                                        <option value="B">B</option>
+                                                                        <option value="C">C</option>
+                                                                        <option value="D">D</option>
+                                                                    </Select>
+                                                                    {/*<span>pts</span>*/}
+                                                                </Grade>
+                                                                <Btt01 onClick={() => handleGrade(stdt)}>Definir</Btt01>
+                                                            </Emp>
+                                                            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                                        </>
+                                                    )
+                                            }
+                                        </List>
+                                    </>
+                                }
 
-                            {
-                                checked.length > 0 && !update_id_grade &&
-                                <>
-                                    <ListChecked>
+                                {
+                                    checked.length > 0 && !update_id_grade &&
+                                    <>
+                                        <ListChecked>
 
-                                        {
-                                            checked
-                                                .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
-                                                .map(stdt => (
-                                                    <>
-                                                        <Emp
-                                                            key={stdt._id}
-                                                        >
-                                                            <Span>{stdt.id_student.name}</Span>
-                                                            <DivBimTable>
-                                                                <DivBimRow>
-                                                                    <DivBimHeader>1º Bim</DivBimHeader>
-                                                                    <DivBimCell grade={iStQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}>
-                                                                        {iStQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}
-                                                                    </DivBimCell>
-                                                                </DivBimRow>
-                                                                <DivBimRow>
-                                                                    <DivBimHeader>2º Bim</DivBimHeader>
-                                                                    <DivBimCell grade={iiNdQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}>
-                                                                        {iiNdQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}
-                                                                    </DivBimCell>
-                                                                </DivBimRow>
-                                                                <DivBimRow>
-                                                                    <DivBimHeader>3º Bim</DivBimHeader>
-                                                                    <DivBimCell grade={iiiRdQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}>
-                                                                        {iiiRdQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}
-                                                                    </DivBimCell>
-                                                                </DivBimRow>
-                                                                <DivBimRow>
-                                                                    <DivBimHeader>4º Bim</DivBimHeader>
-                                                                    <DivBimCell grade={ivThQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}>
-                                                                        {ivThQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}
-                                                                    </DivBimCell>
-                                                                </DivBimRow>
-                                                                <DivBimRow>
-                                                                    <DivBimHeader>Final</DivBimHeader>
-                                                                    <DivBimCell grade={stdt.studentGrade}>{stdt.studentGrade}</DivBimCell>
-                                                                </DivBimRow>
-                                                            </DivBimTable>
-                                                            <Btt02 onClick={() => startEditing(stdt)} >Editar</Btt02>
-                                                        </Emp>
-                                                    </>
-                                                ))
-                                        }
-                                    </ListChecked>
-                                </>
-                            }
+                                            {
+                                                checked
+                                                    .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
+                                                    .map(stdt => (
+                                                        <>
+                                                            <Emp
+                                                                key={stdt._id}
+                                                            >
+                                                                <Span>{stdt.id_student.name}</Span>
+                                                                <DivBimTable>
+                                                                    <DivBimRow>
+                                                                        <DivBimHeader>1º Bim</DivBimHeader>
+                                                                        <DivBimCell grade={iStQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}>
+                                                                            {iStQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}
+                                                                        </DivBimCell>
+                                                                    </DivBimRow>
+                                                                    <DivBimRow>
+                                                                        <DivBimHeader>2º Bim</DivBimHeader>
+                                                                        <DivBimCell grade={iiNdQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}>
+                                                                            {iiNdQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}
+                                                                        </DivBimCell>
+                                                                    </DivBimRow>
+                                                                    <DivBimRow>
+                                                                        <DivBimHeader>3º Bim</DivBimHeader>
+                                                                        <DivBimCell grade={iiiRdQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}>
+                                                                            {iiiRdQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}
+                                                                        </DivBimCell>
+                                                                    </DivBimRow>
+                                                                    <DivBimRow>
+                                                                        <DivBimHeader>4º Bim</DivBimHeader>
+                                                                        <DivBimCell grade={ivThQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}>
+                                                                            {ivThQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}
+                                                                        </DivBimCell>
+                                                                    </DivBimRow>
+                                                                    <DivBimRow>
+                                                                        <DivBimHeader>Final</DivBimHeader>
+                                                                        <DivBimCell grade={stdt.studentGrade}>{stdt.studentGrade}</DivBimCell>
+                                                                    </DivBimRow>
+                                                                </DivBimTable>
+                                                                <Btt02 onClick={() => startEditing(stdt)} >Editar</Btt02>
+                                                            </Emp>
+                                                        </>
+                                                    ))
+                                            }
+                                        </ListChecked>
+                                    </>
+                                }
 
-                            {update_id_grade && (
-                                <EditContainer>
-                                    <h3>Editando Nota</h3>
-                                    {console.log("editingStudent", namestudent.id_student.name)}
-                                    <EmpEdit>
-                                        <Span>{namestudent.id_student.name}</Span>
-                                        <Grade>
-                                            <p>Concenito: </p>
-                                            <Select
-                                                //id="position"
-                                                value={update_studentGrade}
-                                                onChange={(e) => setUpdateStudentGrade(e.target.value)}
-                                            >
-                                                <option value="">Selecione</option>
-                                                <option value="A">A</option>
-                                                <option value="B">B</option>
-                                                <option value="C">C</option>
-                                                <option value="D">D</option>
-                                            </Select>
-                                            {/*<span>pts</span>*/}
-                                        </Grade>
-                                    </EmpEdit>
-                                    <BoxButton>
-                                        <Btt02 onClick={saveEdit}>Salvar</Btt02>
-                                        <Btt02 onClick={() => setUpdateIdGrade(null)}>Cancelar</Btt02>
-                                    </BoxButton>
+                                {update_id_grade && (
+                                    <EditContainer>
+                                        <h3>Editando Nota</h3>
+                                        {console.log("editingStudent", namestudent.id_student.name)}
+                                        <EmpEdit>
+                                            <Span>{namestudent.id_student.name}</Span>
+                                            <Grade>
+                                                <p>Concenito: </p>
+                                                <Select
+                                                    //id="position"
+                                                    value={update_studentGrade}
+                                                    onChange={(e) => setUpdateStudentGrade(e.target.value)}
+                                                >
+                                                    <option value="">Selecione</option>
+                                                    <option value="A">A</option>
+                                                    <option value="B">B</option>
+                                                    <option value="C">C</option>
+                                                    <option value="D">D</option>
+                                                </Select>
+                                                {/*<span>pts</span>*/}
+                                            </Grade>
+                                        </EmpEdit>
+                                        <BoxButton>
+                                            <Btt02 onClick={saveEdit}>Salvar</Btt02>
+                                            <Btt02 onClick={() => setUpdateIdGrade(null)}>Cancelar</Btt02>
+                                        </BoxButton>
 
-                                </EditContainer>
-                            )}
-                            {!update_id_grade && id_matter &&
-                                <Btt02 onClick={Finalyze}>
-                                    Finalizar
-                                </Btt02>
-                            }
-                        </ContainerStudent>
+                                    </EditContainer>
+                                )}
+                                {!update_id_grade && id_matter &&
+                                    <Btt02 onClick={Finalyze}>
+                                        Finalizar
+                                    </Btt02>
+                                }
+                            </ContainerStudent>
+                        ) : (
+                            <p>4º Bimestre fechado, para editar contate o Diretor ou Supervisor.</p>
+                        )}
                     </ContainerDivs>
 
                     {

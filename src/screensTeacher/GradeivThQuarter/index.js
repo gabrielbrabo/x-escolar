@@ -32,7 +32,7 @@ import { SlActionUndo } from "react-icons/sl";
 const IndexAttendance = () => {
 
     const navigate = useNavigate()
-    const [open, setopen] = useState()
+    const [open, setopen] = useState('aberto')
     const [Namematter, setNameMatter] = useState([])
     const [year, setYear] = useState('');
     const [bimonthly, setBimonthly] = useState([]);
@@ -82,13 +82,22 @@ const IndexAttendance = () => {
             setYear(currentYear)
             setId_ivThQuarter(id_bimonthly)
 
-            const open = await IVthQuarter.data.data.map(res => {
-                return res.statusSupervisor
+            // Busca a turma direto com o idClass do sessionStorage
+            const resClass = await clssInfo(id_class);
 
-            }).find(res => {
-                return res
-            })
-            setopen(open)
+            if (resClass?.data?.data && resClass.data.data.length > 0) {
+                const turma = resClass.data.data[0];
+                console.log("turma:", turma);
+
+                if (id_teacher !== physicalEducationTeacher) {
+                    setopen(turma.dailyStatus["4º BIMESTRE"].regentTeacher);
+                } else {
+                    setopen(turma.dailyStatus["4º BIMESTRE"].physicalEducationTeacher);
+                }
+            } else {
+                console.warn("❌ resClass veio vazio ou sem dados:", resClass);
+            }
+
             const bim = await IVthQuarter.data.data.map(res => {
                 return res.bimonthly
 

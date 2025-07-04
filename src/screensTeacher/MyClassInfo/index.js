@@ -8,6 +8,11 @@ import {
     getIVthQuarter,
     getVthQuarter,
     getVIthQuarter,
+    closeBimesterDiary,
+    CreateDialy,
+    CreateRepoCard,
+    CreateDailyConcept,
+    CreateRepoCardConcept
 } from '../../Api'
 
 import {
@@ -30,9 +35,9 @@ import {
     Input,
     Label,
     Select,
-    ////DiaryWrapper,
-    ////DiaryBimester,
-    ////StatusLine,
+    DiaryWrapper,
+    DiaryBimester,
+    StatusLine,
 } from './style';
 import LoadingSpinner from '../../components/Loading'
 
@@ -53,10 +58,15 @@ const MyCla$$Info = () => {
 
     const [bimonthly, setBimonthly] = useState([]);
 
-    //const [idTeacher, setId_teacher] = useState('')
-    //const [RegentTeacher, setclassRegentTeacher] = useState([]);
-    //const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
-    //const [physicalEducation, setphysicalEducationTeacher] = useState([]);
+    const [idTeacher, setId_teacher] = useState('')
+    const [RegentTeacher, setclassRegentTeacher] = useState([]);
+    const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
+    const [physicalEducation, setphysicalEducationTeacher] = useState([]);
+
+    const [showModal, setShowModal] = useState(false);
+    const [selectedBimester, setSelectedBimester] = useState(null);
+    const [selectedField, setSelectedField] = useState(null);
+
 
     const { id_class } = useParams();
     const { id_teacher } = useParams();
@@ -110,6 +120,8 @@ const MyCla$$Info = () => {
             }).find(res => {
                 if (res) {
                     sessionStorage.setItem("classRegentTeacher", JSON.stringify(res._id))
+
+                    setclassRegentTeacher(res._id)
                     return (res)
                 } else {
                     return null
@@ -124,6 +136,8 @@ const MyCla$$Info = () => {
             }).find(res => {
                 if (res) {
                     sessionStorage.setItem("classRegentTeacher02", JSON.stringify(res._id))
+
+                    setclassRegentTeacher02(res._id)
                     return (res)
                 } else {
                     return null
@@ -137,17 +151,15 @@ const MyCla$$Info = () => {
             }).find(res => {
                 if (res) {
                     sessionStorage.setItem("physicalEducationTeacher", JSON.stringify(res._id))
+
+                    setphysicalEducationTeacher(res._id)
                     return (res)
                 } else {
                     return null
                 }
             })
-            //const idTeacher = JSON.parse(localStorage.getItem("Id_employee") || '""'); // Remove aspas extras
-            //setId_teacher(idTeacher);
-
-            //setclassRegentTeacher(classRegentTeacher._id)
-            //setclassRegentTeacher02(classRegentTeacher02._id)
-            //setphysicalEducationTeacher(physicalEducationTeacher._id)
+            const idTeacher = JSON.parse(localStorage.getItem("Id_employee") || '""'); // Remove aspas extras
+            setId_teacher(idTeacher);
 
             console.log("classRegentTeacher", classRegentTeacher);
             console.log("classRegentTeacher02", classRegentTeacher02);
@@ -328,13 +340,233 @@ const MyCla$$Info = () => {
         }
     };
 
-    /*const handleClose = (bimester, field) => {
-        /*const updatedDaily = { ...daily };
-        updatedDaily[bimester][field] = "fechado";
-        setDaily(updatedDaily); // se estiver usando state
-        // Aqui você pode também fazer uma requisição para salvar no banco se desejar
-      };*/
+    const confirmCloseDiary = (bimester, field) => {
+        setSelectedBimester(bimester);
+        setSelectedField(field);
+        setShowModal(true);
+    };
 
+
+    const handleClose = async (bimester, field) => {
+        setLoading(true);
+
+        const Bimester = bimonthly.find(item => item.bimonthly === bimester);
+
+        console.log("selectedBimonthly", Bimester)
+        if (assessmentFormat === 'grade') {
+            if (bimester === "1º BIMESTRE") {
+                console.log("field", field)
+                console.log("Bimonthly", Bimester.bimonthly)
+                console.log("idClass", id_class)
+                console.log("Id-bimonthly", Bimester._id)
+                const createDaily = await CreateDialy({
+                    year: Bimester.year,
+                    idClass: id_class,
+                    id_iStQuarter: Bimester._id
+                });
+                console.log("createDaily", createDaily)
+                const createCard = await CreateRepoCard({
+                    year: Bimester.year,
+                    idClass: id_class,
+                    id_iStQuarter: Bimester._id
+                });
+                console.log("createCard", createCard)
+                if (createDaily && createCard) {
+                    const resClose = await closeBimesterDiary(id_class, Bimester.bimonthly, field)
+                    if (resClose) {
+                        console.log("res", resClose)
+                        window.location.reload()
+                    }
+                }
+            }
+            if (bimester === "2º BIMESTRE") {
+                console.log("field", field)
+                console.log("Bimonthly", Bimester.bimonthly)
+                console.log("idClass", id_class)
+                console.log("Id-bimonthly", Bimester._id)
+                const createDaily = await CreateDialy({
+                    year: Bimester.year,
+                    idClass: id_class,
+                    id_iiNdQuarter: Bimester._id
+                });
+                console.log("createDaily", createDaily)
+                const createCard = await CreateRepoCard({
+                    year: Bimester.year,
+                    idClass: id_class,
+                    id_iiNdQuarter: Bimester._id
+                });
+                console.log("createCard", createCard)
+                if (createDaily && createCard) {
+                    const resClose = await closeBimesterDiary(id_class, Bimester.bimonthly, field)
+                    if (resClose) {
+                        console.log("res", resClose)
+                        window.location.reload()
+                    }
+                }
+            }
+            if (bimester === "3º BIMESTRE") {
+                console.log("field", field)
+                console.log("Bimonthly", Bimester.bimonthly)
+                console.log("idClass", id_class)
+                console.log("Id-bimonthly", Bimester._id)
+                const createDaily = await CreateDialy({
+                    year: Bimester.year,
+                    idClass: id_class,
+                    id_iiiRdQuarter: Bimester._id
+                });
+                console.log("createDaily", createDaily)
+                const createCard = await CreateRepoCard({
+                    year: Bimester.year,
+                    idClass: id_class,
+                    id_iiiRdQuarter: Bimester._id
+                });
+                console.log("createCard", createCard)
+                if (createDaily && createCard) {
+                    const resClose = await closeBimesterDiary(id_class, Bimester.bimonthly, field)
+                    if (resClose) {
+                        console.log("res", resClose)
+                        window.location.reload()
+                    }
+                }
+            }
+            if (bimester === "4º BIMESTRE") {
+                console.log("field", field)
+                console.log("Bimonthly", Bimester.bimonthly)
+                console.log("idClass", id_class)
+                console.log("Id-bimonthly", Bimester._id)
+                const createDaily = await CreateDialy({
+                    year: Bimester.year,
+                    idClass: id_class,
+                    id_ivThQuarter: Bimester._id
+                });
+                console.log("createDaily", createDaily)
+                const createCard = await CreateRepoCard({
+                    year: Bimester.year,
+                    idClass: id_class,
+                    id_ivThQuarter: Bimester._id
+                });
+                console.log("createCard", createCard)
+                if (createDaily && createCard) {
+                    const resClose = await closeBimesterDiary(id_class, Bimester.bimonthly, field)
+                    if (resClose) {
+                        console.log("res", resClose)
+                        window.location.reload()
+                    }
+                }
+            }
+        }
+
+        if (assessmentFormat === 'concept') {
+            if (bimester === "1º BIMESTRE") {
+                console.log("field", field)
+                console.log("Bimonthly", Bimester.bimonthly)
+                console.log("idClass", id_class)
+                console.log("Id-bimonthly", Bimester._id)
+                const createDaily = await CreateDailyConcept({
+                    year: Bimester.year,
+                    idClass: id_class,
+                    id_iStQuarter: Bimester._id
+                });
+                console.log("createDaily", createDaily)
+                const createCard = await CreateRepoCardConcept({
+                    year: Bimester.year,
+                    idClass: id_class,
+                    id_iStQuarter: Bimester._id
+                });
+                console.log("createCard", createCard)
+                if (createDaily && createCard) {
+                    const resClose = await closeBimesterDiary(id_class, Bimester.bimonthly, field)
+                    if (resClose) {
+                        console.log("res", resClose)
+                        window.location.reload()
+                    }
+                }
+            }
+            if (bimester === "2º BIMESTRE") {
+                console.log("field", field)
+                console.log("Bimonthly", Bimester.bimonthly)
+                console.log("idClass", id_class)
+                console.log("Id-bimonthly", Bimester._id)
+                const createDaily = await CreateDailyConcept({
+                    year: Bimester.year,
+                    idClass: id_class,
+                    id_iiNdQuarter: Bimester._id
+                });
+                console.log("createDaily", createDaily)
+                const createCard = await CreateRepoCardConcept({
+                    year: Bimester.year,
+                    idClass: id_class,
+                    id_iiNdQuarter: Bimester._id
+                });
+                console.log("createCard", createCard)
+                if (createDaily && createCard) {
+                    const resClose = await closeBimesterDiary(id_class, Bimester.bimonthly, field)
+                    if (resClose) {
+                        console.log("res", resClose)
+                        window.location.reload()
+                    }
+                }
+            }
+            if (bimester === "3º BIMESTRE") {
+                console.log("field", field)
+                console.log("Bimonthly", Bimester.bimonthly)
+                console.log("idClass", id_class)
+                console.log("Id-bimonthly", Bimester._id)
+                const createDaily = await CreateDailyConcept({
+                    year: Bimester.year,
+                    idClass: id_class,
+                    id_iiiRdQuarter: Bimester._id
+                });
+                console.log("createDaily", createDaily)
+                const createCard = await CreateRepoCardConcept({
+                    year: Bimester.year,
+                    idClass: id_class,
+                    id_iiiRdQuarter: Bimester._id
+                });
+                console.log("createCard", createCard)
+                if (createDaily && createCard) {
+                    const resClose = await closeBimesterDiary(id_class, Bimester.bimonthly, field)
+                    if (resClose) {
+                        console.log("res", resClose)
+                        window.location.reload()
+                    }
+                }
+            }
+            if (bimester === "4º BIMESTRE") {
+                console.log("field", field)
+                console.log("Bimonthly", Bimester.bimonthly)
+                console.log("idClass", id_class)
+                console.log("Id-bimonthly", Bimester._id)
+                const createDaily = await CreateDailyConcept({
+                    year: Bimester.year,
+                    idClass: id_class,
+                    id_ivThQuarter: Bimester._id
+                });
+                console.log("createDaily", createDaily)
+                const createCard = await CreateRepoCardConcept({
+                    year: Bimester.year,
+                    idClass: id_class,
+                    id_ivThQuarter: Bimester._id
+                });
+                console.log("createCard", createCard)
+                if (createDaily && createCard) {
+                    const resClose = await closeBimesterDiary(id_class, Bimester.bimonthly, field)
+                    if (resClose) {
+                        console.log("res", resClose)
+                        window.location.reload()
+                    }
+                }
+            }
+        }
+    };
+
+    const seeDiary = async (bimester) => {
+
+        const Bimester = bimonthly.find(item => item.bimonthly === bimester);
+
+        navigate(`/bimonthly-diary/${bimester}/${id_class}/${Bimester._id}`)
+        console.log("see diary", bimester)
+    }
 
     console.log("Daily", DailyClass)
 
@@ -375,7 +607,7 @@ const MyCla$$Info = () => {
                             <button onClick={() => { navigate('/final-concepts') }}>Conceitos Finais</button>
                         </ButtonContainer>
                     }
-                    {/*<DiaryWrapper>
+                    <DiaryWrapper>
                         <h2 style={{ color: "#158fa2", marginBottom: "10px" }}>Diário da Turma</h2>
                         {Object.entries(DailyClass).map(([bimester, status], index) => (
                             <DiaryBimester key={index}>
@@ -383,21 +615,85 @@ const MyCla$$Info = () => {
                                 <StatusLine>
                                     {(RegentTeacher === idTeacher || RegentTeacher02 === idTeacher) && status.regentTeacher === "aberto" && (
                                         <>
-                                            <span><strong>Professor Regente:</strong> {status.regentTeacher}</span>
-                                            <button onClick={() => handleClose(bimester, "regentTeacher")}>Fechar Bimestre</button>
+                                            <strong>Professor Regente:<span style={{ color: status.regentTeacher === "aberto" ? "green" : "red" }}>
+                                                {status.regentTeacher}
+                                            </span>
+                                            </strong>
+                                            <button onClick={() => confirmCloseDiary(bimester, "regentTeacher")}>Fechar Bimestre</button>
                                         </>
                                     )}
                                     {physicalEducation === idTeacher && status.physicalEducationTeacher === "aberto" && (
                                         <>
-                                            <span><strong>Ed. Física:</strong> {status.physicalEducationTeacher}</span>
-                                            <button onClick={() => handleClose(bimester, "physicalEducationTeacher")}>Fechar Bimestre</button>
+                                            <strong>Ed. Física:<span style={{ color: status.physicalEducationTeacher === "aberto" ? "green" : "red" }}>
+                                                {status.physicalEducationTeacher}
+                                            </span>
+                                            </strong>
+                                            <button onClick={() => confirmCloseDiary(bimester, "physicalEducationTeacher")}>Fechar Bimestre</button>
+                                        </>
+                                    )}
+                                    {(RegentTeacher === idTeacher || RegentTeacher02 === idTeacher) && status.regentTeacher === "fechado" && (
+                                        <>
+                                            <strong>Professor Regente:<span style={{ color: status.regentTeacher === "aberto" ? "green" : "red" }}>
+                                                {status.regentTeacher}
+                                            </span>
+                                            </strong>
+                                            <button onClick={() => seeDiary(bimester)}>Ver Diário</button>
+                                        </>
+                                    )}
+                                    {physicalEducation === idTeacher && status.physicalEducationTeacher === "fechado" && (
+                                        <>
+                                            <strong>Ed. Física:<span style={{ color: status.physicalEducationTeacher === "aberto" ? "green" : "red" }}>
+                                                {status.physicalEducationTeacher}
+                                            </span>
+                                            </strong>
+                                            <button onClick={() => seeDiary(bimester)}>Ver Diário</button>
                                         </>
                                     )}
                                 </StatusLine>
                             </DiaryBimester>
                         ))}
-                    </DiaryWrapper>*/}
+                    </DiaryWrapper>
 
+                    {showModal && (
+                        <div style={{
+                            position: 'fixed',
+                            top: 0, left: 0, right: 0, bottom: 0,
+                            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            backdropFilter: 'blur(5px)',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            zIndex: 999
+                        }}>
+                            <div style={{
+                                backgroundColor: 'white',
+                                padding: '30px',
+                                borderRadius: '10px',
+                                maxWidth: '400px',
+                                textAlign: 'center',
+                                boxShadow: '0 0 10px rgba(0,0,0,0.3)'
+                            }}>
+                                <h3>Tem certeza que deseja fechar o diário?</h3>
+                                <p style={{ marginTop: '10px' }}>
+                                    Verifique se todas as informações deste bimestre foram lançadas corretamente.
+                                </p>
+                                <p style={{ marginTop: '10px', fontWeight: 'bold', color: 'red' }}>
+                                    Após o fechamento, apenas o supervisor ou diretor poderá reabrir o bimestre.
+                                </p>
+                                <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between' }}>
+                                    <button onClick={() => setShowModal(false)} style={{ padding: '8px 16px' }}>
+                                        Cancelar
+                                    </button>
+                                    <button onClick={() => {
+                                        handleClose(selectedBimester, selectedField);
+                                        setShowModal(false);
+                                    }} style={{ padding: '8px 16px', backgroundColor: '#158fa2', color: '#fff', border: 'none', borderRadius: '4px' }}>
+                                        Confirmar Fechamento
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     <StudentSection>
                         <h2 style={{ color: "#158fa2" }}>Alunos</h2>

@@ -51,7 +51,7 @@ import { SlActionUndo } from "react-icons/sl";
 const IndexAttendance = () => {
 
     const navigate = useNavigate()
-    const [open, setopen] = useState()
+    const [open, setopen] = useState('aberto')
     const [Namematter, setNameMatter] = useState([])
     const [year, setYear] = useState('');
     const [bimonthly, setBimonthly] = useState([]);
@@ -94,68 +94,64 @@ const IndexAttendance = () => {
 
     useEffect(() => {
         (async () => {
-            setLoading(true);
-
-            const idSchool = sessionStorage.getItem("id-school");
-            const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
-            const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
-            //const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
-
-            setclassRegentTeacher(JSON.parse(classRegentTeacher))
-            setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
-            // setphysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
-
-            const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
-            const open = await IIndQuarter.data.data.map(res => {
-                return res.statusSupervisor
-
-            }).find(res => {
-                return res
-            })
-            setopen(open)
-            console.log("open", open)
-
-            const id_teacher = localStorage.getItem("Id_employee");
-            const currentYear = sessionStorage.getItem("yearGrade");
-            const id_bimonthly = sessionStorage.getItem("id-II")
-            const nameMatter = sessionStorage.getItem("nameMatter")
-            const id_mttr = sessionStorage.getItem("Selectmatter")
-            const id_class = sessionStorage.getItem("class-info")
-            // const resClass = await clssInfo(id_class)
-            console.log(IIndQuarter)
-
-            setMatter(id_mttr)
-            setYear(currentYear)
-            setId_iiNdQuarter(id_bimonthly)
-
-            const bim = await IIndQuarter.data.data.map(res => {
-                return res.bimonthly
-
-            })
-            const tg = await IIndQuarter.data.data.map(res => {
-                return res.totalGrade
-            })
-            const ag = await IIndQuarter.data.data.map(res => {
-                return res.averageGrade
-            })
-
-            const bimString = bim.join(' '); // Transformar 'tg' em uma string separada por vírgulas
-            const tgString = tg.join(' '); // Transformar 'tg' em uma string separada por vírgulas
-            const agString = ag.join(' '); // Transformar 'ag' em uma string separada por vírgulas
-            console.log("nameMatter2", nameMatter)
-
-            console.log('tg', tgString, "ag", agString)
-            setNameMatter(nameMatter)
-            setId_class(id_class)
-            setBimonthly(bimString)
-            setTotalGrade(tgString)
-            setAverageGrade(agString)
-            setId_teacher(JSON.parse(id_teacher))
-
-
-            // setLoading(false);
-        })()
-    }, [year, averageGrade, totalGrade,])
+          setLoading(true);
+      
+          const idSchool = sessionStorage.getItem("id-school");
+          const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
+          const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
+          const physicalEducation = sessionStorage.getItem("physicalEducationTeacher");
+      
+          setclassRegentTeacher(JSON.parse(classRegentTeacher));
+          setclassRegentTeacher02(JSON.parse(classRegentTeacher02));
+      
+          // Pega direto o valor do sessionStorage
+          const currentYear = sessionStorage.getItem("yearGrade");
+          const id_bimonthly = sessionStorage.getItem("id-II");
+          const nameMatter = sessionStorage.getItem("nameMatter");
+          const id_mttr = sessionStorage.getItem("Selectmatter");
+          const idClass = sessionStorage.getItem("class-info"); // valor direto, sem depender do estado aqui
+      
+          const IIndQuarter = await getIIndQuarter(currentYear, JSON.parse(idSchool));
+      
+          console.log(IIndQuarter);
+      
+          setMatter(id_mttr);
+          setYear(currentYear);
+          setId_iiNdQuarter(id_bimonthly);
+          setId_class(idClass); // continua setando para controle UI
+      
+          const id_teacher = localStorage.getItem("Id_employee");
+      
+          // Busca a turma direto com o idClass do sessionStorage
+          const resClass = await clssInfo(idClass);
+      
+          if (resClass?.data?.data && resClass.data.data.length > 0) {
+            const turma = resClass.data.data[0];
+            console.log("turma:", turma);
+      
+            if (id_teacher !== physicalEducation) {
+              setopen(turma.dailyStatus["2º BIMESTRE"].regentTeacher);
+            } else {
+              setopen(turma.dailyStatus["2º BIMESTRE"].physicalEducationTeacher);
+            }
+          } else {
+            console.warn("❌ resClass veio vazio ou sem dados:", resClass);
+          }
+      
+          const bim = IIndQuarter.data.data.map(res => res.bimonthly);
+          const tg = IIndQuarter.data.data.map(res => res.totalGrade);
+          const ag = IIndQuarter.data.data.map(res => res.averageGrade);
+      
+          setBimonthly(bim.join(' '));
+          setTotalGrade(tg.join(' '));
+          setAverageGrade(ag.join(' '));
+          setNameMatter(nameMatter);
+          setId_teacher(JSON.parse(id_teacher));
+      
+          setLoading(false);
+        })();
+      }, [year, averageGrade, totalGrade, id_class, open]);
+      
 
     useEffect(() => {
         if (id_matter && year && id_iiNdQuarter && id_class) {
@@ -167,7 +163,7 @@ const IndexAttendance = () => {
                     if (resActivity.data.data) {
                         console.log("resActivity", resActivity.data.data);
                         setChecked(resActivity.data.data);
-
+                        console.log('erro class', id_class)
                         const resClass = await clssInfo(id_class);
                         const contStudent = await resClass.data.data.find(res => res)?.id_student;
                         console.log('cont stdt', contStudent);
@@ -353,6 +349,8 @@ const IndexAttendance = () => {
 
 
     console.log("startEditing", startEditing._id)
+
+    console.log("open", open)
 
     return (
         <Container>

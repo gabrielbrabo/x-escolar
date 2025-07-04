@@ -41,7 +41,7 @@ const HomeSchool = () => {
   const [IVthQuarter, setIVthQuarter] = useState([]);
   const [/*VthQuarter*/, setVthQuarter] = useState([]);
   const [/*VIthQuarter*/, setVIthQuarter] = useState([]);
-  const [positionAtEducationDepartment, setPositionAtEducationDepartment] = useState('')
+  //const [positionAtEducationDepartment, setPositionAtEducationDepartment] = useState('')
   const [position_at_school, setPosition_at_school] = useState('');
 
   useEffect(() => {
@@ -49,11 +49,11 @@ const HomeSchool = () => {
       setLoading(true);
       const idSchool = sessionStorage.getItem("id-school");
       const position = localStorage.getItem('position_at_school');
-      const positionAtEducationDepartment = localStorage.getItem('positionAtEducationDepartment');
+      //const positionAtEducationDepartment = localStorage.getItem('positionAtEducationDepartment');
       const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
       setassessmentFormat($assessmentFormat)
       setPosition_at_school(position);
-      setPositionAtEducationDepartment(positionAtEducationDepartment)
+      //setPositionAtEducationDepartment(positionAtEducationDepartment)
       const year = new Date().getFullYear();
 
       const [IstQuarter, IIndQuarter, IIIrdQuarter, IVthQuarter, VthQuarter, VIthQuarter] = await Promise.all([
@@ -165,21 +165,19 @@ const HomeSchool = () => {
         <>
           <AddEmp>
             <h3>{title}</h3>
-            { positionAtEducationDepartment || position_at_school === "DIRETOR/SUPERVISOR" || position_at_school === "SECRETARIO" ? (
+            { /*positionAtEducationDepartment ||*/ position_at_school === "DIRETOR/SUPERVISOR" /*|| position_at_school === "SECRETARIO"*/ ? (
               data.map(res => {
                 console.log("_id", res._id)
                 console.log("status", res.status)
-                const id = res._id
+                //const id = res._id
                 if (res.status === "fechado" && (res.statusSupervisor === "fechado" || !res.statusSupervisor)) {
                   return (
-                    <Btt02 key={res._id} onClick={() => onReopen(id)}>
-                      Reabrir Bimestre
-                    </Btt02>
+                    <Btt02 onClick={onEdit}>Editar Bimestre</Btt02>
                   );
                 } else if (res.status === "fechado" && res.statusSupervisor === "aberto") {
                   return (
                     <div style={{ display: "grid", gap: "8px" }}>
-                      <Btt02 key={res._id} onClick={() => onToclose(id)}>Fecha Bimestre</Btt02>
+                      {/*<Btt02 key={res._id} onClick={() => onToclose(id)}>Fecha Bimestre</Btt02>*/}
                       <Btt02 onClick={onEdit}>Editar Bimestre</Btt02>
                     </div>
                   );
@@ -188,7 +186,7 @@ const HomeSchool = () => {
                     <Btt02 onClick={onEdit}>Editar Bimestre</Btt02>
                   );
                 }
-                return res
+                return null // res
               })
 
             ) : position_at_school === "SECRETARIO" ? (

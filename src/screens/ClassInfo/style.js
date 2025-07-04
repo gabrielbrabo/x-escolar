@@ -324,3 +324,94 @@ export const ButtonContainer = styled.div`
 export const LoadingSpinner = styled.div`
   /* Estilos para o spinner de carregamento */
 `;
+
+export const DiaryWrapper = styled.div`
+  background-color: #f7f7f7;
+  padding: 0.6rem 1rem; /* ainda menor */
+  border-radius: 12px;
+  width: 100%;
+  //max-width: 900px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+  @media (max-width: 1024px) {
+    max-width: 95%;
+    padding: 0.5rem 0.8rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.5rem;
+  }
+
+  @media (max-width: 480px) {
+    width: 95%;
+    padding: 0.4rem;
+  }
+
+  h2 {
+    color: #158fa2;
+    margin-bottom: 4px; /* menor espaço */
+    text-align: center;
+    font-size: 1.6rem;
+
+    @media (max-width: 600px) {
+      font-size: 1.2rem;
+    }
+  }
+`;
+
+export const DiaryBimester = styled.div`
+  margin-bottom: 0.3rem; /* ainda mais compacto */
+  padding: 0.3rem 0.5rem; /* menos padding */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+
+  h3 {
+    margin-bottom: 0.2rem;
+    color: #0b698e;
+    font-size: 1rem;
+
+    @media (max-width: 600px) {
+      font-size: 0.9rem;
+    }
+  }
+`;
+
+export const StatusLine = styled.div`
+  display: flex;
+  flex-direction: column; /* Alinha cada bloco (span+botão) um embaixo do outro */
+  gap: 0.4rem;
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* faz o span colar à esquerda e o botão à direita */
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    background: #fff;
+  }
+
+  span {
+    font-size: 0.85rem;
+    color: #333;
+    flex: 1 1 auto;
+  }
+
+  button {
+    background: #158fa2;
+    color: #fff;
+    border: none;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: #0b698e;
+    }
+
+    @media (max-width: 600px) {
+      width: auto; /* Evita botão quebrar pra linha de baixo */
+    }
+  }
+`;

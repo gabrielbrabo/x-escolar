@@ -1822,6 +1822,187 @@ export const GetGradeVIthQuarter = async (
         }, [])
 }
 
+export const closeBimesterDiary = async (
+    idClass, bimester, field
+) => {
+
+    return api.post(`/closeBimesterDiary`, {
+        idClass, bimester, field
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const reOpenBimesterDiary = async (
+    idClass, bimester, field
+) => {
+
+    return api.post(`/reopenBimesterDiary`, {
+        idClass, bimester, field
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const CreateDialy = async (
+    year,
+    idClass,
+    id_iStQuarter,
+    id_iiNdQuarter,
+    id_iiiRdQuarter,
+    id_ivThQuarter,
+) => {
+
+    return api.post(`/register/Daily`, {
+        year,
+        idClass,
+        id_iStQuarter,
+        id_iiNdQuarter,
+        id_iiiRdQuarter,
+        id_ivThQuarter,
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const CreateDailyConcept = async (
+    year,
+    idClass,
+    id_iStQuarter,
+    id_iiNdQuarter,
+    id_iiiRdQuarter,
+    id_ivThQuarter,
+) => {
+
+    return api.post(`/register/Daily-concept`, {
+        year,
+        idClass,
+        id_iStQuarter,
+        id_iiNdQuarter,
+        id_iiiRdQuarter,
+        id_ivThQuarter,
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const IndexDaily = async (
+    idClass,
+    id_iStQuarter,
+    id_iiNdQuarter,
+    id_iiiRdQuarter,
+    id_ivThQuarter,
+) => {
+
+    return api.post(`/index-Daily`, {
+        idClass,
+        id_iStQuarter,
+        id_iiNdQuarter,
+        id_iiiRdQuarter,
+        id_ivThQuarter,
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const CreateRepoCard = async (
+    year,
+    idClass,
+    id_iStQuarter,
+    id_iiNdQuarter,
+    id_iiiRdQuarter,
+    id_ivThQuarter,
+) => {
+
+    return api.post(`/register/card`, {
+        year,
+        idClass,
+        id_iStQuarter,
+        id_iiNdQuarter,
+        id_iiiRdQuarter,
+        id_ivThQuarter,
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const CreateRepoCardConcept = async (
+    year,
+    idClass,
+    id_iStQuarter,
+    id_iiNdQuarter,
+    id_iiiRdQuarter,
+    id_ivThQuarter,
+) => {
+
+    return api.post(`/register/card-concept`, {
+        year,
+        idClass,
+        id_iStQuarter,
+        id_iiNdQuarter,
+        id_iiiRdQuarter,
+        id_ivThQuarter,
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
 export const GetNumericalGrade = async (
     id_activity
 ) => {
@@ -2610,14 +2791,14 @@ export const GetAttendance = async (
     year,
     month,
     id_student,
-    id_teacher
+    //id_teacher
 ) => {
 
     return api.post(`/attendance/index`, {
         year,
         month,
         id_student,
-        id_teacher
+        //id_teacher
     })
 
         .catch((error) => {
@@ -2788,11 +2969,11 @@ export const AttendanceBimonthly = async (
 }
 
 export const RecordClassTaught = async (
-    day, month, year, description, id_teacher, id_teacher02, id_class
+    day, month, year, description, id_teacher, /*id_teacher02,*/ id_class
 ) => {
 
     return api.post(`/record-class-taught`, {
-        day, month, year, description, id_teacher, id_teacher02, id_class
+        day, month, year, description, id_teacher, /*id_teacher02,*/ id_class
     })
         .catch((error) => {
             if (error) {

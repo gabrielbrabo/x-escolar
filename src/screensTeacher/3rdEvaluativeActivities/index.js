@@ -51,7 +51,7 @@ import { SlActionUndo } from "react-icons/sl";
 const IndexAttendance = () => {
 
     const navigate = useNavigate()
-    const [open, setopen] = useState()
+    const [open, setopen] = useState('aberto')
     const [Namematter, setNameMatter] = useState([])
     const [year, setYear] = useState('');
     const [bimonthly, setBimonthly] = useState([]);
@@ -99,33 +99,43 @@ const IndexAttendance = () => {
             const idSchool = sessionStorage.getItem("id-school");
             const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
             const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
-            //const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
+            const physicalEducation = sessionStorage.getItem("physicalEducationTeacher");
 
             setclassRegentTeacher(JSON.parse(classRegentTeacher))
             setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
             // setphysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
 
             const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
-            const open = await IIIrdQuarter.data.data.map(res => {
-                return res.statusSupervisor
 
-            }).find(res => {
-                return res
-            })
-            setopen(open)
-            console.log("open", open)
-
-            const id_teacher = localStorage.getItem("Id_employee");
             const currentYear = sessionStorage.getItem("yearGrade");
             const id_bimonthly = sessionStorage.getItem("id-III")
             const nameMatter = sessionStorage.getItem("nameMatter")
             const id_mttr = sessionStorage.getItem("Selectmatter")
-            const id_class = sessionStorage.getItem("class-info")
+            const idClass = sessionStorage.getItem("class-info")
             // const resClass = await clssInfo(id_class)
 
             setMatter(id_mttr)
             setYear(currentYear)
             setId_iiiRdQuarter(id_bimonthly)
+            setId_class(idClass); // continua setando para controle UI
+
+            const id_teacher = localStorage.getItem("Id_employee");
+
+            // Busca a turma direto com o idClass do sessionStorage
+            const resClass = await clssInfo(idClass);
+
+            if (resClass?.data?.data && resClass.data.data.length > 0) {
+                const turma = resClass.data.data[0];
+                console.log("turma:", turma);
+
+                if (id_teacher !== physicalEducation) {
+                    setopen(turma.dailyStatus["3º BIMESTRE"].regentTeacher);
+                } else {
+                    setopen(turma.dailyStatus["3º BIMESTRE"].physicalEducationTeacher);
+                }
+            } else {
+                console.warn("❌ resClass veio vazio ou sem dados:", resClass);
+            }
 
             const bim = await IIIrdQuarter.data.data.map(res => {
                 return res.bimonthly
@@ -145,7 +155,6 @@ const IndexAttendance = () => {
 
             console.log('tg', tgString, "ag", agString)
             setNameMatter(nameMatter)
-            setId_class(id_class)
             setBimonthly(bimString)
             setTotalGrade(tgString)
             setAverageGrade(agString)

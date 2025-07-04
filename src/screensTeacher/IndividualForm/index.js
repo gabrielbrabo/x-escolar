@@ -46,7 +46,7 @@ const IndividualForm = () => {
 
     const [RegentTeacher, setclassRegentTeacher] = useState([]);
     const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
-    //const [physicalEducation, setphysicalEducationTeacher] = useState([]);
+    const [physicalEducation, setphysicalEducationTeacher] = useState([]);
 
 
     useEffect(() => {
@@ -80,11 +80,11 @@ const IndividualForm = () => {
 
             const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
             const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
-            //const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
+            const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
 
             setclassRegentTeacher(JSON.parse(classRegentTeacher))
             setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
-            //setphysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
+            setphysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
 
             setLoading(false);
         })()
@@ -96,7 +96,41 @@ const IndividualForm = () => {
             setLoading(true);
             if (!Selectbimonthly) return;
 
-            setopen(Selectbimonthly.statusSupervisor);
+            //setopen(Selectbimonthly.statusSupervisor);
+
+            console.log("teste", Selectbimonthly.bimonthly)
+            const resClass = await clssInfo(id_class); // ✅ Aqui você espera a Promise
+
+            const turma = resClass.data.data[0];
+
+            if (Selectbimonthly.bimonthly === "1º BIMESTRE") {
+                if (id_teacher !== physicalEducation) {
+                    setopen(turma.dailyStatus["1º BIMESTRE"].regentTeacher);
+                } else {
+                    setopen(turma.dailyStatus["1º BIMESTRE"].physicalEducationTeacher);
+                }
+            }
+            if (Selectbimonthly.bimonthly === "2º BIMESTRE") {
+                if (id_teacher !== physicalEducation) {
+                    setopen(turma.dailyStatus["2º BIMESTRE"].regentTeacher);
+                } else {
+                    setopen(turma.dailyStatus["2º BIMESTRE"].physicalEducationTeacher);
+                }
+            }
+            if (Selectbimonthly.bimonthly === "3º BIMESTRE") {
+                if (id_teacher !== physicalEducation) {
+                    setopen(turma.dailyStatus["3º BIMESTRE"].regentTeacher);
+                } else {
+                    setopen(turma.dailyStatus["3º BIMESTRE"].physicalEducationTeacher);
+                }
+            }
+            if (Selectbimonthly.bimonthly === "4º BIMESTRE") {
+                if (id_teacher !== physicalEducation) {
+                    setopen(turma.dailyStatus["4º BIMESTRE"].regentTeacher);
+                } else {
+                    setopen(turma.dailyStatus["4º BIMESTRE"].physicalEducationTeacher);
+                }
+            }
 
             const bimestreMapping = {
                 "1º BIMESTRE": "id_iStQuarter",
@@ -181,7 +215,7 @@ const IndividualForm = () => {
         };
 
         loadIndividualFormData();
-    }, [Selectbimonthly, year, id_class, id_teacher, RegentTeacher, RegentTeacher02]);
+    }, [Selectbimonthly, year, id_class, id_teacher, RegentTeacher, RegentTeacher02, physicalEducation]);
 
     const handleBimonthlyChange = (e) => {
         const selectedBimonthly = JSON.parse(e.target.value);

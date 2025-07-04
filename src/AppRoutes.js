@@ -151,6 +151,7 @@ import ExistForm from "./screensTeacher/ExistForm"
 import GradeFinalConcepts from "./screensTeacher/GradeFinalConcepts"
 
 import Daily from "./screens/Daily"
+import BimonthlyDiary from "./screens/bimonthlyDiary"
 
 import NumQuarterGradeDaily from "./components/NumQuarterGradeDaily"
 
@@ -729,6 +730,11 @@ const AppRoutes = () => {
                     <Route exact path="/daily" element={
                         <Private>
                             <Daily />
+                        </Private>
+                    } />
+                    <Route exact path="/bimonthly-diary/:bimonthly/:idClass/:idBimonthly" element={
+                        <Private>
+                            <BimonthlyDiary/>
                         </Private>
                     } />
 

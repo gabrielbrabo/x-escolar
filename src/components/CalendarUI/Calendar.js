@@ -85,7 +85,7 @@ export default function DateCalendarServerRequest() {
             // const res = await GetMatter(JSON.parse(idSchool))
             const id_student = sessionStorage.getItem("StudentInformation")
             if (regentT.length > 0) {
-                const resGetAttendance = await GetAttendance(Year, month, id_student, regentT)
+                const resGetAttendance = await GetAttendance(Year, month, id_student, /*regentT*/)
                 const attendance = await resGetAttendance.data.data.map(res => {
                     if (res.status === "P") {
                         return JSON.parse(res.day)
