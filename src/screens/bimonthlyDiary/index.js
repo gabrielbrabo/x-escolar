@@ -145,10 +145,10 @@ export default function Daily() {
 
   const formatDisplayDate = (dateStr) => {
     const date = new Date(dateStr);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
     return `${day}/${month}`;
-  };
+  };  
 
   const uniqueDates = data
     ? [...new Set(data.attendance.map((att) => formatDisplayDate(att.date)))].sort((a, b) => {

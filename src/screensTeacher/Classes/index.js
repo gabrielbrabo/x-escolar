@@ -152,11 +152,24 @@ const Grade = () => {
             const IIIrdQuarter = await getIIIrdQuarter(yearclss.year, JSON.parse(idSchool));
             const IVthQuarter = await getIVthQuarter(yearclss.year, JSON.parse(idSchool));
 
+            console.log("IIndQuarter:", IIndQuarter.data.data);
+
             const getQuarterStatus = (quarterData) => {
                 return quarterData.data.data
                     .map((res) => {
-                        const startDate = new Date(yearclss.year, res.startmonth - 1, res.startday);
-                        const endDate = new Date(yearclss.year, res.endmonth - 1, res.endday);
+                        const startDate = new Date(
+                            Number(yearclss.year),
+                            Number(res.startmonth) - 1,
+                            Number(res.startday)
+                        );
+                        const endDate = new Date(
+                            Number(yearclss.year),
+                            Number(res.endmonth) - 1,
+                            Number(res.endday)
+                        );
+
+                        console.log("Comparando:", { startDate, endDate, dateSelected });
+
                         if (dateSelected >= startDate && dateSelected <= endDate) {
                             return res.bimonthly;
                         }
@@ -181,6 +194,9 @@ const Grade = () => {
         try {
             const result = await fetchQuarters();
             const turma = $Class.data.data[0];
+
+            console.log("result", result)
+            console.log("turma", turma)
 
             let statusAtual = null;
 
@@ -330,8 +346,6 @@ const Grade = () => {
 
                                                         <TableRow>
                                                             <DateCell>{`${res.day}/${res.month}/${res.year}`}</DateCell>
-                                                            {console.log("id_teacher", res.id_teacher)}
-                                                            {console.log("id_teacher02", res.id_teacher02)}
                                                             <DescriptionCell>
                                                                 <div className={`description ${expandedRows.includes(index) ? 'expanded' : 'collapsed'}`}>
                                                                     <div
