@@ -3,12 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom'
 import {
     EmpInfo,
     DestroyEmp,
-    //getIstQuarter,
-    //getIIndQuarter,
-    //getIIIrdQuarter,
-    //getIVthQuarter,
-    //getVthQuarter,
-    //getVIthQuarter,
+    getIstQuarter,
+    getIIndQuarter,
+    getIIIrdQuarter,
+    getIVthQuarter,
+    getVthQuarter,
+    getVIthQuarter,
+    getSchoolYear
 } from '../../Api'
 
 import {
@@ -36,10 +37,10 @@ import {
     Button,
     ButtonRemove,
     ActionButtons,
-    //Input,
-    //Label,
-    //Select,
-    //ErrorMessage,
+    Input,
+    Label,
+    Select,
+    ErrorMessage,
     Backdrop,
     Modal,
     ClassList,
@@ -72,13 +73,13 @@ const EmployeeInformation = () => {
     const [position_at_school, setPosition_at_school] = useState([]);
     //const [positionAtSchool, setPositionAtSchool] = useState(null);
     const [loading, setLoading] = useState(false);
-    //const [Selectbimonthly, setSelectbimonthly] = useState([])
+    const [Selectbimonthly, setSelectbimonthly] = useState([])
     //const [id_class, setid_class] = useState([])
     const [Selectclass, setSelectclass] = useState('')
-    //const [bimonthly, setbimonthly] = useState([])
+    const [bimonthly, setbimonthly] = useState([])
     const [school, setSchool] = useState(null);
     const [removeEmp, setRemoveEmp] = useState(false);
-    //const [errorMessage, setErrorMessage] = useState();
+    const [errorMessage, setErrorMessage] = useState();
     const { id_employee } = useParams()
 
     useEffect(() => {
@@ -86,8 +87,8 @@ const EmployeeInformation = () => {
             setLoading(true);
             const School = sessionStorage.getItem('School');
             //const position = localStorage.getItem('position_at_school');
-            //const idSchool = sessionStorage.getItem("id-school");
-            //const year = new Date().getFullYear();
+            const idSchool = sessionStorage.getItem("id-school");
+            const schoolYear = await getSchoolYear(JSON.parse(idSchool))
             //setPositionAtSchool(position);
             sessionStorage.setItem("EmployeeInformation", id_employee)
             const res = await EmpInfo(id_employee)
@@ -145,12 +146,12 @@ const EmployeeInformation = () => {
             setLoading(false);
             setSchool(School);
 
-            /*const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
-            const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
-            const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
-            const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
-            const VthQuarter = await getVthQuarter(year, JSON.parse(idSchool))
-            const VIthQuarter = await getVIthQuarter(year, JSON.parse(idSchool))
+            const IstQuarter = await getIstQuarter(schoolYear.data.data, JSON.parse(idSchool))
+            const IIndQuarter = await getIIndQuarter(schoolYear.data.data, JSON.parse(idSchool))
+            const IIIrdQuarter = await getIIIrdQuarter(schoolYear.data.data, JSON.parse(idSchool))
+            const IVthQuarter = await getIVthQuarter(schoolYear.data.data, JSON.parse(idSchool))
+            const VthQuarter = await getVthQuarter(schoolYear.data.data, JSON.parse(idSchool))
+            const VIthQuarter = await getVIthQuarter(schoolYear.data.data, JSON.parse(idSchool))
 
             const i = IstQuarter.data.data.find(res => res) || null;
             const ii = IIndQuarter.data.data.find(res => res) || null;
@@ -162,12 +163,12 @@ const EmployeeInformation = () => {
             //const res = await GetMatter(JSON.parse(idSchool));
 
             setbimonthly([i, ii, iii, iv, v, vi].filter(res => res !== null));
-            */
+            
         })()
 
     }, [currentYear, id_employee])
 
-    /*const handledaily = () => {
+    const handledaily = () => {
         if (Selectbimonthly.length > 0) {
             const id_cla$$ = Clss.map(clss => {
                 return clss
@@ -203,7 +204,7 @@ const EmployeeInformation = () => {
         } else {
             setErrorMessage('Erro, Verifique os dados e tente novamente.');
         }
-    };*/
+    };
 
     const handleSelectClas = (clss) => {
         sessionStorage.setItem("Nameclass-daily", JSON.stringify(clss));
@@ -322,7 +323,7 @@ const EmployeeInformation = () => {
                                     </>
                                 }
                             </DivInfo>*/}
-                            {/*<Input>
+                            {<Input>
                                 <h2>Diario</h2>
                                 <Label>Selecione o bimestre e click no botão abaixo.</Label>
                                 <Select
@@ -339,7 +340,7 @@ const EmployeeInformation = () => {
                                 </Select>
                                 {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                                 <Button onClick={handledaily}>Ver Diario</Button>
-                            </Input>*/}
+                            </Input>}
                             <DivInfo>
                                 <TitleInfo>Turmas:</TitleInfo>
                                 {/*
