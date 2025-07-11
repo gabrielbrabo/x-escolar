@@ -68,7 +68,6 @@ const IndexAttendance = () => {
             const id_mttr = sessionStorage.getItem("Selectmatter")
             const id_class = sessionStorage.getItem("class-info")
             // const resClass = await clssInfo(id_class)
-            const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
 
             const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
             const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
@@ -79,6 +78,8 @@ const IndexAttendance = () => {
             setphysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
             setMatter(id_mttr)
             setYear(currentYear)
+            
+            const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
             setId_iStQuarter(id_bimonthly)
 
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { EmpInfo } from '../../Api'
+import { EmpInfo, getSchoolYear } from '../../Api'
 
 import {
     Container,
@@ -20,7 +20,7 @@ import LoadingSpinner from '../../components/Loading'
 const MyCla$$ = () => {
 
     const navigate = useNavigate()
-    const currentYear = new Date().getFullYear().toString();
+    //const currentYear = new Date().getFullYear().toString();
     const [Clss, setClss] = useState([])
     const [filter, setFilter] = useState()
     // const [busca, setBusca] = useState()
@@ -29,12 +29,15 @@ const MyCla$$ = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
+            const idSchool = sessionStorage.getItem("id-school");
+            const schoolYear = await getSchoolYear(JSON.parse(idSchool))
+            console.log("schoolYear", schoolYear)
             const id_employee = localStorage.getItem("Id_employee")
             const res = await EmpInfo(JSON.parse(id_employee))
-            const clss = res.data.data.find(res => {
+            const clss = await res.data.data.find(res => {
                 return res
             }).id_class.map(res => {
-                if (res.year === currentYear) {
+                if (res.year === JSON.stringify(schoolYear.data.data)) {
                     return (res)
                 } else {
                     return null
@@ -54,7 +57,7 @@ const MyCla$$ = () => {
             console.log("clss", clss)
         })()
 
-    }, [currentYear])
+    }, [])
 
     const MyClassInformation = (clss) => {
         setLoading(true);

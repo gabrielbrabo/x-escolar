@@ -41,10 +41,12 @@ import { SlActionUndo } from "react-icons/sl";
 
 const Grade = () => {
     const navigate = useNavigate();
-    const [open, setopen] = useState()
+    //const [open, setopen] = useState()
     const [loading, setLoading] = useState(false);
     const [/*isTeacher*/, setIsTeacher] = useState([]);
+    const [$Class, set$Class] = useState([]);
     const [id_employee, setId_employee] = useState([]);
+    const [yearclss, setyearclss] = useState('')
     const [recordClassTaught, setRecordClassTaught] = useState([]);
     const [expandedRows, setExpandedRows] = useState([]);
     const [editingIndex, setEditingIndex] = useState(null);
@@ -57,6 +59,12 @@ const Grade = () => {
     const [IdClass, setIdClass] = useState('');
     const [day, setDay] = useState('');
     const [month, setMonth] = useState('');
+
+    //const [id_class, setId_class] = useState('');
+    const [id_teacher, setId_teacher] = useState('')
+    const [physicalEducation, setPhysicalEducationTeacher] = useState([]);
+
+
     const [errorMessage, setErrorMessage] = useState('');
     const [printing, setPrinting] = useState(false); // Novo estado para controlar o modo de impressão
 
@@ -65,25 +73,35 @@ const Grade = () => {
             setLoading(true);
             const id_emp = localStorage.getItem("Id_employee");
             const id_class = sessionStorage.getItem("class-info");
-            const year = new Date().getFullYear();
+            //setId_class(id_class);
+            //const year = new Date().getFullYear();
 
-           // const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
-           // const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
-            //const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
+            const resClass = await clssInfo(id_class);
+            set$Class(resClass)
+            const $yearClass = resClass.data.data.find(clss => {
+                return clss.year
+            })
+            setyearclss($yearClass)
+
+            setId_teacher(id_emp);
+            const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
+
+            //setclassRegentTeacher(JSON.parse(classRegentTeacher))
+            //setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
+            setPhysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
 
             /*if (id_emp === classRegentTeacher02) {
                 const res = await indexRecordClassTaught(year, id_class, JSON.parse(classRegentTeacher));
                 console.log("res", res)
                 setRecordClassTaught(res.data.data || []);
             } else {*/
-                const res = await indexRecordClassTaught(year, id_class, JSON.parse(id_emp));
-                console.log("res", res)
-                setRecordClassTaught(res.data.data || []);
+            const res = await indexRecordClassTaught($yearClass.year, id_class, JSON.parse(id_emp));
+            console.log("res", res)
+            setRecordClassTaught(res.data.data || []);
             //}
 
             setId_employee(JSON.parse(id_emp));
 
-            const resClass = await clssInfo(id_class);
             const isTeacher = resClass.data.data.find(res => res)?.id_employee.find(res => res)?._id;
             console.log("isTeacher", isTeacher)
             console.log("id_emp", id_emp)
@@ -119,41 +137,38 @@ const Grade = () => {
         }
     };
 
+    console.log("earclss", yearclss)
+
     const handleEdit = async (index, res) => {
         setDay(`${res.day}`);
         setMonth(`${res.month}`);
+
         const fetchQuarters = async () => {
             const idSchool = sessionStorage.getItem("id-school");
-            const year = new Date().getFullYear();
-            const dateSelected = new Date(year, res.month - 1, res.day);
+            const dateSelected = new Date(yearclss.year, res.month - 1, res.day);
 
-            const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
-            const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
-            const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
-            const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
+            const IstQuarter = await getIstQuarter(yearclss.year, JSON.parse(idSchool));
+            const IIndQuarter = await getIIndQuarter(yearclss.year, JSON.parse(idSchool));
+            const IIIrdQuarter = await getIIIrdQuarter(yearclss.year, JSON.parse(idSchool));
+            const IVthQuarter = await getIVthQuarter(yearclss.year, JSON.parse(idSchool));
 
             const getQuarterStatus = (quarterData) => {
                 return quarterData.data.data
                     .map((res) => {
-                        const startDate = new Date(year, res.startmonth - 1, res.startday);
-                        const endDate = new Date(year, res.endmonth - 1, res.endday);
+                        const startDate = new Date(yearclss.year, res.startmonth - 1, res.startday);
+                        const endDate = new Date(yearclss.year, res.endmonth - 1, res.endday);
                         if (dateSelected >= startDate && dateSelected <= endDate) {
-                            console.log("startDade:", startDate);
-                            console.log("endDate:", endDate);
-                            console.log("dateSelected:", dateSelected);
-                            return res.statusSupervisor;
+                            return res.bimonthly;
                         }
                         return null;
                     })
-                    .find((res) => res); // Retorna o primeiro status válido encontrado
+                    .find((res) => res);
             };
 
             const dataIstQuarter = getQuarterStatus(IstQuarter);
             const dataIIndQuarter = getQuarterStatus(IIndQuarter);
             const dataIIIrdQuarter = getQuarterStatus(IIIrdQuarter);
             const dataIVthQuarter = getQuarterStatus(IVthQuarter);
-
-            // Retorna os dados encontrados em um objeto
 
             return {
                 IstQuarter: dataIstQuarter || null,
@@ -162,21 +177,37 @@ const Grade = () => {
                 IVthQuarter: dataIVthQuarter || null,
             };
         };
-        // Chamando a função e lidando com o resultado
+
         try {
-            // Obtém os resultados de forma assíncrona
             const result = await fetchQuarters();
+            const turma = $Class.data.data[0];
 
-            // Define `open` com base nos resultados
-            const openQuarter =
-                result.IstQuarter === "aberto" ? "IstQuarter" :
-                    result.IIndQuarter === "aberto" ? "IIndQuarter" :
-                        result.IIIrdQuarter === "aberto" ? "IIIrdQuarter" :
-                            result.IVthQuarter === "aberto" ? "IVthQuarter" : null;
+            let statusAtual = null;
 
-            if (openQuarter) {
-                console.log(`Bimestre aberto: ${openQuarter}`);
-                setopen("aberto");
+            if (result.IstQuarter) {
+                statusAtual = id_teacher !== physicalEducation
+                    ? turma.dailyStatus["1º BIMESTRE"].regentTeacher
+                    : turma.dailyStatus["1º BIMESTRE"].physicalEducationTeacher;
+            }
+            if (result.IIndQuarter) {
+                statusAtual = id_teacher !== physicalEducation
+                    ? turma.dailyStatus["2º BIMESTRE"].regentTeacher
+                    : turma.dailyStatus["2º BIMESTRE"].physicalEducationTeacher;
+            }
+            if (result.IIIrdQuarter) {
+                statusAtual = id_teacher !== physicalEducation
+                    ? turma.dailyStatus["3º BIMESTRE"].regentTeacher
+                    : turma.dailyStatus["3º BIMESTRE"].physicalEducationTeacher;
+            }
+            if (result.IVthQuarter) {
+                statusAtual = id_teacher !== physicalEducation
+                    ? turma.dailyStatus["4º BIMESTRE"].regentTeacher
+                    : turma.dailyStatus["4º BIMESTRE"].physicalEducationTeacher;
+            }
+
+            console.log("Status do bimestre:", statusAtual);
+
+            if (statusAtual === "aberto") {
                 setEditingIndex(index);
                 setEditingId(res._id);
                 setEditedDescription(res.description);
@@ -185,13 +216,12 @@ const Grade = () => {
             }
 
         } catch (error) {
-            console.error("Erro ao buscar os trimestres:", error);
-            alert("Erro ao buscar informações. Tente novamente mais tarde.");
+            console.error("Erro ao verificar bimestre:", error);
+            alert("Erro ao verificar bimestre. Tente novamente.");
         }
-        fetchQuarters();
-
     };
-    console.log("open", open)
+
+    //console.log("open", open)
     console.log("id_employee", id_employee)
     const handleSaveEdit = async () => {
         try {
@@ -336,46 +366,37 @@ const Grade = () => {
 
                                                         {editingIndex === index && (
                                                             <EditContainer>
-                                                                <h3>Editando Aula</h3>
-                                                                {/*<div className='data'>
-                                                                    <label>Data</label>
-                                                                </div>
+                                                                <div className="modal-content">
+                                                                    <h3>Editando Aula</h3>
 
-                                                                <input
-                                                                    type="text"
-                                                                    value={`${day}/${month}`}
-                                                                    onChange={(e) => {
-                                                                        const [newDay, newMonth] = e.target.value.split('/');
-                                                                        setDay(newDay);
-                                                                        setMonth(newMonth);
-                                                                    }}
-                                                                    placeholder="Data (DD/MM)"
-                                                                />*/}
-                                                                {/*<textarea
-                                                                value={editedDescription}
-                                                                onChange={(e) => setEditedDescription(e.target.value)}
-                                                                placeholder="Descrição da aula"
-                                                            />*/}
-                                                                <ReactQuill
-                                                                    theme="snow"
-                                                                    modules={{
-                                                                        toolbar: [
-                                                                            [{ 'font': [] }],
-                                                                            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                                                                            ['bold', 'italic', 'underline'],
-                                                                            [{ 'color': [] }, { 'background': [] }],
-                                                                            ['clean']
-                                                                        ]
-                                                                    }}
-                                                                    value={editedDescription}
-                                                                    onChange={(e) => setEditedDescription(e)}
-                                                                    placeholder="Descrição da aula"
-                                                                    style={{ height: '250px', position: 'relative', overflow: 'hidden', maxHeight: '250px', zIndex: 0 }}  // Define a altura aqui
-                                                                />
-                                                                {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                                                                <div style={{ position: 'relative', zIndex: 10, marginTop: '30px', }} className='BoxBtt'>
-                                                                    <ButtonEdit onClick={handleSaveEdit}>Salvar</ButtonEdit>
-                                                                    <ButtonEdit onClick={() => setEditingIndex(null)}>Cancelar</ButtonEdit>
+                                                                    <ReactQuill
+                                                                        theme="snow"
+                                                                        modules={{
+                                                                            toolbar: [
+                                                                                [{ 'font': [] }],
+                                                                                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                                                                ['bold', 'italic', 'underline'],
+                                                                                [{ 'color': [] }, { 'background': [] }],
+                                                                                ['clean']
+                                                                            ]
+                                                                        }}
+                                                                        value={editedDescription}
+                                                                        onChange={(e) => setEditedDescription(e)}
+                                                                        placeholder="Descrição da aula"
+                                                                        style={{
+                                                                            height: 'auto', // aumentado de 250px para 350px
+                                                                            maxHeight: '550px',
+                                                                            overflow: 'auto',
+                                                                            zIndex: 0,
+                                                                            position: 'relative'
+                                                                        }}
+                                                                    />
+                                                                    {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                                                    <div style={{ position: 'relative', zIndex: 10, marginTop: '30px', }} className='BoxBtt'>
+                                                                        <ButtonEdit onClick={handleSaveEdit}>Salvar</ButtonEdit>
+                                                                        <ButtonEdit onClick={() => setEditingIndex(null)}>Cancelar</ButtonEdit>
+                                                                    </div>
+
                                                                 </div>
                                                             </EditContainer>
                                                         )}

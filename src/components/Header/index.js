@@ -89,6 +89,7 @@ export function Header({ setMenuIsVisible }) {
                         <a href="/class" className={`nav__link ${isActive('/class')}`}>Turmas</a>
                         <a href="/annual-calendar" className={`nav__link ${isActive('/annual-calendar')}`}>Bimestres</a>
                         <a href="/matter" className={`nav__link ${isActive('/matter')}`}>Componentes curriculares</a>
+                        <a href="/controller" className={`nav__link ${isActive('/controller')}`}>Controle</a>
                     </nav>
                 )}
                 {position_at_school === "PROFESSOR" && (

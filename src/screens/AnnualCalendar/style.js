@@ -24,6 +24,17 @@ export const ContainerDivs = styled.div`
   }
 `;
 
+export const ContainerYear = styled.div`
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+`;
+
 export const DivAddEmp = styled.div`
   background-color: #f9f9f9;
   width: 100%;

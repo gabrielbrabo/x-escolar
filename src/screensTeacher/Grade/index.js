@@ -8,7 +8,8 @@ import {
     getVthQuarter,
     getVIthQuarter,
     GetMatter,
-    GetMatterDetails
+    GetMatterDetails,
+    clssInfo
 } from '../../Api';
 
 import {
@@ -41,6 +42,8 @@ const Grade = () => {
     const [bimonthly, setbimonthly] = useState([])
     const [Selectmatter, setSelectMatter] = useState([])
     const [matter, setMatter] = useState([])
+    
+    const [yearclss, setyearclss] = useState('')
 
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -56,13 +59,19 @@ const Grade = () => {
             const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
             const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
             const Id_employee = localStorage.getItem("Id_employee");
-            const year = new Date().getFullYear();
-            const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
-            const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
-            const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
-            const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
-            const VthQuarter = await getVthQuarter(year, JSON.parse(idSchool))
-            const VIthQuarter = await getVIthQuarter(year, JSON.parse(idSchool))
+
+            const id_class = sessionStorage.getItem("class-info");
+            const resClass = await clssInfo(id_class)
+            const $yearClass = resClass.data.data.find(clss => {
+                return clss.year
+            })
+            setyearclss($yearClass)
+            const IstQuarter = await getIstQuarter($yearClass.year, JSON.parse(idSchool))
+            const IIndQuarter = await getIIndQuarter($yearClass.year, JSON.parse(idSchool))
+            const IIIrdQuarter = await getIIIrdQuarter($yearClass.year, JSON.parse(idSchool))
+            const IVthQuarter = await getIVthQuarter($yearClass.year, JSON.parse(idSchool))
+            const VthQuarter = await getVthQuarter($yearClass.year, JSON.parse(idSchool))
+            const VIthQuarter = await getVIthQuarter($yearClass.year, JSON.parse(idSchool))
 
             const i = IstQuarter.data.data.find(res => res) || null;
             const ii = IIndQuarter.data.data.find(res => res) || null;
@@ -155,7 +164,7 @@ const Grade = () => {
         }
 
         sessionStorage.setItem("Selectmatter", Selectmatter)
-        sessionStorage.setItem("yearGrade", new Date().getFullYear().toString())
+        sessionStorage.setItem("yearGrade", yearclss.year)
 
         if (Selectbimonthly === I) {
             sessionStorage.setItem("id-I", I)

@@ -31,6 +31,7 @@ import SchoolInfo from "./screens/SchoolInfo"
 
 import HomeEmployee from "./screens/HomeEmployee"
 import AnnualCalendar from "./screens/AnnualCalendar"
+import Controller from "./screens/Controller"
 import Employees from "./screens/Employees"
 import EmployeesEduDep from "./screens/EmployeesEduDep"
 import NewEmployees from "./screens/NewEmployee"
@@ -283,6 +284,11 @@ const AppRoutes = () => {
                     <Route exact path="/edit-class" element={
                         <Private>
                             <EditClass />
+                        </Private>
+                    } />
+                    <Route exact path="/controller" element={
+                        <Private>
+                            <Controller />
                         </Private>
                     } />
                     <Route exact path="/annual-calendar" element={

@@ -13,7 +13,8 @@ import {
     CreateDailyConcept,
     CreateRepoCardConcept,
     closeBimesterDiary,
-    reOpenBimesterDiary
+    reOpenBimesterDiary,
+    getSchoolYear
 } from '../../Api'
 
 import {
@@ -54,7 +55,7 @@ const Cla$$Info = () => {
 
     const navigate = useNavigate()
     const currentYear = new Date().getFullYear().toString();
-    //const [year, setYear] = useState([])
+    const [year, setyear] = useState('');
     const [clss, setClss] = useState([])
     const [DailyClass, setDailyClass] = useState([])
     const [positionAtEducationDepartment, setPositionAtEducationDepartment] = useState('')
@@ -74,6 +75,14 @@ const Cla$$Info = () => {
     const [stdt, setStdt] = useState([])
 
     const [bimonthly, setBimonthly] = useState([]);
+
+    const [confirmClose, setConfirmClose] = useState(false);
+    const [bimesterToClose, setBimesterToClose] = useState(null);
+    const [fieldToClose, setFieldToClose] = useState(null);
+    const [confirmReopen, setConfirmReopen] = useState(false);
+    const [bimesterToReopen, setBimesterToReopen] = useState(null);
+    const [fieldToReopen, setFieldToReopen] = useState(null);
+    
 
     //const [Selectbimonthly, setSelectbimonthly] = useState();
 
@@ -95,6 +104,8 @@ const Cla$$Info = () => {
             const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
             setassessmentFormat($assessmentFormat)
             const idSchool = sessionStorage.getItem("id-school");
+            const schoolYear = await getSchoolYear(JSON.parse(idSchool))
+            setyear(schoolYear.data.data)
             const nameSchool = sessionStorage.getItem('School')
             const positionAtEducationDepartment = localStorage.getItem("positionAtEducationDepartment")
             setnameSchool(nameSchool)
@@ -115,11 +126,11 @@ const Cla$$Info = () => {
                 return res._id
             })
             setstudentTransfer(Transfer)
-            const yearClass = res.data.data.find(clss => {
+            const $yearClass = res.data.data.find(clss => {
                 return clss.year
             })
-            console.log("yearClass", yearClass)
-            setyearclss(yearClass)
+            console.log("yearClass", $yearClass)
+            setyearclss($yearClass)
             const student = [
                 ...new Map(
                     res.data.data.find(res => res)
@@ -167,13 +178,15 @@ const Cla$$Info = () => {
             console.log("classRegentEmployee", classRegentEmployee)
             console.log("physicalEducationTeacher", physicalEducationTeacher)
 
-            const year = new Date().getFullYear();
-            const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
-            const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
-            const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
-            const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
-            const VthQuarter = await getVthQuarter(year, JSON.parse(idSchool))
-            const VIthQuarter = await getVIthQuarter(year, JSON.parse(idSchool))
+            // const year = new Date().getFullYear();
+            console.log("yearclss", $yearClass.year)
+            //console.log("year", year)
+            const IstQuarter = await getIstQuarter($yearClass.year, JSON.parse(idSchool))
+            const IIndQuarter = await getIIndQuarter($yearClass.year, JSON.parse(idSchool))
+            const IIIrdQuarter = await getIIIrdQuarter($yearClass.year, JSON.parse(idSchool))
+            const IVthQuarter = await getIVthQuarter($yearClass.year, JSON.parse(idSchool))
+            const VthQuarter = await getVthQuarter($yearClass.year, JSON.parse(idSchool))
+            const VIthQuarter = await getVIthQuarter($yearClass.year, JSON.parse(idSchool))
 
             const i = IstQuarter.data.data.find(res => res) || null;
             const ii = IIndQuarter.data.data.find(res => res) || null;
@@ -188,7 +201,7 @@ const Cla$$Info = () => {
             setLoading(false);
         })()
 
-    }, [id_class,])
+    }, [id_class, year])
 
 
     console.log("studentTransfer", studentTransfer)
@@ -319,6 +332,18 @@ const Cla$$Info = () => {
                 navigate(`/IVth-allTheBulletins-concept/${id_class}/${idBim}`)
             }
         }
+    };
+
+    const confirmCloseModal = (bimester, field) => {
+        setBimesterToClose(bimester);
+        setFieldToClose(field);
+        setConfirmClose(true);
+    };
+
+    const confirmReopenModal = (bimester, field) => {
+        setBimesterToReopen(bimester);
+        setFieldToReopen(field);
+        setConfirmReopen(true);
     };
 
     const handleClose = async (bimester, field) => {
@@ -599,15 +624,16 @@ const Cla$$Info = () => {
                                                 </span>
                                             </strong>
                                             <div style={{ display: "flex", gap: "0.4rem", marginTop: "0.2rem" }}>
-                                                {status.regentTeacher === "aberto" && positionAtSchool === 'DIRETOR/SUPERVISOR' && (
-                                                    <button onClick={() => handleClose(bimester, "regentTeacher")} >
+                                                {console.log("yearClass", yearclss.year, "year", year)}
+                                                {yearclss.year === JSON.stringify(year) && status.regentTeacher === "aberto" && positionAtSchool === 'DIRETOR/SUPERVISOR' && (
+                                                    <button onClick={() => confirmCloseModal(bimester, "regentTeacher")} >
                                                         Fechar Bimestre
                                                     </button>
                                                 )}
                                                 {status.regentTeacher === "fechado" && (
                                                     <>
-                                                        {positionAtSchool === 'DIRETOR/SUPERVISOR' &&
-                                                            <button onClick={() => reOpen(bimester, "regentTeacher")}>
+                                                        {yearclss.year === JSON.stringify(year) && positionAtSchool === 'DIRETOR/SUPERVISOR' &&
+                                                            <button onClick={() => confirmReopenModal(bimester, "regentTeacher")}>
                                                                 Reabrir
                                                             </button>
                                                         }
@@ -630,17 +656,17 @@ const Cla$$Info = () => {
                                                 </span>
                                             </strong>
                                             <div style={{ display: "flex", gap: "0.4rem", marginTop: "0.2rem" }}>
-                                                {status.physicalEducationTeacher === "aberto" && positionAtSchool === 'DIRETOR/SUPERVISOR' && (
-                                                    <button onClick={() => handleClose(bimester, "physicalEducationTeacher")} >
+                                                {yearclss.year === JSON.stringify(year) && status.physicalEducationTeacher === "aberto" && positionAtSchool === 'DIRETOR/SUPERVISOR' && (
+                                                    <button onClick={() => confirmCloseModal(bimester, "physicalEducationTeacher")} >
                                                         Fechar Bimestre
                                                     </button>
                                                 )}
                                                 {status.physicalEducationTeacher === "fechado" && (
                                                     <>
-                                                      {positionAtSchool === 'DIRETOR/SUPERVISOR' &&
-                                                        <button onClick={() => reOpen(bimester, "physicalEducationTeacher")}>
-                                                            Reabrir
-                                                        </button>
+                                                        {yearclss.year === JSON.stringify(year) && positionAtSchool === 'DIRETOR/SUPERVISOR' &&
+                                                            <button onClick={() => confirmReopenModal(bimester, "physicalEducationTeacher")}>
+                                                                Reabrir
+                                                            </button>
                                                         }
                                                         <button onClick={() => seeDiary(bimester)}>
                                                             Ver Diário
@@ -654,6 +680,42 @@ const Cla$$Info = () => {
                             </DiaryBimester>
                         ))}
                     </DiaryWrapper>
+
+                    {confirmClose && (
+                        <ContainerModal>
+                            <ModalContent>
+                                <h3>⚠️ Atenção</h3>
+                                <p>Verifique se todas as informações estão completas. O diário será fechado.</p>
+                                <ButtonContainer>
+                                    <button style={{ background: 'green' }} onClick={() => {
+                                        setConfirmClose(false);
+                                        handleClose(bimesterToClose, fieldToClose);
+                                    }}>
+                                        Confirmar Fechamento
+                                    </button>
+                                    <button onClick={() => setConfirmClose(false)}>Cancelar</button>
+                                </ButtonContainer>
+                            </ModalContent>
+                        </ContainerModal>
+                    )}
+
+                    {confirmReopen && (
+                        <ContainerModal>
+                            <ModalContent>
+                                <h3>⚠️ Atenção</h3>
+                                <p>O bimestre será reaberto. Para visualizar o diário novamente, será necessário fechá-lo depois.</p>
+                                <ButtonContainer>
+                                    <button style={{ background: 'green' }} onClick={() => {
+                                        setConfirmReopen(false);
+                                        reOpen(bimesterToReopen, fieldToReopen);
+                                    }}>
+                                        Confirmar Reabertura
+                                    </button>
+                                    <button onClick={() => setConfirmReopen(false)}>Cancelar</button>
+                                </ButtonContainer>
+                            </ModalContent>
+                        </ContainerModal>
+                    )}
 
                     {
                         classRegentEmployee.length > 0 ? (

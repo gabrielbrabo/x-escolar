@@ -61,6 +61,8 @@ const Cla$$ = () => {
         setLoading(false);
     };
 
+    console.log("filter", filter, "currentYear", currentYear)
+
     return (
         <Container>
             {loading ? (
@@ -96,7 +98,7 @@ const Cla$$ = () => {
                         </FormFilter>
                     </Search>
                     <List>
-                        {!positionAtEducationDepartment
+                        {filter === JSON.stringify(currentYear) && !positionAtEducationDepartment
                             &&
                             <DivNewEmp>
                                 <Btt02 onClick={NewClass}>Nova Turma</Btt02>

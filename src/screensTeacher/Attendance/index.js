@@ -199,7 +199,8 @@ const IndexAttendance = () => {
             }));
             setAttendanceList(initialAttendanceList);
         }
-    }, [stdt,
+    }, [
+        stdt,
         day,
         month,
         year,

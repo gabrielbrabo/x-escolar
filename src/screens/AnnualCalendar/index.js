@@ -6,10 +6,12 @@ import {
   AddEmp,
   Btt02,
   Btt03,
-  DivDados
+  DivDados,
+  ContainerYear
 } from './style';
 
 import {
+  getSchoolYear,
   getIstQuarter,
   getIIndQuarter,
   getIIIrdQuarter,
@@ -34,6 +36,7 @@ const HomeSchool = () => {
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [anoLetivo, setanoLetivo] = useState([]);
   const [assessmentFormat, setassessmentFormat] = useState('');
   const [IStQuarter, setIStQuarter] = useState([]);
   const [IIndQuarter, setIIndQuarter] = useState([]);
@@ -48,6 +51,9 @@ const HomeSchool = () => {
     (async () => {
       setLoading(true);
       const idSchool = sessionStorage.getItem("id-school");
+      const schoolYear = await getSchoolYear(JSON.parse(idSchool))
+      console.log("anoLetivo", schoolYear.data.data)
+      setanoLetivo(schoolYear.data.data)
       const position = localStorage.getItem('position_at_school');
       //const positionAtEducationDepartment = localStorage.getItem('positionAtEducationDepartment');
       const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
@@ -56,13 +62,15 @@ const HomeSchool = () => {
       //setPositionAtEducationDepartment(positionAtEducationDepartment)
       const year = new Date().getFullYear();
 
+      console.log("year", year)
+
       const [IstQuarter, IIndQuarter, IIIrdQuarter, IVthQuarter, VthQuarter, VIthQuarter] = await Promise.all([
-        getIstQuarter(year, JSON.parse(idSchool)),
-        getIIndQuarter(year, JSON.parse(idSchool)),
-        getIIIrdQuarter(year, JSON.parse(idSchool)),
-        getIVthQuarter(year, JSON.parse(idSchool)),
-        getVthQuarter(year, JSON.parse(idSchool)),
-        getVIthQuarter(year, JSON.parse(idSchool))
+        getIstQuarter(schoolYear.data.data, JSON.parse(idSchool)),
+        getIIndQuarter(schoolYear.data.data, JSON.parse(idSchool)),
+        getIIIrdQuarter(schoolYear.data.data, JSON.parse(idSchool)),
+        getIVthQuarter(schoolYear.data.data, JSON.parse(idSchool)),
+        getVthQuarter(schoolYear.data.data, JSON.parse(idSchool)),
+        getVIthQuarter(schoolYear.data.data, JSON.parse(idSchool))
       ]);
 
       setIStQuarter(IstQuarter?.data?.data || []);
@@ -73,7 +81,7 @@ const HomeSchool = () => {
       setVIthQuarter(VIthQuarter?.data?.data || []);
       setLoading(false);
     })();
-  }, []);
+  }, [anoLetivo]);
 
   const handleNavigate = (quarter, id, route) => {
     sessionStorage.setItem(quarter, id);
@@ -236,6 +244,9 @@ const HomeSchool = () => {
         <LoadingSpinner />
       ) : (
         <ContainerDivs>
+          <ContainerYear>
+            <h1>Ano Letivo: {anoLetivo}</h1>
+          </ContainerYear>
           <h2>Calendário Bimestral</h2>
           {/*<p>Defina somente Bimestres nessecarios para o ano letivo !!!</p>*/}
           <QuarterSection

@@ -9,7 +9,7 @@ import {
   Input,
   ErrorMessage
 } from './style';
-import { RegisterIVthQuarter, RegisterIVthQuarter$grade } from '../../Api';
+import { RegisterIVthQuarter, RegisterIVthQuarter$grade, getSchoolYear } from '../../Api';
 
 //import ResponsivePickers from '../../components/Date';
 import ResponsivePickers from '../../components/Datebimestre';
@@ -24,7 +24,8 @@ import LoadingSpinner from '../../components/Loading';
 const HomeSchool = () => {
 
   const navigate = useNavigate()
-  const year = new Date().getFullYear();
+  //const year = new Date().getFullYear();
+  const [year, setyear] = useState('');
   const [id_school, setIdSchool] = useState('');
   const [assessmentFormat, setassessmentFormat] = useState('');
   const [loading, setLoading] = useState(true);
@@ -47,6 +48,8 @@ const HomeSchool = () => {
   useEffect(() => {
     (async () => {
       const idSchool = sessionStorage.getItem("id-school");
+      const schoolYear = await getSchoolYear(JSON.parse(idSchool))
+      setyear(schoolYear.data.data)
       const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
       setassessmentFormat($assessmentFormat)
       setIdSchool(JSON.parse(idSchool))
