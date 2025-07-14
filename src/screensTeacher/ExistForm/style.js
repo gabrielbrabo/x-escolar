@@ -1,5 +1,19 @@
 import styled from 'styled-components';
 
+export const Container = styled.div`
+    display: flex;
+    justify-content: center;
+    height: auto;
+    width: 100%;
+    background-color: #f4f4f9;
+    padding: 20px;
+    box-sizing: border-box;
+
+    @media (max-width: 768px) {
+        padding: 0; /* A largura será 100% da tela em dispositivos muito pequenos */
+    }
+`;
+
 export const RecordContainer = styled.div`
     display: flex;
     flex-direction: column;

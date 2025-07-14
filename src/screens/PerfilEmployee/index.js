@@ -8,6 +8,7 @@ import {
     getIVthQuarter,
     getVthQuarter,
     getVIthQuarter,
+    getSchoolYear
 } from '../../Api'
 
 import {
@@ -46,7 +47,7 @@ import LoadingSpinner from '../../components/Loading'
 const EmployeeInformation = () => {
 
     const navigate = useNavigate()
-    const currentYear = new Date().getFullYear().toString();
+    //const currentYear = new Date().getFullYear().toString();
     //const [year, setYear] = useState([])
     const [Clss, setClss] = useState([])
     const [employee, setEmployee] = useState([])
@@ -69,7 +70,7 @@ const EmployeeInformation = () => {
             const School = sessionStorage.getItem('School');
             //const position = localStorage.getItem('position_at_school');
             const idSchool = sessionStorage.getItem("id-school");
-            const year = new Date().getFullYear();
+            const schoolYear = await getSchoolYear(JSON.parse(idSchool))
             //setPositionAtSchool(position);
             console.log("id_employee", id_employee)
             const res = await EmpInfo(id_employee)
@@ -94,7 +95,7 @@ const EmployeeInformation = () => {
             const clss = res.data.data.find(res => {
                 return res
             }).id_class.map(res => {
-                if (res.year === currentYear) {
+                if (res.year === JSON.stringify(schoolYear.data.data)) {
                     return (res)
                 } else {
                     return null
@@ -127,12 +128,12 @@ const EmployeeInformation = () => {
             setLoading(false);
             setSchool(School);
 
-            const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
-            const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
-            const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
-            const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
-            const VthQuarter = await getVthQuarter(year, JSON.parse(idSchool))
-            const VIthQuarter = await getVIthQuarter(year, JSON.parse(idSchool))
+            const IstQuarter = await getIstQuarter(schoolYear.data.data, JSON.parse(idSchool))
+            const IIndQuarter = await getIIndQuarter(schoolYear.data.data, JSON.parse(idSchool))
+            const IIIrdQuarter = await getIIIrdQuarter(schoolYear.data.data, JSON.parse(idSchool))
+            const IVthQuarter = await getIVthQuarter(schoolYear.data.data, JSON.parse(idSchool))
+            const VthQuarter = await getVthQuarter(schoolYear.data.data, JSON.parse(idSchool))
+            const VIthQuarter = await getVIthQuarter(schoolYear.data.data, JSON.parse(idSchool))
 
             const i = IstQuarter.data.data.find(res => res) || null;
             const ii = IIndQuarter.data.data.find(res => res) || null;
@@ -147,7 +148,7 @@ const EmployeeInformation = () => {
 
         })()
 
-    }, [currentYear, id_employee])
+    }, [id_employee])
 
     const handledaily = () => {
         if (Selectbimonthly.length > 0) {

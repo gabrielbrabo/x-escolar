@@ -82,7 +82,10 @@ const Cla$$Info = () => {
     const [confirmReopen, setConfirmReopen] = useState(false);
     const [bimesterToReopen, setBimesterToReopen] = useState(null);
     const [fieldToReopen, setFieldToReopen] = useState(null);
-    
+
+    const [showRemoveTeacherModal, setShowRemoveTeacherModal] = useState(false);
+    const [showRemoveTeacher02Modal, setShowRemoveTeacher02Modal] = useState(false);
+    const [showRemovePhysicalTeacherModal, setShowRemovePhysicalTeacherModal] = useState(false);
 
     //const [Selectbimonthly, setSelectbimonthly] = useState();
 
@@ -230,6 +233,18 @@ const Cla$$Info = () => {
     const addPhysicalTeacher = async () => {
         navigate(`/add/physicalteacher/${id_class}`)
     }
+    const handleAskRemoveTeacher = () => {
+        setShowRemoveTeacherModal(true);
+    };
+
+    const handleAskRemoveTeacher02 = () => {
+        setShowRemoveTeacher02Modal(true);
+    };
+
+    const handleAskRemovePhysicalTeacher = () => {
+        setShowRemovePhysicalTeacherModal(true);
+    };
+
     const RemoveTeacher = async () => {
         navigate('/remove/teacher')
     }
@@ -239,6 +254,7 @@ const Cla$$Info = () => {
     const RemovephysicalTeacher = async () => {
         navigate('/remove/physicalteacher')
     }
+
     const RemoveStudent = async () => {
         navigate('/remove/student')
     }
@@ -580,6 +596,37 @@ const Cla$$Info = () => {
     console.log("student", stdt)
     //console.log("employee", employee)
 
+    const RemoveTeacherModal = ({ onClose, onConfirm }) => {
+        return (
+            <div style={{
+                position: "fixed",
+                inset: 0,
+                backdropFilter: "blur(5px)",
+                background: "rgba(0,0,0,0.3)",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                zIndex: 999
+            }}>
+                <div style={{
+                    background: "white",
+                    padding: "2rem",
+                    borderRadius: "8px",
+                    maxWidth: "400px",
+                    textAlign: "center"
+                }}>
+                    <h3>⚠️ Atenção!</h3>
+                    <p>Se o professor lecionou em algum bimestre, verifique antes de removê-lo se todos os registros foram preenchidos corretamente e se o diário do bimestre foi fechado.
+                    Lembre-se: o nome que fica registrado no diário é sempre do professor que fecha o diário do bimestre.</p>
+                    <div style={{ marginTop: "1.5rem", display: "flex", gap: "1rem", justifyContent: "center" }}>
+                        <button style={{ background: "#ccc", color: "#000", border: "none", padding: "0.5rem 1rem", cursor: "pointer" }} onClick={onClose}>Cancelar</button>
+                        <button style={{ background: "#c82333", color: "#fff", border: "none", padding: "0.5rem 1rem", cursor: "pointer" }} onClick={onConfirm}>Confirmar Remoção</button>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
     return (
         <Container>
             {loading ?
@@ -735,7 +782,14 @@ const Cla$$Info = () => {
                                                     <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
                                                 </AddEmp>*/}
                                                 <AddEmp>
-                                                    <Btt02 onClick={RemoveTeacher}>Remover</Btt02>
+                                                    <Btt02 onClick={handleAskRemoveTeacher}>Remover</Btt02>
+
+                                                    {showRemoveTeacherModal && (
+                                                        <RemoveTeacherModal
+                                                            onClose={() => setShowRemoveTeacherModal(false)}
+                                                            onConfirm={RemoveTeacher}
+                                                        />
+                                                    )}
                                                 </AddEmp>
                                             </DivAddEmp>
                                         )}
@@ -792,7 +846,14 @@ const Cla$$Info = () => {
                                                     <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
                                                 </AddEmp>*/}
                                                 <AddEmp>
-                                                    <Btt02 onClick={RemoveTeacher02}>Remover</Btt02>
+                                                    <Btt02 onClick={handleAskRemoveTeacher02}>Remover</Btt02>
+
+                                                    {showRemoveTeacher02Modal && (
+                                                        <RemoveTeacherModal
+                                                            onClose={() => setShowRemoveTeacher02Modal(false)}
+                                                            onConfirm={RemoveTeacher02}
+                                                        />
+                                                    )}
                                                 </AddEmp>
                                             </DivAddEmp>
                                         )}
@@ -844,7 +905,14 @@ const Cla$$Info = () => {
                                                     <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
                                                 </AddEmp>*/}
                                                 <AddEmp>
-                                                    <Btt02 onClick={RemovephysicalTeacher}>Remover</Btt02>
+                                                    <Btt02 onClick={handleAskRemovePhysicalTeacher}>Remover</Btt02>
+
+                                                    {showRemovePhysicalTeacherModal && (
+                                                        <RemoveTeacherModal
+                                                            onClose={() => setShowRemovePhysicalTeacherModal(false)}
+                                                            onConfirm={RemovephysicalTeacher}
+                                                        />
+                                                    )}
                                                 </AddEmp>
                                             </DivAddEmp>
                                         )}

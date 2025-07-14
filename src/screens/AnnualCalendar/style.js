@@ -115,3 +115,67 @@ export const Btt03 = styled.button`
     padding: 8px;
   }
 `;
+
+export const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(6px);
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+`;
+
+export const ModalContent = styled.div`
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 0 10px #00000030;
+
+  h3 {
+    margin-bottom: 1rem;
+  }
+
+  p {
+    margin: 0.5rem 0;
+  }
+
+  .modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .modal-button {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+
+  .confirm {
+    background: #4caf50;
+    color: #fff;
+  }
+
+  .confirm:hover {
+    background: #43a047;
+  }
+
+  .cancel {
+    background: #f44336;
+    color: #fff;
+  }
+
+  .cancel:hover {
+    background: #e53935;
+  }
+`;

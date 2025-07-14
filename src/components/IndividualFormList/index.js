@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { IndexIndividualForm, FormEdit, getIstQuarter, getIIndQuarter, getIIIrdQuarter, getIVthQuarter, getVthQuarter, getVIthQuarter } from '../../Api';
+import { IndexIndividualForm, FormEdit, getIstQuarter, getIIndQuarter, getIIIrdQuarter, getIVthQuarter, getVthQuarter, getVIthQuarter, getSchoolYear } from '../../Api';
 import { useNavigate } from 'react-router-dom';
 import {
     Container,
@@ -66,13 +66,14 @@ const IndividualFormList = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
-            const year = new Date().getFullYear().toString();
             const position = localStorage.getItem('position_at_school');
             const SelectbimonthlyDaily = JSON.parse(sessionStorage.getItem("Selectbimonthly-daily"));
             const SelectteacherDaily = JSON.parse(sessionStorage.getItem("Selectteacher-daily"));
             const Nameclass = JSON.parse(sessionStorage.getItem("Nameclass-daily"));
             const SelectclassDaily = sessionStorage.getItem("Selectclass-daily");
             const idSchool = SelectteacherDaily.id_school;
+            const schoolYear = await getSchoolYear(idSchool._id)
+            const year = schoolYear.data.data
 
             setPositionAtSchool(position);
             setnameSchool(SelectteacherDaily.id_school.name);

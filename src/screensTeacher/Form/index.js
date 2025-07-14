@@ -19,7 +19,7 @@ import {
     //DescriptionContainer // Novo contêiner para descrição
 } from './style';
 import LoadingSpinner from '../../components/Loading';
-import { createIndividualForm } from '../../Api';
+import { createIndividualForm, clssInfo } from '../../Api';
 
 const Form = () => {
     const navigate = useNavigate();
@@ -61,7 +61,12 @@ const Form = () => {
             setId_student(id_student._id)
             setId_teache(JSON.parse(id_employee));
             setId_class(id_class);
-            setYear(new Date().getFullYear());
+            
+            const resClass = await clssInfo(id_class);
+            const $yearClass = resClass.data.data.find(clss => {
+                return clss.year
+            })
+            setYear($yearClass.year)
             setLoading(false);
         })();
     }, []);

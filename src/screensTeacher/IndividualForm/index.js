@@ -34,10 +34,11 @@ import { SlActionUndo } from "react-icons/sl";
 
 const IndividualForm = () => {
     const navigate = useNavigate();
-    const [open, setopen] = useState()
-    const [Selectbimonthly, setSelectbimonthly] = useState();
+    const [open, setopen] = useState('aberto')
+    const [Selectbimonthly, setSelectbimonthly] = useState(null);
     const [bimonthly, setBimonthly] = useState([]);
     const [year, setYear] = useState([]);
+    const [$Class, set$Class] = useState(null);
     const [id_class, setId_class] = useState([]);
     const [id_teacher, setid_teacher] = useState([]);
     const [stdt, setStdt] = useState([]);
@@ -60,14 +61,18 @@ const IndividualForm = () => {
             setSelectbimonthly(selectbi ? JSON.parse(selectbi) : null);
             setId_class(idClass);
             setid_teacher(JSON.parse(id_employee))
-            setYear(new Date().getFullYear());
-            const year = new Date().getFullYear();
-            const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
-            const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
-            const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
-            const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
-            const VthQuarter = await getVthQuarter(year, JSON.parse(idSchool))
-            const VIthQuarter = await getVIthQuarter(year, JSON.parse(idSchool))
+            const resClass = await clssInfo(idClass);
+            set$Class(resClass)
+            const $yearClass = resClass.data.data.find(clss => {
+                return clss.year
+            })
+            setYear($yearClass.year)
+            const IstQuarter = await getIstQuarter($yearClass.year, JSON.parse(idSchool))
+            const IIndQuarter = await getIIndQuarter($yearClass.year, JSON.parse(idSchool))
+            const IIIrdQuarter = await getIIIrdQuarter($yearClass.year, JSON.parse(idSchool))
+            const IVthQuarter = await getIVthQuarter($yearClass.year, JSON.parse(idSchool))
+            const VthQuarter = await getVthQuarter($yearClass.year, JSON.parse(idSchool))
+            const VIthQuarter = await getVIthQuarter($yearClass.year, JSON.parse(idSchool))
 
             const i = IstQuarter.data.data.find(res => res) || null;
             const ii = IIndQuarter.data.data.find(res => res) || null;
@@ -97,11 +102,16 @@ const IndividualForm = () => {
             if (!Selectbimonthly) return;
 
             //setopen(Selectbimonthly.statusSupervisor);
+            if (!$Class || !$Class.data || !$Class.data.data) {
+                console.warn("⚠️ $Class ainda não chegou");
+                setLoading(false);
+                return;
+            }
 
             console.log("teste", Selectbimonthly.bimonthly)
-            const resClass = await clssInfo(id_class); // ✅ Aqui você espera a Promise
+            //const resClass = await clssInfo(id_class); // ✅ Aqui você espera a Promise
 
-            const turma = resClass.data.data[0];
+            const turma = $Class.data.data[0];
 
             if (Selectbimonthly.bimonthly === "1º BIMESTRE") {
                 if (id_teacher !== physicalEducation) {
@@ -159,10 +169,10 @@ const IndividualForm = () => {
                         console.log("individual form", res);
                         const GradeRealized = res.data.map(res => res?.id_student?._id || []);
 
-                        const resClass = await clssInfo(id_class);
+                       // const resClass = await clssInfo(id_class);
                         console.log("individual GradeRealized", GradeRealized);
 
-                        const student = resClass.data.data.find(res => res)
+                        const student = $Class.data.data.find(res => res)
                             ?.id_student.filter(student => student && !GradeRealized.includes(student._id));
 
                         setStdt(student);
@@ -172,7 +182,7 @@ const IndividualForm = () => {
                             setChecked(result);
                         }
 
-                        console.log('resposta back', resClass);
+                        //console.log('resposta back', resClass);
                         console.log("individual form", res.data);
 
                     } else {
@@ -186,10 +196,10 @@ const IndividualForm = () => {
                         console.log("individual form", res);
                         const GradeRealized = res.data.map(res => res?.id_student?._id || []);
 
-                        const resClass = await clssInfo(id_class);
+                        //const resClass = await clssInfo(id_class);
                         console.log("individual GradeRealized", GradeRealized);
 
-                        const student = resClass.data.data.find(res => res)
+                        const student = $Class.data.data.find(res => res)
                             ?.id_student.filter(student => student && !GradeRealized.includes(student._id));
 
                         setStdt(student);
@@ -199,7 +209,7 @@ const IndividualForm = () => {
                             setChecked(result);
                         }
 
-                        console.log('resposta back', resClass);
+                        console.log('resposta back', $Class.data.data[0]);
                         console.log("individual form", res.data);
                     }
 
@@ -215,7 +225,7 @@ const IndividualForm = () => {
         };
 
         loadIndividualFormData();
-    }, [Selectbimonthly, year, id_class, id_teacher, RegentTeacher, RegentTeacher02, physicalEducation]);
+    }, [$Class, Selectbimonthly, year, id_class, id_teacher, RegentTeacher, RegentTeacher02, physicalEducation]);
 
     const handleBimonthlyChange = (e) => {
         const selectedBimonthly = JSON.parse(e.target.value);

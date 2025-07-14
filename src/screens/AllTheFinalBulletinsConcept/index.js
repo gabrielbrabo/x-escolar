@@ -36,7 +36,8 @@ import {
   getIstQuarter,
   getIIndQuarter,
   getIIIrdQuarter,
-  getIVthQuarter
+  getIVthQuarter,
+  clssInfo
 } from '../../Api';
 
 //import GlobalStyle from './style';
@@ -74,8 +75,11 @@ const AllTheBulletins = () => {
       const idSchool = sessionStorage.getItem("id-school");
       const nameSchool = sessionStorage.getItem("School");
       setNameSchool(nameSchool)
-    
-      const year = new Date().getFullYear();
+      const resClass = await clssInfo(idClass);
+      const $yearClass = resClass.data.data.find(clss => {
+        return clss.year
+      })
+      const year = $yearClass.year
       const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
       const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
       const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
@@ -112,7 +116,7 @@ const AllTheBulletins = () => {
       setBulletinsIInd(resIInd.data.data.boletins);
 
       console.log("resIInd", resIInd)
-      
+
       const resIIIrd = await allTheBulletinsConcept({
         idClass,
         id_iiiRdQuarter: iii._id,
@@ -121,7 +125,7 @@ const AllTheBulletins = () => {
       setBulletinsIIIrd(resIIIrd.data.data.boletins);
 
       console.log("resIInd", resIIIrd)
-      
+
       const resIVth = await allTheBulletinsConcept({
         idClass,
         id_ivThQuarter: iv._id,
@@ -212,13 +216,13 @@ const AllTheBulletins = () => {
                         .map(grd => {
                           const alunoIst = BulletinsIst.find(a => a.id === aluno.id);
                           const concept1st = alunoIst ? alunoIst.totalPorMateria[grd.matterName] : "";
-                         
+
                           const alunoIInd = BulletinsIInd.find(a => a.id === aluno.id);
                           const concept2nd = alunoIInd ? alunoIInd.totalPorMateria[grd.matterName] : "";
-                          
+
                           const alunoIIIrd = BulletinsIIIrd.find(a => a.id === aluno.id);
                           const concept3rd = alunoIIIrd ? alunoIIIrd.totalPorMateria[grd.matterName] : "";
-                          
+
                           const alunoIVth = BulletinsIVth.find(a => a.id === aluno.id);
                           const concept4th = alunoIVth ? alunoIVth.totalPorMateria[grd.matterName] : "";
 

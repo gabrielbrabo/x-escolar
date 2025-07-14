@@ -64,7 +64,7 @@ import LoadingSpinner from '../../components/Loading'
 const EmployeeInformation = () => {
 
     const navigate = useNavigate()
-    const currentYear = new Date().getFullYear().toString();
+    //const currentYear = new Date().getFullYear().toString();
     //const [year, setYear] = useState([])
     const [Clss, setClss] = useState([])
     const [employee, setEmployee] = useState([])
@@ -113,7 +113,7 @@ const EmployeeInformation = () => {
             const clss = res.data.data.find(res => {
                 return res
             }).id_class.map(res => {
-                if (res.year === currentYear) {
+                if (res.year === JSON.stringify(schoolYear.data.data)) {
                     return (res)
                 } else {
                     return null
@@ -166,7 +166,7 @@ const EmployeeInformation = () => {
             
         })()
 
-    }, [currentYear, id_employee])
+    }, [id_employee])
 
     const handledaily = () => {
         if (Selectbimonthly.length > 0) {

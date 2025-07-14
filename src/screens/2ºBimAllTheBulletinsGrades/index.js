@@ -33,6 +33,7 @@ import GlobalStyle from './style';
 import {
   allTheBulletinsGrades,
   getIstQuarter,
+  clssInfo
 } from '../../Api';
 
 //import GlobalStyle from './style';
@@ -87,7 +88,11 @@ const AllTheBulletins = () => {
         setTeacher(null);
       }
 
-      const year = new Date().getFullYear();
+      const resClass = await clssInfo(idClass);
+      const $yearClass = resClass.data.data.find(clss => {
+        return clss.year
+      })
+      const year = $yearClass.year
       const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
       const i = IstQuarter.data.data.find(res => res) || null;
       setIstBimonthly([i].filter(res => res !== null));

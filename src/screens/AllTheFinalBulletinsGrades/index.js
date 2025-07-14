@@ -35,7 +35,8 @@ import {
   getIstQuarter,
   getIIndQuarter,
   getIIIrdQuarter,
-  getIVthQuarter
+  getIVthQuarter,
+  clssInfo
 } from '../../Api';
 
 //import GlobalStyle from './style';
@@ -78,7 +79,11 @@ const AllTheBulletins = () => {
       const nameSchool = sessionStorage.getItem("School");
       setNameSchool(nameSchool)
 
-      const year = new Date().getFullYear();
+      const resClass = await clssInfo(idClass);
+      const $yearClass = resClass.data.data.find(clss => {
+        return clss.year
+      })
+      const year = $yearClass.year
       const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
       const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
       const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
@@ -166,7 +171,7 @@ const AllTheBulletins = () => {
     (parseFloat(bimestreIIIrd.totalGrade) || 0) +
     (parseFloat(bimestre.totalGrade) || 0);
 
-  const mediaAnual = 
+  const mediaAnual =
     (parseFloat(bimestreIst.averageGrade) || 0) +
     (parseFloat(bimestreIInd.averageGrade) || 0) +
     (parseFloat(bimestreIIIrd.averageGrade) || 0) +

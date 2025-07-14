@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { clssInfo, FinalConceptsDaily, FinalConceptsDailyTeacher02 } from '../../Api';
+import { clssInfo, FinalConceptsDaily, FinalConceptsDailyTeacher02, getSchoolYear } from '../../Api';
 import { useNavigate } from 'react-router-dom';
 import {
     //Container,
@@ -45,7 +45,6 @@ const IndividualFormList = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
-            const year = new Date().getFullYear().toString();
             const SelectteacherDaily = JSON.parse(sessionStorage.getItem("Selectteacher-daily"));
             const Nameclass = JSON.parse(sessionStorage.getItem("Nameclass-daily"));
             const SelectclassDaily = sessionStorage.getItem("Selectclass-daily");
@@ -56,6 +55,10 @@ const IndividualFormList = () => {
 
             setnameTeacher(SelectteacherDaily.name);
             setnameClass(Nameclass.serie);
+
+            const idSchool = SelectteacherDaily.id_school;
+            const schoolYear = await getSchoolYear(idSchool._id)
+            const year = schoolYear.data.data
             setyear(year);
 
             const Employee02 = await Nameclass.classRegentTeacher02.find(res => {
@@ -74,7 +77,7 @@ const IndividualFormList = () => {
 
                 try {
                     if (RegentTeacher02 === id_teacher) {
-                        
+
                         const id_teacher02 = RegentTeacher02
 
                         const res = await FinalConceptsDailyTeacher02({

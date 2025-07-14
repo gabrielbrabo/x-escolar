@@ -9,7 +9,8 @@ import {
     getIVthQuarter,
     getVthQuarter,
     getVIthQuarter,
-    updateStatus
+    updateStatus,
+    getSchoolYear
 } from '../../Api'
 import Calendar from '../../components/CalendarUI/Calendar'
 
@@ -98,7 +99,7 @@ const Student = () => {
             const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
             setassessmentFormat($assessmentFormat)
             // const id_student = sessionStorage.getItem("StudentInformation");
-            const year = new Date().getFullYear();
+            const schoolYear = await getSchoolYear(JSON.parse(idSchool))
             console.log("idSchool", idSchool)
             console.log("idStudent", id_student)
 
@@ -146,13 +147,13 @@ const Student = () => {
             }
 
 
-            const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
+            const IstQuarter = await getIstQuarter(schoolYear.data.data, JSON.parse(idSchool))
             console.log("IstQuarter", IstQuarter)
-            const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
-            const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
-            const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool))
-            const VthQuarter = await getVthQuarter(year, JSON.parse(idSchool))
-            const VIthQuarter = await getVIthQuarter(year, JSON.parse(idSchool))
+            const IIndQuarter = await getIIndQuarter(schoolYear.data.data, JSON.parse(idSchool))
+            const IIIrdQuarter = await getIIIrdQuarter(schoolYear.data.data, JSON.parse(idSchool))
+            const IVthQuarter = await getIVthQuarter(schoolYear.data.data, JSON.parse(idSchool))
+            const VthQuarter = await getVthQuarter(schoolYear.data.data, JSON.parse(idSchool))
+            const VIthQuarter = await getVIthQuarter(schoolYear.data.data, JSON.parse(idSchool))
 
             const i = IstQuarter.data.data.find(res => res) || null;
             const ii = IIndQuarter.data.data.find(res => res) || null;

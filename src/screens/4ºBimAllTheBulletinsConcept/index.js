@@ -34,7 +34,8 @@ import {
   allTheBulletinsConcept,
   getIstQuarter,
   getIIndQuarter,
-  getIIIrdQuarter
+  getIIIrdQuarter,
+  clssInfo
 } from '../../Api';
 
 //import GlobalStyle from './style';
@@ -81,7 +82,11 @@ const AllTheBulletins = () => {
       setClass(res.data.data.turma);
       //setBimestre(res.data.data.bimestre);
 
-      const year = new Date().getFullYear();
+      const resClass = await clssInfo(idClass);
+      const $yearClass = resClass.data.data.find(clss => {
+        return clss.year
+      })
+      const year = $yearClass.year
       const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
       const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
       const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
@@ -106,7 +111,7 @@ const AllTheBulletins = () => {
       setBulletinsIInd(resIInd.data.data.boletins);
 
       console.log("resIInd", resIInd)
-      
+
       const resIIIrd = await allTheBulletinsConcept({
         idClass,
         id_iiiRdQuarter: iii._id,
@@ -197,10 +202,10 @@ const AllTheBulletins = () => {
                         .map(grd => {
                           const alunoIst = BulletinsIst.find(a => a.id === aluno.id);
                           const concept1st = alunoIst ? alunoIst.totalPorMateria[grd.matterName] : "";
-                         
+
                           const alunoIInd = BulletinsIInd.find(a => a.id === aluno.id);
                           const concept2nd = alunoIInd ? alunoIInd.totalPorMateria[grd.matterName] : "";
-                          
+
                           const alunoIIIrd = BulletinsIIIrd.find(a => a.id === aluno.id);
                           const concept3rd = alunoIIIrd ? alunoIIIrd.totalPorMateria[grd.matterName] : "";
 

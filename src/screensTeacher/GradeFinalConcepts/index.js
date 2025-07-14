@@ -48,6 +48,7 @@ const Finalconcepts = () => {
     const [open, setopen] = useState('aberto')
     const [Namematter, setNameMatter] = useState([])
     const [year, setYear] = useState('');
+    const [$Class, set$Class] = useState(null);
     const [id_matter, setSelectMatter] = useState('');
     const [matter, setMatter] = useState([]);
     const [id_employee, setid_employee] = useState('');
@@ -82,7 +83,7 @@ const Finalconcepts = () => {
             const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
             const Id_employee = localStorage.getItem("Id_employee");
             const id_teacher = JSON.parse(localStorage.getItem("Id_employee"));
-            const currentYear = new Date().getFullYear().toString();
+            //const currentYear = new Date().getFullYear().toString();
             const id_cla$$ = sessionStorage.getItem("class-info");
             const Selectmatt = sessionStorage.getItem("Selectmatt");
 
@@ -94,12 +95,15 @@ const Finalconcepts = () => {
             setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
             setphysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
 
+            const resClass = await clssInfo(id_cla$$);
+            set$Class(resClass)
+            const $yearClass = resClass.data.data.find(clss => {
+                return clss.year
+            })
             setid_employee(id_teacher);
-            setYear(currentYear); // Certifique-se de que o ano é definido aqui.
+            setYear($yearClass.year); // Certifique-se de que o ano é definido aqui.
             setId_class(id_cla$$);
             setId_teacher(JSON.parse(Id_employee))
-
-            const resClass = await clssInfo(id_cla$$);
 
             if (resClass?.data?.data && resClass.data.data.length > 0) {
                 const turma = resClass.data.data[0];
@@ -139,7 +143,8 @@ const Finalconcepts = () => {
             if (id_matter && year) {
                 console.log("year", year, "id_matter", id_matter)
                 const resGrade = await GetGradeFinalConcepts(year, id_matter)
-                const resClass = await clssInfo(id_class)
+                //const resClass = $Class//await clssInfo(id_class)
+                //console.log('resCLass', resClass, "$Class", $Class)
                 const GradeRealized = await resGrade.data.data.map(res => {
                     return res.id_student._id
                 })
@@ -213,7 +218,7 @@ const Finalconcepts = () => {
 
             setLoading(false);
         })();
-    }, [id_class, id_matter, year]);
+    }, [id_class, id_matter, year,]);
 
     console.log("checked", checked)
     console.log("stdt", stdt)
@@ -235,7 +240,8 @@ const Finalconcepts = () => {
             const res = await FinalConcepts(year, studentGrade, id_matter, id_employee, id_teacher02, id_student, id_class)
             if (res) {
                 const resGrade = await GetGradeFinalConcepts(year, id_matter)
-                const resClass = await clssInfo(id_class)
+                const resClass = $Class//await clssInfo(id_class)
+                console.log('resCLass', resClass, "$Class", $Class)
                 const GradeRealized = await resGrade.data.data.map(res => {
                     return res.id_student._id
                 })
@@ -278,7 +284,8 @@ const Finalconcepts = () => {
             const res = await FinalConcepts(year, studentGrade, id_matter, RegentTeacher, id_teacher02, id_student, id_class)
             if (res) {
                 const resGrade = await GetGradeFinalConcepts(year, id_matter)
-                const resClass = await clssInfo(id_class)
+                const resClass = $Class//await clssInfo(id_class)
+                console.log('resCLass', resClass, "$Class", $Class)
                 const GradeRealized = await resGrade.data.data.map(res => {
                     return res.id_student._id
                 })
@@ -318,7 +325,7 @@ const Finalconcepts = () => {
 
             if (res) {
                 const resGrade = await GetGradeFinalConcepts(year, id_matter)
-                const resClass = await clssInfo(id_class)
+                const resClass = $Class//await clssInfo(id_class)
                 const GradeRealized = await resGrade.data.data.map(res => {
                     return res.id_student._id
                 })

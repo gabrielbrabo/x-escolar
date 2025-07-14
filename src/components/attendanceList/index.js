@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { clssInfo, AttendanceByTeacherAndClass, getIstQuarter, getIIndQuarter, getIIIrdQuarter, getIVthQuarter, getVthQuarter, getVIthQuarter } from "../../Api"; // Simula chamada ao backend
+import { clssInfo, AttendanceByTeacherAndClass, getIstQuarter, getIIndQuarter, getIIIrdQuarter, getIVthQuarter, getVthQuarter, getVIthQuarter, getSchoolYear } from "../../Api"; // Simula chamada ao backend
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../../components/Loading';
@@ -257,12 +257,13 @@ export default function AttendanceList() {
     const fetchAttendanceData = async () => {
 
       setLoading(true);
-      const year = new Date().getFullYear().toString();
       const SelectbimonthlyDaily = JSON.parse(sessionStorage.getItem("Selectbimonthly-daily"));
       const SelectteacherDaily = JSON.parse(sessionStorage.getItem("Selectteacher-daily"));
       const Nameclass = JSON.parse(sessionStorage.getItem("Nameclass-daily"));
       const SelectclassDaily = sessionStorage.getItem("Selectclass-daily");
       const idSchool = SelectteacherDaily.id_school;
+      const schoolYear = await getSchoolYear(idSchool._id)
+      const year = schoolYear.data.data
 
       setid_teacher(SelectteacherDaily._id);
       setnameSchool(SelectteacherDaily.id_school.name);

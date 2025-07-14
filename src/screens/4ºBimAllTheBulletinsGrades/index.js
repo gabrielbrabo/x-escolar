@@ -34,7 +34,8 @@ import {
   allTheBulletinsGrades,
   getIstQuarter,
   getIIndQuarter,
-  getIIIrdQuarter
+  getIIIrdQuarter,
+  clssInfo
 } from '../../Api';
 
 //import GlobalStyle from './style';
@@ -93,7 +94,11 @@ const AllTheBulletins = () => {
         setTeacher(null);
       }
 
-      const year = new Date().getFullYear();
+      const resClass = await clssInfo(idClass);
+      const $yearClass = resClass.data.data.find(clss => {
+        return clss.year
+      })
+      const year = $yearClass.year
       const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
       const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
       const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
@@ -280,7 +285,7 @@ const AllTheBulletins = () => {
                                       totalGrade={bim3 ? parseFloat(bim3.totalGrade) : 0}
                                     >
                                       {(() => {
-                                        const val = alunoIIIrd&& alunoIIIrd.totalPorMateria && alunoIIIrd.totalPorMateria[grd.matterName] !== undefined
+                                        const val = alunoIIIrd && alunoIIIrd.totalPorMateria && alunoIIIrd.totalPorMateria[grd.matterName] !== undefined
                                           ? parseFloat(alunoIIIrd.totalPorMateria[grd.matterName]).toFixed(1)
                                           : '-';
                                         return val;

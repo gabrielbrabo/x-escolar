@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { GetIndividualForm, FormEdit, DestroyForm } from '../../Api';
 import ReactQuill from 'react-quill';
 import {
+    Container,
     RecordContainer,
     RecordHeader,
     RecordTitle,
@@ -23,6 +24,8 @@ import {
     PrintButton // Adicione este estilo para o botão de impressão
 } from './style';
 
+import LoadingSpinner from '../../components/Loading';
+
 const StudentRecordDescription = () => {
     const navigate = useNavigate();
     const [nameStudent, setNameStudent] = useState('');
@@ -33,9 +36,11 @@ const StudentRecordDescription = () => {
     const [editedDescription, setEditedDescription] = useState('');
     const [RemoveForm, setRemoveForm] = useState(null);
     const { id_form } = useParams();
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
             const selectBimonthly = JSON.parse(sessionStorage.getItem("Selectbimonthly"));
             const studentName = JSON.parse(sessionStorage.getItem("nmstdt"));
             // const id_employee = localStorage.getItem("Id_employee");
@@ -47,15 +52,16 @@ const StudentRecordDescription = () => {
             if (individualFormId && individualFormId !== "undefined") {
                 const response = await GetIndividualForm({ id_individualForm: individualFormId });
                 if (response) {
-                   /* const isTeacher = await response.data.data.id_teacher._id;
-                    if (isTeacher === JSON.parse(id_employee)) {
-                        setIsTeacher(isTeacher);
-                    }*/
+                    /* const isTeacher = await response.data.data.id_teacher._id;
+                     if (isTeacher === JSON.parse(id_employee)) {
+                         setIsTeacher(isTeacher);
+                     }*/
                     setFormData(response.data.data);
                 }
             } else {
                 console.error("ID da ficha individual inválido ou não encontrado.");
             }
+            setLoading(false);
         };
 
         fetchData();
@@ -99,88 +105,94 @@ const StudentRecordDescription = () => {
     };
 
     return (
-        <>
-            {!update_idForm && !RemoveForm &&
-                <RecordContainer>
-                    <RecordHeader>
-                        <RecordTitle>Ficha Individual do Aluno</RecordTitle>
-                    </RecordHeader>
-                    <ContainerSpan>
-                        <Span>
-                            <div>Aluno: <p>{nameStudent}</p></div>
-                            <div>Bimestre: <p>{bimonthly}</p></div>
-                        </Span>
-                        <Span>
-                            <PrintButton onClick={handlePrint}>Imprimir Ficha</PrintButton> {/* Botão de impressão acima */}
-                        </Span>
-                        {/*isTeacher.length > 0 && (*/}
-                        <BoxButton>
-                            <Button onClick={handleDestroy}>Apagar</Button>
-                            <Button onClick={startEditing}>Editar</Button>
-                        </BoxButton>
-                        {/*)*/}
-                    </ContainerSpan>
-                    <RecordDescription>
-                        {formData ? (
-                            <div dangerouslySetInnerHTML={{ __html: formData.description }} />
-                        ) : (
-                            <p>Nenhuma descrição</p>
-                        )}
-                    </RecordDescription>
-                    <ToGoBack onClick={messageButtonClick}>
-                        <SignMessageButtonText>Voltar para a </SignMessageButtonText>
-                        <SignMessageButtonTextBold>lista de Alunos</SignMessageButtonTextBold>
-                    </ToGoBack>
-                </RecordContainer>
-            }
+        <Container>
+            {loading ? (
+                <LoadingSpinner />
+            ) : (
+                <>
+                    {!update_idForm && !RemoveForm &&
+                        <RecordContainer>
+                            <RecordHeader>
+                                <RecordTitle>Ficha Individual do Aluno</RecordTitle>
+                            </RecordHeader>
+                            <ContainerSpan>
+                                <Span>
+                                    <div>Aluno: <p>{nameStudent}</p></div>
+                                    <div>Bimestre: <p>{bimonthly}</p></div>
+                                </Span>
+                                <Span>
+                                    <PrintButton onClick={handlePrint}>Imprimir Ficha</PrintButton> {/* Botão de impressão acima */}
+                                </Span>
+                                {/*isTeacher.length > 0 && (*/}
+                                <BoxButton>
+                                    <Button onClick={handleDestroy}>Apagar</Button>
+                                    <Button onClick={startEditing}>Editar</Button>
+                                </BoxButton>
+                                {/*)*/}
+                            </ContainerSpan>
+                            <RecordDescription>
+                                {formData ? (
+                                    <div dangerouslySetInnerHTML={{ __html: formData.description }} />
+                                ) : (
+                                    <p>Nenhuma descrição</p>
+                                )}
+                            </RecordDescription>
+                            <ToGoBack onClick={messageButtonClick}>
+                                <SignMessageButtonText>Voltar para a </SignMessageButtonText>
+                                <SignMessageButtonTextBold>lista de Alunos</SignMessageButtonTextBold>
+                            </ToGoBack>
+                        </RecordContainer>
+                    }
 
-            {update_idForm && (
-                <EditContainer>
-                    <h2>Editando Ficha Individual</h2>
-                    <Input>
-                        <Span>
-                            <div>Aluno: <p>{nameStudent}</p></div>
-                            <div>Bimestre: <p>{bimonthly}</p></div>
-                        </Span>
-                        <StyledQuillContainer>
-                            <ReactQuill
-                                theme="snow"
-                                modules={{
-                                    toolbar: [
-                                        [{ 'font': [] }],
-                                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                                        ['bold', 'italic', 'underline'],
-                                        [{ 'color': [] }, { 'background': [] }],
-                                        ['clean']
-                                    ]
-                                }}
-                                value={editedDescription}
-                                onChange={(content) => setEditedDescription(content)}
-                                placeholder="Ficha Individual do Aluno"
-                            />
-                        </StyledQuillContainer>
-                        <ContainerSpanEdit>
-                            <ButtonEdit onClick={handleSaveEdit}>Salvar</ButtonEdit>
-                            <ButtonEdit onClick={handleCancelEdit}>Cancelar</ButtonEdit>
+                    {update_idForm && (
+                        <EditContainer>
+                            <h2>Editando Ficha Individual</h2>
+                            <Input>
+                                <Span>
+                                    <div>Aluno: <p>{nameStudent}</p></div>
+                                    <div>Bimestre: <p>{bimonthly}</p></div>
+                                </Span>
+                                <StyledQuillContainer>
+                                    <ReactQuill
+                                        theme="snow"
+                                        modules={{
+                                            toolbar: [
+                                                [{ 'font': [] }],
+                                                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                                ['bold', 'italic', 'underline'],
+                                                [{ 'color': [] }, { 'background': [] }],
+                                                ['clean']
+                                            ]
+                                        }}
+                                        value={editedDescription}
+                                        onChange={(content) => setEditedDescription(content)}
+                                        placeholder="Ficha Individual do Aluno"
+                                    />
+                                </StyledQuillContainer>
+                                <ContainerSpanEdit>
+                                    <ButtonEdit onClick={handleSaveEdit}>Salvar</ButtonEdit>
+                                    <ButtonEdit onClick={handleCancelEdit}>Cancelar</ButtonEdit>
 
-                        </ContainerSpanEdit>
-                    </Input>
-                </EditContainer>
+                                </ContainerSpanEdit>
+                            </Input>
+                        </EditContainer>
+                    )}
+
+                    {RemoveForm && (
+                        <ContainerDelet>
+                            <h2>Apagar Ficha Individual</h2>
+                            <h4>Tem certeza que deseja apaga a ficha do aluno(a): {nameStudent} no {bimonthly}.</h4>
+                            <div style={{ display: 'flex', gap: '100px' }}>
+                                <ButtonEdit onClick={Destroy}>Apagar</ButtonEdit>
+                                <ButtonEdit onClick={() => setRemoveForm(null)}>Cancelar</ButtonEdit>
+
+                            </div>
+
+                        </ContainerDelet>
+                    )}
+                </>
             )}
-
-            {RemoveForm && (
-                <ContainerDelet>
-                    <h2>Apagar Ficha Individual</h2>
-                    <h4>Tem certeza que deseja apaga a ficha do aluno(a): {nameStudent} no {bimonthly}.</h4>
-                    <div style={{ display: 'flex', gap: '100px' }}>
-                        <ButtonEdit onClick={Destroy}>Apagar</ButtonEdit>
-                        <ButtonEdit onClick={() => setRemoveForm(null)}>Cancelar</ButtonEdit>
-
-                    </div>
-
-                </ContainerDelet>
-            )}
-        </>
+        </Container>
     );
 };
 
