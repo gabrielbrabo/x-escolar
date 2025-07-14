@@ -13,8 +13,10 @@ import LoadingSpinner from '../../components/Loading';
 
 const Matter = () => {
     const [loading, setLoading] = useState(false);
+    const currentYear = new Date().getFullYear();
     const [schoolYear, setSchoolYear] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [showModalPrevious, setShowModalPrevious] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -30,6 +32,11 @@ const Matter = () => {
         setShowModal(true); // Abre o modal primeiro
     };
 
+    const handlePreviousYearClick = () => {
+        setShowModalPrevious(true);
+    };
+
+
     const handleConfirmNextYear = async () => {
         setLoading(true);
         const idSchool = sessionStorage.getItem('id-school');
@@ -39,15 +46,32 @@ const Matter = () => {
             JSON.parse(idSchool),
             nextYear
         );
-
-        setSchoolYear(nextYear);
         setLoading(false);
         setShowModal(false);
         alert(`Ano letivo alterado para ${nextYear}`);
+
+        window.location.reload()
+    };
+
+    const handleConfirmPreviousYear = async () => {
+        setLoading(true);
+        const idSchool = sessionStorage.getItem('id-school');
+        const previousYear = Number(schoolYear) - 1;
+
+        await updateSchoolYear(
+            JSON.parse(idSchool),
+            previousYear
+        );
+        setLoading(false);
+        setShowModalPrevious(false);
+        alert(`Ano letivo alterado para ${previousYear}`);
+
+        window.location.reload();
     };
 
     const handleCancel = () => {
         setShowModal(false);
+        setShowModalPrevious(false);
     };
 
     return (
@@ -66,9 +90,16 @@ const Matter = () => {
                             <p>Ano Letivo Atual:</p>
                             <h1>{schoolYear}</h1>
                         </YearBox>
-                        <ButtonNextYear onClick={handleNextYearClick}>
-                            Finalizar e Passar para o Próximo Ano Letivo
-                        </ButtonNextYear>
+                        {schoolYear !== currentYear &&
+                            <ButtonNextYear onClick={handleNextYearClick}>
+                                Finalizar e Passar para o Próximo Ano Letivo
+                            </ButtonNextYear>
+                        }
+                        {schoolYear === currentYear &&
+                            <ButtonNextYear onClick={handlePreviousYearClick}>
+                                Retroceder para o Ano Letivo Anterior
+                            </ButtonNextYear>
+                        }
                     </ContainerYearControl>
                 </>
             )}
@@ -92,6 +123,24 @@ const Matter = () => {
                     </ModalContent>
                 </ModalOverlay>
             )}
+
+            {showModalPrevious && (
+                <ModalOverlay>
+                    <ModalContent>
+                        <h3>⚠️ Atenção!</h3>
+                        <p>
+                            Antes de retroceder o ano letivo, verifique se isso é realmente necessário.
+                            <br />
+                            Essa ação impacta todos os professores e usuários, que verão apenas as turmas e informações do ano letivo configurado.
+                        </p>
+                        <ModalButtons>
+                            <button onClick={handleConfirmPreviousYear}>Confirmar</button>
+                            <button onClick={handleCancel}>Cancelar</button>
+                        </ModalButtons>
+                    </ModalContent>
+                </ModalOverlay>
+            )}
+
         </Container>
     );
 };
