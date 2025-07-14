@@ -42,7 +42,7 @@ const HomeSchool = () => {
   const [IIndQuarter, setIIndQuarter] = useState([]);
   const [IIIrdQuarter, setIIIrdQuarter] = useState([]);
   const [IVthQuarter, setIVthQuarter] = useState([]);
-  //const [position_at_school, setPosition_at_school] = useState('');
+  const [position_at_school, setPosition_at_school] = useState('');
 
   // Modal
   const [showModal, setShowModal] = useState(false);
@@ -55,10 +55,10 @@ const HomeSchool = () => {
       const schoolYear = await getSchoolYear(JSON.parse(idSchool));
       setanoLetivo(schoolYear.data.data);
 
-      //const position = localStorage.getItem('position_at_school');
+      const position = localStorage.getItem('position_at_school');
       const $assessmentFormat = sessionStorage.getItem('assessmentFormat');
       setassessmentFormat($assessmentFormat);
-      // setPosition_at_school(position);
+      setPosition_at_school(position);
 
       const [IstQuarter, IIndQuarter, IIIrdQuarter, IVthQuarter] = await Promise.all([
         getIstQuarter(schoolYear.data.data, JSON.parse(idSchool)),
@@ -98,10 +98,12 @@ const HomeSchool = () => {
     <DivAddEmp>
       {data.length > 0 ? (
         <>
-          <AddEmp>
-            <h3>{title}</h3>
-            <Btt02 onClick={onEdit}>Editar Bimestre</Btt02>
-          </AddEmp>
+          {position_at_school === 'DIRETOR/SUPERVISOR' &&
+            <AddEmp>
+              <h3>{title}</h3>
+              <Btt02 onClick={onEdit}>Editar Bimestre</Btt02>
+            </AddEmp>
+          }
           <DivDados>
             {data.map(res => (
               <React.Fragment key={res._id}>
