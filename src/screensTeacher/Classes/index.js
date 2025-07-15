@@ -88,7 +88,7 @@ const Grade = () => {
 
             //setclassRegentTeacher(JSON.parse(classRegentTeacher))
             //setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
-            setPhysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
+            setPhysicalEducationTeacher(physicalEducationTeacher)
 
             /*if (id_emp === classRegentTeacher02) {
                 const res = await indexRecordClassTaught(year, id_class, JSON.parse(classRegentTeacher));
@@ -197,6 +197,8 @@ const Grade = () => {
 
             console.log("result", result)
             console.log("turma", turma)
+            console.log("teacher", id_teacher)
+            console.log("phydical", physicalEducation)
 
             let statusAtual = null;
 
