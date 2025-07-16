@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { GetEmployeesEduDep,} from '../../Api'
+import { GetEmployeesEduDep, } from '../../Api'
 
 import {
     Container,
@@ -113,9 +113,8 @@ const Employees = () => {
                                 }
                             >
                                 <option value="">Todos</option>
-                                <option value="DIRETOR/SUPERVISOR">DIRETOR(A)/SUPERVISOR(A)</option>
-                                <option value="SECRETARIO">SECRETARIO(A)</option>
-                                <option value="PROFESSOR">PROFESSOR(A)</option>
+                                <option value="SECRETÁRIO(A) DE EDUCAÇÃO">SECRETÁRIO(A) DE EDUCAÇÃO</option>
+                                <option value="ASSISTENTE ADMINISTRATIVO">ASSISTENTE ADMINISTRATIVO</option>
                             </Select>
                         </FormFilter>
                     </Search>
@@ -131,7 +130,7 @@ const Employees = () => {
                             employees.filter((fil) => {
                                 if (!filter) {
                                     return (fil)
-                                } else if (fil.position_at_school === filter) {
+                                } else if (fil.positionAtEducationDepartment === filter) {
                                     return (fil)
                                 }
                                 return null

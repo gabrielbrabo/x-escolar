@@ -8,13 +8,13 @@ import {
     Emp,
     Span,
     Search,
-    //DivNewEmp,
+    DivNewEmp,
     // FormFilter,
     FormSearch,
     Area,
     //Select,
     InputEmp,
-    //Btt02
+    Btt02
 } from './style';
 
 /*import {
@@ -31,9 +31,11 @@ const Employees = () => {
 
     const navigate = useNavigate()
     const [Schools, setSchools] = useState([])
-    //const [Posi, setPosi] = useState("")
+    const [Posi, setPosi] = useState("")
     const [busca, setBusca] = useState("")
     //const [filter, setFilter] = useState(sessionStorage.getItem("selectedFilter") || "")
+    const [showModal, setShowModal] = useState(false);
+
     const [loading, setLoading] = useState(false);
 
     //const isNavigatingToEmployeeInfo = useRef(false); // UseRef para persistência
@@ -42,8 +44,8 @@ const Employees = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
-            //const posi = localStorage.getItem("positionAtEducationDepartment")
-           // setPosi(posi)
+            const posi = localStorage.getItem("positionAtEducationDepartment")
+            setPosi(posi)
             const idEducationDepartment = sessionStorage.getItem("idDepartment")
             const response = await IndexInfoDepEdu(idEducationDepartment)
             setSchools(response.data.data.id_schools)
@@ -75,9 +77,19 @@ const Employees = () => {
             .toUpperCase(); // Converte para maiúsculas
     };
 
-    /*const NewEmoloyee = async () => {
-        navigate('/signup/school')
-    }*/
+    const NewEmoloyee = async () => {
+        setShowModal(true); // Abre o modal primeiro
+    }
+
+    const handleConfirm = () => {
+        navigate('/signup/school'); // Vai pra tela de cadastro
+        setShowModal(false);
+    };
+
+    const handleCancel = () => {
+        setShowModal(false);
+    };
+
 
     const schoolInformation = async (school) => {
         //isNavigatingToEmployeeInfo.current = true; // Define como true antes da navegação
@@ -129,11 +141,11 @@ const Employees = () => {
                             </Select>
                         </FormFilter>*/}
                     </Search>
-                    { /*Posi === "SECRETÁRIO(A) DE EDUCAÇÃO" &&
+                    {Posi === "SECRETÁRIO(A) DE EDUCAÇÃO" &&
                         <DivNewEmp>
                             <Btt02 onClick={NewEmoloyee}>Cadastrar</Btt02>
                         </DivNewEmp>
-                    */}
+                    }
                     <List>
                         <p>Total de Escolas: {Schools.length}</p>
                         {
@@ -163,6 +175,62 @@ const Employees = () => {
                             ))
                         }
                     </List>
+                    {showModal && (
+                        <div style={{
+                            position: 'fixed',
+                            top: 0, left: 0, right: 0, bottom: 0,
+                            backgroundColor: 'rgba(0,0,0,0.5)',
+                            backdropFilter: 'blur(5px)',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            zIndex: 9999
+                        }}>
+                            <div style={{
+                                background: '#fff',
+                                padding: '2rem',
+                                borderRadius: '8px',
+                                maxWidth: '400px',
+                                textAlign: 'center'
+                            }}>
+                                <h3>Atenção!</h3>
+                                <p>
+                                    O cadastro de uma nova escola exige os dados de um <b>Diretor(a)</b>, <b>Supervisor(a)</b> ou <b>Secretário(a)</b>.<br />
+                                    Esse profissional será responsável por realizar o primeiro acesso ao sistema, dar continuidade ao cadastro dos demais funcionários e configurar as informações essenciais da escola.
+                                </p>
+                                <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'center' }}>
+                                    <button
+                                        onClick={handleConfirm}
+                                        style={{
+                                            backgroundColor: '#28a745', // Verde
+                                            color: '#fff',
+                                            border: 'none',
+                                            padding: '0.5rem 1.5rem',
+                                            marginRight: '1rem',
+                                            borderRadius: '4px',
+                                            cursor: 'pointer'
+                                        }}
+                                    >
+                                        Continuar
+                                    </button>
+                                    <button
+                                        onClick={handleCancel}
+                                        style={{
+                                            backgroundColor: '#dc3545', // Vermelho
+                                            color: '#fff',
+                                            border: 'none',
+                                            padding: '0.5rem 1.5rem',
+                                            borderRadius: '4px',
+                                            cursor: 'pointer'
+                                        }}
+                                    >
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                 </>
             }
         </Container>
