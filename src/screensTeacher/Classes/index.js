@@ -152,7 +152,7 @@ const Grade = () => {
             const IIIrdQuarter = await getIIIrdQuarter(yearclss.year, JSON.parse(idSchool));
             const IVthQuarter = await getIVthQuarter(yearclss.year, JSON.parse(idSchool));
 
-            console.log("IIndQuarter:", IIndQuarter.data.data);
+            //console.log("IIndQuarter:", IIndQuarter.data.data);
 
             const getQuarterStatus = (quarterData) => {
                 return quarterData.data.data

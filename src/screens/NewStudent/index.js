@@ -16,7 +16,7 @@ import {
   Label,
   ErrorMessage,
   //CheckboxGroup,
- // CheckboxLabel,
+  // CheckboxLabel,
   Select,
 
 } from './style';
@@ -43,6 +43,9 @@ const NewStudent = () => {
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [race, setRace] = useState('');
   const [sex, setSex] = useState('');
+  const [cpf, setCpf] = useState('');
+  const [rg, setRg] = useState('');
+  const [Registration, setRegistration] = useState('');
   //const [cpf, /*setCpf*/] = useState('0');
   const [fatherCellPhone, setFatherCellPhone] = useState('');
   const [entryDate, setentryDate] = useState('');
@@ -78,6 +81,9 @@ const NewStudent = () => {
       dateOfBirth,
       sex,
       race,
+      cpf,
+      rg,
+      Registration,
       fatherCellPhone,
       entryDate,
       admissionDate,
@@ -127,8 +133,27 @@ const NewStudent = () => {
   const handleChangemotherCellPhone = (e) => {
     setmotherCellPhone(maskcellPhone(e.target.value));
   };
-  console.log("sexo", sex,)
+  //console.log("sexo", sex,)
+  const maskCPF = (value) => {
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+      .slice(0, 14);
+  };
 
+  const maskRG = (value) => {
+    return value.replace(/\D/g, '');
+  };
+
+  const handleChange = (e) => {
+    setCpf(maskCPF(e.target.value));
+  };
+
+  const handleChangeRg = (e) => {
+    setRg(maskRG(e.target.value));
+  };
 
   return (
     <Container>
@@ -155,15 +180,30 @@ const NewStudent = () => {
                 onChange={(e) => setDateOfBirth(e.target.value)}
                 type='date'
               />
+              <Label>CPF</Label>
+              <Input
+                placeholder="Digite o CPF"
+                value={cpf}
+                onChange={handleChange}
+                type="text"
+                maxLength="14"
+              />
+              <Label>RG</Label>
+              <Input
+                placeholder="Digite o RG"
+                value={rg}
+                onChange={handleChangeRg}
+                type="text"
+              />
               <Label>*Sexo</Label>
               <Select
-                  value={sex}
-                  onChange={(e) => setSex(e.target.value)}
-                >
-                  <option value="">Selecione</option>
-                  <option value="Masculino">Masculino</option>
-                  <option value="Feminino">Feminino</option>
-                </Select>
+                value={sex}
+                onChange={(e) => setSex(e.target.value)}
+              >
+                <option value="">Selecione</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+              </Select>
               <Label>*Cor</Label>
               <Select value={race} onChange={(e) => setRace(e.target.value)}>
                 <option value="">Selecione</option>
@@ -174,14 +214,14 @@ const NewStudent = () => {
                 <option value="Indígena">Indígena</option>
                 <option value="Outra">Outra</option>
               </Select>
-              {/*<Label>CPF</Label>
+              <Label>Matrícula</Label>
               <Input
-                placeholder="Digite o CPF"
-                value={cpf}
-                onChange={handleChange}
-                type="text"
-                maxLength="14"
-              />*/}
+                placeholder="Digite o numero da Matrícula"
+                value={Registration}
+                onChange={
+                  (e) => setRegistration(e.target.value)
+                }
+              />
               <Label>*Nome da Mãe</Label>
               <Input
                 placeholder="Nome da Mãe"

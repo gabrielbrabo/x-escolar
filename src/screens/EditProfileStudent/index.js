@@ -21,6 +21,7 @@ const EditProfile = () => {
     const [dateOfBirth, setDateOfBirth] = useState('');
     const [sex, setSex] = useState('');
     const [race, setRace] = useState('');
+    const [Registration, setRegistration] = useState('');
     const [cpf, setCpf] = useState('');
     const [rg, setRg] = useState('');
     const [fatherCellPhone, setFatherCellPhone] = useState('');
@@ -47,6 +48,9 @@ const EditProfile = () => {
             setRace(res.data.race || '');
             setCpf(res.data.cpf || '');
             setRg(res.data.rg || '');
+            setRegistration(res.data.Registration || '');
+            setCpf(res.data.cpf || '');
+            setRg(res.data.rg || '');
             setFatherCellPhone(res.data.fatherCellPhone || '')
             setentryDate(res.data.entryDate || '')
             setdepartureDate(res.data.departureDate || '')
@@ -60,7 +64,7 @@ const EditProfile = () => {
     }, []);
 
     const handleSubmit = async () => {
-        if (!name || !dateOfBirth || !sex || !race ) {
+        if (!name || !dateOfBirth || !sex || !race) {
             setErrorMessage('Todos os campos devem ser preenchidos.');
             return;
         }
@@ -73,6 +77,7 @@ const EditProfile = () => {
             race,
             cpf,
             rg,
+            Registration,
             motherName,
             fatherName,
             motherCellPhone,
@@ -113,6 +118,27 @@ const EditProfile = () => {
         setmotherCellPhone(maskcellPhone(e.target.value));
     };
 
+    const maskCPF = (value) => {
+        return value
+            .replace(/\D/g, '')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+            .slice(0, 14);
+    };
+
+    const maskRG = (value) => {
+        return value.replace(/\D/g, '');
+    };
+
+    const handleChange = (e) => {
+        setCpf(maskCPF(e.target.value));
+    };
+
+    const handleChangeRg = (e) => {
+        setRg(maskRG(e.target.value));
+    };
+
     return (
         <Container>
             {loading ?
@@ -134,6 +160,21 @@ const EditProfile = () => {
                             onChange={(e) => setDateOfBirth(e.target.value)}
                             type='date'
                         />
+                        <label>CPF</label>
+                        <Input
+                            placeholder="Digite o CPF"
+                            value={cpf}
+                            onChange={handleChange}
+                            type="text"
+                            maxLength="14"
+                        />
+                        <label>RG</label>
+                        <Input
+                            placeholder="Digite o RG"
+                            value={rg}
+                            onChange={handleChangeRg}
+                            type="text"
+                        />
                         <>*Sexo</>
                         <Select
                             value={sex}
@@ -153,6 +194,14 @@ const EditProfile = () => {
                             <option value="Indígena">Indígena</option>
                             <option value="Outra">Outra</option>
                         </Select>
+                        <label>Matrícula</label>
+                        <Input
+                            placeholder="Digite o numero da Matrícula"
+                            value={Registration}
+                            onChange={
+                                (e) => setRegistration(e.target.value)
+                            }
+                        />
                         <label>Nome da Mãe</label>
                         <Input
                             placeholder="Nome da Mãe"

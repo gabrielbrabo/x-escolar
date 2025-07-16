@@ -317,7 +317,10 @@ const Student = () => {
                                                     {/*<Span>RG: {student.rg}</Span>*/}
                                                     <Span>Nascimento: {new Date(student.dateOfBirth + "T00:00:00").toLocaleDateString('pt-BR')}</Span>
                                                     <Span>Sexo: {student.sex}</Span>
+                                                    <Span>Cpf: {student.cpf}</Span>
+                                                    <Span>Rg: {student.rg}</Span>
                                                     <Span>Cor: {student.race}</Span>
+                                                    <Span>Matrícula: {student.Registration}</Span>
                                                     <Span>Nome da Mãe: {student.motherName}</Span>
                                                     <Span>celular da Mãe: {student.motherCellPhone}</Span>
                                                     <Span>Nome do Pai: {student.fatherName}</Span>
