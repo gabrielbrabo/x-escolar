@@ -80,12 +80,16 @@ const EditProfile = () => {
                             value={serie}
                             onChange={(e) => setSerie(e.target.value)}
                         />
-                        {/*<label>Nível</label>
-                        <Input
-                            placeholder="Digite o nível"
+                        <label>Etapa de ensino</label>
+                        <Select
+                            id="shift"
                             value={level}
                             onChange={(e) => setLevel(e.target.value)}
-                        />*/}
+                        >
+                            <option value="">Selecione</option>
+                            <option value="EDUCAÇÃO INFANTIL">Educação Infantil</option>
+                            <option value="ENSINO FUNDAMENTAL">Ensino Fundamental</option>
+                        </Select>
                         <label>Turno</label>
                         <Select
                             id="shift"

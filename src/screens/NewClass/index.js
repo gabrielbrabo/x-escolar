@@ -18,7 +18,7 @@ const NewClass = () => {
   const [idSchool, setIdschool] = useState('');
   const year = new Date().getFullYear();
   const [serie, setSerie] = useState('');
-  const [level, /*setLevel*/] = useState('BASICO');
+  const [level, setLevel] = useState('');
   const [shift, setShift] = useState('');
   const [classroom_number, /*setClassroom_number*/] = useState('01');
   const [loading, setLoading] = useState(false);
@@ -64,12 +64,16 @@ const NewClass = () => {
               value={serie}
               onChange={(e) => setSerie(e.target.value)}
             />
-            {/*<label>Nível</label>
-            <Input
-              placeholder="Digite o nível"
+            <label>Etapa de ensino</label>
+            <Select
+              id="shift"
               value={level}
               onChange={(e) => setLevel(e.target.value)}
-            />*/}
+            >
+              <option value="">Selecione</option>
+              <option value="EDUCAÇÃO INFANTIL">Educação Infantil</option>
+              <option value="ENSINO FUNDAMENTAL">Ensino Fundamental</option>
+            </Select>
             <label>Turno</label>
             <Select
               id="shift"

@@ -594,6 +594,7 @@ const Cla$$Info = () => {
     }
 
     console.log("student", stdt)
+    console.log("clss", clss)
     //console.log("employee", employee)
 
     const RemoveTeacherModal = ({ onClose, onConfirm }) => {
@@ -638,7 +639,7 @@ const Cla$$Info = () => {
                             <Emp key={clss._id} >
                                 <ProfileInfo>
                                     <Span>Serie: {clss.serie}</Span>
-                                    {/*<Span>Nivel: {clss.level}</Span>*/}
+                                    <Span>Etapa de Ensino: {clss.level}</Span>
                                     <Span>Turno: {clss.shift}</Span>
                                     {/*<Span>Numero da Sala: {clss.classroom_number}</Span>*/}
                                 </ProfileInfo>
