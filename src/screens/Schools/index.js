@@ -114,11 +114,11 @@ const Employees = () => {
                 <>
                     <Search>
                         <FormSearch>
-                            <label>Buscar Ecola</label>
+                            <label>Buscar</label>
                             <Area>
                                 <InputEmp
                                     type="text"
-                                    placeholder='Buscar'
+                                    placeholder='Digite o nome da escola'
                                     value={busca}
                                     onChange={
                                         (e) => setBusca(e.target.value)
