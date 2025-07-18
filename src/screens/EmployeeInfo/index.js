@@ -254,6 +254,7 @@ const EmployeeInformation = () => {
     //const nameEmployee = sessionStorage.getItem("name")
     console.log("clas", matter)
     console.log('posi', Clss)
+    console.log('employee', employee)
 
     return (
         <Container>
@@ -273,6 +274,7 @@ const EmployeeInformation = () => {
                                     < ProfileInfo>
                                     <Span>{emp.name}</Span>
                                         <Span>{emp.position_at_school}(A)</Span>
+                                        <Span>Codigo:{emp.EmployeeCode}</Span>
                                         <Span>{school}</Span>
                                         <Span>Celular: {emp.cellPhone}</Span>
                                         <Span>Email: {emp.email}</Span>

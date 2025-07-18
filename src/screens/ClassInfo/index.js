@@ -641,6 +641,7 @@ const Cla$$Info = () => {
                                     <Span>Serie: {clss.serie}</Span>
                                     <Span>Etapa de Ensino: {clss.level}</Span>
                                     <Span>Turno: {clss.shift}</Span>
+                                    <Span>Codigo: {clss.classCode}</Span>
                                     {/*<Span>Numero da Sala: {clss.classroom_number}</Span>*/}
                                 </ProfileInfo>
                                 {clss.year === currentYear && !positionAtEducationDepartment && (

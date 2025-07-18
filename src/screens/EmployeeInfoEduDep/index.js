@@ -77,6 +77,7 @@ const EmployeeInformation = () => {
                                     < ProfileInfo>
                                         <Span>{emp.name}</Span>
                                         <Span>{emp.positionAtEducationDepartment}</Span>
+                                        <Span>Codigo:{emp.EmployeeCode}</Span>
                                         <Span>Celular: {emp.cellPhone}</Span>
                                         <Span>Email: {emp.email}</Span>
                                         <Span>CPF: {emp.cpf}</Span>
