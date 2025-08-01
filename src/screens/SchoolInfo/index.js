@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { /*useNavigate,*/ useParams } from 'react-router-dom'
-import {
-    indexSchool
-} from '../../Api'
+import { useParams } from 'react-router-dom'
+import { indexSchool, updateSchool } from '../../Api'
 
 import {
     Container,
@@ -13,112 +11,146 @@ import {
     ButtonContainer,
     Context,
     LoadingSpinnerContainer,
-} from './style';
+    EditButtonContainer,
+    ModalOverlay,
+    ModalContent,
+    ModalInput,
+    //ModalSelect,
+    ModalButtons,
+    ModalButton,
+} from './style'
 
 import LoadingSpinner from '../../components/Loading'
 
-import Employees from '../Employees/index';
-import Student from '../Student/index';
-import Class from '../Class/index';
-import AnnualCalendar from '../AnnualCalendar/index';
-import Matter from '../Matter/index';
+import Employees from '../Employees/index'
+import Student from '../Student/index'
+import Class from '../Class/index'
+import AnnualCalendar from '../AnnualCalendar/index'
+import Matter from '../Matter/index'
 
 const SchoolInformation = () => {
-
-    //const navigate = useNavigate()
-    const [School, setSchool] = useState([]);
+    const [School, setSchool] = useState([])
     const [activePage, setActivePage] = useState(() => {
-        return localStorage.getItem('activePage') || 'staff';
-    });
-
-    const [loading, setLoading] = useState(false);
+        return localStorage.getItem('activePage') || 'staff'
+    })
+    const [loading, setLoading] = useState(false)
     const { id } = useParams()
+
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+    const [name, setEditedName] = useState('')
+    const [assessmentFormat, setEditedAssessmentFormat] = useState('')
+    const [address, setEditedAddress] = useState('')
+    const [city, setEditedCity] = useState('')
 
 
     useEffect(() => {
-        (async () => {
-            setLoading(true);
+        ; (async () => {
+            setLoading(true)
             const res = await indexSchool(id)
-            console.log("res info schools", res.data.data)
+            console.log("escola", res.data.data)
             setSchool(res.data.data)
-            sessionStorage.setItem("School", res.data.data.name)
-            setLoading(false);
-        })()
+            sessionStorage.setItem('School', res.data.data.name)
+            setEditedName(res.data.data.name)
+            setEditedAssessmentFormat(res.data.data.assessmentFormat)
+            setEditedAddress(res.data.data.address || '')
+            setEditedCity(res.data.data.city || '')
 
+            setLoading(false)
+        })()
     }, [id])
 
     const handlePageChange = (page) => {
-        setActivePage(page);
-        localStorage.setItem('activePage', page);
-    };
+        setActivePage(page)
+        localStorage.setItem('activePage', page)
+    }
 
     const getRandomColor = () => {
-        const letters = "0123456789ABCDEF";
-        let color = "#";
+        const letters = '0123456789ABCDEF'
+        let color = '#'
         for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
+            color += letters[Math.floor(Math.random() * 16)]
         }
-        return color;
-    };
+        return color
+    }
 
-    // Função para gerar o fundo com gradiente aleatório
     const getStoredColor = () => {
-        let storedColor = sessionStorage.getItem("backgroundColor");
-
+        let storedColor = sessionStorage.getItem('backgroundColor')
         if (!storedColor) {
-            // Gerar um gradiente aleatório diretamente aqui
-            const color1 = getRandomColor();
-            const color2 = getRandomColor();
-            const angle = Math.floor(Math.random() * 360); // Rotaciona o gradiente aleatoriamente
-            storedColor = `linear-gradient(${angle}deg, ${color1}, ${color2})`; // Salva o gradiente gerado
-            sessionStorage.setItem("backgroundColor", storedColor);
+            const color1 = getRandomColor()
+            const color2 = getRandomColor()
+            const angle = Math.floor(Math.random() * 360)
+            storedColor = `linear-gradient(${angle}deg, ${color1}, ${color2})`
+            sessionStorage.setItem('backgroundColor', storedColor)
         }
+        return storedColor
+    }
 
-        return storedColor;
-    };
+    const bgColor = getStoredColor()
 
-    // Determina a cor de fundo baseada no índice salvo
-    const bgColor = getStoredColor();
-
-    // Função para determinar a cor do texto baseada no brilho do fundo
     const getTextColor = (bgColor) => {
-        if (!bgColor) return "#FFF"; // Se não houver cor, usa o branco como padrão
+        if (!bgColor) return '#FFF'
 
-        // Quando o fundo for gradiente, podemos calcular a média das cores
-        const regex = /#([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})/i;
-        const matches = bgColor.match(regex);
+        const regex = /#([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})/i
+        const matches = bgColor.match(regex)
 
-        if (!matches) return "#FFF"; // Se não conseguir processar, usa o branco
+        if (!matches) return '#FFF'
 
-        const r = parseInt(matches[1], 16);
-        const g = parseInt(matches[2], 16);
-        const b = parseInt(matches[3], 16);
+        const r = parseInt(matches[1], 16)
+        const g = parseInt(matches[2], 16)
+        const b = parseInt(matches[3], 16)
 
-        // Calcula o brilho com base na fórmula YIQ
-        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-        return brightness > 128 ? "#000" : "#FFF"; // Se o fundo for claro, o texto será preto, caso contrário branco
-    };
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000
+        return brightness > 128 ? '#000' : '#FFF'
+    }
 
     const textColor = getTextColor(bgColor)
 
     const renderPage = () => {
         switch (activePage) {
             case 'staff':
-                return <Employees />; // substitua com seu componente real
+                return <Employees />
             case 'students':
-                return <Student />;
+                return <Student />
             case 'classes':
-                return <Class />;
-           case 'bimesters':
-                return <AnnualCalendar />;
-             case 'components':
-                return <Matter />;
+                return <Class />
+            case 'bimesters':
+                return <AnnualCalendar />
+            case 'components':
+                return <Matter />
             default:
-                return null;
+                return null
         }
-    };
+    }
 
-    const isActive = (component) => activePage === component;
+    const isActive = (component) => activePage === component
+
+    const handleSaveEdit = async () => {
+        try {
+            // Coloque aqui chamada para atualizar no backend
+            const editSchool = await updateSchool(
+                School._id,
+                name,
+                assessmentFormat,
+                address,
+                city,
+            )
+            setSchool((prev) => ({
+                ...prev,
+                name: name,
+                assessmentFormat: assessmentFormat,
+                address: address,
+                city: city
+            }))
+            if (editSchool) {
+
+                alert('Escola atualizado com sucesso!');
+                setIsEditModalOpen(false)
+            }
+        } catch (error) {
+            console.error('Erro ao atualizar a escola:', error)
+            alert('Erro ao salvar as alterações.')
+        }
+    }
 
     return (
         <Container>
@@ -128,19 +160,19 @@ const SchoolInformation = () => {
                 </LoadingSpinnerContainer>
             ) : (
                 <ContainerDivs>
-                    <Details
-                        style={{
-                            background: bgColor, // Aplica o gradiente como fundo
-                            color: textColor, // Aplica a cor do texto calculada
-                        }}
-                    >
+                    <Details style={{ background: bgColor, color: textColor }}>
                         <Info style={{ color: textColor }}>{School.name}</Info>
                         <Info style={{ color: textColor }}>
                             Forma de Avaliação:{' '}
                             {School.assessmentFormat === 'grade' && 'Notas'}
                             {School.assessmentFormat === 'concept' && 'Conceitos'}
                         </Info>
+                        <Info style={{ color: textColor }}>Codigo:{School.SchoolCode}</Info>
+                        <EditButtonContainer>
+                            <button onClick={() => setIsEditModalOpen(true)}>Editar Escola</button>
+                        </EditButtonContainer>
                     </Details>
+
                     <ContDiv>
                         <ButtonContainer>
                             <button
@@ -177,13 +209,42 @@ const SchoolInformation = () => {
                             </button>
                         </ButtonContainer>
                     </ContDiv>
-                    <Context>
-                        {renderPage()}
-                    </Context>
+                    <Context>{renderPage()}</Context>
+
+                    {isEditModalOpen && (
+                        <ModalOverlay>
+                            <ModalContent>
+                                <h3>Editar Informações da Escola</h3>
+
+                                <label>Nome da Instituição de Ensino:</label>
+                                <ModalInput value={name} onChange={(e) => setEditedName(e.target.value)} />
+
+                                <label>Endereço:</label>
+                                <ModalInput value={address} onChange={(e) => setEditedAddress(e.target.value)} />
+
+                                <label>Município:</label>
+                                <ModalInput value={city} onChange={(e) => setEditedCity(e.target.value)} />
+
+                                {/*<label>Forma de Avaliação:</label>
+                                <ModalSelect
+                                    value={editedAssessmentFormat}
+                                    onChange={(e) => setEditedAssessmentFormat(e.target.value)}
+                                >
+                                    <option value="grade">Notas</option>
+                                    <option value="concept">Conceitos</option>
+                                </ModalSelect>*/}
+
+                                <ModalButtons>
+                                    <ModalButton style={{ backgroundColor: '#28a745', color: "white" }} onClick={() => setIsEditModalOpen(false)}>Cancelar</ModalButton>
+                                    <ModalButton style={{ backgroundColor: '#dc3545', color: "white" }} onClick={handleSaveEdit}>Salvar</ModalButton>
+                                </ModalButtons>
+                            </ModalContent>
+                        </ModalOverlay>
+                    )}
                 </ContainerDivs>
             )}
         </Container>
-    );
+    )
 }
 
-export default SchoolInformation;
+export default SchoolInformation

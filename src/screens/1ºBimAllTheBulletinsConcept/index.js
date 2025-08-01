@@ -24,14 +24,17 @@ import {
   Grade,
   PrintButton,
   SignMessageButtonText,
-  SignMessageButtonTextBold
+  SignMessageButtonTextBold,
+  ContLogo,
+  Preview
 } from './style';
 
 
 import GlobalStyle from './style';
 
 import {
-  allTheBulletinsConcept
+  allTheBulletinsConcept,
+  fetchLogo
 } from '../../Api';
 
 //import GlobalStyle from './style';
@@ -53,6 +56,7 @@ const AllTheBulletins = () => {
   const [cla$$, setClass] = useState([]);
   const [teacher, setTeacher] = useState([]);
   const [nameSchool, setNameSchool] = useState('')
+  const [logoUrl, setLogoUrl] = useState('');
   const [loading, setLoading] = useState(true);
 
   const { idClass } = useParams();
@@ -62,7 +66,7 @@ const AllTheBulletins = () => {
     (async () => {
       setLoading(true);
       console.log("idClass", idClass, "idBim", idBim)
-      //const idSchool = sessionStorage.getItem("id-school");
+      const idSchool = JSON.parse(sessionStorage.getItem("id-school"));
       const nameSchool = sessionStorage.getItem("School");
       setNameSchool(nameSchool)
       const res = await allTheBulletinsConcept({
@@ -85,6 +89,27 @@ const AllTheBulletins = () => {
         setTeacher(null);
       }
 
+      const cachedLogo = localStorage.getItem(`school-logo-${idSchool}`);
+      //const cachedLogoId = localStorage.getItem(`school-logo-id-${idSchool}`);
+
+      if (cachedLogo) {
+        console.log('busca pelo storage local')
+        setLogoUrl(cachedLogo);
+        //setlogoId(cachedLogoId);
+      } else {
+
+        console.log('busca no s3')
+        const logoRes = await fetchLogo(idSchool);
+
+        console.log('busca logo', logoRes)
+        if (logoRes?.url) {
+          setLogoUrl(logoRes.url);
+          //setlogoId(logoRes._id);
+          localStorage.setItem(`school-logo-${idSchool}`, logoRes.url);
+          localStorage.setItem(`school-logo-id-${idSchool}`, logoRes._id);
+
+        }
+      }
 
       setLoading(false);
     })();
@@ -119,7 +144,12 @@ const AllTheBulletins = () => {
               .sort((a, b) => a.nome.localeCompare(b.nome))
               .map((aluno, index) => (
                 <DivAddEmp id="containerDivs" key={aluno.id || index}>
-                  <h2>Boletim</h2>
+                  <ContLogo>
+                    {(logoUrl) && (
+                      <Preview src={logoUrl} alt="Logo da escola" />
+                    )}
+                    <h2>Boletim</h2>
+                  </ContLogo>
 
                   <AddEmp>
                     <h3>1º Bimestre</h3>

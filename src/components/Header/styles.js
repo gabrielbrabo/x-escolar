@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const Container = styled.header`
   background: #b1b1b1;
-  padding: 10px;
-  padding-left: 20px;
+  padding: 5px;
+  padding-left: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -146,6 +146,7 @@ export const Emp = styled.div`
   align-items: center;
   padding: 5px;
   margin-right: 10px;
+  margin-left: 10px;
   border: 2px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

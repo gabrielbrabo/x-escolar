@@ -60,7 +60,8 @@ const EditProfile = () => {
             return;
         }
         setLoading(true);
-        const res = await updateEmployeeEduDep(employee._id,
+        const res = await updateEmployeeEduDep(
+            employee._id,
             name.toUpperCase(),
             dateOfBirth,
             cpf,

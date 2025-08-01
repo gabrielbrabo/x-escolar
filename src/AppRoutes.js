@@ -153,6 +153,7 @@ import GradeFinalConcepts from "./screensTeacher/GradeFinalConcepts"
 
 import Daily from "./screens/Daily"
 import BimonthlyDiary from "./screens/bimonthlyDiary"
+import AnnualDiary from "./screens/annualDiary"
 
 import NumQuarterGradeDaily from "./components/NumQuarterGradeDaily"
 
@@ -741,6 +742,11 @@ const AppRoutes = () => {
                     <Route exact path="/bimonthly-diary/:bimonthly/:idClass/:idBimonthly" element={
                         <Private>
                             <BimonthlyDiary/>
+                        </Private>
+                    } />
+                    <Route exact path="/annual-diary/:idClass/:yearClass" element={
+                        <Private>
+                            <AnnualDiary/>
                         </Private>
                     } />
 

@@ -71,6 +71,7 @@ const EmployeeInformation = () => {
     const [matter, setMatter] = useState("")
     //const [filter, setFilter] = useState()
     const [position_at_school, setPosition_at_school] = useState([]);
+    const [posi, setPosi] = useState();
     //const [positionAtSchool, setPositionAtSchool] = useState(null);
     const [loading, setLoading] = useState(false);
     const [Selectbimonthly, setSelectbimonthly] = useState([])
@@ -86,7 +87,8 @@ const EmployeeInformation = () => {
         (async () => {
             setLoading(true);
             const School = sessionStorage.getItem('School');
-            //const position = localStorage.getItem('position_at_school');
+            const posi = localStorage.getItem("positionAtEducationDepartment");
+            setPosi(posi)
             const idSchool = sessionStorage.getItem("id-school");
             const schoolYear = await getSchoolYear(JSON.parse(idSchool))
             //setPositionAtSchool(position);
@@ -325,7 +327,8 @@ const EmployeeInformation = () => {
                                     </>
                                 }
                             </DivInfo>*/}
-                            {<Input>
+                            {!posi &&
+                                <Input>
                                 <h2>Diario</h2>
                                 <Label>Selecione o bimestre e click no botão abaixo.</Label>
                                 <Select

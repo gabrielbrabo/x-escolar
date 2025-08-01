@@ -134,3 +134,122 @@ export const ModalButtons = styled.div`
     }
   }
 `;
+
+export const UploadContainer = styled.div`
+  display: grid;
+  width: 100%;
+  max-width: 800px;
+  margin: 40px auto 0 auto; /* margin top para dar respiro */
+  text-align: center;
+  justify-content: center;
+  padding: 40px 20px;
+  border: 2px solid #333;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+  @media (max-width: 768px) {
+    padding: 30px 15px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 20px 0px;
+  }
+`;
+
+export const Preview = styled.img`
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+`;
+
+export const FileInput = styled.input`
+  margin-bottom: 10px;
+`;
+
+export const ButtonUpload = styled.button`
+  padding: 6px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+`;
+
+export const ButtonDelete = styled.button`
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  max-width: 200px;
+
+  &:hover {
+    background-color: #c0392b;
+  }
+
+  &:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+  }
+`;
+
+export const ModalOverlayDelete = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+`;
+
+export const ModalBox = styled.div`
+  background: white;
+  padding: 20px 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+`;
+
+export const ModalButtonsDelete = styled.div`
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+
+  button {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  button:first-child {
+    background-color: #e74c3c;
+    color: white;
+  }
+
+  button:last-child {
+    background-color: #bdc3c7;
+  }
+
+  button:hover:first-child {
+    background-color: #c0392b;
+  }
+
+  button:hover:last-child {
+    background-color: #a5a5a5;
+  }
+`;

@@ -21,12 +21,14 @@ import {
   DivBimRow,
   DivBimHeader,
   DivBimCell,
-  DivNameMatter
+  DivNameMatter,
+  Preview,
+  ContLogo
 } from './style';
 
 import GlobalStyle from './style';
 
-import { GetNumGrade, AttendanceFinalConcepts, indexNumericalGradesCard, getIstQuarter, getIIndQuarter, getIIIrdQuarter, getIVthQuarter } from '../../Api';
+import { GetNumGrade, AttendanceFinalConcepts, indexNumericalGradesCard, getIstQuarter, getIIndQuarter, getIIIrdQuarter, getIVthQuarter, fetchLogo } from '../../Api';
 
 import { IoCheckmarkSharp, IoCloseSharp } from "react-icons/io5";
 
@@ -44,6 +46,7 @@ const FinalConcepts = () => {
   const [stdtName, setStdtName] = useState([])
   const [teacherName, setTeacherName] = useState('')
   const [nameSchool, setNameSchool] = useState('')
+  const [logoUrl, setLogoUrl] = useState('');
   const [year, setyear] = useState('')
   const [id_teacher, setId_teacher] = useState('')
   const [id_student, setid_student] = useState('')
@@ -75,27 +78,27 @@ const FinalConcepts = () => {
     (async () => {
       setLoading(true);
       const year = new Date().getFullYear();
-      const idSchool = sessionStorage.getItem("id-school");
+      const idSchool = JSON.parse(sessionStorage.getItem("id-school"));
 
-      const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool));
+      const IstQuarter = await getIstQuarter(year, idSchool);
       const tgIst = IstQuarter.data.data.reduce((sum, res) => sum + Number(res.totalGrade || 0), 0);
       const agIst = IstQuarter.data.data.reduce((sum, res) => sum + Number(res.averageGrade || 0), 0);
       setTotalGradeIst(tgIst);
       setAverageGradeIst(agIst);
 
-      const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool));
+      const IIndQuarter = await getIIndQuarter(year, idSchool);
       const tgIInd = IIndQuarter.data.data.reduce((sum, res) => sum + Number(res.totalGrade || 0), 0);
       const agIInd = IIndQuarter.data.data.reduce((sum, res) => sum + Number(res.averageGrade || 0), 0);
       setTotalGradeIInd(tgIInd);
       setAverageGradeIInd(agIInd);
 
-      const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool));
+      const IIIrdQuarter = await getIIIrdQuarter(year, idSchool);
       const tgIIIrd = IIIrdQuarter.data.data.reduce((sum, res) => sum + Number(res.totalGrade || 0), 0);
       const agIIIrd = IIIrdQuarter.data.data.reduce((sum, res) => sum + Number(res.averageGrade || 0), 0);
       setTotalGradeIIIrd(tgIIIrd);
       setAverageGradeIIIrd(agIIIrd);
 
-      const IVthQuarter = await getIVthQuarter(year, JSON.parse(idSchool));
+      const IVthQuarter = await getIVthQuarter(year, idSchool);
       const tgIVth = IVthQuarter.data.data.reduce((sum, res) => sum + Number(res.totalGrade || 0), 0);
       const agIVth = IVthQuarter.data.data.reduce((sum, res) => sum + Number(res.averageGrade || 0), 0);
       setTotalGradeIVth(tgIVth);
@@ -163,7 +166,27 @@ const FinalConcepts = () => {
         console.log("firstTeacher", firstTeacher);
         setTeacherName(firstTeacher);  // Define apenas o primeiro elemento
       }
+      const cachedLogo = localStorage.getItem(`school-logo-${idSchool}`);
+      //const cachedLogoId = localStorage.getItem(`school-logo-id-${idSchool}`);
 
+      if (cachedLogo) {
+        console.log('busca pelo storage local')
+        setLogoUrl(cachedLogo);
+        //setlogoId(cachedLogoId);
+      } else {
+
+        console.log('busca no s3')
+        const logoRes = await fetchLogo(idSchool);
+
+        console.log('busca logo', logoRes)
+        if (logoRes?.url) {
+          setLogoUrl(logoRes.url);
+          //setlogoId(logoRes._id);
+          localStorage.setItem(`school-logo-${idSchool}`, logoRes.url);
+          localStorage.setItem(`school-logo-id-${idSchool}`, logoRes._id);
+
+        }
+      }
       setLoading(false);
     })();
 
@@ -378,7 +401,12 @@ const FinalConcepts = () => {
               Imprimir
             </PrintButton>
             <DivAddEmp id="containerDivs">
-              <h2>Boletim</h2>
+              <ContLogo>
+                {(logoUrl) && (
+                  <Preview src={logoUrl} alt="Logo da escola" />
+                )}
+                <h2>Boletim</h2>
+              </ContLogo>
               <AddEmp>
                 <h3>Resultado Final</h3>
               </AddEmp>

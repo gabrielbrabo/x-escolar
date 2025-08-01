@@ -42,6 +42,9 @@ import {
     StatusLine,
     DiaryBimester,
     DiaryWrapper,
+    //ButtonWrapper,
+    //BlurModal,
+    //AlertBox,
     //DivShowMatter,
     //ButtonCancel,
     //Btt01
@@ -86,6 +89,8 @@ const Cla$$Info = () => {
     const [showRemoveTeacherModal, setShowRemoveTeacherModal] = useState(false);
     const [showRemoveTeacher02Modal, setShowRemoveTeacher02Modal] = useState(false);
     const [showRemovePhysicalTeacherModal, setShowRemovePhysicalTeacherModal] = useState(false);
+
+    //const [showAlert, setShowAlert] = useState(false);
 
     //const [Selectbimonthly, setSelectbimonthly] = useState();
 
@@ -597,6 +602,31 @@ const Cla$$Info = () => {
     console.log("clss", clss)
     //console.log("employee", employee)
 
+    /*const handleViewCompleteDiary = () => {
+        const allClosed = Object.keys(DailyClass).every((bimestre) => {
+            const status = DailyClass[bimestre];
+            console.log(`${bimestre}:`, status);
+
+            const regent = status.regentTeacher?.trim().toLowerCase();
+            //const pe = status.physicalEducationTeacher?.trim().toLowerCase();
+
+            return regent === "fechado" //&& pe === "fechado";
+        });
+
+        console.log("allClosed:", allClosed);
+
+        if (!allClosed) {
+            setShowAlert(true);
+        } else {
+            console.log("Ver diário completo");
+            const idClass = clss.map(res => res._id)
+            const yearClass = clss.map(res => res.year)
+            if (idClass && yearClass) {
+                navigate(`/annual-diary/${idClass}/${yearClass}`)
+            }
+        }
+    };*/
+
     const RemoveTeacherModal = ({ onClose, onConfirm }) => {
         return (
             <div style={{
@@ -618,7 +648,7 @@ const Cla$$Info = () => {
                 }}>
                     <h3>⚠️ Atenção!</h3>
                     <p>Se o professor lecionou em algum bimestre, verifique antes de removê-lo se todos os registros foram preenchidos corretamente e se o diário do bimestre foi fechado.
-                    Lembre-se: o nome que fica registrado no diário é sempre do professor que fecha o diário do bimestre.</p>
+                        Lembre-se: o nome que fica registrado no diário é sempre do professor que fecha o diário do bimestre.</p>
                     <div style={{ marginTop: "1.5rem", display: "flex", gap: "1rem", justifyContent: "center" }}>
                         <button style={{ background: "#ccc", color: "#000", border: "none", padding: "0.5rem 1rem", cursor: "pointer" }} onClick={onClose}>Cancelar</button>
                         <button style={{ background: "#c82333", color: "#fff", border: "none", padding: "0.5rem 1rem", cursor: "pointer" }} onClick={onConfirm}>Confirmar Remoção</button>
@@ -728,6 +758,17 @@ const Cla$$Info = () => {
                                 </StatusLine>
                             </DiaryBimester>
                         ))}
+                        {/*<ButtonWrapper>
+                            <button onClick={handleViewCompleteDiary}>Ver Diário Completo</button>
+                        </ButtonWrapper>
+                        {showAlert && (
+                            <BlurModal>
+                                <AlertBox>
+                                    <p>Para visualizar o diário completo, é necessário que todos os bimestres estejam fechados.</p>
+                                    <button onClick={() => setShowAlert(false)}>Ok</button>
+                                </AlertBox>
+                            </BlurModal>
+                        )}*/}
                     </DiaryWrapper>
 
                     {confirmClose && (

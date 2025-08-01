@@ -60,6 +60,32 @@ export const registerSchool = async (
         }, [])
 }
 
+export const updateSchool = async (
+    idSchool,
+    name,
+    assessmentFormat,
+    address,
+    city,
+) => {
+
+    return api.post(`/updateSchool/${idSchool}`, {
+        name,
+        assessmentFormat,
+        address,
+        city,
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+            }
+        }, [])
+}
+
+
 export const createSessionEducationDepartment = async (
     id
 ) => {
@@ -1958,6 +1984,27 @@ export const IndexDaily = async (
         id_iiNdQuarter,
         id_iiiRdQuarter,
         id_ivThQuarter,
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response.data.msg
+                )
+                alert(result)
+                // window.location.reload()
+            }
+        }, [])
+}
+
+export const IndexAllDaily = async (
+    idClass,
+    year
+) => {
+
+    return api.post(`/index-AllDaily`, {
+        idClass,
+        year
     })
 
         .catch((error) => {
@@ -3901,6 +3948,39 @@ export const ReassignStudent = async (
             }
         }, [])
 }
+
+export const uploadLogoSchool = async (schoolId, formData) => {
+    return api.post(`/post-file-logo/${schoolId}`, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(error.response.data.msg);
+                alert(result);
+            }
+        });
+};
+
+export const fetchLogo = async (schoolId) => {
+    return api.post(`/get-logo/${schoolId}`)
+        .then(res => res.data.Logo)
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(error.response.data.msg);
+                alert(result);
+            }
+        });
+};
+
+export const deleteLogoSchool = async (logoId, idSchool) => {
+    return api.delete(`/delete-logo/${logoId}`, {
+        data: {
+            id_school: idSchool
+        }
+    });
+};
 
 /*export const getavatar = async () => {
 

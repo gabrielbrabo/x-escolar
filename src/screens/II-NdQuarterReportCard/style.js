@@ -245,6 +245,7 @@ export const PrintButton = styled.button`
   border-radius: 5px;
   padding: 10px 20px;
   cursor: pointer;
+  z-index: 10; /* garante que o botão fique por cima */
   &:hover {
     background-color: #45a049;
   }
@@ -317,6 +318,38 @@ export const DivBimCell = styled.div`
         props.grade === 'C' ? 'orange' :
           props.grade === 'D' ? 'red' : 'black';
   }};
+`;
+
+export const ContLogo = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center; /* centraliza o h2 */
+  width: 100%;
+  padding-bottom: 60px;
+
+  @media (max-width: 600px) {
+    padding-bottom: 40px;
+    //flex-direction: column;
+    align-items: center;
+  }
+
+`;
+export const Preview = styled.img`
+  position: absolute;
+  left: 0;
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  margin-left: 20px;
+
+  @media (max-width: 600px) {
+    //position: static;
+    width: 80px;
+    height: 80px;
+    margin: 10px;
+    //display: block;
+  }
+  
 `;
 
 const GlobalStyle = createGlobalStyle`
@@ -425,6 +458,18 @@ const GlobalStyle = createGlobalStyle`
 
     ${SpanNameMatter} { /* Ajuste a margem inferior para evitar quebra de página */
       font-size: 0.8em;
+    }
+
+    ${ContLogo} { /* Ajuste a margem inferior para evitar quebra de página */
+      position: relative;
+      display: flex;
+      justify-content: center; /* centraliza o h2 */
+      padding-bottom: 0px;
+    }
+    ${Preview} { /* Ajuste a margem inferior para evitar quebra de página */
+      position: absolute;
+      left: 0;
+      height: 120px;
     }
 
     ${SpanTotalGrade}, ${SpanAverageGrade}, ${SpanGradeStudent} {

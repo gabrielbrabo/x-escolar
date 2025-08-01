@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import {
     Container,
     ContainerDivs,
-    CtnrBtt,
+    //CtnrBtt,
     StudentSection,
     Table,
     ContainerTable,
@@ -13,7 +13,7 @@ import {
     DateCell,
     InfoText,
     Button,
-    Button02,
+    //Button02,
     ButtonEdit,
     DescriptionCell,
     HiddenOnPrint,
@@ -210,7 +210,7 @@ const Grade = () => {
         }
     };
 
-    const handlePrint = () => {
+    /*const handlePrint = () => {
 
         // Expande todas as descrições antes de imprimir
         setExpandedRows(recordClassTaught.map((_, index) => index));
@@ -230,7 +230,7 @@ const Grade = () => {
                 setExpandedRows([]);
             }, 10000); // 10000ms = 10 segundos
         }, 0);
-    };
+    };*/
 
     const getDescriptionPreview = (description) => {
         const maxLength = 100;
@@ -295,9 +295,9 @@ const Grade = () => {
                                 </span>
                             </DataBimonthly>
 
-                            <CtnrBtt>
+                            {/*<CtnrBtt>
                                 <Button02 className='no-print' onClick={handlePrint} style={{ marginBottom: '15px' }}>Imprimir</Button02>
-                            </CtnrBtt>
+                            </CtnrBtt>*/}
                             <Table>
 
                                 <h4 className='total-aulas-lecionadas'>Total de aulas lecionadas: {recordClassTaught.length}</h4>

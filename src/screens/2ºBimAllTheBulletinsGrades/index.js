@@ -24,7 +24,9 @@ import {
   Grade,
   PrintButton,
   SignMessageButtonText,
-  SignMessageButtonTextBold
+  SignMessageButtonTextBold,
+  Preview,
+  ContLogo
 } from './style';
 
 
@@ -33,7 +35,8 @@ import GlobalStyle from './style';
 import {
   allTheBulletinsGrades,
   getIstQuarter,
-  clssInfo
+  clssInfo,
+  fetchLogo
 } from '../../Api';
 
 //import GlobalStyle from './style';
@@ -56,6 +59,7 @@ const AllTheBulletins = () => {
   const [cla$$, setClass] = useState([]);
   const [teacher, setTeacher] = useState([]);
   const [nameSchool, setNameSchool] = useState('')
+  const [logoUrl, setLogoUrl] = useState('');
   const [loading, setLoading] = useState(true);
 
   const { idClass } = useParams();
@@ -65,7 +69,7 @@ const AllTheBulletins = () => {
     (async () => {
       setLoading(true);
       console.log("idClass", idClass, "idBim", idBim)
-      const idSchool = sessionStorage.getItem("id-school");
+      const idSchool = JSON.parse(sessionStorage.getItem("id-school"));
       const nameSchool = sessionStorage.getItem("School");
       setNameSchool(nameSchool)
       const res = await allTheBulletinsGrades({
@@ -93,7 +97,7 @@ const AllTheBulletins = () => {
         return clss.year
       })
       const year = $yearClass.year
-      const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
+      const IstQuarter = await getIstQuarter(year, idSchool)
       const i = IstQuarter.data.data.find(res => res) || null;
       setIstBimonthly([i].filter(res => res !== null));
 
@@ -105,6 +109,28 @@ const AllTheBulletins = () => {
       setBulletinsIst(resIst.data.data.boletins);
 
       console.log("resIst", resIst)
+
+      const cachedLogo = localStorage.getItem(`school-logo-${idSchool}`);
+      //const cachedLogoId = localStorage.getItem(`school-logo-id-${idSchool}`);
+
+      if (cachedLogo) {
+        console.log('busca pelo storage local')
+        setLogoUrl(cachedLogo);
+        //setlogoId(cachedLogoId);
+      } else {
+
+        console.log('busca no s3')
+        const logoRes = await fetchLogo(idSchool);
+
+        console.log('busca logo', logoRes)
+        if (logoRes?.url) {
+          setLogoUrl(logoRes.url);
+          //setlogoId(logoRes._id);
+          localStorage.setItem(`school-logo-${idSchool}`, logoRes.url);
+          localStorage.setItem(`school-logo-id-${idSchool}`, logoRes._id);
+
+        }
+      }
 
       setLoading(false);
     })();
@@ -148,7 +174,12 @@ const AllTheBulletins = () => {
 
                 return (
                   <DivAddEmp id="containerDivs" key={aluno.id || index}>
-                    <h2>Boletim</h2>
+                    <ContLogo>
+                      {(logoUrl) && (
+                        <Preview src={logoUrl} alt="Logo da escola" />
+                      )}
+                      <h2>Boletim</h2>
+                    </ContLogo>
                     <AddEmp>
                       <h3>2º Bimestre</h3>
                     </AddEmp>

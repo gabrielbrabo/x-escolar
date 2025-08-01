@@ -39,6 +39,9 @@ import {
     DiaryWrapper,
     DiaryBimester,
     StatusLine,
+    //ButtonWrapper,
+    //BlurModal,
+    //AlertBox,
 } from './style';
 import LoadingSpinner from '../../components/Loading'
 
@@ -69,6 +72,7 @@ const MyCla$$Info = () => {
     const [selectedBimester, setSelectedBimester] = useState(null);
     const [selectedField, setSelectedField] = useState(null);
 
+    //const [showAlert, setShowAlert] = useState(false);
 
     const { id_class } = useParams();
     const { id_teacher } = useParams();
@@ -574,6 +578,28 @@ const MyCla$$Info = () => {
         console.log("see diary", bimester)
     }
 
+    /*const handleViewCompleteDiary = () => {
+        const allClosed = Object.keys(DailyClass).every((bimestre) => {
+            const status = DailyClass[bimestre];
+            console.log(`${bimestre}:`, status);
+
+            const regent = status.regentTeacher?.trim().toLowerCase();
+            //const pe = status.physicalEducationTeacher?.trim().toLowerCase();
+
+            return regent === "fechado" //&& pe === "fechado";
+        });
+
+        console.log("allClosed:", allClosed);
+
+        if (!allClosed) {
+            setShowAlert(true);
+        } else {
+            console.log("Ver diário completo");
+            const yearClass = clss.year
+           navigate(`/annual-diary/${id_class}/${yearClass}`)
+        }
+    };*/
+
     console.log("Daily", DailyClass)
 
     return (
@@ -658,6 +684,17 @@ const MyCla$$Info = () => {
                                 </StatusLine>
                             </DiaryBimester>
                         ))}
+                        {/*<ButtonWrapper>
+                            <button onClick={handleViewCompleteDiary}>Ver Diário Completo</button>
+                        </ButtonWrapper>
+                        {showAlert && (
+                            <BlurModal>
+                                <AlertBox>
+                                    <p>Para visualizar o diário completo, é necessário que o diário de todos os bimestres estejam fechados.</p>
+                                    <button onClick={() => setShowAlert(false)}>Ok</button>
+                                </AlertBox>
+                            </BlurModal>
+                        )}*/}
                     </DiaryWrapper>
 
                     {showModal && (

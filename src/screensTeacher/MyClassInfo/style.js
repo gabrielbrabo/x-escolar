@@ -325,3 +325,57 @@ export const StatusText = styled.span`
   padding: 2px 6px;
   border-radius: 4px;
 `;
+
+export const ButtonWrapper = styled.div`
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+
+  button {
+    padding: 0.6rem 1.2rem;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+
+    &:hover {
+      background-color: #388e3c;
+    }
+  }
+`;
+
+export const BlurModal = styled.div`
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+`;
+
+export const AlertBox = styled.div`
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+
+  p {
+    margin-bottom: 1rem;
+  }
+
+  button {
+    padding: 0.4rem 1rem;
+    border: none;
+    background-color: #4caf50;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+`;

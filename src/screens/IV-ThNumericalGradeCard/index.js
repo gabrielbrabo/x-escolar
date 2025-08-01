@@ -23,12 +23,14 @@ import {
   DivBimRow,
   DivBimHeader,
   DivBimCell,
-  DivNameMatter
+  DivNameMatter,
+  Preview,
+  ContLogo
 } from './style';
 
 import GlobalStyle from './style';
 
-import { GetNumGrade, AttendanceBimonthly, indexNumericalGradesCard, GetLogo, getIstQuarter, getIIndQuarter, getIIIrdQuarter } from '../../Api';
+import { GetNumGrade, AttendanceBimonthly, indexNumericalGradesCard, GetLogo, getIstQuarter, getIIndQuarter, getIIIrdQuarter, fetchLogo } from '../../Api';
 
 import { IoCheckmarkSharp, IoCloseSharp } from "react-icons/io5";
 
@@ -47,6 +49,7 @@ const GradeIstquarter = () => {
   const [stdtName, setStdtName] = useState([])
   const [teacherName, setTeacherName] = useState('')
   const [nameSchool, setNameSchool] = useState('')
+  const [logoUrl, setLogoUrl] = useState('');
   const [id_teacher, setId_teacher] = useState('')
   const [id_student, setid_student] = useState('')
 
@@ -81,9 +84,9 @@ const GradeIstquarter = () => {
     (async () => {
       setLoading(true);
       const year = new Date().getFullYear();
-      const idSchool = sessionStorage.getItem("id-school");
+      const idSchool = JSON.parse(sessionStorage.getItem("id-school"));
 
-      const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
+      const IstQuarter = await getIstQuarter(year, idSchool)
       const tgIst = await IstQuarter.data.data.map(res => {
         return res.totalGrade
       })
@@ -93,7 +96,7 @@ const GradeIstquarter = () => {
       setTotalGradeIst(tgIst)
       setAverageGradeIst(agIst)
 
-      const IIndQuarter = await getIIndQuarter(year, JSON.parse(idSchool))
+      const IIndQuarter = await getIIndQuarter(year, idSchool)
       const tgIInd = await IIndQuarter.data.data.map(res => {
         return res.totalGrade
       })
@@ -103,7 +106,7 @@ const GradeIstquarter = () => {
       setTotalGradeIInd(tgIInd)
       setAverageGradeIInd(agIInd)
 
-      const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
+      const IIIrdQuarter = await getIIIrdQuarter(year, idSchool)
       const tgIIIrd = await IIIrdQuarter.data.data.map(res => {
         return res.totalGrade
       })
@@ -225,6 +228,28 @@ const GradeIstquarter = () => {
       } else {
         console.error("resGrade está vazio ou malformado");
       }
+      const cachedLogo = localStorage.getItem(`school-logo-${idSchool}`);
+      //const cachedLogoId = localStorage.getItem(`school-logo-id-${idSchool}`);
+
+      if (cachedLogo) {
+        console.log('busca pelo storage local')
+        setLogoUrl(cachedLogo);
+        //setlogoId(cachedLogoId);
+      } else {
+
+        console.log('busca no s3')
+        const logoRes = await fetchLogo(idSchool);
+
+        console.log('busca logo', logoRes)
+        if (logoRes?.url) {
+          setLogoUrl(logoRes.url);
+          //setlogoId(logoRes._id);
+          localStorage.setItem(`school-logo-${idSchool}`, logoRes.url);
+          localStorage.setItem(`school-logo-id-${idSchool}`, logoRes._id);
+
+        }
+      }
+
       setLoading(false);
     })();
 
@@ -395,7 +420,12 @@ const GradeIstquarter = () => {
               Imprimir
             </PrintButton>
             <DivAddEmp id="containerDivs">
-              <h2>Boletim</h2>
+              <ContLogo>
+                {(logoUrl) && (
+                  <Preview src={logoUrl} alt="Logo da escola" />
+                )}
+                <h2>Boletim</h2>
+              </ContLogo>
               <AddEmp>
                 <h3>4º Bimestre</h3>
               </AddEmp>

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import {
     Container,
     ContainerDivs,
-    CtnrBtt,
+    //CtnrBtt,
     StudentSection,
     Table,
     ContainerTable,
@@ -13,7 +13,7 @@ import {
     //DateCell,
     InfoText,
     Button,
-    Button02,
+   // Button02,
     ButtonEdit,
     DescriptionCell,
     HiddenOnPrint,
@@ -283,7 +283,7 @@ const IndividualFormList = () => {
 
     console.log("res form", IndividualForm)
 
-    const handlePrint = () => {
+    /*const handlePrint = () => {
 
         // Expande todas as descrições antes de imprimir
         setExpandedRows(IndividualForm.map((_, index) => index));
@@ -303,7 +303,7 @@ const IndividualFormList = () => {
                 setExpandedRows([]);
             }, 10000); // 10000ms = 10 segundos
         }, 0);
-    };
+    };*/
 
     const handleEdit = async (index, res) => {
         setEditingIndex(index);
@@ -351,9 +351,9 @@ const IndividualFormList = () => {
                                     <strong>Término:</strong> {String(endd).padStart(2, '0')}/{String(endm).padStart(2, '0')}/{endy}
                                 </span>
                             </DataBimonthly>
-                            <CtnrBtt>
+                            {/*<CtnrBtt>
                                 <Button02 className='no-print' onClick={handlePrint} style={{ marginBottom: '15px' }}>Imprimir</Button02>
-                            </CtnrBtt>
+                            </CtnrBtt>*/}
                             <Table>
                                 <>
                                     {IndividualForm.length > 0 ? (

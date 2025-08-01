@@ -23,12 +23,14 @@ import {
   DivBimRow,
   DivBimHeader,
   DivBimCell,
-  DivNameMatter
+  DivNameMatter,
+  Preview,
+  ContLogo
 } from './style';
 
 import GlobalStyle from './style';
 
-import { GetGrades, AttendanceBimonthly, indexGradesCard } from '../../Api';
+import { GetGrades, AttendanceBimonthly, indexGradesCard, fetchLogo } from '../../Api';
 
 import { IoCheckmarkSharp, IoCloseSharp } from "react-icons/io5";
 
@@ -46,6 +48,7 @@ const GradeIstquarter = () => {
   const [stdtName, setStdtName] = useState([])
   const [teacherName, setTeacherName] = useState('')
   const [nameSchool, setNameSchool] = useState('')
+  const [logoUrl, setLogoUrl] = useState('');
   const [id_teacher, setId_teacher] = useState('')
   const [id_student, setid_student] = useState('')
 
@@ -74,6 +77,7 @@ const GradeIstquarter = () => {
       const id_student = sessionStorage.getItem("StudentInformation");
       const nameSchool = sessionStorage.getItem("School");
       const stdtName = sessionStorage.getItem("stdt-name");
+      const idSchool = JSON.parse(sessionStorage.getItem("id-school"));
       setStdtName(stdtName)
       setNameSchool(nameSchool)
       setid_student(id_student)
@@ -160,7 +164,27 @@ const GradeIstquarter = () => {
       } else {
         console.error("resGrade está vazio ou malformado");
       }
+      const cachedLogo = localStorage.getItem(`school-logo-${idSchool}`);
+      //const cachedLogoId = localStorage.getItem(`school-logo-id-${idSchool}`);
 
+      if (cachedLogo) {
+        console.log('busca pelo storage local')
+        setLogoUrl(cachedLogo);
+        //setlogoId(cachedLogoId);
+      } else {
+
+        console.log('busca no s3')
+        const logoRes = await fetchLogo(idSchool);
+
+        console.log('busca logo', logoRes)
+        if (logoRes?.url) {
+          setLogoUrl(logoRes.url);
+          //setlogoId(logoRes._id);
+          localStorage.setItem(`school-logo-${idSchool}`, logoRes.url);
+          localStorage.setItem(`school-logo-id-${idSchool}`, logoRes._id);
+
+        }
+      }
       setLoading(false);
     })();
 
@@ -221,7 +245,12 @@ const GradeIstquarter = () => {
               Imprimir
             </PrintButton>
             <DivAddEmp id="containerDivs">
-              <h2>Boletim</h2>
+              <ContLogo>
+                {(logoUrl) && (
+                  <Preview src={logoUrl} alt="Logo da escola" />
+                )}
+                <h2>Boletim</h2>
+              </ContLogo>
               <AddEmp>
                 <h3>3º Bimestre</h3>
               </AddEmp>

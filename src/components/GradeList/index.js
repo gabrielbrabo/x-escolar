@@ -7,10 +7,10 @@ import {
     AttendanceContainer,
     DataBimonthly,
     ContInfo,
-    CtnrBtt,
+   // CtnrBtt,
     ContTable,
     TableHeader,
-    Button,
+   // Button,
     // uniqueDates,
     // formatDisplayDate,
     TableBody,
@@ -250,7 +250,7 @@ const IndividualFormList = () => {
 
     console.log("res form", IndividualForm)
 
-    const handlePrint = () => {
+   /* const handlePrint = () => {
         const printContent = document.getElementById("printable-content");
 
         if (printContent) {
@@ -275,19 +275,19 @@ const IndividualFormList = () => {
                         text-align: start;
                     }
                   @page {
-                    size: A4 landscape; /* Define o formato da página como paisagem */
+                    size: A4 landscape; 
                     margin: 0;
                   }  
                   ContTable {
-                    overflow-x: hidden; /* Permite rolagem horizontal */
-                    width: max-content; /* Garante que a tabela ocupe a largura do conteúdo */
-                    margin-left: auto; /* Centraliza horizontalmente */
-                    margin-right: auto; /* Centraliza horizontalmente */
+                    overflow-x: hidden; 
+                    width: max-content; 
+                    margin-left: auto; 
+                    margin-right: auto; 
                   }
                     .printable-content {
-                      visibility: visible; /* Exibe apenas o conteúdo dentro desta classe */
+                      visibility: visible; 
                       font-size: 15px;
-                      //transform: scale(1); /* Ajusta a escala da tabela */
+                      //transform: scale(1); 
                     }
                   .data {
                     display: flex;
@@ -317,7 +317,7 @@ const IndividualFormList = () => {
             }, 500);
         }
     };
-
+*/
     return (
         <PrintStyle>
             {loading ? (
@@ -334,9 +334,9 @@ const IndividualFormList = () => {
                         </span>
                     </DataBimonthly>
                     <ContInfo className="info">
-                        <CtnrBtt>
+                        {/*<CtnrBtt>
                             <Button className="no-print" onClick={handlePrint}>Imprimir</Button>
-                        </CtnrBtt>
+                        </CtnrBtt>*/}
                         <span><strong>Escola:</strong> {nameSchool}</span>
                         <span><strong>Professor:</strong> {nameTeacher}</span>
                         <span><strong>Turma:</strong> {nameClass}</span>
