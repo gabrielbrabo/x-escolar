@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { IndexDaily, updateRecordClassTaught, FormEdit } from "../../Api";
+import { IndexDaily, updateRecordClassTaught, FormEdit, fetchLogo } from "../../Api";
 import LoadingSpinner from "../../components/Loading";
 import {
   Container,
@@ -50,6 +50,9 @@ import {
   IndividualContainerTable,
   IndividualTableRow,
   IndividualDescriptionCell,
+  ContLogo,
+  Preview,
+  HeaderWrapper
   //ToggleButton,
 } from "./style";
 
@@ -85,7 +88,7 @@ export default function Daily() {
 
   const [selectedStudentConcept, setSelectedStudentConcept] = useState(null);
 
-  // const [studentGrades, setStudentGrades] = useState([]);
+  const [logoUrl, setLogoUrl] = useState('');
 
   const [loading, setLoading] = useState(true);
 
@@ -93,10 +96,34 @@ export default function Daily() {
   useEffect(() => {
     (async () => {
       setLoading(true);
+      const idSchool = JSON.parse(sessionStorage.getItem("id-school"));
       const position = localStorage.getItem('position_at_school');
       setPositionAtSchool(position);
       const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
       setassessmentFormat($assessmentFormat)
+
+      const cachedLogo = localStorage.getItem(`school-logo-${idSchool}`);
+      //const cachedLogoId = localStorage.getItem(`school-logo-id-${idSchool}`);
+
+      if (cachedLogo) {
+        console.log('busca pelo storage local')
+        setLogoUrl(cachedLogo);
+        //setlogoId(cachedLogoId);
+      } else {
+
+        console.log('busca no s3')
+        const logoRes = await fetchLogo(idSchool);
+
+        console.log('busca logo', logoRes)
+        if (logoRes?.url) {
+          setLogoUrl(logoRes.url);
+          //setlogoId(logoRes._id);
+          localStorage.setItem(`school-logo-${idSchool}`, logoRes.url);
+          localStorage.setItem(`school-logo-id-${idSchool}`, logoRes._id);
+
+        }
+      }
+
       if (bimonthly === "1º BIMESTRE") {
         const res = await IndexDaily({
           idClass,
@@ -129,6 +156,7 @@ export default function Daily() {
         setData(res.data.dailies[0]);
         setLoading(false);
       }
+
     })();
   }, [bimonthly, idClass, idBimonthly]);
 
@@ -148,7 +176,7 @@ export default function Daily() {
     const day = String(date.getUTCDate()).padStart(2, "0");
     const month = String(date.getUTCMonth() + 1).padStart(2, "0");
     return `${day}/${month}`;
-  };  
+  };
 
   const uniqueDates = data
     ? [...new Set(data.attendance.map((att) => formatDisplayDate(att.date)))].sort((a, b) => {
@@ -251,17 +279,29 @@ export default function Daily() {
                   display: flex;
                   gap:15px;
                 }
+                  .HeaderWrapper {
+                    display: flex;
+                    gap: 40px
+                  }
                 .info {
                   display: flex;
                   flex-direction: column;
                 }
+                  .info span {
+                    
+                    font-size: 15px;
+                  }
                   .no-print {
                     display: none !important;
                   }
                      /* ✅ Classes de status */
-                    td.status-present { color: green; }
-                    td.status-absent { color: red; }
-                    td.status-justified { color: orange; }
+                     td.presence { color: green; }
+                    td.absence { color: red; }
+                    td.justifiedAbsence { color: #6a0dad; }
+
+                    th.total-presence { color: green; }
+                    th.total-absence { color: red; }
+                    th.total-justifiedAbsence { color: #6a0dad; }
               </style>
             </head>
             <body>
@@ -449,10 +489,34 @@ export default function Daily() {
                 display: flex;
                 gap:15px;
               }
+                .HeaderWrapper {
+                    display: flex;
+                    gap: 40px
+                  }
               .info {
                 display: flex;
                 flex-direction: column;
               }
+                /* ✅ NOVO: estilo para a legenda com borda */
+            .legendBox {
+              border: 1px solid black !important;
+              padding-left: 10px;
+              border-radius: 5px;
+              margin-bottom: 10px;
+              background: white !important;
+              color: black !important;
+              box-shadow: none !important;
+              max-width: 400px;
+              height: 90px;
+            }
+              .legendBox h3 {
+              margin: 0;
+              text-align: center;
+            }
+
+            .legendBox p {
+              margin: 5px 0;
+            }
                 .no-print {
                   display: none !important;
                 }
@@ -523,7 +587,10 @@ export default function Daily() {
               display: flex;
               gap: 15px;
             }
-
+            .HeaderWrapper {
+                    display: flex;
+                    gap: 40px
+                  }
             .info {
               display: flex;
               flex-direction: column;
@@ -533,6 +600,25 @@ export default function Daily() {
               display: none !important;
             }
 
+            .legendBox {
+              border: 1px solid black !important;
+              padding-left: 10px;
+              border-radius: 5px;
+              margin-bottom: 10px;
+              background: white !important;
+              color: black !important;
+              box-shadow: none !important;
+              max-width: 400px;
+              height: 120px;
+            }
+              .legendBox h3 {
+              margin: 0;
+              text-align: center;
+            }
+
+            .legendBox p {
+              margin: 5px 0;
+            }
             .concept-green { color: #1d7f14; }
             .concept-blue { color: blue; }
             .concept-orange { color: orange; }
@@ -578,6 +664,7 @@ export default function Daily() {
   //console.log("groupGradesByMatter", grouped)
 
   console.log("daily", data)
+  console.log("logoUrl", logoUrl)
 
   return (
     <Container>
@@ -648,18 +735,25 @@ export default function Daily() {
           {activeComponent === 'attendanceList' && (
             data?.attendance?.length > 0 ? (
               <AttendanceContainer id="printable-content-attendance" className="printable-content-attendance">
-                <ContInfo className="info">
-                  <span><strong>Escola:</strong> {data.nameSchool}</span>
-                  <span><strong>Turma:</strong> {data.nameClass}</span>
-                  <span><strong>Ano:</strong> {data.year}</span>
-                  <span><strong>Professor Regente:</strong> {data.nameRegentTeacher}</span>
-                  {data.nameRegentTeacher02 !== "Professor não definido" && (
-                    <span><strong>Professor Regente 02:</strong> {data.nameRegentTeacher02}</span>
+                <HeaderWrapper className="HeaderWrapper">
+
+                  {(logoUrl) && (
+                    <Preview className="" src={logoUrl} alt="Logo da escola" />
                   )}
-                  {data.namephysicalEducationTeacher !== "Professor não definido" && (
-                    <span><strong>Professor de Ed. Física:</strong> {data.namephysicalEducationTeacher}</span>
-                  )}
-                </ContInfo>
+
+                  <ContInfo className="info">
+                    <span><strong>Escola:</strong> {data.nameSchool}</span>
+                    <span><strong>Turma:</strong> {data.nameClass}</span>
+                    <span><strong>Ano:</strong> {data.year}</span>
+                    <span><strong>Professor Regente:</strong> {data.nameRegentTeacher}</span>
+                    {data.nameRegentTeacher02 !== "Professor não definido" && (
+                      <span><strong>Professor Regente 02:</strong> {data.nameRegentTeacher02}</span>
+                    )}
+                    {data.namephysicalEducationTeacher !== "Professor não definido" && (
+                      <span><strong>Professor de Ed. Física:</strong> {data.namephysicalEducationTeacher}</span>
+                    )}
+                  </ContInfo>
+                </HeaderWrapper>
                 <CtnrBtt>
                   <ButtonPrint className="no-print" onClick={handlePrintAttendance}>Imprimir</ButtonPrint>
                 </CtnrBtt>
@@ -772,7 +866,12 @@ export default function Daily() {
                 <ButtonPrint className="no-print" onClick={handlePrintClasses}>Imprimir</ButtonPrint>
               </CtnrBtt>
               <LessonsContainer>
-                <h2>Registros de Aulas do {bimonthly}</h2>
+                <ContLogo className="cont-logo-classes">
+                  {(logoUrl) && (
+                    <Preview className="logo-classes" src={logoUrl} alt="Logo da escola" />
+                  )}
+                  <h2>Registros de Aulas do {bimonthly}</h2>
+                </ContLogo>
                 <h4 className="total-aulas-lecionadas">
                   Total de aulas lecionadas: {data?.id_recordClassTaught?.length || 0}
                 </h4>
@@ -990,21 +1089,26 @@ export default function Daily() {
 
           {activeComponent === 'numericalGrades' && (
             <GradesTableContainer id="printable-content">
-              <ContInfo className="info">
-                <span><strong>Escola:</strong> {data.nameSchool}</span>
-                <span><strong>Turma:</strong> {data.nameClass}</span>
-                <span><strong>Professor Regente:</strong> {data.nameRegentTeacher}</span>
-                {data.nameRegentTeacher02 !== "Professor não definido" && (
-                  <span><strong>Professor Regente 02:</strong> {data.nameRegentTeacher02}</span>
+              <HeaderWrapper className="HeaderWrapper">
+                {(logoUrl) && (
+                  <Preview className="" src={logoUrl} alt="Logo da escola" />
                 )}
-                {data.namephysicalEducationTeacher !== "Professor não definido" && (
-                  <span><strong>Professor de Ed. Física:</strong> {data.namephysicalEducationTeacher}</span>
-                )}
-              </ContInfo>
+                <ContInfo className="info">
+                  <span><strong>Escola:</strong> {data.nameSchool}</span>
+                  <span><strong>Turma:</strong> {data.nameClass}</span>
+                  <span><strong>Professor Regente:</strong> {data.nameRegentTeacher}</span>
+                  {data.nameRegentTeacher02 !== "Professor não definido" && (
+                    <span><strong>Professor Regente 02:</strong> {data.nameRegentTeacher02}</span>
+                  )}
+                  {data.namephysicalEducationTeacher !== "Professor não definido" && (
+                    <span><strong>Professor de Ed. Física:</strong> {data.namephysicalEducationTeacher}</span>
+                  )}
+                </ContInfo>
+              </HeaderWrapper>
               <CtnrBtt>
                 <ButtonPrint className="no-print" onClick={handlePrintgrades}>Imprimir</ButtonPrint>
               </CtnrBtt>
-              <LegendBox>
+              <LegendBox className="legendBox">
                 <h3>Legenda</h3>
                 <p>
                   Nota Total:{" "}
@@ -1101,23 +1205,28 @@ export default function Daily() {
             data.studentConcept && data.studentConcept.length > 0 ? (
               <>
                 <ConceptsTableContainer id="printable-content-concepts">
-                  <ContInfo className="info">
-                    <span><strong>Escola:</strong> {data.nameSchool}</span>
-                    <span><strong>Turma:</strong> {data.nameClass}</span>
-                    <span><strong>Professor Regente:</strong> {data.nameRegentTeacher}</span>
-                    {data.nameRegentTeacher02 !== "Professor não definido" && (
-                      <span><strong>Professor Regente 02:</strong> {data.nameRegentTeacher02}</span>
+                  <HeaderWrapper className="HeaderWrapper">
+                    {(logoUrl) && (
+                      <Preview className="" src={logoUrl} alt="Logo da escola" />
                     )}
-                    {data.namephysicalEducationTeacher !== "Professor não definido" && (
-                      <span><strong>Professor de Ed. Física:</strong> {data.namephysicalEducationTeacher}</span>
-                    )}
-                  </ContInfo>
+                    <ContInfo className="info">
+                      <span><strong>Escola:</strong> {data.nameSchool}</span>
+                      <span><strong>Turma:</strong> {data.nameClass}</span>
+                      <span><strong>Professor Regente:</strong> {data.nameRegentTeacher}</span>
+                      {data.nameRegentTeacher02 !== "Professor não definido" && (
+                        <span><strong>Professor Regente 02:</strong> {data.nameRegentTeacher02}</span>
+                      )}
+                      {data.namephysicalEducationTeacher !== "Professor não definido" && (
+                        <span><strong>Professor de Ed. Física:</strong> {data.namephysicalEducationTeacher}</span>
+                      )}
+                    </ContInfo>
+                  </HeaderWrapper>
 
                   <CtnrBtt>
                     <ButtonPrint className="no-print" onClick={handlePrintconcept}>Imprimir</ButtonPrint>
                   </CtnrBtt>
 
-                  <LegendBox>
+                  <LegendBox className="legendBox">
                     <h3>Legenda</h3>
                     <p><strong style={{ color: '#1d7f14' }}>A</strong> - Alcançou com êxito as capacidades básicas</p>
                     <p><strong style={{ color: 'blue' }}>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
@@ -1219,7 +1328,12 @@ export default function Daily() {
                   <ButtonPrint className="no-print" onClick={handlePrintIndividualForm}>Imprimir</ButtonPrint>
                 </CtnrBtt>
                 <IndividualStudentSection id="printable-content-individualRecords">
-                  <h2>Fichas Individuais de Alunos</h2>
+                  <ContLogo className="cont-logo-individualForm">
+                    {(logoUrl) && (
+                      <Preview className="logo-individualForm" src={logoUrl} alt="Logo da escola" />
+                    )}
+                    <h2>Fichas Individuais de Alunos</h2>
+                  </ContLogo>
                   <h3>{bimonthly}</h3>
                   <span><strong>Escola:</strong> {data.nameSchool}</span>
                   <span><strong>turma:</strong> {data.nameClass}</span>
@@ -1329,23 +1443,28 @@ export default function Daily() {
             data.id_FinalConcepts && data.id_FinalConcepts.length > 0 ? (
               <>
                 <ConceptsTableContainer id="printable-content-concepts">
-                  <ContInfo className="info">
-                    <span><strong>Escola:</strong> {data.nameSchool}</span>
-                    <span><strong>Turma:</strong> {data.nameClass}</span>
-                    <span><strong>Professor Regente:</strong> {data.nameRegentTeacher}</span>
-                    {data.nameRegentTeacher02 !== "Professor não definido" && (
-                      <span><strong>Professor Regente 02:</strong> {data.nameRegentTeacher02}</span>
+                  <HeaderWrapper className="HeaderWrapper">
+                    {(logoUrl) && (
+                      <Preview className="" src={logoUrl} alt="Logo da escola" />
                     )}
-                    {data.namephysicalEducationTeacher !== "Professor não definido" && (
-                      <span><strong>Professor de Ed. Física:</strong> {data.namephysicalEducationTeacher}</span>
-                    )}
-                  </ContInfo>
+                    <ContInfo className="info">
+                      <span><strong>Escola:</strong> {data.nameSchool}</span>
+                      <span><strong>Turma:</strong> {data.nameClass}</span>
+                      <span><strong>Professor Regente:</strong> {data.nameRegentTeacher}</span>
+                      {data.nameRegentTeacher02 !== "Professor não definido" && (
+                        <span><strong>Professor Regente 02:</strong> {data.nameRegentTeacher02}</span>
+                      )}
+                      {data.namephysicalEducationTeacher !== "Professor não definido" && (
+                        <span><strong>Professor de Ed. Física:</strong> {data.namephysicalEducationTeacher}</span>
+                      )}
+                    </ContInfo>
+                  </HeaderWrapper>
 
                   <CtnrBtt>
                     <ButtonPrint className="no-print" onClick={handlePrintconcept}>Imprimir</ButtonPrint>
                   </CtnrBtt>
 
-                  <LegendBox>
+                  <LegendBox className="legendBox">
                     <h3>Legenda</h3>
                     <p><strong style={{ color: '#1d7f14' }}>A</strong> - Alcançou com êxito as capacidades básicas</p>
                     <p><strong style={{ color: 'blue' }}>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>

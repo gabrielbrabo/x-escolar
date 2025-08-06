@@ -8,6 +8,58 @@ export const Container = styled.div`
     align-items: center;
 `;
 
+export const HeaderWrapper = styled.div`
+  //display: flex;
+  align-items: flex-start;
+  //gap: 20px;
+  width: 100%;
+
+  @media (max-width: 600px) {
+    
+  }
+
+  @media print {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 10px;
+  }
+`;
+
+export const ContLogo = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center; /* centraliza o h2 */
+  width: 100%;
+  //padding-bottom: 60px;
+
+  @media (max-width: 600px) {
+    padding-bottom: 0px;
+    //flex-direction: column;
+    align-items: center;
+  }
+
+`;
+export const Preview = styled.img`
+  position: absolute;
+  left: 0;
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  margin-left: 20px;
+
+  @media (max-width: 600px) {
+    //position: static;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 10px;
+    //display: block;
+  }
+  
+`;
+
 export const ButtonPrint = styled.button`
   width: 150px;
   padding: 15px;
@@ -42,6 +94,7 @@ export const ContInfo = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding-top: 30px;
   padding-left: 20px;
   margin-bottom: 1rem;
 
@@ -475,7 +528,23 @@ export const LessonsContainer = styled.div`
 
     h2 {
       font-size: 12pt;
+      margin: 0 !important;
       text-align: center; /* 🔧 Força centralização na impressão */
+    }
+
+    .cont-logo-classes {
+      display: flex !important;
+      flex-direction: column !important;
+      margin-top: 5mm !important; /* margem superior para respeitar a folha */
+      align-items: center !important;
+      margin-bottom: 30px !important;
+    }
+
+    .logo-classes {
+      //max-width: 150px !important;  /* limita o tamanho da logo */
+      height: auto !important;
+      margin-top: 15mm !important;
+      //margin-top: 50px !important;
     }
 
     .total-aulas-lecionadas {
@@ -975,9 +1044,10 @@ export const ToggleButton = styled.button`
 
 export const GradesTableContainer = styled.div`
   width: 100%;
+  text-align: center;
   //overflow-x: auto;  // Permite rolagem horizontal
   -webkit-overflow-scrolling: touch; // Rolagem suave no iOS
-  margin-top: 2rem;
+ // margin-top: 2rem;
 
   /* Opcional: esconder barra de rolagem no desktop, mas deixar no mobile */
   scrollbar-width: thin;
@@ -1074,6 +1144,7 @@ export const GradesTableBody = styled.tbody``;    // 🔑 Nome exclusivo!
 export const LegendBox = styled.div`
     max-width: 400px;
     background-color: #fff;
+    border: 1px solid black; /* Borda adicionada */
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 15px;
@@ -1096,12 +1167,20 @@ export const LegendBox = styled.div`
       font-size: 10pt; /* Smartphones pequenos */
       padding: 0;
     }
+
+    @media print {
+    border: 1px solid black !important;
+    box-shadow: none !important;
+    background-color: white !important;
+    color: black !important;
+  }
 `;
 
 //container conceitos
 
 export const ConceptsTableContainer = styled.div`
   
+  text-align: center;
   width: 100%;
 `;
 
@@ -1206,7 +1285,8 @@ export const IndividualPrintStyle = styled.div`
 
     @page {
       size: A4;
-      margin: 2cm;
+      margin: 0cm;
+      padding: 20px;
     }
   }
 `;
@@ -1247,8 +1327,27 @@ export const IndividualStudentSection = styled.div`
   }
 
   @media print {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    margin-top: 0;
+    
     h2, h3, span {
       font-size: 12pt;
+    }
+    .cont-logo-individualForm {
+      display: flex !important;
+      flex-direction: column !important;
+      //margin-top: 5mm !important; /* margem superior para respeitar a folha */
+      align-items: center !important;
+      margin-bottom: 30px !important;
+    }
+
+    .logo-individualForm {
+      //max-width: 150px !important;  /* limita o tamanho da logo */
+      height: auto !important;
+      margin-top: 18mm !important;
+      //margin-top: 50px !important;
     }
   }
 `;
