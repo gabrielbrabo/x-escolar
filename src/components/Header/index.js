@@ -10,10 +10,13 @@ import {
     Name,
     Span,
     DivButtomEdit,
-    Btt02
+    Btt02,
+    PerfilIndicador
 } from "./styles";
 
 //import logo from "../../assests/logo192.png"
+
+import { TiArrowSortedUp } from "react-icons/ti";
 
 import { DiReact } from "react-icons/di";
 
@@ -61,7 +64,7 @@ export function Header({ setMenuIsVisible }) {
         // Redireciona para a URL
         window.location.href = `/perfil-education-department/${id_employee}`;
     }
-    
+
     const handlePerfil = async () => {
         const id_employee = JSON.parse(localStorage.getItem('Id_employee'))
         sessionStorage.setItem("EmployeeInformation", id_employee)
@@ -109,26 +112,36 @@ export function Header({ setMenuIsVisible }) {
             {!positionAtEducationDepartment ? (
                 <Emp className="desktop-user-info">
                     <EmployeeInfo>
-                        <Pro>
+                        <Pro onClick={handlePerfil}>
                             {/*<ProfilePhoto />*/}
-                            <ProfileInfo onClick={handlePerfil}>
+                            <ProfileInfo >
                                 <Name>{name}</Name>
                                 <Span>{position_at_school}(A)</Span>
                                 <Span>{school}</Span>
                             </ProfileInfo>
+                            {/* Indicador de perfil */}
+                            <PerfilIndicador>
+                                <TiArrowSortedUp />
+                                <p>Perfil</p>
+                            </PerfilIndicador>
                         </Pro>
                     </EmployeeInfo>
                 </Emp>
             ) : (
                 <Emp className="desktop-user-info">
                     <EmployeeInfo>
-                        <Pro>
+                        <Pro onClick={handlePerfilEducationDepartment}>
                             {/*<ProfilePhoto />*/}
-                            <ProfileInfo onClick={handlePerfilEducationDepartment}>
+                            <ProfileInfo >
                                 <Name>{name}</Name>
                                 <Span>{positionAtEducationDepartment}</Span>
                                 <Span>{department}</Span>
                             </ProfileInfo>
+                            {/* Indicador de perfil */}
+                            <PerfilIndicador>
+                                <TiArrowSortedUp />
+                                <p>Perfil</p>
+                            </PerfilIndicador>
                         </Pro>
                     </EmployeeInfo>
                 </Emp>

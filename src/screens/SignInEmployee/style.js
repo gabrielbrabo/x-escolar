@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
-  height: 90vh;
+  min-height: 90vh; /* ← alterado */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,7 +86,7 @@ export const Btt = styled.button`
 
 export const AccessTopButton = styled.button`
   //align-self: flex-end;
-  margin: 20px 0; /* espaço acima e abaixo */
+  margin: 20px 0 10px 0; /* cima, direita, baixo, esquerda */
   padding: 10px 18px;
   border: 2px solid #2e7d32;
   border-radius: 8px;

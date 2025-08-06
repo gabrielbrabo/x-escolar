@@ -161,6 +161,7 @@ export const EmployeeInfo = styled.div`
 
 export const Pro = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
 `;
 
@@ -231,4 +232,26 @@ background: transparent;
   @media (max-width: 768px) {
     padding: 8px 16px;
   }
+`;
+
+export const PerfilIndicador = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+//font-size: 10px;
+color: #555;
+  margin: 0;
+  padding: 0;
+//margin-top: 4px;
+
+svg {
+  font-size: 14px;
+  //margin-top: -2px;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+}
 `;
