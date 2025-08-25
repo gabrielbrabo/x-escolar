@@ -386,6 +386,9 @@ const GlobalStyle = createGlobalStyle`
     }
     ${AddEmp} {
       margin-bottom: 50px;
+      h3 {
+        color: #333;
+      }
     }
     ${LegendBox} {
       h3 {
