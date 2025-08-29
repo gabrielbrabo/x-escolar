@@ -23,6 +23,7 @@
     "dont": "^0.0.1",
     "env": "^0.0.2",
     "html2canvas": "^1.4.1",
+    "html2pdf.js": "^0.11.2",
     "jspdf": "^3.0.1",
     "react": "^18.3.1",
     "react-datepicker": "^8.0.0",

@@ -147,6 +147,7 @@ import FinalConceptscard from "./screens/FinalConceptscard"
 import RecordClassTaught from "./screensTeacher/RecordClassTaught"
 import Classes from "./screensTeacher/Classes"
 import IndividualForm from "./screensTeacher/IndividualForm"
+import IndForm from "./screens/IndForm"
 import Form from "./screensTeacher/Form"
 import ExistForm from "./screensTeacher/ExistForm"
 import GradeFinalConcepts from "./screensTeacher/GradeFinalConcepts"
@@ -727,6 +728,11 @@ const AppRoutes = () => {
                     <Route exact path="/exist-form/:id_form" element={
                         <Private>
                             <ExistForm />
+                        </Private>
+                    } />
+                    <Route exact path="/indform/:idStdt/:bim/:idBim" element={
+                        <Private>
+                            <IndForm />
                         </Private>
                     } />
                     <Route exact path="/final-concepts" element={

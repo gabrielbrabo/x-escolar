@@ -3235,6 +3235,19 @@ export const GetIndividualForm = async ({
     }
 };
 
+export const getStudentIndividualForm = async (
+    idStudent, bim, idBim
+) => {
+    // Faz a chamada para a rota com os parâmetros opcionais
+    return api.post(`get-studentIndividualForm`, {
+        idStudent, bim, idBim
+    })
+        .catch((error) => {
+            console.error("Erro ao buscar ficha individual:", error?.response?.data?.msg || error.message);
+            return null; // retorna null caso dê erro, para o componente tratar
+        }, [])
+};
+
 export const FormEdit = async ({
     update_idForm, editedDescription
 }) => {

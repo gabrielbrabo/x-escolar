@@ -88,6 +88,9 @@ const Student = () => {
     const [selectedStatus, setSelectedStatus] = useState({});
     const [exitDate, setExitDate] = useState(null);
 
+    const [selectedBimId, setSelectedBimId] = useState("");      // guarda o _id
+    const [selectedBimName, setSelectedBimName] = useState("");  // guarda o nome do bimestre
+
     const { id_student } = useParams()
     console.log(currentYear)
 
@@ -265,6 +268,39 @@ const Student = () => {
         }
         setLoading(false);
     };
+    const signClickIndForm = async () => {
+        setLoading(true);
+        console.log("Selectbimonthly", selectedBimId)
+        console.log("selectedBimName", selectedBimName)
+        let bim = ""; // declara fora
+
+        if (selectedBimName === "1º BIMESTRE") {
+            bim = "id_iStQuarter";
+        }
+        if (selectedBimName === "2º BIMESTRE") {
+            bim = "id_iiNdQuarter";
+        }
+        if (selectedBimName === "3º BIMESTRE") {
+            bim = "id_iiiRdQuarter";
+        }
+        if (selectedBimName === "4º BIMESTRE") {
+            bim = "id_ivThQuarter";
+        }
+        if (selectedBimName === "Resultado Final") {
+            bim = "id_finalConcepts";
+        }
+        const idStdt = id_student
+        const idBim = selectedBimId
+        console.log("idstdt", idStdt)
+        console.log("bim", bim)
+        console.log("idbim", idBim)
+        if(bim) {
+            navigate(`/indform/${idStdt}/${bim}/${idBim}`)
+        } else {
+            setErrorMessage('Erro, Verifique os dados e tente novamente.');
+        }
+        setLoading(false);
+    };
 
     const upStatus = async () => {
         setLoading(true)
@@ -291,7 +327,7 @@ const Student = () => {
 
 
     console.log("clas", Clss)
-    console.log("Selectbimonthly", Selectbimonthly)
+    //console.log("Selectbimonthly", Selectbimonthly)
     console.log("student", student)
     console.log("selectedStatus", selectedStatus)
     console.log("exitDate", exitDate)
@@ -378,6 +414,33 @@ const Student = () => {
                                 </Select>
                                 {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                                 <Button onClick={signClick}>Ver boletim</Button>
+                            </Input>
+
+                            <Input>
+                                <h3>Ficha Individual </h3>
+                                <Label>Selecione o bimestre e click no botão abaixo.</Label>
+                                <Select
+                                    value={selectedBimId}
+                                    onChange={(e) => {
+                                        const id = e.target.value;
+                                        setSelectedBimId(id);
+
+                                        // encontra o bimestre pelo id
+                                        const selectedOption = bimonthly.find(res => res._id === id);
+
+                                        if (selectedOption) setSelectedBimName(selectedOption.bimonthly);
+                                        else setSelectedBimName(""); // caso selecione "Selecione"
+                                    }}
+                                >
+                                    <option value="">Selecione</option>
+                                    {bimonthly.map(res => (
+                                        <option key={res._id} value={res._id}>
+                                            {res.bimonthly}
+                                        </option>
+                                    ))}
+                                </Select>
+                                {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                <Button onClick={signClickIndForm}>Ver ficha </Button>
                             </Input>
                             {Regent &&
                                 <ContainerCalendar>
