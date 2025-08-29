@@ -36,7 +36,7 @@ const StudentRecordDescription = () => {
             const idSchool = JSON.parse(sessionStorage.getItem("id-school"));
             const form = await getStudentIndividualForm(idStdt, bim, idBim)
             // Filtra os professores que não são o de Educação Física
-            
+
             if (!form || !form.data) {
                 setFormData(null); // não tem ficha
                 setLoading(false);
@@ -109,7 +109,7 @@ const StudentRecordDescription = () => {
                                     {(logoUrl) && (
                                         <Preview className="logo-individualForm" src={logoUrl} alt="Logo da escola" />
                                     )}
-                                    <h2>Fichas Individuais de Alunos</h2>
+                                    <h2>Ficha Individual do Aluno</h2>
                                 </ContLogo>
                                 <h3>
                                     {formData?.id_iStQuarter?.bimonthly ||
@@ -131,7 +131,7 @@ const StudentRecordDescription = () => {
                                                 Professor(a) 02: <p>{formData.id_teacher02.name}</p>
                                             </div>
                                         )}
-                                        <div>turma: <p>{formData.id_class?.serie || "Não informado"}</p></div>
+                                        <div>Turma: <p>{formData.id_class?.serie || "Não informado"}</p></div>
                                     </Span>
                                     <IndividualTableRow>
                                         <IndividualDescriptionCell>
