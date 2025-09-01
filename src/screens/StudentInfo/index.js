@@ -417,7 +417,7 @@ const Student = () => {
                             </Input>
 
                             <Input>
-                                <h3>Ficha Individual </h3>
+                                <h3>Relatório Individual </h3>
                                 <Label>Selecione o bimestre e click no botão abaixo.</Label>
                                 <Select
                                     value={selectedBimId}
@@ -440,7 +440,7 @@ const Student = () => {
                                     ))}
                                 </Select>
                                 {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                                <Button onClick={signClickIndForm}>Ver ficha </Button>
+                                <Button onClick={signClickIndForm}>Ver Relatório </Button>
                             </Input>
                             {Regent &&
                                 <ContainerCalendar>

@@ -109,7 +109,7 @@ const StudentRecordDescription = () => {
                                     {(logoUrl) && (
                                         <Preview className="logo-individualForm" src={logoUrl} alt="Logo da escola" />
                                     )}
-                                    <h2>Ficha Individual do Aluno</h2>
+                                    <h2>Relatório Individual</h2>
                                 </ContLogo>
                                 <h3>
                                     {formData?.id_iStQuarter?.bimonthly ||
