@@ -294,7 +294,7 @@ const Student = () => {
         console.log("idstdt", idStdt)
         console.log("bim", bim)
         console.log("idbim", idBim)
-        if(bim) {
+        if (bim) {
             navigate(`/indform/${idStdt}/${bim}/${idBim}`)
         } else {
             setErrorMessage('Erro, Verifique os dados e tente novamente.');
@@ -416,32 +416,34 @@ const Student = () => {
                                 <Button onClick={signClick}>Ver boletim</Button>
                             </Input>
 
-                            <Input>
-                                <h3>Relatório Individual </h3>
-                                <Label>Selecione o bimestre e click no botão abaixo.</Label>
-                                <Select
-                                    value={selectedBimId}
-                                    onChange={(e) => {
-                                        const id = e.target.value;
-                                        setSelectedBimId(id);
+                            {assessmentFormat === "concept" &&
+                                <Input>
+                                    <h3>Relatório Individual </h3>
+                                    <Label>Selecione o bimestre e click no botão abaixo.</Label>
+                                    <Select
+                                        value={selectedBimId}
+                                        onChange={(e) => {
+                                            const id = e.target.value;
+                                            setSelectedBimId(id);
 
-                                        // encontra o bimestre pelo id
-                                        const selectedOption = bimonthly.find(res => res._id === id);
+                                            // encontra o bimestre pelo id
+                                            const selectedOption = bimonthly.find(res => res._id === id);
 
-                                        if (selectedOption) setSelectedBimName(selectedOption.bimonthly);
-                                        else setSelectedBimName(""); // caso selecione "Selecione"
-                                    }}
-                                >
-                                    <option value="">Selecione</option>
-                                    {bimonthly.map(res => (
-                                        <option key={res._id} value={res._id}>
-                                            {res.bimonthly}
-                                        </option>
-                                    ))}
-                                </Select>
-                                {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                                <Button onClick={signClickIndForm}>Ver Relatório </Button>
-                            </Input>
+                                            if (selectedOption) setSelectedBimName(selectedOption.bimonthly);
+                                            else setSelectedBimName(""); // caso selecione "Selecione"
+                                        }}
+                                    >
+                                        <option value="">Selecione</option>
+                                        {bimonthly.map(res => (
+                                            <option key={res._id} value={res._id}>
+                                                {res.bimonthly}
+                                            </option>
+                                        ))}
+                                    </Select>
+                                    {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                    <Button onClick={signClickIndForm}>Ver Relatório </Button>
+                                </Input>
+                            }
                             {Regent &&
                                 <ContainerCalendar>
                                     <Calendar />

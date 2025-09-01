@@ -195,7 +195,8 @@ const IndexAttendance = () => {
                 year: year,
                 id_teacher: id_teacher,
                 id_teacher02: id_teacher02,
-                id_class: id_class
+                id_class: id_class,
+                isPhysicalEducation: true // novo campo para indicar Ed. Física
             }));
             setAttendanceList(initialAttendanceList);
         }

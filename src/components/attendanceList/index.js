@@ -251,6 +251,7 @@ export default function AttendanceList() {
 
   const [RegentTeacher, setclassRegentTeacher] = useState([]);
   const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
+  const [physicalEducationTeacher, setphysicalEducationTeacher] = useState([]);
 
 
   useEffect(() => {
@@ -271,16 +272,20 @@ export default function AttendanceList() {
       setbimonthlyDaily(SelectbimonthlyDaily.bimonthly);
       setnameTeacher(SelectteacherDaily.name);
       setnameClass(Nameclass.serie);
-
+        
       const Employee02 = await Nameclass.classRegentTeacher02.find(res => {
         return res
       })
       const Employee = await Nameclass.classRegentTeacher.find(res => {
         return res
       })
+      const physicalEducationTeacher = await Nameclass.physicalEducationTeacher.find(res => {
+        return res
+      })
 
       setclassRegentTeacher(Employee)
       setclassRegentTeacher02(Employee02)
+      setphysicalEducationTeacher(physicalEducationTeacher)
 
       //console.log(selec)
 
@@ -365,7 +370,16 @@ export default function AttendanceList() {
           }
           // console.log("resclass", res.data.data)
           setLoading(false);
-        } else {
+        } /*else if (physicalEducationTeacher === id_teacher) {
+          const res = await AttendanceByTeacherAndClass(year, RegentTeacher, id_class, startd, startm, starty, endd, endm, endy);
+          if (res) {
+            setAttendanceData(res.data.data);
+          } else {
+            setAttendanceData([]);
+          }
+          // console.log("resclass", res.data.data)
+          setLoading(false);
+        }*/ else {
 
           const res = await AttendanceByTeacherAndClass(year, id_teacher, id_class, startd, startm, starty, endd, endm, endy);
           if (res) {
@@ -379,7 +393,7 @@ export default function AttendanceList() {
       }
     };
     fetchAttendanceData();
-  }, [id_teacher, id_class, startd, startm, starty, endd, endm, endy, RegentTeacher, RegentTeacher02]);
+  }, [id_teacher, id_class, startd, startm, starty, endd, endm, endy, RegentTeacher, RegentTeacher02, physicalEducationTeacher]);
   console.log("attendanceData", attendanceData)
   console.log("studentTransferMap", studentTransferMap)
   const getAttendanceStatus = (studentId, date) => {

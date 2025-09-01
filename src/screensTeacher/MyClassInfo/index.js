@@ -39,6 +39,9 @@ import {
     DiaryWrapper,
     DiaryBimester,
     StatusLine,
+    ModalBackground,
+    ModalContainer,
+    ModalButton,
     //ButtonWrapper,
     //BlurModal,
     //AlertBox,
@@ -71,6 +74,8 @@ const MyCla$$Info = () => {
     const [showModal, setShowModal] = useState(false);
     const [selectedBimester, setSelectedBimester] = useState(null);
     const [selectedField, setSelectedField] = useState(null);
+
+    const [showRegentWarning, setShowRegentWarning] = useState(false);
 
     //const [showAlert, setShowAlert] = useState(false);
 
@@ -600,6 +605,14 @@ const MyCla$$Info = () => {
         }
     };*/
 
+    const clickAttendance = () => {
+        //if (physicalEducation !== id_teacher) {
+            navigate('/attendance')
+        //} else {
+            //setShowRegentWarning(true); // mostra a modal
+        //}
+    }
+
     console.log("Daily", DailyClass)
 
     return (
@@ -621,7 +634,8 @@ const MyCla$$Info = () => {
                         </ClassDetails>
                     ))}
                     <ButtonContainer>
-                        <button onClick={() => { navigate(/*'/test-attendance'*/'/attendance') }}>Frequência</button>
+
+                        <button onClick={clickAttendance}>Frequência</button>
                         <button onClick={() => { navigate('/classes') }}>Aulas</button>
                         {assessmentFormat !== 'grade'
                             ?
@@ -831,6 +845,15 @@ const MyCla$$Info = () => {
                                 </Input>
                             </ModalContent>
                         </ContainerModal>
+                    )}
+                    {showRegentWarning && (
+                        <ModalBackground>
+                            <ModalContainer>
+                                <h2>Atenção!</h2>
+                                <p>O lançamento das frequências é exclusivo do professor regente. No entanto, elas serão exibidas tanto no diário do professor de Educação Física quanto no diário do professor regente.</p>
+                                <ModalButton onClick={() => setShowRegentWarning(false)}>Fechar</ModalButton>
+                            </ModalContainer>
+                        </ModalBackground>
                     )}
                 </ContainerDivs>
             }
