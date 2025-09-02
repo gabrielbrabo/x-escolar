@@ -99,41 +99,44 @@ const SignMessageButtonTextBold = styled(SignMessageButtonText)`
   color: #222;
 `;
 
-const ResponsivePickers = ({ setSelectedDate, setDay, setMonth, setYear, messageButtonClick }) => {
-    const [selected, setSelected] = useState('');
+const ResponsivePickers = ({ setSelectedDate, setDay, setMonth, setYear, }) => {
+  const [selected, setSelected] = useState('');
 
-    const handleChange = (e) => {
-        setSelected(e.target.value);
-    };
+  const handleChange = (e) => {
+    setSelected(e.target.value);
+  };
+  const messageButtonClick = () => {
+    window.history.back();
+  };
 
-    const handleDateChange = () => {
-        if (!selected) return;
+  const handleDateChange = () => {
+    if (!selected) return;
 
-        const [year, month, day] = selected.split('-');
-        setDay(Number(day));
-        setMonth(Number(month));
-        setYear(Number(year));
-        setSelectedDate(selected);
-    };
+    const [year, month, day] = selected.split('-');
+    setDay(Number(day));
+    setMonth(Number(month));
+    setYear(Number(year));
+    setSelectedDate(selected);
+  };
 
-    return (
-        <InputArea>
-            <InputDate>
-                <Label>Data</Label>
-                <Input
-                    type="date"
-                    value={selected}
-                    onChange={handleChange}
-                />
-                <SaveButton onClick={handleDateChange}>Salvar Data</SaveButton>
-            </InputDate>
+  return (
+    <InputArea>
+      <InputDate>
+        <Label>Data</Label>
+        <Input
+          type="date"
+          value={selected}
+          onChange={handleChange}
+        />
+        <SaveButton onClick={handleDateChange}>Salvar Data</SaveButton>
+      </InputDate>
 
-            <ToGoBack onClick={messageButtonClick}>
-                <SignMessageButtonText>Voltar para a</SignMessageButtonText>
-                <SignMessageButtonTextBold>Turma</SignMessageButtonTextBold>
-            </ToGoBack>
-        </InputArea>
-    );
+      <ToGoBack onClick={messageButtonClick}>
+        <SignMessageButtonText>Voltar para a</SignMessageButtonText>
+        <SignMessageButtonTextBold>Turma</SignMessageButtonTextBold>
+      </ToGoBack>
+    </InputArea>
+  );
 };
 
 export default ResponsivePickers;

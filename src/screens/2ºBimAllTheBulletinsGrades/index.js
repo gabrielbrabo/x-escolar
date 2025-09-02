@@ -26,7 +26,9 @@ import {
   SignMessageButtonText,
   SignMessageButtonTextBold,
   Preview,
-  ContLogo
+  ContLogo,
+  LegendContainer,
+  LegendColors
 } from './style';
 
 
@@ -196,21 +198,29 @@ const AllTheBulletins = () => {
                           <FcSurvey fontSize="25px" /> Faltas Justificadas: {aluno.frequencia.totalFaltasJustificadas}
                         </span>
                       </SpanFrequency>
-                      <LegendBox>
-                        <h3>Legenda</h3>
-                        <p>
-                          Nota Total:{" "}
-                          <strong style={{ color: '#1d7f14' }}>
-                            {bimestre.totalGrade ? parseFloat(bimestre.totalGrade).toFixed(1) : '0.0'}
-                          </strong>
-                        </p>
-                        <p>
-                          Nota Média:{" "}
-                          <strong style={{ color: 'blue' }}>
-                            {bimestre.averageGrade ? parseFloat(bimestre.averageGrade).toFixed(1) : '0.0'}
-                          </strong>
-                        </p>
-                      </LegendBox>
+                      <LegendContainer>
+                        <LegendBox>
+                          {/*<h3>Legenda</h3>*/}
+                          <p>
+                            Nota Total:{" "}
+                            <strong style={{ color: '#1d7f14' }}>
+                              {bimestre.totalGrade ? parseFloat(bimestre.totalGrade).toFixed(1) : '0.0'}
+                            </strong>
+                          </p>
+                          <p>
+                            Nota Média:{" "}
+                            <strong style={{ color: 'blue' }}>
+                              {bimestre.averageGrade ? parseFloat(bimestre.averageGrade).toFixed(1) : '0.0'}
+                            </strong>
+                          </p>
+                        </LegendBox>
+
+                        <LegendColors>
+                          <div><span className="red-box" />Notas abaixo da média</div>
+                          <div><span className="blue-box" />Notas iguais ou superiores a média</div>
+                          <div><span className="green-box" />Notas iguais ou superiores a 90% da nota total</div>
+                        </LegendColors>
+                      </LegendContainer>
                     </DadosStdt>
 
                     <DivDados>

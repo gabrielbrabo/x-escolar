@@ -29,7 +29,9 @@ import {
   Line,
   Label,
   Preview,
-  ContLogo
+  ContLogo,
+  LegendContainer,
+  LegendColors
 } from './style';
 
 import GlobalStyle from './style';
@@ -370,21 +372,29 @@ const GradeIstquarter = () => {
                   <span><IoCheckmarkSharp color='#00fa00' font-size="30px" />Presenças: {countPresences} | <IoCloseSharp color='#ff050a' font-size="30px" />Faltas: {countAbsences}</span>
                   <span><FcSurvey font-size="25px" />Faltas Justificadas: {countjustifiedAbsence}</span>
                 </SpanFrequency>
-                <LegendBox>
-                  <h3>Legenda</h3>
-                  <p>
-                    Nota Total:{" "}
-                    <strong style={{ color: '#1d7f14' }}>
-                      {parseFloat(totalGrade).toFixed(1)}
-                    </strong>
-                  </p>
-                  <p>
-                    Nota Média:{" "}
-                    <strong style={{ color: 'blue' }}>
-                      {parseFloat(averageGrade).toFixed(1)}
-                    </strong>
-                  </p>
-                </LegendBox>
+                <LegendContainer>
+                  <LegendBox>
+                    {/*<h3>Legenda</h3>*/}
+                    <p>
+                      Nota Total:{" "}
+                      <strong style={{ color: '#1d7f14' }}>
+                        {parseFloat(totalGrade).toFixed(1)}
+                      </strong>
+                    </p>
+                    <p>
+                      Nota Média:{" "}
+                      <strong style={{ color: 'blue' }}>
+                        {parseFloat(averageGrade).toFixed(1)}
+                      </strong>
+                    </p>
+                  </LegendBox>
+
+                  <LegendColors>
+                    <div><span className="red-box" />Notas abaixo da média</div>
+                    <div><span className="blue-box" />Notas iguais ou superiores a média</div>
+                    <div><span className="green-box" />Notas iguais ou superiores a 90% da nota total</div>
+                  </LegendColors>
+                </LegendContainer>
               </DadosStdt>
               <DivDados>
                 <List>

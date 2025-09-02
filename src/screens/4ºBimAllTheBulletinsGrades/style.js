@@ -449,6 +449,40 @@ export const Preview = styled.img`
   
 `;
 
+export const LegendContainer = styled.div`
+ display: flex;
+  justify-content: space-around; /* empurra os itens para extremos */
+  align-items: center;
+  width: 100%; /* ocupa toda a largura */
+  margin-top: 10px;
+  gap: 40px;
+`;
+
+export const LegendColors = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  //text-align: left;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+  }
+
+  .red-box, .blue-box, .green-box {
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+
+  .red-box { background-color: red; }
+  .blue-box { background-color: blue; }
+  .green-box { background-color: green; }
+`;
+
 const GlobalStyle = createGlobalStyle`
   @media print {
     body * {
@@ -572,6 +606,21 @@ const GlobalStyle = createGlobalStyle`
       height: 120px;
     }
 
+    .red-box {
+    background-color: red !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    }
+    .blue-box {
+      background-color: blue !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .green-box {
+      background-color: green !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
     /*${SpanTotalGrade}, ${SpanAverageGrade}, ${SpanGradeStudent} {
       font-size: 0.5em; 
     }*/

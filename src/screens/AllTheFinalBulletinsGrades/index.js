@@ -26,7 +26,9 @@ import {
   SignMessageButtonText,
   SignMessageButtonTextBold,
   Preview,
-  ContLogo
+  ContLogo,
+  LegendContainer,
+  LegendColors
 } from './style';
 
 
@@ -272,23 +274,28 @@ const AllTheBulletins = () => {
                           }
                         </span>
                       </SpanFrequency>
-
-                      <LegendBox>
-                        <h3>Legenda Anual</h3>
-                        <p>
-                          Nota Total Anual:{" "}
-                          <strong style={{ color: '#1d7f14' }}>
-                            {totalAnual.toFixed(1)}
-                          </strong>
-                        </p>
-                        <p>
-                          Nota Média Anual:{" "}
-                          <strong style={{ color: 'blue' }}>
-                            {mediaAnual.toFixed(1)}
-                          </strong>
-                        </p>
-                      </LegendBox>
-
+                      <LegendContainer>
+                        <LegendBox>
+                          <h3>Legenda Anual</h3>
+                          <p>
+                            Nota Total Anual:{" "}
+                            <strong style={{ color: '#1d7f14' }}>
+                              {totalAnual.toFixed(1)}
+                            </strong>
+                          </p>
+                          <p>
+                            Nota Média Anual:{" "}
+                            <strong style={{ color: 'blue' }}>
+                              {mediaAnual.toFixed(1)}
+                            </strong>
+                          </p>
+                        </LegendBox>
+                        <LegendColors>
+                          <div><span className="red-box" />Notas abaixo da média</div>
+                          <div><span className="blue-box" />Notas iguais ou superiores a média</div>
+                          <div><span className="green-box" />Notas iguais ou superiores a 90% da nota total</div>
+                        </LegendColors>
+                      </LegendContainer>
                     </DadosStdt>
 
                     <DivDados>
