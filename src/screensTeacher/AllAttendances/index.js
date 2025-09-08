@@ -146,7 +146,6 @@ const AllAttendance = () => {
                     {filteredAttendance.length > 0 ? (
                         <List>
                             {filteredAttendance.map((item, idx) => (
-                                console.log("filtrado", filteredAttendance),
                                 <EmpStdt key={idx} onClick={() => handleClickAttendance(item)} style={{ cursor: "pointer" }}>
                                     <Span>📅 {item.dateKey}</Span>
                                     <FiCheckCircle size={20} color="green" style={{ marginLeft: "8px" }} />
