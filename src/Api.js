@@ -2919,6 +2919,21 @@ export const GetAttendanceFinalized = async (
         }, [])
 }
 
+export const IndexAllAttendance = async (id_class) => {
+    try {
+        const response = await api.post("/search/Allfrequency", id_class);
+        return response;
+    } catch (error) {
+        console.error("❌ Erro ao buscar todas as chamadas:", error);
+        if (error.response?.data?.message) {
+            alert(error.response.data.message);
+        } else {
+            alert("Erro ao carregar as chamadas.");
+        }
+        throw error; // re-lança o erro pra ser tratado no componente
+    }
+};
+
 export const Attendance = async (
     attendanceData
 ) => {

@@ -94,6 +94,7 @@ import EditviThQuarter from "./screens/EditviThQuarter"
 
 import MyClasses from "./screensTeacher/MyClasses"
 import MyClassesInfo from "./screensTeacher/MyClassInfo"
+import AllAttendances from "./screensTeacher/AllAttendances"
 import Attendance from "./screensTeacher/Attendance"
 import TestAttendance from "./screensTeacher/TestAttendance"
 
@@ -484,6 +485,11 @@ const AppRoutes = () => {
                     <Route exact path="/myclassesinfo/:id_class/:id_teacher" element={
                         <Private>
                             <MyClassesInfo />
+                        </Private>
+                    } />
+                    <Route exact path="/AllAttendances" element={
+                        <Private>
+                            <AllAttendances />
                         </Private>
                     } />
                     <Route exact path="/attendance" element={

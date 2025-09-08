@@ -607,7 +607,7 @@ const MyCla$$Info = () => {
 
     const clickAttendance = () => {
         //if (physicalEducation !== id_teacher) {
-            navigate('/attendance')
+            navigate('/AllAttendances')
         //} else {
             //setShowRegentWarning(true); // mostra a modal
         //}
