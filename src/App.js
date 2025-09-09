@@ -8,7 +8,7 @@ import { Header } from './components/Header';
 
 import { DiReact } from "react-icons/di";
 
-//import useSingleTab from "./hooks/useSingleTab"; // importe o hoo
+import useSingleTab from "./hooks/useSingleTab"; // importe o hoo
 
 const AuthenticatedApp = () => {
   const token = sessionStorage.getItem("token");
@@ -35,7 +35,7 @@ const AuthenticatedApp = () => {
 
 export function App() {
 
-  /*const isAnotherTabOpen = useSingleTab(); // usa o hook aqui
+  const isAnotherTabOpen = useSingleTab(); // usa o hook aqui
 
   if (isAnotherTabOpen) {
     return (
@@ -56,7 +56,7 @@ export function App() {
         </div>
       </div>
     );
-  }*/
+  }
 
   return (
     <div className="app">
