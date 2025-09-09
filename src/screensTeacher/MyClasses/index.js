@@ -52,6 +52,7 @@ const MyCla$$ = () => {
             sessionStorage.removeItem("classRegentTeacher", JSON.stringify(res._id))
             sessionStorage.removeItem("classRegentTeacher02", JSON.stringify(res._id))
             sessionStorage.removeItem("physicalEducationTeacher", JSON.stringify(res._id))
+            sessionStorage.removeItem("class-info")
             setClss(clss)
             setLoading(false);
             console.log("clss", clss)

@@ -361,7 +361,7 @@ export default function Daily() {
       }, 500);
     }
   };
-  
+
   const handlePrintAttendancePhysicalEducation = () => {
     const printContent = document.getElementById("printable-content-attendancePhysicalEducation");
 
@@ -1132,7 +1132,8 @@ export default function Daily() {
                       <React.Fragment key={index}>
                         <ContainerTable className="print-container-table">
                           <Span>
-                            {Array.isArray(data.idRegentTeacher) && data.idRegentTeacher.includes(res.id_teacher._id) ? (
+                            {Array.isArray(data.idRegentTeacher) &&
+                              data.idRegentTeacher.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
                               <>
                                 <div>Professor: <p>{res.id_teacher.name}</p></div>
                                 {data.nameRegentTeacher02 &&
@@ -1140,22 +1141,25 @@ export default function Daily() {
                                     <div>Professor 02: <p>{data.nameRegentTeacher02}</p></div>
                                   )}
                               </>
-                            ) : Array.isArray(data.idRegentTeacher02) && data.idRegentTeacher02.includes(res.id_teacher._id) ? (
+                            ) : Array.isArray(data.idRegentTeacher02) &&
+                              data.idRegentTeacher02.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
                               <>
-                                {/* Se quem lançou é o Professor 02, mostra os dois */}
-                                {data.nameRegentTeacher && data.nameRegentTeacher !== "Professor não definido" && (
-                                  <div>Professor: <p>{data.nameRegentTeacher}</p></div>
-                                )}
+                                {/* Se quem lançou é o Professor 02 */}
+                                {data.nameRegentTeacher &&
+                                  data.nameRegentTeacher !== "Professor não definido" && (
+                                    <div>Professor: <p>{data.nameRegentTeacher}</p></div>
+                                  )}
                                 <div>Professor 02: <p>{res.id_teacher.name}</p></div>
                               </>
-                            ) : Array.isArray(data.idPhysicalEducationTeacher) && data.idPhysicalEducationTeacher.includes(res.id_teacher._id) ? (
+                            ) : Array.isArray(data.idPhysicalEducationTeacher) &&
+                              data.idPhysicalEducationTeacher.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
                               <div>Professor de Ed. Física: <p>{res.id_teacher.name}</p></div>
-                            ) : null}
+                            ) : (
+                              <div>Professor: <p>{res.id_teacher?.name || "Não definido"}</p></div>
+                            )}
 
                             <div>Turma: <p>{data.nameClass}</p></div>
                           </Span>
-
-
                           <TableRow>
                             <DateCell>{`${res.day}/${res.month}/${res.year}`}</DateCell>
                             <DescriptionCell>
