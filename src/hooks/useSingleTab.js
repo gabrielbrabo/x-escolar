@@ -6,15 +6,17 @@ export default function useSingleTab() {
   useEffect(() => {
     const key = "app_tab_open";
 
-    // sempre gera um novo id para cada aba
+    // ID único da aba
     const tabId = Date.now().toString() + Math.random().toString(36).slice(2);
     sessionStorage.setItem("tab_id", tabId);
 
     const existingTab = localStorage.getItem(key);
 
-    if (existingTab && existingTab !== tabId) {
+    if (existingTab && existingTab !== sessionStorage.getItem("tab_id")) {
+      // já existe outra aba ativa
       setIsAnotherTabOpen(true);
     } else {
+      // registra esta aba
       localStorage.setItem(key, tabId);
     }
 
@@ -37,10 +39,7 @@ export default function useSingleTab() {
     return () => {
       window.removeEventListener("storage", handleStorage);
       window.removeEventListener("beforeunload", handleBeforeUnload);
-      const currentTab = localStorage.getItem(key);
-      if (currentTab === tabId) {
-        localStorage.removeItem(key);
-      }
+      handleBeforeUnload();
     };
   }, []);
 
