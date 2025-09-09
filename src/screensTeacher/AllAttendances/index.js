@@ -10,6 +10,9 @@ import {
     SignMessageButtonText,
     SignMessageButtonTextBold,
     EmpStdt,
+    ModalOverlay,
+    ModalContent,
+    ModalButton,
     AddButton // vamos criar este styled-component
 } from "./style";
 import LoadingSpinner from "../../components/Loading";
@@ -27,6 +30,7 @@ const AllAttendance = () => {
     const [RegentTeacher, setclassRegentTeacher] = useState([]);
     const [physicalEducation, setphysicalEducationTeacher] = useState([]);
 
+    const [showModal, setShowModal] = useState(false)
 
     useEffect(() => {
         (async () => {
@@ -67,6 +71,10 @@ const AllAttendance = () => {
     };
 
     const handleClickAttendance = (item) => {
+        if (item.id_teacher !== id_teacher) {
+            setShowModal(true); // abre modal em vez de alert
+            return;
+        }
         // Armazenar os dados da chamada no sessionStorage
         sessionStorage.setItem("selectedDate", item.dateKey);
         sessionStorage.setItem("day", item.day);
@@ -161,6 +169,17 @@ const AllAttendance = () => {
                         <SignMessageButtonText>Voltar para a</SignMessageButtonText>
                         <SignMessageButtonTextBold>Turma</SignMessageButtonTextBold>
                     </ToGoBack>
+
+                    {/* Modal de aviso */}
+                    {showModal && (
+                        <ModalOverlay>
+                            <ModalContent>
+                                <h3>⚠️ Acesso restrito</h3>
+                                <p>Você não pode acessar essa chamada, pois foi registrada por outro professor.</p>
+                                <ModalButton onClick={() => setShowModal(false)}>Entendido</ModalButton>
+                            </ModalContent>
+                        </ModalOverlay>
+                    )}
                 </ContainerDivs>
             )}
         </Container>

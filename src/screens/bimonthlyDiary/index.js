@@ -214,6 +214,48 @@ export default function Daily() {
     };
   };
 
+  // 🔹 Datas únicas (Ed. Física)
+  const uniqueDatesPhysical = data?.attendancePhysicalEducationTeacher
+    ? [...new Set(data.attendancePhysicalEducationTeacher.map((att) => formatDisplayDate(att.date)))]
+      .sort((a, b) => {
+        const [d1, m1] = a.split("/").map(Number);
+        const [d2, m2] = b.split("/").map(Number);
+        return m1 === m2 ? d1 - d2 : m1 - m2;
+      })
+    : [];
+
+  // 🔹 Status da chamada (Ed. Física)
+  const getAttendanceStatusPhysical = (studentId, date) => {
+    const match = data?.attendancePhysicalEducationTeacher?.find(
+      (a) => a.id_student === studentId && formatDisplayDate(a.date) === date
+    );
+    if (!match) return <td className="status-cell">-</td>;
+    return (
+      <td
+        className={`status-cell ${match.status === "P"
+          ? "presence"
+          : match.status === "FJ"
+            ? "justifiedAbsence"
+            : "absence"
+          }`}
+      >
+        {match.status}
+      </td>
+    );
+  };
+
+  // 🔹 Totais (Ed. Física)
+  const calculateTotalsPhysical = (studentId) => {
+    const filtered = (data?.attendancePhysicalEducationTeacher || []).filter(
+      (a) => a.id_student === studentId
+    );
+    return {
+      totalPresence: filtered.filter((a) => a.status === "P").length,
+      totalAbsence: filtered.filter((a) => a.status === "F").length,
+      totalJustified: filtered.filter((a) => a.status === "FJ").length,
+    };
+  };
+
   const handleComponentChange = (component) => {
     if (activeComponent !== component) {
       sessionStorage.setItem('activeComponent', component);
@@ -238,6 +280,90 @@ export default function Daily() {
 
   const handlePrintAttendance = () => {
     const printContent = document.getElementById("printable-content-attendance");
+
+    if (printContent) {
+      const printWindow = window.open("", "_blank");
+      printWindow.document.write(`
+          <html>
+            <head>
+              <title>Impressão</title>
+              <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                table { width: 100%; border-collapse: collapse; }
+                th, td { 
+                  text-align: center;
+                  border: 1px solid #ddd;
+                  font-size: 8px;
+                  padding: 1px; 
+                }
+                  tr {
+                    
+                  }
+                  .name-cell {
+                      text-align: start;
+                  }
+                @page {
+                  size: A4 landscape; /* Define o formato da página como paisagem */
+                  margin: 0;
+                }  
+                ContTable {
+                  overflow-x: hidden; /* Permite rolagem horizontal */
+                  width: max-content; /* Garante que a tabela ocupe a largura do conteúdo */
+                  margin-left: auto; /* Centraliza horizontalmente */
+                  margin-right: auto; /* Centraliza horizontalmente */
+                }
+                  .printable-content-attendance {
+                    visibility: visible; /* Exibe apenas o conteúdo dentro desta classe */
+                    font-size: 15px;
+                    //transform: scale(1); /* Ajusta a escala da tabela */
+                  }
+                .data {
+                  display: flex;
+                  gap:15px;
+                }
+                  .HeaderWrapper {
+                    display: flex;
+                    gap: 40px
+                  }
+                .info {
+                  display: flex;
+                  flex-direction: column;
+                }
+                  .info span {
+                    
+                    font-size: 15px;
+                  }
+                  .no-print {
+                    display: none !important;
+                  }
+                     /* ✅ Classes de status */
+                     td.presence { color: green; }
+                    td.absence { color: red; }
+                    td.justifiedAbsence { color: #6a0dad; }
+
+                    th.total-presence { color: green; }
+                    th.total-absence { color: red; }
+                    th.total-justifiedAbsence { color: #6a0dad; }
+              </style>
+            </head>
+            <body>
+              ${printContent.innerHTML} 
+            </body>
+          </html>
+        `);
+
+      printWindow.document.close();
+
+      // Força um pequeno delay antes de chamar print()
+      setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+      }, 500);
+    }
+  };
+  
+  const handlePrintAttendancePhysicalEducation = () => {
+    const printContent = document.getElementById("printable-content-attendancePhysicalEducation");
 
     if (printContent) {
       const printWindow = window.open("", "_blank");
@@ -734,124 +860,243 @@ export default function Daily() {
 
           {activeComponent === 'attendanceList' && (
             data?.attendance?.length > 0 ? (
-              <AttendanceContainer id="printable-content-attendance" className="printable-content-attendance">
-                <HeaderWrapper className="HeaderWrapper">
+              <>
+                <AttendanceContainer id="printable-content-attendance" className="printable-content-attendance">
+                  <HeaderWrapper className="HeaderWrapper">
 
-                  {(logoUrl) && (
-                    <Preview className="" src={logoUrl} alt="Logo da escola" />
-                  )}
+                    {(logoUrl) && (
+                      <Preview className="" src={logoUrl} alt="Logo da escola" />
+                    )}
 
-                  <ContInfo className="info">
-                    <span><strong>Escola:</strong> {data.nameSchool}</span>
-                    <span><strong>Turma:</strong> {data.nameClass}</span>
-                    <span><strong>Ano:</strong> {data.year}</span>
-                    <span><strong>Professor Regente:</strong> {data.nameRegentTeacher}</span>
-                    {data.nameRegentTeacher02 !== "Professor não definido" && (
-                      <span><strong>Professor Regente 02:</strong> {data.nameRegentTeacher02}</span>
-                    )}
-                    {data.namephysicalEducationTeacher !== "Professor não definido" && (
-                      <span><strong>Professor de Ed. Física:</strong> {data.namephysicalEducationTeacher}</span>
-                    )}
-                  </ContInfo>
-                </HeaderWrapper>
-                <CtnrBtt>
-                  <ButtonPrint className="no-print" onClick={handlePrintAttendance}>Imprimir</ButtonPrint>
-                </CtnrBtt>
-                <h2>Frequências do {bimonthly}</h2>
-                <ContTable>
-                  <Table>
-                    <TableHeader>
-                      <tr>
-                        <th className="name-cell">Nome do Aluno</th>
-                        {uniqueDates.map((date, idx) => (
-                          <th key={idx}>{date}</th>
-                        ))}
-                        <th className="total-presence">Total P</th>
-                        <th className="total-absence">Total F</th>
-                        <th className="total-justifiedAbsence">Total FJ</th>
-                      </tr>
-                    </TableHeader>
-                    <TableBody>
-                      {data.id_student
-                        .sort((a, b) =>
-                          normalizeString(a.name).localeCompare(normalizeString(b.name))
-                        )
-                        .map((student) => {
-                          const totals = calculateTotals(student._id);
-                          return (
-                            <tr
-                              key={student._id}
-                              onClick={() => handleRowClick(student._id)}
-                              className={selectedStudentId === student._id ? 'selected-row' : ''}
-                            >
-                              <td className="name-cell">{student.name}</td>
-                              {uniqueDates.map((date) => getAttendanceStatus(student._id, date))}
-                              <td className="total-presence">{totals.totalPresence}</td>
-                              <td className="total-absence">{totals.totalAbsence}</td>
-                              <td className="total-justifiedAbsence">{totals.totalJustified}</td>
-                            </tr>
-                          );
-                        })}
-                      {data.transferStudents && data.transferStudents.length > 0 && (
-                        <>
-                          <tr>
-                            <td
-                              colSpan={uniqueDates.length + 4}
-                              style={{
-                                textAlign: "left",
-                                fontWeight: "bold",
-                                padding: "5px",
-                                background: "#f8d7da",
-                                color: "#721c24",
-                              }}
-                            >
-                              ⚠️ Alunos Transferidos e Remanejados
-                            </td>
-                          </tr>
-                          {data.transferStudents
-                            .sort((a, b) =>
-                              normalizeString(a.name).localeCompare(normalizeString(b.name))
-                            )
-                            .map((student) => {
-                              const totals = calculateTotals(student._id);
-                              return (
-                                <tr key={student._id}
-                                  onClick={() => handleRowClick(student._id)}
-                                  className={selectedStudentId === student._id ? 'selected-row' : ''}
-                                >
-                                  <td className="name-cell">
-                                    {student.name}{" "}
-                                    {student.status === "ativo" && (
-                                      <span style={{ color: "blue", fontWeight: "bold" }}>
-                                        Remanejado
-                                      </span>
-                                    )}
-                                    {student.status === "inativo" && (
-                                      <span style={{ color: "blue", fontWeight: "bold" }}>
-                                        Remanejado
-                                      </span>
-                                    )}
-                                    {student.status === "transferido" && (
-                                      <span style={{ color: "orange", fontWeight: "bold" }}>
-                                        Transferido
-                                      </span>
-                                    )}
-                                  </td>
-                                  {uniqueDates.map((date) =>
-                                    getAttendanceStatus(student._id, date)
-                                  )}
-                                  <td className="total-presence">{totals.totalPresence}</td>
-                                  <td className="total-absence">{totals.totalAbsence}</td>
-                                  <td className="total-justifiedAbsence">{totals.totalJustified}</td>
-                                </tr>
-                              );
-                            })}
-                        </>
+                    <ContInfo className="info">
+                      <span><strong>Escola:</strong> {data.nameSchool}</span>
+                      <span><strong>Turma:</strong> {data.nameClass}</span>
+                      <span><strong>Ano:</strong> {data.year}</span>
+                      <span><strong>Professor Regente:</strong> {data.nameRegentTeacher}</span>
+                      {data.nameRegentTeacher02 !== "Professor não definido" && (
+                        <span><strong>Professor Regente 02:</strong> {data.nameRegentTeacher02}</span>
                       )}
-                    </TableBody>
-                  </Table>
-                </ContTable>
-              </AttendanceContainer>
+                      {/*data.namephysicalEducationTeacher !== "Professor não definido" && (
+                        <span><strong>Professor de Ed. Física:</strong> {data.namephysicalEducationTeacher}</span>
+                      )*/}
+                    </ContInfo>
+                  </HeaderWrapper>
+                  <CtnrBtt>
+                    <ButtonPrint className="no-print" onClick={handlePrintAttendance}>Imprimir</ButtonPrint>
+                  </CtnrBtt>
+                  <h2>Frequências do {bimonthly} (Professor Regente)</h2>
+                  <ContTable>
+                    <Table>
+                      <TableHeader>
+                        <tr>
+                          <th className="name-cell">Nome do Aluno</th>
+                          {uniqueDates.map((date, idx) => (
+                            <th key={idx}>{date}</th>
+                          ))}
+                          <th className="total-presence">Total P</th>
+                          <th className="total-absence">Total F</th>
+                          <th className="total-justifiedAbsence">Total FJ</th>
+                        </tr>
+                      </TableHeader>
+                      <TableBody>
+                        {data.id_student
+                          .sort((a, b) =>
+                            normalizeString(a.name).localeCompare(normalizeString(b.name))
+                          )
+                          .map((student) => {
+                            const totals = calculateTotals(student._id);
+                            return (
+                              <tr
+                                key={student._id}
+                                onClick={() => handleRowClick(student._id)}
+                                className={selectedStudentId === student._id ? 'selected-row' : ''}
+                              >
+                                <td className="name-cell">{student.name}</td>
+                                {uniqueDates.map((date) => getAttendanceStatus(student._id, date))}
+                                <td className="total-presence">{totals.totalPresence}</td>
+                                <td className="total-absence">{totals.totalAbsence}</td>
+                                <td className="total-justifiedAbsence">{totals.totalJustified}</td>
+                              </tr>
+                            );
+                          })}
+                        {data.transferStudents && data.transferStudents.length > 0 && (
+                          <>
+                            <tr>
+                              <td
+                                colSpan={uniqueDates.length + 4}
+                                style={{
+                                  textAlign: "left",
+                                  fontWeight: "bold",
+                                  padding: "5px",
+                                  background: "#f8d7da",
+                                  color: "#721c24",
+                                }}
+                              >
+                                ⚠️ Alunos Transferidos e Remanejados
+                              </td>
+                            </tr>
+                            {data.transferStudents
+                              .sort((a, b) =>
+                                normalizeString(a.name).localeCompare(normalizeString(b.name))
+                              )
+                              .map((student) => {
+                                const totals = calculateTotals(student._id);
+                                return (
+                                  <tr key={student._id}
+                                    onClick={() => handleRowClick(student._id)}
+                                    className={selectedStudentId === student._id ? 'selected-row' : ''}
+                                  >
+                                    <td className="name-cell">
+                                      {student.name}{" "}
+                                      {student.status === "ativo" && (
+                                        <span style={{ color: "blue", fontWeight: "bold" }}>
+                                          Remanejado
+                                        </span>
+                                      )}
+                                      {student.status === "inativo" && (
+                                        <span style={{ color: "blue", fontWeight: "bold" }}>
+                                          Remanejado
+                                        </span>
+                                      )}
+                                      {student.status === "transferido" && (
+                                        <span style={{ color: "orange", fontWeight: "bold" }}>
+                                          Transferido
+                                        </span>
+                                      )}
+                                    </td>
+                                    {uniqueDates.map((date) =>
+                                      getAttendanceStatus(student._id, date)
+                                    )}
+                                    <td className="total-presence">{totals.totalPresence}</td>
+                                    <td className="total-absence">{totals.totalAbsence}</td>
+                                    <td className="total-justifiedAbsence">{totals.totalJustified}</td>
+                                  </tr>
+                                );
+                              })}
+                          </>
+                        )}
+                      </TableBody>
+                    </Table>
+                  </ContTable>
+                </AttendanceContainer>
+                <AttendanceContainer id="printable-content-attendancePhysicalEducation" className="printable-content-attendance">
+                  <HeaderWrapper className="HeaderWrapper">
+
+                    {(logoUrl) && (
+                      <Preview className="" src={logoUrl} alt="Logo da escola" />
+                    )}
+
+                    <ContInfo className="info">
+                      <span><strong>Escola:</strong> {data.nameSchool}</span>
+                      <span><strong>Turma:</strong> {data.nameClass}</span>
+                      <span><strong>Ano:</strong> {data.year}</span>
+                      {/*<span><strong>Professor Regente:</strong> {data.nameRegentTeacher}</span>*/}
+                      {/*data.nameRegentTeacher02 !== "Professor não definido" && (
+                        <span><strong>Professor Regente 02:</strong> {data.nameRegentTeacher02}</span>
+                      )*/}
+                      {data.namephysicalEducationTeacher !== "Professor não definido" && (
+                        <span><strong>Professor de Ed. Física:</strong> {data.namephysicalEducationTeacher}</span>
+                      )}
+                    </ContInfo>
+                  </HeaderWrapper>
+                  <CtnrBtt>
+                    <ButtonPrint className="no-print" onClick={handlePrintAttendancePhysicalEducation}>Imprimir</ButtonPrint>
+                  </CtnrBtt>
+                  {/* Frequência do professor de Educação Física */}
+                  <h2>Frequências do {bimonthly} (Professor de Educação Física)</h2>
+                  <ContTable>
+                    <Table>
+                      <TableHeader>
+                        <tr>
+                          <th className="name-cell">Nome do Aluno</th>
+                          {uniqueDatesPhysical.map((date, idx) => (
+                            <th key={idx}>{date}</th>
+                          ))}
+                          <th className="total-presence">Total P</th>
+                          <th className="total-absence">Total F</th>
+                          <th className="total-justifiedAbsence">Total FJ</th>
+                        </tr>
+                      </TableHeader>
+                      <TableBody>
+                        {data.id_student
+                          .sort((a, b) =>
+                            normalizeString(a.name).localeCompare(normalizeString(b.name))
+                          )
+                          .map((student) => {
+                            const totals = calculateTotalsPhysical(student._id);
+                            return (
+                              <tr
+                                key={student._id}
+                                onClick={() => handleRowClick(student._id)}
+                                className={selectedStudentId === student._id ? 'selected-row' : ''}
+                              >
+                                <td className="name-cell">{student.name}</td>
+                                {uniqueDatesPhysical.map((date) => getAttendanceStatusPhysical(student._id, date))}
+                                <td className="total-presence">{totals.totalPresence}</td>
+                                <td className="total-absence">{totals.totalAbsence}</td>
+                                <td className="total-justifiedAbsence">{totals.totalJustified}</td>
+                              </tr>
+                            );
+                          })}
+                        {/* 🔹 Alunos transferidos/remanejados */}
+                        {data.transferStudents && data.transferStudents.length > 0 && (
+                          <>
+                            <tr>
+                              <td
+                                colSpan={uniqueDatesPhysical.length + 4}
+                                style={{
+                                  textAlign: "left",
+                                  fontWeight: "bold",
+                                  padding: "5px",
+                                  background: "#f8d7da",
+                                  color: "#721c24",
+                                }}
+                              >
+                                ⚠️ Alunos Transferidos e Remanejados (Ed. Física)
+                              </td>
+                            </tr>
+                            {data.transferStudents
+                              .sort((a, b) =>
+                                normalizeString(a.name).localeCompare(normalizeString(b.name))
+                              )
+                              .map((student) => {
+                                const totals = calculateTotalsPhysical(student._id);
+                                return (
+                                  <tr key={student._id}>
+                                    <td className="name-cell">
+                                      {student.name}{" "}
+                                      {student.status === "ativo" && (
+                                        <span style={{ color: "blue", fontWeight: "bold" }}>
+                                          Remanejado
+                                        </span>
+                                      )}
+                                      {student.status === "inativo" && (
+                                        <span style={{ color: "blue", fontWeight: "bold" }}>
+                                          Remanejado
+                                        </span>
+                                      )}
+                                      {student.status === "transferido" && (
+                                        <span style={{ color: "orange", fontWeight: "bold" }}>
+                                          Transferido
+                                        </span>
+                                      )}
+                                    </td>
+                                    {uniqueDatesPhysical.map((date) =>
+                                      getAttendanceStatusPhysical(student._id, date)
+                                    )}
+                                    <td className="total-presence">{totals.totalPresence}</td>
+                                    <td className="total-absence">{totals.totalAbsence}</td>
+                                    <td className="total-justifiedAbsence">{totals.totalJustified}</td>
+                                  </tr>
+                                );
+                              })}
+                          </>
+                        )}
+                      </TableBody>
+                    </Table>
+                  </ContTable>
+                </AttendanceContainer>
+              </>
             ) : (
               <div style={{ padding: "2rem", textAlign: "center" }}>
                 <h2>Nenhum dado de frequência encontrado para o {bimonthly}.</h2>
