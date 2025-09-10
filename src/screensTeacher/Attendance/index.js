@@ -345,7 +345,7 @@ const IndexAttendance = () => {
                 // Atualiza a lista, garantindo que o aluno tenha apenas um status ativo
                 return [
                     ...prevList.filter(att => att.id_student !== id_student),
-                    { id_student, status, day, month, year, id_teacher, id_teacher02, id_class }
+                    { id_student, status, day, month, year, id_teacher, id_teacher02, id_class, isPhysicalEducation: false  /* 👈 importante*/ }
                 ];
             })
         } else if (RegentTeacher02 === id_teacher) {
@@ -361,7 +361,7 @@ const IndexAttendance = () => {
                 // Atualiza a lista, garantindo que o aluno tenha apenas um status ativo
                 return [
                     ...prevList.filter(att => att.id_student !== id_student),
-                    { id_student, status, day, month, year, id_teacher: RegentTeacher, id_teacher02, id_class }
+                    { id_student, status, day, month, year, id_teacher: RegentTeacher, id_teacher02, id_class, isPhysicalEducation: false  /* 👈 importante*/ }
                 ];
             })
         } else if (physicalEducation === id_teacher) {
@@ -377,7 +377,7 @@ const IndexAttendance = () => {
                 // Atualiza a lista, garantindo que o aluno tenha apenas um status ativo
                 return [
                     ...prevList.filter(att => att.id_student !== id_student),
-                    { id_student, status, day, month, year, id_teacher, id_teacher02, id_class }
+                    { id_student, status, day, month, year, id_teacher, id_teacher02, id_class, isPhysicalEducation: true  /* 👈 importante*/ }
                 ];
             })
         }
