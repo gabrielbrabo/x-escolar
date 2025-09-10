@@ -35,7 +35,12 @@ const AuthenticatedApp = () => {
 
 export function App() {
 
-  const isAnotherTabOpen = useSingleTab({ keysToClear: ["token", "userData"] }); // usa o hook aqui
+  // Detecta se é mobile (iOS ou Android)
+  const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+
+  // Executa o hook apenas se NÃO for mobile
+  const isAnotherTabOpen = useSingleTab({ keysToClear: ["token", "userData"], disableOnMobile: isMobile });
+
 
   if (isAnotherTabOpen) {
     return (

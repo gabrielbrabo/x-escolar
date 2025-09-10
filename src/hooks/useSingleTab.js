@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 
-export default function useSingleTabLocked({ keysToClear = [] } = {}) {
+export default function useSingleTabLocked({ keysToClear = [], disableOnMobile = false } = {}) {
   const [isBlocked, setIsBlocked] = useState(false);
   const tabIdRef = useRef(null);
   const TAB_KEY = "app_single_tab";
 
   useEffect(() => {
+    if (disableOnMobile) return; // não faz nada no mobile
+
     // Cria um tabId único persistente para esta aba
     let tabId = sessionStorage.getItem("tab_id");
     if (!tabId) {
@@ -16,11 +18,9 @@ export default function useSingleTabLocked({ keysToClear = [] } = {}) {
 
     const blockTab = () => {
       setIsBlocked(true);
-
-      // Limpa somente sessionStorage da aba bloqueada
+      // Limpa sessionStorage da aba bloqueada
       sessionStorage.clear();
-
-      // Limpa apenas as chaves específicas do localStorage da aba bloqueada
+      // Limpa apenas as chaves específicas do localStorage
       keysToClear.forEach(key => localStorage.removeItem(key));
     };
 
@@ -63,7 +63,7 @@ export default function useSingleTabLocked({ keysToClear = [] } = {}) {
       const current = localStorage.getItem(TAB_KEY);
       if (current === tabIdRef.current) localStorage.removeItem(TAB_KEY);
     };
-  }, [keysToClear]);
+  }, [keysToClear, disableOnMobile]);
 
   return isBlocked;
 }
