@@ -1,94 +1,69 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
-export default function useSingleTab({ heartbeatInterval = 2000, expiryTime = 5000 } = {}) {
-  const [isAnotherTabOpen, setIsAnotherTabOpen] = useState(false);
+export default function useSingleTabLocked({ keysToClear = [] } = {}) {
+  const [isBlocked, setIsBlocked] = useState(false);
   const tabIdRef = useRef(null);
-  const isAnotherTabOpenRef = useRef(isAnotherTabOpen);
-  isAnotherTabOpenRef.current = isAnotherTabOpen;
-
-  const heartbeatIntervalRef = useRef(heartbeatInterval);
-  const expiryTimeRef = useRef(expiryTime);
+  const TAB_KEY = "app_single_tab";
 
   useEffect(() => {
-    const key = "app_tab_open";
-
-    // cria ou mantém tabId da aba
-    let storedTabId = sessionStorage.getItem("tab_id");
-    if (!storedTabId) {
-      storedTabId = Date.now().toString() + Math.random().toString(36).slice(2);
-      sessionStorage.setItem("tab_id", storedTabId);
+    // Cria um tabId único persistente para esta aba
+    let tabId = sessionStorage.getItem("tab_id");
+    if (!tabId) {
+      tabId = Date.now().toString() + Math.random().toString(36).slice(2);
+      sessionStorage.setItem("tab_id", tabId);
     }
-    tabIdRef.current = storedTabId;
+    tabIdRef.current = tabId;
 
-    // registra ou atualiza aba no localStorage
+    const blockTab = () => {
+      setIsBlocked(true);
+
+      // Limpa somente sessionStorage da aba bloqueada
+      sessionStorage.clear();
+
+      // Limpa apenas as chaves específicas do localStorage da aba bloqueada
+      keysToClear.forEach(key => localStorage.removeItem(key));
+    };
+
     const registerTab = () => {
-      const data = JSON.stringify({ tabId: tabIdRef.current, timestamp: Date.now() });
-      localStorage.setItem(key, data);
-    };
-
-    // verifica se outra aba está ativa
-    const checkOtherTab = () => {
-      const dataStr = localStorage.getItem(key);
-      if (!dataStr) return false;
-      try {
-        const data = JSON.parse(dataStr);
-        const now = Date.now();
-
-        // se timestamp expirou, a aba antiga foi fechada → registra esta aba
-        if (now - data.timestamp > expiryTimeRef.current) {
-          registerTab();
-          return false;
-        }
-
-        // se tabId é diferente, outra aba está ativa
-        if (data.tabId !== tabIdRef.current) return true;
-
-        return false;
-      } catch {
-        registerTab();
-        return false;
+      const current = localStorage.getItem(TAB_KEY);
+      if (!current) {
+        localStorage.setItem(TAB_KEY, tabIdRef.current);
+        setIsBlocked(false);
+      } else if (current !== tabIdRef.current) {
+        blockTab(); // Bloqueia esta aba
       }
     };
 
-    // checa imediatamente ao montar
-    if (checkOtherTab()) setIsAnotherTabOpen(true);
-    else registerTab();
+    // Inicial check
+    registerTab();
 
-    // heartbeat: atualiza timestamp da aba ativa
-    const interval = setInterval(() => {
-      if (!isAnotherTabOpenRef.current) registerTab();
-    }, heartbeatIntervalRef.current);
-
-    // remove o lock ao fechar a aba
-    const handleBeforeUnload = () => {
-      const dataStr = localStorage.getItem(key);
-      if (!dataStr) return;
-      const data = JSON.parse(dataStr);
-      if (data.tabId === tabIdRef.current) localStorage.removeItem(key);
-    };
-
-    // captura mudanças no localStorage vindas de outras abas
+    // Observa mudanças no localStorage (outra aba tenta se registrar)
     const handleStorage = (e) => {
-      if (e.key === key && e.newValue) {
-        const data = JSON.parse(e.newValue);
-        if (data.tabId !== tabIdRef.current) setIsAnotherTabOpen(true);
+      if (e.key === TAB_KEY) {
+        const current = e.newValue;
+        if (current !== tabIdRef.current) {
+          blockTab(); // Bloqueia permanentemente
+        }
       }
     };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
     window.addEventListener("storage", handleStorage);
 
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-      window.removeEventListener("storage", handleStorage);
-      const dataStr = localStorage.getItem(key);
-      if (dataStr) {
-        const data = JSON.parse(dataStr);
-        if (data.tabId === tabIdRef.current) localStorage.removeItem(key);
+    // Remove TAB_KEY apenas se aba original fechar
+    const handleBeforeUnload = () => {
+      const current = localStorage.getItem(TAB_KEY);
+      if (current === tabIdRef.current) {
+        localStorage.removeItem(TAB_KEY);
       }
     };
-  }, []);
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
-  return isAnotherTabOpen;
+    return () => {
+      window.removeEventListener("storage", handleStorage);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      const current = localStorage.getItem(TAB_KEY);
+      if (current === tabIdRef.current) localStorage.removeItem(TAB_KEY);
+    };
+  }, [keysToClear]);
+
+  return isBlocked;
 }
