@@ -169,7 +169,8 @@ const IndexAttendance = () => {
                 year: year,
                 id_teacher: id_teacher,
                 id_teacher02: id_teacher02,
-                id_class: id_class
+                id_class: id_class,
+                isPhysicalEducation: false // novo campo para indicar Ed. Física
             }));
             setAttendanceList(initialAttendanceList);
         } else if (RegentTeacher02 === id_teacher) {
@@ -182,7 +183,8 @@ const IndexAttendance = () => {
                 year: year,
                 id_teacher: RegentTeacher,
                 id_teacher02: id_teacher02,
-                id_class: id_class
+                id_class: id_class,
+                isPhysicalEducation: false // novo campo para indicar Ed. Física
             }));
             setAttendanceList(initialAttendanceList);
         } else if (physicalEducation === id_teacher) {

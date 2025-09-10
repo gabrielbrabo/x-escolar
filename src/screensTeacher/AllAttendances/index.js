@@ -122,6 +122,8 @@ const AllAttendance = () => {
         })
         : uniqueAttendance;
 
+        console.log("filteredAttendance", filteredAttendance)
+
     return (
         <Container>
             {loading ? (
