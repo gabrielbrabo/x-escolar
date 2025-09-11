@@ -122,7 +122,7 @@ const AllAttendance = () => {
         })
         : uniqueAttendance;
 
-        console.log("filteredAttendance", filteredAttendance)
+    console.log("filteredAttendance", filteredAttendance)
 
     return (
         <Container>
@@ -154,15 +154,20 @@ const AllAttendance = () => {
                     </div>
 
                     {filteredAttendance.length > 0 ? (
-                        <List>
-                            {filteredAttendance.map((item, idx) => (
-                                <EmpStdt key={idx} onClick={() => handleClickAttendance(item)} style={{ cursor: "pointer" }}>
-                                    <Span>📅 {item.dateKey}</Span>
-                                    <FiCheckCircle size={20} color="green" style={{ marginLeft: "8px" }} />
-                                </EmpStdt>
+                        <>
+                            <div style={{ marginBottom: "15px", fontWeight: "bold" }}>
+                                Total de chamadas: {filteredAttendance.length}
+                            </div>
+                            <List>
+                                {filteredAttendance.map((item, idx) => (
+                                    <EmpStdt key={idx} onClick={() => handleClickAttendance(item)} style={{ cursor: "pointer" }}>
+                                        <Span>📅 {item.dateKey}</Span>
+                                        <FiCheckCircle size={20} color="green" style={{ marginLeft: "8px" }} />
+                                    </EmpStdt>
 
-                            ))}
-                        </List>
+                                ))}
+                            </List>
+                        </>
                     ) : (
                         <p>Nenhuma chamada encontrada para esta data.</p>
                     )}
