@@ -96,7 +96,7 @@ export const ContInfo = styled.div`
   width: 100%;
   padding-top: 30px;
   padding-left: 20px;
-  margin-bottom: 1rem;
+  //margin-bottom: 1rem;
 
   span {
     font-size: 1rem;

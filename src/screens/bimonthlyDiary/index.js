@@ -629,6 +629,7 @@ export default function Daily() {
               padding-left: 10px;
               border-radius: 5px;
               margin-bottom: 10px;
+              margin-top: 10px;
               background: white !important;
               color: black !important;
               box-shadow: none !important;
@@ -731,6 +732,7 @@ export default function Daily() {
               padding-left: 10px;
               border-radius: 5px;
               margin-bottom: 10px;
+              margin-top: 10px;
               background: white !important;
               color: black !important;
               box-shadow: none !important;
@@ -1343,6 +1345,7 @@ export default function Daily() {
                   <Preview className="" src={logoUrl} alt="Logo da escola" />
                 )}
                 <ContInfo className="info">
+                  <h2>Registro de Notas do {bimonthly}</h2>
                   <span><strong>Escola:</strong> {data.nameSchool}</span>
                   <span><strong>Turma:</strong> {data.nameClass}</span>
                   <span><strong>Professor Regente:</strong> {data.nameRegentTeacher}</span>
@@ -1459,6 +1462,7 @@ export default function Daily() {
                       <Preview className="" src={logoUrl} alt="Logo da escola" />
                     )}
                     <ContInfo className="info">
+                      <h2>Registro de Conceitos do {bimonthly}</h2>
                       <span><strong>Escola:</strong> {data.nameSchool}</span>
                       <span><strong>Turma:</strong> {data.nameClass}</span>
                       <span><strong>Professor Regente:</strong> {data.nameRegentTeacher}</span>
