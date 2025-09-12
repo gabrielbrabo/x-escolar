@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { updateSchoolYear, getSchoolYear, uploadLogoSchool, fetchLogo, deleteLogoSchool } from '../../Api';
+import { updateSchoolYear, getSchoolYear, uploadLogoSchool, fetchLogo, deleteLogoSchool, hasOpenDiary } from '../../Api';
 import {
     Container,
     ContainerYearControl,
@@ -16,6 +16,9 @@ import {
     ModalOverlayDelete,
     ModalBox,
     ModalButtonsDelete,
+    TurmaList,
+    TurmaItem,
+    Button,
 } from './style';
 import LoadingSpinner from '../../components/Loading';
 
@@ -25,6 +28,9 @@ const Matter = () => {
     const [schoolYear, setSchoolYear] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [showModalPrevious, setShowModalPrevious] = useState(false);
+
+    const [showWarning, setShowWarning] = useState(false);
+    const [turmasPendentes, setTurmasPendentes] = useState([]);
 
     const [logoFile, setLogoFile] = useState(null);
     const [logoUrl, setLogoUrl] = useState('');
@@ -78,13 +84,42 @@ const Matter = () => {
     const handleConfirmNextYear = async () => {
         setLoading(true);
         const idSchool = JSON.parse(sessionStorage.getItem('id-school'));
-        const nextYear = schoolYear + 1;
 
-        await updateSchoolYear(idSchool, nextYear);
-        setLoading(false);
-        setShowModal(false);
-        alert(`Ano letivo alterado para ${nextYear}`);
-        window.location.reload();
+        try {
+            const hasOpen = await hasOpenDiary(idSchool, schoolYear);
+            console.log("res has diary", hasOpen);
+
+            // Se não existir nenhuma turma registrada → avançar normalmente
+            if (!hasOpen?.data || !hasOpen.data.turmasComDiarioAberto) {
+                const nextYear = schoolYear + 1;
+                await updateSchoolYear(idSchool, nextYear);
+                setLoading(false);
+                setShowModal(false);
+                alert(`Ano letivo alterado para ${nextYear}`);
+                window.location.reload();
+                return;
+            }
+
+            // Se todos os diários estiverem fechados → avançar
+            if (hasOpen.data.podeAvancar) {
+                const nextYear = schoolYear + 1;
+                await updateSchoolYear(idSchool, nextYear);
+                setLoading(false);
+                setShowModal(false);
+                alert(`Ano letivo alterado para ${nextYear}`);
+                window.location.reload();
+            } else {
+                // ⚠️ Existem diários em aberto → abre modal de aviso
+                setTurmasPendentes(hasOpen.data.turmasComDiarioAberto || []);
+                setShowModal(false);
+                setShowWarning(true);
+                setLoading(false);
+            }
+        } catch (err) {
+            console.error("Erro ao verificar diário:", err);
+            setLoading(false);
+            alert("Ocorreu um erro ao tentar avançar o ano letivo.");
+        }
     };
 
     const handleConfirmPreviousYear = async () => {
@@ -291,6 +326,27 @@ const Matter = () => {
                         </ModalButtonsDelete>
                     </ModalBox>
                 </ModalOverlayDelete>
+            )}
+
+            {showWarning && (
+                <ModalOverlay>
+                    <ModalContent>
+                        <h2>⚠️ Não é possível avançar</h2>
+                        <p>
+                            Para finalizar o ano letivo e avançar para o próximo ano, é necessário
+                            que todos os diários estejam fechados.
+                        </p>
+                        <p>As seguintes turmas ainda possuem diários abertos:</p>
+                        <TurmaList>
+                            {turmasPendentes.map((turma) => (
+                                <TurmaItem key={turma._id}>
+                                    {turma.serie} - {turma.shift}
+                                </TurmaItem>
+                            ))}
+                        </TurmaList>
+                        <Button onClick={() => setShowWarning(false)}>Fechar</Button>
+                    </ModalContent>
+                </ModalOverlay>
             )}
 
         </Container>

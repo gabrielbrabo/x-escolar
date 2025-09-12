@@ -253,3 +253,29 @@ export const ModalButtonsDelete = styled.div`
     background-color: #a5a5a5;
   }
 `;
+
+export const TurmaList = styled.ul`
+  text-align: left;
+  margin-top: 15px;
+  margin-bottom: 15px;
+`;
+
+export const TurmaItem = styled.li`
+  margin-bottom: 8px;
+  font-weight: 500;
+`;
+
+export const Button = styled.button`
+  margin-top: 15px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+
+  &:hover {
+    background: #0056b3;
+  }
+`;
