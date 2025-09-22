@@ -14,7 +14,7 @@ export default function useSingleTab({ keysToClear = [], disableOnMobile = false
       sessionStorage.setItem("tabId", tabId);
     }
 
-    /*const hasBroadcast = typeof BroadcastChannel !== "undefined";
+    const hasBroadcast = typeof BroadcastChannel !== "undefined";
 
     if (hasBroadcast) {
       // ---- Usando BroadcastChannel ----
@@ -39,7 +39,7 @@ export default function useSingleTab({ keysToClear = [], disableOnMobile = false
       return () => {
         bc.close();
       };
-    } else {*/
+    } else {
       // ---- Fallback usando localStorage com tabId ----
       const onStorage = (e) => {
         if (e.key === "sistema_abas" && e.newValue !== tabId) {
@@ -61,7 +61,8 @@ export default function useSingleTab({ keysToClear = [], disableOnMobile = false
         window.removeEventListener("storage", onStorage);
         localStorage.removeItem("sistema_abas");
       };
-    //}
+    }
+
   }, [keysToClear, disableOnMobile]);
 
   return isAnotherTabOpen;
