@@ -8,27 +8,60 @@ export default function useSingleTab({ keysToClear = [], disableOnMobile = false
       return; // no mobile, não bloqueia nada
     }
 
-    const bc = new BroadcastChannel("sistema_abas");
+    let tabId = sessionStorage.getItem("tabId");
+    if (!tabId) {
+      tabId = Date.now() + "-" + Math.random().toString(36).substr(2, 9);
+      sessionStorage.setItem("tabId", tabId);
+    }
 
-    bc.onmessage = (event) => {
-      if (event.data === "ja_aberto") {
-        // outra aba já está aberta → marca bloqueio
-        setIsAnotherTabOpen(true);
+    /*const hasBroadcast = typeof BroadcastChannel !== "undefined";
 
-        // limpa sessionStorage/localStorage se desejar
-        keysToClear.forEach((key) => {
-          sessionStorage.removeItem(key);
-          localStorage.removeItem(key);
-        });
-      }
-    };
+    if (hasBroadcast) {
+      // ---- Usando BroadcastChannel ----
+      const bc = new BroadcastChannel("sistema_abas");
 
-    // avisa que esta aba abriu
-    bc.postMessage("ja_aberto");
+      bc.onmessage = (event) => {
+        if (event.data === "ja_aberto") {
+          // outra aba já está aberta → marca bloqueio
+          setIsAnotherTabOpen(true);
 
-    return () => {
-      bc.close();
-    };
+          // limpa sessionStorage/localStorage se desejar
+          keysToClear.forEach((key) => {
+            sessionStorage.removeItem(key);
+            localStorage.removeItem(key);
+          });
+        }
+      };
+
+      // avisa que esta aba abriu
+      bc.postMessage("ja_aberto");
+
+      return () => {
+        bc.close();
+      };
+    } else {*/
+      // ---- Fallback usando localStorage com tabId ----
+      const onStorage = (e) => {
+        if (e.key === "sistema_abas" && e.newValue !== tabId) {
+          setIsAnotherTabOpen(true);
+
+          keysToClear.forEach((key) => {
+            sessionStorage.removeItem(key);
+            localStorage.removeItem(key);
+          });
+        }
+      };
+
+      window.addEventListener("storage", onStorage);
+
+      // avisa no localStorage que essa aba foi aberta
+      localStorage.setItem("sistema_abas", tabId);
+
+      return () => {
+        window.removeEventListener("storage", onStorage);
+        localStorage.removeItem("sistema_abas");
+      };
+    //}
   }, [keysToClear, disableOnMobile]);
 
   return isAnotherTabOpen;
