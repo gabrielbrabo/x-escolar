@@ -1,4 +1,41 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
+
+export default function useSingleTab({ keysToClear = [], disableOnMobile = false }) {
+  const [isAnotherTabOpen, setIsAnotherTabOpen] = useState(false);
+
+  useEffect(() => {
+    if (disableOnMobile) {
+      return; // no mobile, não bloqueia nada
+    }
+
+    const bc = new BroadcastChannel("sistema_abas");
+
+    bc.onmessage = (event) => {
+      if (event.data === "ja_aberto") {
+        // outra aba já está aberta → marca bloqueio
+        setIsAnotherTabOpen(true);
+
+        // limpa sessionStorage/localStorage se desejar
+        keysToClear.forEach((key) => {
+          sessionStorage.removeItem(key);
+          localStorage.removeItem(key);
+        });
+      }
+    };
+
+    // avisa que esta aba abriu
+    bc.postMessage("ja_aberto");
+
+    return () => {
+      bc.close();
+    };
+  }, [keysToClear, disableOnMobile]);
+
+  return isAnotherTabOpen;
+}
+
+
+/**import { useState, useEffect, useRef } from "react";
 
 export default function useSingleTabLocked({ keysToClear = [], disableOnMobile = false } = {}) {
   const [isBlocked, setIsBlocked] = useState(false);
@@ -66,4 +103,4 @@ export default function useSingleTabLocked({ keysToClear = [], disableOnMobile =
   }, [keysToClear, disableOnMobile]);
 
   return isBlocked;
-}
+}**/

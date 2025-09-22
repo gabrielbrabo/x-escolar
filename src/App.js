@@ -8,7 +8,7 @@ import { Header } from './components/Header';
 
 import { DiReact } from "react-icons/di";
 
-//import useSingleTab from "./hooks/useSingleTab"; // importe o hoo
+import useSingleTab from "./hooks/useSingleTab"; // importe o hoo
 
 const AuthenticatedApp = () => {
   const token = sessionStorage.getItem("token");
@@ -35,12 +35,14 @@ const AuthenticatedApp = () => {
 
 export function App() {
 
-  // Detecta se é mobile (iOS ou Android)
- // const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+  // Detecta se é mobile
+  const isMobile = /Mobi|Android/i.test(navigator.userAgent);
 
   // Executa o hook apenas se NÃO for mobile
-  /*const isAnotherTabOpen = useSingleTab({ keysToClear: ["token", "userData"], disableOnMobile: isMobile });
-
+  const isAnotherTabOpen = useSingleTab({
+    keysToClear: ["token", "userData"],
+    disableOnMobile: isMobile
+  });
 
   if (isAnotherTabOpen) {
     return (
@@ -57,11 +59,11 @@ export function App() {
       }}>
         <div style={{ background: "#fff", padding: "2rem", borderRadius: "10px", textAlign: "center" }}>
           <h2>Atenção!</h2>
-          <p>O sistema já está aberto em outra aba. Feche a outra aba para continuar.</p>
+          <p>O sistema já está aberto em outra aba. Feche a outra aba e atualize a pagina para continuar.</p>
         </div>
       </div>
     );
-  }*/
+  }
 
   return (
     <div className="app">
