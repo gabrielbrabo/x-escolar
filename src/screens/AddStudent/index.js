@@ -121,17 +121,23 @@ const StudentAdd = () => {
     };
 
     // Função para retornar o aluno à turma
-    const returnStudent = () => {
+    const returnStudent = async () => {
         if (transferredStudent) {
-            // Atualiza o status do aluno (implemente conforme sua lógica)
-            const id_student = transferredStudent._id
-            console.log("id_student", id_student, "id_class", id_class)
-            const res = returnedStudent(id_student, id_class)
-            if (res) {
-                setShowReturnModal(false);
-                window.location.reload()
-            } else {
-                alert('erro ao retornar aluno')
+            const id_student = transferredStudent._id;
+            console.log("id_student", id_student, "id_class", id_class);
+
+            try {
+                const res = await returnedStudent(id_student, id_class); // <-- usar await
+                if (res) {
+                    alert("Aluno retornado com sucesso!");
+                    setShowReturnModal(false);
+                    window.location.reload();
+                } else {
+                    alert(res?.error || "Erro ao retornar aluno");
+                }
+            } catch (error) {
+                console.error("Erro ao retornar aluno:", error);
+                alert("Erro de conexão com o servidor");
             }
         }
     };

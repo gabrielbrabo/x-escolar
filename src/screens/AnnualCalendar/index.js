@@ -98,12 +98,13 @@ const HomeSchool = () => {
     <DivAddEmp>
       {data.length > 0 ? (
         <>
-          {(position_at_school === 'DIRETOR/SUPERVISOR' || position_at_school === "SECRETARIO") && (
-            <AddEmp>
-              <h3>{title}</h3>
+          <AddEmp>
+            <h3>{title}</h3>
+            {(position_at_school === 'DIRETOR/SUPERVISOR' || position_at_school === "SECRETARIO") && (
               <Btt02 onClick={onEdit}>Editar Bimestre</Btt02>
-            </AddEmp>
-          )}
+            )}
+          </AddEmp>
+
 
           <DivDados>
             {data.map(res => (
