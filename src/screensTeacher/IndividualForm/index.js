@@ -158,7 +158,9 @@ const IndividualForm = () => {
             if (quarterIdKey) {
                 try {
                     const idQuarter = Selectbimonthly._id;
+                    console.log("RegentTeacher", RegentTeacher);
                     if (RegentTeacher02 === id_teacher) {
+                        
                         const res = await IndexIndividualForm({
                             year,
                             id_class,

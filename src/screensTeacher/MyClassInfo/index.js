@@ -132,6 +132,7 @@ const MyCla$$Info = () => {
                 return (res)
             }).find(res => {
                 if (res) {
+                    console.log("RegentTeacher", res);
                     sessionStorage.setItem("classRegentTeacher", JSON.stringify(res._id))
 
                     setclassRegentTeacher(res._id)

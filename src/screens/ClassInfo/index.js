@@ -649,6 +649,11 @@ const Cla$$Info = () => {
                     <h3>⚠️ Atenção!</h3>
                     <p>Se o professor lecionou em algum bimestre, verifique antes de removê-lo se todos os registros foram preenchidos corretamente e se o diário do bimestre foi fechado.
                         Lembre-se: o nome que fica registrado no diário é sempre do professor que fecha o diário do bimestre.</p>
+                    <p style={{ marginTop: "1rem", fontSize: "0.95rem", color: "#c82333", fontWeight: "bold" }}>
+                        ⚠️ Caso a turma tenha dois professores regentes, é essencial manter pelo menos um deles cadastrado como professor regente principal.
+                        <br />
+                        O diário do <strong>Professor Regente 02</strong> só funcionará corretamente se houver um regente principal vinculado à turma.
+                    </p>
                     <div style={{ marginTop: "1.5rem", display: "flex", gap: "1rem", justifyContent: "center" }}>
                         <button style={{ background: "#ccc", color: "#000", border: "none", padding: "0.5rem 1rem", cursor: "pointer" }} onClick={onClose}>Cancelar</button>
                         <button style={{ background: "#c82333", color: "#fff", border: "none", padding: "0.5rem 1rem", cursor: "pointer" }} onClick={onConfirm}>Confirmar Remoção</button>
