@@ -49,6 +49,8 @@ const IndividualForm = () => {
     const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
     const [physicalEducation, setphysicalEducationTeacher] = useState([]);
 
+    const [showAlert, setShowAlert] = useState(false);
+
 
     useEffect(() => {
         (async () => {
@@ -160,7 +162,6 @@ const IndividualForm = () => {
                     const idQuarter = Selectbimonthly._id;
                     console.log("RegentTeacher", RegentTeacher);
                     if (RegentTeacher02 === id_teacher) {
-                        
                         const res = await IndexIndividualForm({
                             year,
                             id_class,
@@ -171,7 +172,7 @@ const IndividualForm = () => {
                         console.log("individual form", res);
                         const GradeRealized = res.data.map(res => res?.id_student?._id || []);
 
-                       // const resClass = await clssInfo(id_class);
+                        // const resClass = await clssInfo(id_class);
                         console.log("individual GradeRealized", GradeRealized);
 
                         const student = $Class.data.data.find(res => res)
@@ -237,6 +238,14 @@ const IndividualForm = () => {
 
     const handleIndividualForm = (stdt) => {
         console.log("stdt", stdt)
+        console.log("classRegentTeacher", RegentTeacher)
+
+        if (!RegentTeacher) {
+            // se não tiver professor regente, mostra o alerta
+            setShowAlert(true);
+            return;
+        }
+
         sessionStorage.setItem("stdt", JSON.stringify(stdt));
         sessionStorage.setItem("nmstdt", JSON.stringify(stdt.name));
         navigate('/form')
@@ -334,6 +343,55 @@ const IndividualForm = () => {
                             <p>{Selectbimonthly.bimonthly} fechado, para editar contate o Diretor ou Supervisor.</p>
                         )
                     )}
+
+                    {/* Modal de alerta */}
+                    {showAlert && (
+                        <div style={{
+                            position: "fixed",
+                            inset: 0,
+                            backdropFilter: "blur(5px)",
+                            background: "rgba(0,0,0,0.3)",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            zIndex: 999
+                        }}>
+                            <div style={{
+                                background: "white",
+                                padding: "2rem",
+                                borderRadius: "8px",
+                                maxWidth: "400px",
+                                textAlign: "center"
+                            }}>
+                                <h3>⚠️ Atenção!</h3>
+                                <p>
+                                    Esta turma está <strong>sem um professor regente principal</strong>.<br />
+                                    Para adicionar o relatório do aluno, é necessário que a turma tenha
+                                    um <strong>professor regente principal</strong> cadastrado.
+                                </p>
+                                <div style={{
+                                    marginTop: "1.5rem",
+                                    display: "flex",
+                                    gap: "1rem",
+                                    justifyContent: "center"
+                                }}>
+                                    <button
+                                        style={{
+                                            background: "#007bff",
+                                            color: "#fff",
+                                            border: "none",
+                                            padding: "0.5rem 1rem",
+                                            cursor: "pointer"
+                                        }}
+                                        onClick={() => setShowAlert(false)}
+                                    >
+                                        Entendi
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                 </ContainerDivs>
             )}
         </Container>
