@@ -874,9 +874,9 @@ export default function Daily() {
                       <span><strong>Escola:</strong> {data.nameSchool}</span>
                       <span><strong>Turma:</strong> {data.nameClass}</span>
                       <span><strong>Ano:</strong> {data.year}</span>
-                      <span><strong>Professor Regente:</strong> {data.nameRegentTeacher}</span>
+                      <span><strong>Professor Regente Titular:</strong> {data.nameRegentTeacher}</span>
                       {data.nameRegentTeacher02 !== "Professor não definido" && (
-                        <span><strong>Professor Regente 02:</strong> {data.nameRegentTeacher02}</span>
+                        <span><strong>Professor Regente Adjunto:</strong> {data.nameRegentTeacher02}</span>
                       )}
                       {/*data.namephysicalEducationTeacher !== "Professor não definido" && (
                         <span><strong>Professor de Ed. Física:</strong> {data.namephysicalEducationTeacher}</span>
@@ -1137,10 +1137,10 @@ export default function Daily() {
                             {Array.isArray(data.idRegentTeacher) &&
                               data.idRegentTeacher.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
                               <>
-                                <div>Professor: <p>{res.id_teacher.name}</p></div>
+                                <div>Professor Titular: <p>{res.id_teacher.name}</p></div>
                                 {data.nameRegentTeacher02 &&
                                   data.nameRegentTeacher02 !== "Professor não definido" && (
-                                    <div>Professor 02: <p>{data.nameRegentTeacher02}</p></div>
+                                    <div>Professor Adjunto: <p>{data.nameRegentTeacher02}</p></div>
                                   )}
                               </>
                             ) : Array.isArray(data.idRegentTeacher02) &&
@@ -1149,15 +1149,15 @@ export default function Daily() {
                                 {/* Se quem lançou é o Professor 02 */}
                                 {data.nameRegentTeacher &&
                                   data.nameRegentTeacher !== "Professor não definido" && (
-                                    <div>Professor: <p>{data.nameRegentTeacher}</p></div>
+                                    <div>Professor Titular: <p>{data.nameRegentTeacher}</p></div>
                                   )}
-                                <div>Professor 02: <p>{res.id_teacher.name}</p></div>
+                                <div>Professor Adjunto: <p>{res.id_teacher.name}</p></div>
                               </>
                             ) : Array.isArray(data.idPhysicalEducationTeacher) &&
                               data.idPhysicalEducationTeacher.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
                               <div>Professor de Ed. Física: <p>{res.id_teacher.name}</p></div>
                             ) : (
-                              <div>Professor: <p>{res.id_teacher?.name || "Não definido"}</p></div>
+                              <div>Professor Titular: <p>{res.id_teacher?.name || "Não definido"}</p></div>
                             )}
 
                             <div>Turma: <p>{data.nameClass}</p></div>
@@ -1348,9 +1348,9 @@ export default function Daily() {
                   <h2>Registro de Notas do {bimonthly}</h2>
                   <span><strong>Escola:</strong> {data.nameSchool}</span>
                   <span><strong>Turma:</strong> {data.nameClass}</span>
-                  <span><strong>Professor Regente:</strong> {data.nameRegentTeacher}</span>
+                  <span><strong>Professor Regente Titular:</strong> {data.nameRegentTeacher}</span>
                   {data.nameRegentTeacher02 !== "Professor não definido" && (
-                    <span><strong>Professor Regente 02:</strong> {data.nameRegentTeacher02}</span>
+                    <span><strong>Professor Regente Adjunto:</strong> {data.nameRegentTeacher02}</span>
                   )}
                   {data.namephysicalEducationTeacher !== "Professor não definido" && (
                     <span><strong>Professor de Ed. Física:</strong> {data.namephysicalEducationTeacher}</span>
@@ -1465,9 +1465,9 @@ export default function Daily() {
                       <h2>Registro de Conceitos do {bimonthly}</h2>
                       <span><strong>Escola:</strong> {data.nameSchool}</span>
                       <span><strong>Turma:</strong> {data.nameClass}</span>
-                      <span><strong>Professor Regente:</strong> {data.nameRegentTeacher}</span>
+                      <span><strong>Professor Regente Titular:</strong> {data.nameRegentTeacher}</span>
                       {data.nameRegentTeacher02 !== "Professor não definido" && (
-                        <span><strong>Professor Regente 02:</strong> {data.nameRegentTeacher02}</span>
+                        <span><strong>Professor Regente Adjunto:</strong> {data.nameRegentTeacher02}</span>
                       )}
                       {data.namephysicalEducationTeacher !== "Professor não definido" && (
                         <span><strong>Professor de Ed. Física:</strong> {data.namephysicalEducationTeacher}</span>
@@ -1599,19 +1599,19 @@ export default function Daily() {
                           <Span>
                             {Array.isArray(data.idRegentTeacher) && data.idRegentTeacher.includes(res.id_teacher._id) ? (
                               <>
-                                <div>Professor: <p>{res.id_teacher.name}</p></div>
+                                <div>Professor Regente Titular: <p>{res.id_teacher.name}</p></div>
                                 {data.nameRegentTeacher02 &&
                                   data.nameRegentTeacher02 !== "Professor não definido" && (
-                                    <div>Professor 02: <p>{data.nameRegentTeacher02}</p></div>
+                                    <div>Professor Regente Adjunto: <p>{data.nameRegentTeacher02}</p></div>
                                   )}
                               </>
                             ) : Array.isArray(data.idRegentTeacher02) && data.idRegentTeacher02.includes(res.id_teacher._id) ? (
                               <>
                                 {/* Se quem lançou é o Professor 02, mostra os dois */}
                                 {data.nameRegentTeacher && data.nameRegentTeacher !== "Professor não definido" && (
-                                  <div>Professor: <p>{data.nameRegentTeacher}</p></div>
+                                  <div>Professor Regente Titular: <p>{data.nameRegentTeacher}</p></div>
                                 )}
-                                <div>Professor 02: <p>{res.id_teacher.name}</p></div>
+                                <div>Professor Regente Adjunto: <p>{res.id_teacher.name}</p></div>
                               </>
                             ) : Array.isArray(data.idPhysicalEducationTeacher) && data.idPhysicalEducationTeacher.includes(res.id_teacher._id) ? (
                               <div>Professor de Ed. Física: <p>{res.id_teacher.name}</p></div>
@@ -1703,9 +1703,9 @@ export default function Daily() {
                     <ContInfo className="info">
                       <span><strong>Escola:</strong> {data.nameSchool}</span>
                       <span><strong>Turma:</strong> {data.nameClass}</span>
-                      <span><strong>Professor Regente:</strong> {data.nameRegentTeacher}</span>
+                      <span><strong>Professor Regente Titular:</strong> {data.nameRegentTeacher}</span>
                       {data.nameRegentTeacher02 !== "Professor não definido" && (
-                        <span><strong>Professor Regente 02:</strong> {data.nameRegentTeacher02}</span>
+                        <span><strong>Professor Regente Adjunto:</strong> {data.nameRegentTeacher02}</span>
                       )}
                       {data.namephysicalEducationTeacher !== "Professor não definido" && (
                         <span><strong>Professor de Ed. Física:</strong> {data.namephysicalEducationTeacher}</span>
