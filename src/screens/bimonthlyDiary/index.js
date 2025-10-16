@@ -467,6 +467,25 @@ export default function Daily() {
     window.location.reload();
   };
 
+  const handlePrintClassesEdFisica = async () => {
+    setExpandedRows(data.id_recordClassTaught.map((_, index) => index));
+
+    // Espera meio segundo para o React aplicar a expansão do DOM
+    await sleep(500);
+
+    const printContent = document.getElementById('print-areaEdFisica');
+    if (!printContent) return;
+
+    const originalContent = document.body.innerHTML;
+
+    document.body.innerHTML = printContent.innerHTML;
+    window.print();
+    document.body.innerHTML = originalContent;
+
+    // Recarrega a página para restaurar estados e eventos React
+    window.location.reload();
+  };
+
   const handlePrintIndividualForm = async () => {
     setExpandedRows(data.id_individualForm.map((_, index) => index));
 
@@ -1108,130 +1127,501 @@ export default function Daily() {
           )}
 
           {activeComponent === 'classes' && (
-            <StudentSection id='print-area' >
-              <CtnrBtt>
-                <ButtonPrint className="no-print" onClick={handlePrintClasses}>Imprimir</ButtonPrint>
-              </CtnrBtt>
-              <LessonsContainer>
-                <ContLogo className="cont-logo-classes">
-                  {(logoUrl) && (
-                    <Preview className="logo-classes" src={logoUrl} alt="Logo da escola" />
-                  )}
-                  <h2>Registros de Aulas do {bimonthly}</h2>
-                </ContLogo>
-                <h4 className="total-aulas-lecionadas">
-                  Total de aulas lecionadas: {data?.id_recordClassTaught?.length || 0}
-                </h4>
+            <>
+              {/* 📘 AULAS DO PROFESSOR REGENTE (TITULAR / ADJUNTO) */}
+              <StudentSection id='print-area'>
+                <LessonsContainer>
+                  <CtnrBtt>
+                    <ButtonPrint className="no-print" onClick={handlePrintClasses}>Imprimir</ButtonPrint>
+                  </CtnrBtt>
+                  <ContLogo className="cont-logo-classes">
+                    {logoUrl && <Preview className="logo-classes" src={logoUrl} alt="Logo da escola" />}
+                    <h2>Registros de Aulas do {bimonthly} — Professores Regentes</h2>
+                  </ContLogo>
 
-                <ContInfo className="info">
-                  <span><strong>Escola:</strong> {data.nameSchool}</span>
-                </ContInfo>
+                  <ContInfo className="info">
+                    <span><strong>Escola:</strong> {data.nameSchool}</span>
+                  </ContInfo>
 
-                {data?.id_recordClassTaught?.length > 0 ? (
-                  data.id_recordClassTaught
-                    .sort((a, b) => new Date(a.year, a.month - 1, a.day) - new Date(b.year, b.month - 1, b.day))
-                    .map((res, index) => (
-                      <React.Fragment key={index}>
-                        <ContainerTable className="print-container-table">
-                          <Span>
-                            {Array.isArray(data.idRegentTeacher) &&
-                              data.idRegentTeacher.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
-                              <>
-                                <div>Professor Titular: <p>{res.id_teacher.name}</p></div>
-                                {data.nameRegentTeacher02 &&
-                                  data.nameRegentTeacher02 !== "Professor não definido" && (
-                                    <div>Professor Adjunto: <p>{data.nameRegentTeacher02}</p></div>
-                                  )}
-                              </>
-                            ) : Array.isArray(data.idRegentTeacher02) &&
-                              data.idRegentTeacher02.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
-                              <>
-                                {/* Se quem lançou é o Professor 02 */}
-                                {data.nameRegentTeacher &&
-                                  data.nameRegentTeacher !== "Professor não definido" && (
-                                    <div>Professor Titular: <p>{data.nameRegentTeacher}</p></div>
-                                  )}
-                                <div>Professor Adjunto: <p>{res.id_teacher.name}</p></div>
-                              </>
-                            ) : Array.isArray(data.idPhysicalEducationTeacher) &&
-                              data.idPhysicalEducationTeacher.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
-                              <div>Professor de Ed. Física: <p>{res.id_teacher.name}</p></div>
-                            ) : (
-                              <div>Professor Titular: <p>{res.id_teacher?.name || "Não definido"}</p></div>
-                            )}
+                  <h4 className="total-aulas-lecionadas">
+                    Total de aulas lecionadas: {
+                      data?.id_recordClassTaught?.filter(res =>
+                        (Array.isArray(data.idRegentTeacher) &&
+                          data.idRegentTeacher.some(id => id.toString() === res?.id_teacher?._id?.toString?.())) ||
+                        (Array.isArray(data.idRegentTeacher02) &&
+                          data.idRegentTeacher02.some(id => id.toString() === res?.id_teacher?._id?.toString?.()))
+                      ).length || 0
+                    }
+                  </h4>
 
-                            <div>Turma: <p>{data.nameClass}</p></div>
-                          </Span>
-                          <TableRow>
-                            <DateCell>{`${res.day}/${res.month}/${res.year}`}</DateCell>
-                            <DescriptionCell>
-                              <div className={`description ${expandedRows.includes(index) ? 'expanded' : 'collapsed'}`}>
-                                <div
-                                  style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}
-                                  dangerouslySetInnerHTML={{
-                                    __html: expandedRows.includes(index) || printing
-                                      ? res.description
-                                      : getDescriptionPreview(res.description)
-                                  }}
-                                />
-                              </div>
-                              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                {!printing && (
-                                  <Button onClick={() => toggleRowExpansion(index)} className={HiddenOnPrint}>
-                                    {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
-                                  </Button>
-                                )}
-                                {expandedRows.includes(index) && positionAtSchool === 'DIRETOR/SUPERVISOR' && (
-                                  <Button onClick={() => handleEdit(index, res)} className={HiddenOnPrint}>
-                                    Editar
-                                  </Button>
-                                )}
-                              </div>
-                            </DescriptionCell>
-                          </TableRow>
-                          {editingIndex === index && (
-                            <EditContainer>
-                              <div className="modal-content">
-                                <h3>Editando Aula</h3>
-                                <ReactQuill
-                                  theme="snow"
-                                  modules={{
-                                    toolbar: [
-                                      [{ 'font': [] }],
-                                      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                                      ['bold', 'italic', 'underline'],
-                                      [{ 'color': [] }, { 'background': [] }],
-                                      ['clean']
-                                    ]
-                                  }}
-                                  value={editedDescription}
-                                  onChange={(e) => setEditedDescription(e)}
-                                  placeholder="Descrição da aula"
-                                  style={{
-                                    height: 'auto', // aumentado de 250px para 350px
-                                    maxHeight: '550px',
-                                    overflow: 'auto',
-                                    zIndex: 0,
-                                    position: 'relative'
-                                  }}
-                                />
-                                {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                                <div style={{ position: 'relative', zIndex: 10, marginTop: '30px', }} className='BoxBtt'>
-                                  <ButtonEdit onClick={handleSaveEdit}>Salvar</ButtonEdit>
-                                  <ButtonEdit onClick={() => setEditingIndex(null)}>Cancelar</ButtonEdit>
+                  {data?.id_recordClassTaught?.length > 0 ? (
+                    data.id_recordClassTaught
+                      .filter(res =>
+                        (Array.isArray(data.idRegentTeacher) &&
+                          data.idRegentTeacher.some(id => id.toString() === res?.id_teacher?._id?.toString?.())) ||
+                        (Array.isArray(data.idRegentTeacher02) &&
+                          data.idRegentTeacher02.some(id => id.toString() === res?.id_teacher?._id?.toString?.()))
+                      )
+                      .sort((a, b) => new Date(a.year, a.month - 1, a.day) - new Date(b.year, b.month - 1, b.day))
+                      .map((res, index) => (
+                        <React.Fragment key={`regent-${index}`}>
+                          <ContainerTable className="print-container-table">
+                            <Span>
+                              {Array.isArray(data.idRegentTeacher) &&
+                                data.idRegentTeacher.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
+                                <>
+                                  <div>Professor Titular: <p>{res.id_teacher.name}</p></div>
+                                  {data.nameRegentTeacher02 &&
+                                    data.nameRegentTeacher02 !== "Professor não definido" && (
+                                      <div>Professor Adjunto: <p>{data.nameRegentTeacher02}</p></div>
+                                    )}
+                                </>
+                              ) : (
+                                <>
+                                  {data.nameRegentTeacher &&
+                                    data.nameRegentTeacher !== "Professor não definido" && (
+                                      <div>Professor Titular: <p>{data.nameRegentTeacher}</p></div>
+                                    )}
+                                  <div>Professor Adjunto: <p>{res.id_teacher.name}</p></div>
+                                </>
+                              )}
+
+                              <div>Turma: <p>{data.nameClass}</p></div>
+                            </Span>
+
+                            <TableRow>
+                              <DateCell>{`${res.day}/${res.month}/${res.year}`}</DateCell>
+                              <DescriptionCell>
+                                <div className={`description ${expandedRows.includes(index) ? 'expanded' : 'collapsed'}`}>
+                                  <div
+                                    style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}
+                                    dangerouslySetInnerHTML={{
+                                      __html: expandedRows.includes(index) || printing
+                                        ? res.description
+                                        : getDescriptionPreview(res.description)
+                                    }}
+                                  />
                                 </div>
-                              </div>
-                            </EditContainer>
-                          )}
-                        </ContainerTable>
-                      </React.Fragment>
-                    ))
-                ) : (
-                  <InfoText>Nenhum dado de aulas encontrado para o {data.bimonthly}.</InfoText>
-                )}
-              </LessonsContainer>
-              <PrintStyleLessons />
-            </StudentSection>
+
+                                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                  {!printing && (
+                                    <Button onClick={() => toggleRowExpansion(index)} className={HiddenOnPrint}>
+                                      {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
+                                    </Button>
+                                  )}
+                                  {expandedRows.includes(index) && positionAtSchool === 'DIRETOR/SUPERVISOR' && (
+                                    <Button onClick={() => handleEdit(index, res)} className={HiddenOnPrint}>
+                                      Editar
+                                    </Button>
+                                  )}
+                                </div>
+                              </DescriptionCell>
+                            </TableRow>
+                            {editingIndex === index && (
+                              <EditContainer>
+                                <div className="modal-content">
+                                  <h3>Editando Aula</h3>
+                                  <ReactQuill
+                                    theme="snow"
+                                    modules={{
+                                      toolbar: [
+                                        [{ 'font': [] }],
+                                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                        ['bold', 'italic', 'underline'],
+                                        [{ 'color': [] }, { 'background': [] }],
+                                        ['clean']
+                                      ]
+                                    }}
+                                    value={editedDescription}
+                                    onChange={(e) => setEditedDescription(e)}
+                                    placeholder="Descrição da aula"
+                                    style={{
+                                      height: 'auto', // aumentado de 250px para 350px
+                                      maxHeight: '550px',
+                                      overflow: 'auto',
+                                      zIndex: 0,
+                                      position: 'relative'
+                                    }}
+                                  />
+                                  {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                  <div style={{ position: 'relative', zIndex: 10, marginTop: '30px', }} className='BoxBtt'>
+                                    <ButtonEdit onClick={handleSaveEdit}>Salvar</ButtonEdit>
+                                    <ButtonEdit onClick={() => setEditingIndex(null)}>Cancelar</ButtonEdit>
+                                  </div>
+                                </div>
+                              </EditContainer>
+                            )}
+                          </ContainerTable>
+                        </React.Fragment>
+                      ))
+                  ) : (
+                    <InfoText>Nenhum registro de aulas encontrado para os professores regentes.</InfoText>
+                  )}
+                </LessonsContainer>
+
+                <PrintStyleLessons />
+              </StudentSection>
+
+              {/* 🏃‍♂️ AULAS DO PROFESSOR DE EDUCAÇÃO FÍSICA */}
+              <StudentSection id='print-areaEdFisica'>
+                <LessonsContainer>
+                  <CtnrBtt>
+                    <ButtonPrint className="no-print" onClick={handlePrintClassesEdFisica}>Imprimir</ButtonPrint>
+                  </CtnrBtt>
+                  <ContLogo className="cont-logo-classes">
+                    {logoUrl && <Preview className="logo-classes" src={logoUrl} alt="Logo da escola" />}
+                    <h2>Registros de Aulas do {bimonthly} — Educação Física</h2>
+                  </ContLogo>
+
+                  <ContInfo className="info">
+                    <span><strong>Escola:</strong> {data.nameSchool}</span>
+                  </ContInfo>
+
+                  <h4 className="total-aulas-lecionadas">
+                    Total de aulas lecionadas: {
+                      data?.id_recordClassTaught?.filter(res =>
+                        Array.isArray(data.idPhysicalEducationTeacher) &&
+                        data.idPhysicalEducationTeacher.some(id => id.toString() === res?.id_teacher?._id?.toString?.())
+                      ).length || 0
+                    }
+                  </h4>
+
+                  {data?.id_recordClassTaught?.length > 0 ? (
+                    data.id_recordClassTaught
+                      .filter(res =>
+                        Array.isArray(data.idPhysicalEducationTeacher) &&
+                        data.idPhysicalEducationTeacher.some(id => id.toString() === res?.id_teacher?._id?.toString?.())
+                      )
+                      .sort((a, b) => new Date(a.year, a.month - 1, a.day) - new Date(b.year, b.month - 1, b.day))
+                      .map((res, index) => (
+                        <React.Fragment key={`pe-${index}`}>
+                          <ContainerTable className="print-container-table">
+                            <Span>
+                              <div>Professor de Ed. Física: <p>{res.id_teacher.name}</p></div>
+                              <div>Turma: <p>{data.nameClass}</p></div>
+                            </Span>
+
+                            <TableRow>
+                              <DateCell>{`${res.day}/${res.month}/${res.year}`}</DateCell>
+                              <DescriptionCell>
+                                <div className={`description ${expandedRows.includes(index) ? 'expanded' : 'collapsed'}`}>
+                                  <div
+                                    style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}
+                                    dangerouslySetInnerHTML={{
+                                      __html: expandedRows.includes(index) || printing
+                                        ? res.description
+                                        : getDescriptionPreview(res.description)
+                                    }}
+                                  />
+                                </div>
+
+                                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                  {!printing && (
+                                    <Button onClick={() => toggleRowExpansion(index)} className={HiddenOnPrint}>
+                                      {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
+                                    </Button>
+                                  )}
+                                  {expandedRows.includes(index) && positionAtSchool === 'DIRETOR/SUPERVISOR' && (
+                                    <Button onClick={() => handleEdit(index, res)} className={HiddenOnPrint}>
+                                      Editar
+                                    </Button>
+                                  )}
+                                </div>
+                              </DescriptionCell>
+                            </TableRow>
+                            {editingIndex === index && (
+                              <EditContainer>
+                                <div className="modal-content">
+                                  <h3>Editando Aula</h3>
+                                  <ReactQuill
+                                    theme="snow"
+                                    modules={{
+                                      toolbar: [
+                                        [{ 'font': [] }],
+                                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                        ['bold', 'italic', 'underline'],
+                                        [{ 'color': [] }, { 'background': [] }],
+                                        ['clean']
+                                      ]
+                                    }}
+                                    value={editedDescription}
+                                    onChange={(e) => setEditedDescription(e)}
+                                    placeholder="Descrição da aula"
+                                    style={{
+                                      height: 'auto', // aumentado de 250px para 350px
+                                      maxHeight: '550px',
+                                      overflow: 'auto',
+                                      zIndex: 0,
+                                      position: 'relative'
+                                    }}
+                                  />
+                                  {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                  <div style={{ position: 'relative', zIndex: 10, marginTop: '30px', }} className='BoxBtt'>
+                                    <ButtonEdit onClick={handleSaveEdit}>Salvar</ButtonEdit>
+                                    <ButtonEdit onClick={() => setEditingIndex(null)}>Cancelar</ButtonEdit>
+                                  </div>
+                                </div>
+                              </EditContainer>
+                            )}
+                          </ContainerTable>
+                        </React.Fragment>
+                      ))
+                  ) : (
+                    <InfoText>Nenhum registro de aulas encontrado para o professor de Educação Física.</InfoText>
+                  )}
+                </LessonsContainer>
+
+                <PrintStyleLessons />
+              </StudentSection>
+            </>
+            /*<>
+              <StudentSection id='print-area' >
+                <CtnrBtt>
+                  <ButtonPrint className="no-print" onClick={handlePrintClasses}>Imprimir</ButtonPrint>
+                </CtnrBtt>
+                <LessonsContainer>
+                  <ContLogo className="cont-logo-classes">
+                    {(logoUrl) && (
+                      <Preview className="logo-classes" src={logoUrl} alt="Logo da escola" />
+                    )}
+                    <h2>Registros de Aulas do {bimonthly}</h2>
+                  </ContLogo>
+                  <h4 className="total-aulas-lecionadas">
+                    Total de aulas lecionadas: {data?.id_recordClassTaught?.length || 0}
+                  </h4>
+
+                  <ContInfo className="info">
+                    <span><strong>Escola:</strong> {data.nameSchool}</span>
+                  </ContInfo>
+
+                  {data?.id_recordClassTaught?.length > 0 ? (
+                    data.id_recordClassTaught
+                      .sort((a, b) => new Date(a.year, a.month - 1, a.day) - new Date(b.year, b.month - 1, b.day))
+                      .map((res, index) => (
+                        <React.Fragment key={index}>
+                          <ContainerTable className="print-container-table">
+                            <Span>
+                              {Array.isArray(data.idRegentTeacher) &&
+                                data.idRegentTeacher.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
+                                <>
+                                  <div>Professor Titular: <p>{res.id_teacher.name}</p></div>
+                                  {data.nameRegentTeacher02 &&
+                                    data.nameRegentTeacher02 !== "Professor não definido" && (
+                                      <div>Professor Adjunto: <p>{data.nameRegentTeacher02}</p></div>
+                                    )}
+                                </>
+                              ) : Array.isArray(data.idRegentTeacher02) &&
+                                data.idRegentTeacher02.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
+                                <>
+                                  {data.nameRegentTeacher &&
+                                    data.nameRegentTeacher !== "Professor não definido" && (
+                                      <div>Professor Titular: <p>{data.nameRegentTeacher}</p></div>
+                                    )}
+                                  <div>Professor Adjunto: <p>{res.id_teacher.name}</p></div>
+                                </>
+                              ) : Array.isArray(data.idPhysicalEducationTeacher) &&
+                                data.idPhysicalEducationTeacher.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
+                                <div>Professor de Ed. Física: <p>{res.id_teacher.name}</p></div>
+                              ) : (
+                                <div>Professor Titular: <p>{res.id_teacher?.name || "Não definido"}</p></div>
+                              )}
+
+                              <div>Turma: <p>{data.nameClass}</p></div>
+                            </Span>
+                            <TableRow>
+                              <DateCell>{`${res.day}/${res.month}/${res.year}`}</DateCell>
+                              <DescriptionCell>
+                                <div className={`description ${expandedRows.includes(index) ? 'expanded' : 'collapsed'}`}>
+                                  <div
+                                    style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}
+                                    dangerouslySetInnerHTML={{
+                                      __html: expandedRows.includes(index) || printing
+                                        ? res.description
+                                        : getDescriptionPreview(res.description)
+                                    }}
+                                  />
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                  {!printing && (
+                                    <Button onClick={() => toggleRowExpansion(index)} className={HiddenOnPrint}>
+                                      {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
+                                    </Button>
+                                  )}
+                                  {expandedRows.includes(index) && positionAtSchool === 'DIRETOR/SUPERVISOR' && (
+                                    <Button onClick={() => handleEdit(index, res)} className={HiddenOnPrint}>
+                                      Editar
+                                    </Button>
+                                  )}
+                                </div>
+                              </DescriptionCell>
+                            </TableRow>
+                            {editingIndex === index && (
+                              <EditContainer>
+                                <div className="modal-content">
+                                  <h3>Editando Aula</h3>
+                                  <ReactQuill
+                                    theme="snow"
+                                    modules={{
+                                      toolbar: [
+                                        [{ 'font': [] }],
+                                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                        ['bold', 'italic', 'underline'],
+                                        [{ 'color': [] }, { 'background': [] }],
+                                        ['clean']
+                                      ]
+                                    }}
+                                    value={editedDescription}
+                                    onChange={(e) => setEditedDescription(e)}
+                                    placeholder="Descrição da aula"
+                                    style={{
+                                      height: 'auto', // aumentado de 250px para 350px
+                                      maxHeight: '550px',
+                                      overflow: 'auto',
+                                      zIndex: 0,
+                                      position: 'relative'
+                                    }}
+                                  />
+                                  {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                  <div style={{ position: 'relative', zIndex: 10, marginTop: '30px', }} className='BoxBtt'>
+                                    <ButtonEdit onClick={handleSaveEdit}>Salvar</ButtonEdit>
+                                    <ButtonEdit onClick={() => setEditingIndex(null)}>Cancelar</ButtonEdit>
+                                  </div>
+                                </div>
+                              </EditContainer>
+                            )}
+                          </ContainerTable>
+                        </React.Fragment>
+                      ))
+                  ) : (
+                    <InfoText>Nenhum dado de aulas encontrado para o {data.bimonthly}.</InfoText>
+                  )}
+                </LessonsContainer>
+                <PrintStyleLessons />
+              </StudentSection>
+              <StudentSection id='print-area' >
+                <CtnrBtt>
+                  <ButtonPrint className="no-print" onClick={handlePrintClasses}>Imprimir</ButtonPrint>
+                </CtnrBtt>
+                <LessonsContainer>
+                  <ContLogo className="cont-logo-classes">
+                    {(logoUrl) && (
+                      <Preview className="logo-classes" src={logoUrl} alt="Logo da escola" />
+                    )}
+                    <h2>Registros de Aulas do {bimonthly}</h2>
+                  </ContLogo>
+                  <h4 className="total-aulas-lecionadas">
+                    Total de aulas lecionadas: {data?.id_recordClassTaught?.length || 0}
+                  </h4>
+
+                  <ContInfo className="info">
+                    <span><strong>Escola:</strong> {data.nameSchool}</span>
+                  </ContInfo>
+
+                  {data?.id_recordClassTaught?.length > 0 ? (
+                    data.id_recordClassTaught
+                      .sort((a, b) => new Date(a.year, a.month - 1, a.day) - new Date(b.year, b.month - 1, b.day))
+                      .map((res, index) => (
+                        <React.Fragment key={index}>
+                          <ContainerTable className="print-container-table">
+                            <Span>
+                              {Array.isArray(data.idRegentTeacher) &&
+                                data.idRegentTeacher.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
+                                <>
+                                  <div>Professor Titular: <p>{res.id_teacher.name}</p></div>
+                                  {data.nameRegentTeacher02 &&
+                                    data.nameRegentTeacher02 !== "Professor não definido" && (
+                                      <div>Professor Adjunto: <p>{data.nameRegentTeacher02}</p></div>
+                                    )}
+                                </>
+                              ) : Array.isArray(data.idRegentTeacher02) &&
+                                data.idRegentTeacher02.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
+                                <>
+                                  {data.nameRegentTeacher &&
+                                    data.nameRegentTeacher !== "Professor não definido" && (
+                                      <div>Professor Titular: <p>{data.nameRegentTeacher}</p></div>
+                                    )}
+                                  <div>Professor Adjunto: <p>{res.id_teacher.name}</p></div>
+                                </>
+                              ) : Array.isArray(data.idPhysicalEducationTeacher) &&
+                                data.idPhysicalEducationTeacher.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
+                                <div>Professor de Ed. Física: <p>{res.id_teacher.name}</p></div>
+                              ) : (
+                                <div>Professor Titular: <p>{res.id_teacher?.name || "Não definido"}</p></div>
+                              )}
+
+                              <div>Turma: <p>{data.nameClass}</p></div>
+                            </Span>
+                            <TableRow>
+                              <DateCell>{`${res.day}/${res.month}/${res.year}`}</DateCell>
+                              <DescriptionCell>
+                                <div className={`description ${expandedRows.includes(index) ? 'expanded' : 'collapsed'}`}>
+                                  <div
+                                    style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}
+                                    dangerouslySetInnerHTML={{
+                                      __html: expandedRows.includes(index) || printing
+                                        ? res.description
+                                        : getDescriptionPreview(res.description)
+                                    }}
+                                  />
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                  {!printing && (
+                                    <Button onClick={() => toggleRowExpansion(index)} className={HiddenOnPrint}>
+                                      {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
+                                    </Button>
+                                  )}
+                                  {expandedRows.includes(index) && positionAtSchool === 'DIRETOR/SUPERVISOR' && (
+                                    <Button onClick={() => handleEdit(index, res)} className={HiddenOnPrint}>
+                                      Editar
+                                    </Button>
+                                  )}
+                                </div>
+                              </DescriptionCell>
+                            </TableRow>
+                            {editingIndex === index && (
+                              <EditContainer>
+                                <div className="modal-content">
+                                  <h3>Editando Aula</h3>
+                                  <ReactQuill
+                                    theme="snow"
+                                    modules={{
+                                      toolbar: [
+                                        [{ 'font': [] }],
+                                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                        ['bold', 'italic', 'underline'],
+                                        [{ 'color': [] }, { 'background': [] }],
+                                        ['clean']
+                                      ]
+                                    }}
+                                    value={editedDescription}
+                                    onChange={(e) => setEditedDescription(e)}
+                                    placeholder="Descrição da aula"
+                                    style={{
+                                      height: 'auto', // aumentado de 250px para 350px
+                                      maxHeight: '550px',
+                                      overflow: 'auto',
+                                      zIndex: 0,
+                                      position: 'relative'
+                                    }}
+                                  />
+                                  {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                  <div style={{ position: 'relative', zIndex: 10, marginTop: '30px', }} className='BoxBtt'>
+                                    <ButtonEdit onClick={handleSaveEdit}>Salvar</ButtonEdit>
+                                    <ButtonEdit onClick={() => setEditingIndex(null)}>Cancelar</ButtonEdit>
+                                  </div>
+                                </div>
+                              </EditContainer>
+                            )}
+                          </ContainerTable>
+                        </React.Fragment>
+                      ))
+                  ) : (
+                    <InfoText>Nenhum dado de aulas encontrado para o {data.bimonthly}.</InfoText>
+                  )}
+                </LessonsContainer>
+                <PrintStyleLessons />
+              </StudentSection>
+            </>*/
           )}
 
           {activeComponent === 'assessments' && (

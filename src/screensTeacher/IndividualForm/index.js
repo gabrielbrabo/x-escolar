@@ -365,9 +365,9 @@ const IndividualForm = () => {
                             }}>
                                 <h3>⚠️ Atenção!</h3>
                                 <p>
-                                    Esta turma está <strong>sem um professor regente principal</strong>.<br />
+                                    Esta turma está <strong>sem um Professor Regente Titular</strong>.<br />
                                     Para adicionar o relatório do aluno, é necessário que a turma tenha
-                                    um <strong>professor regente principal</strong> vinculado à turma.
+                                    um <strong>Professor Regente Titular</strong> vinculado à turma.
                                 </p>
                                 <div style={{
                                     marginTop: "1.5rem",

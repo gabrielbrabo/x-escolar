@@ -535,15 +535,16 @@ export const LessonsContainer = styled.div`
     .cont-logo-classes {
       display: flex !important;
       flex-direction: column !important;
-      margin-top: 5mm !important; /* margem superior para respeitar a folha */
+      margin-top: 12mm !important; /* margem superior para respeitar a folha */
       align-items: center !important;
-      margin-bottom: 30px !important;
+      margin-bottom: 45px !important;
     }
 
     .logo-classes {
-      //max-width: 150px !important;  /* limita o tamanho da logo */
-      height: auto !important;
-      margin-top: 15mm !important;
+      max-width: 125px !important;  /* limita o tamanho da logo */
+      max-height: 125px !important;  /* limita o tamanho da logo */
+      //height: auto !important;
+      //margin-top: 13mm !important;
       //margin-top: 50px !important;
     }
 
@@ -567,6 +568,7 @@ export const LessonsContainer = styled.div`
     .info {
       font-size: 12pt;
       margin-bottom: 8px;
+      margin-left: 15px;
     }
   }
 `;
