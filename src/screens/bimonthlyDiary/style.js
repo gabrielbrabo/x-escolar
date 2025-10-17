@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { createGlobalStyle } from "styled-components";
 
 export const Container = styled.div`
     width: 100%;
@@ -740,7 +741,7 @@ export const HiddenOnPrint = styled.div`
   }
 `;
 
-export const PrintStyleLessons = styled.div`
+export const PrintStyleLessons = createGlobalStyle`
   @media print {
     body * {
       margin: 0;
@@ -748,7 +749,7 @@ export const PrintStyleLessons = styled.div`
     }
 
     .no-print {
-      display: none;
+      display: none!important;
     }
 
     ${ContainerTable} {
