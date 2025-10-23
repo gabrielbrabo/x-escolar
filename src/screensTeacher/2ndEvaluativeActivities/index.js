@@ -111,14 +111,13 @@ const IndexAttendance = () => {
           const id_mttr = sessionStorage.getItem("Selectmatter");
           const idClass = sessionStorage.getItem("class-info"); // valor direto, sem depender do estado aqui
       
-          const IIndQuarter = await getIIndQuarter(currentYear, JSON.parse(idSchool));
-      
-          console.log(IIndQuarter);
-      
           setMatter(id_mttr);
           setYear(currentYear);
           setId_iiNdQuarter(id_bimonthly);
           setId_class(idClass); // continua setando para controle UI
+
+          const IIndQuarter = await getIIndQuarter(currentYear, JSON.parse(idSchool));
+          console.log(IIndQuarter);
       
           const id_teacher = localStorage.getItem("Id_employee");
       

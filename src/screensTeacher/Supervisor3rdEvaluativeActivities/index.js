@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { clssInfo, getIVthQuarter, GetActivity, updateAvaliacao, createActivity, DestroyActivity } from '../../Api'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { clssInfo, getIIIrdQuarter, GetActivity, updateAvaliacao, createActivity, DestroyActivity } from '../../Api'
 
 import {
     Container,
@@ -61,7 +61,7 @@ const IndexAttendance = () => {
     const [id_matter, setMatter] = useState('');
     const [id_class, setId_class] = useState([])
     //const [studentGrade, setStudentGrade] = useState([]);
-    const [id_ivThQuarter, setId_ivThQuarter] = useState('');
+    const [id_iiiRdQuarter, setId_iiiRdQuarter] = useState('');
     //const [stdt, setStdt] = useState([])
     const [checked, setChecked] = useState([])
     const [id_teacher, setId_teacher] = useState([])
@@ -92,6 +92,11 @@ const IndexAttendance = () => {
 
     const [ContStudent, setContStudent] = useState([]);
 
+    const location = useLocation();
+    const { employee } = location.state || {};
+    console.log("id employee", employee)
+
+
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -106,7 +111,7 @@ const IndexAttendance = () => {
             // setphysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
 
             const currentYear = sessionStorage.getItem("yearGrade");
-            const id_bimonthly = sessionStorage.getItem("id-IV")
+            const id_bimonthly = sessionStorage.getItem("id-III")
             const nameMatter = sessionStorage.getItem("nameMatter")
             const id_mttr = sessionStorage.getItem("Selectmatter")
             const idClass = sessionStorage.getItem("class-info")
@@ -114,12 +119,12 @@ const IndexAttendance = () => {
 
             setMatter(id_mttr)
             setYear(currentYear)
-            setId_ivThQuarter(id_bimonthly)
+            setId_iiiRdQuarter(id_bimonthly)
             setId_class(idClass); // continua setando para controle UI
+            
+            const IIIrdQuarter = await getIIIrdQuarter(currentYear, JSON.parse(idSchool))
 
-            const IVthQuarter = await getIVthQuarter(currentYear, JSON.parse(idSchool))
-
-            const id_teacher = localStorage.getItem("Id_employee");
+            const id_teacher = employee;
 
             // Busca a turma direto com o idClass do sessionStorage
             const resClass = await clssInfo(idClass);
@@ -128,23 +133,23 @@ const IndexAttendance = () => {
                 const turma = resClass.data.data[0];
                 console.log("turma:", turma);
 
-                if (id_teacher !== physicalEducation) {
-                    setopen(turma.dailyStatus["4º BIMESTRE"].regentTeacher);
+                if (JSON.stringify(id_teacher) !== physicalEducation) {
+                    setopen(turma.dailyStatus["3º BIMESTRE"].regentTeacher);
                 } else {
-                    setopen(turma.dailyStatus["4º BIMESTRE"].physicalEducationTeacher);
+                    setopen(turma.dailyStatus["3º BIMESTRE"].physicalEducationTeacher);
                 }
             } else {
                 console.warn("❌ resClass veio vazio ou sem dados:", resClass);
             }
 
-            const bim = await IVthQuarter.data.data.map(res => {
+            const bim = await IIIrdQuarter.data.data.map(res => {
                 return res.bimonthly
 
             })
-            const tg = await IVthQuarter.data.data.map(res => {
+            const tg = await IIIrdQuarter.data.data.map(res => {
                 return res.totalGrade
             })
-            const ag = await IVthQuarter.data.data.map(res => {
+            const ag = await IIIrdQuarter.data.data.map(res => {
                 return res.averageGrade
             })
 
@@ -158,15 +163,15 @@ const IndexAttendance = () => {
             setBimonthly(bimString)
             setTotalGrade(tgString)
             setAverageGrade(agString)
-            setId_teacher(JSON.parse(id_teacher))
+            setId_teacher(id_teacher)
 
 
             // setLoading(false);
         })()
-    }, [year, averageGrade, totalGrade,])
+    }, [year, averageGrade, totalGrade, employee])
 
     useEffect(() => {
-        if (id_matter && year && id_ivThQuarter && id_class) {
+        if (id_matter && year && id_iiiRdQuarter && id_class) {
             setTimeout(() => setLoading(true), 0); // Força atualização no próximo ciclo de renderização
 
             const fetchActivities = async () => {
@@ -197,7 +202,7 @@ const IndexAttendance = () => {
         }
 
         //setLoading(false);
-    }, [id_matter, year, id_ivThQuarter, id_class, bimonthly]);
+    }, [id_matter, year, id_iiiRdQuarter, id_class, bimonthly]);
 
 
     console.log("checked", checked)
@@ -298,12 +303,12 @@ const IndexAttendance = () => {
                         id_teacher: RegentTeacher,
                         id_matter,
                         id_class,
-                        [quarterIdKey]: id_ivThQuarter
+                        [quarterIdKey]: id_iiiRdQuarter
                     });
                     console.log("res creatActivit", res)
                     if (res) {
                         sessionStorage.setItem('id-activity', res.data.activity._id)
-                        navigate('/$num-quarter-grade')
+                        navigate('/Supervisor-$num-quarter-grade', { state: { employee: employee } })
                     } else {
                         setErrorMessage('Erro, verifique os dados e tente novamente.');
                     }
@@ -320,11 +325,11 @@ const IndexAttendance = () => {
                         id_teacher,
                         id_matter,
                         id_class,
-                        [quarterIdKey]: id_ivThQuarter
+                        [quarterIdKey]: id_iiiRdQuarter
                     });
                     if (res) {
                         sessionStorage.setItem('id-activity', res.data.activity._id)
-                        navigate('/$num-quarter-grade')
+                        navigate('/Supervisor-$num-quarter-grade', { state: { employee: employee } })
                         console.log("res creatActivit", res.data.activity._id)
                     } else {
                         setErrorMessage('Erro, verifique os dados e tente novamente.');
@@ -354,7 +359,7 @@ const IndexAttendance = () => {
     const handleAddNota = async (activity) => {
         const idActivity = activity._id
         sessionStorage.setItem('id-activity', idActivity)
-        navigate('/$num-quarter-grade')
+        navigate('/Supervisor-$num-quarter-grade', { state: { employee: employee } })
     };
 
     console.log('form', form)
@@ -374,7 +379,7 @@ const IndexAttendance = () => {
                             <DataSelected>
                                 <SlActionUndo fontSize={'30px'} onClick={Return} />
                                 <Info>
-                                    <p>Bimestre: 4º Bimestre</p>
+                                    <p>Bimestre: 3º Bimestre</p>
                                     <p>Disciplina: {Namematter}</p>
                                 </Info>
                                 <LegendBox>
@@ -527,7 +532,7 @@ const IndexAttendance = () => {
                             }
                         </ContainerStudent>
                     ) : (
-                        <p>4º Bimestre fechado, para editar contate o Diretor ou Supervisor.</p>
+                        <p>3º Bimestre fechado, para editar contate o Diretor ou Supervisor.</p>
                     )}
                 </ContainerDivs>
             }

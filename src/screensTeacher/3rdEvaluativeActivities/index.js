@@ -105,8 +105,6 @@ const IndexAttendance = () => {
             setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
             // setphysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
 
-            const IIIrdQuarter = await getIIIrdQuarter(year, JSON.parse(idSchool))
-
             const currentYear = sessionStorage.getItem("yearGrade");
             const id_bimonthly = sessionStorage.getItem("id-III")
             const nameMatter = sessionStorage.getItem("nameMatter")
@@ -118,6 +116,8 @@ const IndexAttendance = () => {
             setYear(currentYear)
             setId_iiiRdQuarter(id_bimonthly)
             setId_class(idClass); // continua setando para controle UI
+            
+            const IIIrdQuarter = await getIIIrdQuarter(currentYear, JSON.parse(idSchool))
 
             const id_teacher = localStorage.getItem("Id_employee");
 

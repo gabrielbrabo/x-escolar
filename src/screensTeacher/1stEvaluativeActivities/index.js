@@ -104,7 +104,6 @@ const IndexAttendance = () => {
             setclassRegentTeacher(JSON.parse(classRegentTeacher))
             setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
 
-            const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
             /*const open = await IstQuarter.data.data.map(res => {
                 return res.statusSupervisor
 
@@ -120,11 +119,14 @@ const IndexAttendance = () => {
             const id_mttr = sessionStorage.getItem("Selectmatter")
             const idClass = sessionStorage.getItem("class-info")
             // const resClass = await clssInfo(id_class)
-            console.log(IstQuarter)
 
             setMatter(id_mttr)
             setYear(currentYear)
             setId_iStQuarter(id_bimonthly)
+
+            const IstQuarter = await getIstQuarter(currentYear, JSON.parse(idSchool))
+            
+            console.log(IstQuarter)
 
             const resClass = await clssInfo(idClass); // ✅ Aqui você espera a Promise
 

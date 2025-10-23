@@ -36,12 +36,18 @@ import {
     Input,
     Label,
     Select,
+    SupervisorAddButtonContainer,
     ButtonContainer,
+    BlurBackground,
+    ModalContainer,
     ContainerModal,
     ModalContent,
     StatusLine,
     DiaryBimester,
     DiaryWrapper,
+    ButtonRow,
+    ConfirmButton,
+    CancelButton,
     //ButtonWrapper,
     //BlurModal,
     //AlertBox,
@@ -94,6 +100,13 @@ const Cla$$Info = () => {
 
     //const [Selectbimonthly, setSelectbimonthly] = useState();
 
+    const [openModal, setOpenModal] = useState(false);
+    const [selectedAction, setSelectedAction] = useState('');
+
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
+    const [selectedEmployee, setSelectedEmployee] = useState(null);
+
     const [AllBimBull, setBimAllBull] = useState(false);
 
     const [loading, setLoading] = useState(false);
@@ -107,6 +120,8 @@ const Cla$$Info = () => {
         (async () => {
             setLoading(true);
             console.log('useParamsClass', id_class)
+            sessionStorage.removeItem("Selectbimonthly");
+            sessionStorage.removeItem("Selectmatt")
             const position = localStorage.getItem('position_at_school');
             setPositionAtSchool(position);
             const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
@@ -663,6 +678,71 @@ const Cla$$Info = () => {
         );
     };
 
+    const handleEmployeeClick = (employeeId) => {
+        setSelectedEmployeeId(employeeId);
+        setOpenModal(false);
+        setConfirmModal(true);
+    };
+
+    const handleConfirm = () => {
+        setConfirmModal(false);
+        setOpenModal(false);
+        handleSelectEmployee(selectedEmployeeId);
+    };
+
+    const handleCancelConfirm = () => {
+        setConfirmModal(false);
+    }
+
+    const handleOpenModal = (action) => {
+        setSelectedAction(action);
+        setOpenModal(true);
+
+        sessionStorage.setItem("class-info", id_class)
+
+        sessionStorage.setItem(
+            "classRegentTeacher",
+            JSON.stringify(classRegentEmployee.find(emp => emp)._id)
+        );
+
+        sessionStorage.setItem(
+            "classRegentTeacher02",
+            JSON.stringify(classRegentEmployee02.find(emp => emp)._id)
+        );
+
+        sessionStorage.setItem(
+            "physicalEducationTeacher",
+            JSON.stringify(physicalEducationTeacher.find(emp => emp)._id)
+        );
+
+        sessionStorage.removeItem("Selectbimonthly");
+
+    };
+
+    const handleSelectEmployee = (employeeId) => {
+        setOpenModal(false);
+
+        switch (selectedAction) {
+            case 'FREQUENCIA':
+                navigate('/Supervisor-AllAttendances', { state: { employee: employeeId } });
+                break;
+            case 'AULAS':
+                navigate('/Supervisor-classes', { state: { employee: employeeId } });
+                break;
+            case 'CONCEITOS':
+                navigate('/Supervisor-grade', { state: { employee: employeeId } });
+                break;
+            case 'FICHA':
+                navigate('/Supervisor-individual-form', { state: { employee: employeeId } });
+                break;
+            case 'CONCEITOS_FINAIS':
+                navigate('/Supervisor-final-concepts', { state: { employee: employeeId } });
+                break;
+            default:
+                break;
+        }
+    };
+
     return (
         <Container>
             {loading ?
@@ -689,6 +769,68 @@ const Cla$$Info = () => {
                             </Emp>
                         ))
                     }
+
+                    {positionAtSchool === "DIRETOR/SUPERVISOR" && (
+                        <>
+                            <SupervisorAddButtonContainer>
+                                <button onClick={() => handleOpenModal('FREQUENCIA')}>Frequência</button>
+                                <button onClick={() => handleOpenModal('AULAS')}>Aulas</button>
+                                {assessmentFormat !== 'grade'
+                                    ? (
+                                        <button onClick={() => handleOpenModal('CONCEITOS')}>Conceitos</button>
+                                    ) : (
+                                        <button onClick={() => handleOpenModal('CONCEITOS')}>Avaliações</button>
+                                    )
+                                }
+                            </SupervisorAddButtonContainer>
+
+                            {assessmentFormat !== 'grade' &&
+                                <SupervisorAddButtonContainer>
+                                    <button onClick={() => handleOpenModal('FICHA')}>Ficha Individual</button>
+                                    <button onClick={() => handleOpenModal('CONCEITOS_FINAIS')}>Conceitos Finais</button>
+                                </SupervisorAddButtonContainer>
+                            }
+                        </>
+                    )}
+
+                    {confirmModal && (
+                        <BlurBackground>
+                            <ModalContainer>
+                                <h3>Tem certeza que deseja adicionar conteúdo no diário de <strong>{selectedEmployee.name}</strong>?</h3>
+                                <ButtonRow>
+                                    <ConfirmButton onClick={handleConfirm}>Sim</ConfirmButton>
+                                    <CancelButton onClick={handleCancelConfirm}>Não</CancelButton>
+                                </ButtonRow>
+                            </ModalContainer>
+                        </BlurBackground>
+                    )}
+
+                    {openModal && (
+                        <BlurBackground>
+                            <ModalContainer>
+                                <h3>Selecione o funcionário</h3>
+                                <ul>
+                                    {classRegentEmployee?.map(emp => (
+                                        <li key={emp._id} onClick={() => {
+                                            handleEmployeeClick(emp._id);
+                                            setSelectedEmployee(emp);
+                                        }}>
+                                            {emp.name}
+                                        </li>
+                                    ))}
+                                    {physicalEducationTeacher?.map(emp => (
+                                        <li key={emp._id} onClick={() => {
+                                            handleEmployeeClick(emp._id);
+                                            setSelectedEmployee(emp);
+                                        }}>
+                                            {emp.name}
+                                        </li>
+                                    ))}
+                                </ul>
+                                <button onClick={() => setOpenModal(false)}>Cancelar</button>
+                            </ModalContainer>
+                        </BlurBackground>
+                    )}
 
                     <DiaryWrapper>
                         <h2>Diário da Turma</h2>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { clssInfo, getIVthQuarter, GetActivity, updateAvaliacao, createActivity, DestroyActivity } from '../../Api'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { clssInfo, getIIndQuarter, GetActivity, updateAvaliacao, createActivity, DestroyActivity } from '../../Api'
 
 import {
     Container,
@@ -61,7 +61,7 @@ const IndexAttendance = () => {
     const [id_matter, setMatter] = useState('');
     const [id_class, setId_class] = useState([])
     //const [studentGrade, setStudentGrade] = useState([]);
-    const [id_ivThQuarter, setId_ivThQuarter] = useState('');
+    const [id_iiNdQuarter, setId_iiNdQuarter] = useState('');
     //const [stdt, setStdt] = useState([])
     const [checked, setChecked] = useState([])
     const [id_teacher, setId_teacher] = useState([])
@@ -92,81 +92,72 @@ const IndexAttendance = () => {
 
     const [ContStudent, setContStudent] = useState([]);
 
+    const location = useLocation();
+    const { employee } = location.state || {};
+    console.log("id employee", employee)
+
     useEffect(() => {
         (async () => {
-            setLoading(true);
+          setLoading(true);
+      
+          const idSchool = sessionStorage.getItem("id-school");
+          const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
+          const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
+          const physicalEducation = sessionStorage.getItem("physicalEducationTeacher");
+      
+          setclassRegentTeacher(JSON.parse(classRegentTeacher));
+          setclassRegentTeacher02(JSON.parse(classRegentTeacher02));
+      
+          // Pega direto o valor do sessionStorage
+          const currentYear = sessionStorage.getItem("yearGrade");
+          const id_bimonthly = sessionStorage.getItem("id-II");
+          const nameMatter = sessionStorage.getItem("nameMatter");
+          const id_mttr = sessionStorage.getItem("Selectmatter");
+          const idClass = sessionStorage.getItem("class-info"); // valor direto, sem depender do estado aqui
+      
+          setMatter(id_mttr);
+          setYear(currentYear);
+          setId_iiNdQuarter(id_bimonthly);
+          setId_class(idClass); // continua setando para controle UI
 
-            const idSchool = sessionStorage.getItem("id-school");
-            const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
-            const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
-            const physicalEducation = sessionStorage.getItem("physicalEducationTeacher");
-
-            setclassRegentTeacher(JSON.parse(classRegentTeacher))
-            setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
-            // setphysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
-
-            const currentYear = sessionStorage.getItem("yearGrade");
-            const id_bimonthly = sessionStorage.getItem("id-IV")
-            const nameMatter = sessionStorage.getItem("nameMatter")
-            const id_mttr = sessionStorage.getItem("Selectmatter")
-            const idClass = sessionStorage.getItem("class-info")
-            // const resClass = await clssInfo(id_class)
-
-            setMatter(id_mttr)
-            setYear(currentYear)
-            setId_ivThQuarter(id_bimonthly)
-            setId_class(idClass); // continua setando para controle UI
-
-            const IVthQuarter = await getIVthQuarter(currentYear, JSON.parse(idSchool))
-
-            const id_teacher = localStorage.getItem("Id_employee");
-
-            // Busca a turma direto com o idClass do sessionStorage
-            const resClass = await clssInfo(idClass);
-
-            if (resClass?.data?.data && resClass.data.data.length > 0) {
-                const turma = resClass.data.data[0];
-                console.log("turma:", turma);
-
-                if (id_teacher !== physicalEducation) {
-                    setopen(turma.dailyStatus["4º BIMESTRE"].regentTeacher);
-                } else {
-                    setopen(turma.dailyStatus["4º BIMESTRE"].physicalEducationTeacher);
-                }
+          const IIndQuarter = await getIIndQuarter(currentYear, JSON.parse(idSchool));
+          console.log(IIndQuarter);
+      
+          const id_teacher = employee;
+      
+          // Busca a turma direto com o idClass do sessionStorage
+          const resClass = await clssInfo(idClass);
+      
+          if (resClass?.data?.data && resClass.data.data.length > 0) {
+            const turma = resClass.data.data[0];
+            console.log("turma:", turma);
+      
+            if (JSON.stringify(id_teacher) !== physicalEducation) {
+              setopen(turma.dailyStatus["2º BIMESTRE"].regentTeacher);
             } else {
-                console.warn("❌ resClass veio vazio ou sem dados:", resClass);
+              setopen(turma.dailyStatus["2º BIMESTRE"].physicalEducationTeacher);
             }
-
-            const bim = await IVthQuarter.data.data.map(res => {
-                return res.bimonthly
-
-            })
-            const tg = await IVthQuarter.data.data.map(res => {
-                return res.totalGrade
-            })
-            const ag = await IVthQuarter.data.data.map(res => {
-                return res.averageGrade
-            })
-
-            const bimString = bim.join(' '); // Transformar 'tg' em uma string separada por vírgulas
-            const tgString = tg.join(' '); // Transformar 'tg' em uma string separada por vírgulas
-            const agString = ag.join(' '); // Transformar 'ag' em uma string separada por vírgulas
-            console.log("nameMatter2", nameMatter)
-
-            console.log('tg', tgString, "ag", agString)
-            setNameMatter(nameMatter)
-            setBimonthly(bimString)
-            setTotalGrade(tgString)
-            setAverageGrade(agString)
-            setId_teacher(JSON.parse(id_teacher))
-
-
-            // setLoading(false);
-        })()
-    }, [year, averageGrade, totalGrade,])
+          } else {
+            console.warn("❌ resClass veio vazio ou sem dados:", resClass);
+          }
+      
+          const bim = IIndQuarter.data.data.map(res => res.bimonthly);
+          const tg = IIndQuarter.data.data.map(res => res.totalGrade);
+          const ag = IIndQuarter.data.data.map(res => res.averageGrade);
+      
+          setBimonthly(bim.join(' '));
+          setTotalGrade(tg.join(' '));
+          setAverageGrade(ag.join(' '));
+          setNameMatter(nameMatter);
+          setId_teacher(id_teacher);
+      
+          setLoading(false);
+        })();
+      }, [year, averageGrade, totalGrade, id_class, open, employee]);
+      
 
     useEffect(() => {
-        if (id_matter && year && id_ivThQuarter && id_class) {
+        if (id_matter && year && id_iiNdQuarter && id_class) {
             setTimeout(() => setLoading(true), 0); // Força atualização no próximo ciclo de renderização
 
             const fetchActivities = async () => {
@@ -175,7 +166,7 @@ const IndexAttendance = () => {
                     if (resActivity.data.data) {
                         console.log("resActivity", resActivity.data.data);
                         setChecked(resActivity.data.data);
-
+                        console.log('erro class', id_class)
                         const resClass = await clssInfo(id_class);
                         const contStudent = await resClass.data.data.find(res => res)?.id_student;
                         console.log('cont stdt', contStudent);
@@ -197,7 +188,7 @@ const IndexAttendance = () => {
         }
 
         //setLoading(false);
-    }, [id_matter, year, id_ivThQuarter, id_class, bimonthly]);
+    }, [id_matter, year, id_iiNdQuarter, id_class, bimonthly,]);
 
 
     console.log("checked", checked)
@@ -298,12 +289,12 @@ const IndexAttendance = () => {
                         id_teacher: RegentTeacher,
                         id_matter,
                         id_class,
-                        [quarterIdKey]: id_ivThQuarter
+                        [quarterIdKey]: id_iiNdQuarter
                     });
                     console.log("res creatActivit", res)
                     if (res) {
                         sessionStorage.setItem('id-activity', res.data.activity._id)
-                        navigate('/$num-quarter-grade')
+                        navigate('/Supervisor-$num-quarter-grade', { state: { employee: employee } })
                     } else {
                         setErrorMessage('Erro, verifique os dados e tente novamente.');
                     }
@@ -320,11 +311,11 @@ const IndexAttendance = () => {
                         id_teacher,
                         id_matter,
                         id_class,
-                        [quarterIdKey]: id_ivThQuarter
+                        [quarterIdKey]: id_iiNdQuarter
                     });
                     if (res) {
                         sessionStorage.setItem('id-activity', res.data.activity._id)
-                        navigate('/$num-quarter-grade')
+                        navigate('/Supervisor-$num-quarter-grade', { state: { employee: employee } })
                         console.log("res creatActivit", res.data.activity._id)
                     } else {
                         setErrorMessage('Erro, verifique os dados e tente novamente.');
@@ -354,13 +345,15 @@ const IndexAttendance = () => {
     const handleAddNota = async (activity) => {
         const idActivity = activity._id
         sessionStorage.setItem('id-activity', idActivity)
-        navigate('/$num-quarter-grade')
+        navigate('/Supervisor-$num-quarter-grade', { state: { employee: employee } })
     };
 
     console.log('form', form)
 
 
     console.log("startEditing", startEditing._id)
+
+    console.log("open", open)
 
     return (
         <Container>
@@ -374,7 +367,7 @@ const IndexAttendance = () => {
                             <DataSelected>
                                 <SlActionUndo fontSize={'30px'} onClick={Return} />
                                 <Info>
-                                    <p>Bimestre: 4º Bimestre</p>
+                                    <p>Bimestre: 2º Bimestre</p>
                                     <p>Disciplina: {Namematter}</p>
                                 </Info>
                                 <LegendBox>
@@ -527,7 +520,7 @@ const IndexAttendance = () => {
                             }
                         </ContainerStudent>
                     ) : (
-                        <p>4º Bimestre fechado, para editar contate o Diretor ou Supervisor.</p>
+                        <p>2º Bimestre fechado, para editar contate o Diretor ou Supervisor.</p>
                     )}
                 </ContainerDivs>
             }

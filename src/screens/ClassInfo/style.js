@@ -299,6 +299,141 @@ export const Label = styled.label`
     border: 1px solid #ccc;
 `;*/
 
+export const SupervisorAddButtonContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    margin: 7px;
+    gap: 20px;
+
+    button {
+        background-color: #158fa2;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+
+        &:hover {
+            background-color: #218838;
+        }
+
+        @media (max-width: 345px)  {
+            font-size: 9pt; /* Smartphones pequenos */
+        }
+        @media (min-width: 345px) and (max-width: 390px) {
+            font-size: 10pt; /* Smartphones pequenos */
+        }
+        @media (min-width: 390px) and (max-width: 768px) {
+            font-size: 11pt; /* Smartphones pequenos */
+        }
+
+    }
+`
+
+export const ButtonRow = styled.div`
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espaçamento entre os botões */
+    margin-top: 20px;
+`;
+
+export const ConfirmButton = styled.button`
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #2ecc71 !important; /* Verde */
+    color: #fff !important;
+    transition: 0.3s;
+
+    &:hover {
+        filter: brightness(0.9);
+    }
+`;
+
+export const CancelButton = styled.button`
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #e74c3c !important; /* Vermelho */
+    color: #fff !important;
+    transition: 0.3s;
+
+    &:hover {
+        filter: brightness(0.9);
+    }
+`;
+
+export const BlurBackground = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(6px);
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+`;
+
+export const ModalContainer = styled.div`
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    h3 {
+        margin: 0;
+        text-align: center;
+        font-size: 18px;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    li {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: 0.3s;
+        text-align: center;
+    }
+
+    li:hover {
+        transform: scale(1.02);
+    }
+
+    button {
+        align-self: center;
+        padding: 8px 16px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        background: #d9534f;
+        color: #fff;
+        font-weight: 500;
+    }
+`;
+
+
 export const ButtonContainer = styled.div`
     margin-top: 20px;
     display: flex;

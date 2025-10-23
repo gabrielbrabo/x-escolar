@@ -95,15 +95,22 @@ import EditviThQuarter from "./screens/EditviThQuarter"
 import MyClasses from "./screensTeacher/MyClasses"
 import MyClassesInfo from "./screensTeacher/MyClassInfo"
 import AllAttendances from "./screensTeacher/AllAttendances"
+import SupervisorAllAttendances from "./screensTeacher/SupervisorAllAttendances"
 import Attendance from "./screensTeacher/Attendance"
+import SupervisorAttendance from "./screensTeacher/SupervisorAttendance"
 import TestAttendance from "./screensTeacher/TestAttendance"
 
 import Grade from "./screensTeacher/Grade"
+import SupervisorGrade from "./screensTeacher/SupervisorGrade"
 
 import IstEvaluativeActivities from "./screensTeacher/1stEvaluativeActivities"
+import Supervisor1stEvaluativeActivities from "./screensTeacher/Supervisor1stEvaluativeActivities"
 import IIndEvaluativeActivities from "./screensTeacher/2ndEvaluativeActivities"
+import Supervisor2ndEvaluativeActivities from "./screensTeacher/Supervisor2ndEvaluativeActivities"
 import IIIrdEvaluativeActivities from "./screensTeacher/3rdEvaluativeActivities"
+import Supervisor3rdEvaluativeActivities from "./screensTeacher/Supervisor3rdEvaluativeActivities"
 import IVthEvaluativeActivities from "./screensTeacher/4thEvaluativeActivities"
+import Supervisor4thEvaluativeActivities from "./screensTeacher/Supervisor4thEvaluativeActivities"
 
 import IstQuarterGrade from "./screensTeacher/1stQuarterGrade"
 import IIndQuarterGrade from "./screensTeacher/2ndQuarterGrade"
@@ -111,11 +118,16 @@ import IIIrdQuarterGrade from "./screensTeacher/3rdQuarterGrade"
 import IVthQuarterGrade from "./screensTeacher/4thQuarterGrade"
 
 import NumQuarterGrade from "./screensTeacher/NumQuarterGrade"
+import SupervisorNumQuarterGrade from "./screensTeacher/SupervisorNumQuarterGrade"
 
 import GradeiStQuarter from "./screensTeacher/GradeiStQuarter"
+import SupervisorGradeiStQuarter from "./screensTeacher/SupervisorGradeiStQuarter"
 import GradeiiNdQuarter from "./screensTeacher/GradeiiNdQuarter"
+import SupervisorGradeiiNdQuarter from "./screensTeacher/SupervisorGradeiiNdQuarter"
 import GradeiiiRdQuarter from "./screensTeacher/GradeiiiRdQuarter"
+import SupervisorGradeiiiRdQuarter from "./screensTeacher/SupervisorGradeiiiRdQuarter"
 import GradeivThQuarter from "./screensTeacher/GradeivThQuarter"
+import SupervisorGradeivThQuarter from "./screensTeacher/SupervisorGradeivThQuarter"
 import GradevThQuarter from "./screensTeacher/GradevThQuarter"
 import GradeviThQuarter from "./screensTeacher/GradeviThQuarter"
 
@@ -146,12 +158,17 @@ import VIThQuarterReportCard from "./screens/Vi-ThQuarterReportCard"
 import FinalConceptscard from "./screens/FinalConceptscard"
 
 import RecordClassTaught from "./screensTeacher/RecordClassTaught"
+import SupervisorRecordClassTaught from "./screensTeacher/SupervisorRecordClassTaught"
 import Classes from "./screensTeacher/Classes"
+import SupervisorClasses from "./screensTeacher/SupervisorClasses"
 import IndividualForm from "./screensTeacher/IndividualForm"
+import SupervisorIndividualForm from "./screensTeacher/SupervisorIndividualForm"
 import IndForm from "./screens/IndForm"
 import Form from "./screensTeacher/Form"
+import SupervisorForm from "./screensTeacher/SupervisorForm"
 import ExistForm from "./screensTeacher/ExistForm"
 import GradeFinalConcepts from "./screensTeacher/GradeFinalConcepts"
+import SupervisorGradeFinalConcepts from "./screensTeacher/SupervisorGradeFinalConcepts"
 
 import Daily from "./screens/Daily"
 import BimonthlyDiary from "./screens/bimonthlyDiary"
@@ -492,9 +509,19 @@ const AppRoutes = () => {
                             <AllAttendances />
                         </Private>
                     } />
+                    <Route exact path="/Supervisor-AllAttendances" element={
+                        <Private>
+                            <SupervisorAllAttendances />
+                        </Private>
+                    } />
                     <Route exact path="/attendance" element={
                         <Private>
                             <Attendance />
+                        </Private>
+                    } />
+                    <Route exact path="/Supervisor-attendance" element={
+                        <Private>
+                            <SupervisorAttendance />
                         </Private>
                     } />
                     <Route exact path="/test-attendance" element={
@@ -507,10 +534,20 @@ const AppRoutes = () => {
                             <Grade />
                         </Private>
                     } />
+                    <Route exact path="/Supervisor-grade" element={
+                        <Private>
+                            <SupervisorGrade />
+                        </Private>
+                    } />
 
                     <Route exact path="/$st-activities" element={
                         <Private>
                             <IstEvaluativeActivities />
+                        </Private>
+                    } />
+                    <Route exact path="/Supervisor-$st-activities" element={
+                        <Private>
+                            <Supervisor1stEvaluativeActivities />
                         </Private>
                     } />
                     <Route exact path="/$$st-activities" element={
@@ -518,9 +555,19 @@ const AppRoutes = () => {
                             <IIndEvaluativeActivities />
                         </Private>
                     } />
+                    <Route exact path="/Supervisor-$$st-activities" element={
+                        <Private>
+                            <Supervisor2ndEvaluativeActivities />
+                        </Private>
+                    } />
                     <Route exact path="/$$$st-activities" element={
                         <Private>
                             <IIIrdEvaluativeActivities />
+                        </Private>
+                    } />
+                    <Route exact path="/Supervisor-$$$st-activities" element={
+                        <Private>
+                            <Supervisor3rdEvaluativeActivities />
                         </Private>
                     } />
                     <Route exact path="/$$$$th-activities" element={
@@ -528,10 +575,20 @@ const AppRoutes = () => {
                             <IVthEvaluativeActivities />
                         </Private>
                     } />
+                    <Route exact path="/Supervisor-$$$$th-activities" element={
+                        <Private>
+                            <Supervisor4thEvaluativeActivities />
+                        </Private>
+                    } />
                     
                     <Route exact path="/$num-quarter-grade" element={
                         <Private>
                             <NumQuarterGrade />
+                        </Private>
+                    } />
+                    <Route exact path="/Supervisor-$num-quarter-grade" element={
+                        <Private>
+                            <SupervisorNumQuarterGrade />
                         </Private>
                     } />
                     
@@ -561,9 +618,19 @@ const AppRoutes = () => {
                             <GradeiStQuarter />
                         </Private>
                     } />
+                    <Route exact path="/Supervisor-grade-istquarter" element={
+                        <Private>
+                            <SupervisorGradeiStQuarter />
+                        </Private>
+                    } />
                     <Route exact path="/grade-iindquarter" element={
                         <Private>
                             <GradeiiNdQuarter />
+                        </Private>
+                    } />
+                    <Route exact path="/Supervisor-grade-iindquarter" element={
+                        <Private>
+                            <SupervisorGradeiiNdQuarter />
                         </Private>
                     } />
                     <Route exact path="/grade-iiirdquarter" element={
@@ -571,9 +638,19 @@ const AppRoutes = () => {
                             <GradeiiiRdQuarter />
                         </Private>
                     } />
+                    <Route exact path="/Supervisor-grade-iiirdquarter" element={
+                        <Private>
+                            <SupervisorGradeiiiRdQuarter />
+                        </Private>
+                    } />
                     <Route exact path="/grade-ivthquarter" element={
                         <Private>
                             <GradeivThQuarter />
+                        </Private>
+                    } />
+                    <Route exact path="/Supervisor-grade-ivthquarter" element={
+                        <Private>
+                            <SupervisorGradeivThQuarter />
                         </Private>
                     } />
                     <Route exact path="/grade-vthquarter" element={
@@ -706,9 +783,19 @@ const AppRoutes = () => {
                             <RecordClassTaught />
                         </Private>
                     } />
+                    <Route exact path="/Supervisor-record-class-taught" element={
+                        <Private>
+                            <SupervisorRecordClassTaught />
+                        </Private>
+                    } />
                     <Route exact path="/classes" element={
                         <Private>
                             <Classes />
+                        </Private>
+                    } />
+                    <Route exact path="/Supervisor-classes" element={
+                        <Private>
+                            <SupervisorClasses />
                         </Private>
                     } />
                     <Route exact path="/employee-already-registered" element={
@@ -726,9 +813,19 @@ const AppRoutes = () => {
                             <IndividualForm />
                         </Private>
                     } />
+                    <Route exact path="/Supervisor-individual-form" element={
+                        <Private>
+                            <SupervisorIndividualForm />
+                        </Private>
+                    } />
                     <Route exact path="/form" element={
                         <Private>
                             <Form />
+                        </Private>
+                    } />
+                    <Route exact path="/Supervisor-form" element={
+                        <Private>
+                            <SupervisorForm />
                         </Private>
                     } />
                     <Route exact path="/exist-form/:id_form" element={
@@ -744,6 +841,11 @@ const AppRoutes = () => {
                     <Route exact path="/final-concepts" element={
                         <Private>
                             <GradeFinalConcepts />
+                        </Private>
+                    } />
+                    <Route exact path="/Supervisor-final-concepts" element={
+                        <Private>
+                            <SupervisorGradeFinalConcepts />
                         </Private>
                     } />
                     <Route exact path="/daily" element={

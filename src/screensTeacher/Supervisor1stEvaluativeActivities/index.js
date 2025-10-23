@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { clssInfo, getIVthQuarter, GetActivity, updateAvaliacao, createActivity, DestroyActivity } from '../../Api'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { clssInfo, getIstQuarter, GetActivity, updateAvaliacao, createActivity, DestroyActivity } from '../../Api'
 
 import {
     Container,
@@ -61,7 +61,7 @@ const IndexAttendance = () => {
     const [id_matter, setMatter] = useState('');
     const [id_class, setId_class] = useState([])
     //const [studentGrade, setStudentGrade] = useState([]);
-    const [id_ivThQuarter, setId_ivThQuarter] = useState('');
+    const [id_iStQuarter, setId_iStQuarter] = useState('');
     //const [stdt, setStdt] = useState([])
     const [checked, setChecked] = useState([])
     const [id_teacher, setId_teacher] = useState([])
@@ -92,6 +92,10 @@ const IndexAttendance = () => {
 
     const [ContStudent, setContStudent] = useState([]);
 
+    const location = useLocation();
+    const { employee } = location.state || {};
+    console.log("id employee", employee)
+
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -103,10 +107,18 @@ const IndexAttendance = () => {
 
             setclassRegentTeacher(JSON.parse(classRegentTeacher))
             setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
-            // setphysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
 
+            /*const open = await IstQuarter.data.data.map(res => {
+                return res.statusSupervisor
+
+            }).find(res => {
+                return res
+            })
+                setopen(open)*/
+
+            const id_teacher = employee;
             const currentYear = sessionStorage.getItem("yearGrade");
-            const id_bimonthly = sessionStorage.getItem("id-IV")
+            const id_bimonthly = sessionStorage.getItem("id-I")
             const nameMatter = sessionStorage.getItem("nameMatter")
             const id_mttr = sessionStorage.getItem("Selectmatter")
             const idClass = sessionStorage.getItem("class-info")
@@ -114,37 +126,35 @@ const IndexAttendance = () => {
 
             setMatter(id_mttr)
             setYear(currentYear)
-            setId_ivThQuarter(id_bimonthly)
-            setId_class(idClass); // continua setando para controle UI
+            setId_iStQuarter(id_bimonthly)
 
-            const IVthQuarter = await getIVthQuarter(currentYear, JSON.parse(idSchool))
+            const IstQuarter = await getIstQuarter(currentYear, JSON.parse(idSchool))
 
-            const id_teacher = localStorage.getItem("Id_employee");
+            console.log(IstQuarter)
 
-            // Busca a turma direto com o idClass do sessionStorage
-            const resClass = await clssInfo(idClass);
+            const resClass = await clssInfo(idClass); // ✅ Aqui você espera a Promise
 
             if (resClass?.data?.data && resClass.data.data.length > 0) {
                 const turma = resClass.data.data[0];
                 console.log("turma:", turma);
 
-                if (id_teacher !== physicalEducation) {
-                    setopen(turma.dailyStatus["4º BIMESTRE"].regentTeacher);
+                if (JSON.stringify(id_teacher) !== physicalEducation) {
+                    setopen(turma.dailyStatus["1º BIMESTRE"].regentTeacher);
                 } else {
-                    setopen(turma.dailyStatus["4º BIMESTRE"].physicalEducationTeacher);
+                    setopen(turma.dailyStatus["1º BIMESTRE"].physicalEducationTeacher);
                 }
             } else {
                 console.warn("❌ resClass veio vazio ou sem dados:", resClass);
             }
 
-            const bim = await IVthQuarter.data.data.map(res => {
+            const bim = await IstQuarter.data.data.map(res => {
                 return res.bimonthly
 
             })
-            const tg = await IVthQuarter.data.data.map(res => {
+            const tg = await IstQuarter.data.data.map(res => {
                 return res.totalGrade
             })
-            const ag = await IVthQuarter.data.data.map(res => {
+            const ag = await IstQuarter.data.data.map(res => {
                 return res.averageGrade
             })
 
@@ -155,27 +165,30 @@ const IndexAttendance = () => {
 
             console.log('tg', tgString, "ag", agString)
             setNameMatter(nameMatter)
+            setId_class(idClass)
             setBimonthly(bimString)
             setTotalGrade(tgString)
             setAverageGrade(agString)
-            setId_teacher(JSON.parse(id_teacher))
+            setId_teacher(id_teacher);
 
 
             // setLoading(false);
         })()
-    }, [year, averageGrade, totalGrade,])
+    }, [year, averageGrade, totalGrade, id_class, open, employee])
 
     useEffect(() => {
-        if (id_matter && year && id_ivThQuarter && id_class) {
+        if (id_matter && year && id_iStQuarter && id_class) {
             setTimeout(() => setLoading(true), 0); // Força atualização no próximo ciclo de renderização
 
-            const fetchActivities = async () => {
+            const fetchActivities = async (retry = false) => {
                 try {
                     const resActivity = await GetActivity(year, bimonthly, id_matter, id_class);
-                    if (resActivity.data.data) {
+                    console.log("Resposta da API:", resActivity);
+                    if (resActivity.data.data && resActivity.data.data.length > 0) {
                         console.log("resActivity", resActivity.data.data);
                         setChecked(resActivity.data.data);
 
+                        console.log('erro class', id_class)
                         const resClass = await clssInfo(id_class);
                         const contStudent = await resClass.data.data.find(res => res)?.id_student;
                         console.log('cont stdt', contStudent);
@@ -183,8 +196,9 @@ const IndexAttendance = () => {
 
                         const totalNotas = await resActivity.data.data.reduce((sum, activity) => sum + Number(activity.valor), 0);
                         setNotaDistri(totalNotas);
-                    } else {
-                        setChecked([]); // Se não houver atividades, garantir que fique vazio
+                    } else if (!retry) {
+                        // Tenta novamente após um pequeno atraso
+                        setTimeout(() => fetchActivities(true), 1000);
                     }
                 } catch (error) {
                     console.error("Erro ao buscar atividades:", error);
@@ -197,7 +211,7 @@ const IndexAttendance = () => {
         }
 
         //setLoading(false);
-    }, [id_matter, year, id_ivThQuarter, id_class, bimonthly]);
+    }, [id_matter, year, id_iStQuarter, id_class, bimonthly]);
 
 
     console.log("checked", checked)
@@ -218,6 +232,12 @@ const IndexAttendance = () => {
 
     const saveEdit = async () => {
         setLoading(true);
+
+        if (!EditedDescription || !EditedTipo || EditedValor === "" || EditedValor === null || EditedValor === undefined) {
+            setErrorMessage("Por favor, preencha todos os campos antes de salvar.");
+            setLoading(false);
+            return;
+        }
 
         const editedValorNum = parseFloat(EditedValor.toString().replace(',', '.')) || 0;
         const notaDistriNum = parseFloat(NotaDistri.toString().replace(',', '.')) || 0;
@@ -245,7 +265,7 @@ const IndexAttendance = () => {
     };
 
     const Return = () => {
-        navigate(-1)
+        navigate(-2)
     };
 
     const handleActivities = async () => {
@@ -298,12 +318,12 @@ const IndexAttendance = () => {
                         id_teacher: RegentTeacher,
                         id_matter,
                         id_class,
-                        [quarterIdKey]: id_ivThQuarter
+                        [quarterIdKey]: id_iStQuarter
                     });
-                    console.log("res creatActivit", res)
+
                     if (res) {
                         sessionStorage.setItem('id-activity', res.data.activity._id)
-                        navigate('/$num-quarter-grade')
+                        navigate('/Supervisor-$num-quarter-grade', { state: { employee: employee } })
                     } else {
                         setErrorMessage('Erro, verifique os dados e tente novamente.');
                     }
@@ -320,12 +340,12 @@ const IndexAttendance = () => {
                         id_teacher,
                         id_matter,
                         id_class,
-                        [quarterIdKey]: id_ivThQuarter
+                        [quarterIdKey]: id_iStQuarter
                     });
+
                     if (res) {
                         sessionStorage.setItem('id-activity', res.data.activity._id)
-                        navigate('/$num-quarter-grade')
-                        console.log("res creatActivit", res.data.activity._id)
+                        navigate('/Supervisor-$num-quarter-grade', { state: { employee: employee } })
                     } else {
                         setErrorMessage('Erro, verifique os dados e tente novamente.');
                     }
@@ -334,6 +354,7 @@ const IndexAttendance = () => {
             }
 
         }
+        /*window.location.reload() */
     };
 
     const handleOpenModal = async (activity) => {
@@ -348,19 +369,24 @@ const IndexAttendance = () => {
         if (res) {
             window.location.reload();
         }
+        window.location.reload();
         setLoading(false)
     };
 
     const handleAddNota = async (activity) => {
         const idActivity = activity._id
         sessionStorage.setItem('id-activity', idActivity)
-        navigate('/$num-quarter-grade')
+        navigate('/Supervisor-$num-quarter-grade', { state: { employee: employee } })
     };
 
     console.log('form', form)
 
 
     console.log("startEditing", startEditing._id)
+    console.log("NotaDistri", NotaDistri)
+
+
+    console.log("open", open)
 
     return (
         <Container>
@@ -374,7 +400,7 @@ const IndexAttendance = () => {
                             <DataSelected>
                                 <SlActionUndo fontSize={'30px'} onClick={Return} />
                                 <Info>
-                                    <p>Bimestre: 4º Bimestre</p>
+                                    <p>Bimestre: 1º Bimestre</p>
                                     <p>Disciplina: {Namematter}</p>
                                 </Info>
                                 <LegendBox>
@@ -425,7 +451,7 @@ const IndexAttendance = () => {
                                             </List>
                                         </FloatingWindow>
                                     }
-                                    {checked.length > 0 ? (
+                                    {checked && checked.length > 0 ? (
 
                                         <ListChecked>
                                             {
@@ -527,7 +553,7 @@ const IndexAttendance = () => {
                             }
                         </ContainerStudent>
                     ) : (
-                        <p>4º Bimestre fechado, para editar contate o Diretor ou Supervisor.</p>
+                        <p>1º Bimestre fechado, para editar contate o Diretor ou Supervisor.</p>
                     )}
                 </ContainerDivs>
             }
