@@ -16,6 +16,21 @@ export const Container = styled.header`
     color: #3a3a3a;
     gap: 5px;
 
+    .text-desktop {
+    display: none;
+    }
+
+    @media (min-width: 770px) {
+      .text-mobile {
+        display: none;
+      }
+
+      .text-desktop {
+        display: inline;
+      }
+    }
+
+
     svg {
       height: 80px;
       width: 80px;
@@ -142,7 +157,15 @@ export const Container = styled.header`
 
 export const Emp = styled.div`
   //border-radius: 8px;
-  min-width: 250px;
+  /*min-width: 250px;
+  align-items: center;
+  padding: 5px;
+  margin-right: 10px;
+  margin-left: 10px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
+  width: 250px; /* Largura fixa */
   align-items: center;
   padding: 5px;
   margin-right: 10px;
@@ -150,6 +173,10 @@ export const Emp = styled.div`
   border: 2px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export const EmployeeInfo = styled.div`

@@ -83,7 +83,10 @@ export function Header({ setMenuIsVisible }) {
             <div className="logoHome"><DiReact style={{
                 //color: "#61dafb", // Cor padrão do React
                 filter: "drop-shadow(0 0 5px #ffffff)", // Efeito na bolinha (não é exato)
-            }} />{/*<img src={logo} alt="Logo do Sistema" width="150" />*/} Diário Escolar Virtual</div>
+            }} />{/*<img src={logo} alt="Logo do Sistema" width="150" />*/}
+                <span className="text-mobile">Diário Escolar Virtual</span>
+                <span className="text-desktop">D.E.V.</span>
+            </div>
             <section className="desktop-nav">
                 {(position_at_school === "SECRETARIO" || position_at_school === 'DIRETOR/SUPERVISOR') && (
                     <nav>
