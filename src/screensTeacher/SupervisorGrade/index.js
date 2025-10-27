@@ -42,7 +42,7 @@ const Grade = () => {
     const [bimonthly, setbimonthly] = useState([])
     const [Selectmatter, setSelectMatter] = useState([])
     const [matter, setMatter] = useState([])
-    
+
     const [yearclss, setyearclss] = useState('')
 
     const [loading, setLoading] = useState(false);
@@ -163,7 +163,9 @@ const Grade = () => {
             sessionStorage.setItem("nameMatter", nameMatter)
             console.log("nameMatter", nameMatter)
         } else {
-            setErrorMessage('Erro, Verifique os dados e tente novamente.');
+            setErrorMessage('Erro ao buscar a matéria. Verifique os dados e tente novamente.');
+            setLoading(false);
+            return;
         }
 
         sessionStorage.setItem("Selectmatter", Selectmatter)
