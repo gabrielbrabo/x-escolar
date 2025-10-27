@@ -705,15 +705,17 @@ const Cla$$Info = () => {
             JSON.stringify(classRegentEmployee.find(emp => emp)._id)
         );
 
-        sessionStorage.setItem(
-            "classRegentTeacher02",
-            JSON.stringify(classRegentEmployee02.find(emp => emp)._id)
-        );
+        // Regent Teacher 02 (somente se existir)
+        const regent2 = classRegentEmployee02.find(emp => emp);
+        if (regent2?._id) {
+            sessionStorage.setItem("classRegentTeacher02", JSON.stringify(regent2._id));
+        }
 
-        sessionStorage.setItem(
-            "physicalEducationTeacher",
-            JSON.stringify(physicalEducationTeacher.find(emp => emp)._id)
-        );
+        // Professor de Educação Física
+        const physical = physicalEducationTeacher.find(emp => emp);
+        if (physical?._id) {
+            sessionStorage.setItem("physicalEducationTeacher", JSON.stringify(physical._id));
+        }
 
         sessionStorage.removeItem("Selectbimonthly");
 
