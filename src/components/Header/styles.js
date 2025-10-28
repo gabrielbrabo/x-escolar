@@ -239,7 +239,9 @@ export const Span = styled.span`
 
 export const DivButtomEdit = styled.div`
   display:flex;
+  flex-direction: column;
   justify-content: flex-end;
+  gap: 5px;
   @media (max-width: 768px) {
     display: none;
   }

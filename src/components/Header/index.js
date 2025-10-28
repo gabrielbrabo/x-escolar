@@ -26,6 +26,9 @@ export function Header({ setMenuIsVisible }) {
     const [name, setname] = useState();
     const [department, setDepartment] = useState(null);
     const [school, setSchool] = useState(null);
+    const [array, setarray] = useState();
+    const [schools, setSchools] = useState();
+    const [cpf, setuserCPF] = useState();
 
     useEffect(() => {
         const position_at_school = localStorage.getItem("position_at_school");
@@ -41,6 +44,14 @@ export function Header({ setMenuIsVisible }) {
             setPosition_at_school(position_at_school);
             setSchool(School);
         }
+        const schools = sessionStorage.getItem('schools');
+        const userCPF = sessionStorage.getItem('cpf');
+        if (schools) {
+            setarray(schools)
+            const schoolsParam = JSON.parse(schools).map(s => s.id).join(",");
+            setSchools(schoolsParam)
+        }
+        setuserCPF(userCPF)
         setname(name);
     }, []);
 
@@ -49,6 +60,17 @@ export function Header({ setMenuIsVisible }) {
         sessionStorage.clear();
         window.location.reload();
     };
+
+    const handleAlterSchool = () => {
+        console.log("schools", schools)
+        console.log("cpf", cpf)
+
+        window.location.href = `/Alter-school/${schools}/${cpf}`;
+        localStorage.clear();
+        sessionStorage.clear();
+        sessionStorage.setItem("schools", array)
+    };
+
     const handleLogoutEducationDep = () => {
         localStorage.clear();
         sessionStorage.clear();
@@ -153,6 +175,9 @@ export function Header({ setMenuIsVisible }) {
             {!positionAtEducationDepartment ? (
                 <DivButtomEdit>
                     <Btt02 onClick={handleLogout}>Sair</Btt02>
+                    {schools &&
+                        <Btt02 onClick={handleAlterSchool}>Alternar Escola</Btt02>
+                    }
                 </DivButtomEdit>
             ) : (
                 <DivButtomEdit>

@@ -90,6 +90,8 @@ const Preload = () => {
 
           if (Schools) {
             const userCPF = data.schools.map(res => res.cpf);
+            
+            sessionStorage.setItem("schools", JSON.stringify(Schools))
             navigate('/school/selection', { state: { schools: Schools, cpf: userCPF } });
             return;
           }

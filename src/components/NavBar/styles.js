@@ -158,6 +158,7 @@ export const DivButtomEdit = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  gap: 20px;
 `;
 
 export const Btt02 = styled.button`

@@ -22,6 +22,9 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
   const [name, setName] = useState(null);
   const [department, setDepartment] = useState(null);
   const [school, setSchool] = useState(null);
+  const [array, setarray] = useState();
+  const [schools, setSchools] = useState();
+  const [cpf, setuserCPF] = useState();
 
   useEffect(() => {
     document.body.style.overflowY = menuIsVisible ? 'hidden' : 'auto';
@@ -39,6 +42,14 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
       setPositionAtSchool(position);
       setSchool(School);
     }
+    const schools = sessionStorage.getItem('schools');
+    const userCPF = sessionStorage.getItem('cpf');
+    if (schools) {
+      setarray(schools)
+      const schoolsParam = JSON.parse(schools).map(s => s.id).join(",");
+      setSchools(schoolsParam)
+    }
+    setuserCPF(userCPF)
     setName(userName);
   }, [menuIsVisible]);
 
@@ -46,6 +57,16 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
     localStorage.clear();
     sessionStorage.clear();
     window.location.reload();
+  };
+
+  const handleAlterSchool = () => {
+    console.log("schools", schools)
+    console.log("cpf", cpf)
+
+    window.location.href = `/Alter-school/${schools}/${cpf}`;
+    localStorage.clear();
+    sessionStorage.clear();
+    sessionStorage.setItem("schools", array)
   };
 
   const handleLogoutEducationDep = () => {
@@ -92,6 +113,9 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
           </EmployeeInfo>
           <DivButtomEdit>
             <Btt02 onClick={handleLogout}>Sair</Btt02>
+            {schools &&
+              <Btt02 onClick={handleAlterSchool}>Alternar Escola</Btt02>
+            }
           </DivButtomEdit>
           <TiArrowSortedUp />
           <p>Perfil</p>

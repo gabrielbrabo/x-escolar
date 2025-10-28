@@ -23,6 +23,7 @@ import PasswordRecovery from "./screens/PasswordRecovery"
 import PasswordReset from "./screens/PasswordReset"
 import PasswordResetEmpEduDep from "./screens/PasswordResetEmpEduDep"
 import SchoolSelection from "./screens/SchoolSelection"
+import AlterSchool from "./screens/AlterSchool"
 import Preload from "./screens/Preload"
 
 import HomeEmployeeEducationDepartment from "./screens/HomeEmployeeEducationDepartment"
@@ -220,6 +221,7 @@ const AppRoutes = () => {
                     <Route exact path="/reset-password-education-department/:cpf/:id/:reset_token" element={<PasswordRecoveryEducationDepartment />} />
                     <Route exact path="/reset-password/:cpf/:id/:reset_token" element={<PasswordRecovery />} />
                     <Route exact path="/school/selection" element={<SchoolSelection />} />
+                    <Route exact path="/Alter-school/:schools/:cpf" element={<AlterSchool />} />
                     <Route exact path="/" element={<Preload />} />
                     <Route exact path="/home/school" element={
                         <Private>

@@ -46,6 +46,8 @@ const SignInEmployee = () => {
                 const userCPF = cpf;
                 // Verifica se as escolas estão disponíveis e o CPF tem um valor definido
                 if (schools && userCPF) {
+                    
+                    sessionStorage.setItem("schools", JSON.stringify(schools))
                     navigate('/school/selection', { state: { schools, cpf: userCPF } });
                     return; // Sai da função aqui para evitar a execução do restante
                 }
