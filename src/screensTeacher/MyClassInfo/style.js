@@ -101,7 +101,7 @@ export const MatterItem = styled.div`
 export const StudentSection = styled.div`
     background-color: #fff;
     width: 1000px;
-    padding: 20px;
+    padding: 20px 35px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
@@ -112,7 +112,9 @@ export const StudentSection = styled.div`
     }
 
     @media (max-width: 768px) {
-        width: 95%;
+      width: 95%;
+      padding: 20px 20px;
+
     }
 `
 

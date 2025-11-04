@@ -1475,6 +1475,19 @@ export const RegisterGradeIstQuarter = async (
         }, [])
 }
 
+export const DestroyGrade = async (id) => {
+    try {
+        const response = await api.post(`/destroy-grades`,{id});
+        console.log(response.data.message); // "Grade deletada com sucesso!"
+        return response.data;
+    } catch (error) {
+        console.error(
+            "Erro ao deletar grade:",
+            error.response?.data?.message || error.message
+        );
+    }
+};
+
 export const RegisterNumericalGrade = async (
     grades
 ) => {
