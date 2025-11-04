@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { clssInfo, FinalConcepts, indexGrades, /*updateGrade,*/ GetGradeFinalConcepts, GetMatter, GetMatterDetails, FinalConceptsEdit } from '../../Api'
+import { clssInfo, FinalConcepts, indexGrades, /*updateGrade,*/ GetGradeFinalConcepts, GetMatter, GetMatterDetails, FinalConceptsEdit, DestroyFinalGrade } from '../../Api'
 
 import {
     Container,
@@ -33,7 +33,9 @@ import {
     DivBimHeader,
     DivBimCell,
     BoxButton,
-    EmpEdit
+    EmpEdit,
+    BlurBackground,
+    ModalContainer,
 } from './style';
 
 import {
@@ -72,6 +74,9 @@ const Finalconcepts = () => {
     const [RegentTeacher, setclassRegentTeacher] = useState([]);
     const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
     const [physicalEducation, setphysicalEducationTeacher] = useState([]);
+
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [selectedGrade, setSelectedGrade] = useState(null);
 
     useEffect(() => {
         (async () => {
@@ -384,6 +389,26 @@ const Finalconcepts = () => {
         navigate(-1)
     };
 
+    const handleDeleteClick = (grade) => {
+        setSelectedGrade(grade);
+        setConfirmModal(true);
+    };
+
+    const handleConfirm = async () => {
+        if (selectedGrade) {
+            console.log("selected", selectedGrade._id)
+            await DestroyFinalGrade(selectedGrade._id);
+            window.location.reload(); // 🔄 Recarrega a página inteira
+        }
+        setConfirmModal(false);
+        setSelectedGrade(null);
+    };
+
+    const handleCancel = () => {
+        setConfirmModal(false);
+        setSelectedGrade(null);
+    };
+
     return (
         <Container>
             {loading ?
@@ -519,10 +544,31 @@ const Finalconcepts = () => {
                                                                     </DivBimRow>
                                                                 </DivBimTable>
                                                                 <Btt02 onClick={() => startEditing(stdt)} >Editar</Btt02>
+                                                                <Btt02 onClick={() => handleDeleteClick(stdt)}>Deletar</Btt02>
                                                             </Emp>
                                                         </>
                                                     ))
                                             }
+
+{confirmModal && (
+                                            <BlurBackground>
+                                                <ModalContainer>
+                                                    <h3>
+                                                        Tem certeza que deseja deletar o conceito de{" "}
+                                                        <strong>{selectedGrade?.id_student?.name}</strong>?
+                                                    </h3>
+                                                    <div>
+                                                        <button style={{
+                                                            backgroundColor: 'red',
+                                                            color: 'white'
+                                                        }}
+                                                            onClick={handleConfirm}
+                                                        >Sim</button>
+                                                        <button onClick={handleCancel}>Não</button>
+                                                    </div>
+                                                </ModalContainer>
+                                            </BlurBackground>
+                                        )}
                                         </ListChecked>
                                     </>
                                 }

@@ -419,7 +419,7 @@ const IndexAttendance = () => {
                                             <BlurBackground>
                                                 <ModalContainer>
                                                     <h3>
-                                                        Tem certeza que deseja deletar o conceito do aluno{" "}
+                                                        Tem certeza que deseja deletar o conceito de{" "}
                                                         <strong>{selectedGrade?.id_student?.name}</strong>?
                                                     </h3>
                                                     <div>
@@ -434,7 +434,7 @@ const IndexAttendance = () => {
                                                 </ModalContainer>
                                             </BlurBackground>
                                         )}
-                                        
+
                                     </ListChecked>
                                 </>
                             }
