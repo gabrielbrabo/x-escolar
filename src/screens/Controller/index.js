@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { updateSchoolYear, getSchoolYear, uploadLogoSchool, fetchLogo, deleteLogoSchool, hasOpenDiary } from '../../Api';
+import { updateSchoolYear, getSchoolYear, uploadLogoSchool, fetchLogo, deleteLogoSchool, hasOpenDiary, generateStudentsHistory } from '../../Api';
 import {
     Container,
     ContainerYearControl,
@@ -41,6 +41,11 @@ const Matter = () => {
 
     const [previewUrl, setPreviewUrl] = useState('');
 
+    const [finalizingYear, setFinalizingYear] = useState(false);
+    const [finalizingMessage, setFinalizingMessage] = useState("");
+
+    const [notification, setNotification] = useState("");
+
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -73,6 +78,19 @@ const Matter = () => {
         })();
     }, []);
 
+    useEffect(() => {
+        const message = sessionStorage.getItem("notification");
+        if (message) {
+            showNotification(message);
+            sessionStorage.removeItem("notification"); // limpa após exibir
+        }
+    }, []);
+
+    const showNotification = (message) => {
+        setNotification(message);
+        setTimeout(() => setNotification(""), 4000); // desaparece depois de 4 segundos
+    };
+
     const handleNextYearClick = () => {
         setShowModal(true);
     };
@@ -82,7 +100,10 @@ const Matter = () => {
     };
 
     const handleConfirmNextYear = async () => {
-        setLoading(true);
+
+        setShowModal(false);
+        setFinalizingYear(true);
+        setFinalizingMessage("Verificando diários e preparando finalização do ano letivo...");
         const idSchool = JSON.parse(sessionStorage.getItem('id-school'));
 
         try {
@@ -92,10 +113,12 @@ const Matter = () => {
             // Se não existir nenhuma turma registrada → avançar normalmente
             if (!hasOpen?.data || !hasOpen.data.turmasComDiarioAberto) {
                 const nextYear = schoolYear + 1;
+                setFinalizingMessage("Finalizando ano letivo...");
                 await updateSchoolYear(idSchool, nextYear);
-                setLoading(false);
+                setFinalizingYear(false);
                 setShowModal(false);
-                alert(`Ano letivo alterado para ${nextYear}`);
+                // 🔹 Salva mensagem antes do reload
+                sessionStorage.setItem("notification", `Ano letivo alterado para ${nextYear}`);
                 window.location.reload();
                 return;
             }
@@ -103,21 +126,32 @@ const Matter = () => {
             // Se todos os diários estiverem fechados → avançar
             if (hasOpen.data.podeAvancar) {
                 const nextYear = schoolYear + 1;
+
+                setFinalizingMessage("Criando histórico anual dos alunos, aguarde...");
+                // 🔹 1. Gera e salva históricos dos alunos
+                await generateStudentsHistory(idSchool, schoolYear);
+
+                setFinalizingMessage("Finalizando e atualizando ano letivo...");
+                // 🔹 2. Avança o ano letivo
                 await updateSchoolYear(idSchool, nextYear);
-                setLoading(false);
+
+                setFinalizingYear(false);
                 setShowModal(false);
-                alert(`Ano letivo alterado para ${nextYear}`);
+                // 🔹 Salva mensagem antes do reload
+                sessionStorage.setItem("notification", `Ano letivo alterado para ${nextYear}`);
                 window.location.reload();
             } else {
                 // ⚠️ Existem diários em aberto → abre modal de aviso
                 setTurmasPendentes(hasOpen.data.turmasComDiarioAberto || []);
                 setShowModal(false);
                 setShowWarning(true);
-                setLoading(false);
+                setFinalizingYear(false);
+                setFinalizingMessage("");
             }
         } catch (err) {
             console.error("Erro ao verificar diário:", err);
-            setLoading(false);
+            setFinalizingYear(false);
+            setFinalizingMessage("");
             alert("Ocorreu um erro ao tentar avançar o ano letivo.");
         }
     };
@@ -130,7 +164,7 @@ const Matter = () => {
         await updateSchoolYear(idSchool, previousYear);
         setLoading(false);
         setShowModalPrevious(false);
-        alert(`Ano letivo alterado para ${previousYear}`);
+        sessionStorage.setItem("notification", `Ano letivo alterado para ${previousYear}`);
         window.location.reload();
     };
 
@@ -221,13 +255,65 @@ const Matter = () => {
         }
     };
 
-
     return (
         <Container>
+
+            {finalizingYear && (
+                <ModalOverlay>
+                    <ModalContent
+                        style={{
+                            width: '500px',
+                            height: '150px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            borderRadius: '20px',
+                            background: 'white',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                        }}
+                    >
+                        <LoadingSpinner />
+                        <p
+                            style={{
+                                marginTop: '25px',
+                                fontWeight: 'bold',
+                                textAlign: 'center',
+                                fontSize: '16px',
+                                color: '#333',
+                            }}
+                        >
+                            {finalizingMessage}
+                        </p>
+                    </ModalContent>
+                </ModalOverlay>
+            )}
+
             {loading ? (
                 <LoadingSpinner />
             ) : (
                 <>
+
+                    {notification && (
+                        <div
+                            style={{
+                                position: "fixed",
+                                top: "70px",
+                                left: "50%",
+                                transform: "translateX(-50%)",
+                                backgroundColor: "#4caf50",
+                                color: "white",
+                                padding: "12px 24px",
+                                borderRadius: "8px",
+                                boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+                                fontWeight: "bold",
+                                zIndex: 9999,
+                                transition: "opacity 0.5s",
+                            }}
+                        >
+                            {notification}
+                        </div>
+                    )}
                     <div style={{ textAlign: 'center', width: '100%' }}>
                         <h2>Controle</h2>
                     </div>

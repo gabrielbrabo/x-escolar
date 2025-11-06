@@ -201,6 +201,18 @@ export const hasOpenDiary = async (id_school, year) => {
         });
 }
 
+export const generateStudentsHistory = async (idSchool, year) => {
+    return api.post('/register/history', {
+        idSchool, year
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(error.response.data.message);
+                alert(result);
+            }
+        });
+}
+
 export const updateSchoolYear = async (idSchool, newSchoolYear) => {
     return api.post('/update/schoolYear', {
         idSchool, newSchoolYear
