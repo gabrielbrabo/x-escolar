@@ -3,7 +3,7 @@ import styled from 'styled-components';
 // === CONTAINER GERAL ===
 export const Container = styled.div`
   width: 100%;
-  height: calc(100vh - 90px); /* ← subtrai o header */
+  height: calc(100vh - 100px); /* ← subtrai o header */
   background-color: #f9fdfb;
   display: flex;
   flex-direction: column;
