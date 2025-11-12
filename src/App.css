@@ -1,70 +1,79 @@
-.app {
-    margin: 0;
-    padding: 0;
-    min-height: 100%;
-    color: black;
-    background-color: #c8c8c8;
+/* Evita rolagens indesejadas no layout inteiro */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
 }
 
+/* Área principal da aplicação */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #c8c8c8;
+  color: black;
+}
+
+/* Container geral das rotas */
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+/* Logo inicial */
 .logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 21px;
-    font-weight: bold;
-    color: #3a3a3a;
-    background-color: #b1b1b1;
-    box-shadow: 5px 5px 20px #888888;
-    gap: 5px;
-    padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 21px;
+  font-weight: bold;
+  color: #3a3a3a;
+  background-color: #b1b1b1;
+  box-shadow: 5px 5px 20px #888888;
+  gap: 5px;
+  padding: 10px;
+
+  svg {
+    height: 80px;
+    width: 80px;
+    color: #0056b3;
+    animation: rotateLogo 70s linear infinite;
+  }
+
+  @keyframes rotateLogo {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  img {
+    height: 55px;
+    width: 60px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 15px;
+    padding: 5px;
+
+    img {
+      height: 40px;
+      width: 45px;
+    }
 
     svg {
-      height: 80px;
-      width: 80px;
-      color: #0056b3;
-      animation: rotateLogo 70s linear infinite; /* Animação de rotação */
-    }
-
-    @keyframes rotateLogo {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    img{
-      height: 55px;
-      width: 60px;
-    }
-    @media (max-width: 768px) {
-      font-size: 15px;
-      padding: 5px;
-
-      img{
-        height: 40px;
-        width: 45px;
-      }
-
-      svg {
-        height: 40px;
-        width: 45px;
-        animation: rotateLogoMobile 70s linear infinite;
-      }
-    }
-
-    @keyframes rotateLogoMobile {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
+      height: 40px;
+      width: 45px;
+      animation: rotateLogoMobile 70s linear infinite;
     }
   }
 
-.container {
-    display: flex;
-    min-height: 90vh;
+  @keyframes rotateLogoMobile {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
 }
