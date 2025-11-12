@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.header`
-  background: #b1b1b1;
+  background: #5a6e8c;
   padding: 5px;
   padding-left: 10px;
   display: flex;
@@ -13,7 +13,7 @@ export const Container = styled.header`
     align-items: center;
     font-size: 21px;
     font-weight: bold;
-    color: #3a3a3a;
+    color: #f7f9fc;
     gap: 5px;
 
     .text-desktop {
@@ -34,7 +34,7 @@ export const Container = styled.header`
     svg {
       height: 80px;
       width: 80px;
-      color: #0056b3;
+      color: #007bff;
       animation: rotateLogo 70s linear infinite; /* Animação de rotação */
     }
 
@@ -96,13 +96,13 @@ export const Container = styled.header`
       gap: 1.8rem;
 
       .nav__link.active {
-        color: #1466b8;
+        color: #d0e3ff;
         font-weight: bold;
-        border-bottom: 3px solid #ff8830;
+        border-bottom: 3px solid #007bff;
       }
 
       a {
-        color: #007fff;
+        color: #f0f4fa;
         font-size: 18px;
         font-weight: bold;
         position: relative;
@@ -120,7 +120,7 @@ export const Container = styled.header`
         }
 
         &:hover {
-        color: #1466b8;
+        color: #ffffff;
       }
 
         &:hover:before {
@@ -213,7 +213,7 @@ export const ProfileInfo = styled.div`
 export const Name = styled.span`
   font-size: 15px;
   font-weight: bold;
-  color: #158fa2;
+  color: #c9d4e2;
 
   &:first-child {
     margin-bottom: 5px;
@@ -226,7 +226,7 @@ export const Name = styled.span`
 export const Span = styled.span`
   font-size: 13px;
   font-weight: bold;
-  color: #158fa2;
+  color: #c9d4e2;
 
   &:first-child {
     margin-bottom: 5px;
@@ -268,7 +268,7 @@ display: flex;
 flex-direction: column;
 align-items: center;
 //font-size: 10px;
-color: #555;
+color: #fff;
   margin: 0;
   padding: 0;
 //margin-top: 4px;
