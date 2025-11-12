@@ -170,9 +170,9 @@ export const Emp = styled.div`
   padding: 5px;
   margin-right: 10px;
   margin-left: 10px;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  //border: 2px solid #ccc;
+  //border-radius: 8px;
+  //box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   overflow: hidden;
   white-space: nowrap;

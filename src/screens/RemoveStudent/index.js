@@ -183,7 +183,10 @@ const RemoveStudent = () => {
                         &&
                         <Overlay>
                             <ModalContent>
-                                <ConfirmTitle>Tem certeza que deseja remover {name_student} do {serie}?</ConfirmTitle>
+                                <ConfirmTitle>
+                                    Tem certeza que deseja remover {name_student} do {serie}?<br /><br />
+                                    ⚠️ Ao confirmar, <strong>todos os registros, notas ou conceitos, presenças e demais informações</strong> que vinculam este aluno a essa turma serão <strong>excluídos permanentemente</strong> do sistema.
+                                </ConfirmTitle>
                                 <ButtonGroup>
                                     <Button onClick={SignClick}>Remover</Button>
                                     <Btt01 onClick={Return}>Voltar</Btt01>
