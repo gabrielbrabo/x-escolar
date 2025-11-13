@@ -155,6 +155,59 @@ export const Container = styled.header`
   }
 `;
 
+// ⚠️ IMPORTANTE: 'Name' e 'Span' precisam ser declarados ANTES de 'Emp'
+// para evitar o erro "was used before it was defined" no styled-components.
+
+export const Name = styled.span`
+  font-size: 15px;
+  font-weight: bold;
+  color: #c9d4e2;
+
+  &:first-child {
+    margin-bottom: 5px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+  
+`;
+export const Span = styled.span`
+  font-size: 13px;
+  font-weight: bold;
+  color: #c9d4e2;
+
+  &:first-child {
+    margin-bottom: 5px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+`;
+
+export const PerfilIndicador = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+//font-size: 10px;
+color: #fff;
+  margin: 0;
+  padding: 0;
+//margin-top: 4px;
+
+svg {
+  font-size: 14px;
+  //margin-top: -2px;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+}
+`;
+
 export const Emp = styled.div`
   //border-radius: 8px;
   /*min-width: 250px;
@@ -177,6 +230,16 @@ export const Emp = styled.div`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+
+   /* Ao passar o mouse, acende o nome, spans e o indicador */
+  &:hover ${Name},
+  &:hover ${Span},
+  &:hover ${PerfilIndicador},
+  &:hover ${PerfilIndicador} svg,
+  &:hover ${PerfilIndicador} p {
+    color: #ffffff;
+    text-shadow: 0 0 6px rgba(0, 86, 179, 0.4);
+  }
 `;
 
 export const EmployeeInfo = styled.div`
@@ -210,33 +273,6 @@ export const ProfileInfo = styled.div`
   flex-direction: column;cursor: pointer; /* Adiciona o cursor em formato de setinha ao passar o mouse */
 `;
 
-export const Name = styled.span`
-  font-size: 15px;
-  font-weight: bold;
-  color: #c9d4e2;
-
-  &:first-child {
-    margin-bottom: 5px;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 12px;
-  }
-`;
-export const Span = styled.span`
-  font-size: 13px;
-  font-weight: bold;
-  color: #c9d4e2;
-
-  &:first-child {
-    margin-bottom: 5px;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 12px;
-  }
-`;
-
 export const DivButtomEdit = styled.div`
   display:flex;
   flex-direction: column;
@@ -261,26 +297,4 @@ background: transparent;
   @media (max-width: 768px) {
     padding: 8px 16px;
   }
-`;
-
-export const PerfilIndicador = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-//font-size: 10px;
-color: #fff;
-  margin: 0;
-  padding: 0;
-//margin-top: 4px;
-
-svg {
-  font-size: 14px;
-  //margin-top: -2px;
-}
-
-p {
-  margin: 0;
-  padding: 0;
-  font-size: 12px;
-}
 `;
