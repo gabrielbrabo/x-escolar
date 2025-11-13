@@ -117,7 +117,7 @@ export const SignMessageButtonTextBold = styled.span`
 `;
 
 export const DivAddEmp = styled.div`
-  margin-bottom: 20px;
+  //margin-bottom: 20px;
 
   h2 {
     font-size: 2em;
@@ -488,7 +488,7 @@ export const LegendContainer = styled.div`
   justify-content: space-around; /* empurra os itens para extremos */
   align-items: center;
   width: 100%; /* ocupa toda a largura */
-  margin-top: 10px;
+  //margin-top: 10px;
   gap: 40px;
 `;
 
@@ -544,7 +544,7 @@ const GlobalStyle = createGlobalStyle`
 
 
     ${AddEmp} {
-      margin-bottom: 50px;
+      margin-bottom: 30px;
       h3 {
         color: #333;
       }
@@ -564,7 +564,7 @@ const GlobalStyle = createGlobalStyle`
     
     @page {
       size: A4; /* Define o tamanho do papel */
-      margin: 10mm; /* Ajuste as margens conforme necessário */
+      margin: 5mm; /* Ajuste as margens conforme necessário */
     }
 
     .no-print {
@@ -622,6 +622,10 @@ const GlobalStyle = createGlobalStyle`
       display: flex;
       justify-content: center; /* centraliza o h2 */
       padding-bottom: 0px;
+
+      h2 {
+        margin: 0;
+      }
     }
     ${Preview} { /* Ajuste a margem inferior para evitar quebra de página */
       position: absolute;

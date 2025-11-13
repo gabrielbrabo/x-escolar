@@ -117,12 +117,12 @@ export const SignMessageButtonTextBold = styled.span`
 `;
 
 export const DivAddEmp = styled.div`
-  margin-bottom: 20px;
+  //margin-bottom: 20px;
 
   h2 {
     font-size: 2em;
     color: #333;
-    margin-bottom: 20px;
+    //margin-bottom: 20px;
   }
 
   break-after: page;
@@ -234,11 +234,11 @@ export const LegendBox = styled.div`
 
   h3 {
       text-align: center;
-      margin: 5px;
+      margin: 0px;
   }
 
   p {
-    margin: 5px;
+  margin: 2px;
   }
 
   @media (max-width: 375px)  {
@@ -529,10 +529,13 @@ const GlobalStyle = createGlobalStyle`
 
 
     ${AddEmp} {
-      margin-bottom: 50px;
+      margin-bottom: 30px;
       h3 {
         color: #333;
       }
+    }
+    ${DadosStdt} {
+      gap: 0;
     }
     ${LegendBox} {
       padding-left: 15px;
@@ -549,7 +552,7 @@ const GlobalStyle = createGlobalStyle`
     
     @page {
       size: A4; /* Define o tamanho do papel */
-      margin: 10mm; /* Ajuste as margens conforme necessário */
+      margin: 5mm; /* Ajuste as margens conforme necessário */
     }
 
     .no-print {
