@@ -28,7 +28,9 @@ import {
   Preview,
   ContLogo,
   LegendContainer,
-  LegendColors
+  LegendColors,
+  InfoContainer,
+  UpContainer
 } from './style';
 
 
@@ -244,39 +246,43 @@ const AllTheBulletins = () => {
                       <h3>Resultado Final</h3>
                     </AddEmp>
                     <DadosStdt>
-                      <span><strong>Escola:</strong> {nameSchool}</span>
-                      <span><strong>Professor:</strong> {cla$$.regente.map(prof => prof.nome).join(", ")}</span>
-                      <span><strong>Aluno:</strong> {aluno.nome}</span>
-                      <SpanFrequency>
-                        <span>
-                          <IoCheckmarkSharp color='#00fa00' fontSize="30px" />
-                          Presenças: {
-                            (alunoIst?.frequencia?.totalPresencas || 0) +
-                            (alunoIInd?.frequencia?.totalPresencas || 0) +
-                            (alunoIIIrd?.frequencia?.totalPresencas || 0) +
-                            (aluno?.frequencia?.totalPresencas || 0)
-                          } |{" "}
-                          <IoCloseSharp color='#ff050a' fontSize="30px" />
-                          Faltas: {
-                            (alunoIst?.frequencia?.totalFaltas || 0) +
-                            (alunoIInd?.frequencia?.totalFaltas || 0) +
-                            (alunoIIIrd?.frequencia?.totalFaltas || 0) +
-                            (aluno?.frequencia?.totalFaltas || 0)
-                          }
-                        </span>
-                        <span>
-                          <FcSurvey fontSize="25px" />
-                          Faltas Justificadas: {
-                            (alunoIst?.frequencia?.totalFaltasJustificadas || 0) +
-                            (alunoIInd?.frequencia?.totalFaltasJustificadas || 0) +
-                            (alunoIIIrd?.frequencia?.totalFaltasJustificadas || 0) +
-                            (aluno?.frequencia?.totalFaltasJustificadas || 0)
-                          }
-                        </span>
-                      </SpanFrequency>
+                      <UpContainer>
+                        <InfoContainer>
+                          <span><strong>Escola:</strong> {nameSchool}</span>
+                          <span><strong>Professor:</strong> {cla$$.regente.map(prof => prof.nome).join(", ")}</span>
+                          <span><strong>Aluno:</strong> {aluno.nome}</span>
+                        </InfoContainer>
+                        <SpanFrequency>
+                          <span>
+                            <IoCheckmarkSharp color='#00fa00' fontSize="30px" />
+                            Presenças: {
+                              (alunoIst?.frequencia?.totalPresencas || 0) +
+                              (alunoIInd?.frequencia?.totalPresencas || 0) +
+                              (alunoIIIrd?.frequencia?.totalPresencas || 0) +
+                              (aluno?.frequencia?.totalPresencas || 0)
+                            } |{" "}
+                            <IoCloseSharp color='#ff050a' fontSize="30px" />
+                            Faltas: {
+                              (alunoIst?.frequencia?.totalFaltas || 0) +
+                              (alunoIInd?.frequencia?.totalFaltas || 0) +
+                              (alunoIIIrd?.frequencia?.totalFaltas || 0) +
+                              (aluno?.frequencia?.totalFaltas || 0)
+                            }
+                          </span>
+                          <span>
+                            <FcSurvey fontSize="25px" />
+                            Faltas Justificadas: {
+                              (alunoIst?.frequencia?.totalFaltasJustificadas || 0) +
+                              (alunoIInd?.frequencia?.totalFaltasJustificadas || 0) +
+                              (alunoIIIrd?.frequencia?.totalFaltasJustificadas || 0) +
+                              (aluno?.frequencia?.totalFaltasJustificadas || 0)
+                            }
+                          </span>
+                        </SpanFrequency>
+                      </UpContainer>
                       <LegendContainer>
                         <LegendBox>
-                          <h3>Legenda Anual</h3>
+                          {/*<h3>Legenda Anual</h3>*/}
                           <p>
                             Nota Total Anual:{" "}
                             <strong style={{ color: '#1d7f14' }}>

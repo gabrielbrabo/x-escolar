@@ -172,7 +172,41 @@ export const DadosStdt = styled.div`
   }
 `;
 
+export const UpContainer = styled.div`
+  display: flex;
+  justify-content: space-around; /* mantém InfoContainer à esquerda e SpanFrequency à direita */
+  align-items: center; /* alinha no topo */
+  //gap: 20px; /* espaçamento entre os dois blocos */
+  width: 100%;
+  flex-wrap: wrap; /* garante responsividade */
+`;
+/*export const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  padding: 10px;
+`;*/
+
+export const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
+export const Span = styled.span`
+  margin-bottom: 4px;
+`;
+
 export const SpanFrequency = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: column;
+  //gap: 10px;
+`;
+
+/*export const SpanFrequency = styled.div`
   width: 80%;
   height: 0px;
   display: flex;
@@ -186,8 +220,8 @@ export const SpanFrequency = styled.div`
     height: 15px;
     position: relative;
   }
-  /* Estilize o spinner de carregamento aqui */
-`;
+  /* Estilize o spinner de carregamento aqui 
+`;*/
 
 export const LegendBox = styled.div`
   //display: grid;
@@ -507,18 +541,8 @@ const GlobalStyle = createGlobalStyle`
       box-sizing: border-box; /* Inclui o padding e a borda na largura total */
     }
 
-    ${SpanFrequency} {
-      visibility: visible;
-      width: 90%;
-      height: 0px;
-      display: flex;
-      justify-content: center;
-      position: absolute;
-      
-      margin-left: 250px;
 
-      color: #000; /* Ajuste a cor se necessário */
-    }
+
     ${AddEmp} {
       margin-bottom: 50px;
       h3 {
@@ -577,9 +601,9 @@ const GlobalStyle = createGlobalStyle`
     }
     
    ${DivNameMatter} {
-      margin: 0;
-      padding: 0;
-      height: 0px;
+      //margin: 0;
+      //padding: 0;
+      //height: 0px;
     }
 
     ${DivBimHeader} {
@@ -593,7 +617,6 @@ const GlobalStyle = createGlobalStyle`
     ${SpanNameMatter} { /* Ajuste a margem inferior para evitar quebra de página */
       font-size: 0.8em;
     }
-
     ${ContLogo} { /* Ajuste a margem inferior para evitar quebra de página */
       position: relative;
       display: flex;
@@ -621,6 +644,7 @@ const GlobalStyle = createGlobalStyle`
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
+
     /*${SpanTotalGrade}, ${SpanAverageGrade}, ${SpanGradeStudent} {
       font-size: 0.5em; 
     }*/

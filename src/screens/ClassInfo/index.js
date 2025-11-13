@@ -756,6 +756,7 @@ const Cla$$Info = () => {
                             <Emp key={clss._id} >
                                 <ProfileInfo>
                                     <Span>Serie: {clss.serie}</Span>
+                                    <Span>Ano: {clss.year}</Span>
                                     <Span>Etapa de Ensino: {clss.level}</Span>
                                     <Span>Turno: {clss.shift}</Span>
                                     <Span>Codigo: {clss.classCode}</Span>
@@ -772,29 +773,32 @@ const Cla$$Info = () => {
                         ))
                     }
 
-                    {positionAtSchool === "DIRETOR/SUPERVISOR" && (
+                    {yearclss.year === JSON.stringify(year) && !positionAtEducationDepartment && (
                         <>
-                            <SupervisorAddButtonContainer>
-                                <button onClick={() => handleOpenModal('FREQUENCIA')}>Frequência</button>
-                                <button onClick={() => handleOpenModal('AULAS')}>Aulas</button>
-                                {assessmentFormat !== 'grade'
-                                    ? (
-                                        <button onClick={() => handleOpenModal('CONCEITOS')}>Conceitos</button>
-                                    ) : (
-                                        <button onClick={() => handleOpenModal('CONCEITOS')}>Avaliações</button>
-                                    )
-                                }
-                            </SupervisorAddButtonContainer>
+                            {positionAtSchool === "DIRETOR/SUPERVISOR" && (
+                                <>
+                                    <SupervisorAddButtonContainer>
+                                        <button onClick={() => handleOpenModal('FREQUENCIA')}>Frequência</button>
+                                        <button onClick={() => handleOpenModal('AULAS')}>Aulas</button>
+                                        {assessmentFormat !== 'grade'
+                                            ? (
+                                                <button onClick={() => handleOpenModal('CONCEITOS')}>Conceitos</button>
+                                            ) : (
+                                                <button onClick={() => handleOpenModal('CONCEITOS')}>Avaliações</button>
+                                            )
+                                        }
+                                    </SupervisorAddButtonContainer>
 
-                            {assessmentFormat !== 'grade' &&
-                                <SupervisorAddButtonContainer>
-                                    <button onClick={() => handleOpenModal('FICHA')}>Ficha Individual</button>
-                                    <button onClick={() => handleOpenModal('CONCEITOS_FINAIS')}>Conceitos Finais</button>
-                                </SupervisorAddButtonContainer>
-                            }
+                                    {assessmentFormat !== 'grade' &&
+                                        <SupervisorAddButtonContainer>
+                                            <button onClick={() => handleOpenModal('FICHA')}>Ficha Individual</button>
+                                            <button onClick={() => handleOpenModal('CONCEITOS_FINAIS')}>Conceitos Finais</button>
+                                        </SupervisorAddButtonContainer>
+                                    }
+                                </>
+                            )}
                         </>
                     )}
-
                     {confirmModal && (
                         <BlurBackground>
                             <ModalContainer>

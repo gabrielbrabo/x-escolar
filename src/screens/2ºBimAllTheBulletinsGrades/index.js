@@ -28,7 +28,9 @@ import {
   Preview,
   ContLogo,
   LegendContainer,
-  LegendColors
+  LegendColors,
+  InfoContainer,
+  UpContainer
 } from './style';
 
 
@@ -186,18 +188,22 @@ const AllTheBulletins = () => {
                       <h3>2º Bimestre</h3>
                     </AddEmp>
                     <DadosStdt>
-                      <span><strong>Escola:</strong> {nameSchool}</span>
-                      <span><strong>Professor:</strong> {cla$$.regente.map(prof => prof.nome).join(", ")}</span>
-                      <span><strong>Aluno:</strong> {aluno.nome}</span>
-                      <SpanFrequency>
-                        <span>
-                          <IoCheckmarkSharp color='#00fa00' fontSize="30px" /> Presenças: {aluno.frequencia.totalPresencas} |{" "}
-                          <IoCloseSharp color='#ff050a' fontSize="30px" /> Faltas: {aluno.frequencia.totalFaltas}
-                        </span>
-                        <span>
-                          <FcSurvey fontSize="25px" /> Faltas Justificadas: {aluno.frequencia.totalFaltasJustificadas}
-                        </span>
-                      </SpanFrequency>
+                      <UpContainer>
+                        <InfoContainer>
+                          <span><strong>Escola:</strong> {nameSchool}</span>
+                          <span><strong>Professor:</strong> {cla$$.regente.map(prof => prof.nome).join(", ")}</span>
+                          <span><strong>Aluno:</strong> {aluno.nome}</span>
+                        </InfoContainer>
+                        <SpanFrequency>
+                          <span>
+                            <IoCheckmarkSharp color='#00fa00' fontSize="30px" /> Presenças: {aluno.frequencia.totalPresencas} |{" "}
+                            <IoCloseSharp color='#ff050a' fontSize="30px" /> Faltas: {aluno.frequencia.totalFaltas}
+                          </span>
+                          <span>
+                            <FcSurvey fontSize="25px" /> Faltas Justificadas: {aluno.frequencia.totalFaltasJustificadas}
+                          </span>
+                        </SpanFrequency>
+                      </UpContainer>
                       <LegendContainer>
                         <LegendBox>
                           {/*<h3>Legenda</h3>*/}
