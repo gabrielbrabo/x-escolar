@@ -117,12 +117,12 @@ export const SignMessageButtonTextBold = styled.span`
 `;
 
 export const DivAddEmp = styled.div`
-  margin-bottom: 20px;
+  //margin-bottom: 20px;
 
   h2 {
     font-size: 2em;
     color: #333;
-    margin-bottom: 20px;
+    //margin-bottom: 20px;
   }
 
   break-after: page;
@@ -172,7 +172,43 @@ export const DadosStdt = styled.div`
   }
 `;
 
+export const UpContainer = styled.div`
+  display: flex;
+  justify-content: space-between; /* mantém InfoContainer à esquerda e SpanFrequency à direita */
+  align-items: center; /* alinha no topo */
+  //gap: 20px; /* espaçamento entre os dois blocos */
+  width: 100%;
+  flex-wrap: wrap; /* garante responsividade */
+`;
+/*export const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  padding: 10px;
+`;*/
+
+export const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 10px;
+`;
+
+export const Span = styled.span`
+  margin-bottom: 4px;
+`;
+
 export const SpanFrequency = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: column;
+  padding-right: 40px;
+  //gap: 10px;
+`;
+
+/*export const SpanFrequency = styled.div`
   width: 80%;
   height: 0px;
   display: flex;
@@ -186,36 +222,40 @@ export const SpanFrequency = styled.div`
     height: 15px;
     position: relative;
   }
-  /* Estilize o spinner de carregamento aqui */
-`;
+  /* Estilize o spinner de carregamento aqui 
+`;*/
 
 export const LegendBox = styled.div`
   //display: grid;
   //flex-direction: column;
-  max-width: 400px;
+  min-width: 400px;
   background-color: #fff;
   border-radius: 5px;
-  padding: 10px;
+  //padding: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   h3 {
       text-align: center;
+      margin: 0px;
   }
 
   p {
+  margin: 2px;
   }
 
   @media (max-width: 375px)  {
+    min-width: 200px;
     font-size: 9pt; /* Smartphones pequenos */
     padding: 0;
   }
   @media (min-width: 375px) and (max-width: 768px) {
+    min-width: 200px;
     font-size: 10pt; /* Smartphones pequenos */
     padding: 0;
   }
 
     @media(max-width: 768px) {
-      margin-top: 35px;
+      //margin-top: 35px;
     }
 `;
 
@@ -268,6 +308,7 @@ export const DivBimCell = styled.div`
   text-align: center;
   padding: 3px;
   border: 1px solid #ddd;
+  font-weight: bold;
   color: ${props => {
     return props.grade === 'A' ? '#1d7f14' :
       props.grade === 'B' ? 'blue' :
@@ -429,6 +470,40 @@ export const Preview = styled.img`
   
 `;
 
+export const LegendContainer = styled.div`
+ display: flex;
+  justify-content: space-around; /* empurra os itens para extremos */
+  align-items: center;
+  width: 100%; /* ocupa toda a largura */
+  margin-top: 10px;
+  gap: 40px;
+`;
+
+export const LegendColors = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  //text-align: left;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+  }
+
+  .red-box, .blue-box, .green-box {
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+
+  .red-box { background-color: red; }
+  .blue-box { background-color: blue; }
+  .green-box { background-color: green; }
+`;
+
 const GlobalStyle = createGlobalStyle`
   @media print {
     body * {
@@ -453,23 +528,16 @@ const GlobalStyle = createGlobalStyle`
       box-sizing: border-box; /* Inclui o padding e a borda na largura total */
     }
 
-    ${SpanFrequency} {
-      visibility: visible;
-      width: 90%;
-      height: 0px;
-      display: flex;
-      justify-content: center;
-      position: absolute;
-      
-      margin-left: 250px;
 
-      color: #000; /* Ajuste a cor se necessário */
-    }
+
     ${AddEmp} {
-      margin-bottom: 50px;
+      margin-bottom: 30px;
       h3 {
         color: #333;
       }
+    }
+    ${DadosStdt} {
+      gap: 0;
     }
     ${LegendBox} {
       padding-left: 15px;
@@ -486,7 +554,7 @@ const GlobalStyle = createGlobalStyle`
     
     @page {
       size: A4; /* Define o tamanho do papel */
-      margin: 10mm; /* Ajuste as margens conforme necessário */
+      margin: 5mm; /* Ajuste as margens conforme necessário */
     }
 
     .no-print {
@@ -523,9 +591,9 @@ const GlobalStyle = createGlobalStyle`
     }
     
    ${DivNameMatter} {
-      margin: 0;
-      padding: 0;
-      height: 0px;
+      //margin: 0;
+      //padding: 0;
+      //height: 0px;
     }
 
     ${DivBimHeader} {
@@ -539,7 +607,6 @@ const GlobalStyle = createGlobalStyle`
     ${SpanNameMatter} { /* Ajuste a margem inferior para evitar quebra de página */
       font-size: 0.8em;
     }
-
     ${ContLogo} { /* Ajuste a margem inferior para evitar quebra de página */
       position: relative;
       display: flex;
@@ -550,6 +617,22 @@ const GlobalStyle = createGlobalStyle`
       position: absolute;
       left: 0;
       height: 120px;
+    }
+
+    .red-box {
+    background-color: red !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    }
+    .blue-box {
+      background-color: blue !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .green-box {
+      background-color: green !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
 
     /*${SpanTotalGrade}, ${SpanAverageGrade}, ${SpanGradeStudent} {

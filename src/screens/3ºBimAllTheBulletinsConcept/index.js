@@ -26,7 +26,9 @@ import {
   SignMessageButtonText,
   SignMessageButtonTextBold,
   Preview,
-  ContLogo
+  ContLogo,
+  InfoContainer,
+  UpContainer
 } from './style';
 
 
@@ -189,19 +191,23 @@ const AllTheBulletins = () => {
                   </AddEmp>
 
                   <DadosStdt>
-                    <span><strong>Escola:</strong> {nameSchool}</span>
-                    <span><strong>Professor:</strong> {cla$$.regente.map(prof => prof.nome).join(", ")}</span>
-                    <span><strong>Aluno:</strong> {aluno.nome}</span>
+                    <UpContainer>
+                      <InfoContainer>
+                        <span><strong>Escola:</strong> {nameSchool}</span>
+                        <span><strong>Professor:</strong> {cla$$.regente.map(prof => prof.nome).join(", ")}</span>
+                        <span><strong>Aluno:</strong> {aluno.nome}</span>
+                      </InfoContainer>
 
-                    <SpanFrequency>
-                      <span>
-                        <IoCheckmarkSharp color='#00fa00' fontSize="30px" /> Presenças: {aluno.frequencia.totalPresencas} |{" "}
-                        <IoCloseSharp color='#ff050a' fontSize="30px" /> Faltas: {aluno.frequencia.totalFaltas}
-                      </span>
-                      <span>
-                        <FcSurvey fontSize="25px" /> Faltas Justificadas: {aluno.frequencia.totalFaltasJustificadas}
-                      </span>
-                    </SpanFrequency>
+                      <SpanFrequency>
+                        <span>
+                          <IoCheckmarkSharp color='#00fa00' fontSize="30px" /> Presenças: {aluno.frequencia.totalPresencas} |{" "}
+                          <IoCloseSharp color='#ff050a' fontSize="30px" /> Faltas: {aluno.frequencia.totalFaltas}
+                        </span>
+                        <span>
+                          <FcSurvey fontSize="25px" /> Faltas Justificadas: {aluno.frequencia.totalFaltasJustificadas}
+                        </span>
+                      </SpanFrequency>
+                    </UpContainer>
                     <LegendBox>
                       <h3>Legenda</h3>
                       <p><strong style={{ color: '#1d7f14' }}>A</strong> - Alcançou com êxito as capacidades básicas</p>
