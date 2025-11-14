@@ -158,6 +158,14 @@ const AllTheBulletins = () => {
       ) : (
         <>
           <ContainerDivs>
+            <div className="no-print">
+              <h3>Atenção antes de imprimir</h3>
+              <p>
+                Caso o boletim possua muitas matérias e não caiba totalmente em uma única folha,
+                diminua a <strong>escala de impressão</strong> nas configurações da impressora.
+                Sugestão: <strong>90%</strong>, <strong>85%</strong> ou <strong>80%</strong>.
+              </p>
+            </div>
             <PrintButton className="no-print" onClick={handlePrint}>
               Imprimir
             </PrintButton>
@@ -178,86 +186,86 @@ const AllTheBulletins = () => {
                   </AddEmp>
 
                   <DadosStdt>
-                      <UpContainer>
-                        <InfoContainer>
-                          <span><strong>Escola:</strong> {nameSchool}</span>
-                          <span><strong>Professor:</strong> {cla$$.regente.map(prof => prof.nome).join(", ")}</span>
-                          <span><strong>Aluno:</strong> {aluno.nome}</span>
-                        </InfoContainer>
-                      </UpContainer>
-                      <SpanFrequency>
-                        <span>
-                          <IoCheckmarkSharp color='#00fa00' fontSize="30px" /> Presenças: {aluno.frequencia.totalPresencas} |{" "}
-                          <IoCloseSharp color='#ff050a' fontSize="30px" /> Faltas: {aluno.frequencia.totalFaltas}
-                        </span>
-                        <span>
-                          <FcSurvey fontSize="25px" /> Faltas Justificadas: {aluno.frequencia.totalFaltasJustificadas}
-                        </span>
-                      </SpanFrequency>
-                      <LegendBox>
-                        <h3>Legenda</h3>
-                        <p><strong style={{ color: '#1d7f14' }}>A</strong> - Alcançou com êxito as capacidades básicas</p>
-                        <p><strong style={{ color: 'blue' }}>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
-                        <p><strong style={{ color: 'orange' }}>C</strong> - Alcançou parcialmente as capacidades básicas</p>
-                        <p><strong style={{ color: 'red' }}>D</strong> - Não alcançou as capacidades básicas</p>
-                      </LegendBox>
-                    </DadosStdt>
+                    <UpContainer>
+                      <InfoContainer>
+                        <span><strong>Escola:</strong> {nameSchool}</span>
+                        <span><strong>Professor:</strong> {cla$$.regente.map(prof => prof.nome).join(", ")}</span>
+                        <span><strong>Aluno:</strong> {aluno.nome}</span>
+                      </InfoContainer>
+                    </UpContainer>
+                    <SpanFrequency>
+                      <span>
+                        <IoCheckmarkSharp color='#00fa00' fontSize="30px" /> Presenças: {aluno.frequencia.totalPresencas} |{" "}
+                        <IoCloseSharp color='#ff050a' fontSize="30px" /> Faltas: {aluno.frequencia.totalFaltas}
+                      </span>
+                      <span>
+                        <FcSurvey fontSize="25px" /> Faltas Justificadas: {aluno.frequencia.totalFaltasJustificadas}
+                      </span>
+                    </SpanFrequency>
+                    <LegendBox>
+                      <h3>Legenda</h3>
+                      <p><strong style={{ color: '#1d7f14' }}>A</strong> - Alcançou com êxito as capacidades básicas</p>
+                      <p><strong style={{ color: 'blue' }}>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
+                      <p><strong style={{ color: 'orange' }}>C</strong> - Alcançou parcialmente as capacidades básicas</p>
+                      <p><strong style={{ color: 'red' }}>D</strong> - Não alcançou as capacidades básicas</p>
+                    </LegendBox>
+                  </DadosStdt>
 
-                    <DivDados>
-                      <List>
-                        {Object.entries(aluno.totalPorMateria)
-                          .map(([matterName, grade]) => ({ matterName, grade }))
-                          .sort((a, b) => a.matterName.localeCompare(b.matterName))
-                          .map(grd => {
-                            const alunoIst = BulletinsIst.find(a => a.id === aluno.id);
-                            const concept1st = alunoIst ? alunoIst.totalPorMateria[grd.matterName] : "";
+                  <DivDados>
+                    <List>
+                      {Object.entries(aluno.totalPorMateria)
+                        .map(([matterName, grade]) => ({ matterName, grade }))
+                        .sort((a, b) => a.matterName.localeCompare(b.matterName))
+                        .map(grd => {
+                          const alunoIst = BulletinsIst.find(a => a.id === aluno.id);
+                          const concept1st = alunoIst ? alunoIst.totalPorMateria[grd.matterName] : "";
 
-                            return (
-                              <Emp key={grd.matterName}>
-                                <DivNameMatter>
-                                  <SpanNameMatter>{grd.matterName}</SpanNameMatter>
-                                </DivNameMatter>
+                          return (
+                            <Emp key={grd.matterName}>
+                              <DivNameMatter>
+                                <SpanNameMatter>{grd.matterName}</SpanNameMatter>
+                              </DivNameMatter>
 
-                                <Grade>
-                                  <DivBimTable>
-                                    <DivBimRow>
-                                      <DivBimHeader>1º Bim</DivBimHeader>
-                                      <DivBimCell grade={concept1st}>{concept1st || "-"}</DivBimCell>
-                                    </DivBimRow>
+                              <Grade>
+                                <DivBimTable>
+                                  <DivBimRow>
+                                    <DivBimHeader>1º Bim</DivBimHeader>
+                                    <DivBimCell grade={concept1st}>{concept1st || "-"}</DivBimCell>
+                                  </DivBimRow>
 
-                                    <DivBimRow>
-                                      <DivBimHeader>2º Bim</DivBimHeader>
-                                      <DivBimCell grade={grd.grade}>{grd.grade}</DivBimCell>
-                                    </DivBimRow>
+                                  <DivBimRow>
+                                    <DivBimHeader>2º Bim</DivBimHeader>
+                                    <DivBimCell grade={grd.grade}>{grd.grade}</DivBimCell>
+                                  </DivBimRow>
 
-                                    <DivBimRow>
-                                      <DivBimHeader>3º Bim</DivBimHeader>
-                                      <DivBimCell>-</DivBimCell>
-                                    </DivBimRow>
+                                  <DivBimRow>
+                                    <DivBimHeader>3º Bim</DivBimHeader>
+                                    <DivBimCell>-</DivBimCell>
+                                  </DivBimRow>
 
-                                    <DivBimRow>
-                                      <DivBimHeader>4º Bim</DivBimHeader>
-                                      <DivBimCell>-</DivBimCell>
-                                    </DivBimRow>
-                                  </DivBimTable>
-                                </Grade>
-                              </Emp>
-                            );
-                          })}
-                      </List>
-                    </DivDados>
+                                  <DivBimRow>
+                                    <DivBimHeader>4º Bim</DivBimHeader>
+                                    <DivBimCell>-</DivBimCell>
+                                  </DivBimRow>
+                                </DivBimTable>
+                              </Grade>
+                            </Emp>
+                          );
+                        })}
+                    </List>
+                  </DivDados>
 
-                    <DivSignatureArea>
-                      <SignatureBlock>
-                        <Line />
-                        <Label>Assinatura do Professor</Label>
-                      </SignatureBlock>
+                  <DivSignatureArea>
+                    <SignatureBlock>
+                      <Line />
+                      <Label>Assinatura do Professor</Label>
+                    </SignatureBlock>
 
-                      <SignatureBlock>
-                        <Line />
-                        <Label>Assinatura dos Pais ou Responsável</Label>
-                      </SignatureBlock>
-                    </DivSignatureArea>
+                    <SignatureBlock>
+                      <Line />
+                      <Label>Assinatura dos Pais ou Responsável</Label>
+                    </SignatureBlock>
+                  </DivSignatureArea>
                 </DivAddEmp>
               ))}
           </ContainerDivs>

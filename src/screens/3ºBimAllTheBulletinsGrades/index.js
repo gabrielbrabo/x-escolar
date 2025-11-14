@@ -178,6 +178,14 @@ const AllTheBulletins = () => {
       ) : (
         <>
           <ContainerDivs>
+            <div className="no-print">
+              <h3>Atenção antes de imprimir</h3>
+              <p>
+                Caso o boletim possua muitas matérias e não caiba totalmente em uma única folha,
+                diminua a <strong>escala de impressão</strong> nas configurações da impressora.
+                Sugestão: <strong>90%</strong>, <strong>85%</strong> ou <strong>80%</strong>.
+              </p>
+            </div>
             <PrintButton className="no-print" onClick={handlePrint}>
               Imprimir
             </PrintButton>
