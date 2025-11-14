@@ -25,7 +25,9 @@ import {
   DivBimCell,
   DivNameMatter,
   Preview,
-  ContLogo
+  ContLogo,
+  InfoContainer,
+  UpContainer
 } from './style';
 
 import GlobalStyle from './style';
@@ -241,6 +243,14 @@ const GradeIstquarter = () => {
       ) : (
         <>
           <ContainerDivs>
+            <div className="no-print">
+              <h3>Atenção antes de imprimir</h3>
+              <p>
+                Caso o boletim possua muitas matérias e não caiba totalmente em uma única folha,
+                diminua a <strong>escala de impressão</strong> nas configurações da impressora.
+                Sugestão: <strong>90%</strong>, <strong>85%</strong> ou <strong>80%</strong>.
+              </p>
+            </div>
             <PrintButton className="no-print" onClick={handlePrint}>
               Imprimir
             </PrintButton>
@@ -255,13 +265,17 @@ const GradeIstquarter = () => {
                 <h3>3º Bimestre</h3>
               </AddEmp>
               <DadosStdt>
-                <span><strong>Escola:</strong> {nameSchool}</span>
-                <span><strong>Professor:</strong> {teacherName}</span>
-                <span><strong>Aluno:</strong> {stdtName}</span>
-                <SpanFrequency>
-                  <span><IoCheckmarkSharp color='#00fa00' font-size="30px" />Presenças: {countPresences} | <IoCloseSharp color='#ff050a' font-size="30px" />Faltas: {countAbsences}</span>
-                  <span><FcSurvey font-size="25px" />Faltas Justificadas: {countjustifiedAbsence}</span>
-                </SpanFrequency>
+                <UpContainer>
+                  <InfoContainer>
+                    <span><strong>Escola:</strong> {nameSchool}</span>
+                    <span><strong>Professor:</strong> {teacherName}</span>
+                    <span><strong>Aluno:</strong> {stdtName}</span>
+                  </InfoContainer>
+                  <SpanFrequency>
+                    <span><IoCheckmarkSharp color='#00fa00' font-size="30px" />Presenças: {countPresences} | <IoCloseSharp color='#ff050a' font-size="30px" />Faltas: {countAbsences}</span>
+                    <span><FcSurvey font-size="25px" />Faltas Justificadas: {countjustifiedAbsence}</span>
+                  </SpanFrequency>
+                </UpContainer>
                 <LegendBox>
                   <h3>Legenda</h3>
                   <p><strong style={{ color: '#1d7f14' }}>A</strong> - Alcançou com êxito as capacidades básicas</p>

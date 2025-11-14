@@ -9,7 +9,8 @@ export const Container = styled.div`
   align-items: center;
 
   @media (max-width: 768px) {
-    padding: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
   }
 `;
 
@@ -39,13 +40,97 @@ export const ContainerDivs = styled.div`
   }
 `;
 
-export const DivAddEmp = styled.div`
+export const InputArea = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+`;
+
+export const Input = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    width: 100%;
+    max-width: 400px;
+`;
+
+export const Label = styled.label`
+font-size: 16px;
+font-weight: 600;
+color: #333;
+margin-bottom: 8px;
+`;
+
+// Estilo do select de bimestre
+export const Select = styled.select`
+padding: 10px;
+border-radius: 4px;
+border: 1px solid #ccc;
+font-size: 14px;
+color: #333;
+width: 100%;
+background-color: #f9f9f9;
+transition: all 0.3s ease;
+
+&:focus {
+    outline: none;
+    border-color: #007bff;
+    background-color: #e7f0ff;
+}
+`;
+
+export const LoadingSpinner = styled.div`
+  /* Estilize o spinner de carregamento aqui */
+`;
+
+export const ToGoBack = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 35px;
   margin-bottom: 20px;
+  cursor: pointer;
+
+  @media print {
+    display: none; /* Ocultar na impressão */
+  }
+`;
+
+export const SignMessageButtonText = styled.span`
+  color: #333;
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+`;
+
+export const SignMessageButtonTextBold = styled.span`
+  color: #333;
+  font-weight: bold;
+  margin-left: 5px;
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+`;
+
+export const DivAddEmp = styled.div`
+  //margin-bottom: 20px;
 
   h2 {
     font-size: 2em;
     color: #333;
-    margin-bottom: 20px;
+    //margin-bottom: 20px;
+  }
+
+  break-after: page;
+  page-break-after: always;
+
+  &:last-child {
+    break-after: auto;
+    page-break-after: auto;
   }
 `;
 
@@ -61,6 +146,119 @@ export const AddEmp = styled.div`
   }
 `;
 
+export const DadosStdt = styled.div`
+  display: flex;
+  padding: 10px;
+  gap: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+
+  span {
+    @media (max-width: 375px)  {
+      font-size: 9pt; /* Smartphones pequenos */
+    }
+    @media (min-width: 375px) and (max-width: 450px) {
+      font-size: 10pt; /* Smartphones pequenos */
+    }
+    @media (min-width: 450px) and (max-width: 768px) {
+      font-size: 10pt; /* Smartphones pequenos */
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: 98%;
+    padding: 3px;
+  }
+`;
+
+export const UpContainer = styled.div`
+  display: flex;
+  justify-content: space-between; /* mantém InfoContainer à esquerda e SpanFrequency à direita */
+  align-items: center; /* alinha no topo */
+  //gap: 20px; /* espaçamento entre os dois blocos */
+  width: 100%;
+  flex-wrap: wrap; /* garante responsividade */
+`;
+/*export const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  padding: 10px;
+`;*/
+
+export const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 10px;
+`;
+
+export const Span = styled.span`
+  margin-bottom: 4px;
+`;
+
+export const SpanFrequency = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: column;
+  padding-right: 40px;
+  //gap: 10px;
+`;
+
+/*export const SpanFrequency = styled.div`
+  width: 80%;
+  height: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  gap: 10px;
+  margin-top: 30px;
+
+  @media (max-width: 768px) {
+    height: 15px;
+    position: relative;
+  }
+  /* Estilize o spinner de carregamento aqui 
+`;*/
+
+export const LegendBox = styled.div`
+  //display: grid;
+  //flex-direction: column;
+  min-width: 400px;
+  background-color: #fff;
+  border-radius: 5px;
+  //padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  h3 {
+      text-align: center;
+      margin: 0px;
+  }
+
+  p {
+  margin: 2px;
+  }
+
+  @media (max-width: 375px)  {
+    min-width: 200px;
+    font-size: 9pt; /* Smartphones pequenos */
+    padding: 0;
+  }
+  @media (min-width: 375px) and (max-width: 768px) {
+    min-width: 200px;
+    font-size: 10pt; /* Smartphones pequenos */
+    padding: 0;
+  }
+
+    @media(max-width: 768px) {
+      //margin-top: 35px;
+    }
+`;
+
 export const DivDados = styled.div`
   background-color: #fafafa;
   width: 100%;
@@ -68,7 +266,7 @@ export const DivDados = styled.div`
   margin-top: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
+  
   border-bottom: 1px solid #6a0dad;
   border-top: 1px solid #6a0dad;
 
@@ -89,6 +287,66 @@ export const List = styled.ul`
     
   align-items: center;
   }
+`;
+
+export const DivBimRow = styled.div`
+  display: grid;
+  border: 0px solid #ddd;
+`;
+
+export const DivBimHeader = styled.div`
+  display: table-cell;
+  text-align: center;
+  font-weight: bold;
+  padding: 3px;
+  border: 1px solid #ddd;
+  background-color: #f4f4f4;
+`;
+
+export const DivBimCell = styled.div`
+  display: table-cell;
+  text-align: center;
+  padding: 3px;
+  border: 1px solid #ddd;
+  font-weight: bold;
+  color: ${props => {
+    return props.grade === 'A' ? '#1d7f14' :
+      props.grade === 'B' ? 'blue' :
+        props.grade === 'C' ? 'orange' :
+          props.grade === 'D' ? 'red' : 'black';
+  }};
+`;
+
+export const DivSignatureArea = styled.div`
+  display: none;
+
+  @media print {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 60px;
+    padding: 20px;
+  }
+`;
+
+export const SignatureBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const Line = styled.div`
+  width: 200px;
+  border-bottom: 1px solid #000;
+  margin-bottom: 8px;
+`;
+
+export const DivBimTable = styled.div`
+  display: flex;
+  justify-content: center;
+
+  @media(max-width: 768px) {
+        width: 100%;
+    }
 `;
 
 export const Emp = styled.div`
@@ -129,6 +387,11 @@ export const DivNameMatter = styled.div`
   }
 `;
 
+export const SpanNameMatter = styled.span`
+  font-weight: bold;
+  color: #333;
+`;
+
 export const Grade = styled.div`
   display: flex;
   align-items: center;
@@ -136,106 +399,6 @@ export const Grade = styled.div`
   @media (max-width: 768px) {
     width: 100%;
     justify-content: center;
-  }
-`;
-
-export const DadosStdt = styled.div`
-  display: flex;
-  padding: 10px;
-  gap: 10px;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-
-  span {
-    @media (max-width: 375px)  {
-      font-size: 9pt; /* Smartphones pequenos */
-    }
-    @media (min-width: 375px) and (max-width: 450px) {
-      font-size: 10pt; /* Smartphones pequenos */
-    }
-    @media (min-width: 450px) and (max-width: 768px) {
-      font-size: 10pt; /* Smartphones pequenos */
-    }
-  }
-
-  @media (max-width: 768px) {
-    width: 98%;
-    padding: 3px;
-  }
-`;
-
-export const SpanNameMatter = styled.span`
-  font-weight: bold;
-  color: #333;
-`;
-
-export const SpanTotalGrade = styled.span`
-  color: #28a745;
-`;
-
-export const SpanAverageGrade = styled.span`
-  color: #007bff;
-`;
-
-export const SpanGradeStudent = styled.span`
-  color: ${props => {
-    return props.grade === 'A' ? '#1d7f14' :
-      props.grade === 'B' ? 'blue' :
-        props.grade === 'C' ? 'orange' :
-          props.grade === 'D' ? 'red' : 'black';
-  }};
-  font-weight: bold;
-`;
-
-export const SpanFrequency = styled.div`
-  width: 80%;
-  height: 0px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: absolute;
-  gap: 10px;
-  margin-top: 30px;
-
-  @media (max-width: 768px) {
-    height: 15px;
-    position: relative;
-  }
-  /* Estilize o spinner de carregamento aqui */
-`;
-
-export const LoadingSpinner = styled.div`
-  /* Estilize o spinner de carregamento aqui */
-`;
-
-export const ToGoBack = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-top: 35px;
-  margin-bottom: 20px;
-  cursor: pointer;
-
-  @media print {
-    display: none; /* Ocultar na impressão */
-  }
-`;
-
-export const SignMessageButtonText = styled.span`
-  color: #333;
-  @media (max-width: 768px) {
-    font-size: 14px;
-  }
-`;
-
-export const SignMessageButtonTextBold = styled.span`
-  color: #333;
-  font-weight: bold;
-  margin-left: 5px;
-  @media (max-width: 768px) {
-    font-size: 14px;
   }
 `;
 
@@ -258,70 +421,21 @@ export const PrintButton = styled.button`
   }
 `;
 
-export const LegendBox = styled.div`
-  //display: grid;
-  //flex-direction: column;
-  max-width: 400px;
-  background-color: #fff;
-  border-radius: 5px;
-  padding: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-  h3 {
-      text-align: center;
-  }
-
-  p {
-  }
-
-  @media (max-width: 375px)  {
-    font-size: 9pt; /* Smartphones pequenos */
-    padding: 0;
-  }
-  @media (min-width: 375px) and (max-width: 768px) {
-    font-size: 10pt; /* Smartphones pequenos */
-    padding: 0;
-  }
-
-    @media(max-width: 768px) {
-      margin-top: 35px;
-    }
+export const SpanTotalGrade = styled.span`
+  color: #28a745;
 `;
 
-export const DivBimTable = styled.div`
-  display: flex;
-  justify-content: center;
-
-  @media(max-width: 768px) {
-        width: 100%;
-    }
+export const SpanAverageGrade = styled.span`
+  color: #007bff;
 `;
 
-export const DivBimRow = styled.div`
-  display: grid;
-  border: 0px solid #ddd;
-`;
-
-export const DivBimHeader = styled.div`
-  display: table-cell;
-  text-align: center;
-  font-weight: bold;
-  padding: 3px;
-  border: 1px solid #ddd;
-  background-color: #f4f4f4;
-`;
-
-export const DivBimCell = styled.div`
-  display: table-cell;
-  text-align: center;
-  padding: 3px;
-  border: 1px solid #ddd;
+export const SpanGradeStudent = styled.span`
   color: ${props => {
     return props.grade === 'A' ? '#1d7f14' :
       props.grade === 'B' ? 'blue' :
-        props.grade === 'C' ? 'orange' :
-          props.grade === 'D' ? 'red' : 'black';
+        props.grade === 'C' ? 'orange' : 'black';
   }};
+  font-weight: bold;
 `;
 
 export const ContLogo = styled.div`
@@ -356,6 +470,40 @@ export const Preview = styled.img`
   
 `;
 
+export const LegendContainer = styled.div`
+ display: flex;
+  justify-content: space-around; /* empurra os itens para extremos */
+  align-items: center;
+  width: 100%; /* ocupa toda a largura */
+  margin-top: 10px;
+  gap: 40px;
+`;
+
+export const LegendColors = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  //text-align: left;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+  }
+
+  .red-box, .blue-box, .green-box {
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+
+  .red-box { background-color: red; }
+  .blue-box { background-color: blue; }
+  .green-box { background-color: green; }
+`;
+
 const GlobalStyle = createGlobalStyle`
   @media print {
     body * {
@@ -368,36 +516,28 @@ const GlobalStyle = createGlobalStyle`
       visibility: visible; /* Mostra apenas o conteúdo de DivAddEmp */
     }
     ${ContainerDivs} {
-      display: flex;
+      //display: flex;
       justify-content: center;
       padding-top: 0;
     }
 
     #containerDivs {
-      position: absolute;
+      //position: absolute;
       width: 100%; /* Certifique-se de que ocupa toda a largura */
       height: auto; /* Permite o ajuste automático da altura */
       box-sizing: border-box; /* Inclui o padding e a borda na largura total */
-      //gap: 30px;
     }
 
-    ${SpanFrequency} {
-      visibility: visible;
-      width: 90%;
-      height: 0px;
-      display: flex;
-      //justify-content: flex-start;
-      align-items: center;
-      position: absolute;
-      margin-left: 250px;
 
-      color: #000; /* Ajuste a cor se necessário */
-    }
+
     ${AddEmp} {
-      margin-bottom: 50px;
+      margin-bottom: 30px;
       h3 {
         color: #333;
       }
+    }
+    ${DadosStdt} {
+      gap: 0;
     }
     ${LegendBox} {
       padding-left: 15px;
@@ -414,7 +554,7 @@ const GlobalStyle = createGlobalStyle`
     
     @page {
       size: A4; /* Define o tamanho do papel */
-      margin: 10mm; /* Ajuste as margens conforme necessário */
+      margin: 5mm; /* Ajuste as margens conforme necessário */
     }
 
     .no-print {
@@ -451,9 +591,9 @@ const GlobalStyle = createGlobalStyle`
     }
     
    ${DivNameMatter} {
-      margin: 0;
-      padding: 0;
-      height: 0px;
+      //margin: 0;
+      //padding: 0;
+      //height: 0px;
     }
 
     ${DivBimHeader} {
@@ -479,39 +619,26 @@ const GlobalStyle = createGlobalStyle`
       height: 120px;
     }
 
-    ${SpanTotalGrade}, ${SpanAverageGrade}, ${SpanGradeStudent} {
-      font-size: 0.5em; /* Ajuste os tamanhos de fonte para impressão */
+    .red-box {
+    background-color: red !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
     }
+    .blue-box {
+      background-color: blue !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .green-box {
+      background-color: green !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /*${SpanTotalGrade}, ${SpanAverageGrade}, ${SpanGradeStudent} {
+      font-size: 0.5em; 
+    }*/
   }
 `;
-
-export const DivSignatureArea = styled.div`
-  display: none;
-
-  @media print {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 60px;
-    padding: 20px;
-  }
-`;
-
-export const SignatureBlock = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-export const Line = styled.div`
-  width: 200px;
-  border-bottom: 1px solid #000;
-  margin-bottom: 8px;
-`;
-
-export const Label = styled.span`
-  font-size: 14px;
-  color: #000;
-`;
-
 
 export default GlobalStyle;
