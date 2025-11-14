@@ -174,7 +174,7 @@ export const DadosStdt = styled.div`
 
 export const UpContainer = styled.div`
   display: flex;
-  justify-content: space-around; /* mantém InfoContainer à esquerda e SpanFrequency à direita */
+  justify-content: space-between; /* mantém InfoContainer à esquerda e SpanFrequency à direita */
   align-items: center; /* alinha no topo */
   //gap: 20px; /* espaçamento entre os dois blocos */
   width: 100%;
@@ -192,6 +192,7 @@ export const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  padding-left: 10px;
 `;
 
 export const Span = styled.span`
@@ -201,8 +202,9 @@ export const Span = styled.span`
 export const SpanFrequency = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   flex-direction: column;
+  padding-right: 40px;
   //gap: 10px;
 `;
 
