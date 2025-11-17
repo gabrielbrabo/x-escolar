@@ -316,9 +316,9 @@ const Cla$$Info = () => {
         setLoading(false);
     }
 
-    const PrintableAllTheBulletinsGrades = async () => {
+    /*const PrintableAllTheBulletinsGrades = async () => {
         setBimAllBull(true)
-    }
+    }*/
 
     const handleBimonthlyChange = (e) => {
 
