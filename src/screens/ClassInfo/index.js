@@ -1156,9 +1156,9 @@ const Cla$$Info = () => {
                                 <AddImpre>
                                     <p onClick={PrintableAttendanceSheet}>Imprimir Lista de alunos</p>
                                 </AddImpre>
-                                <AddImpre>
+                                {/*<AddImpre>
                                     <p onClick={PrintableAllTheBulletinsGrades}>Emitir boletins da turma</p>
-                                </AddImpre>
+                                </AddImpre>*/}
                                 <p>Total de Alunos: {stdt.length}</p>
                                 {studentTransferMap.length > 0 && <p>Total de Alunos Transferidos: {studentTransferMap.length}</p>}
                                 {/*!showStudent &&

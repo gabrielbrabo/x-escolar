@@ -758,9 +758,9 @@ const MyCla$$Info = () => {
                         <AddImpre>
                             <p onClick={PrintableAttendanceSheet}>Imprimir Lista de Presença</p>
                         </AddImpre>
-                        <AddImpre>
+                        {/*<AddImpre>
                             <p onClick={PrintableAllTheBulletinsGrades}>Emitir boletins da turma</p>
-                        </AddImpre>
+                        </AddImpre>*/}
                         <p>Total de alunos: {stdt.length}</p>
                         {studentTransferMap.length > 0 && <p>Total de Alunos Transferidos: {studentTransferMap.length}</p>}
                         {stdt.length > 0 ? (
