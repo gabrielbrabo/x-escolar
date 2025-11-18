@@ -857,14 +857,14 @@ const Cla$$Info = () => {
                                             </strong>
                                             <div style={{ display: "flex", gap: "0.4rem", marginTop: "0.2rem" }}>
                                                 {console.log("yearClass", yearclss.year, "year", year)}
-                                                {yearclss.year === JSON.stringify(year) && status.regentTeacher === "aberto" && positionAtSchool === 'DIRETOR/SUPERVISOR' && (
+                                                {yearclss.year === JSON.stringify(year) && status.regentTeacher === "aberto" && ( positionAtSchool === 'DIRETOR/SUPERVISOR' || positionAtSchool === "SECRETARIO" ) &&  (
                                                     <button onClick={() => confirmCloseModal(bimester, "regentTeacher")} >
                                                         Fechar Bimestre
                                                     </button>
                                                 )}
                                                 {status.regentTeacher === "fechado" && (
                                                     <>
-                                                        {yearclss.year === JSON.stringify(year) && positionAtSchool === 'DIRETOR/SUPERVISOR' &&
+                                                        {yearclss.year === JSON.stringify(year) && ( positionAtSchool === 'DIRETOR/SUPERVISOR' || positionAtSchool === "SECRETARIO" ) &&
                                                             <button onClick={() => confirmReopenModal(bimester, "regentTeacher")}>
                                                                 Reabrir
                                                             </button>
@@ -888,14 +888,14 @@ const Cla$$Info = () => {
                                                 </span>
                                             </strong>
                                             <div style={{ display: "flex", gap: "0.4rem", marginTop: "0.2rem" }}>
-                                                {yearclss.year === JSON.stringify(year) && status.physicalEducationTeacher === "aberto" && positionAtSchool === 'DIRETOR/SUPERVISOR' && (
+                                                {yearclss.year === JSON.stringify(year) && status.physicalEducationTeacher === "aberto" && ( positionAtSchool === 'DIRETOR/SUPERVISOR' || positionAtSchool === "SECRETARIO" ) && (
                                                     <button onClick={() => confirmCloseModal(bimester, "physicalEducationTeacher")} >
                                                         Fechar Bimestre
                                                     </button>
                                                 )}
                                                 {status.physicalEducationTeacher === "fechado" && (
                                                     <>
-                                                        {yearclss.year === JSON.stringify(year) && positionAtSchool === 'DIRETOR/SUPERVISOR' &&
+                                                        {yearclss.year === JSON.stringify(year) && ( positionAtSchool === 'DIRETOR/SUPERVISOR' || positionAtSchool === "SECRETARIO" ) &&
                                                             <button onClick={() => confirmReopenModal(bimester, "physicalEducationTeacher")}>
                                                                 Reabrir
                                                             </button>
