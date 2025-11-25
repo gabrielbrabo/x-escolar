@@ -6,12 +6,12 @@ export const StyledContainer = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: #f5f5f5;
-  padding: 15px;
+  //padding: 15px;
   //margin-top: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 1000px;
+  max-width: 980px;
 
   h3 {
     margin: 0px;

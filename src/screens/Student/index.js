@@ -118,7 +118,7 @@ const Student = () => {
                             </AreaEmp>
                         </FormSearch>
                         <FormFilter>
-                            <label>Filtra por Turma: </label>
+                            <label>Filtra por Turma </label>
                             <Select id="position"
                                 value={filter}
                                 onChange={

@@ -303,6 +303,10 @@ const Student = () => {
     };
 
     const upStatus = async () => {
+        if (!selectedStatus.value) {
+            alert("Por favor, selecione um status antes de salvar.");
+            return; // Sai da função, não continua
+        }
         setLoading(true)
         try {
             const { data } = await updateStatus({
@@ -502,10 +506,22 @@ const Student = () => {
                                             </div>
                                         )}
 
-                                        <div>
-                                            <Button onClick={() => upStatus()}>Salvar</Button>
-                                            <Button onClick={() => setRemoveStudent(false)}>Cancelar</Button>
+                                        <div className='botões'>
+                                            <Button
+                                                onClick={() => upStatus()}
+                                                style={{ background: "#16a34a" }}
+                                            >
+                                                Salvar
+                                            </Button>
+
+                                            <Button
+                                                onClick={() => setRemoveStudent(false)}
+                                                style={{ background: "#6b7280" }}
+                                            >
+                                                Cancelar
+                                            </Button>
                                         </div>
+
                                     </TableRow>
                                 ))}
                             </ModalContent>

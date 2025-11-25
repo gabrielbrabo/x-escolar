@@ -1,174 +1,209 @@
 import styled from 'styled-components';
 
-// Container principal para a página de empregados
 export const Container = styled.div`
   display: flex;
   width: 100%;
+  max-width: 1200px;
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: #f5f5f5;
-
-  @media (max-width: 768px) {
-    padding: 5px;
-  }
-`;
-export const ContainerEmp = styled.div`
-    width: 90%;
-`;
-
-// Estilo para a lista de empregados
-export const List = styled.div`
-  width: 80%;
-  margin-top: 20px;
-
-  display: flex;
-  flex-direction: column;
- // align-items: center;
-  
-  @media (max-width: 768px) {
-    margin-top: 10px;
-    width: 100%;
-  }
-`;
-
-// Estilo para cada empregado na lista
-export const Emp = styled.div`
-  display: flex;
-  width: auto;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px;
-  margin: 10px 0px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  overflow: hidden;
-  cursor: pointer;
-  &:hover {
-    background-color: #f0f0f0;
-  }
+  background-color: #f8fafc;
+  margin: 0 auto;
+  box-sizing: border-box;
+  overflow-x: hidden; /* <-- Evita rolagem lateral */
 
   @media (max-width: 768px) {
     padding: 10px;
-    flex-direction: column;
-    align-items: flex-start;
   }
 `;
 
-// Estilo para o nome do empregado
-export const Span = styled.span`
-  font-size: 18px;
-  font-weight: 500;
-  color: #333;
+export const ContainerEmp = styled.div`
+  width: 100%;
+  box-sizing: border-box;
+`;
+
+// ---------------- LISTA ----------------
+export const List = styled.div`
+  width: 100%;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  > p {
+    font-size: 15.5px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 5px;
+  }
 
   @media (max-width: 768px) {
-    font-size: 16px;
+    > p {
+      font-size: 14px;
+    }
   }
 `;
 
-// Container para as seções de busca e filtro
+export const Emp = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 14px 16px;
+  gap: 10px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #3b82f6;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .2s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+
+  &:hover {
+    background-color: #f1f5f9;
+    transform: translateX(2px);
+  }
+
+  @media (max-width: 768px) {
+    padding: 12px 14px;
+  }
+`;
+
+export const Span = styled.span`
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+
+  @media (max-width: 768px) {
+    font-size: 14.5px;
+  }
+`;
+
+// ---------------- FILTRO / BUSCA ----------------
 export const Search = styled.div`
   width: 100%;
-  max-width: 800px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  gap: 20px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
     flex-direction: column;
-    margin-bottom: 10px;
+    gap: 12px;
   }
 `;
 
-// Container para o formulário de busca
 export const FormSearch = styled.div`
   display: flex;
   flex-direction: column;
-  width: 45%;
+  width: 50%;
+
+  label {
+    color: #475569;
+    font-weight: 600;
+    font-size: 14.8px;
+    margin-bottom: 5px;
+  }
 
   @media (max-width: 768px) {
     width: 100%;
+    label {
+      font-size: 14px;
+    }
   }
 `;
 
-// Container para o formulário de filtro
 export const FormFilter = styled.div`
   display: flex;
   flex-direction: column;
-  width: 45%;
+  width: 50%;
+
+  label {
+    color: #475569;
+    font-weight: 600;
+    font-size: 14.8px;
+    margin-bottom: 5px;
+  }
 
   @media (max-width: 768px) {
     width: 100%;
-    margin-top: 10px;
+    label {
+      font-size: 14px;
+    }
   }
 `;
 
-// Área para o input de busca
 export const Area = styled.div`
-  margin-top: 10px;
+  margin-top: 2px;
+`;
 
-  @media (max-width: 768px) {
-    max-width: 100%;
+export const InputEmp = styled.input`
+  height: 38px;
+  width: 100%;
+  padding: 0 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 15px;
+  background-color: #fff;
+  transition: border .2s, box-shadow .2s;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59,130,246,0.25);
   }
 `;
 
-// Estilo para o select de filtro
 export const Select = styled.select`
-  margin-top: 10px;
-  width: 95%;
+  margin-top: 2px;
+  width: 100%;
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 15px;
+  background-color: #fff;
+  transition: border .2s, box-shadow .2s;
 
-  @media (max-width: 768px) {
-    font-size: 14px;
+  &:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59,130,246,0.25);
   }
 `;
 
-// Botão para adicionar novo empregado
+// ---------------- BOTÃO ----------------
 export const DivNewEmp = styled.div`
   display: flex;
-  width: 80%;
+  width: 100%;
   justify-content: flex-end;
-  align-items: center;
-  padding: 20px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  padding: 10px 0;
+  margin-bottom: 5px;
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
     justify-content: center;
   }
 `;
 
-// Exportando os componentes InputEmp e Btt02 do mesmo arquivo de estilo
-export const InputEmp = styled.input`
-  height: 35px;
-  width: 98%;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
-
-  @media (max-width: 768px) {
-    font-size: 14px;
-  }
-`;
-
 export const Btt02 = styled.button`
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #3b82f6;
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all .25s ease;
+
   &:hover {
-    background-color: #0056b3;
+    background-color: #2563eb;
+    transform: scale(1.03);
   }
 
-  @media (max-width: 768px) {
-    padding: 8px 16px;
-    font-size: 14px;
+  &:active {
+    transform: scale(0.98);
   }
 `;
