@@ -12,6 +12,10 @@ export const Container = styled.div`
   box-sizing: border-box;
   overflow-x: hidden; /* <-- Evita rolagem lateral */
 
+  container-principal {
+    height: 100%;
+  }
+
   @media (max-width: 768px) {
     padding: 10px;
   }

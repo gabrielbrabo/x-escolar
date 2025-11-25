@@ -82,6 +82,13 @@ const Employees = () => {
         return 0
     })
 
+    const filteredEmployees = employees
+        .filter(emp => !filter || emp.position_at_school === filter) // filtro por cargo
+        .filter(emp => !busca || normalizeString(emp.name).includes(normalizeString(busca))) // filtro por nome
+        .sort((a, b) =>
+            normalizeString(a.name).localeCompare(normalizeString(b.name)) // ordena por nome
+        );
+
     /*if(filter) {
         console.log('filter', filter)
     }*/
@@ -148,11 +155,11 @@ const Employees = () => {
                     }
                     {positionAtEducationDepartment && employees.length <= 0 &&
                         <DivNewEmp>
-                            <Btt02 onClick={ () => navigate('/first/employee')}>Primeiro Funcionario</Btt02>
+                            <Btt02 onClick={() => navigate('/first/employee')}>Primeiro Funcionario</Btt02>
                         </DivNewEmp>
                     }
                     <List>
-                        <p>Total de Funcionários Cadastrados: {employees.length}</p>
+                        <p>Total de Funcionários Cadastrados: {filteredEmployees.length}</p>
                         {
                             employees.filter((fil) => {
                                 if (!filter) {

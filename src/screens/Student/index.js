@@ -65,6 +65,10 @@ const Student = () => {
 
     student.sort((a, b) => normalizeString(a.name).localeCompare(normalizeString(b.name)));
 
+    const filteredStudents = student
+        .filter(fil => !filter || fil.id_class.includes(filter))
+        .filter(val => !busca || normalizeString(val.name).includes(normalizeString(busca)));
+
     if (filter) {
         /*student.map((fil) => {
             const fltr = fil.id_class.map(f => {
@@ -141,7 +145,8 @@ const Student = () => {
                                 <Btt02 onClick={NewStudent}>Novo Aluno</Btt02>
                             </DivNewEmp>
                         }
-                        <p>Total de Alunos: {student.length}</p>
+
+                        <p>Total de Alunos: {filteredStudents.length}</p>
 
                         {
                             student.filter((fil) => {
