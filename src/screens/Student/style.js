@@ -172,7 +172,7 @@ export const Emp = styled.div`
 
   @media (max-width: 768px) {
     padding: 8px;
-    flex-direction: column;
+    //flex-direction: column;
     align-items: flex-start;
     gap: 3px;
   }
