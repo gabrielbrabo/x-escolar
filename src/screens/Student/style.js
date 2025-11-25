@@ -5,6 +5,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  min-height: 86vh;
   padding-top: 20px;
   overflow-x: clip; /* Evita rolagem lateral totalmente */
 
@@ -15,6 +16,7 @@ export const Container = styled.div`
 
 export const ContainerDivs = styled.div`
   width: 100%;
+  //height: 100%;
   max-width: 1000px;
   padding: 0 10px;
   display: flex;
