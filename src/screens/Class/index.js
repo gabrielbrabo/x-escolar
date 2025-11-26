@@ -49,6 +49,10 @@ const Cla$$ = () => {
     Clss.sort((a, b) => (a.serie < b.serie ? -1 : (a.serie > b.serie ? 1 : 0)));
     year.sort((a, b) => (a < b ? -1 : (a > b ? 1 : 0)));
 
+    const filteredClasses = Clss
+        .filter((fil) => (!filter || fil.year === filter))
+        .filter((val) => (!busca || val.serie.includes(busca.toUpperCase())));
+
     const NewClass = () => {
         navigate('/new/class');
     };
@@ -104,8 +108,8 @@ const Cla$$ = () => {
                                 <Btt02 onClick={NewClass}>Nova Turma</Btt02>
                             </DivNewEmp>
                         }
-                        <p>Total de Turmas: {Clss.length}</p>
-                        {Clss.filter((fil) => (!filter || fil.year === filter))
+                        <p>Total de Turmas: {filteredClasses.length}</p>
+                        {filteredClasses.filter((fil) => (!filter || fil.year === filter))
                             .filter((val) => (!busca || val.serie.includes(busca.toUpperCase())))
                             .map((Clss) => (
                                 <Emp

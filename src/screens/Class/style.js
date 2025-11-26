@@ -5,7 +5,10 @@ export const Container = styled.div`
   justify-content: center;
   width: 100%;
   min-height: 90vh;
-  padding: 20px;
+  padding-top: 20px;
+  background: #eef4f7;
+  overflow-x: hidden;
+
   @media (max-width: 768px) {
     padding: 0px;
   }
@@ -15,31 +18,36 @@ export const ContainerDivs = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 1000px;
+  max-width: 1100px;
   gap: 20px;
   padding: 0px;
-  
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+
   @media (max-width: 768px) {
     padding-top: 10px;
   }
 `;
 
-export const User = styled.div`
-  /* Estilos para o componente User */
-`;
-
 export const Search = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  gap: 18px;
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.08);
+  border: 1px solid #e6eef1;
 
   @media (max-width: 768px) {
     width: 97%;
-    padding: 5px;
+    padding: 10px;
+  }
+
+  label {
+    font-weight: 600;
+    color: #003e4f;
+    font-size: 15px;
   }
 `;
 
@@ -55,11 +63,22 @@ export const AreaEmp = styled.div`
 `;
 
 export const InputEmp = styled.input`
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 12px 14px;
+  border: 1px solid #b8c6cc;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  background: #fbfbfb;
+  transition: 0.3s;
+
+  &:focus {
+    border-color: #007bff;
+    background: #fff;
+    box-shadow: 0 0 4px rgba(0,123,255,0.4);
+  }
+
   @media (max-width: 768px) {
-    padding: 8px;
+    padding: 10px;
   }
 `;
 
@@ -70,11 +89,22 @@ export const FormFilter = styled.form`
 `;
 
 export const Select = styled.select`
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 12px 14px;
+  border: 1px solid #b8c6cc;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  background: #fbfbfb;
+  transition: 0.3s;
+
+  &:focus {
+    border-color: #007bff;
+    background: #fff;
+    box-shadow: 0 0 4px rgba(0,123,255,0.4);
+  }
+
   @media (max-width: 768px) {
-    padding: 8px;
+    padding: 10px;
   }
 `;
 
@@ -83,49 +113,68 @@ export const List = styled.div`
   flex-direction: column;
   min-height: 40%;
   gap: 20px;
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.08);
+  border: 1px solid #e6eef1;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  color: #003e4f;
+  font-size: 16px;
 
   @media (max-width: 768px) {
     width: 97%;
-    padding: 5px;
+    padding: 10px;
   }
 `;
 
 export const DivNewEmp = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 `;
 
 export const Btt02 = styled.button`
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  border-radius: 5px;
   padding: 10px 20px;
+  background-color: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all .25s ease;
+
   &:hover {
-    background-color: #0056b3;
+    background-color: #2563eb;
+    transform: scale(1.03);
   }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
   @media (max-width: 768px) {
-    padding: 8px 16px;
+    padding: 10px 18px;
   }
 `;
 
 export const Emp = styled.div`
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #ffffff 0%, #f3fafd 100%);
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
   padding: 20px;
   cursor: pointer;
-  transition: transform 0.3s;
+  transition: 0.3s;
+  border: 1px solid #dde8ec;
+
   &:hover {
-    transform: translateY(-5px);
+    transform: translateY(-4px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    border-color: #007bff;
   }
+
   @media (max-width: 768px) {
     padding: 15px;
   }
@@ -133,20 +182,12 @@ export const Emp = styled.div`
 
 export const Span = styled.span`
   display: block;
-  margin-bottom: 10px;
-  font-size: 16px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #003e4f;
+  text-transform: uppercase;
+
   @media (max-width: 768px) {
     font-size: 14px;
   }
-`;
-
-export const LoadingSpinnerContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
-
-export const LoadingSpinner = styled.div`
-  /* Estilos para o spinner de carregamento */
 `;
