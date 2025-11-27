@@ -9,7 +9,7 @@ export const Container = styled.div`
     align-items: center;
 `;
 
-export const HeaderWrapper = styled.div`
+/*export const HeaderWrapper = styled.div`
   //display: flex;
   align-items: flex-start;
   //gap: 20px;
@@ -26,12 +26,35 @@ export const HeaderWrapper = styled.div`
     gap: 15px;
     margin-bottom: 10px;
   }
+`;*/
+export const HeaderWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+
+  @media (max-width: 600px) {
+    flex-direction: column; /* Mobile: logo acima */
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+  }
+
+  @media print {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 10px;
+  }
 `;
 
-export const ContLogo = styled.div`
+
+/*export const ContLogo = styled.div`
   position: relative;
   display: flex;
-  justify-content: center; /* centraliza o h2 */
+  justify-content: center; /* centraliza o h2 
   width: 100%;
   //padding-bottom: 60px;
 
@@ -41,9 +64,22 @@ export const ContLogo = styled.div`
     align-items: center;
   }
 
+`;*/
+
+export const ContLogo = styled.div`
+ 
+  display: flex;
+  justify-content: flex-start; /* PC: logo à esquerda */
+  width: auto;
+
+  @media (max-width: 600px) {
+    justify-content: center; /* Mobile: logo centralizada */
+    //align-items: center;
+  }
 `;
-export const Preview = styled.img`
-  position: absolute;
+
+/*export const Preview = styled.img`
+  //position: static;
   left: 0;
   width: 150px;
   height: 150px;
@@ -59,7 +95,24 @@ export const Preview = styled.img`
     //display: block;
   }
   
+`;*/
+
+export const Preview = styled.img`
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  padding-left: 30px;
+  margin-right: 20px; /* afasta do texto */
+
+  @media (max-width: 600px) {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    padding-left: 0px;
+    margin-right: 0px; /* afasta do texto */
+  }
 `;
+
 
 export const ButtonPrint = styled.button`
   width: 150px;
@@ -96,8 +149,10 @@ export const ContInfo = styled.div`
   flex-direction: column;
   width: 100%;
   padding-top: 30px;
-  padding-left: 20px;
+  padding-right: 200px;
   //margin-bottom: 1rem;
+  align-items: center; /* Centraliza o conteúdo */
+  text-align: center;
 
   span {
     font-size: 1rem;
