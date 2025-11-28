@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { clssInfo, RegisterGradeIstQuarter, getIstQuarter, GetGradeIstQuarter, updateGrade } from '../../Api'
+import { clssInfo, RegisterGradeIstQuarter, getIstQuarter, GetGradeIstQuarter, updateGrade, GetMatter, GetMatterDetails } from '../../Api'
 
 import {
     Container,
@@ -20,7 +20,9 @@ import {
     DataSelected,
     Select,
     LegendBox,
-    Info
+    Info,
+    AreaWrapper,
+    Area
 } from './style';
 
 import {
@@ -55,6 +57,11 @@ const IndexAttendance = () => {
     const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
     const [physicalEducation, setphysicalEducationTeacher] = useState([]);
 
+    const [matter, setMttr] = useState([])
+    const [selectedMatter, setSelectedMatter] = useState("")
+
+    const [showMatterUpdated, setShowMatterUpdated] = useState(false);
+
     const location = useLocation();
     const { employee } = location.state || {};
     console.log("id employee", employee)
@@ -81,7 +88,7 @@ const IndexAttendance = () => {
             setphysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
             setMatter(id_mttr)
             setYear(currentYear)
-            
+
             const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
             setId_iStQuarter(id_bimonthly)
 
@@ -151,8 +158,62 @@ const IndexAttendance = () => {
             }
 
             setLoading(false);
+
+            const res = await GetMatter(JSON.parse(idSchool));
+
+            console.log("disciplinas", res.data.data)
+            if (classRegentTeacher === JSON.stringify(id_teacher)) {
+                const filterMatter = res.data.data.filter(res => {
+                    if (res.name !== 'EDUCAÇÃO FÍSICA') {
+                        if (res !== null) {
+                            return res
+                        }
+                    }
+                    return null
+                })
+                setMttr(filterMatter);
+                console.log("filterMatter professor regent", filterMatter)
+            } else if (classRegentTeacher02 === JSON.stringify(id_teacher)) {
+                const filterMatter = res.data.data.filter(res => {
+                    if (res.name !== 'EDUCAÇÃO FÍSICA') {
+                        if (res !== null) {
+                            return res
+                        }
+                    }
+                    return null
+                })
+                setMttr(filterMatter);
+                console.log("filterMatter professor regent", filterMatter)
+            } else if (physicalEducationTeacher === JSON.stringify(id_teacher)) {
+                const filterMatter = res.data.data.filter(res => {
+                    if (res.name === 'EDUCAÇÃO FÍSICA') {
+                        if (res !== null) {
+                            return res
+                        }
+                    }
+                    return null
+                })
+                setMttr(filterMatter);
+                console.log("filterMatter", filterMatter)
+            }
         })()
     }, [year, id_iStQuarter, id_matter, employee])
+
+    useEffect(() => {
+        const changed = sessionStorage.getItem("matterChanged");
+
+        if (changed === "true") {
+            setShowMatterUpdated(true);
+
+            // remover para evitar mostrar de novo no próximo reload
+            sessionStorage.removeItem("matterChanged");
+
+            // esconder o card depois de 5s
+            setTimeout(() => {
+                setShowMatterUpdated(false);
+            }, 10000);
+        }
+    }, []);
 
     console.log("checked", checked)
     console.log("stdt", stdt)
@@ -331,6 +392,26 @@ const IndexAttendance = () => {
         navigate(-2)
     };
 
+    const handleDefineMatter = async () => {
+        if (!selectedMatter) {
+            alert("Selecione uma matéria.");
+            return;
+        }
+
+        const Matter = await GetMatterDetails(selectedMatter)
+
+        sessionStorage.setItem("Selectmatter", selectedMatter);
+        if (Matter) {
+            const nameMatter = Matter.data.name
+            sessionStorage.setItem("nameMatter", nameMatter)
+            console.log("nameMatter", nameMatter)
+        } else {
+            setErrorMessage('Erro, Verifique os dados e tente novamente.');
+        }
+        sessionStorage.setItem("matterChanged", "true");
+        window.location.reload();
+    };
+
     return (
         <Container>
             {loading ?
@@ -339,113 +420,154 @@ const IndexAttendance = () => {
                 <ContainerDivs>
                     <h2>Grade Bimestral</h2>
                     {open === 'aberto' ? (
-                        <ContainerStudent>
-                            <DataSelected>
-                                <SlActionUndo fontSize={'30px'} onClick={Return} />
-                                <Info>
-                                    <p>Bimestre: 1º Bimestre</p>
-                                    <p>Disciplina: {Namematter}</p>
-                                </Info>
-                                <LegendBox>
-                                    <h3>Legenda</h3>
-                                    <p><strong style={{ color: '#1d7f14' }}>A</strong> - Alcançou com êxito as capacidades básicas</p>
-                                    <p><strong style={{ color: 'blue' }}>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
-                                    <p><strong style={{ color: 'orange' }}>C</strong> - Alcançou parcialmente as capacidades básicas</p>
-                                    <p><strong style={{ color: 'red' }}>D</strong> - Não alcançou as capacidades básicas</p>
-                                </LegendBox>
-                            </DataSelected>
-                            {!update_id_grade &&
-                                <>
-                                    <List>
-                                        {
-                                            stdt
-                                                .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
-                                                .map(stdt => (
-                                                    <>
-                                                        <Emp
-                                                            key={stdt._id}
-                                                        >
-                                                            <Span>{stdt.name}</Span>
-                                                            <Grade>
-                                                                <p>Conceito:</p>
-                                                                <Select
-                                                                    //id="position"
-                                                                    //value={update_studentGrade}
-                                                                    onChange={(e) => setStudentGrade(e.target.value)}
-                                                                >
-                                                                    <option value="">Selecione</option>
-                                                                    <option value="A">A</option>
-                                                                    <option value="B">B</option>
-                                                                    <option value="C">C</option>
-                                                                    <option value="D">D</option>
-                                                                </Select>
-                                                                {/*<span>pts</span>*/}
-                                                            </Grade>
-                                                            <Btt01 onClick={() => handleGrade(stdt)}>Definir</Btt01>
-                                                        </Emp>
-                                                        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                                                    </>
-                                                ))
-                                        }
-                                    </List>
-                                    <ListChecked>
+                        <>
+                            <AreaWrapper>
+                                <Area>
+                                    <h3>Selecionar Outra Disciplina</h3>
 
-                                        {
-                                            checked
-                                                .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
-                                                .map(stdt => (
-                                                    <>
-                                                        <Emp
-                                                            key={stdt._id}
-                                                        >
-                                                            <Span>{stdt.id_student.name}</Span>
-                                                            <Grade>
-                                                                <p>Conceito: </p>
-                                                                <Conceito grade={stdt.studentGrade}>{stdt.studentGrade}</Conceito>
-                                                                {/*<span>pts</span>*/}
-                                                            </Grade>
-                                                            <Btt02 onClick={() => startEditing(stdt)} >Editar</Btt02>
-                                                        </Emp>
-                                                    </>
-                                                ))
-                                        }
-                                    </ListChecked>
-                                </>
-                            }
-                            {update_id_grade && (
-                                <EditContainer>
-                                    <h3>Editando Nota</h3>
-                                    {console.log("editingStudent", namestudent.id_student.name)}
-                                    <Emp>
-                                        <Span>{namestudent.id_student.name}</Span>
-                                        <Grade>
-                                            <p>Concenito: </p>
-                                            <Select
-                                                //id="position"
-                                                value={update_studentGrade}
-                                                onChange={(e) => setUpdateStudentGrade(e.target.value)}
-                                            >
-                                                <option value="">Selecione</option>
-                                                <option value="A">A</option>
-                                                <option value="B">B</option>
-                                                <option value="C">C</option>
-                                                <option value="D">D</option>
-                                            </Select>
-                                            {/*<span>pts</span>*/}
-                                        </Grade>
-                                    </Emp>
-                                    <Btt02 onClick={saveEdit}>Salvar</Btt02>
-                                    <Btt02 onClick={() => setUpdateIdGrade(null)}>Cancelar</Btt02>
-                                </EditContainer>
-                            )}
-                            {!update_id_grade &&
-                                <Btt02 onClick={Finalyze}>
-                                    Finalizar
-                                </Btt02>
-                            }
-                        </ContainerStudent>
+                                    <Select
+                                        id="id-matter"
+                                        value={selectedMatter}
+                                        onChange={(e) => setSelectedMatter(e.target.value)}
+                                    >
+                                        <option value="">Selecione a disciplina</option>
+                                        {matter.map(res => (
+                                            <option key={res._id} value={res._id}>
+                                                {res.name}
+                                            </option>
+                                        ))}
+                                    </Select>
+
+                                    <Btt02 onClick={handleDefineMatter}>
+                                        Definir
+                                    </Btt02>
+                                </Area>
+                            </AreaWrapper>
+                            <ContainerStudent>
+                                <DataSelected>
+                                    <SlActionUndo fontSize={'30px'} onClick={Return} />
+                                    <Info>
+                                        <p>Bimestre: 1º Bimestre</p>
+                                        <p>Disciplina: {Namematter}</p>
+                                    </Info>
+                                    <LegendBox>
+                                        <h3>Legenda</h3>
+                                        <p><strong style={{ color: '#1d7f14' }}>A</strong> - Alcançou com êxito as capacidades básicas</p>
+                                        <p><strong style={{ color: 'blue' }}>B</strong> - Alcançou satisfatoriamente as capacidades básicas</p>
+                                        <p><strong style={{ color: 'orange' }}>C</strong> - Alcançou parcialmente as capacidades básicas</p>
+                                        <p><strong style={{ color: 'red' }}>D</strong> - Não alcançou as capacidades básicas</p>
+                                    </LegendBox>
+                                </DataSelected>
+                                {!update_id_grade &&
+                                    <>
+                                        <List>
+                                            {
+                                                stdt
+                                                    .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
+                                                    .map(stdt => (
+                                                        <>
+                                                            <Emp
+                                                                key={stdt._id}
+                                                            >
+                                                                <Span>{stdt.name}</Span>
+                                                                <Grade>
+                                                                    <p>Conceito:</p>
+                                                                    <Select
+                                                                        //id="position"
+                                                                        //value={update_studentGrade}
+                                                                        onChange={(e) => setStudentGrade(e.target.value)}
+                                                                    >
+                                                                        <option value="">Selecione</option>
+                                                                        <option value="A">A</option>
+                                                                        <option value="B">B</option>
+                                                                        <option value="C">C</option>
+                                                                        <option value="D">D</option>
+                                                                    </Select>
+                                                                    {/*<span>pts</span>*/}
+                                                                </Grade>
+                                                                <Btt01 onClick={() => handleGrade(stdt)}>Definir</Btt01>
+                                                            </Emp>
+                                                            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                                        </>
+                                                    ))
+                                            }
+                                        </List>
+                                        <ListChecked>
+
+                                            {
+                                                checked
+                                                    .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name)) // Ordena em ordem alfabética
+                                                    .map(stdt => (
+                                                        <>
+                                                            <Emp
+                                                                key={stdt._id}
+                                                            >
+                                                                <Span>{stdt.id_student.name}</Span>
+                                                                <Grade>
+                                                                    <p>Conceito: </p>
+                                                                    <Conceito grade={stdt.studentGrade}>{stdt.studentGrade}</Conceito>
+                                                                    {/*<span>pts</span>*/}
+                                                                </Grade>
+                                                                <Btt02 onClick={() => startEditing(stdt)} >Editar</Btt02>
+                                                            </Emp>
+                                                        </>
+                                                    ))
+                                            }
+                                        </ListChecked>
+                                    </>
+                                }
+                                {update_id_grade && (
+                                    <EditContainer>
+                                        <h3>Editando Nota</h3>
+                                        {console.log("editingStudent", namestudent.id_student.name)}
+                                        <Emp>
+                                            <Span>{namestudent.id_student.name}</Span>
+                                            <Grade>
+                                                <p>Concenito: </p>
+                                                <Select
+                                                    //id="position"
+                                                    value={update_studentGrade}
+                                                    onChange={(e) => setUpdateStudentGrade(e.target.value)}
+                                                >
+                                                    <option value="">Selecione</option>
+                                                    <option value="A">A</option>
+                                                    <option value="B">B</option>
+                                                    <option value="C">C</option>
+                                                    <option value="D">D</option>
+                                                </Select>
+                                                {/*<span>pts</span>*/}
+                                            </Grade>
+                                        </Emp>
+                                        <Btt02 onClick={saveEdit}>Salvar</Btt02>
+                                        <Btt02 onClick={() => setUpdateIdGrade(null)}>Cancelar</Btt02>
+                                    </EditContainer>
+                                )}
+                                {!update_id_grade &&
+                                    <Btt02 onClick={Finalyze}>
+                                        Finalizar
+                                    </Btt02>
+                                }
+                            </ContainerStudent>
+                        </>
                     ) : (
                         <p>1º Bimestre fechado, para editar contate o Diretor ou Supervisor.</p>
+                    )}
+                    {showMatterUpdated && (
+                        <div style={{
+                            position: "fixed",
+                            top: "120px",
+                            left: "50%",
+                            transform: "translateX(-50%)",
+                            background: "#4caf50",
+                            color: "#fff",
+                            padding: "12px 20px",
+                            borderRadius: "8px",
+                            zIndex: 9999,
+                            boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+                            fontWeight: "bold"
+                        }}>
+                            A disciplina foi alterada com sucesso.
+                        </div>
                     )}
                 </ContainerDivs>
             }

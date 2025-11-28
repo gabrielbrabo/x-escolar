@@ -33,6 +33,54 @@ export const ContainerStudent = styled.div`
       padding: 10px;
     }
 `;
+
+export const AreaWrapper = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-end; /* Desktop → direita */
+    margin-right: 500px;
+    margin-bottom: 20px;
+
+    @media (max-width: 768px) {
+        justify-content: center; /* Mobile → central */
+        margin-right: 0px;
+    }
+`;
+
+export const Area = styled.div`
+    width: 500px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    /* Alinhamento no desktop → à direita */
+    align-items: center;
+    //justify-content: center ;
+
+    h3 {
+        //width: 100%;
+        font-size: 18px;
+        margin-bottom: 0px;
+        margin-top: 0px;
+        text-align: center;
+    }
+
+    /* Mobile → centraliza no topo */
+    @media (max-width: 768px) {
+        align-items: center;
+        width: 100%;
+
+        h3 {
+            text-align: center;
+        }
+    }
+`
+
 export const DataSelected = styled.div`
     display: flex;
     justify-content: space-between;
@@ -127,14 +175,14 @@ export const EmpEdit = styled.div`
 
 export const Conceito = styled.div`
     color: ${({ grade }) => {
-        switch (grade) {
-            case 'A': return '#1d7f14';
-            case 'B': return 'blue';
-            case 'C': return 'orange';
-            case 'D': return 'red';
-            default: return 'black';
-        }
-    }};
+    switch (grade) {
+      case 'A': return '#1d7f14';
+      case 'B': return 'blue';
+      case 'C': return 'orange';
+      case 'D': return 'red';
+      default: return 'black';
+    }
+  }};
     font-weight: bold;
 
     @media (max-width: 375px)  {
@@ -455,14 +503,14 @@ export const DivBimCell = styled.div`
   border: 1px solid #ddd;
 
   color: ${({ grade }) => {
-        switch (grade) {
-            case 'A': return '#1d7f14';
-            case 'B': return 'blue';
-            case 'C': return 'orange';
-            case 'D': return 'red';
-            default: return 'black';
-        }
-    }};
+    switch (grade) {
+      case 'A': return '#1d7f14';
+      case 'B': return 'blue';
+      case 'C': return 'orange';
+      case 'D': return 'red';
+      default: return 'black';
+    }
+  }};
     font-weight: bold;
 `;
 

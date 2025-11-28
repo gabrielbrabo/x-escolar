@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { clssInfo, RegisterGradeIIIrdQuarter, getIIIrdQuarter, GetGradeIIIrdQuarter, updateGrade } from '../../Api'
+import { clssInfo, RegisterGradeIIIrdQuarter, getIIIrdQuarter, GetGradeIIIrdQuarter, updateGrade, GetMatter, GetMatterDetails } from '../../Api'
 
 import {
     Container,
@@ -20,7 +20,9 @@ import {
     DataSelected,
     Select,
     LegendBox,
-    Info
+    Info,
+    AreaWrapper,
+    Area
 } from './style';
 
 import {
@@ -54,6 +56,11 @@ const IndexAttendance = () => {
     const [RegentTeacher, setclassRegentTeacher] = useState([]);
     const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
     const [physicalEducation, setphysicalEducationTeacher] = useState([]);
+
+    const [matter, setMttr] = useState([])
+    const [selectedMatter, setSelectedMatter] = useState("")
+
+    const [showMatterUpdated, setShowMatterUpdated] = useState(false);
 
     const location = useLocation();
     const { employee } = location.state || {};
@@ -151,8 +158,62 @@ const IndexAttendance = () => {
             }
 
             setLoading(false);
+
+            const res = await GetMatter(JSON.parse(idSchool));
+
+            console.log("disciplinas", res.data.data)
+            if (classRegentTeacher === JSON.stringify(id_teacher)) {
+                const filterMatter = res.data.data.filter(res => {
+                    if (res.name !== 'EDUCAÇÃO FÍSICA') {
+                        if (res !== null) {
+                            return res
+                        }
+                    }
+                    return null
+                })
+                setMttr(filterMatter);
+                console.log("filterMatter professor regent", filterMatter)
+            } else if (classRegentTeacher02 === JSON.stringify(id_teacher)) {
+                const filterMatter = res.data.data.filter(res => {
+                    if (res.name !== 'EDUCAÇÃO FÍSICA') {
+                        if (res !== null) {
+                            return res
+                        }
+                    }
+                    return null
+                })
+                setMttr(filterMatter);
+                console.log("filterMatter professor regent", filterMatter)
+            } else if (physicalEducationTeacher === JSON.stringify(id_teacher)) {
+                const filterMatter = res.data.data.filter(res => {
+                    if (res.name === 'EDUCAÇÃO FÍSICA') {
+                        if (res !== null) {
+                            return res
+                        }
+                    }
+                    return null
+                })
+                setMttr(filterMatter);
+                console.log("filterMatter", filterMatter)
+            }
         })()
     }, [year, id_iiiRdQuarter, id_matter, employee])
+
+    useEffect(() => {
+        const changed = sessionStorage.getItem("matterChanged");
+
+        if (changed === "true") {
+            setShowMatterUpdated(true);
+
+            // remover para evitar mostrar de novo no próximo reload
+            sessionStorage.removeItem("matterChanged");
+
+            // esconder o card depois de 5s
+            setTimeout(() => {
+                setShowMatterUpdated(false);
+            }, 10000);
+        }
+    }, []);
 
     const handleGrade = async (stdt) => {
         setLoading(true)
@@ -314,6 +375,26 @@ const IndexAttendance = () => {
         navigate(-2)
     };
 
+    const handleDefineMatter = async () => {
+        if (!selectedMatter) {
+            alert("Selecione uma matéria.");
+            return;
+        }
+
+        const Matter = await GetMatterDetails(selectedMatter)
+
+        sessionStorage.setItem("Selectmatter", selectedMatter);
+        if (Matter) {
+            const nameMatter = Matter.data.name
+            sessionStorage.setItem("nameMatter", nameMatter)
+            console.log("nameMatter", nameMatter)
+        } else {
+            setErrorMessage('Erro, Verifique os dados e tente novamente.');
+        }
+        sessionStorage.setItem("matterChanged", "true");
+        window.location.reload();
+    };
+
     return (
         <Container>
             {loading ?
@@ -322,6 +403,29 @@ const IndexAttendance = () => {
                 <ContainerDivs>
                     <h2>Grade Bimestral</h2>
                     {open === 'aberto' ? (
+                        <>
+                            <AreaWrapper>
+                                <Area>
+                                    <h3>Selecionar Outra Disciplina</h3>
+
+                                    <Select
+                                        id="id-matter"
+                                        value={selectedMatter}
+                                        onChange={(e) => setSelectedMatter(e.target.value)}
+                                    >
+                                        <option value="">Selecione a disciplina</option>
+                                        {matter.map(res => (
+                                            <option key={res._id} value={res._id}>
+                                                {res.name}
+                                            </option>
+                                        ))}
+                                    </Select>
+
+                                    <Btt02 onClick={handleDefineMatter}>
+                                        Definir
+                                    </Btt02>
+                                </Area>
+                            </AreaWrapper>
                         <ContainerStudent>
                             <DataSelected>
                                 <SlActionUndo fontSize={'30px'} onClick={Return} />
@@ -427,8 +531,26 @@ const IndexAttendance = () => {
                                 </Btt02>
                             }
                         </ContainerStudent>
+                        </>
                     ) : (
                         <p>3º Bimestre fechado, para editar contate o Diretor ou Supervisor.</p>
+                    )}
+                    {showMatterUpdated && (
+                        <div style={{
+                            position: "fixed",
+                            top: "120px",
+                            left: "50%",
+                            transform: "translateX(-50%)",
+                            background: "#4caf50",
+                            color: "#fff",
+                            padding: "12px 20px",
+                            borderRadius: "8px",
+                            zIndex: 9999,
+                            boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+                            fontWeight: "bold"
+                        }}>
+                            A disciplina foi alterada com sucesso.
+                        </div>
                     )}
                 </ContainerDivs>
             }
