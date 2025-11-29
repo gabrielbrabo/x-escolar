@@ -445,28 +445,30 @@ const Finalconcepts = () => {
                         <h2>Grade Final</h2>
                         {open === 'aberto' ? (
                             <>
-                                <AreaWrapper>
-                                    <Area>
-                                        <h3>Selecionar Outra Disciplina</h3>
+                                {id_matter && (
+                                    <AreaWrapper>
+                                        <Area>
+                                            <h3>Selecionar Outra Disciplina</h3>
 
-                                        <Select
-                                            id="id-matter"
-                                            value={selectedMatter}
-                                            onChange={(e) => setSelectedMatter(e.target.value)}
-                                        >
-                                            <option value="">Selecione a disciplina</option>
-                                            {matter.map(res => (
-                                                <option key={res._id} value={res._id}>
-                                                    {res.name}
-                                                </option>
-                                            ))}
-                                        </Select>
+                                            <Select
+                                                id="id-matter"
+                                                value={selectedMatter}
+                                                onChange={(e) => setSelectedMatter(e.target.value)}
+                                            >
+                                                <option value="">Selecione a disciplina</option>
+                                                {matter.map(res => (
+                                                    <option key={res._id} value={res._id}>
+                                                        {res.name}
+                                                    </option>
+                                                ))}
+                                            </Select>
 
-                                        <Btt02 onClick={handleDefineMatter}>
-                                            Definir
-                                        </Btt02>
-                                    </Area>
-                                </AreaWrapper>
+                                            <Btt02 onClick={handleDefineMatter}>
+                                                Definir
+                                            </Btt02>
+                                        </Area>
+                                    </AreaWrapper>
+                                )}
                                 <ContainerStudent>
                                     {id_matter &&
                                         <DataSelected>
