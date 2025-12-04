@@ -187,13 +187,13 @@ const Finalconcepts = () => {
                 setStdt(student)
                 setChecked(checkedStudent)
 
-                sessionStorage.setItem("Selectmatt", Selectmatt)
+                sessionStorage.setItem("Selectmatt", id_matter)
                 console.log("resGrade", resGrade.data)
                 console.log("GradeRealized", GradeRealized)
                 console.log("checkedStudent", checkedStudent)
                 console.log("student", student)
             }
-
+            console.log("idSchool", idSchool)
             const res = await GetMatter(JSON.parse(idSchool));
             if (classRegentTeacher === Id_employee) {
                 const filterMatter = res.data.data.filter(res => {
