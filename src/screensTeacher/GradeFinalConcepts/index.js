@@ -154,9 +154,9 @@ const Finalconcepts = () => {
                 }
             }
 
-            if (Selectmatt && $yearClass.year) {
-                console.log("year", $yearClass.year, "id_matter", Selectmatt)
-                const resGrade = await GetGradeFinalConcepts($yearClass.year, Selectmatt)
+            if (id_matter && $yearClass.year) {
+                console.log("year", $yearClass.year, "id_matter", id_matter)
+                const resGrade = await GetGradeFinalConcepts($yearClass.year, id_matter)
                 //const resClass = $Class//await clssInfo(id_class)
                 //console.log('resCLass', resClass, "$Class", $Class)
                 const GradeRealized = await resGrade.data.data.map(res => {
@@ -176,7 +176,7 @@ const Finalconcepts = () => {
                     return null
                 })
 
-                const Matter = await GetMatterDetails(Selectmatt)
+                const Matter = await GetMatterDetails(id_matter)
                 if (Matter) {
                     setNameMatter(Matter.data.name)
                     console.log("nameMatter", Matter)
