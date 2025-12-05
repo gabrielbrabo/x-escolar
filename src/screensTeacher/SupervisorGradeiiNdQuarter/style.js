@@ -108,11 +108,13 @@ export const DivButton = styled.div`
 export const List = styled.div`
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 100%;
     gap: 5px;
 `;
 
 export const ListChecked = styled.div`
+    align-items: center;
     border-top: 2px solid #1d7f14; /* Borda da lista */
     margin: 20px 0;
     width: 100%;
@@ -135,6 +137,7 @@ export const ListChecked = styled.div`
 
 export const Emp = styled.div`
     display: flex;
+    width: 100%;
     justify-content: space-between;
     align-items: center;
     padding: 5px;
@@ -154,14 +157,14 @@ export const Emp = styled.div`
 
 export const Conceito = styled.div`
     color: ${({ grade }) => {
-        switch (grade) {
-            case 'A': return '#1d7f14';
-            case 'B': return 'blue';
-            case 'C': return 'orange';
-            case 'D': return 'red';
-            default: return 'black';
-        }
-    }};
+    switch (grade) {
+      case 'A': return '#1d7f14';
+      case 'B': return 'blue';
+      case 'C': return 'orange';
+      case 'D': return 'red';
+      default: return 'black';
+    }
+  }};
     font-weight: bold;
 
     @media (max-width: 375px)  {
@@ -216,7 +219,8 @@ export const DivInfoDate = styled.div`
 
 export const Select = styled.select`
   width: 100%;
-  padding: 10px;
+  height: 55px;
+  //padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
 
@@ -362,19 +366,23 @@ export const InputGrade = styled.input`
 `;
 export const Grade = styled.div`
     display: flex;
+    flex-direction: column;
     gap: 3px;
     align-items: center;
     justify-content: center;
+    margin-right: 100px;
 
     @media (max-width: 375px)  {
       font-size: 9pt; /* Smartphones pequenos */
       padding: 3px;
       gap: 0px;
+      margin-right: 0px;
     }
     @media (min-width: 375px) and (max-width: 768px) {
       font-size: 10pt; /* Smartphones pequenos */
       padding: 6px;
       gap: 0px;
+      margin-right: 0px;
     }
 `;
 export const ErrorMessage = styled.div`
@@ -415,4 +423,55 @@ export const LegendBox = styled.div`
       font-size: 10pt; /* Smartphones pequenos */
       padding: 0;
     }
+`;
+
+export const BlurBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(6px);
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+`;
+
+export const ModalContainer = styled.div`
+  background: #fff;
+  padding: 2rem;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+
+  h3 {
+    margin-bottom: 1.5rem;
+  }
+
+  div {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  button {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background: #0056b3;
+  }
+`;
+
+export const ContSelect = styled.div`
+  display: flex;
+  width: 100%;
 `;

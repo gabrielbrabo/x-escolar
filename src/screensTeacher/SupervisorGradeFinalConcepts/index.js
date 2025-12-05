@@ -35,7 +35,9 @@ import {
     BoxButton,
     EmpEdit,
     AreaWrapper,
-    Area
+    Area,
+    ContSelect,
+   ContConcept
 } from './style';
 
 import {
@@ -50,12 +52,12 @@ const Finalconcepts = () => {
     const [open, setopen] = useState('aberto')
     const [Namematter, setNameMatter] = useState([])
     const [year, setYear] = useState('');
-    const [$Class, set$Class] = useState(null);
+    const [/*$Class*/, set$Class] = useState(null);
     const [id_matter, setSelectMatter] = useState('');
     const [matter, setMatter] = useState([]);
-    const [id_employee, setid_employee] = useState('');
+    const [/*id_employee*/, setid_employee] = useState('');
     const [id_class, setId_class] = useState('')
-    const [studentGrade, setStudentGrade] = useState('');
+    //const [studentGrade, setStudentGrade] = useState('');
     const [stdt, setStdt] = useState([])
     const [checked, setChecked] = useState([])
     const [id_teacher, setId_teacher] = useState([])
@@ -132,8 +134,8 @@ const Finalconcepts = () => {
                 console.warn("❌ resClass veio vazio ou sem dados:", resClass);
             }
 
-            if (year && id_class && id_matter) {
-                const grades = await indexGrades(year, id_class, id_matter)
+            if ($yearClass.year && id_class && Selectmatt) {
+                const grades = await indexGrades($yearClass.year, id_class, Selectmatt)
                 if (grades) {
                     console.log("grades", grades.data.data);
 
@@ -154,9 +156,9 @@ const Finalconcepts = () => {
                 }
             }
 
-            if (id_matter && year) {
-                console.log("year", year, "id_matter", id_matter)
-                const resGrade = await GetGradeFinalConcepts(year, id_matter)
+            if (id_matter && $yearClass.year) {
+                console.log("year", $yearClass.year, "id_matter", id_matter)
+                const resGrade = await GetGradeFinalConcepts($yearClass.year, id_matter)
                 //const resClass = $Class//await clssInfo(id_class)
                 //console.log('resCLass', resClass, "$Class", $Class)
                 const GradeRealized = await resGrade.data.data.map(res => {
@@ -250,6 +252,31 @@ const Finalconcepts = () => {
         }
     }, []);
 
+    // atualiza conceito local de um aluno (não envia)
+    const handleConceptChange = (studentId, value) => {
+        setStdt(prev => prev.map(s => s._id === studentId ? { ...s, concept: value } : s))
+    }
+
+    // função para recarregar checked e stdt (DRY)
+    const refreshGradesAndStudents = async () => {
+        try {
+            const resGrade = await GetGradeFinalConcepts(year, id_matter)
+            const resClass = await clssInfo(id_class)
+            const GradeRealized = resGrade.data.data.map(res => res.id_student._id)
+            const checkedStudent = resGrade.data.data.map(res => res)
+            const student = resClass.data.data.find(res => res).id_student
+                .map(res => res)
+                .filter(studentId => !GradeRealized.includes(studentId._id))
+                .map(s => ({ ...s, concept: "" }))
+            setStdt(student)
+            setChecked(checkedStudent)
+            setErrorMessage('')
+        } catch (err) {
+            console.error(err)
+            setErrorMessage('Erro ao atualizar listas.')
+        }
+    }
+
     console.log("checked", checked)
     console.log("stdt", stdt)
 
@@ -258,7 +285,7 @@ const Finalconcepts = () => {
     console.log("iiiRdQuarter", iiiRdQuarter)
     console.log("ivThQuarter", ivThQuarter)
 
-    const handleGrade = async (stdt) => {
+    /*const handleGrade = async (stdt) => {
         setLoading(true)
 
         console.log("year", year)
@@ -389,6 +416,67 @@ const Finalconcepts = () => {
             console.log("res", setStudentGrade)
         }
         setLoading(false)
+    }*/
+
+        // --- NOVA FUNÇÃO: envia todos os conceitos preenchidos em stdt de uma vez ---
+    const handleFinalize = async () => {
+
+        if (stdt.some(s => !s.concept || s.concept.trim() === "")) {
+            alert("Atenção: Existem alunos sem conceito definido!");
+        }
+
+        const toSend = stdt.filter(s => s.concept && s.concept.trim() !== "")
+
+        if (toSend.length === 0) {
+            setErrorMessage('Preencha ao menos um conceito antes de finalizar.')
+            return;
+        }
+
+        setLoading(true)
+        setErrorMessage('')
+
+        try {
+            const promises = toSend.map(s => {
+                console.log("year", year, "id_student", s._id, "id_teacher", id_teacher, "id_matter", id_matter)
+
+                // cria cópias locais corretas para evitar conflito
+                let teacher01 = id_teacher;
+                let teacher02 = null;
+
+                if (RegentTeacher === teacher01) {
+                    teacher02 = RegentTeacher02;
+                }
+                else if (RegentTeacher02 === teacher01) {
+                    teacher02 = RegentTeacher02;
+                    teacher01 = RegentTeacher; // troca local sem afetar o global!
+                }
+                else if (physicalEducation === teacher01) {
+                    teacher02 = null;
+                }
+
+                return FinalConcepts(
+                    year,
+                    s.concept,
+                    id_matter,
+                    teacher01,
+                    teacher02,
+                    s._id,
+                    id_class
+                )
+            })
+
+            await Promise.all(promises)
+            await refreshGradesAndStudents()
+            setErrorMessage('')
+        }
+        catch (err) {
+            console.error(err)
+            setErrorMessage('Erro ao enviar conceitos. Tente novamente.')
+        }
+        finally {
+            setLoading(false)
+        }
+
     }
 
     const startEditing = (stdt) => {
@@ -498,52 +586,79 @@ const Finalconcepts = () => {
                                                                     key={stdt._id}
                                                                 >
                                                                     <Span>{stdt.name}</Span>
-                                                                    <DivBimTable>
-                                                                        <DivBimRow>
-                                                                            <DivBimHeader>1º Bim</DivBimHeader>
-                                                                            <DivBimCell grade={iStQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
-                                                                                {iStQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
-                                                                            </DivBimCell>
-                                                                        </DivBimRow>
-                                                                        <DivBimRow>
-                                                                            <DivBimHeader>2º Bim</DivBimHeader>
-                                                                            <DivBimCell grade={iiNdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
-                                                                                {iiNdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
-                                                                            </DivBimCell>
-                                                                        </DivBimRow>
-                                                                        <DivBimRow>
-                                                                            <DivBimHeader>3º Bim</DivBimHeader>
-                                                                            <DivBimCell grade={iiiRdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
-                                                                                {iiiRdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
-                                                                            </DivBimCell>
-                                                                        </DivBimRow>
-                                                                        <DivBimRow>
-                                                                            <DivBimHeader>4º Bim</DivBimHeader>
-                                                                            <DivBimCell grade={ivThQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
-                                                                                {ivThQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
-                                                                            </DivBimCell>
-                                                                        </DivBimRow>
-                                                                    </DivBimTable>
-                                                                    <Grade>
-                                                                        <p>Conceito:</p>
-                                                                        <Select
-                                                                            //id="position"
-                                                                            //value={update_studentGrade}
-                                                                            onChange={(e) => setStudentGrade(e.target.value)}
-                                                                        >
-                                                                            <option value="">Selecione</option>
-                                                                            <option value="A">A</option>
-                                                                            <option value="B">B</option>
-                                                                            <option value="C">C</option>
-                                                                            <option value="D">D</option>
-                                                                        </Select>
-                                                                        {/*<span>pts</span>*/}
-                                                                    </Grade>
-                                                                    <Btt01 onClick={() => handleGrade(stdt)}>Definir</Btt01>
+                                                                    <ContConcept>
+                                                                        <DivBimTable>
+                                                                            <DivBimRow>
+                                                                                <DivBimHeader>1º Bim</DivBimHeader>
+                                                                                <DivBimCell grade={iStQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
+                                                                                    {iStQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
+                                                                                </DivBimCell>
+                                                                            </DivBimRow>
+                                                                            <DivBimRow>
+                                                                                <DivBimHeader>2º Bim</DivBimHeader>
+                                                                                <DivBimCell grade={iiNdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
+                                                                                    {iiNdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
+                                                                                </DivBimCell>
+                                                                            </DivBimRow>
+                                                                            <DivBimRow>
+                                                                                <DivBimHeader>3º Bim</DivBimHeader>
+                                                                                <DivBimCell grade={iiiRdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
+                                                                                    {iiiRdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
+                                                                                </DivBimCell>
+                                                                            </DivBimRow>
+                                                                            <DivBimRow>
+                                                                                <DivBimHeader>4º Bim</DivBimHeader>
+                                                                                <DivBimCell grade={ivThQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
+                                                                                    {ivThQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
+                                                                                </DivBimCell>
+                                                                            </DivBimRow>
+                                                                        </DivBimTable>
+                                                                        <Grade>
+                                                                            <ContSelect>
+                                                                                <p>Conceito:</p>
+                                                                                <Select
+                                                                                    value={stdt.concept}
+                                                                                    onChange={(e) => handleConceptChange(stdt._id, e.target.value)}
+                                                                                    disabled={stdt.concept === "-"}  // 🔒 DESATIVA O SELECT SE O CHECKBOX TIVER ATIVADO
+                                                                                >
+                                                                                    <option value="">Selecione</option>
+                                                                                    <option value="A">A</option>
+                                                                                    <option value="B">B</option>
+                                                                                    <option value="C">C</option>
+                                                                                    <option value="D">D</option>
+                                                                                </Select>
+                                                                            </ContSelect>
+                                                                            {/* CHECKBOX QUE VOCÊ PEDIU */}
+                                                                            <label style={{ marginTop: "6px", display: "flex", alignItems: "center" }}>
+                                                                                <input
+                                                                                    type="checkbox"
+                                                                                    checked={stdt.concept === "-"}
+                                                                                    onChange={(e) => {
+                                                                                        if (e.target.checked) {
+                                                                                            // Envia "-" como conceito
+                                                                                            handleConceptChange(stdt._id, "-");
+                                                                                        } else {
+                                                                                            // Desmarca → limpa o conceito
+                                                                                            handleConceptChange(stdt._id, "");
+                                                                                        }
+                                                                                    }}
+                                                                                />
+                                                                                <span style={{ marginLeft: "6px" }}>
+                                                                                    Não adicionar nota para este aluno
+                                                                                </span>
+                                                                            </label>
+                                                                        </Grade>
+                                                                    </ContConcept>
                                                                 </Emp>
                                                                 {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                                                             </>
                                                         )
+                                                }
+                                                {/* Botão Finalizar agora envia todos os conceitos preenchidos */}
+                                                {stdt.length > 0 && !update_id_grade &&
+                                                    <Btt01 onClick={handleFinalize}>
+                                                        Finalizar
+                                                    </Btt01>
                                                 }
                                             </List>
                                         </>
@@ -614,6 +729,7 @@ const Finalconcepts = () => {
                                                         //id="position"
                                                         value={update_studentGrade}
                                                         onChange={(e) => setUpdateStudentGrade(e.target.value)}
+                                                        disabled={update_studentGrade === "-"} // 🔥 DESATIVA QUANDO MARCADO
                                                     >
                                                         <option value="">Selecione</option>
                                                         <option value="A">A</option>
@@ -622,6 +738,29 @@ const Finalconcepts = () => {
                                                         <option value="D">D</option>
                                                     </Select>
                                                     {/*<span>pts</span>*/}
+                                                    {/* CHECKBOX */}
+                                                    <label
+                                                        style={{
+                                                            marginTop: "6px",
+                                                            display: "flex",
+                                                            alignItems: "center"
+                                                        }}
+                                                    >
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={update_studentGrade === "-"}  // ✔ correto
+                                                            onChange={(e) => {
+                                                                if (e.target.checked) {
+                                                                    setUpdateStudentGrade("-");   // ✔ define sem nota
+                                                                } else {
+                                                                    setUpdateStudentGrade("");    // ✔ limpa conceito
+                                                                }
+                                                            }}
+                                                        />
+                                                        <span style={{ marginLeft: "6px" }}>
+                                                            Não adicionar nota para este aluno
+                                                        </span>
+                                                    </label>
                                                 </Grade>
                                             </EmpEdit>
                                             <BoxButton>
@@ -631,11 +770,11 @@ const Finalconcepts = () => {
 
                                         </EditContainer>
                                     )}
-                                    {!update_id_grade && id_matter &&
-                                        <Btt02 onClick={Finalyze}>
-                                            Finalizar
-                                        </Btt02>
-                                    }
+                                   {/*!update_id_grade &&
+                                    <Btt02 onClick={Finalyze}>
+                                        Finalizar
+                                    </Btt02>
+                                */}
                                 </ContainerStudent>
                             </>
                         ) : (

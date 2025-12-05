@@ -22,7 +22,8 @@ import {
     LegendBox,
     Info,
     AreaWrapper,
-    Area
+    Area,
+    ContSelect
 } from './style';
 
 import {
@@ -42,7 +43,7 @@ const IndexAttendance = () => {
     const [averageGrade, setAverageGrade] = useState([]);
     const [id_matter, setMatter] = useState('');
     const [id_class, setId_class] = useState([])
-    const [studentGrade, setStudentGrade] = useState([]);
+    //const [studentGrade, setStudentGrade] = useState([]);
     const [id_iStQuarter, setId_iStQuarter] = useState('');
     const [stdt, setStdt] = useState([])
     const [checked, setChecked] = useState([])
@@ -89,7 +90,7 @@ const IndexAttendance = () => {
             setMatter(id_mttr)
             setYear(currentYear)
 
-            const IstQuarter = await getIstQuarter(year, JSON.parse(idSchool))
+            const IstQuarter = await getIstQuarter(currentYear, JSON.parse(idSchool))
             setId_iStQuarter(id_bimonthly)
 
 
@@ -133,9 +134,9 @@ const IndexAttendance = () => {
             setAverageGrade(agString)
             setId_teacher(id_teacher)
 
-            if (id_matter && year && id_iStQuarter && id_class) {
+            if (id_mttr && currentYear && id_iStQuarter && id_class) {
                 setLoading(true);
-                const resGrade = await GetGradeIstQuarter(year, id_matter, id_iStQuarter, id_class)
+                const resGrade = await GetGradeIstQuarter(currentYear, id_mttr, id_iStQuarter, id_class)
                 const resClass = await clssInfo(id_class)
                 const GradeRealized = await resGrade.data.data.map(res => {
                     return res.id_student._id
@@ -215,10 +216,38 @@ const IndexAttendance = () => {
         }
     }, []);
 
+    // atualiza conceito local de um aluno (não envia)
+    const handleConceptChange = (studentId, value) => {
+        setStdt(prev => prev.map(s => s._id === studentId ? { ...s, concept: value } : s))
+    }
+
     console.log("checked", checked)
     console.log("stdt", stdt)
 
-    const handleGrade = async (stdt) => {
+    // função para recarregar checked e stdt (DRY)
+    const refreshGradesAndStudents = async () => {
+        try {
+            const resGrade = await GetGradeIstQuarter(year, id_matter, id_iStQuarter, id_class)
+            const resClass = await clssInfo(id_class)
+            const GradeRealized = resGrade.data.data.map(res => res.id_student._id)
+            const checkedStudent = resGrade.data.data.map(res => res)
+            const student = resClass.data.data.find(res => res).id_student
+                .map(res => res)
+                .filter(studentId => !GradeRealized.includes(studentId._id))
+                .map(s => ({ ...s, concept: "" }))
+            setStdt(student)
+            setChecked(checkedStudent)
+            setErrorMessage('')
+        } catch (err) {
+            console.error(err)
+            setErrorMessage('Erro ao atualizar listas.')
+        }
+    }
+
+    console.log("checked", checked)
+    console.log("stdt", stdt)
+
+    /*const handleGrade = async (stdt) => {
         console.log("classRegentTeacher:", RegentTeacher);
         console.log("classRegentTeacher02:", RegentTeacher02);
         console.log("physicalEducationTeacher:", physicalEducation);
@@ -237,7 +266,7 @@ const IndexAttendance = () => {
         if (RegentTeacher === id_teacher) {
 
             const id_teacher02 = RegentTeacher02
-            const res = await RegisterGradeIstQuarter(year, bimonthly, /*totalGrade, averageGrade,*/ studentGrade, id_iStQuarter, id_student, id_teacher, id_teacher02, id_matter, id_class)
+            const res = await RegisterGradeIstQuarter(year, bimonthly, studentGrade, id_iStQuarter, id_student, id_teacher, id_teacher02, id_matter, id_class)
             if (res) {
                 const resGrade = await GetGradeIstQuarter(year, id_matter, id_iStQuarter, id_class)
                 const resClass = await clssInfo(id_class)
@@ -280,7 +309,7 @@ const IndexAttendance = () => {
             //setId_teacher(RegentTeacher)
 
             const id_teacher02 = RegentTeacher02
-            const res = await RegisterGradeIstQuarter(year, bimonthly, /*totalGrade, averageGrade,*/ studentGrade, id_iStQuarter, id_student, RegentTeacher, id_teacher02, id_matter, id_class)
+            const res = await RegisterGradeIstQuarter(year, bimonthly, studentGrade, id_iStQuarter, id_student, RegentTeacher, id_teacher02, id_matter, id_class)
             if (res) {
                 const resGrade = await GetGradeIstQuarter(year, id_matter, id_iStQuarter, id_class)
                 const resClass = await clssInfo(id_class)
@@ -322,7 +351,6 @@ const IndexAttendance = () => {
             const res = await RegisterGradeIstQuarter(
                 year,
                 bimonthly,
-                /*totalGrade, averageGrade,*/
                 studentGrade,
                 id_iStQuarter,
                 id_student,
@@ -368,6 +396,69 @@ const IndexAttendance = () => {
         }
 
         setLoading(false)
+    }*/
+
+    // --- NOVA FUNÇÃO: envia todos os conceitos preenchidos em stdt de uma vez ---
+    const handleFinalize = async () => {
+
+        if (stdt.some(s => !s.concept || s.concept.trim() === "")) {
+            alert("Atenção: Existem alunos sem conceito definido!");
+        }
+
+        const toSend = stdt.filter(s => s.concept && s.concept.trim() !== "")
+
+        if (toSend.length === 0) {
+            setErrorMessage('Preencha ao menos um conceito antes de finalizar.')
+            return;
+        }
+
+        setLoading(true)
+        setErrorMessage('')
+
+        try {
+            const promises = toSend.map(s => {
+                console.log("year", year, "bimonthly", bimonthly, "totalGrade", totalGrade, "averageGrade", averageGrade, "id_iStQuarter", id_iStQuarter, "id_student", s._id, "id_teacher", id_teacher, "id_matter", id_matter)
+
+                // cria cópias locais corretas para evitar conflito
+                let teacher01 = id_teacher;
+                let teacher02 = null;
+
+                if (RegentTeacher === teacher01) {
+                    teacher02 = RegentTeacher02;
+                }
+                else if (RegentTeacher02 === teacher01) {
+                    teacher02 = RegentTeacher02;
+                    teacher01 = RegentTeacher; // troca local sem afetar o global!
+                }
+                else if (physicalEducation === teacher01) {
+                    teacher02 = null;
+                }
+
+                return RegisterGradeIstQuarter(
+                    year,
+                    bimonthly,
+                    s.concept,
+                    id_iStQuarter,
+                    s._id,
+                    teacher01,
+                    teacher02,
+                    id_matter,
+                    id_class
+                )
+            })
+
+            await Promise.all(promises)
+            await refreshGradesAndStudents()
+            setErrorMessage('')
+        }
+        catch (err) {
+            console.error(err)
+            setErrorMessage('Erro ao enviar conceitos. Tente novamente.')
+        }
+        finally {
+            setLoading(false)
+        }
+
     }
 
     const startEditing = (stdt) => {
@@ -383,10 +474,10 @@ const IndexAttendance = () => {
         //setLoading(false)
     };
 
-    const Finalyze = () => {
+    /*const Finalyze = () => {
         setLoading(true)
         navigate(-2);
-    }
+    }*/
 
     const Return = () => {
         navigate(-2)
@@ -464,32 +555,56 @@ const IndexAttendance = () => {
                                             {
                                                 stdt
                                                     .sort((a, b) => a.name.localeCompare(b.name)) // Ordena em ordem alfabética
-                                                    .map(stdt => (
-                                                        <>
-                                                            <Emp
-                                                                key={stdt._id}
-                                                            >
-                                                                <Span>{stdt.name}</Span>
+                                                    .map(stdtItem => (
+                                                        <React.Fragment key={stdtItem._id}>
+                                                            <Emp>
+                                                                <Span>{stdtItem.name}</Span>
                                                                 <Grade>
-                                                                    <p>Conceito:</p>
-                                                                    <Select
-                                                                        //id="position"
-                                                                        //value={update_studentGrade}
-                                                                        onChange={(e) => setStudentGrade(e.target.value)}
-                                                                    >
-                                                                        <option value="">Selecione</option>
-                                                                        <option value="A">A</option>
-                                                                        <option value="B">B</option>
-                                                                        <option value="C">C</option>
-                                                                        <option value="D">D</option>
-                                                                    </Select>
-                                                                    {/*<span>pts</span>*/}
+                                                                    <ContSelect>
+                                                                        <p>Conceito:</p>
+                                                                        <Select
+                                                                            value={stdtItem.concept}
+                                                                            onChange={(e) => handleConceptChange(stdtItem._id, e.target.value)}
+                                                                            disabled={stdtItem.concept === "-"}  // 🔒 DESATIVA O SELECT SE O CHECKBOX TIVER ATIVADO
+                                                                        >
+                                                                            <option value="">Selecione</option>
+                                                                            <option value="A">A</option>
+                                                                            <option value="B">B</option>
+                                                                            <option value="C">C</option>
+                                                                            <option value="D">D</option>
+                                                                        </Select>
+                                                                    </ContSelect>
+                                                                    {/* CHECKBOX QUE VOCÊ PEDIU */}
+                                                                    <label style={{ marginTop: "6px", display: "flex", alignItems: "center" }}>
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            checked={stdtItem.concept === "-"}
+                                                                            onChange={(e) => {
+                                                                                if (e.target.checked) {
+                                                                                    // Envia "-" como conceito
+                                                                                    handleConceptChange(stdtItem._id, "-");
+                                                                                } else {
+                                                                                    // Desmarca → limpa o conceito
+                                                                                    handleConceptChange(stdtItem._id, "");
+                                                                                }
+                                                                            }}
+                                                                        />
+                                                                        <span style={{ marginLeft: "6px" }}>
+                                                                            Não adicionar nota para este aluno
+                                                                        </span>
+                                                                    </label>
                                                                 </Grade>
-                                                                <Btt01 onClick={() => handleGrade(stdt)}>Definir</Btt01>
                                                             </Emp>
                                                             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                                                        </>
+                                                        </React.Fragment>
                                                     ))
+                                            }
+
+                                            {/* Botão Finalizar agora envia todos os conceitos preenchidos */}
+                                            {stdt.length > 0 && !update_id_grade &&
+                                                <Btt01 onClick={handleFinalize}>
+                                                    Finalizar
+                                                </Btt01>
                                             }
                                         </List>
                                         <ListChecked>
@@ -528,6 +643,7 @@ const IndexAttendance = () => {
                                                     //id="position"
                                                     value={update_studentGrade}
                                                     onChange={(e) => setUpdateStudentGrade(e.target.value)}
+                                                    disabled={update_studentGrade === "-"} // 🔥 DESATIVA QUANDO MARCADO
                                                 >
                                                     <option value="">Selecione</option>
                                                     <option value="A">A</option>
@@ -536,17 +652,40 @@ const IndexAttendance = () => {
                                                     <option value="D">D</option>
                                                 </Select>
                                                 {/*<span>pts</span>*/}
+                                                {/* CHECKBOX */}
+                                                <label
+                                                    style={{
+                                                        marginTop: "6px",
+                                                        display: "flex",
+                                                        alignItems: "center"
+                                                    }}
+                                                >
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={update_studentGrade === "-"}  // ✔ correto
+                                                        onChange={(e) => {
+                                                            if (e.target.checked) {
+                                                                setUpdateStudentGrade("-");   // ✔ define sem nota
+                                                            } else {
+                                                                setUpdateStudentGrade("");    // ✔ limpa conceito
+                                                            }
+                                                        }}
+                                                    />
+                                                    <span style={{ marginLeft: "6px" }}>
+                                                        Não adicionar nota para este aluno
+                                                    </span>
+                                                </label>
                                             </Grade>
                                         </Emp>
                                         <Btt02 onClick={saveEdit}>Salvar</Btt02>
                                         <Btt02 onClick={() => setUpdateIdGrade(null)}>Cancelar</Btt02>
                                     </EditContainer>
                                 )}
-                                {!update_id_grade &&
+                                {/*!update_id_grade &&
                                     <Btt02 onClick={Finalyze}>
                                         Finalizar
                                     </Btt02>
-                                }
+                                */}
                             </ContainerStudent>
                         </>
                     ) : (
