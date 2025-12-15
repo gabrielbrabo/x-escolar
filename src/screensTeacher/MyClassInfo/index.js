@@ -48,6 +48,13 @@ import {
 } from './style';
 import LoadingSpinner from '../../components/Loading'
 
+import { FcInspection, } from "react-icons/fc";
+import { FcAddressBook } from "react-icons/fc";
+import { FaListUl } from "react-icons/fa6";
+import { BsListCheck } from "react-icons/bs";
+import { FaUserGraduate, } from 'react-icons/fa'
+import { TbChecklist } from "react-icons/tb";
+
 const MyCla$$Info = () => {
 
     const navigate = useNavigate()
@@ -608,9 +615,9 @@ const MyCla$$Info = () => {
 
     const clickAttendance = () => {
         //if (physicalEducation !== id_teacher) {
-            navigate('/AllAttendances')
+        navigate('/AllAttendances')
         //} else {
-            //setShowRegentWarning(true); // mostra a modal
+        //setShowRegentWarning(true); // mostra a modal
         //}
     }
 
@@ -636,22 +643,40 @@ const MyCla$$Info = () => {
                     ))}
                     <ButtonContainer>
 
-                        <button onClick={clickAttendance}>Frequência</button>
-                        <button onClick={() => { navigate('/classes') }}>Aulas</button>
+                        <button onClick={clickAttendance}>
+                            <FcInspection />
+                            Frequência
+                        </button>
+                        <button onClick={() => { navigate('/classes') }}>
+                            <FcAddressBook />
+                            Aulas
+                        </button>
                         {assessmentFormat !== 'grade'
                             ?
                             (
-                                <button onClick={() => { navigate('/grade') }}>Conceitos</button>
+                                <button onClick={() => { navigate('/grade') }}>
+                                    <FaListUl color="orange" />
+                                    Conceitos
+                                </button>
                             ) : (
-                                <button onClick={() => { navigate('/grade') }}>Avaliações</button>
+                                <button onClick={() => { navigate('/grade') }}>
+                                    <TbChecklist color="orange"/>
+                                    Avaliações
+                                </button>
                             )
                         }
                     </ButtonContainer>
                     {assessmentFormat !== 'grade'
                         &&
                         <ButtonContainer>
-                            <button onClick={() => { navigate('/individual-form') }}>Ficha Individual</button>
-                            <button onClick={() => { navigate('/final-concepts') }}>Conceitos Finais</button>
+                            <button onClick={() => { navigate('/individual-form') }}>
+                                <FaUserGraduate />
+                                Ficha Individual
+                            </button>
+                            <button onClick={() => { navigate('/final-concepts') }}>
+                                <BsListCheck color="#2ECC71"/>
+                                Conceitos Finais
+                            </button>
                         </ButtonContainer>
                     }
                     <DiaryWrapper>

@@ -48,6 +48,12 @@ export const ButtonContainer = styled.div`
     gap: 20px;
 
     button {
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;               /* espaço entre ícone e texto */
+
         background-color: #158fa2;
         color: white;
         padding: 10px 20px;
@@ -57,18 +63,26 @@ export const ButtonContainer = styled.div`
         font-size: 16px;
         transition: background-color 0.3s;
 
+        svg {
+            font-size: 40px;    /* tamanho do ícone */
+            flex-shrink: 0;     /* impede o ícone de encolher */
+        }
+        
         &:hover {
             background-color: #218838;
         }
 
         @media (max-width: 345px)  {
             font-size: 9pt; /* Smartphones pequenos */
+            flex-direction: column;
         }
         @media (min-width: 345px) and (max-width: 390px) {
             font-size: 10pt; /* Smartphones pequenos */
+            flex-direction: column;
         }
         @media (min-width: 390px) and (max-width: 768px) {
             font-size: 11pt; /* Smartphones pequenos */
+            flex-direction: column;
         }
 
     }
