@@ -331,7 +331,7 @@ const Matter = () => {
                         )}
                         {schoolYear === currentYear && (
                             <ButtonNextYear onClick={handlePreviousYearClick}>
-                                Retroceder para o Ano Letivo Anterior
+                                Voltar para o Ano Letivo Anterior
                             </ButtonNextYear>
                         )}
                     </ContainerYearControl>
