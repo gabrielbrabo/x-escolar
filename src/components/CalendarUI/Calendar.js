@@ -177,7 +177,7 @@ export default function DateCalendarServerRequest() {
     return (
         <StyledContainer>
             <LocalizationProvider locale={dayjs.locale('pt-br', { months: monthsPtBr, weekdays: diasDaSemana, })} utils={DayjsUtils} dateAdapter={AdapterDayjs}>
-                <h3>Frequencia</h3>
+            <h3>Frequência</h3>
                 <div className='contFrequenci'>
                     <p><IoCheckmarkSharp color='#00fa00' font-size="30px" />Presenças: {countPresences} | <IoCloseSharp color='#ff050a' font-size="30px" />Faltas: {countAbsences}</p>
                     <p><FcSurvey font-size="25px" />Faltas Justificadas: {countjustifiedAbsence}</p>
