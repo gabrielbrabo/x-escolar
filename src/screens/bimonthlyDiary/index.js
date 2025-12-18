@@ -163,7 +163,7 @@ export default function Daily() {
 
     })();
   }, [bimonthly, idClass, idBimonthly]);
-
+  console.log("data", data)
   function handleRowClick(studentId) {
     if (selectedStudentId === studentId) {
       setSelectedStudentId(null); // desmarca se clicar na mesma linha
