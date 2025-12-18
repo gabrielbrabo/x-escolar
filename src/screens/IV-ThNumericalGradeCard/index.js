@@ -313,6 +313,7 @@ const GradeIstquarter = () => {
     if (!existingMatter) {
       // Se a matéria não existir no acumulador, adicionamos ela
       acc.push({
+        idActivity: grd.idActivity,
         id_matter: grd.id_matter._id,
         matterName: grd.id_matter.name,
         grade: 0,  // Inicializa a soma das notas
@@ -338,6 +339,7 @@ const GradeIstquarter = () => {
     if (!existingMatter) {
       // Se a matéria não existir no acumulador, adicionamos ela
       acc.push({
+        idActivity: grd.idActivity,
         id_matter: grd.id_matter._id,
         matterName: grd.id_matter.name,
         grade: 0,  // Inicializa a soma das notas
@@ -363,6 +365,7 @@ const GradeIstquarter = () => {
     if (!existingMatter) {
       // Se a matéria não existir no acumulador, adicionamos ela
       acc.push({
+        idActivity: grd.idActivity,
         id_matter: grd.id_matter._id,
         matterName: grd.id_matter.name,
         grade: 0,  // Inicializa a soma das notas
@@ -388,6 +391,7 @@ const GradeIstquarter = () => {
     if (!existingMatter) {
       // Se a matéria não existir no acumulador, adicionamos ela
       acc.push({
+        idActivity: grd.idActivity,
         id_matter: grd.id_matter._id,
         matterName: grd.id_matter.name,
         grade: 0,  // Inicializa a soma das notas
@@ -474,6 +478,7 @@ const GradeIstquarter = () => {
                     <div><span className="red-box" />Notas abaixo da média</div>
                     <div><span className="blue-box" />Notas iguais ou superiores a média</div>
                     <div><span className="green-box" />Notas iguais ou superiores a 90% da nota total</div>
+                    <div><span className="history-box" />Nota proveniente de histórico escolar (outra instituição)</div>
                   </LegendColors>
                 </LegendContainer>
               </DadosStdt>
@@ -507,7 +512,17 @@ const GradeIstquarter = () => {
                                     .filter(res => String(res.id_matter) === String(grd.id_matter))
                                     .map(res => {
                                       const gradeValue = parseFloat(res.grade?.toString().replace(',', '.'));
-                                      return !isNaN(gradeValue) ? gradeValue.toFixed(1) : "-";
+                                      const isHistory = !res.idActivity;
+                                      if (isNaN(gradeValue)) return "-";
+
+                                      return (
+                                        <span
+                                          key={res._id}
+                                          style={{ color: isHistory ? '#7A6F9B' : 'inherit' }}
+                                        >
+                                          {gradeValue.toFixed(1)}
+                                        </span>
+                                      )
                                     })}
                                 </DivBimCell>
                               </DivBimRow>
@@ -524,7 +539,17 @@ const GradeIstquarter = () => {
                                     .filter(res => String(res.id_matter) === String(grd.id_matter))
                                     .map(res => {
                                       const gradeValue = parseFloat(res.grade?.toString().replace(',', '.'));
-                                      return !isNaN(gradeValue) ? gradeValue.toFixed(1) : "";
+                                      const isHistory = !res.idActivity;
+                                      if (isNaN(gradeValue)) return "-";
+
+                                      return (
+                                        <span
+                                          key={res._id}
+                                          style={{ color: isHistory ? '#7A6F9B' : 'inherit' }}
+                                        >
+                                          {gradeValue.toFixed(1)}
+                                        </span>
+                                      )
                                     })}
                                 </DivBimCell>
                               </DivBimRow>
@@ -537,11 +562,21 @@ const GradeIstquarter = () => {
                                   averageGrade={parseFloat(averageGradeIIIrd) || 0}
                                   totalGrade={parseFloat(totalGradeIIIrd) || 0}
                                 >
-                                  {groupedGradesIInd
+                                  {groupedGradesIIIrd
                                     .filter(res => String(res.id_matter) === String(grd.id_matter))
                                     .map(res => {
                                       const gradeValue = parseFloat(res.grade?.toString().replace(',', '.'));
-                                      return !isNaN(gradeValue) ? gradeValue.toFixed(1) : "";
+                                      const isHistory = !res.idActivity;
+                                      if (isNaN(gradeValue)) return "-";
+
+                                      return (
+                                        <span
+                                          key={res._id}
+                                          style={{ color: isHistory ? '#7A6F9B' : 'inherit' }}
+                                        >
+                                          {gradeValue.toFixed(1)}
+                                        </span>
+                                      )
                                     })}
                                 </DivBimCell>
                               </DivBimRow>
@@ -552,10 +587,13 @@ const GradeIstquarter = () => {
                                   averageGrade={parseFloat(averageGrade) || 0}  // Garantir que a média é válida
                                   totalGrade={parseFloat(totalGrade) || 0}  // Garantir que o total é válido
                                 >
-                                  {console.log('resultIndex', grd.grade, averageGrade, totalGrade)}
-                                  {grd.grade !== undefined && grd.grade !== null
-                                    ? parseFloat(grd.grade).toFixed(1)
-                                    : "-"}
+                                  {grd.grade !== undefined && grd.grade !== null ? (
+                                    <span style={{ color: !grd.idActivity ? '#7A6F9B' : 'inherit' }}>
+                                      {parseFloat(grd.grade).toFixed(1)}
+                                    </span>
+                                  ) : (
+                                    "-"
+                                  )}
                                 </DivBimCell>
                               </DivBimRow>
                             </DivBimTable>

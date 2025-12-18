@@ -645,7 +645,7 @@ const MyCla$$Info = () => {
 
                         <button onClick={clickAttendance}>
                             <FcInspection />
-                            Frequência
+                            Frequências
                         </button>
                         <button onClick={() => { navigate('/classes') }}>
                             <FcAddressBook />

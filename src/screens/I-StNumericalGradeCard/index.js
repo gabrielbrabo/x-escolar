@@ -264,6 +264,7 @@ const GradeIstquarter = () => {
     if (!existingMatter) {
       // Se a matéria não existir no acumulador, adicionamos ela
       acc.push({
+        idActivity: grd.idActivity,
         id_matter: grd.id_matter._id,
         matterName: grd.id_matter.name,
         grade: 0,  // Inicializa a soma das notas
@@ -351,6 +352,7 @@ const GradeIstquarter = () => {
                     <div><span className="red-box" />Notas abaixo da média</div>
                     <div><span className="blue-box" />Notas iguais ou superiores a média</div>
                     <div><span className="green-box" />Notas iguais ou superiores a 90% da nota total</div>
+                    <div><span className="history-box" />Nota proveniente de histórico escolar (outra instituição)</div>
                   </LegendColors>
                 </LegendContainer>
               </DadosStdt>
@@ -378,10 +380,13 @@ const GradeIstquarter = () => {
                                   averageGrade={parseFloat(averageGrade) || 0}
                                   totalGrade={parseFloat(totalGrade) || 0}
                                 >
-                                  {console.log('resultIndex', grd.grade, averageGrade, totalGrade)}
-                                  {grd.grade !== undefined && grd.grade !== null
-                                    ? parseFloat(grd.grade).toFixed(1)
-                                    : "-"}
+                                  {grd.grade !== undefined && grd.grade !== null ? (
+                                    <span style={{ color: !grd.idActivity ? '#7A6F9B' : 'inherit' }}>
+                                      {parseFloat(grd.grade).toFixed(1)}
+                                    </span>
+                                  ) : (
+                                    "-"
+                                  )}
                                 </DivBimCell>
                               </DivBimRow>
 

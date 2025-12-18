@@ -1489,7 +1489,20 @@ export const RegisterGradeIstQuarter = async (
 
 export const DestroyGrade = async (id) => {
     try {
-        const response = await api.post(`/destroy-grades`,{id});
+        const response = await api.post(`/destroy-grades`, { id });
+        console.log(response.data.message); // "Grade deletada com sucesso!"
+        return response.data;
+    } catch (error) {
+        console.error(
+            "Erro ao deletar grade:",
+            error.response?.data?.message || error.message
+        );
+    }
+};
+
+export const DestroyNumericalGrade = async (id) => {
+    try {
+        const response = await api.post(`/destroy-Numgrades`, { id });
         console.log(response.data.message); // "Grade deletada com sucesso!"
         return response.data;
     } catch (error) {
@@ -1502,7 +1515,7 @@ export const DestroyGrade = async (id) => {
 
 export const DestroyFinalGrade = async (id) => {
     try {
-        const response = await api.post(`/destroy/final-concepts`,{id});
+        const response = await api.post(`/destroy/final-concepts`, { id });
         console.log(response.data.message); // "Grade deletada com sucesso!"
         return response.data;
     } catch (error) {
@@ -1528,6 +1541,47 @@ export const RegisterNumericalGrade = async (
                 // window.location.reload()
             }
         }, [])
+}
+export const createHistoryGrade = async (
+    year,
+    bimonthly,
+    studentGrade,
+    id_teacher,
+    id_student,
+    id_matter,
+    id_class,
+    id_iStQuarter,
+    id_iiNdQuarter,
+    id_iiiRdQuarter,
+    id_ivThQuarter,
+    id_vThQuarter,
+    id_viThQuarter
+) => {
+    try {
+        return api.post(`/register/HistoryGrade`, {
+            year,
+            bimonthly,
+            studentGrade,
+            id_teacher,
+            id_student,
+            id_matter,
+            id_class,
+            id_iStQuarter,
+            id_iiNdQuarter,
+            id_iiiRdQuarter,
+            id_ivThQuarter,
+            id_vThQuarter,
+            id_viThQuarter
+        })
+
+    } catch (error) {
+        const message =
+            error?.response?.data?.message ||
+            'Erro ao registrar a nota de histórico.';
+
+        alert(message);
+        throw error; // 👈 importante se o front precisar saber que falhou
+    }
 }
 
 export const GetGradeIstQuarter = async (

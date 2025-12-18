@@ -209,6 +209,7 @@ const AllTheBulletins = () => {
                           <div><span className="red-box" />Notas abaixo da média</div>
                           <div><span className="blue-box" />Notas iguais ou superiores a média</div>
                           <div><span className="green-box" />Notas iguais ou superiores a 90% da nota total</div>
+                          <div><span className="history-box" />Nota proveniente de histórico escolar (outra instituição)</div>
                         </LegendColors>
                       </LegendContainer>
                     </DadosStdt>
@@ -221,42 +222,50 @@ const AllTheBulletins = () => {
                             grade
                           }))
                           .sort((a, b) => a.matterName.localeCompare(b.matterName))
-                          .map(grd => (
-                            <Emp key={grd.matterName}>
-                              <DivNameMatter>
-                                <SpanNameMatter>{grd.matterName}</SpanNameMatter>
-                              </DivNameMatter>
-                              <Grade>
-                                <DivBimTable>
-                                  <DivBimRow>
-                                    <DivBimHeader>1º Bim</DivBimHeader>
-                                    <DivBimCell
-                                      grade={parseFloat(grd.grade) || 0}
-                                      averageGrade={parseFloat(bimestre.averageGrade) || 0}
-                                      totalGrade={parseFloat(bimestre.totalGrade) || 0}
-                                    >
-                                      {parseFloat(grd.grade).toFixed(1)}
-                                    </DivBimCell>
-                                  </DivBimRow>
+                          .map(grd => {
+                            const isHistorico =
+                              !grd.grade?.atividades ||
+                              grd.grade.atividades.length === 0 ||
+                              grd.grade.atividades.every(a => a.idActivity === null);
 
-                                  <DivBimRow>
-                                    <DivBimHeader>2º Bim</DivBimHeader>
-                                    <DivBimCell>-</DivBimCell>
-                                  </DivBimRow>
+                            return (
+                              <Emp key={grd.matterName}>
+                                <DivNameMatter>
+                                  <SpanNameMatter>{grd.matterName}</SpanNameMatter>
+                                </DivNameMatter>
+                                <Grade>
+                                  <DivBimTable>
+                                    <DivBimRow>
+                                      <DivBimHeader>1º Bim</DivBimHeader>
+                                      <DivBimCell
+                                        grade={parseFloat(grd.grade.total) || 0}
+                                        averageGrade={parseFloat(bimestre.averageGrade) || 0}
+                                        totalGrade={parseFloat(bimestre.totalGrade) || 0}
+                                        isHistorico={isHistorico}
+                                      >
+                                        {parseFloat(grd.grade.total).toFixed(1)}
+                                      </DivBimCell>
+                                    </DivBimRow>
 
-                                  <DivBimRow>
-                                    <DivBimHeader>3º Bim</DivBimHeader>
-                                    <DivBimCell>-</DivBimCell>
-                                  </DivBimRow>
+                                    <DivBimRow>
+                                      <DivBimHeader>2º Bim</DivBimHeader>
+                                      <DivBimCell>-</DivBimCell>
+                                    </DivBimRow>
 
-                                  <DivBimRow>
-                                    <DivBimHeader>4º Bim</DivBimHeader>
-                                    <DivBimCell>-</DivBimCell>
-                                  </DivBimRow>
-                                </DivBimTable>
-                              </Grade>
-                            </Emp>
-                          ))}
+                                    <DivBimRow>
+                                      <DivBimHeader>3º Bim</DivBimHeader>
+                                      <DivBimCell>-</DivBimCell>
+                                    </DivBimRow>
+
+                                    <DivBimRow>
+                                      <DivBimHeader>4º Bim</DivBimHeader>
+                                      <DivBimCell>-</DivBimCell>
+                                    </DivBimRow>
+                                  </DivBimTable>
+                                </Grade>
+                              </Emp>
+                            )
+                          })}
                       </List>
 
                     </DivDados>

@@ -251,6 +251,7 @@ const AllTheBulletins = () => {
                           <div><span className="red-box" />Notas abaixo da média</div>
                           <div><span className="blue-box" />Notas iguais ou superiores a média</div>
                           <div><span className="green-box" />Notas iguais ou superiores a 90% da nota total</div>
+                          <div><span className="history-box" />Nota proveniente de histórico escolar (outra instituição)</div>
                         </LegendColors>
                       </LegendContainer>
                     </DadosStdt>
@@ -263,72 +264,94 @@ const AllTheBulletins = () => {
                             grade
                           }))
                           .sort((a, b) => a.matterName.localeCompare(b.matterName))
-                          .map(grd => (
-                            <Emp key={grd.matterName}>
-                              <DivNameMatter>
-                                <SpanNameMatter>{grd.matterName}</SpanNameMatter>
-                              </DivNameMatter>
-                              <Grade>
-                                <DivBimTable>
-                                  <DivBimRow>
-                                    <DivBimHeader>1º Bim</DivBimHeader>
-                                    <DivBimCell
-                                      grade={
-                                        alunoIst && alunoIst.totalPorMateria && alunoIst.totalPorMateria[grd.matterName] !== undefined
-                                          ? parseFloat(alunoIst.totalPorMateria[grd.matterName])
-                                          : 0
-                                      }
-                                      averageGrade={bim1 ? parseFloat(bim1.averageGrade) : 0}
-                                      totalGrade={bim1 ? parseFloat(bim1.totalGrade) : 0}
-                                    >
-                                      {(() => {
-                                        const val = alunoIst && alunoIst.totalPorMateria && alunoIst.totalPorMateria[grd.matterName] !== undefined
-                                          ? parseFloat(alunoIst.totalPorMateria[grd.matterName]).toFixed(1)
-                                          : '-';
-                                        return val;
-                                      })()}
-                                    </DivBimCell>
-                                  </DivBimRow>
+                          .map(grd => {
+                            const isHistorico =
+                              !grd.grade?.atividades ||
+                              grd.grade.atividades.length === 0 ||
+                              grd.grade.atividades.every(a => a.idActivity === null);
 
-                                  <DivBimRow>
-                                    <DivBimHeader>2º Bim</DivBimHeader>
-                                    <DivBimCell
-                                      grade={
-                                        alunoIInd && alunoIInd.totalPorMateria && alunoIInd.totalPorMateria[grd.matterName] !== undefined
-                                          ? parseFloat(alunoIInd.totalPorMateria[grd.matterName])
-                                          : 0
-                                      }
-                                      averageGrade={bim2 ? parseFloat(bim2.averageGrade) : 0}
-                                      totalGrade={bim2 ? parseFloat(bim2.totalGrade) : 0}
-                                    >
-                                      {(() => {
-                                        const val = alunoIInd && alunoIInd.totalPorMateria && alunoIInd.totalPorMateria[grd.matterName] !== undefined
-                                          ? parseFloat(alunoIInd.totalPorMateria[grd.matterName]).toFixed(1)
-                                          : '-';
-                                        return val;
-                                      })()}
-                                    </DivBimCell>
-                                  </DivBimRow>
+                            const isHistorico1Bim =
+                              !alunoIst?.totalPorMateria?.[grd.matterName]?.atividades ||
+                              alunoIst.totalPorMateria[grd.matterName].atividades.length === 0 ||
+                              alunoIst.totalPorMateria[grd.matterName].atividades.every(
+                                a => a.idActivity === null
+                              );
+                            const isHistorico2Bim =
+                              !alunoIInd?.totalPorMateria?.[grd.matterName]?.atividades ||
+                              alunoIInd.totalPorMateria[grd.matterName].atividades.length === 0 ||
+                              alunoIInd.totalPorMateria[grd.matterName].atividades.every(
+                                a => a.idActivity === null
+                              );
+                            return (
+                              <Emp key={grd.matterName}>
+                                <DivNameMatter>
+                                  <SpanNameMatter>{grd.matterName}</SpanNameMatter>
+                                </DivNameMatter>
+                                <Grade>
+                                  <DivBimTable>
+                                    <DivBimRow>
+                                      <DivBimHeader>1º Bim</DivBimHeader>
+                                      <DivBimCell
+                                        grade={
+                                          alunoIst && alunoIst.totalPorMateria && alunoIst.totalPorMateria[grd.matterName] !== undefined
+                                            ? parseFloat(alunoIst.totalPorMateria[grd.matterName].total)
+                                            : 0
+                                        }
+                                        averageGrade={bim1 ? parseFloat(bim1.averageGrade) : 0}
+                                        totalGrade={bim1 ? parseFloat(bim1.totalGrade) : 0}
+                                        isHistorico={isHistorico1Bim}
+                                      >
+                                        {(() => {
+                                          const val = alunoIst && alunoIst.totalPorMateria && alunoIst.totalPorMateria[grd.matterName] !== undefined
+                                            ? parseFloat(alunoIst.totalPorMateria[grd.matterName].total).toFixed(1)
+                                            : '-';
+                                          return val;
+                                        })()}
+                                      </DivBimCell>
+                                    </DivBimRow>
 
-                                  <DivBimRow>
-                                    <DivBimHeader>3º Bim</DivBimHeader>
-                                    <DivBimCell
-                                      grade={parseFloat(grd.grade) || 0}
-                                      averageGrade={parseFloat(bimestre.averageGrade) || 0}
-                                      totalGrade={parseFloat(bimestre.totalGrade) || 0}
-                                    >
-                                      {parseFloat(grd.grade).toFixed(1)}
-                                    </DivBimCell>
-                                  </DivBimRow>
+                                    <DivBimRow>
+                                      <DivBimHeader>2º Bim</DivBimHeader>
+                                      <DivBimCell
+                                        grade={
+                                          alunoIInd && alunoIInd.totalPorMateria && alunoIInd.totalPorMateria[grd.matterName] !== undefined
+                                            ? parseFloat(alunoIInd.totalPorMateria[grd.matterName].total)
+                                            : 0
+                                        }
+                                        averageGrade={bim2 ? parseFloat(bim2.averageGrade) : 0}
+                                        totalGrade={bim2 ? parseFloat(bim2.totalGrade) : 0}
+                                        isHistorico={isHistorico2Bim}
+                                      >
+                                        {(() => {
+                                          const val = alunoIInd && alunoIInd.totalPorMateria && alunoIInd.totalPorMateria[grd.matterName] !== undefined
+                                            ? parseFloat(alunoIInd.totalPorMateria[grd.matterName].total).toFixed(1)
+                                            : '-';
+                                          return val;
+                                        })()}
+                                      </DivBimCell>
+                                    </DivBimRow>
 
-                                  <DivBimRow>
-                                    <DivBimHeader>4º Bim</DivBimHeader>
-                                    <DivBimCell>-</DivBimCell>
-                                  </DivBimRow>
-                                </DivBimTable>
-                              </Grade>
-                            </Emp>
-                          ))}
+                                    <DivBimRow>
+                                      <DivBimHeader>3º Bim</DivBimHeader>
+                                      <DivBimCell
+                                        grade={parseFloat(grd.grade.total) || 0}
+                                        averageGrade={parseFloat(bimestre.averageGrade) || 0}
+                                        totalGrade={parseFloat(bimestre.totalGrade) || 0}
+                                        isHistorico={isHistorico}
+                                      >
+                                        {parseFloat(grd.grade.total).toFixed(1)}
+                                      </DivBimCell>
+                                    </DivBimRow>
+
+                                    <DivBimRow>
+                                      <DivBimHeader>4º Bim</DivBimHeader>
+                                      <DivBimCell>-</DivBimCell>
+                                    </DivBimRow>
+                                  </DivBimTable>
+                                </Grade>
+                              </Emp>
+                            )
+                          })}
                       </List>
                     </DivDados>
 

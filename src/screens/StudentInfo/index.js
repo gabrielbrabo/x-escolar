@@ -10,7 +10,13 @@ import {
     getVthQuarter,
     getVIthQuarter,
     updateStatus,
-    getSchoolYear
+    getSchoolYear,
+    GetNumGrade,
+    createHistoryGrade,
+    GetMatter,
+    DestroyNumericalGrade,
+    updateNumericalGrade,
+    clssInfo
 } from '../../Api'
 import Calendar from '../../components/CalendarUI/Calendar'
 
@@ -47,6 +53,22 @@ import {
     //TableBody,
     ModalOverlay,
     ModalContent,
+    HistoricGradeContainer,
+    HistoricGradeRow,
+    HistoricModalContent,
+    HistoricModalOverlay,
+    EmptyHistoricMessage,
+    // HistoricModalHeader,
+    AddHistoricButton,
+    ModalActions,
+    ButtonSecondary,
+    BlurBackground,
+    ModalContainer,
+    EditContainer,
+    EmpEdit,
+    Grade,
+    EditOverlay,
+    HeaderRow
 } from './style';
 
 /*import {
@@ -66,7 +88,7 @@ const Student = () => {
 
     const navigate = useNavigate()
     const [assessmentFormat, setassessmentFormat] = useState('');
-    const currentYear = new Date().getFullYear().toString();
+    //const currentYear = new Date().getFullYear().toString();
     const [I, setI] = useState([])
     const [II, setII] = useState([])
     const [III, setIII] = useState([])
@@ -82,6 +104,7 @@ const Student = () => {
     const [loading, setLoading] = useState(false);
     const [removeStudent, setRemoveStudent] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessageHistoric, setErrorMessageHistoric] = useState('');
 
     const [positionAtSchool, setPositionAtSchool] = useState('');
 
@@ -91,8 +114,27 @@ const Student = () => {
     const [selectedBimId, setSelectedBimId] = useState("");      // guarda o _id
     const [selectedBimName, setSelectedBimName] = useState("");  // guarda o nome do bimestre
 
+    const [openNoClassModal, setOpenNoClassModal] = useState(false);
+
+    const [resHistoricGrade, setresHistoricGrade] = useState()
+    const [openHistoricModal, setOpenHistoricModal] = useState(false);
+    const [openAddHistoric, setOpenAddHistoric] = useState(false);
+
+    const [matter, setMatter] = useState([])
+    const [Selectmatter, setSelectMatter] = useState([])
+    const [$schoolYea, set$schoolYea] = useState()
+    const [historicGrade, setHistoricGrade] = useState()
+    const [SelectbihistoricGrades, setSelectbihistoricGrades] = useState([])
+    const [open, setopen] = useState(null)
+
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [selectedGrade, setSelectedGrade] = useState(null);
+    const [update_studentGrade, setUpdateStudentGrade] = useState(null);
+
+    const [update_id_grade, setUpdateIdGrade] = useState(null);
+
     const { id_student } = useParams()
-    console.log(currentYear)
+    //console.log(currentYear)
 
     useEffect(() => {
         (async () => {
@@ -103,6 +145,7 @@ const Student = () => {
             setassessmentFormat($assessmentFormat)
             // const id_student = sessionStorage.getItem("StudentInformation");
             const schoolYear = await getSchoolYear(JSON.parse(idSchool))
+            console.log("schoolYear", schoolYear)
             console.log("idSchool", idSchool)
             console.log("idStudent", id_student)
 
@@ -123,10 +166,10 @@ const Student = () => {
             }
 
 
-            const clss = res.data.data.find(res => {
+            const clss = await res.data.data.find(res => {
                 return res
             }).id_class.map(res => {
-                if (res.year === currentYear) {
+                if (res.year === JSON.stringify(schoolYear.data.data)) {
                     return (res)
                 } else {
                     return null
@@ -189,9 +232,26 @@ const Student = () => {
             }
 
             setLoading(false);
+
+            const resMatter = await GetMatter(JSON.parse(idSchool));
+
+            const filterMatter = resMatter.data.data.filter(res => {
+                return res
+            })
+
+            const physical = clss.map(res => {
+                return res.physicalEducationTeacher
+            })
+            console.log('physical', physical)
+            if (regent.length > 0) {
+                sessionStorage.setItem("PhysicalEducationTeacher", physical)
+                setRegent(true)
+            }
+            setMatter(filterMatter);
+            set$schoolYea(schoolYear.data.data);
         })()
         setLoading(false);
-    }, [currentYear, id_student])
+    }, [id_student,])
 
     if (student) {
         const stdt = student.map(res => {
@@ -268,6 +328,7 @@ const Student = () => {
         }
         setLoading(false);
     };
+
     const signClickIndForm = async () => {
         setLoading(true);
         console.log("Selectbimonthly", selectedBimId)
@@ -300,6 +361,175 @@ const Student = () => {
             setErrorMessage('Erro, Verifique os dados e tente novamente.');
         }
         setLoading(false);
+    };
+
+    const ReturnHistoryGrade = async () => {
+        setLoading(true);
+
+        // 🚨 NÃO EXISTE TURMA
+        if (!Clss || Clss.length === 0) {
+            setLoading(false);
+            setOpenNoClassModal(true);
+            return; // ⛔ interrompe tudo aqui
+        }
+
+        const bimonthly = SelectbihistoricGrades.bim
+        const id_class = await Clss.find(res => res)._id
+        const $class = await (await clssInfo(id_class)).data.data
+        const dailyStatus = $class
+            .map(res => res.dailyStatus[bimonthly].regentTeacher)
+            .find(Boolean); // pega o valor válido
+
+        setopen(dailyStatus);
+        setopen(dailyStatus)
+        console.log("dailyStatus", dailyStatus)
+        console.log("bimonthly", bimonthly)
+        const resGrades = await GetNumGrade(
+            $schoolYea,
+            bimonthly,
+            id_student
+        );
+        if (resGrades.data.data) {
+            console.log("resGrades", resGrades.data.data)
+            const resHistoricGrades = resGrades.data.data
+                .filter(res => res.idActivity == null && res.studentGrade != null)
+                .map(res => res);
+            setresHistoricGrade(resHistoricGrades)
+            setOpenHistoricModal(true); // 👈 ABRE A JANELA
+
+        } else {
+            setErrorMessageHistoric('Erro, Verifique os dados e tente novamente.');
+        }
+        setLoading(false);
+    };
+
+    const signClickHistoryGrade = async () => {
+        setLoading(true);
+
+        console.log("SelectbihistoricGradesbim", SelectbihistoricGrades.bim)
+        let bim = ""; // declara fora
+
+        if (SelectbihistoricGrades.bim === "1º BIMESTRE") {
+            bim = "id_iStQuarter";
+        }
+        if (SelectbihistoricGrades.bim === "2º BIMESTRE") {
+            bim = "id_iiNdQuarter";
+        }
+        if (SelectbihistoricGrades.bim === "3º BIMESTRE") {
+            bim = "id_iiiRdQuarter";
+        }
+        if (SelectbihistoricGrades.bim === "4º BIMESTRE") {
+            bim = "id_ivThQuarter";
+        }
+        if (SelectbihistoricGrades.bim === "Resultado Final") {
+            bim = "id_finalConcepts";
+        }
+        const idStdt = id_student
+        const idBim = SelectbihistoricGrades._id
+        console.log("idstdt", idStdt)
+        console.log("bim", bim)
+        console.log("idbim", idBim)
+        let id_teacher = ''
+        if (Selectmatter.name === 'EDUCAÇÃO FÍSICA') {
+            id_teacher = sessionStorage.getItem("PhysicalEducationTeacher")
+        } else {
+            id_teacher = sessionStorage.getItem("RegentTeacher")
+        }
+        const bimonthly = SelectbihistoricGrades.bim
+        const id_matter = Selectmatter._id
+        const id_class = Clss.find(res => res)._id
+        console.log("id_class", id_class)
+        console.log("[bim]: idBim", [bim], idBim)
+
+        // 🔒 VALIDAÇÕES
+        if (!Selectmatter || !Selectmatter._id) {
+            alert('Selecione a matéria.');
+            setLoading(false);
+            return;
+        }
+
+        if (historicGrade === null || historicGrade === undefined || historicGrade === '') {
+            alert('Informe a nota do aluno.');
+            setLoading(false);
+            return;
+        }
+
+        if (bim && $schoolYea && historicGrade) {
+            try {
+                await createHistoryGrade({
+                    year: $schoolYea,
+                    bimonthly,
+                    studentGrade: historicGrade,
+                    id_teacher,
+                    id_student: idStdt,
+                    id_matter,
+                    id_class,
+                    [bim]: idBim
+                })
+                // ✅ RECARREGA AS NOTAS DO ALUNO
+                await ReturnHistoryGrade();
+            } catch (error) {
+                if (error.response?.status === 400) {
+                    alert(error.response.data.message);
+                } else {
+                    alert('Erro inesperado ao registrar a nota.');
+                }
+            }
+        } else {
+            setErrorMessageHistoric('Erro, Verifique os dados e tente novamente.');
+        }
+        setOpenAddHistoric(false)
+        setSelectMatter([])
+        setHistoricGrade([])
+        setLoading(false);
+    };
+
+    const handleDeleteClick = (grade) => {
+        console.log("grade", grade)
+        setSelectedGrade(grade);
+        setConfirmModal(true);
+    };
+
+    const handleConfirm = async () => {
+        if (selectedGrade) {
+            console.log("selected", selectedGrade._id)
+            await DestroyNumericalGrade(selectedGrade._id);
+            // ✅ RECARREGA AS NOTAS DO ALUNO
+            await ReturnHistoryGrade();
+        }
+        setConfirmModal(false);
+        setSelectedGrade(null);
+    };
+
+    const handleCancel = () => {
+        setConfirmModal(false);
+    };
+
+    const startEditing = (grade) => {
+
+        setUpdateStudentGrade(grade.studentGrade);
+        setUpdateIdGrade(grade._id);
+        // 👇 FECHA O MODAL QUE ESTÁ COBRINDO A TELA
+        setOpenHistoricModal(false);
+    };
+
+    const saveEdit = async () => {
+        try {
+
+            const editedGrade = parseFloat(
+                update_studentGrade.toString().replace(',', '.')
+            );
+
+            await updateNumericalGrade(update_id_grade, editedGrade);
+
+            // recarrega as notas
+            await ReturnHistoryGrade();
+
+            setUpdateIdGrade(null);
+
+        } catch (error) {
+            alert('Erro ao atualizar a nota.');
+        }
     };
 
     const upStatus = async () => {
@@ -335,6 +565,12 @@ const Student = () => {
     console.log("student", student)
     console.log("selectedStatus", selectedStatus)
     console.log("exitDate", exitDate)
+    console.log("resmatter", Selectmatter)
+    console.log("$schoolYea", $schoolYea)
+    console.log("SelectbihistoricGrades", SelectbihistoricGrades)
+    console.log("historicGrade", historicGrade)
+    console.log("resHistoricGrade", resHistoricGrade)
+    console.log("open", open)
 
     return (
         <Container>
@@ -400,6 +636,11 @@ const Student = () => {
                                     </Emp>
                                 ))
                             }
+                            {Regent &&
+                                <ContainerCalendar>
+                                    <Calendar />
+                                </ContainerCalendar>
+                            }
                             <Input>
                                 <h3>Boletim</h3>
                                 <Label>Selecione o bimestre e click no botão abaixo.</Label>
@@ -448,11 +689,227 @@ const Student = () => {
                                     <Button onClick={signClickIndForm}>Ver Relatório </Button>
                                 </Input>
                             }
-                            {Regent &&
-                                <ContainerCalendar>
-                                    <Calendar />
-                                </ContainerCalendar>
+                            {(assessmentFormat === "grade" && (positionAtSchool === "DIRETOR/SUPERVISOR" || positionAtSchool === "SECRETARIO")) &&
+                                <HistoricGradeContainer>
+                                    <Input>
+                                        <h3>Notas provenientes de outras escolas</h3>
+                                        <Label>Selecione o bimestre e click no botão abaixo.</Label>
+                                        <Select
+                                            id="id-bimonthly"
+                                            value={SelectbihistoricGrades?._id || ""}
+                                            onChange={(e) => {
+                                                const selected = bimonthly.find(b => b._id === e.target.value)
+                                                setSelectbihistoricGrades({
+                                                    _id: selected._id,
+                                                    bim: selected.bimonthly
+                                                })
+                                            }}
+                                        >
+                                            <option value="">Selecione</option>
+                                            {bimonthly.map(res => (
+                                                <option key={res._id} value={res._id}>{res.bimonthly}</option>
+                                            ))
+                                            }
+                                        </Select>
+                                        <Button onClick={ReturnHistoryGrade}>Ver notas de outras escolas</Button>
+                                    </Input>
+                                </HistoricGradeContainer>
                             }
+                            {openHistoricModal && (
+                                <HistoricModalOverlay>
+                                    <HistoricModalContent>
+                                        <h3>Notas provenientes de outras escolas</h3>
+
+                                        <HeaderRow>
+                                            <h4>{SelectbihistoricGrades.bim}</h4>
+
+                                            <AddHistoricButton
+                                                //disabled={open !== 'aberto'}
+                                                onClick={() => {
+                                                    if (open !== 'aberto') {
+                                                        alert('O bimestre está fechado. Não é possível registrar notas.');
+                                                        return;
+                                                    }
+                                                    setOpenAddHistoric(true);
+                                                }}
+                                            >
+                                                Registrar nota
+                                            </AddHistoricButton>
+                                        </HeaderRow>
+                                        {resHistoricGrade.length === 0 ? (
+                                            <EmptyHistoricMessage>
+                                                Não há nenhuma nota proveniente de outras escolas para este bimestre.
+                                            </EmptyHistoricMessage>
+                                        ) : (
+                                            resHistoricGrade
+                                                .slice() // cria cópia para não alterar estado
+                                                .sort((a, b) => (a.id_matter?.name || '').localeCompare(b.id_matter?.name || ''))
+                                                .map((grade) => (
+                                                    <HistoricGradeRow key={grade._id}>
+                                                        <span>{grade.id_matter?.name}</span>
+                                                        <strong>{grade.studentGrade}</strong>
+
+                                                        <Btt02 onClick={() => {
+                                                            if (open !== 'aberto') {
+                                                                alert('O bimestre está fechado. Não é possível deletar notas.');
+                                                                return;
+                                                            }
+                                                            handleDeleteClick(grade)
+                                                        }}>Deletar</Btt02>
+                                                        <Btt02 onClick={() => {
+                                                            if (open !== 'aberto') {
+                                                                alert('O bimestre está fechado. Não é possível editar notas.');
+                                                                return;
+                                                            }
+                                                            startEditing(grade)
+                                                        }}>Editar</Btt02>
+                                                    </HistoricGradeRow>
+                                                ))
+                                        )}
+
+                                        <Button onClick={() => setOpenHistoricModal(false)}>
+                                            Fechar
+                                        </Button>
+                                    </HistoricModalContent>
+                                </HistoricModalOverlay>
+                            )}
+                            {openNoClassModal && (
+                                <ModalOverlay>
+                                    <ModalContent>
+                                        <h3>Acesso indisponível</h3>
+                                        <p>
+                                            Para acessar as notas provenientes de outras escolas, o aluno precisa estar
+                                            vinculado a uma turma nesta escola.
+                                            <br /><br />
+                                            Caso o aluno tenha sido transferido para outra instituição, as notas lançadas
+                                            ficam disponíveis apenas no diário da turma referente ao ano letivo em que
+                                            ele esteve vinculado.
+                                        </p>
+
+                                        <Btt02 onClick={() => setOpenNoClassModal(false)}>
+                                            Entendi
+                                        </Btt02>
+                                    </ModalContent>
+                                </ModalOverlay>
+                            )}
+
+
+                            {confirmModal && (
+                                <BlurBackground>
+                                    <ModalContainer>
+                                        <h3>
+                                            Tem certeza que deseja deletar a nota?
+                                        </h3>
+                                        <div>
+                                            <button style={{
+                                                backgroundColor: 'red',
+                                                color: 'white'
+                                            }}
+                                                onClick={handleConfirm}
+                                            >Sim</button>
+                                            <button onClick={handleCancel}>Não</button>
+                                        </div>
+                                    </ModalContainer>
+                                </BlurBackground>
+                            )}
+                            {console.log("update_id_grade", update_id_grade)}
+                            {update_id_grade && (
+                                <EditOverlay>
+                                    <EditContainer>
+                                        <h3>Editando Nota</h3>
+
+                                        <EmpEdit>
+                                            <Grade id='nota'>
+                                                <div className='nota'>
+                                                    <p>Nota:</p>
+                                                    <input
+                                                        placeholder="N/A"
+                                                        value={update_studentGrade}
+                                                        onChange={(e) => setUpdateStudentGrade(e.target.value)}
+                                                    />
+                                                </div>
+                                            </Grade>
+                                        </EmpEdit>
+
+                                        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+
+                                        <Btt02 onClick={saveEdit}>Salvar</Btt02>
+                                        <Btt02 onClick={() => {
+                                            setUpdateIdGrade(null)
+                                            setOpenHistoricModal(true); // 👈 ABRE A JANELA
+                                        }}>Cancelar</Btt02>
+                                    </EditContainer>
+                                </EditOverlay>
+                            )}
+
+                            {openAddHistoric && (
+                                <HistoricModalOverlay>
+                                    <HistoricModalContent>
+                                        <h3>Registrar nota provenientes de outras escolas</h3>
+
+                                        <Label>Selecione a Disciplina</Label>
+                                        <Select
+                                            id="id-matter"
+                                            value={Selectmatter?._id || ""}
+                                            onChange={(e) => {
+                                                const selected = matter.find(m => m._id === e.target.value);
+                                                setSelectMatter({
+                                                    _id: selected._id,
+                                                    name: selected.name
+                                                });
+                                            }}
+                                        >
+                                            <option value="">Selecione</option>
+                                            {matter.map(res => (
+                                                <option value={res._id}>{res.name}</option>
+                                            ))
+                                            }
+                                        </Select>
+
+                                        <Label>Nota do aluno</Label>
+                                        <input
+                                            type="number"
+                                            placeholder="Ex: 17,5"
+                                            min="0"
+                                            step="0.1"
+                                            value={historicGrade}
+                                            onWheel={(e) => e.target.blur()}
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                                                    e.preventDefault();
+                                                }
+                                            }}
+                                            onChange={(e) => {
+                                                let value = e.target.value.replace(',', '.');
+
+                                                // Impede valores inválidos
+                                                if (value === '') {
+                                                    setHistoricGrade('');
+                                                    return;
+                                                }
+
+                                                const numericValue = Number(value);
+                                                if (isNaN(numericValue) || numericValue < 0) return;
+
+                                                setHistoricGrade(value);
+                                            }}
+                                        />
+
+                                        {errorMessageHistoric && <ErrorMessage>{errorMessageHistoric}</ErrorMessage>}
+
+                                        <ModalActions>
+                                            <Button onClick={signClickHistoryGrade}>
+                                                Registrar
+                                            </Button>
+                                            <ButtonSecondary onClick={() => setOpenAddHistoric(false)}>
+                                                Cancelar
+                                            </ButtonSecondary>
+                                        </ModalActions>
+                                    </HistoricModalContent>
+                                </HistoricModalOverlay>
+                            )}
+
+
                         </ContainerDivs>
                     }
                     {(positionAtSchool === "DIRETOR/SUPERVISOR" || positionAtSchool === "SECRETARIO") && removeStudent === false &&
@@ -529,7 +986,7 @@ const Student = () => {
                     )}
                 </>
             }
-        </Container>
+        </Container >
     )
 }
 

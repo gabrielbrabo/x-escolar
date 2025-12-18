@@ -250,6 +250,7 @@ const FinalConcepts = () => {
     if (!existingMatter) {
       // Se a matéria não existir no acumulador, adicionamos ela
       acc.push({
+        idActivity: grd.idActivity,
         id_matter: grd.id_matter._id,
         matterName: grd.id_matter.name,
         grade: 0,  // Inicializa a soma das notas
@@ -275,6 +276,7 @@ const FinalConcepts = () => {
     if (!existingMatter) {
       // Se a matéria não existir no acumulador, adicionamos ela
       acc.push({
+        idActivity: grd.idActivity,
         id_matter: grd.id_matter._id,
         matterName: grd.id_matter.name,
         grade: 0,  // Inicializa a soma das notas
@@ -304,6 +306,7 @@ const FinalConcepts = () => {
     if (!existingMatter) {
       // Se a matéria não existir no acumulador, adicionamos ela
       acc.push({
+        idActivity: grd.idActivity,
         id_matter: grd.id_matter._id,
         matterName: grd.id_matter.name,
         grade: 0,  // Inicializa a soma das notas
@@ -331,6 +334,7 @@ const FinalConcepts = () => {
     if (!existingMatter) {
       // Se a matéria não existir no acumulador, adicionamos ela
       acc.push({
+        idActivity: grd.idActivity,
         id_matter: grd.id_matter._id,
         matterName: grd.id_matter.name,
         grade: 0,  // Inicializa a soma das notas
@@ -358,6 +362,7 @@ const FinalConcepts = () => {
     if (!existingMatter) {
       // Se a matéria não existir no acumulador, adicionamos ela
       acc.push({
+        idActivity: grd.idActivity,
         id_matter: grd.id_matter._id,
         matterName: grd.id_matter.name,
         grade: 0,  // Inicializa a soma das notas
@@ -446,6 +451,7 @@ const FinalConcepts = () => {
                     <div><span className="red-box" />Notas abaixo da média</div>
                     <div><span className="blue-box" />Notas iguais ou superiores a média</div>
                     <div><span className="green-box" />Notas iguais ou superiores a 90% da nota total</div>
+                    <div><span className="history-box" />Nota proveniente de histórico escolar (outra instituição)</div>
                   </LegendColors>
                 </LegendContainer>
               </DadosStdt>
@@ -469,6 +475,30 @@ const FinalConcepts = () => {
 
                       const totalGrade = gradeIst + gradeIInd + gradeIIIrd + gradeIVth;
 
+                      const isHistoryIst = groupedGradesIst.some(
+                        res =>
+                          String(res.id_matter) === String(grd.id_matter) &&
+                          !res.idActivity
+                      );
+
+                      const isHistoryIInd = groupedGradesIInd.some(
+                        res =>
+                          String(res.id_matter) === String(grd.id_matter) &&
+                          !res.idActivity
+                      );
+
+                      const isHistoryIIIrd = groupedGradesIIIrd.some(
+                        res =>
+                          String(res.id_matter) === String(grd.id_matter) &&
+                          !res.idActivity
+                      );
+
+                      const isHistoryIVth = groupedGradesIVth.some(
+                        res =>
+                          String(res.id_matter) === String(grd.id_matter) &&
+                          !res.idActivity
+                      );
+
                       return (
                         <Emp key={grd._id}>
                           <DivNameMatter>
@@ -484,6 +514,7 @@ const FinalConcepts = () => {
                                   grade={gradeIst}
                                   averageGrade={parseFloat(averageGradeIst) || 0}
                                   totalGrade={parseFloat(totalGradeIst) || 0}
+                                  isHistory={isHistoryIst}
                                 >
                                   {gradeIst > 0 ? gradeIst.toFixed(1) : '-'}
                                 </DivBimCell>
@@ -495,6 +526,7 @@ const FinalConcepts = () => {
                                   grade={gradeIInd}
                                   averageGrade={parseFloat(averageGradeIInd) || 0}
                                   totalGrade={parseFloat(totalGradeIInd) || 0}
+                                  isHistory={isHistoryIInd}
                                 >
                                   {gradeIInd > 0 ? gradeIInd.toFixed(1) : '-'}
                                 </DivBimCell>
@@ -506,6 +538,7 @@ const FinalConcepts = () => {
                                   grade={gradeIIIrd}
                                   averageGrade={parseFloat(averageGradeIIIrd) || 0}
                                   totalGrade={parseFloat(totalGradeIIIrd) || 0}
+                                  isHistory={isHistoryIIIrd}
                                 >
                                   {gradeIIIrd > 0 ? gradeIIIrd.toFixed(1) : '-'}
                                 </DivBimCell>
@@ -517,6 +550,7 @@ const FinalConcepts = () => {
                                   grade={gradeIVth}
                                   averageGrade={parseFloat(averageGradeIVth) || 0}
                                   totalGrade={parseFloat(totalGradeIVth) || 0}
+                                  isHistory={isHistoryIVth}
                                 >
                                   {gradeIVth > 0 ? gradeIVth.toFixed(1) : '-'}
                                 </DivBimCell>

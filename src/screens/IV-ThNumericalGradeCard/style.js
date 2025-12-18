@@ -507,7 +507,7 @@ export const LegendColors = styled.div`
     font-size: 14px;
   }
 
-  .red-box, .blue-box, .green-box {
+  .red-box, .blue-box, .green-box, .history-box {
     width: 15px;
     height: 15px;
     border-radius: 3px;
@@ -517,6 +517,7 @@ export const LegendColors = styled.div`
   .red-box { background-color: red; }
   .blue-box { background-color: blue; }
   .green-box { background-color: green; }
+  .history-box { background-color: #7A6F9B; }
 `;
 
 const GlobalStyle = createGlobalStyle`
@@ -651,6 +652,12 @@ const GlobalStyle = createGlobalStyle`
       print-color-adjust: exact;
     }
 
+    .history-box {
+      background-color: #7A6F9B !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    
     /*${SpanTotalGrade}, ${SpanAverageGrade}, ${SpanGradeStudent} {
       font-size: 0.5em; 
     }*/

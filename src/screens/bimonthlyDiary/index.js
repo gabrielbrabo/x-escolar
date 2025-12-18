@@ -583,6 +583,8 @@ export default function Daily() {
         ? parseFloat(raw.replace(',', '.'))
         : Number(raw);
 
+      const isHistorico = !grade.idActivity; // 🔑 REGRA PRINCIPAL
+
       if (!grouped[matterId]) {
         grouped[matterId] = {
           name: matter.name,
@@ -595,6 +597,10 @@ export default function Daily() {
           name: student.name,
           total: 0,
         };
+      }
+
+      if (isHistorico) {
+        grouped[matterId].students[studentId].hasHistorico = true;
       }
 
       grouped[matterId].students[studentId].total += isNaN(gradeNumber) ? 0 : gradeNumber;
@@ -1802,6 +1808,7 @@ export default function Daily() {
                 </p>
               </LegendBox>
               {Object.entries(groupedGrades).length > 0 ? (
+                console.log("groupedGrades", groupedGrades),
                 <div style={{ overflowX: 'auto' }}>
                   <GradesTable>
                     <GradesTableHeader>
@@ -1821,7 +1828,10 @@ export default function Daily() {
                             if (!acc[studentId]) {
                               acc[studentId] = { name: studentData.name, grades: {} };
                             }
-                            acc[studentId].grades[matterData.name] = studentData.total;
+                            acc[studentId].grades[matterData.name] = {
+                              total: studentData.total,
+                              hasHistorico: studentData.hasHistorico === true
+                            };
                           });
                           return acc;
                         }, {})
@@ -1839,14 +1849,19 @@ export default function Daily() {
                           >
                             <td className="name-cell">{student.name}</td>
                             {Object.entries(groupedGrades).map(([_, matterData]) => {
-                              const nota = student.grades[matterData.name];
+                              const notaObj = student.grades[matterData.name];
                               let notaClass = '';
 
-                              if (nota !== undefined) {
-                                const notaTotal = parseFloat(data.totalGrade);
-                                const notaMedia = parseFloat(data.averageGrade);
+                              if (notaObj) {
+                                const nota = Number(notaObj.total);
+                                const isHistorico = notaObj.hasHistorico === true;
 
-                                if (nota >= notaTotal * 0.9) {
+                                const notaTotal = Number(data.totalGrade);
+                                const notaMedia = Number(data.averageGrade);
+
+                                if (isHistorico) {
+                                  notaClass = 'grade-historico';
+                                } else if (nota >= notaTotal * 0.9) {
                                   notaClass = 'grade-green';
                                 } else if (nota >= notaMedia) {
                                   notaClass = 'grade-blue';
@@ -1860,8 +1875,8 @@ export default function Daily() {
                                   key={matterData.name}
                                   className={`matter-cell ${notaClass}`}
                                 >
-                                  {nota !== undefined
-                                    ? nota.toFixed(1).replace('.', ',')
+                                  {notaObj
+                                    ? notaObj.total.toFixed(1).replace('.', ',')
                                     : '-'}
                                 </td>
                               );

@@ -307,6 +307,10 @@ export const DivBimCell = styled.div`
   padding: 3px;
   border: 1px solid #ddd;
   color: ${props => {
+    // 🔥 PRIORIDADE: nota de histórico
+    if (props.isHistorico) {
+      return '#7A6F9B'; // cinza para histórico
+    }
     // Verificar o valor das props
     console.log('result props:', props);  // Log para verificar se as props estão sendo passadas corretamente
 
@@ -507,7 +511,7 @@ export const LegendColors = styled.div`
     font-size: 14px;
   }
 
-  .red-box, .blue-box, .green-box {
+  .red-box, .blue-box, .green-box, .history-box {
     width: 15px;
     height: 15px;
     border-radius: 3px;
@@ -517,6 +521,7 @@ export const LegendColors = styled.div`
   .red-box { background-color: red; }
   .blue-box { background-color: blue; }
   .green-box { background-color: green; }
+  .history-box { background-color: #7A6F9B; }
 `;
 
 const GlobalStyle = createGlobalStyle`
@@ -650,7 +655,13 @@ const GlobalStyle = createGlobalStyle`
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
+    .history-box {
+      background-color: #7A6F9B !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
 
+    
     /*${SpanTotalGrade}, ${SpanAverageGrade}, ${SpanGradeStudent} {
       font-size: 0.5em; 
     }*/

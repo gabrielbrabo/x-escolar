@@ -512,3 +512,234 @@ export const ButtonCancel = styled.button`
   }
 `;
 
+export const HistoricGradeContainer = styled.div`
+ 
+`;
+
+export const HistoricModalHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+`;
+
+export const ModalActions = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+`;
+
+export const ButtonSecondary = styled.button`
+    background: #e0e0e0;
+    color: #333;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+`;
+
+export const BlurBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(6px);
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+`;
+
+export const ModalContainer = styled.div`
+  background: #fff;
+  padding: 2rem;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+
+  h3 {
+    margin-bottom: 1.5rem;
+  }
+
+  div {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  button {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background: #0056b3;
+  }
+`;
+
+export const EmpEdit = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    //gap: 3px;
+    border-radius: 5px;
+    margin-bottom: 35px;
+    min-width: 90%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    #nota {
+      width: 45%;
+    }
+
+
+    @media (max-width: 375px)  {
+      padding: 0px;
+    }
+    @media (min-width: 375px) and (max-width: 768px) {
+      padding: 0px;
+    }
+`;
+
+export const Grade = styled.div`
+    display: grid;
+    gap: 3px;
+    align-items: center;
+    justify-content: center;
+
+
+    .nota {
+      display: flex;
+    }
+
+    @media (max-width: 375px)  {
+      font-size: 9pt; /* Smartphones pequenos */
+      padding: 3px;
+      gap: 0px;
+    }
+    @media (min-width: 375px) and (max-width: 768px) {
+      font-size: 10pt; /* Smartphones pequenos */
+      padding: 6px;
+      gap: 0px;
+    }
+`;
+
+
+export const HistoricModalOverlay = styled.div`
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+`;
+
+export const HistoricModalContent = styled.div`
+    background: #fff;
+    padding: 24px;
+    border-radius: 12px;
+    width: 92%;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+
+    h3 {
+        margin: 0;
+        font-size: 18px;
+    }
+
+    h4 {
+        margin: 0;
+        font-size: 14px;
+        color: #666;
+    }
+`;
+
+export const HeaderRow = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+`;
+
+export const HistoricGradeRow = styled.div`
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+
+    span {
+        font-size: 14px;
+    }
+
+    strong {
+        font-size: 14px;
+    }
+`;
+
+export const EmptyHistoricMessage = styled.p`
+    text-align: center;
+    color: #777;
+    font-size: 14px;
+    padding: 12px 0;
+`;
+
+export const AddHistoricButton = styled.button`
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    background: #1976d2;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+
+    &:hover {
+        background: #1565c0;
+    }
+`;
+
+
+export const EditOverlay = styled.div`
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+`;
+
+export const EditContainer = styled.div`
+    background: #fff;
+    padding: 24px 32px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+`;
+
+export const ButtonRow = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 12px;
+`;
+

@@ -778,7 +778,7 @@ const Cla$$Info = () => {
                             {positionAtSchool === "DIRETOR/SUPERVISOR" && (
                                 <>
                                     <SupervisorAddButtonContainer>
-                                        <button onClick={() => handleOpenModal('FREQUENCIA')}>Frequência</button>
+                                        <button onClick={() => handleOpenModal('FREQUENCIA')}>Frequências</button>
                                         <button onClick={() => handleOpenModal('AULAS')}>Aulas</button>
                                         {assessmentFormat !== 'grade'
                                             ? (

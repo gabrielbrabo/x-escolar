@@ -1146,6 +1146,10 @@ export const GradesTableContainer = styled.div`
     color: #1d7f14;
     font-weight: bold;
   }
+  .grade-historico {
+    color: #7A6F9B;
+    font-weight: bold;
+  }
 `;
 
 export const GradesTable = styled.table`
