@@ -1177,12 +1177,12 @@ export default function Daily() {
                   <>
                     {data?.id_recordClassTaught?.length > 0 ? (
                       data.id_recordClassTaught
-                        .filter(res =>
+                        /*.filter(res =>
                           (Array.isArray(data.idRegentTeacher) &&
                             data.idRegentTeacher.some(id => id.toString() === res?.id_teacher?._id?.toString?.())) ||
                           (Array.isArray(data.idRegentTeacher02) &&
                             data.idRegentTeacher02.some(id => id.toString() === res?.id_teacher?._id?.toString?.()))
-                        )
+                        )*/
                         .sort((a, b) => new Date(a.year, a.month - 1, a.day) - new Date(b.year, b.month - 1, b.day))
                         .slice(0, expandedSections.regent ? undefined : 3)
                         .map((res, index) => (
