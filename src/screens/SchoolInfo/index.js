@@ -27,6 +27,7 @@ import Student from '../Student/index'
 import Class from '../Class/index'
 import AnnualCalendar from '../AnnualCalendar/index'
 import Matter from '../Matter/index'
+import Controller from '../Controller/index'
 
 const SchoolInformation = () => {
     const [School, setSchool] = useState([])
@@ -117,6 +118,8 @@ const SchoolInformation = () => {
                 return <AnnualCalendar />
             case 'components':
                 return <Matter />
+            case 'controller':
+                return <Controller />
             default:
                 return null
         }
@@ -206,6 +209,12 @@ const SchoolInformation = () => {
                                 onClick={() => handlePageChange('components')}
                             >
                                 Componentes curriculares
+                            </button>
+                            <button
+                                className={isActive('controller') ? 'active' : ''}
+                                onClick={() => handlePageChange('controller')}
+                            >
+                                Controle
                             </button>
                         </ButtonContainer>
                     </ContDiv>
