@@ -1157,7 +1157,7 @@ export default function Daily() {
                   </CtnrBtt>
                   <ContLogo className="cont-logo-classes">
                     {logoUrl && <Preview className="logo-classes" src={logoUrl} alt="Logo da escola" />}
-                    <h2>Registros de Aulas do {bimonthly} — Professores Regentes</h2>
+                    <h2>Registros de Aulas do {bimonthly} — Professor Regente</h2>
                   </ContLogo>
 
                   <ContInfo className="info">
