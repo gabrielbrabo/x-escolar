@@ -18,9 +18,11 @@ const EditProfile = () => {
     const navigate = useNavigate();
     const [cla$$, setCla$$] = useState({});
     const [serie, setSerie] = useState('');
+    const [name, setName] = useState('');
     const [level, setLevel] = useState('');
     const [shift, setShift] = useState('');
     const [classroom_number, setClassroom_number] = useState('');
+    const [assessmentFormat, setassessmentFormat] = useState('');
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -28,10 +30,13 @@ const EditProfile = () => {
         (async () => {
             setLoading(true);
             const idStudent = sessionStorage.getItem("ClassInformation");
+            const assessmentFormat = sessionStorage.getItem("assessmentFormat");
+            setassessmentFormat(assessmentFormat)
             const res = await getClassDetails(idStudent);
             console.log("getClass", res.data)
             setCla$$(res.data);
             setSerie(res.data.serie || '');
+            setName(res.data.name || '');
             setLevel(res.data.level || '');
             setShift(res.data.shift || '');
             setClassroom_number(res.data.classroom_number || '');
@@ -48,6 +53,7 @@ const EditProfile = () => {
         const res = await updateClass(
             cla$$._id,
             serie.toUpperCase(),
+            name.toUpperCase(),
             level.toUpperCase(),
             shift.toUpperCase(),
             classroom_number
@@ -75,10 +81,35 @@ const EditProfile = () => {
                     <h2>Edição de Truma</h2>
                     <InputArea>
                         <label>Série</label>
-                        <Input
-                            placeholder="Digite a série e numero da truma Ex: 3º ano 01"
+                        <Select
                             value={serie}
                             onChange={(e) => setSerie(e.target.value)}
+                        >
+                            <option value="">Selecione a série</option>
+
+                            {assessmentFormat === "grade" && (
+                                <>
+                                    <option value="1º ANO">1º ANO</option>
+                                    <option value="2º ANO">2º ANO</option>
+                                    <option value="3º ANO">3º ANO</option>
+                                    <option value="4º ANO">4º ANO</option>
+                                    <option value="5º ANO">5º ANO</option>
+                                </>
+                            )}
+
+                            {assessmentFormat === "concept" && (
+                                <>
+                                    <option value="MATERNAL">MATERNAL</option>
+                                    <option value="1º PERÍODO">1º PERÍODO</option>
+                                    <option value="2º PERÍODO">2º PERÍODO</option>
+                                </>
+                            )}
+                        </Select>
+                        <label>Nome</label>
+                        <Input
+                            placeholder="Ex: 5º ANO 01 ZIRALDO MATUT."
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                         />
                         <label>Etapa de ensino</label>
                         <Select
@@ -87,8 +118,12 @@ const EditProfile = () => {
                             onChange={(e) => setLevel(e.target.value)}
                         >
                             <option value="">Selecione</option>
-                            <option value="EDUCAÇÃO INFANTIL">Educação Infantil</option>
-                            <option value="ENSINO FUNDAMENTAL">Ensino Fundamental</option>
+                            {assessmentFormat === "concept" && (
+                                <option value="EDUCAÇÃO INFANTIL">Educação Infantil</option>
+                            )}
+                            {assessmentFormat === "grade" && (
+                                <option value="ENSINO FUNDAMENTAL">Ensino Fundamental</option>
+                            )}
                         </Select>
                         <label>Turno</label>
                         <Select

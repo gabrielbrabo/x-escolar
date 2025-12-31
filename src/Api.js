@@ -588,6 +588,7 @@ export const getClassDetails = async (
 export const updateClass = async (
     cla$$,
     serie,
+    name,
     level,
     shift,
     classroom_number,
@@ -595,6 +596,7 @@ export const updateClass = async (
 
     return api.post(`/class-update/${cla$$}`, {
         serie,
+        name,
         level,
         shift,
         classroom_number
@@ -2542,6 +2544,7 @@ export const NewClss = async (
     idSchool,
     year,
     serie,
+    name,
     level,
     shift,
     classroom_number
@@ -2550,6 +2553,7 @@ export const NewClss = async (
     return api.post(`/register/class/${idSchool}`, {
         year,
         serie,
+        name,
         level,
         shift,
         classroom_number

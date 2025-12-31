@@ -637,7 +637,8 @@ const MyCla$$Info = () => {
                                 color: textColor, // Aplica a cor do texto calculada
                             }}
                         >
-                            <ClassInfo style={{ color: textColor }}>{clss.serie}</ClassInfo>
+                            <ClassInfo style={{ color: textColor }}>Serie: {clss.serie}</ClassInfo>
+                            <ClassInfo style={{ color: textColor }}>{clss.name}</ClassInfo>
                             <ClassInfo style={{ color: textColor }}>Turno: {clss.shift}</ClassInfo>
                         </ClassDetails>
                     ))}

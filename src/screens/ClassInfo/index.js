@@ -304,12 +304,16 @@ const Cla$$Info = () => {
         const serie = clss.map(clss => {
             return clss.serie
         })
+        const nameClass = clss.map(clss => {
+            return clss.name
+        })
         console.log("resutado a ser eviado", stdt)
         navigate('/printable-attendance-sheet', {
             state: {
                 students: stdt,
                 schoolName: nameSchool,
-                className: serie,
+                className: nameClass,
+                serie: serie,
                 teacherName: classRegentEmployee
             }
         });
@@ -755,6 +759,7 @@ const Cla$$Info = () => {
                         clss.map(clss => (
                             <Emp key={clss._id} >
                                 <ProfileInfo>
+                                    <Span>Nome: {clss.name}</Span>
                                     <Span>Serie: {clss.serie}</Span>
                                     <Span>Ano: {clss.year}</Span>
                                     <Span>Etapa de Ensino: {clss.level}</Span>

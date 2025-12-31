@@ -152,7 +152,7 @@ const MyCla$$ = () => {
                                     }
                                     key={clss._id}
                                 >
-                                    <Span>{clss.serie}</Span>
+                                    <Span>{clss.name}</Span>
                                 </Emp>
                             ))
                         }

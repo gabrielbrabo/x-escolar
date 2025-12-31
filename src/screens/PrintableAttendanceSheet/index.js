@@ -178,6 +178,7 @@ const PrintableAttendanceSheet = () => {
   const schoolName = location.state?.schoolName || 'Nome da Escola';
   const teacherName = location.state?.teacherName;
   const className = location.state?.className || 'Nome da Turma';
+  const serie = location.state?.serie || 'Nome da Turma';
 
   const readableteacher = teacherName?.map(c => c.name).join(', ') || '';
 
@@ -239,6 +240,7 @@ const PrintableAttendanceSheet = () => {
           <HeaderInfo>
             <span><strong>Escola:</strong> {schoolName}</span>
             <span><strong>Professor:</strong> {readableteacher}</span>
+            <span><strong>Serie:</strong> {serie}</span>
             <span><strong>Turma:</strong> {className}</span>
           </HeaderInfo>
 

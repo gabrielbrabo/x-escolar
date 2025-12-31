@@ -246,6 +246,7 @@ export default function AttendanceList() {
   const [bimonthlyDaily, setbimonthlyDaily] = useState([]);
   const [nameTeacher, setnameTeacher] = useState([]);
   const [nameClass, setnameClass] = useState([]);
+  const [serie, setSerie] = useState([]);
 
   const [loading, setLoading] = useState(false);
 
@@ -271,7 +272,8 @@ export default function AttendanceList() {
       setid_class(SelectclassDaily);
       setbimonthlyDaily(SelectbimonthlyDaily.bimonthly);
       setnameTeacher(SelectteacherDaily.name);
-      setnameClass(Nameclass.serie);
+      setnameClass(Nameclass.name);
+      setSerie(Nameclass.serie);
         
       const Employee02 = await Nameclass.classRegentTeacher02.find(res => {
         return res
@@ -545,6 +547,7 @@ export default function AttendanceList() {
             </CtnrBtt>*/}
             <span><strong>Escola:</strong> {nameSchool}</span>
             <span><strong>Professor:</strong> {nameTeacher}</span>
+            <span><strong>Serie:</strong> {serie}</span>
             <span><strong>Turma:</strong> {nameClass}</span>
           </ContInfo>
           <ContTable>

@@ -367,7 +367,8 @@ const IndividualFormList = () => {
                                                             {res.id_teacher02 && (
                                                                 <div>Professor 02: <p>{res.id_teacher02.name}</p></div>
                                                             )}
-                                                            <div>Turma: <p>{res.id_class.serie}</p></div>
+                                                            <div>Serie: <p>{res.id_class.serie}</p></div>
+                                                            <div>Turma: <p>{res.id_class.name}</p></div>
                                                             <div>Aluno: <p>{res.id_student.name}</p></div>
                                                         </Span>
 

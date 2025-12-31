@@ -131,7 +131,8 @@ const StudentRecordDescription = () => {
                                                 Professor(a) 02: <p>{formData.id_teacher02.name}</p>
                                             </div>
                                         )}
-                                        <div>Turma: <p>{formData.id_class?.serie || "Não informado"}</p></div>
+                                        <div>Serie: <p>{formData.id_class?.serie || "Não informado"}</p></div>
+                                        <div>Turma: <p>{formData.id_class?.name || "Não informado"}</p></div>
                                     </Span>
                                     <IndividualTableRow>
                                         <IndividualDescriptionCell>

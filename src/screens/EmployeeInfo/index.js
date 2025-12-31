@@ -360,7 +360,7 @@ const EmployeeInformation = () => {
                                         <Matter>
                                             {Clss.length > 0 ? (
                                                 Clss.map(clss => (
-                                                    <Span key={clss._id}>{clss.serie}</Span>
+                                                    <Span key={clss._id}>{clss.name}</Span>
                                                 ))
                                             ) : (
                                                 <Span>Este Professor não esta cadastrado em nenhuma turma vá ate turmas selecione a turma e adicione este professor a uma turma</Span>
@@ -406,7 +406,7 @@ const EmployeeInformation = () => {
                                             key={clss.id}
                                             onClick={() => { handleSelectClas(clss) }}
                                         >
-                                            {clss.serie}
+                                           <Span>Serie: {clss.serie}</Span> <Span> Nome: {clss.name}</Span>
                                         </ClassItem>
                                     ))}
                                 </ClassList>

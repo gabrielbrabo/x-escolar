@@ -39,6 +39,7 @@ const IndividualFormList = () => {
     const [IndividualForm, setIndividualForm] = useState([]);
     const [nameTeacher, setnameTeacher] = useState([]);
     const [nameClass, setnameClass] = useState([]);
+    const [serie, setSerie] = useState([]);
 
     const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
 
@@ -54,7 +55,8 @@ const IndividualFormList = () => {
             setid_class(SelectclassDaily);
 
             setnameTeacher(SelectteacherDaily.name);
-            setnameClass(Nameclass.serie);
+            setnameClass(Nameclass.name);
+            setSerie(Nameclass.serie);
 
             const idSchool = SelectteacherDaily.id_school;
             const schoolYear = await getSchoolYear(idSchool._id)
@@ -230,6 +232,7 @@ const IndividualFormList = () => {
                         </CtnrBtt>*/}
                         <span><strong>Escola:</strong> {nameSchool}</span>
                         <span><strong>Professor:</strong> {nameTeacher}</span>
+                        <span><strong>Serie:</strong> {serie}</span>
                         <span><strong>Turma:</strong> {nameClass}</span>
                     </ContInfo>
                     <DataBimonthly className="data">

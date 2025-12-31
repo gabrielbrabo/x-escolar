@@ -911,6 +911,11 @@ export default function Daily() {
 
                     <ContInfo className="info">
                       <span><strong>Escola:</strong> {data.nameSchool}</span>
+                      {data?.serie && (
+                        <span>
+                          <strong>Série:</strong> {data.serie}
+                        </span>
+                      )}
                       <span><strong>Turma:</strong> {data.nameClass}</span>
                       <span><strong>Ano:</strong> {data.year}</span>
                       <span><strong>Professor Regente Titular:</strong> {data.nameRegentTeacher}</span>
@@ -1029,6 +1034,11 @@ export default function Daily() {
 
                     <ContInfo className="info">
                       <span><strong>Escola:</strong> {data.nameSchool}</span>
+                      {data?.serie && (
+                        <span>
+                          <strong>Série:</strong> {data.serie}
+                        </span>
+                      )}
                       <span><strong>Turma:</strong> {data.nameClass}</span>
                       <span><strong>Ano:</strong> {data.year}</span>
                       {/*<span><strong>Professor Regente:</strong> {data.nameRegentTeacher}</span>*/}
@@ -1208,6 +1218,11 @@ export default function Daily() {
                                   </>
                                 )}
 
+                                {data?.serie && (
+                                  <span>
+                                    <div>Serie: <p>{data.serie}</p></div>
+                                  </span>
+                                )}
                                 <div>Turma: <p>{data.nameClass}</p></div>
                               </Span>
 
@@ -1330,6 +1345,11 @@ export default function Daily() {
                             <ContainerTable className="print-container-table">
                               <Span>
                                 <div>Professor de Ed. Física: <p>{res.id_teacher.name}</p></div>
+                                {data?.serie && (
+                                  <span>
+                                    <div>Serie: <p>{data.serie}</p></div>
+                                  </span>
+                                )}
                                 <div>Turma: <p>{data.nameClass}</p></div>
                               </Span>
 
@@ -1779,6 +1799,9 @@ export default function Daily() {
                 <ContInfo className="info">
                   <h2>Registro de Notas do {bimonthly}</h2>
                   <span><strong>Escola:</strong> {data.nameSchool}</span>
+                  {data?.serie && (
+                    <span><strong>Serie:</strong> {data.serie}</span>
+                  )}
                   <span><strong>Turma:</strong> {data.nameClass}</span>
                   <span><strong>Professor Regente Titular:</strong> {data.nameRegentTeacher}</span>
                   {data.nameRegentTeacher02 !== "Professor não definido" && (
@@ -1905,6 +1928,9 @@ export default function Daily() {
                     <ContInfo className="info">
                       <h2>Registro de Conceitos do {bimonthly}</h2>
                       <span><strong>Escola:</strong> {data.nameSchool}</span>
+                      {data?.serie && (
+                        <span><strong>Serie:</strong> {data.serie}</span>
+                      )}
                       <span><strong>Turma:</strong> {data.nameClass}</span>
                       <span><strong>Professor Regente Titular:</strong> {data.nameRegentTeacher}</span>
                       {data.nameRegentTeacher02 !== "Professor não definido" && (
@@ -2030,7 +2056,10 @@ export default function Daily() {
                   </ContLogo>
                   <h3>{bimonthly}</h3>
                   <span><strong>Escola:</strong> {data.nameSchool}</span>
-                  <span><strong>turma:</strong> {data.nameClass}</span>
+                  {data?.serie && (
+                    <span><strong>Serie:</strong> {data.serie}</span>
+                  )}
+                  <span><strong>Turma:</strong> {data.nameClass}</span>
 
                   {Array.isArray(data.id_individualForm) && data.id_individualForm.length > 0 ? (
                     data.id_individualForm
@@ -2143,6 +2172,9 @@ export default function Daily() {
                     )}
                     <ContInfo className="info">
                       <span><strong>Escola:</strong> {data.nameSchool}</span>
+                      {data?.serie && (
+                        <span><strong>Serie:</strong> {data.serie}</span>
+                      )}
                       <span><strong>Turma:</strong> {data.nameClass}</span>
                       <span><strong>Professor Regente Titular:</strong> {data.nameRegentTeacher}</span>
                       {data.nameRegentTeacher02 !== "Professor não definido" && (

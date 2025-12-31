@@ -629,7 +629,8 @@ const Student = () => {
                             {Clss &&
                                 Clss.map(clss => (
                                     <Emp key={clss._id} >
-                                        <Span>Turma: {clss.serie}</Span>
+                                        <Span>Serie: {clss.serie}</Span>
+                                        <Span>Turma: {clss.name}</Span>
                                         {/*<Span>Nivel: {clss.level}</Span>*/}
                                         <Span>Turno: {clss.shift}</Span>
                                         <Span>Ano: {clss.year}</Span>

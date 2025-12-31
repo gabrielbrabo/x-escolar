@@ -7,10 +7,10 @@ import {
     AttendanceContainer,
     DataBimonthly,
     ContInfo,
-   // CtnrBtt,
+    // CtnrBtt,
     ContTable,
     TableHeader,
-   // Button,
+    // Button,
     // uniqueDates,
     // formatDisplayDate,
     TableBody,
@@ -48,6 +48,7 @@ const IndividualFormList = () => {
     const [IndividualForm, setIndividualForm] = useState([]);
     const [nameTeacher, setnameTeacher] = useState([]);
     const [nameClass, setnameClass] = useState([]);
+    const [serie, setSerie] = useState([]);
 
     const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
 
@@ -67,7 +68,8 @@ const IndividualFormList = () => {
             setid_class(SelectclassDaily);
             setbimonthlyDaily(SelectbimonthlyDaily.bimonthly);
             setnameTeacher(SelectteacherDaily.name);
-            setnameClass(Nameclass.serie);
+            setnameClass(Nameclass.name);
+            setSerie(Nameclass.serie);
 
             const Employee02 = await Nameclass.classRegentTeacher02.find(res => {
                 return res
@@ -250,74 +252,74 @@ const IndividualFormList = () => {
 
     console.log("res form", IndividualForm)
 
-   /* const handlePrint = () => {
-        const printContent = document.getElementById("printable-content");
-
-        if (printContent) {
-            const printWindow = window.open("", "_blank");
-            printWindow.document.write(`
-            <html>
-              <head>
-                <title>Impressão</title>
-                <style>
-                  body { font-family: Arial, sans-serif; margin: 20px; }
-                  table { width: 100%; border-collapse: collapse; }
-                  th, td { 
-                    text-align: center;
-                    border: 1px solid #ddd;
-                    font-size: 8px;
-                    padding: 1px; 
-                  }
-                    tr {
-                      
-                    }
-                    .name-cell {
-                        text-align: start;
-                    }
-                  @page {
-                    size: A4 landscape; 
-                    margin: 0;
-                  }  
-                  ContTable {
-                    overflow-x: hidden; 
-                    width: max-content; 
-                    margin-left: auto; 
-                    margin-right: auto; 
-                  }
-                    .printable-content {
-                      visibility: visible; 
-                      font-size: 15px;
-                      //transform: scale(1); 
-                    }
-                  .data {
-                    display: flex;
-                    gap:15px;
-                  }
-                  .info {
-                    display: flex;
-                    flex-direction: column;
-                  }
-                    .no-print {
-                      display: none !important;
-                    }
-                </style>
-              </head>
-              <body>
-                ${printContent.innerHTML} 
-              </body>
-            </html>
-          `);
-
-            printWindow.document.close();
-
-            // Força um pequeno delay antes de chamar print()
-            setTimeout(() => {
-                printWindow.print();
-                printWindow.close();
-            }, 500);
-        }
-    };
-*/
+    /* const handlePrint = () => {
+         const printContent = document.getElementById("printable-content");
+ 
+         if (printContent) {
+             const printWindow = window.open("", "_blank");
+             printWindow.document.write(`
+             <html>
+               <head>
+                 <title>Impressão</title>
+                 <style>
+                   body { font-family: Arial, sans-serif; margin: 20px; }
+                   table { width: 100%; border-collapse: collapse; }
+                   th, td { 
+                     text-align: center;
+                     border: 1px solid #ddd;
+                     font-size: 8px;
+                     padding: 1px; 
+                   }
+                     tr {
+                       
+                     }
+                     .name-cell {
+                         text-align: start;
+                     }
+                   @page {
+                     size: A4 landscape; 
+                     margin: 0;
+                   }  
+                   ContTable {
+                     overflow-x: hidden; 
+                     width: max-content; 
+                     margin-left: auto; 
+                     margin-right: auto; 
+                   }
+                     .printable-content {
+                       visibility: visible; 
+                       font-size: 15px;
+                       //transform: scale(1); 
+                     }
+                   .data {
+                     display: flex;
+                     gap:15px;
+                   }
+                   .info {
+                     display: flex;
+                     flex-direction: column;
+                   }
+                     .no-print {
+                       display: none !important;
+                     }
+                 </style>
+               </head>
+               <body>
+                 ${printContent.innerHTML} 
+               </body>
+             </html>
+           `);
+ 
+             printWindow.document.close();
+ 
+             // Força um pequeno delay antes de chamar print()
+             setTimeout(() => {
+                 printWindow.print();
+                 printWindow.close();
+             }, 500);
+         }
+     };
+ */
     return (
         <PrintStyle>
             {loading ? (
@@ -339,6 +341,7 @@ const IndividualFormList = () => {
                         </CtnrBtt>*/}
                         <span><strong>Escola:</strong> {nameSchool}</span>
                         <span><strong>Professor:</strong> {nameTeacher}</span>
+                        <span><strong>Serie:</strong> {serie}</span>
                         <span><strong>Turma:</strong> {nameClass}</span>
                     </ContInfo>
                     <ContTable>

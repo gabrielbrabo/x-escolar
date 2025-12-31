@@ -46,12 +46,12 @@ const Cla$$ = () => {
         })();
     }, []);
 
-    Clss.sort((a, b) => (a.serie < b.serie ? -1 : (a.serie > b.serie ? 1 : 0)));
+    Clss.sort((a, b) => (a.name < b.name ? -1 : (a.name > b.name ? 1 : 0)));
     year.sort((a, b) => (a < b ? -1 : (a > b ? 1 : 0)));
 
     const filteredClasses = Clss
         .filter((fil) => (!filter || fil.year === filter))
-        .filter((val) => (!busca || val.serie.includes(busca.toUpperCase())));
+        .filter((val) => (!busca || val.name.includes(busca.toUpperCase())));
 
     const NewClass = () => {
         navigate('/new/class');
@@ -110,13 +110,13 @@ const Cla$$ = () => {
                         }
                         <p>Total de Turmas: {filteredClasses.length}</p>
                         {filteredClasses.filter((fil) => (!filter || fil.year === filter))
-                            .filter((val) => (!busca || val.serie.includes(busca.toUpperCase())))
+                            .filter((val) => (!busca || val.name.includes(busca.toUpperCase())))
                             .map((Clss) => (
                                 <Emp
                                     onClick={() => classInformation(Clss)}
                                     key={Clss._id}
                                 >
-                                    <Span style={{ color: "#003e4f" }}>{Clss.serie}</Span>
+                                    <Span style={{ color: "#003e4f" }}>{Clss.name}</Span>
                                 </Emp>
                             ))}
                     </List>
