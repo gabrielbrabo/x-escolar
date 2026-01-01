@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GetClass } from '../../Api';
+import { GetClass, getSchoolYear } from '../../Api';
 import {
     Container,
     List,
@@ -26,12 +26,17 @@ const Cla$$ = () => {
     const [Clss, setClss] = useState([]);
     const [positionAtEducationDepartment, setPositionAtEducationDepartment] = useState('')
     const [busca, setBusca] = useState("");
-    const [filter, setFilter] = useState(currentYear.toString());
+    const [filter, setFilter] = useState("");
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         (async () => {
             const idSchool = sessionStorage.getItem("id-school");
+
+            const schoolYear = await getSchoolYear(JSON.parse(idSchool))
+            setFilter(JSON.stringify(schoolYear.data.data))
+            console.log("schoolYear", schoolYear.data.data)
+            
             const positionAtEducationDepartment = localStorage.getItem("positionAtEducationDepartment")
             const resClass = await GetClass(JSON.parse(idSchool));
             setClss(resClass.data.data);
