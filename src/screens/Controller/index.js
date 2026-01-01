@@ -43,7 +43,9 @@ const Matter = () => {
 
     const [finalizingYear, setFinalizingYear] = useState(false);
     const [finalizingMessage, setFinalizingMessage] = useState("");
-
+    
+    const [positionAtEducationDepartment, setPositionAtEducationDepartment] = useState('')
+    
     const [notification, setNotification] = useState("");
 
     useEffect(() => {
@@ -74,6 +76,9 @@ const Matter = () => {
 
                 }
             }
+
+            const positionAtEducationDepartment = localStorage.getItem("positionAtEducationDepartment")
+            setPositionAtEducationDepartment(positionAtEducationDepartment)
             setLoading(false);
         })();
     }, []);
@@ -324,12 +329,12 @@ const Matter = () => {
                             <p>Ano Letivo Atual:</p>
                             <h1>{schoolYear}</h1>
                         </YearBox>
-                        {schoolYear !== currentYear && (
+                        {schoolYear !== currentYear && positionAtEducationDepartment && (
                             <ButtonNextYear onClick={handleNextYearClick}>
                                 Finalizar e Passar para o Próximo Ano Letivo
                             </ButtonNextYear>
                         )}
-                        {schoolYear === currentYear && (
+                        {schoolYear === currentYear && positionAtEducationDepartment && (
                             <ButtonNextYear onClick={handlePreviousYearClick}>
                                 Voltar para o Ano Letivo Anterior
                             </ButtonNextYear>
