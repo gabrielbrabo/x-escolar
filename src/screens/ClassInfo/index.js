@@ -977,7 +977,7 @@ const Cla$$Info = () => {
                                 }
                                 {
                                     <>
-                                        {yearclss.year === currentYear && !positionAtEducationDepartment && (
+                                        {yearclss.year === JSON.stringify(year) && !positionAtEducationDepartment && (
                                             <DivAddEmp>
                                                 {/*<AddEmp>
                                                     <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
@@ -1016,7 +1016,7 @@ const Cla$$Info = () => {
                         ) : (
                             <DivInfo>
                                 <TitleInfo>Professor Regente Titular:</TitleInfo>
-                                {yearclss.year === currentYear && !positionAtEducationDepartment && (
+                                {yearclss.year === JSON.stringify(year) && !positionAtEducationDepartment && (
                                     <DivAddEmp>
                                         <AddEmp>
                                             <Btt02 onClick={addTeacher}>Adicionar</Btt02>
@@ -1041,7 +1041,7 @@ const Cla$$Info = () => {
                                 }
                                 {
                                     <>
-                                        {yearclss.year === currentYear && !positionAtEducationDepartment && (
+                                        {yearclss.year === JSON.stringify(year) && !positionAtEducationDepartment && (
                                             <DivAddEmp>
                                                 {/*<AddEmp>
                                                     <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
@@ -1080,7 +1080,7 @@ const Cla$$Info = () => {
                         ) : (
                             <DivInfo>
                                 <TitleInfo>Professor Regente Adjunto:</TitleInfo>
-                                {yearclss.year === currentYear && !positionAtEducationDepartment && (
+                                {yearclss.year === JSON.stringify(year) && !positionAtEducationDepartment && (
                                     <DivAddEmp>
                                         <AddEmp>
                                             <Btt02 onClick={addTeacher02}>Adicionar</Btt02>
@@ -1100,7 +1100,7 @@ const Cla$$Info = () => {
                                 <TitleInfo>Professor de Educação Fisica:</TitleInfo>
                                 {
                                     <>
-                                        {yearclss.year === currentYear && !positionAtEducationDepartment && (
+                                        {yearclss.year === JSON.stringify(year) && !positionAtEducationDepartment && (
                                             <DivAddEmp>
                                                 {/*<AddEmp>
                                                     <Btt02 onClick={addTeacher}>Add Prefessor</Btt02>
@@ -1139,7 +1139,7 @@ const Cla$$Info = () => {
                         ) : (
                             <DivInfo>
                                 <TitleInfo>Professor de Educação Fisica:</TitleInfo>
-                                {yearclss.year === currentYear && !positionAtEducationDepartment && (
+                                {yearclss.year === JSON.stringify(year) && !positionAtEducationDepartment && (
                                     <DivAddEmp>
                                         <AddEmp>
                                             <Btt02 onClick={addPhysicalTeacher}>Adicionar</Btt02>

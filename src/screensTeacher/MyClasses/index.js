@@ -62,9 +62,10 @@ const MyCla$$ = () => {
 
     const MyClassInformation = (clss) => {
         setLoading(true);
+        console.log("resultclss", clss)
         const id_teacher = JSON.parse(localStorage.getItem("Id_employee"))
         if (clss) {
-            const map = Clss.map(res => {
+            /*const map = Clss.map(res => {
                 if (res.serie === clss.serie) {
                     return res._id
                 }
@@ -80,10 +81,10 @@ const MyCla$$ = () => {
                     return valor
                 }
                 return null
-            })
-            sessionStorage.setItem("class-info", map)
-            navigate(`/myclassesinfo/${map}/${id_teacher}`)
-            console.log("clss", map)
+            })*/
+            sessionStorage.setItem("class-info", clss._id)
+            navigate(`/myclassesinfo/${clss._id}/${id_teacher}`)
+            //console.log("clss", map)
         }
         setLoading(false);
     }
