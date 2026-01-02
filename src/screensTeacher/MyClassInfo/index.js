@@ -106,7 +106,7 @@ const MyCla$$Info = () => {
             console.log('useParamsClass', id_class)
             console.log('useParamsTeacher', id_teacher)
             const resClass = await clssInfo(id_class)
-            //console.log("resClass", resClass.data.data)
+            console.log("resClass", resClass.data.data)
 
             const Daily = await resClass.data.data.find(res => {
                 return res
