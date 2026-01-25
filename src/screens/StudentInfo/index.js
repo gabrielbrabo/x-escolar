@@ -68,7 +68,8 @@ import {
     EmpEdit,
     Grade,
     EditOverlay,
-    HeaderRow
+    HeaderRow,
+    DivTopActions
 } from './style';
 
 /*import {
@@ -559,6 +560,15 @@ const Student = () => {
         setSelectedStatus({ id_student: id, value: value });
     };
 
+    const handleOpenHistory = async () => {
+        //alert('historico')
+        const studentName = await student.map(student => (student.name))
+        if (assessmentFormat === "grade") {
+            navigate(`/history/${id_student}/${studentName}`)
+        } else {
+            alert("ainda não dosponivel")
+        }
+    }
 
     console.log("clas", Clss)
     //console.log("Selectbimonthly", Selectbimonthly)
@@ -584,6 +594,9 @@ const Student = () => {
                                 student.map(student => (
                                     <Emp key={student._id} >
                                         <EmployeeInfo>
+                                            <DivTopActions>
+                                                <p onClick={handleOpenHistory}>Ver Histórico</p>
+                                            </DivTopActions>
                                             <Pro>
                                                 {/*<ProfilePhoto>
 

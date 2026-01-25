@@ -213,6 +213,34 @@ export const generateStudentsHistory = async (idSchool, year) => {
         });
 }
 
+export const CreateManualHistory = (payload) => {
+    return api.post('/history-manual', payload)
+}
+
+export const updateManualHistory = (id, payload) => {
+    return api.put(`/update-manual-history/${id}`, payload)
+}
+
+export const createCertificate = (payload) => {
+    return api.post('/createCertificate', payload)
+}
+
+export const getCertificateByStudent = (studentId) => {
+    return api.get(`/certificate/student/${studentId}`)
+}
+
+export const updateCertificate = (studentId, certificateData) => {
+    return api.put(`/certificate/${studentId}`, certificateData);
+};
+
+export const GetStudentHistory = (id_student) => {
+    return api.post(`/history/${id_student}`)
+}
+
+export const UpdateStudentHistory = async (id, data) => {
+    return api.put(`/history/${id}`, data)
+}
+
 export const updateSchoolYear = async (idSchool, newSchoolYear) => {
     return api.post('/update/schoolYear', {
         idSchool, newSchoolYear

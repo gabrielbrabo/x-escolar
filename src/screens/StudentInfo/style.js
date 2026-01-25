@@ -743,3 +743,19 @@ export const ButtonRow = styled.div`
     margin-top: 12px;
 `;
 
+export const DivTopActions = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  p {
+    margin: 0;
+    color: #8000ff; /* roxo vibrante */
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    &:hover {
+      color: #a64dff; /* roxo mais claro ao passar o mouse */
+      text-decoration: underline;
+    }
+  }
+`;
