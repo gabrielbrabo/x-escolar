@@ -812,6 +812,7 @@ export const SignatureSectionCert = styled.div`
   margin-top: 30px;
   width: 100%;
   page-break-inside: avoid;
+  margin-top: 16px;
 `
 
 export const SignatureRow = styled.div`
@@ -901,8 +902,8 @@ export const GlobalPrintStyle = createGlobalStyle`
       margin-bottom: 5px;
       padding-top: 5px;
       padding-bottom: 10px;
-  break-inside: avoid;
-  page-break-inside: avoid;
+      break-inside: avoid;
+      page-break-inside: avoid;
     }
     ${Container} {
       //position: absolute;
@@ -1012,6 +1013,15 @@ export const GlobalPrintStyle = createGlobalStyle`
       padding: 0px 0px !important;
       line-height: 0 !important;
     }
+
+    ${SignatureSection} {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+    }
+
     /* ================= HISTÓRICO ================= */
     .history-block,
     .school-block {

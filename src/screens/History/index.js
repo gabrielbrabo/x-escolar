@@ -2418,13 +2418,7 @@ const StudentHistory = () => {
                         <ModalContainer>
                             <ModalTitle>Atenção</ModalTitle>
 
-                            <p>
-                                Caso o histórico não caiba completamente na folha,
-                                considere ajustar a <strong>escala da impressão</strong>.
-
-                                Em <strong>Mais definições</strong>, ajuste a escala conforme
-                                o tamanho do conteúdo.
-                            </p>
+                            <p> Para que o histórico se adeque corretamente à folha, ajuste a <strong>escala de impressão</strong> em <strong>Mais definições</strong>. Isso garante que tanto o conteúdo quanto a fonte se ajustem, evitando cortes ou sobreposição da assinatura. </p>
 
                             <Footer>
                                 <SaveButton onClick={proceedToPrint}>
