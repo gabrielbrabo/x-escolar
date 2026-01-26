@@ -602,7 +602,7 @@ const Student = () => {
                                         <EmployeeInfo>
                                             {((positionAtEducationDepartment) || positionAtSchool === "DIRETOR/SUPERVISOR" || positionAtSchool === "SECRETARIO") &&
                                                 <DivTopActions>
-                                                    <p onClick={handleOpenHistory}>Ver Histórico</p>
+                                                    <p onClick={handleOpenHistory}>Histórico Escolar</p>
                                                 </DivTopActions>
                                             }
                                             <Pro>
