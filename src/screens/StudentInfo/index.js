@@ -108,6 +108,7 @@ const Student = () => {
     const [errorMessageHistoric, setErrorMessageHistoric] = useState('');
 
     const [positionAtSchool, setPositionAtSchool] = useState('');
+    const [positionAtEducationDepartment, setPositionAtEducationDepartment] = useState('')
 
     const [selectedStatus, setSelectedStatus] = useState({});
     const [exitDate, setExitDate] = useState(null);
@@ -142,8 +143,13 @@ const Student = () => {
             setLoading(true);
 
             const idSchool = sessionStorage.getItem("id-school");
+
             const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
             setassessmentFormat($assessmentFormat)
+            
+            const positionAtEducationDepartment = localStorage.getItem("positionAtEducationDepartment")
+            setPositionAtEducationDepartment(positionAtEducationDepartment)
+
             // const id_student = sessionStorage.getItem("StudentInformation");
             const schoolYear = await getSchoolYear(JSON.parse(idSchool))
             console.log("schoolYear", schoolYear)
@@ -594,9 +600,11 @@ const Student = () => {
                                 student.map(student => (
                                     <Emp key={student._id} >
                                         <EmployeeInfo>
-                                            <DivTopActions>
-                                                <p onClick={handleOpenHistory}>Ver Histórico</p>
-                                            </DivTopActions>
+                                            {((positionAtEducationDepartment) || positionAtSchool === "DIRETOR/SUPERVISOR" || positionAtSchool === "SECRETARIO") &&
+                                                <DivTopActions>
+                                                    <p onClick={handleOpenHistory}>Ver Histórico</p>
+                                                </DivTopActions>
+                                            }
                                             <Pro>
                                                 {/*<ProfilePhoto>
 
@@ -629,7 +637,7 @@ const Student = () => {
                                                     )}
                                                 </ProfileInfo>
                                             </Pro>
-                                            {(positionAtSchool === "DIRETOR/SUPERVISOR" || positionAtSchool === "SECRETARIO") &&
+                                            {(positionAtSchool === "DIRETOR/SUPERVISOR" || positionAtSchool === "SECRETARIO" || positionAtEducationDepartment) &&
                                                 <DivButtomEdit>
                                                     <Btt02 onClick={Edit}>Editar</Btt02>
                                                 </DivButtomEdit>
