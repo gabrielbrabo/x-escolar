@@ -901,6 +901,8 @@ export const GlobalPrintStyle = createGlobalStyle`
       margin-bottom: 5px;
       padding-top: 5px;
       padding-bottom: 10px;
+  break-inside: avoid;
+  page-break-inside: avoid;
     }
     ${Container} {
       //position: absolute;

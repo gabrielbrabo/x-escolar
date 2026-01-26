@@ -2419,7 +2419,7 @@ const StudentHistory = () => {
                             <ModalTitle>Atenção</ModalTitle>
 
                             <p>
-                                Caso o histórico não caiba completamente em uma única folha,
+                                Caso o histórico não caiba completamente na folha,
                                 considere ajustar a <strong>escala da impressão</strong>.
 
                                 Em <strong>Mais definições</strong>, ajuste a escala conforme
