@@ -9,7 +9,8 @@ import {
     createCertificate,
     getCertificateByStudent,
     updateCertificate,
-    fetchLogo
+    fetchLogo,
+    getSchoolYear
 } from '../../Api'
 import LoadingSpinner from '../../components/Loading'
 import {
@@ -160,6 +161,7 @@ const StudentHistory = () => {
     const [showWarningModal, setShowWarningModal] = useState(false)
     const [showPrintAlert, setShowPrintAlert] = useState(false)
     const [printType, setPrintType] = useState(null)
+    const [yearsList, setyearsList] = useState('')
 
     const [loading, setLoading] = useState(true)
 
@@ -247,10 +249,19 @@ const StudentHistory = () => {
 
                 }
             }
+
+            const schoolYear = await getSchoolYear(JSON.parse(idSchool))
+            console.log("schoolYear", schoolYear)
+
+            const yearsList = Array.from(
+                { length: 50 },
+                (_, i) => (schoolYear.data.data - 1 - i).toString()
+            )
+            setyearsList(yearsList)
         }
 
         loadHistory()
-    }, [id_student])
+    }, [id_student, ])
 
     console.log("history", history)
     console.log("matters", matters)
@@ -339,12 +350,7 @@ const StudentHistory = () => {
         setOpenNewHistory(true)
     }
 
-    const currentYear = new Date().getFullYear()
 
-    const yearsList = Array.from(
-        { length: 50 },
-        (_, i) => (currentYear - 1 - i).toString()
-    )
 
     const handleSaveNewHistory = async () => {
         try {
