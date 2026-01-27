@@ -261,7 +261,7 @@ const StudentHistory = () => {
         }
 
         loadHistory()
-    }, [id_student, ])
+    }, [id_student,])
 
     console.log("history", history)
     console.log("matters", matters)
@@ -658,6 +658,18 @@ const StudentHistory = () => {
     };
 
     const handlePrint = (type) => {
+
+        // ✅ SE FOR APENAS CERTIFICADO → IMPRIME DIRETO
+        if (type === 'full') {
+            document.body.classList.remove('print-history-only', 'print-full')
+            document.body.classList.add('print-full')
+
+            setTimeout(() => {
+                window.print()
+            }, 100)
+
+            return
+        }
 
         // 🔍 valida se existe histórico sem situação
         const hasHistoryWithoutSituation = history.some(item => {
@@ -2424,7 +2436,13 @@ const StudentHistory = () => {
                         <ModalContainer>
                             <ModalTitle>Atenção</ModalTitle>
 
-                            <p> Para que o histórico se adeque corretamente à folha, ajuste a <strong>escala de impressão</strong> em <strong>Mais definições</strong>. Isso garante que tanto o conteúdo quanto a fonte se ajustem, evitando cortes ou sobreposição da assinatura. </p>
+                            <p>
+                                Para que o histórico escolar se adeque corretamente ao formato da folha,
+                                recomenda-se considerar o ajuste da <strong>escala de impressão</strong> no
+                                menu <strong>Mais definições</strong>. Essa configuração permite que tanto o
+                                conteúdo quanto o tamanho da fonte sejam adequadamente ajustados, evitando
+                                cortes ou a sobreposição da área destinada às assinaturas.
+                            </p>
 
                             <Footer>
                                 <SaveButton onClick={proceedToPrint}>
