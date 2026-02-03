@@ -201,8 +201,11 @@ const HomeSchool = () => {
                 color: '#666',
               }}
             >
-              Para alterar o regime de avaliação, acesse <strong>Controle → Regime de Avaliação</strong>,
-              selecione o novo regime e salve a alteração.
+              Para alterar o regime de avaliação, o <strong>Diretor</strong> ou <strong>Supervisor</strong> deve acessar
+              <strong> Controle → Regime de Avaliação</strong>, selecionar o novo regime e salvar a alteração.
+              <br />
+              Caso você não seja <strong>Diretor</strong> ou <strong>Supervisor</strong>, solicite a alteração
+              a um responsável com esse perfil.
             </span>
           </div>
 
