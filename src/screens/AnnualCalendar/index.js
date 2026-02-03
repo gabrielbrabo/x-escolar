@@ -189,10 +189,21 @@ const HomeSchool = () => {
           <div
             style={{
               display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
               marginBottom: 20
             }}
           >
-            <h2 style={{ marginTop: 0, paddingTop: 0 }}> Regime de Avaliação: {assessmentRegime} </h2>
+            <h2 style={{ marginTop: 0, marginBottom: 0, paddingTop: 0 }}> Regime de Avaliação: {assessmentRegime} </h2>
+            <span
+              style={{
+                fontSize: '12px',
+                color: '#666',
+              }}
+            >
+              Para alterar o regime de avaliação, acesse <strong>Controle → Regime de Avaliação</strong>,
+              selecione o novo regime e salve a alteração.
+            </span>
           </div>
 
           <h2>Período Avaliativo</h2>
