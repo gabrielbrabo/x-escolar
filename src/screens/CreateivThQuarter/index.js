@@ -28,6 +28,7 @@ const HomeSchool = () => {
   const [year, setyear] = useState('');
   const [id_school, setIdSchool] = useState('');
   const [assessmentFormat, setassessmentFormat] = useState('');
+  const [assessmentRegime, setAssessmentRegime] = useState('');
   const [loading, setLoading] = useState(true);
   const [startSelectedDate, setStartSelectedDate] = useState('')
   const [startday, setStartDay] = useState('')
@@ -40,6 +41,7 @@ const HomeSchool = () => {
   const [totalGrade, setTotalGrade] = useState('')
   const [averageGrade, setAverageGrade] = useState('')
   const [errorMessage, setErrorMessage] = useState('');
+  const [schoolDays, setSchoolDays] = useState([]);
 
   console.log("startselecOnData", startSelectedDate)
   console.log("endSelectedDate", endSelectedDate)
@@ -52,15 +54,46 @@ const HomeSchool = () => {
       setyear(schoolYear.data.data)
       const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
       setassessmentFormat($assessmentFormat)
+      setAssessmentRegime(sessionStorage.getItem('assessmentRegime'))
       setIdSchool(JSON.parse(idSchool))
       setLoading(false);
     })();
   }, []);
 
+  useEffect(() => {
+    if (startday && startmonth && startyear && endday && endmonth && endyear) {
+      const start = new Date(startyear, startmonth - 1, startday);
+      const end = new Date(endyear, endmonth - 1, endday);
 
-  console.log('assessmentFormat', assessmentFormat)
-  console.log('totalGrade', totalGrade)
-  console.log('averageGrade', averageGrade)
+      const generatedDays = generateSchoolDays(start, end);
+      setSchoolDays(generatedDays);
+    }
+  }, [startday, startmonth, startyear, endday, endmonth, endyear]);
+
+  const generateSchoolDays = (start, end) => {
+    const days = [];
+    let currentDate = new Date(start);
+
+    while (currentDate <= end) {
+      //const dayOfWeek = currentDate.getDay(); // 0 = domingo, 6 = sábado
+
+      days.push({
+        date: new Date(currentDate),
+        isSchoolDay: false,
+        description: ''
+      });
+
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return days;
+  };
+
+  const onlySchoolDays = schoolDays.filter(day => day.isSchoolDay);
+
+  //console.log('assessmentFormat', assessmentFormat)
+  // console.log('totalGrade', totalGrade)
+  // console.log('averageGrade', averageGrade)
 
   const setBimester = async () => {
     setErrorMessage('');
@@ -68,7 +101,7 @@ const HomeSchool = () => {
     // Verificação de campos obrigatórios
     if (
       !year || !startday || !startmonth || !startyear ||
-      !endday || !endmonth || !endyear || !id_school
+      !endday || !endmonth || !endyear || !id_school || !onlySchoolDays
     ) {
       setErrorMessage('Preencha todos os campos obrigatórios do bimestre.');
       return;
@@ -81,7 +114,7 @@ const HomeSchool = () => {
         return;
       }
     }
-    
+
     setLoading(true);
     console.log("teste ass", assessmentFormat)
     if (assessmentFormat === "grade") {
@@ -95,7 +128,9 @@ const HomeSchool = () => {
         endyear,
         totalGrade,
         averageGrade,
-        id_school
+        id_school,
+        assessmentRegime,
+        onlySchoolDays
       );
 
       if (res) {
@@ -115,7 +150,9 @@ const HomeSchool = () => {
         endyear,
         //totalGrade,
         //averageGrade,
-        id_school
+        id_school,
+        assessmentRegime,
+        onlySchoolDays
       );
 
       if (res) {
@@ -135,10 +172,14 @@ const HomeSchool = () => {
         <LoadingSpinner />
       ) : (
         <ContainerDivs>
-          <h2>Calendario Anual</h2>
           <DivAddEmp>
             <AddEmp>
-              <h3>4º Bimestre</h3>
+              {assessmentRegime === 'BIMESTRAL' && (
+                <h3>4º Bimestre</h3>
+              )}
+              {assessmentRegime === 'TRIMESTRAL' && (
+                <h3>4º Trimestre</h3>
+              )}
             </AddEmp>
             <DivDados>
               <ResponsivePickers
@@ -196,6 +237,54 @@ const HomeSchool = () => {
 
                 </>
               }
+              <div style={{ marginTop: 20, width: '100%' }}>
+                <h4 style={{ marginBottom: 12 }}>Dias Letivos</h4>
+
+                <div
+                  style={{
+                    maxHeight: 300,
+                    overflowY: 'auto',
+                    border: '1px solid #ddd',
+                    borderRadius: 6,
+                    padding: 10,
+                    background: '#fafafa'
+                  }}
+                >
+                  {schoolDays.map((day, index) => (
+                    <label
+                      key={index}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 10,
+                        padding: '6px 8px',
+                        borderRadius: 4,
+                        cursor: 'pointer',
+                        background: day.isSchoolDay ? '#e6f4ea' : 'transparent'
+                      }}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={day.isSchoolDay}
+                        onChange={() => {
+                          const updatedDays = [...schoolDays];
+                          updatedDays[index].isSchoolDay = !updatedDays[index].isSchoolDay;
+                          setSchoolDays(updatedDays);
+                        }}
+                      />
+
+                      <span style={{ flex: 1 }}>
+                        {new Date(day.date).toLocaleDateString('pt-BR', {
+                          weekday: 'long',
+                          day: '2-digit',
+                          month: '2-digit',
+                          year: 'numeric'
+                        })}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
             </DivDados>
           </DivAddEmp>
           {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}

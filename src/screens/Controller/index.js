@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { updateSchoolYear, getSchoolYear, uploadLogoSchool, fetchLogo, deleteLogoSchool, hasOpenDiary, generateStudentsHistory } from '../../Api';
+import {
+    updateSchoolYear,
+    getSchoolYear,
+    uploadLogoSchool,
+    fetchLogo,
+    deleteLogoSchool,
+    hasOpenDiary,
+    generateStudentsHistory,
+    updateAssessmentRegime,
+    getAssessmentRegime,
+} from '../../Api';
 import {
     Container,
     ContainerYearControl,
@@ -43,10 +53,16 @@ const Matter = () => {
 
     const [finalizingYear, setFinalizingYear] = useState(false);
     const [finalizingMessage, setFinalizingMessage] = useState("");
-    
+
     const [positionAtEducationDepartment, setPositionAtEducationDepartment] = useState('')
-    
+
     const [notification, setNotification] = useState("");
+
+
+    const [assessmentRegime, setAssessmentRegime] = useState('');
+    const [showAssessmentRegimeModal, setShowAssessmentRegimeModal] = useState(false);
+
+    const [position_at_school, setPosition_at_school] = useState('');
 
     useEffect(() => {
         (async () => {
@@ -54,6 +70,15 @@ const Matter = () => {
             const idSchool = JSON.parse(sessionStorage.getItem('id-school'));
             const res = await getSchoolYear(idSchool);
             setSchoolYear(res.data.data);
+
+            const position = localStorage.getItem('position_at_school');
+            setPosition_at_school(position);
+
+            const response = await getAssessmentRegime(idSchool)
+
+            if (response?.data?.data) {
+                setAssessmentRegime(response.data.data)
+            }
 
             const cachedLogo = localStorage.getItem(`school-logo-${idSchool}`);
             const cachedLogoId = localStorage.getItem(`school-logo-id-${idSchool}`);
@@ -260,6 +285,22 @@ const Matter = () => {
         }
     };
 
+    const handleSaveAssessmentRegime = async () => {
+        if (!assessmentRegime) {
+            alert('Selecione um regime de avaliação.');
+            return;
+        }
+
+        const idSchool = JSON.parse(sessionStorage.getItem('id-school'));
+
+        await updateAssessmentRegime(idSchool, assessmentRegime);
+
+        sessionStorage.setItem('assessmentRegime', assessmentRegime);
+
+        alert('Regime de avaliação salvo com sucesso!');
+        window.location.reload()
+    };
+
     return (
         <Container>
 
@@ -366,6 +407,42 @@ const Matter = () => {
                             </ButtonDelete>
                         )}
                     </UploadContainer>
+
+                    {position_at_school === 'DIRETOR/SUPERVISOR' && (
+                        <ContainerYearControl>
+                            <div
+                                style={{
+                                    width: '100%',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    marginBottom: 20
+                                }}
+                            >
+
+                                <h2> Regime de Avaliação </h2>
+
+                                <select
+                                    style={{ width: '50%', height: 30, marginBottom: 10 }}
+                                    value={assessmentRegime}
+                                    onChange={(e) => setAssessmentRegime(e.target.value)}
+                                >
+                                    <option value="">Selecione</option>
+                                    <option value="BIMESTRAL">Bimestral</option>
+                                    <option value="TRIMESTRAL">Trimestral</option>
+                                </select>
+
+                                <button
+                                    style={{ padding: '8px 20px', cursor: 'pointer' }}
+                                    disabled={!assessmentRegime}
+                                    onClick={() => setShowAssessmentRegimeModal(true)}
+                                >
+                                    Alterar
+                                </button>
+
+                            </div>
+                        </ContainerYearControl>
+                    )}
                 </>
             )}
 
@@ -436,6 +513,44 @@ const Matter = () => {
                             ))}
                         </TurmaList>
                         <Button onClick={() => setShowWarning(false)}>Fechar</Button>
+                    </ModalContent>
+                </ModalOverlay>
+            )}
+
+            {showAssessmentRegimeModal && (
+                <ModalOverlay>
+                    <ModalContent>
+                        <h3>⚠️ Atenção</h3>
+
+                        <p>
+                            A alteração do regime de avaliação poderá impactar diretamente os períodos avaliativos já configurados.
+                        </p>
+
+                        <p>
+                            Caso o regime seja alterado de bimestral para trimestral e exista um 4º bimestre definido, este período será removido automaticamente, pois não é compatível com o regime trimestral.
+                        </p>
+                        <p>
+                            Recomenda-se revisar os períodos de avaliação após a alteração para garantir a consistência das informações acadêmicas.
+                        </p>
+
+                        <div className="modal-buttons">
+                            <button
+                                className="modal-button confirm"
+                                onClick={async () => {
+                                    await handleSaveAssessmentRegime();
+                                    setShowAssessmentRegimeModal(false);
+                                }}
+                            >
+                                Confirmar
+                            </button>
+
+                            <button
+                                className="modal-button cancel"
+                                onClick={() => setShowAssessmentRegimeModal(false)}
+                            >
+                                Cancelar
+                            </button>
+                        </div>
                     </ModalContent>
                 </ModalOverlay>
             )}

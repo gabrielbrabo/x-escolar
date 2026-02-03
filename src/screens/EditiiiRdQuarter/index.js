@@ -17,6 +17,7 @@ import ResponsivePickers from '../../components/Datebimestre';
 const EditProfile = () => {
     const navigate = useNavigate();
     const [assessmentFormat, setassessmentFormat] = useState('');
+    const [assessmentRegime, setAssessmentRegime] = useState('');
     const [id_IstQuarter, setid_IstQuarter] = useState({});
     const [startday, setStartday] = useState('');
     const [startmonth, setStartmonth] = useState('');
@@ -30,6 +31,7 @@ const EditProfile = () => {
     const [averageGrade, setAverageGrade] = useState('');
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [schoolDays, setSchoolDays] = useState([]);
 
     console.log("startselecOnData", startSelectedDate)
     console.log("endSelectedDate", endSelectedDate)
@@ -41,9 +43,19 @@ const EditProfile = () => {
             setLoading(true);
             const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
             setassessmentFormat($assessmentFormat)
+            setAssessmentRegime(sessionStorage.getItem('assessmentRegime'))
 
             const idIIIrdQuarter = sessionStorage.getItem("IIIrdQuarterInformation");
             const res = await getIII_rdQuarterDetails(idIIIrdQuarter);
+
+            // transforma os dias do backend
+            const formattedSchoolDays = res.data.schoolDays.map(day => ({
+                _id: day._id,        // mantém se precisar
+                date: day.date,
+                isSchoolDay: true    // 👈 IMPORTANTÍSSIMO
+            }));
+
+            setSchoolDays(formattedSchoolDays);
 
             console.log("idIstQuarter", idIIIrdQuarter)
             console.log("getClass", res)
@@ -58,26 +70,77 @@ const EditProfile = () => {
         })();
     }, []);
 
+    const generateDaysBetween = (start, end) => {
+        const days = [];
+        const current = new Date(start);
+
+        while (current <= end) {
+            days.push(new Date(current));
+            current.setDate(current.getDate() + 1);
+        }
+
+        return days;
+    };
+
+    const handleGenerateSchoolDays = () => {
+        if (!startyear || !startmonth || !startday || !endyear || !endmonth || !endday) {
+            alert('Defina a data inicial e final primeiro');
+            return;
+        }
+
+        const startDate = new Date(startyear, startmonth - 1, startday);
+        const endDate = new Date(endyear, endmonth - 1, endday);
+
+        const generatedDays = generateDaysBetween(startDate, endDate);
+
+        const existingDates = schoolDays.map(d =>
+            new Date(d.date).toISOString().split('T')[0]
+        );
+
+        const newDays = generatedDays
+            .map(d => new Date(d)) // 👈 força Date
+            .filter(date =>
+                !existingDates.includes(date.toISOString().split('T')[0])
+            )
+            .map(date => ({
+                date: date.toISOString(), // ✅ agora é seguro
+                isSchoolDay: false
+            }));
+
+        setSchoolDays(prev => [...prev, ...newDays]);
+    };
+
     const handleSubmit = async () => {
         // Verificação dos campos obrigatórios
         if (!totalGrade || !averageGrade) {
             setErrorMessage('Preencha todos os campos de nota antes de continuar.');
             return;
         }
-    
+
+        const selectedSchoolDays = schoolDays
+            .filter(day => day.isSchoolDay)
+            .map(day => ({
+                date: day.date
+            }));
+
         setLoading(true);
-    
+
+        const payload = {
+            startday,
+            startmonth,
+            endday,
+            endmonth,
+            totalGrade,
+            averageGrade,
+            schoolDays: selectedSchoolDays,
+            assessmentRegime: assessmentFormat // ✅ AGORA NUNCA ERRA
+        };
+
         try {
             const res = await UpdateIIIrdQuarter(
-                id_IstQuarter,
-                startday,
-                startmonth,
-                endday,
-                endmonth,
-                totalGrade,
-                averageGrade
+                id_IstQuarter, payload
             );
-    
+
             if (res) {
                 alert('Bimestre atualizado com sucesso!');
                 navigate(-1);
@@ -90,7 +153,7 @@ const EditProfile = () => {
             setLoading(false);
         }
     };
-    
+
 
     const handleGoBack = () => {
         navigate(-1);
@@ -102,7 +165,12 @@ const EditProfile = () => {
                 <LoadingSpinner />
                 :
                 <>
-                    <h2>Edição do 3º Bimestre</h2>
+                    {assessmentRegime === 'BIMESTRAL' && (
+                        <h3>Edição do 3º Bimestre</h3>
+                    )}
+                    {assessmentRegime === 'TRIMESTRAL' && (
+                        <h3>Edição do 3º Trimestre</h3>
+                    )}
                     <DivDados>
                         <ResponsivePickers
                             setSelectedDateStart={setStartSelectedDate}
@@ -159,6 +227,74 @@ const EditProfile = () => {
 
                             </>
                         }
+                        <button
+                            type="button"
+                            onClick={handleGenerateSchoolDays}
+                            style={{
+                                marginBottom: 10,
+                                padding: '8px 12px',
+                                borderRadius: 6,
+                                border: '1px solid #ccc',
+                                cursor: 'pointer',
+                                background: '#f5f5f5'
+                            }}
+                        >
+                            ➕ Gerar / Atualizar Dias Letivos pelo Período
+                        </button>
+
+                        <div style={{ marginTop: 20, width: '100%' }}>
+                            <h4>Dias Letivos</h4>
+
+                            <div
+                                style={{
+                                    maxHeight: 300,
+                                    overflowY: 'auto',
+                                    border: '1px solid #ddd',
+                                    borderRadius: 6,
+                                    padding: 10
+                                }}
+                            >
+                                {[...schoolDays]
+                                    .sort((a, b) => new Date(a.date) - new Date(b.date))
+                                    .map(day => (
+                                        <label
+                                            key={day._id || day.date}
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 10,
+                                                padding: '6px',
+                                                background: day.isSchoolDay ? '#e6f4ea' : 'transparent',
+                                                cursor: 'pointer'
+                                            }}
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                checked={day.isSchoolDay}
+                                                onChange={() => {
+                                                    setSchoolDays(prev =>
+                                                        prev.map(d =>
+                                                            d.date === day.date
+                                                                ? { ...d, isSchoolDay: !d.isSchoolDay }
+                                                                : d
+                                                        )
+                                                    );
+                                                }}
+                                            />
+                                            <span>
+                                                {new Date(day.date).toLocaleDateString('pt-BR', {
+                                                    weekday: 'long',
+                                                    day: '2-digit',
+                                                    month: '2-digit',
+                                                    year: 'numeric'
+                                                })}
+                                            </span>
+                                        </label>
+                                    ))}
+
+                            </div>
+                        </div>
+
                     </DivDados>
                     {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                     <Btt01 onClick={handleSubmit}>Salvar Alterações</Btt01>

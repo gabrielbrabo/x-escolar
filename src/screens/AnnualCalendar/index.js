@@ -18,6 +18,7 @@ import {
   getIIndQuarter,
   getIIIrdQuarter,
   getIVthQuarter,
+  getAssessmentRegime,
   //getVthQuarter,
   //getVIthQuarter,
   //reopenI_stQuarter,
@@ -38,6 +39,7 @@ const HomeSchool = () => {
   const [loading, setLoading] = useState(true);
   const [anoLetivo, setanoLetivo] = useState([]);
   const [assessmentFormat, setassessmentFormat] = useState('');
+  const [assessmentRegime, setAssessmentRegime] = useState('');
   const [IStQuarter, setIStQuarter] = useState([]);
   const [IIndQuarter, setIIndQuarter] = useState([]);
   const [IIIrdQuarter, setIIIrdQuarter] = useState([]);
@@ -47,6 +49,13 @@ const HomeSchool = () => {
   // Modal
   const [showModal, setShowModal] = useState(false);
   const [pendingNavigate, setPendingNavigate] = useState(null);
+
+  const [showSchoolDaysModal, setShowSchoolDaysModal] = useState(false);
+  const [selectedSchoolDays, setSelectedSchoolDays] = useState([]);
+  const [selectedPeriodTitle, setSelectedPeriodTitle] = useState('');
+
+  const [selectedDate, setSelectedDate] = useState(null);
+
 
   useEffect(() => {
     (async () => {
@@ -59,6 +68,13 @@ const HomeSchool = () => {
       const $assessmentFormat = sessionStorage.getItem('assessmentFormat');
       setassessmentFormat($assessmentFormat);
       setPosition_at_school(position);
+
+      const response = await getAssessmentRegime(JSON.parse(idSchool))
+
+      if (response?.data?.data) {
+        setAssessmentRegime(response.data.data)
+        sessionStorage.setItem('assessmentRegime', response.data.data);
+      }
 
       const [IstQuarter, IIndQuarter, IIIrdQuarter, IVthQuarter] = await Promise.all([
         getIstQuarter(schoolYear.data.data, JSON.parse(idSchool)),
@@ -94,6 +110,23 @@ const HomeSchool = () => {
     setPendingNavigate(null);
   };
 
+  const periodLabel =
+    assessmentRegime === 'TRIMESTRAL' ? 'Trimestre' : 'Bimestre';
+
+  const handleViewSchoolDays = (schoolDays, title) => {
+    setSelectedSchoolDays(schoolDays || []);
+    setSelectedPeriodTitle(title);
+    setShowSchoolDaysModal(true);
+  };
+
+  const handleCloseSchoolDaysModal = () => {
+    setShowSchoolDaysModal(false);
+    setSelectedSchoolDays([]);
+    setSelectedPeriodTitle('');
+    setSelectedDate(null);
+  };
+
+  console.log("assessmentRegimea", assessmentRegime)
   const QuarterSection = ({ title, data, onEdit, onCreate }) => (
     <DivAddEmp>
       {data.length > 0 ? (
@@ -101,11 +134,9 @@ const HomeSchool = () => {
           <AddEmp>
             <h3>{title}</h3>
             {(position_at_school === 'DIRETOR/SUPERVISOR' || position_at_school === "SECRETARIO") && (
-              <Btt02 onClick={onEdit}>Editar Bimestre</Btt02>
+              <Btt02 onClick={onEdit}>Editar</Btt02>
             )}
           </AddEmp>
-
-
           <DivDados>
             {data.map(res => (
               <React.Fragment key={res._id}>
@@ -117,18 +148,29 @@ const HomeSchool = () => {
                     <p style={{ color: 'blue' }}>Nota Média: {String(res.averageGrade)}</p>
                   </>
                 }
+                <Btt03
+                  style={{ marginTop: 10 }}
+                  onClick={() =>
+                    handleViewSchoolDays(res.schoolDays, title)
+                  }
+                >
+                  Ver dias letivos
+                </Btt03>
               </React.Fragment>
             ))}
           </DivDados>
         </>
       ) : (
         <>
-          <AddEmp>
-            <h3>{title}</h3>
-            <Btt03 onClick={onCreate}>Definir Bimestre</Btt03>
-          </AddEmp>
+          {(position_at_school === 'DIRETOR/SUPERVISOR' || position_at_school === "SECRETARIO") && (
+
+            <AddEmp>
+              <h3>{title}</h3>
+              <Btt03 onClick={onCreate}>Definir Período</Btt03>
+            </AddEmp>
+          )}
           <DivDados>
-            <p>Bimestre ainda não definido</p>
+            <p>Período ainda não definido</p>
           </DivDados>
         </>
       )}
@@ -144,39 +186,50 @@ const HomeSchool = () => {
           <ContainerYear>
             <h1>Ano Letivo: {anoLetivo}</h1>
           </ContainerYear>
-          <h2>Calendário Bimestral</h2>
+          <div
+            style={{
+              display: 'flex',
+              marginBottom: 20
+            }}
+          >
+            <h2 style={{ marginTop: 0, paddingTop: 0 }}> Regime de Avaliação: {assessmentRegime} </h2>
+          </div>
+
+          <h2>Período Avaliativo</h2>
 
           <QuarterSection
-            title="1º Bimestre"
+            title={`1º ${periodLabel}`}
             data={IStQuarter}
             onEdit={() => handleEditClick("IstQuarterInformation", IStQuarter[0]?._id, '/updatei-stquarter')}
             onCreate={() => navigate('/createi-stquarter')}
           />
           <QuarterSection
-            title="2º Bimestre"
+            title={`2º ${periodLabel}`}
             data={IIndQuarter}
             onEdit={() => handleEditClick("IIndQuarterInformation", IIndQuarter[0]?._id, '/updateii-ndquarter')}
             onCreate={() => navigate('/createii-ndquarter')}
           />
           <QuarterSection
-            title="3º Bimestre"
+            title={`3º ${periodLabel}`}
             data={IIIrdQuarter}
             onEdit={() => handleEditClick("IIIrdQuarterInformation", IIIrdQuarter[0]?._id, '/updateiii-rdquarter')}
             onCreate={() => navigate('/createiii-rdquarter')}
           />
-          <QuarterSection
-            title="4º Bimestre"
-            data={IVthQuarter}
-            onEdit={() => handleEditClick("IVthQuarterInformation", IVthQuarter[0]?._id, '/updateiv-thquarter')}
-            onCreate={() => navigate('/createiv-thquarter')}
-          />
+          {assessmentRegime === 'BIMESTRAL' && (
+            <QuarterSection
+              title="4º Bimestre"
+              data={IVthQuarter}
+              onEdit={() => handleEditClick("IVthQuarterInformation", IVthQuarter[0]?._id, '/updateiv-thquarter')}
+              onCreate={() => navigate('/createiv-thquarter')}
+            />
+          )}
 
           {showModal && (
             <ModalOverlay>
               <ModalContent>
                 <h3>⚠️ Atenção!</h3>
-                <p>Ao alterar as datas deste bimestre, <strong>os diários já fechados não serão atualizados automaticamente</strong>.</p>
-                <p>Para atualizar um diário já fechado, altere as datas do bimestre, depois reabra o diário e feche novamente para aplicar as novas configurações.</p>
+                <p>Ao alterar as datas deste periodo, <strong>os diários já fechados não serão atualizados automaticamente</strong>.</p>
+                <p>Para atualizar um diário já fechado, altere as datas do periodo, depois reabra o diário e feche novamente para aplicar as novas configurações.</p>
                 <div className="modal-buttons">
                   <button className="modal-button confirm" onClick={handleConfirmEdit}>Entendi</button>
                   <button className="modal-button cancel" onClick={handleCancelEdit}>Cancelar</button>
@@ -184,6 +237,73 @@ const HomeSchool = () => {
               </ModalContent>
             </ModalOverlay>
           )}
+
+          {showSchoolDaysModal && (
+            <ModalOverlay>
+              <ModalContent style={{
+                maxWidth: 800,
+                width: '90%',
+                maxHeight: '85vh'
+              }}>
+                <h3>📅 Dias Letivos — {selectedPeriodTitle}</h3>
+
+                {selectedSchoolDays.length === 0 ? (
+                  <p>Nenhum dia letivo cadastrado.</p>
+                ) : (
+                  <div
+                    style={{
+                      maxHeight: 300,
+                      overflowY: 'auto',
+                      marginTop: 10,
+                      border: '1px solid #ddd',
+                      borderRadius: 6,
+                      padding: 10
+                    }}
+                  >
+                    {[...selectedSchoolDays]
+                      .sort((a, b) => new Date(a.date) - new Date(b.date))
+                      .map((day, index) => {
+                        const isSelected = selectedDate === day.date;
+
+                        return (
+                          <div
+                            key={day._id || index}
+                            onClick={() => setSelectedDate(day.date)}
+                            style={{
+                              padding: '10px',
+                              marginBottom: 4,
+                              borderRadius: 6,
+                              cursor: 'pointer',
+                              backgroundColor: isSelected ? '#e6f4ea' : 'transparent',
+                              border: isSelected ? '1px solid #2e7d32' : '1px solid transparent',
+                              transition: 'all 0.2s ease'
+                            }}
+                          >
+                            {new Date(day.date).toLocaleDateString('pt-BR', {
+                              weekday: 'long',
+                              day: '2-digit',
+                              month: '2-digit',
+                              year: 'numeric'
+                            })}
+                          </div>
+                        );
+                      })
+                    }
+                  </div>
+                )}
+
+                <div className="modal-buttons">
+                  <button
+                    className="modal-button cancel"
+                    onClick={handleCloseSchoolDaysModal}
+                  >
+                    Fechar
+                  </button>
+                </div>
+              </ModalContent>
+            </ModalOverlay>
+          )}
+
         </ContainerDivs>
       )}
     </Container>

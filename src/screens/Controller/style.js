@@ -101,6 +101,40 @@ export const ModalContent = styled.div`
     max-width: 90%;
     padding: 20px;
   }
+
+  .modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .modal-button {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+
+  .confirm {
+    background: #4caf50;
+    color: #fff;
+  }
+
+  .confirm:hover {
+    background: #43a047;
+  }
+
+  .cancel {
+    background: #f44336;
+    color: #fff;
+  }
+
+  .cancel:hover {
+    background: #e53935;
+  }
 `;
 
 export const ModalButtons = styled.div`

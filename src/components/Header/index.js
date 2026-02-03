@@ -115,7 +115,7 @@ export function Header({ setMenuIsVisible }) {
                         <a href="/employees" className={`nav__link ${isActive('/employees')}`}>Funcionários</a>
                         <a href="/student" className={`nav__link ${isActive('/student')}`}>Alunos</a>
                         <a href="/class" className={`nav__link ${isActive('/class')}`}>Turmas</a>
-                        <a href="/annual-calendar" className={`nav__link ${isActive('/annual-calendar')}`}>Bimestres</a>
+                        <a href="/annual-calendar" className={`nav__link ${isActive('/annual-calendar')}`}>Período Avaliativo</a>
                         <a href="/matter" className={`nav__link ${isActive('/matter')}`}>Componentes curriculares</a>
                         <a href="/controller" className={`nav__link ${isActive('/controller')}`}>Controle</a>
                     </nav>
@@ -123,7 +123,7 @@ export function Header({ setMenuIsVisible }) {
                 {position_at_school === "PROFESSOR" && (
                     <nav>
                         <a href="/myclasses" className={`nav__link ${isActive('/myclasses')}`}>Minhas Turmas</a>
-                        <a href="/annual-calendar" className={`nav__link ${isActive('/annual-calendar')}`}>Calendário Bimestral</a>
+                        <a href="/annual-calendar" className={`nav__link ${isActive('/annual-calendar')}`}>Período Avaliativo</a>
                         <a href="/matter" className={`nav__link ${isActive('/matter')}`}>Componentes curriculares</a>
                     </nav>
                 )}

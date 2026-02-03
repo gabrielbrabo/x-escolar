@@ -748,7 +748,9 @@ export const RegisterIstQuarter = async (
     endyear,
     //totalGrade,
     //averageGrade,
-    id_school
+    id_school,
+    assessmentRegime,
+    schoolDays
 ) => {
 
     return api.post(`/register/istQuarter`, {
@@ -761,7 +763,9 @@ export const RegisterIstQuarter = async (
         endyear,
         //totalGrade,
         ////averageGrade,
-        id_school
+        id_school,
+        assessmentRegime,
+        schoolDays
     })
 
         .catch((error) => {
@@ -785,7 +789,9 @@ export const RegisterIstQuarter$grade = async (
     endyear,
     totalGrade,
     averageGrade,
-    id_school
+    id_school,
+    assessmentRegime,
+    schoolDays
 ) => {
 
     return api.post(`/register/istQuarter_grade`, {
@@ -798,7 +804,9 @@ export const RegisterIstQuarter$grade = async (
         endyear,
         totalGrade,
         averageGrade,
-        id_school
+        id_school,
+        assessmentRegime,
+        schoolDays
     })
 
         .catch((error) => {
@@ -829,23 +837,10 @@ export const getI_stQuarterDetails = async (
 }
 
 export const UpdateIstQuarter = async (
-    id_IstQuarter,
-    startday,
-    startmonth,
-    endday,
-    endmonth,
-    totalGrade,
-    averageGrade
+    id_IstQuarter, payload
 ) => {
 
-    return api.post(`/update/istQuarter/${id_IstQuarter}`, {
-        startday,
-        startmonth,
-        endday,
-        endmonth,
-        totalGrade,
-        averageGrade
-    })
+    return api.post(`/update/istQuarter/${id_IstQuarter}`, payload)
 
         .catch((error) => {
             if (error) {
@@ -888,7 +883,9 @@ export const RegisterIIndQuarter = async (
     endyear,
     //totalGrade,
     //averageGrade,
-    id_school
+    id_school,
+    assessmentRegime,
+    schoolDays
 ) => {
 
     return api.post(`/register/iindQuarter`, {
@@ -901,7 +898,9 @@ export const RegisterIIndQuarter = async (
         endyear,
         //totalGrade,
         //averageGrade,
-        id_school
+        id_school,
+        assessmentRegime,
+        schoolDays
     })
 
         .catch((error) => {
@@ -924,7 +923,9 @@ export const RegisterIIndQuarter$grade = async (
     endyear,
     totalGrade,
     averageGrade,
-    id_school
+    id_school,
+    assessmentRegime,
+    schoolDays
 ) => {
 
     return api.post(`/register/iindQuarter_grade`, {
@@ -937,7 +938,9 @@ export const RegisterIIndQuarter$grade = async (
         endyear,
         totalGrade,
         averageGrade,
-        id_school
+        id_school,
+        assessmentRegime,
+        schoolDays
     })
 
         .catch((error) => {
@@ -967,34 +970,9 @@ export const getII_ndQuarterDetails = async (
         }, [])
 }
 
-export const UpdateIIndQuarter = async (
-    id_IstQuarter,
-    startday,
-    startmonth,
-    endday,
-    endmonth,
-    totalGrade,
-    averageGrade
-) => {
-
-    return api.post(`/update/iindQuarter/${id_IstQuarter}`, {
-        startday,
-        startmonth,
-        endday,
-        endmonth,
-        totalGrade,
-        averageGrade
-    })
-
-        .catch((error) => {
-            if (error) {
-                const result = JSON.stringify(
-                    error.response.data.msg
-                )
-                alert(result)
-            }
-        }, [])
-}
+export const UpdateIIndQuarter = async (id_IstQuarter, payload) => {
+    return api.post(`/update/iindQuarter/${id_IstQuarter}`, payload);
+};
 
 export const getIIIrdQuarter = async (
     year,
@@ -1027,7 +1005,9 @@ export const RegisterIIIrdQuarter = async (
     endyear,
     //totalGrade,
     //averageGrade,
-    id_school
+    id_school,
+    assessmentRegime,
+    schoolDays
 ) => {
 
     return api.post(`/register/iii_rdQuarter`, {
@@ -1040,7 +1020,9 @@ export const RegisterIIIrdQuarter = async (
         endyear,
         //totalGrade,
         //averageGrade,
-        id_school
+        id_school,
+        assessmentRegime,
+        schoolDays
     })
 
         .catch((error) => {
@@ -1063,7 +1045,9 @@ export const RegisterIIIrdQuarter$grade = async (
     endyear,
     totalGrade,
     averageGrade,
-    id_school
+    id_school,
+    assessmentRegime,
+    schoolDays
 ) => {
 
     return api.post(`/register/iii_rdQuarter_grade`, {
@@ -1076,7 +1060,9 @@ export const RegisterIIIrdQuarter$grade = async (
         endyear,
         totalGrade,
         averageGrade,
-        id_school
+        id_school,
+        assessmentRegime,
+        schoolDays
     })
 
         .catch((error) => {
@@ -1107,23 +1093,10 @@ export const getIII_rdQuarterDetails = async (
 }
 
 export const UpdateIIIrdQuarter = async (
-    id_IstQuarter,
-    startday,
-    startmonth,
-    endday,
-    endmonth,
-    totalGrade,
-    averageGrade
+    id_IstQuarter, payload
 ) => {
 
-    return api.post(`/update/iiirdQuarter/${id_IstQuarter}`, {
-        startday,
-        startmonth,
-        endday,
-        endmonth,
-        totalGrade,
-        averageGrade
-    })
+    return api.post(`/update/iiirdQuarter/${id_IstQuarter}`, payload)
 
         .catch((error) => {
             if (error) {
@@ -1166,7 +1139,9 @@ export const RegisterIVthQuarter = async (
     endyear,
     //totalGrade,
     //averageGrade,
-    id_school
+    id_school,
+    assessmentRegime,
+    schoolDays
 ) => {
 
     return api.post(`/register/iv_thQuarter`, {
@@ -1179,7 +1154,9 @@ export const RegisterIVthQuarter = async (
         endyear,
         //totalGrade,
         //averageGrade,
-        id_school
+        id_school,
+        assessmentRegime,
+        schoolDays
     })
 
         .catch((error) => {
@@ -1202,7 +1179,9 @@ export const RegisterIVthQuarter$grade = async (
     endyear,
     totalGrade,
     averageGrade,
-    id_school
+    id_school,
+    assessmentRegime,
+    schoolDays
 ) => {
 
     return api.post(`/register/iv_thQuarter_grade`, {
@@ -1215,7 +1194,9 @@ export const RegisterIVthQuarter$grade = async (
         endyear,
         totalGrade,
         averageGrade,
-        id_school
+        id_school,
+        assessmentRegime,
+        schoolDays
     })
 
         .catch((error) => {
@@ -1246,23 +1227,10 @@ export const getIV_thQuarterDetails = async (
 }
 
 export const UpdateIVthQuarter = async (
-    id_IstQuarter,
-    startday,
-    startmonth,
-    endday,
-    endmonth,
-    totalGrade,
-    averageGrade
+    id_IstQuarter, payload
 ) => {
 
-    return api.post(`/update/ivthQuarter/${id_IstQuarter}`, {
-        startday,
-        startmonth,
-        endday,
-        endmonth,
-        totalGrade,
-        averageGrade
-    })
+    return api.post(`/update/ivthQuarter/${id_IstQuarter}`, payload)
 
         .catch((error) => {
             if (error) {
@@ -4145,6 +4113,29 @@ export const deleteLogoSchool = async (logoId, idSchool) => {
         }
     });
 };
+
+export const updateAssessmentRegime = async (idSchool, assessmentRegime) => {
+    return api.put('/school/assessment-regime', {
+        idSchool,
+        assessmentRegime
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(error.response.data.message)
+                alert(result)
+            }
+        })
+}
+
+export const getAssessmentRegime = async (idSchool) => {
+    return api.get(`/school/assessment-regime/${idSchool}`)
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(error.response.data.message)
+                alert(result)
+            }
+        })
+}
 
 /*export const getavatar = async () => {
 
