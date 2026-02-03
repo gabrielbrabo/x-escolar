@@ -184,7 +184,9 @@ const HomeSchool = () => {
       ) : (
         <ContainerDivs>
           <ContainerYear>
-            <h1>Ano Letivo: {anoLetivo}</h1>
+            <h1>Período Avaliativo</h1>
+            
+            <h2>Ano Letivo: {anoLetivo}</h2>
           </ContainerYear>
           <div
             style={{
@@ -208,8 +210,6 @@ const HomeSchool = () => {
               a um responsável com esse perfil.
             </span>
           </div>
-
-          <h2>Período Avaliativo</h2>
 
           <QuarterSection
             title={`1º ${periodLabel}`}
