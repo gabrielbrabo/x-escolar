@@ -71,6 +71,8 @@ const AllAttendance = () => {
     };
 
     const handleClickAttendance = (item) => {
+        console.log("item id", item.id_teacher)
+        console.log("id", id_teacher)
         if (item.id_teacher !== id_teacher) {
             setShowModal(true); // abre modal em vez de alert
             return;

@@ -202,7 +202,7 @@ const SchoolInformation = () => {
                                 className={isActive('bimesters') ? 'active' : ''}
                                 onClick={() => handlePageChange('bimesters')}
                             >
-                                Bimestres
+                                Período Avaliativo
                             </button>
                             <button
                                 className={isActive('components') ? 'active' : ''}

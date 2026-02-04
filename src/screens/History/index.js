@@ -1115,7 +1115,12 @@ const StudentHistory = () => {
                                                         ? '#1d7f14'
                                                         : year.studentSituation === 'REPROVADO'
                                                             ? '#c62828'
-                                                            : '#1565c0'
+                                                            : year.studentSituation === 'TRANSFERIDO'
+                                                                ? '#f57c00'   // laranja
+                                                                : year.studentSituation === 'DESISTENTE'
+                                                                    ? '#6d4c41' // marrom
+                                                                    : '#1565c0' // padrão
+
                                             }}
                                         >
                                             {year.studentSituation || '—'}
@@ -1492,8 +1497,8 @@ const StudentHistory = () => {
                                     <option value="">Selecione</option>
                                     <option value="APROVADO">Aprovado</option>
                                     <option value="REPROVADO">Reprovado</option>
-                                    {/*<option value="TRANSFERIDO">Transferido</option>
-                                <option value="DESISTENTE">Desistente</option>*/}
+                                    <option value="TRANSFERIDO">Transferido</option>
+                                    <option value="DESISTENTE">Desistente</option>
                                 </Select>
                             </Section>
 
@@ -2484,6 +2489,8 @@ function renderCargaHorariaAluno(reportCard = [], dailyWorkload) {
     reportCard.forEach((bim) => {
         totalPresencas += Number(bim.frequencia?.totalPresencas || 0)
     })
+
+    console.log("reportCard", reportCard)
 
     return totalPresencas * Number(dailyWorkload)
 }
