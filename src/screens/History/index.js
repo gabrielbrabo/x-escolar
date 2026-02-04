@@ -10,7 +10,8 @@ import {
     getCertificateByStudent,
     updateCertificate,
     fetchLogo,
-    getSchoolYear
+    getSchoolYear,
+    updateHistoryFrequency
 } from '../../Api'
 import LoadingSpinner from '../../components/Loading'
 import {
@@ -90,6 +91,7 @@ import {
     DateRow,
     SignatureSectionCert,
     Preview,
+    ModalContent
 } from './style'
 import { GlobalPrintStyle } from './style';
 
@@ -162,6 +164,9 @@ const StudentHistory = () => {
     const [showPrintAlert, setShowPrintAlert] = useState(false)
     const [printType, setPrintType] = useState(null)
     const [yearsList, setyearsList] = useState('')
+    const [openEditModal, setOpenEditModal] = useState(false)
+    const [selectedHistory, setSelectedHistory] = useState(null)
+    const [frequenciasEdit, setFrequenciasEdit] = useState([])
 
     const [loading, setLoading] = useState(true)
 
@@ -671,6 +676,32 @@ const StudentHistory = () => {
             return
         }
 
+        // 🔹 Verifica se a carga anual e a soma das frequências batem
+        const hasCargaHorariaDiferente = history.some(item => {
+            const cargaAnual = Number(item.dailyWorkload || 0) * Number(item.annualSchoolDays || 0)
+
+            const somaFrequencias = item.reportCard.reduce((acc, rc) => {
+                const freq = rc.frequencia || {}
+                return acc +
+                    Number(freq.totalPresencas || 0) +
+                    Number(freq.totalFaltas || 0) +
+                    Number(freq.totalFaltasJustificadas || 0)
+            }, 0) * 4
+
+            console.log("cargaAnual", cargaAnual)
+            console.log("somaFrequencias", somaFrequencias)
+
+            return somaFrequencias > cargaAnual
+        })
+
+        if (hasCargaHorariaDiferente) {
+
+            alert(
+                `“Há históricos em que a carga horária de presenças e faltas não bate com a carga horária anual. É necessário editar antes de imprimir. Identifique o histórico e clique no botão ‘Editar carga horária’.”`
+            )
+            return
+        }
+
         // 🔍 valida se existe histórico sem situação
         const hasHistoryWithoutSituation = history.some(item => {
             if (item.studentSituation === null || item.studentSituation === undefined) return true
@@ -705,6 +736,48 @@ const StudentHistory = () => {
         setTimeout(() => {
             window.print()
         }, 100)
+    }
+
+    const handleSaveFrequencia = async () => {
+        const payload = {
+            frequencias: frequenciasEdit.map(freq => ({
+                reportCardId: freq._id, // 🔴 ESSENCIAL
+                frequencia: {
+                    totalPresencas: Number(freq.totalPresencas || 0),
+                    totalFaltas: Number(freq.totalFaltas || 0),
+                    totalFaltasJustificadas: Number(freq.totalFaltasJustificadas || 0),
+                    totalAulas:
+                        Number(freq.totalPresencas || 0) +
+                        Number(freq.totalFaltas || 0) +
+                        Number(freq.totalFaltasJustificadas || 0)
+                }
+            }))
+        }
+        console.log("payload", payload)
+        try {
+            await updateHistoryFrequency(selectedHistory._id, payload)
+
+            const res = await GetStudentHistory(id_student)
+            setHistory(res.data)
+
+            setOpenEditModal(false)
+            alert('Frequências atualizadas com sucesso')
+        } catch (err) {
+            alert(
+                err?.response?.data?.message ||
+                'Erro ao atualizar frequências'
+            )
+        }
+    }
+
+    const updateFrequenciaField = (id, field, value) => {
+        setFrequenciasEdit(prev =>
+            prev.map(freq =>
+                freq._id === id
+                    ? { ...freq, [field]: value }
+                    : freq
+            )
+        )
     }
 
     console.log("certificate", certificate)
@@ -946,6 +1019,54 @@ const StudentHistory = () => {
                                         Editar Histórico
                                     </ActionButton>
                                 )}
+
+                                {!year.createdManually && (() => {
+                                    // 🔹 Checa se o histórico não é manual
+
+                                    // 🔹 Calcula a carga horária anual
+                                    const cargaAnual = Number(year.dailyWorkload || 0) * Number(year.annualSchoolDays || 0)
+
+                                    // 🔹 Soma total das horas registradas nas frequências
+                                    const somaFrequencias = year.reportCard.reduce((acc, rc) => {
+                                        const freq = rc.frequencia || {}
+                                        return acc +
+                                            Number(freq.totalPresencas || 0) +
+                                            Number(freq.totalFaltas || 0) +
+                                            Number(freq.totalFaltasJustificadas || 0)
+                                    }, 0) * 4
+
+                                    console.log("cargaAnual", cargaAnual)
+                                    console.log("somaFrequencias", somaFrequencias)
+
+                                    // 🔹 Renderiza o botão se não for manual ou se houver divergência na carga horária
+                                    if (somaFrequencias !== cargaAnual) {
+                                        return (
+                                            <ActionButton
+                                                style={{ backgroundColor: '#1565c0' }}
+                                                onClick={() => {
+                                                    setSelectedHistory(year)
+
+                                                    const frequencias = year.reportCard.map(rc => ({
+                                                        _id: rc._id,
+                                                        bimonthly: rc.bimonthly,
+                                                        totalPresencas: Number(rc.frequencia?.totalPresencas || 0),
+                                                        totalFaltas: Number(rc.frequencia?.totalFaltas || 0),
+                                                        totalFaltasJustificadas: Number(rc.frequencia?.totalFaltasJustificadas || 0),
+                                                        totalAulas: Number(rc.frequencia?.totalAulas || 0)
+                                                    }))
+
+                                                    console.log("frequencias", frequencias)
+                                                    setFrequenciasEdit(frequencias)
+                                                    setOpenEditModal(true)
+                                                }}
+                                            >
+                                                Editar carga horária
+                                            </ActionButton>
+                                        )
+                                    }
+
+                                    return null
+                                })()}
 
                             </div>
 
@@ -2458,6 +2579,95 @@ const StudentHistory = () => {
                     </ModalOverlay>
                 )
             }
+
+            {openEditModal && (
+                <ModalOverlay>
+                    <ModalContent style={{ maxWidth: 700 }}>
+                        <h3>Frequências — {selectedHistory.serie} — {selectedHistory.year}</h3>
+
+                        {[...frequenciasEdit]
+                            .sort((a, b) => {
+                                const numA = Number(a.bimonthly.match(/\d+/)?.[0] || 0)
+                                const numB = Number(b.bimonthly.match(/\d+/)?.[0] || 0)
+                                return numA - numB
+                            })
+                            .map(freq => (
+                                <div
+                                    key={freq._id}
+                                    style={{
+                                        borderBottom: '1px solid #ddd',
+                                        marginBottom: 10,
+                                        paddingBottom: 10
+                                    }}
+                                >
+                                    <strong>{freq.bimonthly}</strong>
+
+                                    <div style={{ display: 'flex', gap: 10, marginTop: 6 }}>
+
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <label>Presenças</label>
+                                            <input
+                                                type="number"
+                                                value={freq.totalPresencas}
+                                                onChange={e => {
+                                                    const value =
+                                                        e.target.value === '' ? '' : Number(e.target.value)
+
+                                                    setFrequenciasEdit(prev =>
+                                                        prev.map(f =>
+                                                            f._id === freq._id
+                                                                ? { ...f, totalPresencas: value }
+                                                                : f
+                                                        )
+                                                    )
+                                                }}
+                                            />
+                                        </div>
+
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <label>Faltas</label>
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                value={freq.totalFaltas ?? ''}
+                                                onChange={e =>
+                                                    updateFrequenciaField(
+                                                        freq._id,
+                                                        'totalFaltas',
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                        </div>
+
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <label>Faltas Justificadas</label>
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                value={freq.totalFaltasJustificadas ?? ''}
+                                                onChange={e =>
+                                                    updateFrequenciaField(
+                                                        freq._id,
+                                                        'totalFaltasJustificadas',
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                        </div>
+
+                                    </div>
+                                </div>
+                            ))
+                        }
+
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10 }}>
+                            <button onClick={() => setOpenEditModal(false)}>Cancelar</button>
+                            <button onClick={handleSaveFrequencia}>Salvar</button>
+                        </div>
+                    </ModalContent>
+                </ModalOverlay>
+            )}
 
         </Container >
     )

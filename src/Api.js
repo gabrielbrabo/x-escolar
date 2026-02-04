@@ -237,6 +237,10 @@ export const GetStudentHistory = (id_student) => {
     return api.post(`/history/${id_student}`)
 }
 
+export const updateHistoryFrequency = (historyId, payload) => {
+    return api.put(`/history/${historyId}/frequency`, payload)
+}
+
 export const UpdateStudentHistory = async (id, data) => {
     return api.put(`/history/${id}`, data)
 }

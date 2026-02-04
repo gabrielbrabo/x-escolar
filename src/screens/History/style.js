@@ -862,6 +862,77 @@ export const Preview = styled.img`
   
 `;
 
+export const ModalContent = styled.div`
+  background: #fff;
+  width: 90%;
+  max-width: 900px;        /* 👈 modal grande */
+  max-height: 85vh;        /* 👈 evita estourar a tela */
+  border-radius: 10px;
+  padding: 24px 28px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  overflow-y: auto;        /* 👈 scroll interno */
+  position: relative;
+
+  animation: fadeInScale 0.25s ease-out;
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.96) translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 1.25rem;
+    color: #333;
+  }
+
+  h4 {
+    margin: 16px 0 8px;
+    color: #444;
+  }
+
+  p {
+    font-size: 0.95rem;
+    color: #555;
+  }
+`;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export const GlobalPrintStyle = createGlobalStyle`
   @media print {
