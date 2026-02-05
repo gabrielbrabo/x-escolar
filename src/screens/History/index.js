@@ -697,7 +697,7 @@ const StudentHistory = () => {
         if (hasCargaHorariaDiferente) {
 
             alert(
-                `“Há históricos em que a carga horária de presenças e faltas não bate com a carga horária anual. É necessário editar antes de imprimir. Identifique o histórico e clique no botão ‘Editar carga horária’.”`
+                `“Há históricos em que a carga horária de presenças e faltas excede a carga horária anual. É necessário editar antes de imprimir. Identifique o histórico e clique no botão ‘Editar carga horária’.”`
             )
             return
         }
