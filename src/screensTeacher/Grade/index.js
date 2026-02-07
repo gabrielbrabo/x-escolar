@@ -9,7 +9,8 @@ import {
     getVIthQuarter,
     GetMatter,
     GetMatterDetails,
-    clssInfo
+    clssInfo,
+    getAssessmentRegime
 } from '../../Api';
 
 import {
@@ -32,6 +33,7 @@ const Grade = () => {
 
     const navigate = useNavigate()
     const [assessmentFormat, setassessmentFormat] = useState('');
+    const [assessmentRegime, setAssessmentRegime] = useState('');
     const [I, setI] = useState([])
     const [II, setII] = useState([])
     const [III, setIII] = useState([])
@@ -42,7 +44,7 @@ const Grade = () => {
     const [bimonthly, setbimonthly] = useState([])
     const [Selectmatter, setSelectMatter] = useState([])
     const [matter, setMatter] = useState([])
-    
+
     const [yearclss, setyearclss] = useState('')
 
     const [loading, setLoading] = useState(false);
@@ -55,6 +57,14 @@ const Grade = () => {
             const idSchool = sessionStorage.getItem("id-school");
             const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
             setassessmentFormat($assessmentFormat)
+
+            const response = await getAssessmentRegime(JSON.parse(idSchool))
+
+            if (response?.data?.data) {
+                setAssessmentRegime(response.data.data)
+                sessionStorage.setItem('assessmentRegime', response.data.data);
+            }
+
             const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
             const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
             const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
@@ -221,21 +231,45 @@ const Grade = () => {
                 <LoadingSpinner />
                 :
                 <ContainerDivs>
-                    <h2>Selecione o Bimestre e Disciplina</h2>
+                    {assessmentRegime === 'BIMESTRAL' && (
+                        <h2>Selecione o Bimestre e Disciplina</h2>
+                    )}
+                    {assessmentRegime === 'TRIMESTRAL' && (
+                        <h2>Selecione o Trimestre e Disciplina</h2>
+                    )}
+
                     <InputArea>
                         <Input>
-                            <Label>Bimestre</Label>
+                            {assessmentRegime === 'BIMESTRAL' && (
+                                <Label>Bimestre</Label>
+                            )}
+                            {assessmentRegime === 'TRIMESTRAL' && (
+                                <Label>Trimestre</Label>
+                            )}
+
                             <Select
                                 id="id-bimonthly"
                                 value={Selectbimonthly}
                                 onChange={(e) => setSelectbimonthly(e.target.value)}
                             >
                                 <option value="">Selecione</option>
-                                {bimonthly.map(res => (
-                                    <option key={res._id} value={res._id}>{res.bimonthly}</option>
-                                ))
+
+                                {bimonthly
+                                    // 🔹 se for trimestral, ignora o 4º bimestre
+                                    .filter(res => {
+                                        if (assessmentRegime !== 'TRIMESTRAL') return true
+                                        return !res.bimonthly.includes('4º')
+                                    })
+                                    .map(res => (
+                                        <option key={res._id} value={res._id}>
+                                            {assessmentRegime === 'TRIMESTRAL'
+                                                ? res.bimonthly.replace('BIMESTRE', 'TRIMESTRE')
+                                                : res.bimonthly}
+                                        </option>
+                                    ))
                                 }
                             </Select>
+
                         </Input>
                         <Input>
                             <Label>Disciplina</Label>

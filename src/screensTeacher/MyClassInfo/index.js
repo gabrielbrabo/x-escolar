@@ -13,7 +13,8 @@ import {
     CreateRepoCard,
     CreateDailyConcept,
     CreateRepoCardConcept,
-    getSchoolYear
+    getSchoolYear,
+    getAssessmentRegime
 } from '../../Api'
 
 import {
@@ -60,6 +61,7 @@ const MyCla$$Info = () => {
     const navigate = useNavigate()
     const [year, setyear] = useState('');
     const [assessmentFormat, setassessmentFormat] = useState('');
+    const [assessmentRegime, setAssessmentRegime] = useState('');
     const [clss, setClss] = useState([])
     const [DailyClass, setDailyClass] = useState([])
     const [stdt, setStdt] = useState([])
@@ -101,6 +103,14 @@ const MyCla$$Info = () => {
             setnameSchool(nameSchool)
             const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
             setassessmentFormat($assessmentFormat)
+
+            const response = await getAssessmentRegime(JSON.parse(idSchool))
+
+            if (response?.data?.data) {
+                setAssessmentRegime(response.data.data)
+                sessionStorage.setItem('assessmentRegime', response.data.data);
+            }
+
             sessionStorage.removeItem("Selectbimonthly");
             sessionStorage.removeItem("Selectmatt")
             console.log('useParamsClass', id_class)
@@ -621,7 +631,15 @@ const MyCla$$Info = () => {
         //}
     }
 
+    const getDiaryLabel = (rawBimester) => {
+        if (assessmentRegime === 'TRIMESTRAL') {
+            return rawBimester.replace('BIMESTRE', 'TRIMESTRE')
+        }
+        return rawBimester
+    }
+
     console.log("Daily", DailyClass)
+    console.log("assessmentRegime", assessmentRegime)
 
     return (
         <Container>
@@ -661,7 +679,7 @@ const MyCla$$Info = () => {
                                 </button>
                             ) : (
                                 <button onClick={() => { navigate('/grade') }}>
-                                    <TbChecklist color="orange"/>
+                                    <TbChecklist color="orange" />
                                     Avaliações
                                 </button>
                             )
@@ -675,56 +693,108 @@ const MyCla$$Info = () => {
                                 Ficha Individual
                             </button>
                             <button onClick={() => { navigate('/final-concepts') }}>
-                                <BsListCheck color="#2ECC71"/>
+                                <BsListCheck color="#2ECC71" />
                                 Conceitos Finais
                             </button>
                         </ButtonContainer>
                     }
                     <DiaryWrapper>
                         <h2 style={{ color: "#158fa2", marginBottom: "10px" }}>Diário da Turma</h2>
-                        {Object.entries(DailyClass).map(([bimester, status], index) => (
-                            <DiaryBimester key={index}>
-                                <h3>{bimester}</h3>
-                                <StatusLine>
-                                    {(RegentTeacher === idTeacher || RegentTeacher02 === idTeacher) && status.regentTeacher === "aberto" && (
-                                        <>
-                                            <strong>Professor Regente:<span style={{ color: status.regentTeacher === "aberto" ? "green" : "red" }}>
-                                                {status.regentTeacher}
-                                            </span>
-                                            </strong>
-                                            <button onClick={() => confirmCloseDiary(bimester, "regentTeacher")}>Fechar Bimestre</button>
-                                        </>
-                                    )}
-                                    {physicalEducation === idTeacher && status.physicalEducationTeacher === "aberto" && (
-                                        <>
-                                            <strong>Ed. Física:<span style={{ color: status.physicalEducationTeacher === "aberto" ? "green" : "red" }}>
-                                                {status.physicalEducationTeacher}
-                                            </span>
-                                            </strong>
-                                            <button onClick={() => confirmCloseDiary(bimester, "physicalEducationTeacher")}>Fechar Bimestre</button>
-                                        </>
-                                    )}
-                                    {(RegentTeacher === idTeacher || RegentTeacher02 === idTeacher) && status.regentTeacher === "fechado" && (
-                                        <>
-                                            <strong>Professor Regente:<span style={{ color: status.regentTeacher === "aberto" ? "green" : "red" }}>
-                                                {status.regentTeacher}
-                                            </span>
-                                            </strong>
-                                            <button onClick={() => seeDiary(bimester)}>Ver Diário</button>
-                                        </>
-                                    )}
-                                    {physicalEducation === idTeacher && status.physicalEducationTeacher === "fechado" && (
-                                        <>
-                                            <strong>Ed. Física:<span style={{ color: status.physicalEducationTeacher === "aberto" ? "green" : "red" }}>
-                                                {status.physicalEducationTeacher}
-                                            </span>
-                                            </strong>
-                                            <button onClick={() => seeDiary(bimester)}>Ver Diário</button>
-                                        </>
-                                    )}
-                                </StatusLine>
-                            </DiaryBimester>
-                        ))}
+                        {Object.entries(DailyClass)
+                            .filter(([rawBimester]) => {
+                                // Trimestral → ignora o 4º
+                                if (assessmentRegime === 'TRIMESTRAL') {
+                                    return !rawBimester.includes('4º')
+                                }
+                                return true
+                            })
+                            .map(([rawBimester, status], index) => (
+                                <DiaryBimester key={index}>
+                                    {/* 👁️ VISUAL */}
+                                    <h3>{getDiaryLabel(rawBimester)}</h3>
+
+                                    <StatusLine>
+                                        {(RegentTeacher === idTeacher || RegentTeacher02 === idTeacher) &&
+                                            status.regentTeacher === 'aberto' && (
+                                                <>
+                                                    <strong>
+                                                        Professor Regente:
+                                                        <span style={{ color: 'green' }}>
+                                                            {status.regentTeacher}
+                                                        </span>
+                                                    </strong>
+
+                                                    {/* 🔑 LÓGICA → SEMPRE O ORIGINAL */}
+                                                    <button
+                                                        onClick={() =>
+                                                            confirmCloseDiary(rawBimester, 'regentTeacher')
+                                                        }
+                                                    >
+                                                        Fechar
+                                                    </button>
+                                                </>
+                                            )
+                                        }
+
+                                        {(RegentTeacher === idTeacher || RegentTeacher02 === idTeacher) &&
+                                            status.regentTeacher === 'fechado' && (
+                                                <>
+                                                    <strong>
+                                                        Professor Regente:
+                                                        <span style={{ color: 'red' }}>
+                                                            {status.regentTeacher}
+                                                        </span>
+                                                    </strong>
+
+                                                    {/* 🔑 LÓGICA → SEMPRE O ORIGINAL */}
+                                                    <button onClick={() => seeDiary(rawBimester)}>
+                                                        Ver Diário
+                                                    </button>
+                                                </>
+                                            )
+                                        }
+
+                                        {physicalEducation === idTeacher &&
+                                            status.physicalEducationTeacher === 'aberto' && (
+                                                <>
+                                                    <strong>
+                                                        Ed. Física:
+                                                        <span style={{ color: 'green' }}>
+                                                            {status.physicalEducationTeacher}
+                                                        </span>
+                                                    </strong>
+                                                    <button
+                                                        onClick={() =>
+                                                            confirmCloseDiary(rawBimester, 'physicalEducationTeacher')
+                                                        }
+                                                    >
+                                                        Fechar
+                                                    </button>
+                                                </>
+                                            )
+                                        }
+
+                                        {physicalEducation === idTeacher &&
+                                            status.regentTeacher === 'fechado' && (
+                                                <>
+                                                    <strong>
+                                                        Ed. Física:
+                                                        <span style={{ color: 'red' }}>
+                                                            {status.physicalEducationTeacher}
+                                                        </span>
+                                                    </strong>
+
+                                                    {/* 🔑 LÓGICA → SEMPRE O ORIGINAL */}
+                                                    <button onClick={() => seeDiary(rawBimester)}>
+                                                        Ver Diário
+                                                    </button>
+                                                </>
+                                            )
+                                        }
+
+                                    </StatusLine>
+                                </DiaryBimester>
+                            ))}
                         {/*<ButtonWrapper>
                             <button onClick={handleViewCompleteDiary}>Ver Diário Completo</button>
                         </ButtonWrapper>

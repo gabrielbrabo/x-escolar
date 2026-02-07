@@ -780,7 +780,30 @@ const StudentHistory = () => {
         )
     }
 
-    console.log("certificate", certificate)
+    const diasLetivos = Number(selectedHistory?.annualSchoolDays || 0)
+    const horasDiarias = Number(selectedHistory?.dailyWorkload || 0)
+    const cargaHorariaAnual = diasLetivos * horasDiarias
+
+    const cargaAluno =
+        frequenciasEdit.reduce(
+            (acc, f) =>
+                acc +
+                Number(f.totalPresencas || 0) +
+                Number(f.totalFaltas || 0) +
+                Number(f.totalFaltasJustificadas || 0),
+            0
+        ) * 4
+
+
+    const corCargaAluno =
+        cargaAluno > cargaHorariaAnual
+            ? '#d32f2f'   // vermelho
+            : cargaAluno === cargaHorariaAnual
+                ? '#2e7d32'   // verde
+                : '#a1887f'      
+
+
+    console.log("frequenciasEdit", frequenciasEdit)
 
     return (
         <Container >
@@ -1194,6 +1217,8 @@ const StudentHistory = () => {
 
                                         {subjects.map((subj) => (
                                             <td key={subj}>
+
+                                                {console.log("subj", subj)}
                                                 {renderNotaFinal(year.reportCard, subj)}
                                             </td>
                                         ))}
@@ -2584,6 +2609,68 @@ const StudentHistory = () => {
                 <ModalOverlay>
                     <ModalContent style={{ maxWidth: 700 }}>
                         <h3>Frequências — {selectedHistory.serie} — {selectedHistory.year}</h3>
+                        {console.log("selectedHistory", selectedHistory)}
+
+                        {(() => {
+                            const diasLetivos = Number(selectedHistory.annualSchoolDays || 0)
+                            const horasDiarias = Number(selectedHistory.dailyWorkload || 0)
+                            const cargaHorariaAnual = diasLetivos * horasDiarias
+
+                            const cargaAluno = frequenciasEdit.reduce((acc, f) => {
+                                return (
+                                    acc +
+                                    Number(f.totalPresencas || 0) +
+                                    Number(f.totalFaltas || 0) +
+                                    Number(f.totalFaltasJustificadas || 0)
+                                )
+                            }, 0)
+
+                            const divergente = cargaAluno !== cargaHorariaAnual
+
+                            return (
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        gap: 20,
+                                        marginTop: 10,
+                                        marginBottom: 20,
+                                        padding: 12,
+                                        background: '#f5f7fa',
+                                        borderRadius: 6,
+                                        fontSize: 14,
+                                        border: divergente ? '2px solid #d32f2f' : '1px solid #ddd'
+                                    }}
+                                >
+                                    <div>
+                                        <strong>Dias letivos</strong>
+                                        <div>{diasLetivos} dias</div>
+                                    </div>
+
+                                    <div>
+                                        <strong>Carga horária diária</strong>
+                                        <div>{horasDiarias} hrs</div>
+                                    </div>
+
+                                    <div>
+                                        <strong>Carga horária anual</strong>
+                                        <div>{cargaHorariaAnual} hrs</div>
+                                    </div>
+
+                                    <div>
+                                        <strong>Carga horária atual do aluno</strong>
+                                        <div style={{ color: corCargaAluno }}>
+                                            {frequenciasEdit.reduce((acc, f) =>
+                                                acc +
+                                                Number(f.totalPresencas || 0) +
+                                                Number(f.totalFaltas || 0) +
+                                                Number(f.totalFaltasJustificadas || 0)
+                                                , 0) * 4} hrs
+                                        </div>
+                                    </div>
+
+                                </div>
+                            )
+                        })()}
 
                         {[...frequenciasEdit]
                             .sort((a, b) => {
@@ -2678,7 +2765,7 @@ export default StudentHistory
 /* ============================= */
 /* CALCULA NOTA FINAL POR MATÉRIA */
 /* ============================= */
-function renderNotaFinal(reportCard = [], materia) {
+/*function renderNotaFinal(reportCard = [], materia) {
     let total = 0
     let encontrou = false
 
@@ -2691,7 +2778,29 @@ function renderNotaFinal(reportCard = [], materia) {
     })
 
     return encontrou ? total : '-'
+}*/
+
+function renderNotaFinal(reportCard = [], materia) {
+    let total = 0
+    let encontrou = false
+
+    reportCard.forEach((bim) => {
+        const nota = bim.studentGrade?.[materia]
+
+        if (nota !== undefined) {
+            // aceita número direto OU objeto { total }
+            const valor = typeof nota === 'object'
+                ? Number(nota.total || 0)
+                : Number(nota)
+
+            total += valor
+            encontrou = true
+        }
+    })
+
+    return encontrou ? total : '-'
 }
+
 
 function renderCargaHorariaAluno(reportCard = [], dailyWorkload) {
     let totalPresencas = 0
