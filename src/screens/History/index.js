@@ -800,7 +800,7 @@ const StudentHistory = () => {
             ? '#d32f2f'   // vermelho
             : cargaAluno === cargaHorariaAnual
                 ? '#2e7d32'   // verde
-                : '#a1887f'      
+                : '#a1887f'
 
 
     console.log("frequenciasEdit", frequenciasEdit)
@@ -2616,30 +2616,23 @@ const StudentHistory = () => {
                             const horasDiarias = Number(selectedHistory.dailyWorkload || 0)
                             const cargaHorariaAnual = diasLetivos * horasDiarias
 
-                            const cargaAluno = frequenciasEdit.reduce((acc, f) => {
-                                return (
-                                    acc +
-                                    Number(f.totalPresencas || 0) +
-                                    Number(f.totalFaltas || 0) +
-                                    Number(f.totalFaltasJustificadas || 0)
-                                )
-                            }, 0)
+                            
 
-                            const divergente = cargaAluno !== cargaHorariaAnual
+                           // const divergente = cargaAluno !== cargaHorariaAnual
 
                             return (
                                 <div
-                                    style={{
-                                        display: 'flex',
-                                        gap: 20,
-                                        marginTop: 10,
-                                        marginBottom: 20,
-                                        padding: 12,
-                                        background: '#f5f7fa',
-                                        borderRadius: 6,
-                                        fontSize: 14,
-                                        border: divergente ? '2px solid #d32f2f' : '1px solid #ddd'
-                                    }}
+                                style={{
+                                    display: 'flex',
+                                    gap: 20,
+                                    marginTop: 10,
+                                    marginBottom: 20,
+                                    padding: 12,
+                                    background: '#f5f7fa',
+                                    borderRadius: 6,
+                                    fontSize: 14,
+                                    border: `2px solid ${corCargaAluno}`
+                                }}
                                 >
                                     <div>
                                         <strong>Dias letivos</strong>
