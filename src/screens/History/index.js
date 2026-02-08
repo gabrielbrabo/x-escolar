@@ -2616,23 +2616,23 @@ const StudentHistory = () => {
                             const horasDiarias = Number(selectedHistory.dailyWorkload || 0)
                             const cargaHorariaAnual = diasLetivos * horasDiarias
 
-                            
 
-                           // const divergente = cargaAluno !== cargaHorariaAnual
+
+                            // const divergente = cargaAluno !== cargaHorariaAnual
 
                             return (
                                 <div
-                                style={{
-                                    display: 'flex',
-                                    gap: 20,
-                                    marginTop: 10,
-                                    marginBottom: 20,
-                                    padding: 12,
-                                    background: '#f5f7fa',
-                                    borderRadius: 6,
-                                    fontSize: 14,
-                                    border: `2px solid ${corCargaAluno}`
-                                }}
+                                    style={{
+                                        display: 'flex',
+                                        gap: 20,
+                                        marginTop: 10,
+                                        marginBottom: 20,
+                                        padding: 12,
+                                        background: '#f5f7fa',
+                                        borderRadius: 6,
+                                        fontSize: 14,
+                                        border: `2px solid ${corCargaAluno}`
+                                    }}
                                 >
                                     <div>
                                         <strong>Dias letivos</strong>
@@ -2650,7 +2650,7 @@ const StudentHistory = () => {
                                     </div>
 
                                     <div>
-                                        <strong>Carga horária atual do aluno</strong>
+                                        <strong>Carga horária anual do aluno</strong>
                                         <div style={{ color: corCargaAluno }}>
                                             {frequenciasEdit.reduce((acc, f) =>
                                                 acc +
