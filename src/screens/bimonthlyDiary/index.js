@@ -96,6 +96,7 @@ export default function Daily() {
 
   const [loading, setLoading] = useState(true);
 
+  const [assessmentRegime, setAssessmentRegime] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -105,6 +106,7 @@ export default function Daily() {
       setPositionAtSchool(position);
       const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
       setassessmentFormat($assessmentFormat)
+      setAssessmentRegime(sessionStorage.getItem('assessmentRegime'))
 
       const cachedLogo = localStorage.getItem(`school-logo-${idSchool}`);
       //const cachedLogoId = localStorage.getItem(`school-logo-id-${idSchool}`);
@@ -828,10 +830,13 @@ export default function Daily() {
     }
   };
 
-  //console.log("groupGradesByMatter", grouped)
+  const renderPeriod = (bimonthly) => {
+    if (!bimonthly) return ''
 
-  console.log("daily", data)
-  console.log("logoUrl", logoUrl)
+    return assessmentRegime === 'TRIMESTRAL'
+        ? bimonthly.replace(/Bimestre/gi, 'Trimestre')
+        : bimonthly.replace(/Trimestre/gi, 'Bimestre')
+}
 
   return (
     <Container>
@@ -930,7 +935,7 @@ export default function Daily() {
                   <CtnrBtt>
                     <ButtonPrint className="no-print" onClick={handlePrintAttendance}>Imprimir</ButtonPrint>
                   </CtnrBtt>
-                  <h2>Frequências do {bimonthly} (Professor Regente)</h2>
+                  <h2>Frequências do {renderPeriod(bimonthly)} (Professor Regente)</h2>
                   <ContTable>
                     <Table>
                       <TableHeader>
@@ -1054,7 +1059,7 @@ export default function Daily() {
                     <ButtonPrint className="no-print" onClick={handlePrintAttendancePhysicalEducation}>Imprimir</ButtonPrint>
                   </CtnrBtt>
                   {/* Frequência do professor de Educação Física */}
-                  <h2>Frequências do {bimonthly} (Professor de Educação Física)</h2>
+                  <h2>Frequências do {renderPeriod(bimonthly)} (Professor de Educação Física)</h2>
                   <ContTable>
                     <Table>
                       <TableHeader>
@@ -1150,7 +1155,7 @@ export default function Daily() {
               </>
             ) : (
               <div style={{ padding: "2rem", textAlign: "center" }}>
-                <h2>Nenhum dado de frequência encontrado para o {bimonthly}.</h2>
+                <h2>Nenhum dado de frequência encontrado para o {renderPeriod(bimonthly)}.</h2>
                 <p>Verifique se a turma teve aulas cadastradas com frequência registrada.</p>
               </div>
             )
@@ -1167,7 +1172,7 @@ export default function Daily() {
                   </CtnrBtt>
                   <ContLogo className="cont-logo-classes">
                     {logoUrl && <Preview className="logo-classes" src={logoUrl} alt="Logo da escola" />}
-                    <h2>Registros de Aulas do {bimonthly} — Professor Regente</h2>
+                    <h2>Registros de Aulas do {renderPeriod(bimonthly)} — Professor Regente</h2>
                   </ContLogo>
 
                   <ContInfo className="info">
@@ -1316,7 +1321,7 @@ export default function Daily() {
                   </CtnrBtt>
                   <ContLogo className="cont-logo-classes">
                     {logoUrl && <Preview className="logo-classes" src={logoUrl} alt="Logo da escola" />}
-                    <h2>Registros de Aulas do {bimonthly} — Educação Física</h2>
+                    <h2>Registros de Aulas do {renderPeriod(bimonthly)} — Educação Física</h2>
                   </ContLogo>
 
                   <ContInfo className="info">
@@ -1690,7 +1695,7 @@ export default function Daily() {
             <>
               {data?.idActivity?.length > 0 ? (
                 <AssessmentsContainer>
-                  <h2>Avaliações do {data.bimonthly}</h2>
+                  <h2>Avaliações do {renderPeriod(data.bimonthly)}</h2>
 
                   {data.idActivity
                     .slice() // cria uma cópia para não mutar o array original
@@ -1784,7 +1789,7 @@ export default function Daily() {
                 </AssessmentsContainer>
               ) : (
                 <InfoText>
-                  Nenhum dado de Avaliações encontrado para o {data.bimonthly}.
+                  Nenhum dado de Avaliações encontrado para o {renderPeriod(data.bimonthly)}.
                 </InfoText>
               )}
             </>
@@ -1797,7 +1802,7 @@ export default function Daily() {
                   <Preview className="" src={logoUrl} alt="Logo da escola" />
                 )}
                 <ContInfo className="info">
-                  <h2>Registro de Notas do {bimonthly}</h2>
+                  <h2>Registro de Notas do {renderPeriod(bimonthly)}</h2>
                   <span><strong>Escola:</strong> {data.nameSchool}</span>
                   {data?.serie && (
                     <span><strong>Serie:</strong> {data.serie}</span>
@@ -1926,7 +1931,7 @@ export default function Daily() {
                       <Preview className="" src={logoUrl} alt="Logo da escola" />
                     )}
                     <ContInfo className="info">
-                      <h2>Registro de Conceitos do {bimonthly}</h2>
+                      <h2>Registro de Conceitos do {renderPeriod(bimonthly)}</h2>
                       <span><strong>Escola:</strong> {data.nameSchool}</span>
                       {data?.serie && (
                         <span><strong>Serie:</strong> {data.serie}</span>
@@ -2054,7 +2059,7 @@ export default function Daily() {
                     )}
                     <h2>Fichas Individuais de Alunos</h2>
                   </ContLogo>
-                  <h3>{bimonthly}</h3>
+                  <h3>{renderPeriod(bimonthly)}</h3>
                   <span><strong>Escola:</strong> {data.nameSchool}</span>
                   {data?.serie && (
                     <span><strong>Serie:</strong> {data.serie}</span>

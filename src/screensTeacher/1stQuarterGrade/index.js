@@ -63,6 +63,8 @@ const IndexAttendance = () => {
     const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
     const [physicalEducation, setphysicalEducationTeacher] = useState([]);
 
+    const [assessmentRegime, setAssessmentRegime] = useState('');
+
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -71,6 +73,7 @@ const IndexAttendance = () => {
             const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
             const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
             const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
+            setAssessmentRegime(sessionStorage.getItem('assessmentRegime'))
 
             setclassRegentTeacher(JSON.parse(classRegentTeacher))
             setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
@@ -337,7 +340,12 @@ const IndexAttendance = () => {
                             <DataSelected>
                                 <SlActionUndo fontSize={'30px'} onClick={Return} />
                                 <Info>
-                                    <p>Bimestre: 1º Bimestre</p>
+                                    {assessmentRegime === 'BIMESTRAL' && (
+                                        <p>1º Bimestre</p>
+                                    )}
+                                    {assessmentRegime === 'TRIMESTRAL' && (
+                                        <p>1º Trimestre</p>
+                                    )}
                                     <p>Disciplina: {Namematter}</p>
                                 </Info>
                                 <LegendBox>

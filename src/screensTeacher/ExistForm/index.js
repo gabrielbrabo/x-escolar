@@ -38,6 +38,8 @@ const StudentRecordDescription = () => {
     const { id_form } = useParams();
     const [loading, setLoading] = useState(false);
 
+    const [assessmentRegime, setAssessmentRegime] = useState('');
+
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -48,6 +50,7 @@ const StudentRecordDescription = () => {
 
             setNameStudent(studentName || '');
             setBimonthly(selectBimonthly?.bimonthly || '');
+            setAssessmentRegime(sessionStorage.getItem('assessmentRegime'))
 
             if (individualFormId && individualFormId !== "undefined") {
                 const response = await GetIndividualForm({ id_individualForm: individualFormId });
@@ -104,6 +107,14 @@ const StudentRecordDescription = () => {
         window.print();
     };
 
+    const renderPeriod = (bimonthly) => {
+        if (!bimonthly) return ''
+
+        return assessmentRegime === 'TRIMESTRAL'
+            ? bimonthly.replace(/Bimestre/gi, 'Trimestre')
+            : bimonthly.replace(/Trimestre/gi, 'Bimestre')
+    }
+
     return (
         <Container>
             {loading ? (
@@ -118,7 +129,7 @@ const StudentRecordDescription = () => {
                             <ContainerSpan>
                                 <Span>
                                     <div>Aluno: <p>{nameStudent}</p></div>
-                                    <div>Bimestre: <p>{bimonthly}</p></div>
+                                    <div>Bimestre: <p>{renderPeriod(bimonthly)}</p></div>
                                 </Span>
                                 <Span>
                                     <PrintButton onClick={handlePrint}>Imprimir Ficha</PrintButton> {/* Botão de impressão acima */}

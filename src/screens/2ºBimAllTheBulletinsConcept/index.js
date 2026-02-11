@@ -59,13 +59,15 @@ const AllTheBulletins = () => {
   const [Bulletins, setBulletins] = useState([]);
   const [BulletinsIst, setBulletinsIst] = useState([]);
   const [cla$$, setClass] = useState([]);
-  const [teacher, setTeacher] = useState([]);
+  const [ , setTeacher] = useState([]);
   const [nameSchool, setNameSchool] = useState('')
   const [logoUrl, setLogoUrl] = useState('');
   const [loading, setLoading] = useState(true);
 
   const { idClass } = useParams();
   const { idBim } = useParams();
+
+  const [assessmentRegime, setAssessmentRegime] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -74,6 +76,7 @@ const AllTheBulletins = () => {
       const idSchool = JSON.parse(sessionStorage.getItem("id-school"));
       const nameSchool = sessionStorage.getItem("School");
       setNameSchool(nameSchool)
+      setAssessmentRegime(sessionStorage.getItem('assessmentRegime'))
       const res = await allTheBulletinsConcept({
         idClass,
         id_iiNdQuarter: idBim,
@@ -146,9 +149,7 @@ const AllTheBulletins = () => {
     window.print();
   };
 
-  console.log("Bulletins", Bulletins)
-  console.log("cla$$", cla$$)
-  console.log("teacher", teacher)
+  const periodLabel = assessmentRegime === 'TRIMESTRAL' ? 'TRIM' : 'BIM';
 
   return (
     <Container>
@@ -182,7 +183,12 @@ const AllTheBulletins = () => {
                   </ContLogo>
 
                   <AddEmp>
-                    <h3>2º Bimestre</h3>
+                    {assessmentRegime === 'BIMESTRAL' && (
+                      <h3>2º Bimestre</h3>
+                    )}
+                    {assessmentRegime === 'TRIMESTRAL' && (
+                      <h3>2º Trimestre</h3>
+                    )}
                   </AddEmp>
 
                   <DadosStdt>
@@ -229,24 +235,26 @@ const AllTheBulletins = () => {
                               <Grade>
                                 <DivBimTable>
                                   <DivBimRow>
-                                    <DivBimHeader>1º Bim</DivBimHeader>
+                                    <DivBimHeader>1º {periodLabel}</DivBimHeader>
                                     <DivBimCell grade={concept1st}>{concept1st || "-"}</DivBimCell>
                                   </DivBimRow>
 
                                   <DivBimRow>
-                                    <DivBimHeader>2º Bim</DivBimHeader>
+                                    <DivBimHeader>2º {periodLabel}</DivBimHeader>
                                     <DivBimCell grade={grd.grade}>{grd.grade}</DivBimCell>
                                   </DivBimRow>
 
                                   <DivBimRow>
-                                    <DivBimHeader>3º Bim</DivBimHeader>
+                                    <DivBimHeader>3º {periodLabel}</DivBimHeader>
                                     <DivBimCell>-</DivBimCell>
                                   </DivBimRow>
 
-                                  <DivBimRow>
-                                    <DivBimHeader>4º Bim</DivBimHeader>
-                                    <DivBimCell>-</DivBimCell>
-                                  </DivBimRow>
+                                  {assessmentRegime !== 'TRIMESTRAL' && (
+                                    <DivBimRow>
+                                      <DivBimHeader>4º {periodLabel}</DivBimHeader>
+                                      <DivBimCell>-</DivBimCell>
+                                    </DivBimRow>
+                                  )}
                                 </DivBimTable>
                               </Grade>
                             </Emp>

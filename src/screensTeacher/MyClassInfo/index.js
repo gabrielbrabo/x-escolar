@@ -337,7 +337,7 @@ const MyCla$$Info = () => {
             return; // para não continuar o código abaixo
         }
 
-        const selectedBimonthly = JSON.parse(e.target.value);
+        const selectedBimonthly = JSON.parse(value);
         const idBim = selectedBimonthly._id
         console.log("selectedBimonthly", selectedBimonthly)
         console.log("assessmentFormat", assessmentFormat)
@@ -638,9 +638,6 @@ const MyCla$$Info = () => {
         return rawBimester
     }
 
-    console.log("Daily", DailyClass)
-    console.log("assessmentRegime", assessmentRegime)
-
     return (
         <Container>
             {loading ?
@@ -917,25 +914,48 @@ const MyCla$$Info = () => {
                     {AllBimBull && (
                         <ContainerModal>
                             <ModalContent>
-                                <h2>Selecione o Bimestre</h2>
+                                {assessmentRegime === 'BIMESTRAL' && (
+                                    <h2>Selecione o Bimestre</h2>
+                                )}
+                                {assessmentRegime === 'TRIMESTRAL' && (
+                                    <h2>Selecione o Trimestre</h2>
+                                )}
                                 <Input>
-                                    <Label>Bimestres</Label>
+                                    {assessmentRegime === 'BIMESTRAL' && (
+                                        <Label>Bimestres</Label>
+                                    )}
+                                    {assessmentRegime === 'TRIMESTRAL' && (
+                                        <Label>Trimestre</Label>
+                                    )}
                                     <Select
                                         id="id-bimonthly"
-                                        //value={Selectbimonthly ? JSON.stringify(Selectbimonthly) : ""}
                                         onChange={handleBimonthlyChange}
                                     >
                                         <option value="">Selecione</option>
-                                        {bimonthly.map(res => (
-                                            <option
-                                                key={res._id}
-                                                value={JSON.stringify({ _id: res._id, bimonthly: res.bimonthly })}
-                                            >
-                                                {res.bimonthly}
-                                            </option>
-                                        ))},
+
+                                        {bimonthly
+                                            // 🔹 se for TRIMESTRAL, ignora o 4º bimestre
+                                            .filter(res => {
+                                                if (assessmentRegime === 'TRIMESTRAL') {
+                                                    return res.bimonthly !== '4º BIMESTRE';
+                                                }
+                                                return true;
+                                            })
+                                            .map(res => (
+                                                <option
+                                                    key={res._id}
+                                                    value={JSON.stringify(res)} // 👈 mantém exatamente como já estava
+                                                >
+                                                    {assessmentRegime === 'TRIMESTRAL'
+                                                        ? res.bimonthly.replace('BIMESTRE', 'TRIMESTRE')
+                                                        : res.bimonthly}
+                                                </option>
+                                            ))
+                                        }
+
                                         <option value="FinalConcepts">Resultado Final</option>
                                     </Select>
+
                                     <ButtonContainer>
                                         <button onClick={() => setBimAllBull(false)}>Cancelar</button>
                                     </ButtonContainer>

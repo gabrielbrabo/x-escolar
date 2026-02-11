@@ -50,7 +50,6 @@ const Grade = () => {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
-
     useEffect(() => {
         (async () => {
             setLoading(true);

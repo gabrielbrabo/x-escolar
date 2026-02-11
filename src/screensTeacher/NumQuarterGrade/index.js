@@ -72,6 +72,8 @@ const IndexAttendance = () => {
     const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
     const [physicalEducation, setphysicalEducationTeacher] = useState([]);
 
+    const [assessmentRegime, setAssessmentRegime] = useState('');
+
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -94,6 +96,7 @@ const IndexAttendance = () => {
             setYear(sessionData.currentYear);
             setIdActivity(sessionData.idActivity);
             setId_teacher(idTeacher);
+            setAssessmentRegime(sessionStorage.getItem('assessmentRegime'))
             if (idActivity) {
                 const res = await GetGradeActivity(idActivity);
                 if (res.data.data) {
@@ -398,6 +401,16 @@ const IndexAttendance = () => {
             .toUpperCase(); // Converte para maiúsculas
     };
 
+    const renderPeriod = (bimonthly) => {
+        if (bimonthly === null || bimonthly === undefined) return ''
+
+        const periodNumber = String(bimonthly).replace(/\D/g, '')
+
+        return assessmentRegime === 'TRIMESTRAL'
+            ? `${periodNumber}º Trimestre`
+            : `${periodNumber}º Bimestre`
+    }
+
     console.log('grades', grades)
 
     return (
@@ -415,7 +428,7 @@ const IndexAttendance = () => {
                                     <p>Descrição: {Descricao}</p>
                                     <p>Disciplina: {Namematter}</p>
                                     <p>Tipo: {tipo}</p>
-                                    <p>Bimestre: {bimonthly}</p>
+                                    <p>{renderPeriod(bimonthly)}</p>
                                 </Info>
                                 <LegendBox>
                                     <h3>Legenda</h3>

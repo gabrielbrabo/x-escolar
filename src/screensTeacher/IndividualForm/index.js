@@ -51,6 +51,7 @@ const IndividualForm = () => {
 
     const [showAlert, setShowAlert] = useState(false);
 
+    const [assessmentRegime, setAssessmentRegime] = useState('');
 
     useEffect(() => {
         (async () => {
@@ -65,6 +66,7 @@ const IndividualForm = () => {
             setid_teacher(JSON.parse(id_employee))
             const resClass = await clssInfo(idClass);
             set$Class(resClass)
+            setAssessmentRegime(sessionStorage.getItem('assessmentRegime'))
             const $yearClass = resClass.data.data.find(clss => {
                 return clss.year
             })
@@ -279,20 +281,54 @@ const IndividualForm = () => {
                     <InputArea>
                         {!Selectbimonthly && (
                             <>
-                                <h2>Selecione o Bimestre</h2>
+                                {assessmentRegime === 'BIMESTRAL' && (
+                                    <h2>Selecione o Bimestre</h2>
+                                )}
+                                {assessmentRegime === 'TRIMESTRAL' && (
+                                    <h2>Selecione o Trimestre</h2>
+                                )}
                                 <Input>
-                                    <Label>Bimestre</Label>
+                                    {assessmentRegime === 'BIMESTRAL' && (
+                                        <Label>Bimestre</Label>
+                                    )}
+                                    {assessmentRegime === 'TRIMESTRAL' && (
+
+                                        <Label>Trimestre</Label>
+                                    )}
                                     <Select
                                         id="id-bimonthly"
                                         value={Selectbimonthly ? JSON.stringify(Selectbimonthly) : ""}
                                         onChange={handleBimonthlyChange}
                                     >
                                         <option value="">Selecione</option>
-                                        {bimonthly.map(res => (
-                                            <option key={res._id} value={JSON.stringify({ _id: res._id, bimonthly: res.bimonthly, statusSupervisor: res.statusSupervisor })}>
-                                                {res.bimonthly}
-                                            </option>
-                                        ))}
+                                        {bimonthly
+                                            .filter(res => {
+                                                // 👉 Se for trimestral, ignora o 4º bimestre
+                                                if (assessmentRegime === 'TRIMESTRAL') {
+                                                    return !res.bimonthly.includes('4º');
+                                                }
+                                                return true;
+                                            })
+                                            .map(res => {
+                                                const label =
+                                                    assessmentRegime === 'TRIMESTRAL'
+                                                        ? res.bimonthly.replace('BIMESTRE', 'TRIMESTRE')
+                                                        : res.bimonthly;
+
+                                                return (
+                                                    <option
+                                                        key={res._id}
+                                                        value={JSON.stringify({
+                                                            _id: res._id,
+                                                            bimonthly: res.bimonthly,
+                                                            statusSupervisor: res.statusSupervisor
+                                                        })}
+                                                    >
+                                                        {label}
+                                                    </option>
+                                                );
+                                            })}
+
                                     </Select>
                                 </Input>
                                 <ToGoBack onClick={messageButtonClick}>
@@ -340,7 +376,7 @@ const IndividualForm = () => {
                                 </ToGoBack>
                             </>
                         ) : (
-                            <p>{Selectbimonthly.bimonthly} fechado, para editar contate o Diretor ou Supervisor.</p>
+                            <p>período fechado, para editar contate o Diretor ou Supervisor.</p>
                         )
                     )}
 

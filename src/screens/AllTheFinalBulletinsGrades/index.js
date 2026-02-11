@@ -71,13 +71,15 @@ const AllTheBulletins = () => {
   const [BulletinsIIIrd, setBulletinsIIIrd] = useState([]);
   const [Bulletins, setBulletins] = useState([]);
   const [cla$$, setClass] = useState([]);
-  const [teacher, setTeacher] = useState([]);
+  const [, setTeacher] = useState([]);
   const [nameSchool, setNameSchool] = useState('')
   const [logoUrl, setLogoUrl] = useState('');
   const [loading, setLoading] = useState(true);
 
   const { idClass } = useParams();
   const { idBim } = useParams();
+
+  const [assessmentRegime, setAssessmentRegime] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -86,6 +88,7 @@ const AllTheBulletins = () => {
       const idSchool = JSON.parse(sessionStorage.getItem("id-school"));
       const nameSchool = sessionStorage.getItem("School");
       setNameSchool(nameSchool)
+      setAssessmentRegime(sessionStorage.getItem('assessmentRegime'))
 
       const resClass = await clssInfo(idClass);
       const $yearClass = resClass.data.data.find(clss => {
@@ -102,26 +105,53 @@ const AllTheBulletins = () => {
       setIIndBimonthly([ii].filter(res => res !== null));
       setIIIrdBimonthly([iii].filter(res => res !== null));
 
-      const IVthQuarter = await getIVthQuarter(year, idSchool)
-      const iv = IVthQuarter.data.data.find(res => res) || null;
-      const res = await allTheBulletinsGrades({
-        idClass,
-        id_ivThQuarter: iv._id,
-      });
-      console.log("resposta boletins", res);
-      // Aqui você pode setar os dados no estado, se quiser
-      setBulletins(res.data.data.boletins);
-      setClass(res.data.data.turma);
-      setBimestre(res.data.data.bimestre);
+      if (assessmentRegime === "BIMESTRAL") {
+        const IVthQuarter = await getIVthQuarter(year, idSchool)
+        const iv = IVthQuarter.data.data.find(res => res) || null;
+        const res = await allTheBulletinsGrades({
+          idClass,
+          id_ivThQuarter: iv._id,
+        });
+        console.log("resposta boletins", res);
+        // Aqui você pode setar os dados no estado, se quiser
+        setBulletins(res.data.data.boletins);
+        setClass(res.data.data.turma);
+        setBimestre(res.data.data.bimestre);
 
-      const regentTeachers = res.data.data.turma.regente;
+        const regentTeachers = res.data.data.turma.regente;
 
-      if (regentTeachers.length > 0) {
-        setTeacher(regentTeachers[0]); // Se quiser só o primeiro
-        // OU
-        // setTeacher(regentTeachers); // Se quiser todos em um array
-      } else {
-        setTeacher(null);
+        if (regentTeachers.length > 0) {
+          setTeacher(regentTeachers[0]); // Se quiser só o primeiro
+          // OU
+          // setTeacher(regentTeachers); // Se quiser todos em um array
+        } else {
+          setTeacher(null);
+        }
+      }
+
+      if (assessmentRegime === "TRIMESTRAL") {
+        const IIIrdQuarter = await getIIIrdQuarter(year, idSchool)
+        const iii = IIIrdQuarter.data.data.find(res => res) || null;
+        const res = await allTheBulletinsGrades({
+          idClass,
+          id_iiiRdQuarter: iii._id,
+        });
+        console.log("resposta boletins", res);
+        // Aqui você pode setar os dados no estado, se quiser
+        setBulletins(res.data.data.boletins);
+        setClass(res.data.data.turma);
+        setBimestre(res.data.data.bimestre);
+
+        const regentTeachers = res.data.data.turma.regente;
+
+        if (regentTeachers.length > 0) {
+          setTeacher(regentTeachers[0]); // Se quiser só o primeiro
+          // OU
+          // setTeacher(regentTeachers); // Se quiser todos em um array
+        } else {
+          setTeacher(null);
+        }
+
       }
 
       const resIst = await allTheBulletinsGrades({
@@ -179,7 +209,7 @@ const AllTheBulletins = () => {
       setLoading(false);
     })();
 
-  }, [idBim, idClass]);
+  }, [idBim, idClass, assessmentRegime]);
 
   const messageButtonClick = () => {
     navigate(-1);
@@ -189,23 +219,23 @@ const AllTheBulletins = () => {
     window.print();
   };
 
-  console.log("Bulletins", Bulletins)
-  console.log("BulletinsIst", BulletinsIst)
-  console.log("cla$$", cla$$)
-  console.log("teacher", teacher)
-  console.log("bimonthly", Istbimonthly)
+  const periodLabel = assessmentRegime === 'TRIMESTRAL' ? 'TRIM' : 'BIM';
 
   const totalAnual =
     (parseFloat(bimestreIst.totalGrade) || 0) +
     (parseFloat(bimestreIInd.totalGrade) || 0) +
     (parseFloat(bimestreIIIrd.totalGrade) || 0) +
-    (parseFloat(bimestre.totalGrade) || 0);
+    (assessmentRegime !== 'TRIMESTRAL'
+      ? (parseFloat(bimestre.totalGrade) || 0)
+      : 0);
 
   const mediaAnual =
     (parseFloat(bimestreIst.averageGrade) || 0) +
     (parseFloat(bimestreIInd.averageGrade) || 0) +
     (parseFloat(bimestreIIIrd.averageGrade) || 0) +
-    (parseFloat(bimestre.averageGrade) || 0);
+    (assessmentRegime !== 'TRIMESTRAL'
+      ? (parseFloat(bimestre.averageGrade) || 0)
+      : 0);
 
   return (
     <Container>
@@ -345,7 +375,7 @@ const AllTheBulletins = () => {
                                 <Grade>
                                   <DivBimTable>
                                     <DivBimRow>
-                                      <DivBimHeader>1º Bim</DivBimHeader>
+                                      <DivBimHeader>1º {periodLabel}</DivBimHeader>
                                       <DivBimCell
                                         grade={
                                           alunoIst && alunoIst.totalPorMateria && alunoIst.totalPorMateria[grd.matterName] !== undefined
@@ -366,7 +396,7 @@ const AllTheBulletins = () => {
                                     </DivBimRow>
 
                                     <DivBimRow>
-                                      <DivBimHeader>2º Bim</DivBimHeader>
+                                      <DivBimHeader>2º {periodLabel}</DivBimHeader>
                                       <DivBimCell
                                         grade={
                                           alunoIInd && alunoIInd.totalPorMateria && alunoIInd.totalPorMateria[grd.matterName] !== undefined
@@ -387,7 +417,7 @@ const AllTheBulletins = () => {
                                     </DivBimRow>
 
                                     <DivBimRow>
-                                      <DivBimHeader>3º Bim</DivBimHeader>
+                                      <DivBimHeader>3º {periodLabel}</DivBimHeader>
                                       <DivBimCell
                                         grade={
                                           alunoIIIrd && alunoIIIrd.totalPorMateria && alunoIIIrd.totalPorMateria[grd.matterName] !== undefined
@@ -407,17 +437,19 @@ const AllTheBulletins = () => {
                                       </DivBimCell>
                                     </DivBimRow>
 
-                                    <DivBimRow>
-                                      <DivBimHeader>4º Bim</DivBimHeader>
-                                      <DivBimCell
-                                        grade={parseFloat(grd.grade.total) || 0}
-                                        averageGrade={parseFloat(bimestre.averageGrade) || 0}
-                                        totalGrade={parseFloat(bimestre.totalGrade) || 0}
-                                        isHistorico={isHistorico}
-                                      >
-                                        {parseFloat(grd.grade.total).toFixed(1) || "-"}
-                                      </DivBimCell>
-                                    </DivBimRow>
+                                    {assessmentRegime !== 'TRIMESTRAL' && (
+                                      <DivBimRow>
+                                        <DivBimHeader>4º {periodLabel}</DivBimHeader>
+                                        <DivBimCell
+                                          grade={parseFloat(grd.grade.total) || 0}
+                                          averageGrade={parseFloat(bimestre.averageGrade) || 0}
+                                          totalGrade={parseFloat(bimestre.totalGrade) || 0}
+                                          isHistorico={isHistorico}
+                                        >
+                                          {parseFloat(grd.grade.total).toFixed(1) || "-"}
+                                        </DivBimCell>
+                                      </DivBimRow>
+                                    )}
 
                                     <DivBimRow>
                                       <DivBimHeader>Total</DivBimHeader>
@@ -426,7 +458,9 @@ const AllTheBulletins = () => {
                                           (alunoIst?.totalPorMateria?.[grd.matterName]?.total || 0) +
                                           (alunoIInd?.totalPorMateria?.[grd.matterName]?.total || 0) +
                                           (alunoIIIrd?.totalPorMateria?.[grd.matterName]?.total || 0) +
-                                          (parseFloat(grd.grade.total) || 0)
+                                          (assessmentRegime !== 'TRIMESTRAL'
+                                            ? (parseFloat(grd.grade.total) || 0)
+                                            : 0)
                                         }
                                         averageGrade={parseFloat(mediaAnual) || 0}
                                         totalGrade={parseFloat(totalAnual) || 0}
@@ -435,10 +469,13 @@ const AllTheBulletins = () => {
                                           (alunoIst?.totalPorMateria?.[grd.matterName]?.total ?? 0) +
                                           (alunoIInd?.totalPorMateria?.[grd.matterName]?.total ?? 0) +
                                           (alunoIIIrd?.totalPorMateria?.[grd.matterName]?.total ?? 0) +
-                                          (parseFloat(grd.grade.total) || 0)
+                                          (assessmentRegime !== 'TRIMESTRAL'
+                                            ? (parseFloat(grd.grade.total) || 0)
+                                            : 0)
                                         ).toFixed(1)}
                                       </DivBimCell>
                                     </DivBimRow>
+
                                   </DivBimTable>
                                 </Grade>
                               </Emp>

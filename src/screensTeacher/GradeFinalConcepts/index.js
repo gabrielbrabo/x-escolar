@@ -39,7 +39,7 @@ import {
     AreaWrapper,
     Area,
     ContSelect,
-   ContConcept
+    ContConcept
 } from './style';
 
 import {
@@ -87,6 +87,8 @@ const Finalconcepts = () => {
 
     const [showMatterUpdated, setShowMatterUpdated] = useState(false);
 
+    const [assessmentRegime, setAssessmentRegime] = useState('');
+
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -100,6 +102,7 @@ const Finalconcepts = () => {
             //const currentYear = new Date().getFullYear().toString();
             const id_cla$$ = sessionStorage.getItem("class-info");
             const Selectmatt = sessionStorage.getItem("Selectmatt");
+            setAssessmentRegime(sessionStorage.getItem('assessmentRegime'))
 
             if (Selectmatt) {
                 setSelectMatter(Selectmatt)
@@ -122,12 +125,23 @@ const Finalconcepts = () => {
             if (resClass?.data?.data && resClass.data.data.length > 0) {
                 const turma = resClass.data.data[0];
                 console.log("turma:", turma);
-
-                if (id_teacher !== physicalEducationTeacher) {
-                    setopen(turma.dailyStatus["4º BIMESTRE"].regentTeacher);
-                } else {
-                    setopen(turma.dailyStatus["4º BIMESTRE"].physicalEducationTeacher);
+                const regime = sessionStorage.getItem('assessmentRegime')
+                if (regime === 'BIMESTRAL') {
+                    if (id_teacher !== physicalEducationTeacher) {
+                        setopen(turma.dailyStatus["4º BIMESTRE"].regentTeacher);
+                    } else {
+                        setopen(turma.dailyStatus["4º BIMESTRE"].physicalEducationTeacher);
+                    }
                 }
+
+                if (regime === 'TRIMESTRAL') {
+                    if (id_teacher !== physicalEducationTeacher) {
+                        setopen(turma.dailyStatus["3º BIMESTRE"].regentTeacher);
+                    } else {
+                        setopen(turma.dailyStatus["3º BIMESTRE"].physicalEducationTeacher);
+                    }
+                }
+
             } else {
                 console.warn("❌ resClass veio vazio ou sem dados:", resClass);
             }
@@ -577,6 +591,8 @@ const Finalconcepts = () => {
         window.location.reload();
     };
 
+    const periodLabel = assessmentRegime === 'TRIMESTRAL' ? 'TRIM' : 'BIM';
+
     return (
         <Container>
             {loading ?
@@ -644,29 +660,31 @@ const Finalconcepts = () => {
                                                                     <ContConcept>
                                                                         <DivBimTable>
                                                                             <DivBimRow>
-                                                                                <DivBimHeader>1º Bim</DivBimHeader>
+                                                                                <DivBimHeader>1º {periodLabel}</DivBimHeader>
                                                                                 <DivBimCell grade={iStQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
                                                                                     {iStQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
                                                                                 </DivBimCell>
                                                                             </DivBimRow>
                                                                             <DivBimRow>
-                                                                                <DivBimHeader>2º Bim</DivBimHeader>
+                                                                                <DivBimHeader>2º {periodLabel}</DivBimHeader>
                                                                                 <DivBimCell grade={iiNdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
                                                                                     {iiNdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
                                                                                 </DivBimCell>
                                                                             </DivBimRow>
                                                                             <DivBimRow>
-                                                                                <DivBimHeader>3º Bim</DivBimHeader>
+                                                                                <DivBimHeader>3º {periodLabel}</DivBimHeader>
                                                                                 <DivBimCell grade={iiiRdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
                                                                                     {iiiRdQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
                                                                                 </DivBimCell>
                                                                             </DivBimRow>
-                                                                            <DivBimRow>
-                                                                                <DivBimHeader>4º Bim</DivBimHeader>
-                                                                                <DivBimCell grade={ivThQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
-                                                                                    {ivThQuarter.find((q) => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
-                                                                                </DivBimCell>
-                                                                            </DivBimRow>
+                                                                            {assessmentRegime !== 'TRIMESTRAL' && (
+                                                                                <DivBimRow>
+                                                                                    <DivBimHeader>4º {periodLabel}</DivBimHeader>
+                                                                                    <DivBimCell grade={ivThQuarter.find(q => q.id_student._id === stdt._id)?.studentGrade || "N/A"}>
+                                                                                        {ivThQuarter.find(q => q.id_student._id === stdt._id)?.studentGrade || "N/A"}
+                                                                                    </DivBimCell>
+                                                                                </DivBimRow>
+                                                                            )}
                                                                         </DivBimTable>
                                                                         <Grade>
                                                                             <ContSelect>
@@ -735,29 +753,31 @@ const Finalconcepts = () => {
                                                                     <Span>{stdt.id_student.name}</Span>
                                                                     <DivBimTable>
                                                                         <DivBimRow>
-                                                                            <DivBimHeader>1º Bim</DivBimHeader>
+                                                                            <DivBimHeader>1º {periodLabel}</DivBimHeader>
                                                                             <DivBimCell grade={iStQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}>
                                                                                 {iStQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}
                                                                             </DivBimCell>
                                                                         </DivBimRow>
                                                                         <DivBimRow>
-                                                                            <DivBimHeader>2º Bim</DivBimHeader>
+                                                                            <DivBimHeader>2º {periodLabel}</DivBimHeader>
                                                                             <DivBimCell grade={iiNdQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}>
                                                                                 {iiNdQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}
                                                                             </DivBimCell>
                                                                         </DivBimRow>
                                                                         <DivBimRow>
-                                                                            <DivBimHeader>3º Bim</DivBimHeader>
+                                                                            <DivBimHeader>3º {periodLabel}</DivBimHeader>
                                                                             <DivBimCell grade={iiiRdQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}>
                                                                                 {iiiRdQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}
                                                                             </DivBimCell>
                                                                         </DivBimRow>
-                                                                        <DivBimRow>
-                                                                            <DivBimHeader>4º Bim</DivBimHeader>
-                                                                            <DivBimCell grade={ivThQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}>
-                                                                                {ivThQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}
-                                                                            </DivBimCell>
-                                                                        </DivBimRow>
+                                                                        {assessmentRegime !== 'TRIMESTRAL' && (
+                                                                            <DivBimRow>
+                                                                                <DivBimHeader>4º {periodLabel}</DivBimHeader>
+                                                                                <DivBimCell grade={ivThQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}>
+                                                                                    {ivThQuarter.find((q) => q.id_student._id === stdt.id_student._id)?.studentGrade || "N/A"}
+                                                                                </DivBimCell>
+                                                                            </DivBimRow>
+                                                                        )}
                                                                         <DivBimRow>
                                                                             <DivBimHeader>Final</DivBimHeader>
                                                                             <DivBimCell grade={stdt.studentGrade}>{stdt.studentGrade}</DivBimCell>
@@ -854,7 +874,7 @@ const Finalconcepts = () => {
                                 </ContainerStudent>
                             </>
                         ) : (
-                            <p>4º Bimestre fechado, para editar contate o Diretor ou Supervisor.</p>
+                            <p>período fechado, para editar contate o Diretor ou Supervisor.</p>
                         )}
                         {showMatterUpdated && (
                             <div style={{

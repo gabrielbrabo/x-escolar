@@ -38,6 +38,8 @@ const Form = () => {
     const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
     const [physicalEducation, setphysicalEducationTeacher] = useState([]);
 
+    const [assessmentRegime, setAssessmentRegime] = useState('');
+
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -46,6 +48,7 @@ const Form = () => {
             const id_student = JSON.parse(sessionStorage.getItem("stdt"));
             const Selectbimonthly = JSON.parse(sessionStorage.getItem("Selectbimonthly"));
             const nameStudent = sessionStorage.getItem("nmstdt");
+            setAssessmentRegime(sessionStorage.getItem('assessmentRegime'))
 
             const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
             const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
@@ -61,7 +64,7 @@ const Form = () => {
             setId_student(id_student._id)
             setId_teache(JSON.parse(id_employee));
             setId_class(id_class);
-            
+
             const resClass = await clssInfo(id_class);
             const $yearClass = resClass.data.data.find(clss => {
                 return clss.year
@@ -116,10 +119,18 @@ const Form = () => {
 
         };
     }
-    console.log("id_student", id_student)
+
     const messageButtonClick = () => {
         navigate(-1);
     };
+
+    const renderPeriod = (bimonthly) => {
+        if (!bimonthly) return ''
+
+        return assessmentRegime === 'TRIMESTRAL'
+            ? bimonthly.replace(/Bimestre/gi, 'Trimestre')
+            : bimonthly.replace(/Trimestre/gi, 'Bimestre')
+    }
 
     return (
         <Container>
@@ -131,7 +142,7 @@ const Form = () => {
                     <Input>
                         <Span>
                             <div>Aluno: <p>{nameStudent}</p></div>
-                            <div>Bimestre: <p>{bimonthly}</p></div>
+                            <div><p>{renderPeriod(bimonthly)}</p></div>
                         </Span>
                         <StyledQuillContainer>
                             <ReactQuill

@@ -68,6 +68,8 @@ const IndexAttendance = () => {
 
     const [showMatterUpdated, setShowMatterUpdated] = useState(false);
 
+    const [assessmentRegime, setAssessmentRegime] = useState('');
+
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -84,6 +86,7 @@ const IndexAttendance = () => {
             const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
             const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
             const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
+            setAssessmentRegime(sessionStorage.getItem('assessmentRegime'))
 
             setclassRegentTeacher(JSON.parse(classRegentTeacher))
             setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
@@ -524,7 +527,12 @@ const IndexAttendance = () => {
                 <LoadingSpinner />
                 :
                 <ContainerDivs>
-                    <h2>Grade Bimestral</h2>
+                    {assessmentRegime === 'BIMESTRAL' && (
+                        <h2>Grade Bimestral</h2>
+                    )}
+                    {assessmentRegime === 'TRIMESTRAL' && (
+                       <h2>Grade Trimestral</h2>
+                    )}
                     {open === 'aberto' ? (
                         <>
                             <AreaWrapper>
@@ -553,7 +561,12 @@ const IndexAttendance = () => {
                                 <DataSelected>
                                     <SlActionUndo fontSize={'30px'} onClick={Return} />
                                     <Info>
-                                        <p>Bimestre: 1º Bimestre</p>
+                                        {assessmentRegime === 'BIMESTRAL' && (
+                                            <p>1º Bimestre</p>
+                                        )}
+                                        {assessmentRegime === 'TRIMESTRAL' && (
+                                            <p>1º Trimestre</p>
+                                        )}
                                         <p>Disciplina: {Namematter}</p>
                                     </Info>
                                     <LegendBox>
@@ -728,7 +741,7 @@ const IndexAttendance = () => {
                             </ContainerStudent>
                         </>
                     ) : (
-                        <p>1º Bimestre fechado, para editar contate o Diretor ou Supervisor.</p>
+                        <p>período fechado, para editar contate o Diretor ou Supervisor.</p>
                     )}
                     {showMatterUpdated && (
                         <div style={{
