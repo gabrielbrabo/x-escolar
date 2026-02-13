@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { indexSchool, updateSchool } from '../../Api'
+import { indexSchool, updateSchool, getAssessmentRegime } from '../../Api'
 
 import {
     Container,
@@ -55,6 +55,12 @@ const SchoolInformation = () => {
             setEditedAssessmentFormat(res.data.data.assessmentFormat)
             setEditedAddress(res.data.data.address || '')
             setEditedCity(res.data.data.city || '')
+
+            const response = await getAssessmentRegime(id)
+
+            if (response?.data?.data) {
+                sessionStorage.setItem('assessmentRegime', response.data.data)
+            }
 
             setLoading(false)
         })()
