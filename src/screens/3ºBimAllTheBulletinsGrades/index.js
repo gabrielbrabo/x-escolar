@@ -64,7 +64,7 @@ const AllTheBulletins = () => {
   const [BulletinsIInd, setBulletinsIInd] = useState([]);
   const [Bulletins, setBulletins] = useState([]);
   const [cla$$, setClass] = useState([]);
-  const [ , setTeacher] = useState([]);
+  const [, setTeacher] = useState([]);
   const [nameSchool, setNameSchool] = useState('')
   const [logoUrl, setLogoUrl] = useState('');
   const [loading, setLoading] = useState(true);
@@ -86,8 +86,14 @@ const AllTheBulletins = () => {
         idClass,
         id_iiiRdQuarter: idBim,
       });
+
       console.log("resposta boletins", res);
       // Aqui você pode setar os dados no estado, se quiser
+
+      // pega o regime retornado do backend
+      const regime = res.data.data.bimestre?.assessmentRegime;
+
+      setAssessmentRegime(regime);
       setBulletins(res.data.data.boletins);
       setClass(res.data.data.turma);
       setBimestre(res.data.data.bimestre);

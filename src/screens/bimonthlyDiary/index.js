@@ -106,7 +106,7 @@ export default function Daily() {
       setPositionAtSchool(position);
       const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
       setassessmentFormat($assessmentFormat)
-      setAssessmentRegime(sessionStorage.getItem('assessmentRegime'))
+      //setAssessmentRegime(sessionStorage.getItem('assessmentRegime'))
 
       const cachedLogo = localStorage.getItem(`school-logo-${idSchool}`);
       //const cachedLogoId = localStorage.getItem(`school-logo-id-${idSchool}`);
@@ -135,7 +135,13 @@ export default function Daily() {
           idClass,
           id_iStQuarter: idBimonthly
         });
-        setData(res.data.dailies[0]);
+        const daily = res.data.dailies[0];
+
+        // pega o regime dentro do bimestre populado
+        const regime = daily?.id_iStQuarter?.assessmentRegime;
+
+        setAssessmentRegime(regime);
+        setData(daily);
         setLoading(false);
       }
       if (bimonthly === "2º BIMESTRE") {
@@ -143,7 +149,13 @@ export default function Daily() {
           idClass,
           id_iiNdQuarter: idBimonthly
         });
-        setData(res.data.dailies[0]);
+        const daily = res.data.dailies[0];
+
+        // pega o regime dentro do bimestre populado
+        const regime = daily?.id_iiNdQuarter?.assessmentRegime;
+
+        setAssessmentRegime(regime);
+        setData(daily);
         setLoading(false);
       }
       if (bimonthly === "3º BIMESTRE") {
@@ -151,7 +163,13 @@ export default function Daily() {
           idClass,
           id_iiiRdQuarter: idBimonthly
         });
-        setData(res.data.dailies[0]);
+        const daily = res.data.dailies[0];
+
+        // pega o regime dentro do bimestre populado
+        const regime = daily?.id_iiiRdQuarter?.assessmentRegime;
+
+        setAssessmentRegime(regime);
+        setData(daily);
         setLoading(false);
       }
       if (bimonthly === "4º BIMESTRE") {
@@ -159,7 +177,13 @@ export default function Daily() {
           idClass,
           id_ivThQuarter: idBimonthly
         });
-        setData(res.data.dailies[0]);
+        const daily = res.data.dailies[0];
+
+        // pega o regime dentro do bimestre populado
+        const regime = daily?.id_ivThQuarter?.assessmentRegime;
+
+        setAssessmentRegime(regime);
+        setData(daily);
         setLoading(false);
       }
 
@@ -834,9 +858,9 @@ export default function Daily() {
     if (!bimonthly) return ''
 
     return assessmentRegime === 'TRIMESTRAL'
-        ? bimonthly.replace(/Bimestre/gi, 'Trimestre')
-        : bimonthly.replace(/Trimestre/gi, 'Bimestre')
-}
+      ? bimonthly.replace(/Bimestre/gi, 'Trimestre')
+      : bimonthly.replace(/Trimestre/gi, 'Bimestre')
+  }
 
   return (
     <Container>

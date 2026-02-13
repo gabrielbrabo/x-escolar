@@ -88,7 +88,7 @@ const AllTheBulletins = () => {
       const idSchool = JSON.parse(sessionStorage.getItem("id-school"));
       const nameSchool = sessionStorage.getItem("School");
       setNameSchool(nameSchool)
-      setAssessmentRegime(sessionStorage.getItem('assessmentRegime'))
+      //setAssessmentRegime(sessionStorage.getItem('assessmentRegime'))
 
       const resClass = await clssInfo(idClass);
       const $yearClass = resClass.data.data.find(clss => {
@@ -105,7 +105,22 @@ const AllTheBulletins = () => {
       setIIndBimonthly([ii].filter(res => res !== null));
       setIIIrdBimonthly([iii].filter(res => res !== null));
 
-      if (assessmentRegime === "BIMESTRAL") {
+      const res = await allTheBulletinsGrades({
+        idClass,
+        id_iiiRdQuarter: iii._id,
+      });
+
+      console.log("resposta boletins", res);
+      // Aqui você pode setar os dados no estado, se quiser
+
+      // pega o regime retornado do backend
+      const regime = res.data.data.bimestre?.assessmentRegime;
+      
+      console.log("regime", regime);
+
+      setAssessmentRegime(regime);
+
+      if (regime === "BIMESTRAL") {
         const IVthQuarter = await getIVthQuarter(year, idSchool)
         const iv = IVthQuarter.data.data.find(res => res) || null;
         const res = await allTheBulletinsGrades({
@@ -129,7 +144,7 @@ const AllTheBulletins = () => {
         }
       }
 
-      if (assessmentRegime === "TRIMESTRAL") {
+      if (regime === "TRIMESTRAL") {
         const IIIrdQuarter = await getIIIrdQuarter(year, idSchool)
         const iii = IIIrdQuarter.data.data.find(res => res) || null;
         const res = await allTheBulletinsGrades({

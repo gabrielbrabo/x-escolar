@@ -80,6 +80,11 @@ const AllTheBulletins = () => {
       });
       console.log("resposta boletins", res);
       // Aqui você pode setar os dados no estado, se quiser
+
+      // pega o regime retornado do backend
+      const regime = res.data.data.bimestre?.assessmentRegime;
+
+      setAssessmentRegime(regime);
       setBulletins(res.data.data.boletins);
       setClass(res.data.data.turma);
       //setBimestre(res.data.data.bimestre);

@@ -83,7 +83,6 @@ const AllTheBulletins = () => {
       const idSchool = JSON.parse(sessionStorage.getItem("id-school"));
       const nameSchool = sessionStorage.getItem("School");
       setNameSchool(nameSchool)
-      setAssessmentRegime(sessionStorage.getItem('assessmentRegime'))
       const resClass = await clssInfo(idClass);
       const $yearClass = resClass.data.data.find(clss => {
         return clss.year
@@ -97,6 +96,21 @@ const AllTheBulletins = () => {
       const ii = IIndQuarter.data.data.find(res => res) || null;
       const iii = IIIrdQuarter.data.data.find(res => res) || null;
       const iv = IVthQuarter.data.data.find(res => res) || null;
+
+      const resRegime = await allTheBulletinsConcept({
+        idClass,
+        id_iiiRdQuarter: iii._id,
+      });
+
+      console.log("resposta boletins", resRegime);
+      // Aqui você pode setar os dados no estado, se quiser
+
+      // pega o regime retornado do backend
+      const regime = resRegime.data.data.bimestre?.assessmentRegime;
+      
+      console.log("regime", regime);
+
+      setAssessmentRegime(regime);
 
       const res = await allTheFinalBulletinsConcept({
         idClass,
