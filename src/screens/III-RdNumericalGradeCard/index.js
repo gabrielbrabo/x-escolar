@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom'
 import {
   Container,
   List,
@@ -38,7 +39,16 @@ import {
 
 import GlobalStyle from './style';
 
-import { GetNumGrade, AttendanceBimonthly, indexNumericalGradesCard, GetLogo, getIstQuarter, getIIndQuarter, fetchLogo } from '../../Api';
+import {
+  GetNumGrade,
+  AttendanceBimonthly,
+  indexNumericalGradesCard,
+  GetLogo,
+  getIstQuarter,
+  getIIndQuarter,
+  fetchLogo,
+  clssInfo
+} from '../../Api';
 
 import { IoCheckmarkSharp, IoCloseSharp } from "react-icons/io5";
 
@@ -86,10 +96,16 @@ const GradeIstquarter = () => {
   //const [iiiRdQuarter, setIIIrdQuarter] = useState([]);
   ////const [ivThQuarter, setIVthQuarter] = useState([]);
 
+  const { idClass } = useParams();
+
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const year = new Date().getFullYear();
+      const resClass = await clssInfo(idClass);
+      const $yearClass = resClass.data.data.find(clss => {
+        return clss.year
+      })
+      const year = $yearClass.year
       const idSchool = JSON.parse(sessionStorage.getItem("id-school"));
 
       const IstQuarter = await getIstQuarter(year, idSchool)
@@ -248,7 +264,7 @@ const GradeIstquarter = () => {
       setLoading(false);
     })();
 
-  }, [startd, startm, starty, endd, endm, endy]);
+  }, [startd, startm, starty, endd, endm, endy, idClass]);
 
   useEffect(() => {
     const fetchAttendance = async () => {

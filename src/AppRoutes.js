@@ -672,48 +672,48 @@ const AppRoutes = () => {
                         </Private>
                     } />
 
-                    <Route exact path="/ist-numerical-grade-card" element={
+                    <Route exact path="/ist-numerical-grade-card/:idClass" element={
                         <Private>
                             <IStNumericalGradeCard />
                         </Private>
                     } />
-                    <Route exact path="/iind-numerical-grade-card" element={
+                    <Route exact path="/iind-numerical-grade-card/:idClass" element={
                         <Private>
                             <IINdNumericalGradeCard />
                         </Private>
                     } />
-                    <Route exact path="/iiird-numerical-grade-card" element={
+                    <Route exact path="/iiird-numerical-grade-card/:idClass" element={
                         <Private>
                             <IIIRdNumericalGradeCard />
                         </Private>
                     } />
-                    <Route exact path="/ivth-numerical-grade-card" element={
+                    <Route exact path="/ivth-numerical-grade-card/:idClass" element={
                         <Private>
                             <IVThNumericalGradeCard />
                         </Private>
                     } />
-                    <Route exact path="/final-numerical-grade-card" element={
+                    <Route exact path="/final-numerical-grade-card/:idClass" element={
                         <Private>
                             <FinalNumericalGradescard />
                         </Private>
                     } />
 
-                    <Route exact path="/ist-quarter-report-card" element={
+                    <Route exact path="/ist-quarter-report-card/:idClass" element={
                         <Private>
                             <IStQuarterReportCard />
                         </Private>
                     } />
-                    <Route exact path="/iind-quarter-report-card" element={
+                    <Route exact path="/iind-quarter-report-card/:idClass" element={
                         <Private>
                             <IINdQuarterReportCard />
                         </Private>
                     } />
-                    <Route exact path="/iiird-quarter-report-card" element={
+                    <Route exact path="/iiird-quarter-report-card/:idClass" element={
                         <Private>
                             <IIIRdQuarterReportCard />
                         </Private>
                     } />
-                    <Route exact path="/ivth-quarter-report-card" element={
+                    <Route exact path="/ivth-quarter-report-card/:idClass" element={
                         <Private>
                             <IVThQuarterReportCard />
                         </Private>
@@ -723,12 +723,12 @@ const AppRoutes = () => {
                             <VThQuarterReportCard />
                         </Private>
                     } />
-                    <Route exact path="/vith-quarter-report-card" element={
+                    <Route exact path="/vith-quarter-report-card/:idClass" element={
                         <Private>
                             <VIThQuarterReportCard />
                         </Private>
                     } />
-                    <Route exact path="/final-concepts-report-card" element={
+                    <Route exact path="/final-concepts-report-card/:idClass" element={
                         <Private>
                             <FinalConceptscard />
                         </Private>

@@ -792,6 +792,28 @@ const MyCla$$Info = () => {
                                     </StatusLine>
                                 </DiaryBimester>
                             ))}
+                        {/* ================= RESULTADO FINAL ================= */}
+
+                        {/*<DiaryBimester>
+                            <h3>Resultado Final</h3>
+
+                            <StatusLine>
+
+                                <strong>
+                                    Resultado Anual:
+                                    <span style={{ color: '#158fa2', marginLeft: 5 }}>
+                                        Disponível
+                                    </span>
+                                </strong>
+
+                                <button
+                                >
+                                    Ver Resultado
+                                </button>
+
+                            </StatusLine>
+                        </DiaryBimester>*/}
+
                         {/*<ButtonWrapper>
                             <button onClick={handleViewCompleteDiary}>Ver Diário Completo</button>
                         </ButtonWrapper>

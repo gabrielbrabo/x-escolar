@@ -146,7 +146,7 @@ const Student = () => {
 
             const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
             setassessmentFormat($assessmentFormat)
-            
+
             const positionAtEducationDepartment = localStorage.getItem("positionAtEducationDepartment")
             setPositionAtEducationDepartment(positionAtEducationDepartment)
 
@@ -283,52 +283,54 @@ const Student = () => {
     const signClick = async () => {
         setLoading(true);
 
+        const idClass = await Clss.find(res => res)._id
+
         if (Selectbimonthly === I) {
             sessionStorage.setItem("id-I", I)
             if (assessmentFormat === "grade") {
                 console.log("assessmentFormat", assessmentFormat)
-                navigate('/ist-numerical-grade-card')
+                navigate(`/ist-numerical-grade-card/${idClass}`)
             } else {
-                navigate('/ist-quarter-report-card')
+                navigate(`/ist-quarter-report-card/${idClass}`)
             }
         } else if (Selectbimonthly === II) {
             sessionStorage.setItem("id-II", II)
             if (assessmentFormat === "grade") {
                 console.log("assessmentFormat", assessmentFormat)
-                navigate('/iind-numerical-grade-card')
+                navigate(`/iind-numerical-grade-card/${idClass}`)
             } else {
-                navigate('/iind-quarter-report-card')
+                navigate(`/iind-quarter-report-card/${idClass}`)
             }
         } else if (Selectbimonthly === III) {
             sessionStorage.setItem("id-III", III)
             if (assessmentFormat === "grade") {
                 console.log("assessmentFormat", assessmentFormat)
-                navigate('/iiird-numerical-grade-card')
+                navigate(`/iiird-numerical-grade-card/${idClass}`)
             } else {
-                navigate('/iiird-quarter-report-card')
+                navigate(`/iiird-quarter-report-card/${idClass}`)
             }
         } else if (Selectbimonthly === IV) {
             sessionStorage.setItem("id-IV", IV)
             if (assessmentFormat === "grade") {
                 console.log("assessmentFormat", assessmentFormat)
-                navigate('/ivth-numerical-grade-card')
+                navigate(`/ivth-numerical-grade-card/${idClass}`)
             } else {
-                navigate('/ivth-quarter-report-card')
+                navigate(`/ivth-quarter-report-card/${idClass}`)
             }
         } else if (Selectbimonthly === V) {
             sessionStorage.setItem("id-V", V)
             navigate('/vth-quarter-report-card')
         } else if (Selectbimonthly === VI) {
             sessionStorage.setItem("id-VI", VI)
-            navigate('/vith-quarter-report-card')
+            navigate(`/vith-quarter-report-card/${idClass}`)
         } else if (Selectbimonthly === 'FinalConcepts') {
             console.log("boletim final", Selectbimonthly)
             //sessionStorage.setItem("id-VI", VI)
             if (assessmentFormat === "grade") {
                 console.log("assessmentFormat", assessmentFormat)
-                navigate('/final-numerical-grade-card')
+                navigate(`/final-numerical-grade-card/${idClass}`)
             } else {
-                navigate('/final-concepts-report-card')
+                navigate(`/final-concepts-report-card/${idClass}`)
             }
         } else {
             setErrorMessage('Erro, Verifique os dados e tente novamente.');
@@ -445,8 +447,7 @@ const Student = () => {
         const bimonthly = SelectbihistoricGrades.bim
         const id_matter = Selectmatter._id
         const id_class = Clss.find(res => res)._id
-        console.log("id_class", id_class)
-        console.log("[bim]: idBim", [bim], idBim)
+        //console.log("[bim]: idBim", [bim], idBim)
 
         // 🔒 VALIDAÇÕES
         if (!Selectmatter || !Selectmatter._id) {
@@ -575,18 +576,6 @@ const Student = () => {
             alert("ainda não dosponivel")
         }
     }
-
-    console.log("clas", Clss)
-    //console.log("Selectbimonthly", Selectbimonthly)
-    console.log("student", student)
-    console.log("selectedStatus", selectedStatus)
-    console.log("exitDate", exitDate)
-    console.log("resmatter", Selectmatter)
-    console.log("$schoolYea", $schoolYea)
-    console.log("SelectbihistoricGrades", SelectbihistoricGrades)
-    console.log("historicGrade", historicGrade)
-    console.log("resHistoricGrade", resHistoricGrade)
-    console.log("open", open)
 
     return (
         <Container>

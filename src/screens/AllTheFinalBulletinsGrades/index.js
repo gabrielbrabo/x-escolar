@@ -182,7 +182,7 @@ const AllTheBulletins = () => {
       setBulletinsIIIrd(resIIIrd.data.data.boletins);
       setBimestreIIIrd(resIIIrd.data.data.bimestre);
 
-      console.log("resIInd", resIIIrd)
+      console.log("resIIIrd", resIIIrd)
 
       const cachedLogo = localStorage.getItem(`school-logo-${idSchool}`);
       //const cachedLogoId = localStorage.getItem(`school-logo-id-${idSchool}`);

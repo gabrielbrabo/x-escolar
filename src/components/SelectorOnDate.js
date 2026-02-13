@@ -133,7 +133,7 @@ const ResponsivePickers = ({ setSelectedDate, setDay, setMonth, setYear, }) => {
 
       <ToGoBack onClick={messageButtonClick}>
         <SignMessageButtonText>Voltar para a</SignMessageButtonText>
-        <SignMessageButtonTextBold>Turma</SignMessageButtonTextBold>
+        <SignMessageButtonTextBold>página anterior</SignMessageButtonTextBold>
       </ToGoBack>
     </InputArea>
   );

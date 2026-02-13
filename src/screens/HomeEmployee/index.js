@@ -3,11 +3,12 @@ import {
   Container,
 } from './style';
 
-import { getSchool } from '../../Api'
+import { getSchool, getAssessmentRegime } from '../../Api'
 
 const HomeSchool = () => {
 
   const [assessmentFormat, setAssessmentFormat] = useState(null);
+  const [assessmentRegime, setAssessmentRegime] = useState('');
   const [positionAtSchool, setPositionAtSchool] = useState(null);
   const [name, setName] = useState('')
 
@@ -17,6 +18,11 @@ const HomeSchool = () => {
       const dataSchool = await getSchool(JSON.parse(idSchool))
       console.log('res', dataSchool.data.data.assessmentFormat)
       setAssessmentFormat(dataSchool.data.data.assessmentFormat)
+      const response = await getAssessmentRegime(JSON.parse(idSchool))
+
+      if (response?.data?.data) {
+        setAssessmentRegime(response.data.data)
+      }
       //sessionStorage.setItem('assessmentFormat', dataSchool.data.data.assessmentFormat)
     }
     fetchData();
@@ -27,16 +33,20 @@ const HomeSchool = () => {
   }, [])
 
   console.log("positionAtSchool", positionAtSchool)
-  if (assessmentFormat) {
-    console.log("assessmentFormat", assessmentFormat)
-    sessionStorage.setItem('assessmentFormat', assessmentFormat)
-    if (positionAtSchool === "PROFESSOR") {
-      window.location.href = '/myclasses'
-      //return null
-    } else {
-      window.location.href = '/employees'
+  useEffect(() => {
+    if (assessmentFormat && assessmentRegime && positionAtSchool) {
+
+      sessionStorage.setItem('assessmentFormat', assessmentFormat)
+      sessionStorage.setItem('assessmentRegime', assessmentRegime)
+
+      if (positionAtSchool === "PROFESSOR") {
+        window.location.href = '/myclasses'
+      } else {
+        window.location.href = '/employees'
+      }
     }
-  }
+  }, [assessmentFormat, assessmentRegime, positionAtSchool])
+
 
 
   return (
