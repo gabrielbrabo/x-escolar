@@ -19,7 +19,7 @@ import {
     //DescriptionContainer // Novo contêiner para descrição
 } from './style';
 import LoadingSpinner from '../../components/Loading';
-import { createIndividualForm, clssInfo } from '../../Api';
+import { createIndividualForm, clssInfo, getIstQuarter } from '../../Api';
 
 const Form = () => {
     const navigate = useNavigate();
@@ -38,6 +38,8 @@ const Form = () => {
     const [RegentTeacher02, setclassRegentTeacher02] = useState([]);
     const [physicalEducation, setphysicalEducationTeacher] = useState([]);
 
+    const [assessmentRegime, setAssessmentRegime] = useState('');
+
     const location = useLocation();
     const { employee } = location.state || {};
     console.log("id employee", employee)
@@ -45,6 +47,7 @@ const Form = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
+            const idSchool = sessionStorage.getItem("id-school");
             const id_employee = employee;
             const id_class = sessionStorage.getItem("class-info");
             const id_student = JSON.parse(sessionStorage.getItem("stdt"));
@@ -65,12 +68,20 @@ const Form = () => {
             setId_student(id_student._id)
             setId_teache(id_employee);
             setId_class(id_class);
-            
+
             const resClass = await clssInfo(id_class);
             const $yearClass = resClass.data.data.find(clss => {
                 return clss.year
             })
             setYear($yearClass.year)
+            const IstQuarter = await getIstQuarter($yearClass.year, JSON.parse(idSchool))
+            const i = IstQuarter.data.data.find(res => res) || null;
+
+            const regime = i?.assessmentRegime;
+
+            console.log("regime", regime);
+
+            setAssessmentRegime(regime);
             setLoading(false);
         })();
     }, [employee]);
@@ -125,6 +136,14 @@ const Form = () => {
         navigate(-1);
     };
 
+    const renderPeriod = (bimonthly) => {
+        if (!bimonthly) return ''
+
+        return assessmentRegime === 'TRIMESTRAL'
+            ? bimonthly.replace(/Bimestre/gi, 'Trimestre')
+            : bimonthly.replace(/Trimestre/gi, 'Bimestre')
+    }
+
     return (
         <Container>
             {loading ? (
@@ -135,7 +154,7 @@ const Form = () => {
                     <Input>
                         <Span>
                             <div>Aluno: <p>{nameStudent}</p></div>
-                            <div>Bimestre: <p>{bimonthly}</p></div>
+                            <div><p>{renderPeriod(bimonthly)}</p></div>
                         </Span>
                         <StyledQuillContainer>
                             <ReactQuill

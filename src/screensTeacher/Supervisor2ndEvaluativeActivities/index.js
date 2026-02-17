@@ -92,69 +92,77 @@ const IndexAttendance = () => {
 
     const [ContStudent, setContStudent] = useState([]);
 
+    const [assessmentRegime, setAssessmentRegime] = useState('');
+
     const location = useLocation();
     const { employee } = location.state || {};
     console.log("id employee", employee)
 
     useEffect(() => {
         (async () => {
-          setLoading(true);
-      
-          const idSchool = sessionStorage.getItem("id-school");
-          const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
-          const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
-          const physicalEducation = sessionStorage.getItem("physicalEducationTeacher");
-      
-          setclassRegentTeacher(JSON.parse(classRegentTeacher));
-          setclassRegentTeacher02(JSON.parse(classRegentTeacher02));
-      
-          // Pega direto o valor do sessionStorage
-          const currentYear = sessionStorage.getItem("yearGrade");
-          const id_bimonthly = sessionStorage.getItem("id-II");
-          const nameMatter = sessionStorage.getItem("nameMatter");
-          const id_mttr = sessionStorage.getItem("Selectmatter");
-          const idClass = sessionStorage.getItem("class-info"); // valor direto, sem depender do estado aqui
-      
-          setMatter(id_mttr);
-          setYear(currentYear);
-          setId_iiNdQuarter(id_bimonthly);
-          setId_class(idClass); // continua setando para controle UI
+            setLoading(true);
 
-          const IIndQuarter = await getIIndQuarter(currentYear, JSON.parse(idSchool));
-          console.log(IIndQuarter);
-      
-          const id_teacher = employee;
-      
-          // Busca a turma direto com o idClass do sessionStorage
-          const resClass = await clssInfo(idClass);
-      
-          if (resClass?.data?.data && resClass.data.data.length > 0) {
-            const turma = resClass.data.data[0];
-            console.log("turma:", turma);
-      
-            if (JSON.stringify(id_teacher) !== physicalEducation) {
-              setopen(turma.dailyStatus["2º BIMESTRE"].regentTeacher);
+            const idSchool = sessionStorage.getItem("id-school");
+            const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
+            const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
+            const physicalEducation = sessionStorage.getItem("physicalEducationTeacher");
+
+            setclassRegentTeacher(JSON.parse(classRegentTeacher));
+            setclassRegentTeacher02(JSON.parse(classRegentTeacher02));
+
+            // Pega direto o valor do sessionStorage
+            const currentYear = sessionStorage.getItem("yearGrade");
+            const id_bimonthly = sessionStorage.getItem("id-II");
+            const nameMatter = sessionStorage.getItem("nameMatter");
+            const id_mttr = sessionStorage.getItem("Selectmatter");
+            const idClass = sessionStorage.getItem("class-info"); // valor direto, sem depender do estado aqui
+
+            setMatter(id_mttr);
+            setYear(currentYear);
+            setId_iiNdQuarter(id_bimonthly);
+            setId_class(idClass); // continua setando para controle UI
+
+            const IIndQuarter = await getIIndQuarter(currentYear, JSON.parse(idSchool));
+            console.log(IIndQuarter);
+
+            const regime = IIndQuarter.data.data?.[0]?.assessmentRegime;
+
+            console.log("regime", regime);
+
+            setAssessmentRegime(regime);
+
+            const id_teacher = employee;
+
+            // Busca a turma direto com o idClass do sessionStorage
+            const resClass = await clssInfo(idClass);
+
+            if (resClass?.data?.data && resClass.data.data.length > 0) {
+                const turma = resClass.data.data[0];
+                console.log("turma:", turma);
+
+                if (JSON.stringify(id_teacher) !== physicalEducation) {
+                    setopen(turma.dailyStatus["2º BIMESTRE"].regentTeacher);
+                } else {
+                    setopen(turma.dailyStatus["2º BIMESTRE"].physicalEducationTeacher);
+                }
             } else {
-              setopen(turma.dailyStatus["2º BIMESTRE"].physicalEducationTeacher);
+                console.warn("❌ resClass veio vazio ou sem dados:", resClass);
             }
-          } else {
-            console.warn("❌ resClass veio vazio ou sem dados:", resClass);
-          }
-      
-          const bim = IIndQuarter.data.data.map(res => res.bimonthly);
-          const tg = IIndQuarter.data.data.map(res => res.totalGrade);
-          const ag = IIndQuarter.data.data.map(res => res.averageGrade);
-      
-          setBimonthly(bim.join(' '));
-          setTotalGrade(tg.join(' '));
-          setAverageGrade(ag.join(' '));
-          setNameMatter(nameMatter);
-          setId_teacher(id_teacher);
-      
-          setLoading(false);
+
+            const bim = IIndQuarter.data.data.map(res => res.bimonthly);
+            const tg = IIndQuarter.data.data.map(res => res.totalGrade);
+            const ag = IIndQuarter.data.data.map(res => res.averageGrade);
+
+            setBimonthly(bim.join(' '));
+            setTotalGrade(tg.join(' '));
+            setAverageGrade(ag.join(' '));
+            setNameMatter(nameMatter);
+            setId_teacher(id_teacher);
+
+            setLoading(false);
         })();
-      }, [year, averageGrade, totalGrade, id_class, open, employee]);
-      
+    }, [year, averageGrade, totalGrade, id_class, open, employee]);
+
 
     useEffect(() => {
         if (id_matter && year && id_iiNdQuarter && id_class) {
@@ -348,12 +356,13 @@ const IndexAttendance = () => {
         navigate('/Supervisor-$num-quarter-grade', { state: { employee: employee } })
     };
 
-    console.log('form', form)
+    const renderPeriod = (bimonthly) => {
+        if (!bimonthly) return ''
 
-
-    console.log("startEditing", startEditing._id)
-
-    console.log("open", open)
+        return assessmentRegime === 'TRIMESTRAL'
+            ? bimonthly.replace(/Bimestre/gi, 'Trimestre')
+            : bimonthly.replace(/Trimestre/gi, 'Bimestre')
+    }
 
     return (
         <Container>
@@ -367,7 +376,12 @@ const IndexAttendance = () => {
                             <DataSelected>
                                 <SlActionUndo fontSize={'30px'} onClick={Return} />
                                 <Info>
-                                    <p>Bimestre: 2º Bimestre</p>
+                                    {assessmentRegime === 'BIMESTRAL' && (
+                                        <p>2º Bimestre</p>
+                                    )}
+                                    {assessmentRegime === 'TRIMESTRAL' && (
+                                        <p>2º Trimestre</p>
+                                    )}
                                     <p>Disciplina: {Namematter}</p>
                                 </Info>
                                 <LegendBox>
@@ -389,7 +403,7 @@ const IndexAttendance = () => {
                                                 {
                                                     <FormContainer>
                                                         <h3>Cadastro de Avaliação</h3>
-                                                        <p style={{ color: '#158fa2' }}>{bimonthly}</p>
+                                                        <p style={{ color: '#158fa2' }}>{renderPeriod(bimonthly)}</p>
                                                         <Label>Descrição</Label>
                                                         <Input type="text" name="descricao" value={form.descricao} onChange={handleChange} />
 
@@ -428,7 +442,7 @@ const IndexAttendance = () => {
                                                             <ActivityInfo>
                                                                 {/*<p>{activity.id_matter.name}</p>  Nome da Matéria */}
                                                                 <p>{activity.descricao}</p> {/* Valor da Atividade */}
-                                                                <p>{activity.bimonthly}</p> {/* Bimestre */}
+                                                                <p>{renderPeriod(activity.bimonthly)}</p> {/* Bimestre */}
                                                                 <p>Tipo: {activity.tipo}</p> {/* Tipo de Atividade */}
                                                                 <p>Valor: <span style={{ color: '#FFA500' }}>{activity.valor}</span> pts</p>
                                                             </ActivityInfo>
@@ -520,7 +534,7 @@ const IndexAttendance = () => {
                             }
                         </ContainerStudent>
                     ) : (
-                        <p>2º Bimestre fechado, para editar contate o Diretor ou Supervisor.</p>
+                        <p>Periodo fechado, para editar contate o Diretor ou Supervisor.</p>
                     )}
                 </ContainerDivs>
             }

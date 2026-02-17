@@ -874,7 +874,7 @@ const Finalconcepts = () => {
                                 </ContainerStudent>
                             </>
                         ) : (
-                            <p>período fechado, para editar contate o Diretor ou Supervisor.</p>
+                            <p>Periodoo fechado, para editar contate o Diretor ou Supervisor.</p>
                         )}
                         {showMatterUpdated && (
                             <div style={{

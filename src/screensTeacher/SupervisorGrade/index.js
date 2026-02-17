@@ -32,6 +32,7 @@ const Grade = () => {
 
     const navigate = useNavigate()
     const [assessmentFormat, setassessmentFormat] = useState('');
+    const [assessmentRegime, setAssessmentRegime] = useState('');
     const [I, setI] = useState([])
     const [II, setII] = useState([])
     const [III, setIII] = useState([])
@@ -82,6 +83,12 @@ const Grade = () => {
             const iv = IVthQuarter.data.data.find(res => res) || null;
             const v = VthQuarter.data.data.find(res => res) || null;
             const vi = VIthQuarter.data.data.find(res => res) || null;
+
+            const regime = i?.assessmentRegime;
+
+            console.log("regime", regime);
+
+            setAssessmentRegime(regime);
 
             const res = await GetMatter(JSON.parse(idSchool));
 
@@ -226,19 +233,39 @@ const Grade = () => {
                 <LoadingSpinner />
                 :
                 <ContainerDivs>
-                    <h2>Selecione o Bimestre e Disciplina</h2>
+                    {assessmentRegime === 'BIMESTRAL' && (
+                        <h2>Selecione o Bimestre e Disciplina</h2>
+                    )}
+                    {assessmentRegime === 'TRIMESTRAL' && (
+                        <h2>Selecione o Trimestre e Disciplina</h2>
+                    )}
                     <InputArea>
                         <Input>
-                            <Label>Bimestre</Label>
+                            {assessmentRegime === 'BIMESTRAL' && (
+                                <Label>Bimestre</Label>
+                            )}
+                            {assessmentRegime === 'TRIMESTRAL' && (
+                                <Label>Trimestre</Label>
+                            )}
                             <Select
                                 id="id-bimonthly"
                                 value={Selectbimonthly}
                                 onChange={(e) => setSelectbimonthly(e.target.value)}
                             >
                                 <option value="">Selecione</option>
-                                {bimonthly.map(res => (
-                                    <option key={res._id} value={res._id}>{res.bimonthly}</option>
-                                ))
+                                {bimonthly
+                                    // 🔹 se for trimestral, ignora o 4º bimestre
+                                    .filter(res => {
+                                        if (assessmentRegime !== 'TRIMESTRAL') return true
+                                        return !res.bimonthly.includes('4º')
+                                    })
+                                    .map(res => (
+                                        <option key={res._id} value={res._id}>
+                                            {assessmentRegime === 'TRIMESTRAL'
+                                                ? res.bimonthly.replace('BIMESTRE', 'TRIMESTRE')
+                                                : res.bimonthly}
+                                        </option>
+                                    ))
                                 }
                             </Select>
                         </Input>

@@ -114,6 +114,8 @@ const Cla$$Info = () => {
     //const [showTeacher, setShowTeacher] = useState(false);
     const { id_class } = useParams();
 
+    const [assessmentRegime, setAssessmentRegime] = useState('');
+
     console.log(currentYear)
 
     useEffect(() => {
@@ -218,6 +220,12 @@ const Cla$$Info = () => {
             const v = VthQuarter.data.data.find(res => res) || null;
             const vi = VIthQuarter.data.data.find(res => res) || null;
 
+            const regime = i?.assessmentRegime;
+
+            console.log("regime", regime);
+
+            setAssessmentRegime(regime);
+
             setBimonthly([i, ii, iii, iv, v, vi].filter(res => res !== null));
 
             //console.log("matter", matter)
@@ -225,7 +233,6 @@ const Cla$$Info = () => {
         })()
 
     }, [id_class, year])
-
 
     console.log("studentTransfer", studentTransfer)
     console.log("studentTransferMap", studentTransferMap)
@@ -749,6 +756,13 @@ const Cla$$Info = () => {
         }
     };
 
+    const getDiaryLabel = (rawBimester) => {
+        if (assessmentRegime === 'TRIMESTRAL') {
+            return rawBimester.replace('BIMESTRE', 'TRIMESTRE')
+        }
+        return rawBimester
+    }
+
     return (
         <Container>
             {loading ?
@@ -846,76 +860,84 @@ const Cla$$Info = () => {
                     <DiaryWrapper>
                         <h2>Diário da Turma</h2>
 
-                        {Object.entries(DailyClass).map(([bimester, status], index) => (
-                            <DiaryBimester key={index}>
-                                <h3>{bimester}</h3>
+                        {Object.entries(DailyClass)
+                            .filter(([rawBimester]) => {
+                                // Trimestral → ignora o 4º
+                                if (assessmentRegime === 'TRIMESTRAL') {
+                                    return !rawBimester.includes('4º')
+                                }
+                                return true
+                            })
+                            .map(([rawBimester, status], index) => (
+                                <DiaryBimester key={index}>
+                                    <h3>{getDiaryLabel(rawBimester)}</h3>
 
-                                <StatusLine>
-                                    {/* BLOCO PROFESSOR REGENTE */}
-                                    {(status.regentTeacher === "aberto" || status.regentTeacher === "fechado") && (
-                                        <div style={{ flex: "1 1 100%", marginBottom: "0.5rem" }}>
-                                            <strong>
-                                                Prof. Regente:{" "}
-                                                <span style={{ color: status.regentTeacher === "aberto" ? "green" : "red" }}>
-                                                    {status.regentTeacher}
-                                                </span>
-                                            </strong>
-                                            <div style={{ display: "flex", gap: "0.4rem", marginTop: "0.2rem" }}>
-                                                {console.log("yearClass", yearclss.year, "year", year)}
-                                                {yearclss.year === JSON.stringify(year) && status.regentTeacher === "aberto" && ( positionAtSchool === 'DIRETOR/SUPERVISOR' || positionAtSchool === "SECRETARIO" ) &&  (
-                                                    <button onClick={() => confirmCloseModal(bimester, "regentTeacher")} >
-                                                        Fechar Bimestre
-                                                    </button>
-                                                )}
-                                                {status.regentTeacher === "fechado" && (
-                                                    <>
-                                                        {yearclss.year === JSON.stringify(year) && ( positionAtSchool === 'DIRETOR/SUPERVISOR' || positionAtSchool === "SECRETARIO" ) &&
-                                                            <button onClick={() => confirmReopenModal(bimester, "regentTeacher")}>
-                                                                Reabrir
-                                                            </button>
-                                                        }
-                                                        <button onClick={() => seeDiary(bimester)}>
-                                                            Ver Diário
+                                    <StatusLine>
+                                        {/* BLOCO PROFESSOR REGENTE */}
+                                        {(status.regentTeacher === "aberto" || status.regentTeacher === "fechado") && (
+                                            <div style={{ flex: "1 1 100%", marginBottom: "0.5rem" }}>
+                                                <strong>
+                                                    Prof. Regente:{" "}
+                                                    <span style={{ color: status.regentTeacher === "aberto" ? "green" : "red" }}>
+                                                        {status.regentTeacher}
+                                                    </span>
+                                                </strong>
+                                                <div style={{ display: "flex", gap: "0.4rem", marginTop: "0.2rem" }}>
+                                                    {console.log("yearClass", yearclss.year, "year", year)}
+                                                    {yearclss.year === JSON.stringify(year) && status.regentTeacher === "aberto" && (positionAtSchool === 'DIRETOR/SUPERVISOR' || positionAtSchool === "SECRETARIO") && (
+                                                        <button onClick={() => confirmCloseModal(rawBimester, "regentTeacher")} >
+                                                            Fechar Bimestre
                                                         </button>
-                                                    </>
-                                                )}
+                                                    )}
+                                                    {status.regentTeacher === "fechado" && (
+                                                        <>
+                                                            {yearclss.year === JSON.stringify(year) && (positionAtSchool === 'DIRETOR/SUPERVISOR' || positionAtSchool === "SECRETARIO") &&
+                                                                <button onClick={() => confirmReopenModal(rawBimester, "regentTeacher")}>
+                                                                    Reabrir
+                                                                </button>
+                                                            }
+                                                            <button onClick={() => seeDiary(rawBimester)}>
+                                                                Ver Diário
+                                                            </button>
+                                                        </>
+                                                    )}
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
+                                        )}
 
-                                    {/* BLOCO PROFESSOR ED. FÍSICA */}
-                                    {(status.physicalEducationTeacher === "aberto" || status.physicalEducationTeacher === "fechado") && (
-                                        <div style={{ flex: "1 1 100%" }}>
-                                            <strong>
-                                                Prof. Ed. Física:{" "}
-                                                <span style={{ color: status.physicalEducationTeacher === "aberto" ? "green" : "red" }}>
-                                                    {status.physicalEducationTeacher}
-                                                </span>
-                                            </strong>
-                                            <div style={{ display: "flex", gap: "0.4rem", marginTop: "0.2rem" }}>
-                                                {yearclss.year === JSON.stringify(year) && status.physicalEducationTeacher === "aberto" && ( positionAtSchool === 'DIRETOR/SUPERVISOR' || positionAtSchool === "SECRETARIO" ) && (
-                                                    <button onClick={() => confirmCloseModal(bimester, "physicalEducationTeacher")} >
-                                                        Fechar Bimestre
-                                                    </button>
-                                                )}
-                                                {status.physicalEducationTeacher === "fechado" && (
-                                                    <>
-                                                        {yearclss.year === JSON.stringify(year) && ( positionAtSchool === 'DIRETOR/SUPERVISOR' || positionAtSchool === "SECRETARIO" ) &&
-                                                            <button onClick={() => confirmReopenModal(bimester, "physicalEducationTeacher")}>
-                                                                Reabrir
-                                                            </button>
-                                                        }
-                                                        <button onClick={() => seeDiary(bimester)}>
-                                                            Ver Diário
+                                        {/* BLOCO PROFESSOR ED. FÍSICA */}
+                                        {(status.physicalEducationTeacher === "aberto" || status.physicalEducationTeacher === "fechado") && (
+                                            <div style={{ flex: "1 1 100%" }}>
+                                                <strong>
+                                                    Prof. Ed. Física:{" "}
+                                                    <span style={{ color: status.physicalEducationTeacher === "aberto" ? "green" : "red" }}>
+                                                        {status.physicalEducationTeacher}
+                                                    </span>
+                                                </strong>
+                                                <div style={{ display: "flex", gap: "0.4rem", marginTop: "0.2rem" }}>
+                                                    {yearclss.year === JSON.stringify(year) && status.physicalEducationTeacher === "aberto" && (positionAtSchool === 'DIRETOR/SUPERVISOR' || positionAtSchool === "SECRETARIO") && (
+                                                        <button onClick={() => confirmCloseModal(rawBimester, "physicalEducationTeacher")} >
+                                                            Fechar Bimestre
                                                         </button>
-                                                    </>
-                                                )}
+                                                    )}
+                                                    {status.physicalEducationTeacher === "fechado" && (
+                                                        <>
+                                                            {yearclss.year === JSON.stringify(year) && (positionAtSchool === 'DIRETOR/SUPERVISOR' || positionAtSchool === "SECRETARIO") &&
+                                                                <button onClick={() => confirmReopenModal(rawBimester, "physicalEducationTeacher")}>
+                                                                    Reabrir
+                                                                </button>
+                                                            }
+                                                            <button onClick={() => seeDiary(rawBimester)}>
+                                                                Ver Diário
+                                                            </button>
+                                                        </>
+                                                    )}
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
-                                </StatusLine>
-                            </DiaryBimester>
-                        ))}
+                                        )}
+                                    </StatusLine>
+                                </DiaryBimester>
+                            ))}
                         {/*<ButtonWrapper>
                             <button onClick={handleViewCompleteDiary}>Ver Diário Completo</button>
                         </ButtonWrapper>
@@ -951,7 +973,7 @@ const Cla$$Info = () => {
                         <ContainerModal>
                             <ModalContent>
                                 <h3>⚠️ Atenção</h3>
-                                <p>O bimestre será reaberto. Para visualizar o diário novamente, será necessário fechá-lo depois.</p>
+                                <p>O periodo será reaberto. Para visualizar o diário novamente, será necessário fechá-lo depois.</p>
                                 <ButtonContainer>
                                     <button style={{ background: 'green' }} onClick={() => {
                                         setConfirmReopen(false);
@@ -1260,23 +1282,44 @@ const Cla$$Info = () => {
                     {AllBimBull && (
                         <ContainerModal>
                             <ModalContent>
-                                <h2>Selecione o Bimestre</h2>
+                                {assessmentRegime === 'BIMESTRAL' && (
+                                    <h2>Selecione o Bimestre</h2>
+                                )}
+                                {assessmentRegime === 'TRIMESTRAL' && (
+                                    <h2>Selecione o Trimestre</h2>
+                                )}
                                 <Input>
-                                    <Label>Bimestres</Label>
+                                    {assessmentRegime === 'BIMESTRAL' && (
+                                        <Label>Bimestres</Label>
+                                    )}
+                                    {assessmentRegime === 'TRIMESTRAL' && (
+                                        <Label>Trimestre</Label>
+                                    )}
                                     <Select
                                         id="id-bimonthly"
                                         //value={Selectbimonthly ? JSON.stringify(Selectbimonthly) : ""}
                                         onChange={handleBimonthlyChange}
                                     >
                                         <option value="">Selecione</option>
-                                        {bimonthly.map(res => (
-                                            <option
-                                                key={res._id}
-                                                value={JSON.stringify({ _id: res._id, bimonthly: res.bimonthly })}
-                                            >
-                                                {res.bimonthly}
-                                            </option>
-                                        ))}
+                                        {bimonthly
+                                            // 🔹 se for TRIMESTRAL, ignora o 4º bimestre
+                                            .filter(res => {
+                                                if (assessmentRegime === 'TRIMESTRAL') {
+                                                    return res.bimonthly !== '4º BIMESTRE';
+                                                }
+                                                return true;
+                                            })
+                                            .map(res => (
+                                                <option
+                                                    key={res._id}
+                                                    value={JSON.stringify({ _id: res._id, bimonthly: res.bimonthly })}
+                                                >
+                                                    {assessmentRegime === 'TRIMESTRAL'
+                                                        ? res.bimonthly.replace('BIMESTRE', 'TRIMESTRE')
+                                                        : res.bimonthly}
+                                                </option>
+                                            ))
+                                        }
                                         <option value="FinalConcepts">Resultado Final</option>
                                     </Select>
                                     <ButtonContainer>

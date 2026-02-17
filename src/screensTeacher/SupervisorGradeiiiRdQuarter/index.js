@@ -63,6 +63,8 @@ const IndexAttendance = () => {
 
     const [showMatterUpdated, setShowMatterUpdated] = useState(false);
 
+    const [assessmentRegime, setAssessmentRegime] = useState('');
+
     const location = useLocation();
     const { employee } = location.state || {};
     console.log("id employee", employee)
@@ -93,6 +95,12 @@ const IndexAttendance = () => {
 
             const IIIrdQuarter = await getIIIrdQuarter(currentYear, JSON.parse(idSchool))
             setId_iiiRdQuarter(id_bimonthly)
+
+            const regime = IIIrdQuarter.data.data?.[0]?.assessmentRegime;
+
+            console.log("regime", regime);
+
+            setAssessmentRegime(regime);
 
             // Busca a turma direto com o idClass do sessionStorage
             const resClass = await clssInfo(id_class);
@@ -489,7 +497,12 @@ const IndexAttendance = () => {
                 <LoadingSpinner />
                 :
                 <ContainerDivs>
-                    <h2>Grade Bimestral</h2>
+                    {assessmentRegime === 'BIMESTRAL' && (
+                        <h2>Grade Bimestral</h2>
+                    )}
+                    {assessmentRegime === 'TRIMESTRAL' && (
+                        <h2>Grade Trimestral</h2>
+                    )}
                     {open === 'aberto' ? (
                         <>
                             <AreaWrapper>
@@ -518,7 +531,12 @@ const IndexAttendance = () => {
                                 <DataSelected>
                                     <SlActionUndo fontSize={'30px'} onClick={Return} />
                                     <Info>
-                                        <p>Bimestre: 3º Bimestre</p>
+                                        {assessmentRegime === 'BIMESTRAL' && (
+                                            <p>3º Bimestre</p>
+                                        )}
+                                        {assessmentRegime === 'TRIMESTRAL' && (
+                                            <p>3º Trimestre</p>
+                                        )}
                                         <p>Disciplina: {Namematter}</p>
                                     </Info>
                                     <LegendBox>

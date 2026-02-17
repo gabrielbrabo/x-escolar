@@ -51,6 +51,8 @@ const IndividualForm = () => {
 
     const [showAlert, setShowAlert] = useState(false);
 
+    const [assessmentRegime, setAssessmentRegime] = useState('');
+
     const location = useLocation();
     const { employee } = location.state || {};
     console.log("id employee", employee)
@@ -85,6 +87,12 @@ const IndividualForm = () => {
             const iv = IVthQuarter.data.data.find(res => res) || null;
             const v = VthQuarter.data.data.find(res => res) || null;
             const vi = VIthQuarter.data.data.find(res => res) || null;
+
+            const regime = i?.assessmentRegime;
+
+            console.log("regime", regime);
+
+            setAssessmentRegime(regime);
 
             setBimonthly([i, ii, iii, iv, v, vi].filter(res => res !== null));
 
@@ -282,20 +290,53 @@ const IndividualForm = () => {
                     <InputArea>
                         {!Selectbimonthly && (
                             <>
-                                <h2>Selecione o Bimestre</h2>
+                                {assessmentRegime === 'BIMESTRAL' && (
+                                    <h2>Selecione o Bimestre</h2>
+                                )}
+                                {assessmentRegime === 'TRIMESTRAL' && (
+                                    <h2>Selecione o Trimestre</h2>
+                                )}
                                 <Input>
-                                    <Label>Bimestre</Label>
+                                    {assessmentRegime === 'BIMESTRAL' && (
+                                        <Label>Bimestre</Label>
+                                    )}
+                                    {assessmentRegime === 'TRIMESTRAL' && (
+
+                                        <Label>Trimestre</Label>
+                                    )}
                                     <Select
                                         id="id-bimonthly"
                                         value={Selectbimonthly ? JSON.stringify(Selectbimonthly) : ""}
                                         onChange={handleBimonthlyChange}
                                     >
                                         <option value="">Selecione</option>
-                                        {bimonthly.map(res => (
-                                            <option key={res._id} value={JSON.stringify({ _id: res._id, bimonthly: res.bimonthly, statusSupervisor: res.statusSupervisor })}>
-                                                {res.bimonthly}
-                                            </option>
-                                        ))}
+                                        {bimonthly
+                                            .filter(res => {
+                                                // 👉 Se for trimestral, ignora o 4º bimestre
+                                                if (assessmentRegime === 'TRIMESTRAL') {
+                                                    return !res.bimonthly.includes('4º');
+                                                }
+                                                return true;
+                                            })
+                                            .map(res => {
+                                                const label =
+                                                    assessmentRegime === 'TRIMESTRAL'
+                                                        ? res.bimonthly.replace('BIMESTRE', 'TRIMESTRE')
+                                                        : res.bimonthly;
+
+                                                return (
+                                                    <option
+                                                        key={res._id}
+                                                        value={JSON.stringify({
+                                                            _id: res._id,
+                                                            bimonthly: res.bimonthly,
+                                                            statusSupervisor: res.statusSupervisor
+                                                        })}
+                                                    >
+                                                        {label}
+                                                    </option>
+                                                );
+                                            })}
                                     </Select>
                                 </Input>
                                 <ToGoBack onClick={messageButtonClick}>

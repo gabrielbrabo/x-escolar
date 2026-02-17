@@ -447,7 +447,7 @@ const IndexAttendance = () => {
                             }
                         </ContainerStudent>
                     ) : (
-                        <p>3º Bimestre fechado, para editar contate o Diretor ou Supervisor.</p>
+                        <p>Periodo fechado, para editar contate o Diretor ou Supervisor.</p>
                     )}
                 </ContainerDivs>
             }

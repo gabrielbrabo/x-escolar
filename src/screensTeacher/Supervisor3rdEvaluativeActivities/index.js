@@ -92,6 +92,8 @@ const IndexAttendance = () => {
 
     const [ContStudent, setContStudent] = useState([]);
 
+    const [assessmentRegime, setAssessmentRegime] = useState('');
+
     const location = useLocation();
     const { employee } = location.state || {};
     console.log("id employee", employee)
@@ -121,8 +123,14 @@ const IndexAttendance = () => {
             setYear(currentYear)
             setId_iiiRdQuarter(id_bimonthly)
             setId_class(idClass); // continua setando para controle UI
-            
+
             const IIIrdQuarter = await getIIIrdQuarter(currentYear, JSON.parse(idSchool))
+
+            const regime = IIIrdQuarter.data.data?.[0]?.assessmentRegime;
+
+            console.log("regime", regime);
+
+            setAssessmentRegime(regime);
 
             const id_teacher = employee;
 
@@ -362,10 +370,13 @@ const IndexAttendance = () => {
         navigate('/Supervisor-$num-quarter-grade', { state: { employee: employee } })
     };
 
-    console.log('form', form)
+    const renderPeriod = (bimonthly) => {
+        if (!bimonthly) return ''
 
-
-    console.log("startEditing", startEditing._id)
+        return assessmentRegime === 'TRIMESTRAL'
+            ? bimonthly.replace(/Bimestre/gi, 'Trimestre')
+            : bimonthly.replace(/Trimestre/gi, 'Bimestre')
+    }
 
     return (
         <Container>
@@ -379,7 +390,12 @@ const IndexAttendance = () => {
                             <DataSelected>
                                 <SlActionUndo fontSize={'30px'} onClick={Return} />
                                 <Info>
-                                    <p>Bimestre: 3º Bimestre</p>
+                                    {assessmentRegime === 'BIMESTRAL' && (
+                                        <p>3º Bimestre</p>
+                                    )}
+                                    {assessmentRegime === 'TRIMESTRAL' && (
+                                        <p>3º Trimestre</p>
+                                    )}
                                     <p>Disciplina: {Namematter}</p>
                                 </Info>
                                 <LegendBox>
@@ -401,7 +417,7 @@ const IndexAttendance = () => {
                                                 {
                                                     <FormContainer>
                                                         <h3>Cadastro de Avaliação</h3>
-                                                        <p style={{ color: '#158fa2' }}>{bimonthly}</p>
+                                                        <p style={{ color: '#158fa2' }}>{renderPeriod(bimonthly)}</p>
                                                         <Label>Descrição</Label>
                                                         <Input type="text" name="descricao" value={form.descricao} onChange={handleChange} />
 
@@ -440,7 +456,7 @@ const IndexAttendance = () => {
                                                             <ActivityInfo>
                                                                 {/*<p>{activity.id_matter.name}</p>  Nome da Matéria */}
                                                                 <p>{activity.descricao}</p> {/* Valor da Atividade */}
-                                                                <p>{activity.bimonthly}</p> {/* Bimestre */}
+                                                                <p>{renderPeriod(activity.bimonthly)}</p> {/* Bimestre */}
                                                                 <p>Tipo: {activity.tipo}</p> {/* Tipo de Atividade */}
                                                                 <p>Valor: <span style={{ color: '#FFA500' }}>{activity.valor}</span> pts</p>
                                                             </ActivityInfo>
@@ -532,7 +548,7 @@ const IndexAttendance = () => {
                             }
                         </ContainerStudent>
                     ) : (
-                        <p>3º Bimestre fechado, para editar contate o Diretor ou Supervisor.</p>
+                        <p>Periodo fechado, para editar contate o Diretor ou Supervisor.</p>
                     )}
                 </ContainerDivs>
             }
