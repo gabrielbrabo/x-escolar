@@ -370,16 +370,25 @@ const Matter = () => {
                             <p>Ano Letivo Atual:</p>
                             <h1>{schoolYear}</h1>
                         </YearBox>
-                        {schoolYear !== currentYear && positionAtEducationDepartment && (
-                            <ButtonNextYear onClick={handleNextYearClick}>
-                                Finalizar e Passar para o Próximo Ano Letivo
-                            </ButtonNextYear>
-                        )}
-                        {schoolYear === currentYear && positionAtEducationDepartment && (
-                            <ButtonNextYear onClick={handlePreviousYearClick}>
-                                Voltar para o Ano Letivo Anterior
-                            </ButtonNextYear>
-                        )}
+                        {(
+                            schoolYear !== currentYear &&
+                            (positionAtEducationDepartment ||
+                                position_at_school === 'DIRETOR/SUPERVISOR')
+                        ) && (
+                                <ButtonNextYear onClick={handleNextYearClick}>
+                                    Finalizar e Passar para o Próximo Ano Letivo
+                                </ButtonNextYear>
+                            )}
+                        {(
+                            schoolYear === currentYear &&
+                            (positionAtEducationDepartment ||
+                                position_at_school === 'DIRETOR/SUPERVISOR')
+                        ) && (
+                                <ButtonNextYear onClick={handlePreviousYearClick}>
+                                    Voltar para o Ano Letivo Anterior
+                                </ButtonNextYear>
+                            )}
+
                     </ContainerYearControl>
 
                     {/* Upload da logo da escola */}
