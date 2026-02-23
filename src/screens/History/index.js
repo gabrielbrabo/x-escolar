@@ -310,6 +310,11 @@ const StudentHistory = () => {
                 payload.absencesOvertime = Number(formYear.absencesOvertime)
             }
 
+            // ✅ NOVO - Série
+            if (formYear.serie !== undefined && formYear.serie.trim() !== '') {
+                payload.serie = formYear.serie.trim()
+            }
+
             if (Object.keys(payload).length === 0) {
                 alert("Nenhuma alteração realizada")
                 return
@@ -1564,8 +1569,39 @@ const StudentHistory = () => {
 
                             {/* MATÉRIAS EXTRAS */}
                             <Section>
-                                <h4>Matérias Extras</h4>
+                                {/* SÉRIE */}
+                                <Section>
+                                    <h4>Série</h4>
+                                    <Select
+                                        value={formYear.serie || ''}
+                                        disabled={editYear?.serie && editYear.serie.trim() !== ''}
+                                        onChange={e =>
+                                            setFormYear({ ...formYear, serie: e.target.value })
+                                        }
+                                    >
+                                        <option value="">Selecione a série</option>
 
+                                        {assessmentFormat === "grade" && (
+                                            <>
+                                                <option value="1º ANO">1º ANO</option>
+                                                <option value="2º ANO">2º ANO</option>
+                                                <option value="3º ANO">3º ANO</option>
+                                                <option value="4º ANO">4º ANO</option>
+                                                <option value="5º ANO">5º ANO</option>
+                                            </>
+                                        )}
+
+                                        {assessmentFormat === "concept" && (
+                                            <>
+                                                <option value="MATERNAL">MATERNAL</option>
+                                                <option value="1º PERÍODO">1º PERÍODO</option>
+                                                <option value="2º PERÍODO">2º PERÍODO</option>
+                                            </>
+                                        )}
+                                    </Select>
+                                </Section>
+                                <h4>Matérias Extras</h4>
+                                {console.log("form", formYear)}
                                 {formYear.extraSubjects.map((item, index) => (
                                     <ExtraSubjectRow key={index}>
                                         <Input
