@@ -84,21 +84,23 @@ const Grade = () => {
             setyearclss($yearClass)
 
             setId_teacher(id_emp);
+            const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
+            const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
             const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
 
             //setclassRegentTeacher(JSON.parse(classRegentTeacher))
             //setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
             setPhysicalEducationTeacher(physicalEducationTeacher)
 
-            /*if (id_emp === classRegentTeacher02) {
-                const res = await indexRecordClassTaught(year, id_class, JSON.parse(classRegentTeacher));
+            if (id_emp === classRegentTeacher02) {
+                const res = await indexRecordClassTaught($yearClass.year, id_class, JSON.parse(classRegentTeacher));
                 console.log("res", res)
                 setRecordClassTaught(res.data.data || []);
-            } else {*/
-            const res = await indexRecordClassTaught($yearClass.year, id_class, JSON.parse(id_emp));
-            console.log("res", res)
-            setRecordClassTaught(res.data.data || []);
-            //}
+            } else {
+                const res = await indexRecordClassTaught($yearClass.year, id_class, JSON.parse(id_emp));
+                console.log("res", res)
+                setRecordClassTaught(res.data.data || []);
+            }
 
             setId_employee(JSON.parse(id_emp));
 
@@ -342,7 +344,9 @@ const Grade = () => {
                                                     <ContainerTable>
                                                         <Span>
                                                             <div>Professor: <p>{res.id_teacher.name}</p></div>
-                                                            {/*<div>Professor 02: <p>{res.id_teacher02?.name || '---'}</p></div>*/}
+                                                            {console.log('02', res)}
+                                                            {res.id_teacher02?.name &&
+                                                                <div>Professor 02: <p>{res.id_teacher02?.name || '---'}</p></div>}
                                                             {res.id_class?.serie && (
                                                                 <div>Serie: <p>{res.id_class.serie}</p></div>
                                                             )}

@@ -1205,47 +1205,112 @@ export default function Daily() {
 
                   <h4 className="total-aulas-lecionadas">
                     Total de aulas lecionadas: {
-                      data?.id_recordClassTaught?.filter(res =>
-                        (Array.isArray(data.idRegentTeacher) &&
-                          data.idRegentTeacher.some(id => id.toString() === res?.id_teacher?._id?.toString?.())) ||
-                        (Array.isArray(data.idRegentTeacher02) &&
-                          data.idRegentTeacher02.some(id => id.toString() === res?.id_teacher?._id?.toString?.()))
-                      ).length || 0
+                      data?.id_recordClassTaught?.filter((res) => {
+
+                        if (res?.teacher_type) {
+                          return res.teacher_type === "REGENTE";
+                        }
+
+                        return (
+                          data?.idRegentTeacher?.some(
+                            (id) => id?.toString() === res?.id_teacher?._id?.toString()
+                          ) ||
+                          data?.idRegentTeacher02?.some(
+                            (id) => id?.toString() === res?.id_teacher?._id?.toString()
+                          )
+                        );
+
+                      }).length || 0
                     }
                   </h4>
+
                   <>
                     {data?.id_recordClassTaught?.length > 0 ? (
+                      console.log("aulas", data.id_recordClassTaught),
                       data.id_recordClassTaught
-                        .filter(res =>
-                          (Array.isArray(data.idRegentTeacher) &&
-                            data.idRegentTeacher.some(id => id.toString() === res?.id_teacher?._id?.toString?.())) ||
-                          (Array.isArray(data.idRegentTeacher02) &&
-                            data.idRegentTeacher02.some(id => id.toString() === res?.id_teacher?._id?.toString?.()))
-                        )
+                        .filter((res) => {
+                          const hasTeacherType = !!res?.teacher_type;
+
+                          if (hasTeacherType) {
+                            return res.teacher_type === "REGENTE";
+                          }
+
+                          const isRegent1 =
+                            Array.isArray(data.idRegentTeacher) &&
+                            data.idRegentTeacher.some(
+                              (id) => id?.toString() === res?.id_teacher?._id?.toString()
+                            );
+
+                          const isRegent2 =
+                            Array.isArray(data.idRegentTeacher02) &&
+                            data.idRegentTeacher02.some(
+                              (id) => id?.toString() === res?.id_teacher?._id?.toString()
+                            );
+
+                          return isRegent1 || isRegent2;
+                        })
                         .sort((a, b) => new Date(a.year, a.month - 1, a.day) - new Date(b.year, b.month - 1, b.day))
                         .slice(0, expandedSections.regent ? undefined : 3)
                         .map((res, index) => (
                           <React.Fragment key={`regent-${index}`}>
                             <ContainerTable className="print-container-table">
                               <Span>
-                                {Array.isArray(data.idRegentTeacher) &&
-                                  data.idRegentTeacher.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
-                                  <>
-                                    <div>Professor Titular: <p>{res.id_teacher.name}</p></div>
-                                    {data.nameRegentTeacher02 &&
-                                      data.nameRegentTeacher02 !== "Professor não definido" && (
-                                        <div>Professor Adjunto: <p>{data.nameRegentTeacher02}</p></div>
+                                {
+                                  res?.teacher_type === "REGENTE" ? (
+                                    // ✅ AULA NOVA
+                                    <>
+                                      {res?.id_teacher && (
+                                        <div>
+                                          Professor Titular:
+                                          <p>{res.id_teacher.name}</p>
+                                        </div>
                                       )}
-                                  </>
-                                ) : (
-                                  <>
-                                    {data.nameRegentTeacher &&
-                                      data.nameRegentTeacher !== "Professor não definido" && (
-                                        <div>Professor Titular: <p>{data.nameRegentTeacher}</p></div>
+
+                                      {res?.id_teacher02 && (
+                                        <div>
+                                          Professor Adjunto:
+                                          <p>{res.id_teacher02.name}</p>
+                                        </div>
                                       )}
-                                    <div>Professor Adjunto: <p>{res.id_teacher.name}</p></div>
-                                  </>
-                                )}
+                                    </>
+                                  ) : (
+                                    // ✅ AULA ANTIGA (sua regra original)
+                                    Array.isArray(data.idRegentTeacher) &&
+                                      data.idRegentTeacher
+                                        .map(id => id.toString())
+                                        .includes(res?.id_teacher?._id?.toString?.()) ? (
+                                      <>
+                                        <div>
+                                          Professor Titular:
+                                          <p>{res.id_teacher.name}</p>
+                                        </div>
+
+                                        {data.nameRegentTeacher02 &&
+                                          data.nameRegentTeacher02 !== "Professor não definido" && (
+                                            <div>
+                                              Professor Adjunto:
+                                              <p>{data.nameRegentTeacher02}</p>
+                                            </div>
+                                          )}
+                                      </>
+                                    ) : (
+                                      <>
+                                        {data.nameRegentTeacher &&
+                                          data.nameRegentTeacher !== "Professor não definido" && (
+                                            <div>
+                                              Professor Titular:
+                                              <p>{data.nameRegentTeacher}</p>
+                                            </div>
+                                          )}
+
+                                        <div>
+                                          Professor Adjunto:
+                                          <p>{res.id_teacher.name}</p>
+                                        </div>
+                                      </>
+                                    )
+                                  )
+                                }
 
                                 {data?.serie && (
                                   <span>
@@ -1354,19 +1419,39 @@ export default function Daily() {
 
                   <h4 className="total-aulas-lecionadas">
                     Total de aulas lecionadas: {
-                      data?.id_recordClassTaught?.filter(res =>
-                        Array.isArray(data.idPhysicalEducationTeacher) &&
-                        data.idPhysicalEducationTeacher.some(id => id.toString() === res?.id_teacher?._id?.toString?.())
-                      ).length || 0
+                      data?.id_recordClassTaught?.filter((res) => {
+
+                        if (res?.teacher_type) {
+                          return res.teacher_type === "ED_FISICA";
+                        }
+
+                        return (
+                          data?.idPhysicalEducationTeacher?.some(
+                            (id) => id?.toString() === res?.id_teacher?._id?.toString()
+                          )
+                        );
+
+                      }).length || 0
                     }
                   </h4>
+
                   <>
                     {data?.id_recordClassTaught?.length > 0 ? (
                       data.id_recordClassTaught
-                        .filter(res =>
-                          Array.isArray(data.idPhysicalEducationTeacher) &&
-                          data.idPhysicalEducationTeacher.some(id => id.toString() === res?.id_teacher?._id?.toString?.())
-                        )
+                        .filter((res) => {
+
+                          // 🔹 Se já tem teacher_type (registro novo)
+                          if (res?.teacher_type) {
+                            return res.teacher_type === "ED_FISICA";
+                          }
+
+                          // 🔹 Se não tem teacher_type (registro antigo)
+                          return data?.idPhysicalEducationTeacher?.some(
+                            (id) => id?.toString() === res?.id_teacher?._id?.toString()
+                          );
+
+                        })
+
                         .sort((a, b) => new Date(a.year, a.month - 1, a.day) - new Date(b.year, b.month - 1, b.day))
                         .slice(0, expandedSections.edfisica ? undefined : 3)
                         .map((res, index) => (
@@ -2072,122 +2157,121 @@ export default function Daily() {
 
           {activeComponent === 'individualRecords' && (
             <IndividualContainerDivs id='print-area' >
-              <IndividualPrintStyle>
-                <CtnrBtt>
-                  <ButtonPrint className="no-print" onClick={handlePrintIndividualForm}>Imprimir</ButtonPrint>
-                </CtnrBtt>
-                <IndividualStudentSection id="printable-content-individualRecords">
-                  <ContLogo className="cont-logo-individualForm">
-                    {(logoUrl) && (
-                      <Preview className="logo-individualForm" src={logoUrl} alt="Logo da escola" />
-                    )}
-                    <h2>Fichas Individuais de Alunos</h2>
-                  </ContLogo>
-                  <h3>{renderPeriod(bimonthly)}</h3>
-                  <span><strong>Escola:</strong> {data.nameSchool}</span>
-                  {data?.serie && (
-                    <span><strong>Serie:</strong> {data.serie}</span>
+              <IndividualPrintStyle />
+              <CtnrBtt>
+                <ButtonPrint className="no-print" onClick={handlePrintIndividualForm}>Imprimir</ButtonPrint>
+              </CtnrBtt>
+              <IndividualStudentSection id="printable-content-individualRecords">
+                <ContLogo className="cont-logo-individualForm">
+                  {(logoUrl) && (
+                    <Preview className="logo-individualForm" src={logoUrl} alt="Logo da escola" />
                   )}
-                  <span><strong>Turma:</strong> {data.nameClass}</span>
+                  <h2 className="h2indForm">Fichas Individuais de Alunos</h2>
+                </ContLogo>
+                <h3>{renderPeriod(bimonthly)}</h3>
+                <span><strong>Escola:</strong> {data.nameSchool}</span>
+                {data?.serie && (
+                  <span><strong>Serie:</strong> {data.serie}</span>
+                )}
+                <span><strong>Turma:</strong> {data.nameClass}</span>
 
-                  {Array.isArray(data.id_individualForm) && data.id_individualForm.length > 0 ? (
-                    data.id_individualForm
-                      .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name))
-                      .map((res, index) => (
-                        <IndividualContainerTable key={res._id}>
-                          <Span>
-                            {Array.isArray(data.idRegentTeacher) && data.idRegentTeacher.includes(res.id_teacher._id) ? (
-                              <>
-                                <div>Professor Regente Titular: <p>{res.id_teacher.name}</p></div>
-                                {data.nameRegentTeacher02 &&
-                                  data.nameRegentTeacher02 !== "Professor não definido" && (
-                                    <div>Professor Regente Adjunto: <p>{data.nameRegentTeacher02}</p></div>
-                                  )}
-                              </>
-                            ) : Array.isArray(data.idRegentTeacher02) && data.idRegentTeacher02.includes(res.id_teacher._id) ? (
-                              <>
-                                {/* Se quem lançou é o Professor 02, mostra os dois */}
-                                {data.nameRegentTeacher && data.nameRegentTeacher !== "Professor não definido" && (
-                                  <div>Professor Regente Titular: <p>{data.nameRegentTeacher}</p></div>
+                {Array.isArray(data.id_individualForm) && data.id_individualForm.length > 0 ? (
+                  data.id_individualForm
+                    .sort((a, b) => a.id_student.name.localeCompare(b.id_student.name))
+                    .map((res, index) => (
+                      <IndividualContainerTable key={res._id}>
+                        <Span>
+                          {Array.isArray(data.idRegentTeacher) && data.idRegentTeacher.includes(res.id_teacher._id) ? (
+                            <>
+                              <div>Professor Regente Titular: <p>{res.id_teacher.name}</p></div>
+                              {data.nameRegentTeacher02 &&
+                                data.nameRegentTeacher02 !== "Professor não definido" && (
+                                  <div>Professor Regente Adjunto: <p>{data.nameRegentTeacher02}</p></div>
                                 )}
-                                <div>Professor Regente Adjunto: <p>{res.id_teacher.name}</p></div>
-                              </>
-                            ) : Array.isArray(data.idPhysicalEducationTeacher) && data.idPhysicalEducationTeacher.includes(res.id_teacher._id) ? (
-                              <div>Professor de Ed. Física: <p>{res.id_teacher.name}</p></div>
-                            ) : null}
+                            </>
+                          ) : Array.isArray(data.idRegentTeacher02) && data.idRegentTeacher02.includes(res.id_teacher._id) ? (
+                            <>
+                              {/* Se quem lançou é o Professor 02, mostra os dois */}
+                              {data.nameRegentTeacher && data.nameRegentTeacher !== "Professor não definido" && (
+                                <div>Professor Regente Titular: <p>{data.nameRegentTeacher}</p></div>
+                              )}
+                              <div>Professor Regente Adjunto: <p>{res.id_teacher.name}</p></div>
+                            </>
+                          ) : Array.isArray(data.idPhysicalEducationTeacher) && data.idPhysicalEducationTeacher.includes(res.id_teacher._id) ? (
+                            <div>Professor de Ed. Física: <p>{res.id_teacher.name}</p></div>
+                          ) : null}
 
 
-                            <div>Aluno: <p>{res.id_student.name}</p></div>
-                          </Span>
+                          <div>Aluno: <p>{res.id_student.name}</p></div>
+                        </Span>
 
-                          <IndividualTableRow>
-                            <IndividualDescriptionCell>
-                              <div className={`description ${expandedRows.includes(index) ? 'expanded' : 'collapsed'}`}>
-                                <div
-                                  style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}
-                                  dangerouslySetInnerHTML={{
-                                    __html: expandedRows.includes(index) || printing
-                                      ? res.description
-                                      : getDescriptionPreview(res.description),
-                                  }}
-                                />
+                        <IndividualTableRow>
+                          <IndividualDescriptionCell>
+                            <div className={`description ${expandedRows.includes(index) ? 'expanded' : 'collapsed'}`}>
+                              <div
+                                style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}
+                                dangerouslySetInnerHTML={{
+                                  __html: expandedRows.includes(index) || printing
+                                    ? res.description
+                                    : getDescriptionPreview(res.description),
+                                }}
+                              />
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                              {!printing && (
+                                <Button onClick={() => toggleRowExpansion(index)} className="no-print">
+                                  {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
+                                </Button>
+                              )}
+                              {expandedRows.includes(index) && positionAtSchool === 'DIRETOR/SUPERVISOR' && (
+                                <Button onClick={() => handleEdit(index, res)} className="no-print">
+                                  Editar
+                                </Button>
+                              )}
+                            </div>
+                          </IndividualDescriptionCell>
+                        </IndividualTableRow>
+
+                        {editingIndex === index && (
+                          <EditContainer>
+                            <div className="modal-content">
+                              <h3>Editando Ficha</h3>
+                              <ReactQuill
+                                theme="snow"
+                                modules={{
+                                  toolbar: [
+                                    [{ 'font': [] }],
+                                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                    ['bold', 'italic', 'underline'],
+                                    [{ 'color': [] }, { 'background': [] }],
+                                    ['clean']
+                                  ]
+                                }}
+                                value={editedDescription}
+                                onChange={(e) => setEditedDescription(e)}
+                                placeholder="Descrição da aula"
+                                style={{
+                                  height: 'auto', // aumentado de 250px para 350px
+                                  maxHeight: '550px',
+                                  overflow: 'auto',
+                                  zIndex: 0,
+                                  position: 'relative'
+                                }}
+                              />
+                              {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                              <div style={{ position: 'relative', zIndex: 10, marginTop: '30px', }} className='BoxBtt'>
+                                <ButtonEdit onClick={handleSaveEditIndForm}>Salvar</ButtonEdit>
+                                <ButtonEdit onClick={() => setEditingIndex(null)}>Cancelar</ButtonEdit>
                               </div>
-                              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                {!printing && (
-                                  <Button onClick={() => toggleRowExpansion(index)} className="no-print">
-                                    {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
-                                  </Button>
-                                )}
-                                {expandedRows.includes(index) && positionAtSchool === 'DIRETOR/SUPERVISOR' && (
-                                  <Button onClick={() => handleEdit(index, res)} className="no-print">
-                                    Editar
-                                  </Button>
-                                )}
-                              </div>
-                            </IndividualDescriptionCell>
-                          </IndividualTableRow>
-
-                          {editingIndex === index && (
-                            <EditContainer>
-                              <div className="modal-content">
-                                <h3>Editando Ficha</h3>
-                                <ReactQuill
-                                  theme="snow"
-                                  modules={{
-                                    toolbar: [
-                                      [{ 'font': [] }],
-                                      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                                      ['bold', 'italic', 'underline'],
-                                      [{ 'color': [] }, { 'background': [] }],
-                                      ['clean']
-                                    ]
-                                  }}
-                                  value={editedDescription}
-                                  onChange={(e) => setEditedDescription(e)}
-                                  placeholder="Descrição da aula"
-                                  style={{
-                                    height: 'auto', // aumentado de 250px para 350px
-                                    maxHeight: '550px',
-                                    overflow: 'auto',
-                                    zIndex: 0,
-                                    position: 'relative'
-                                  }}
-                                />
-                                {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                                <div style={{ position: 'relative', zIndex: 10, marginTop: '30px', }} className='BoxBtt'>
-                                  <ButtonEdit onClick={handleSaveEditIndForm}>Salvar</ButtonEdit>
-                                  <ButtonEdit onClick={() => setEditingIndex(null)}>Cancelar</ButtonEdit>
-                                </div>
-                              </div>
-                            </EditContainer>
-                          )}
-                        </IndividualContainerTable>
-                      ))
-                  ) : (
-                    <InfoText>Não há nenhum registro</InfoText>
-                  )}
-                </IndividualStudentSection>
-              </IndividualPrintStyle>
+                            </div>
+                          </EditContainer>
+                        )}
+                      </IndividualContainerTable>
+                    ))
+                ) : (
+                  <InfoText>Não há nenhum registro</InfoText>
+                )}
+              </IndividualStudentSection>
             </IndividualContainerDivs>
           )}
 

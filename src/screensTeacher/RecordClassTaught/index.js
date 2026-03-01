@@ -20,7 +20,7 @@ import {
     InputDate,
     ErrorMessage,
     SaveButton,
-   //DescriptionContainer // Novo contêiner para descrição
+    //DescriptionContainer // Novo contêiner para descrição
 } from './style';
 import LoadingSpinner from '../../components/Loading';
 import {
@@ -45,9 +45,9 @@ const Grade = () => {
     const [year, setYear] = useState('');
     const [description, setDescription] = useState('');
     const [id_employee, setId_employee] = useState('');
-    
-    //const [RegentTeacher, setclassRegentTeacher] = useState([]);
-    //const [id_teacher02, setclassRegentTeacher02] = useState([]);
+
+    const [RegentTeacher, setclassRegentTeacher] = useState([]);
+    const [id_teacher02, setclassRegentTeacher02] = useState([]);
     const [physicalEducation, setPhysicalEducationTeacher] = useState([]);
 
     const [id_class, setId_class] = useState('');
@@ -59,14 +59,14 @@ const Grade = () => {
             const idTeacher = JSON.parse(localStorage.getItem("Id_employee") || '""'); // Remove aspas extras
             setId_teacher(idTeacher);
             const id_employee = localStorage.getItem("Id_employee");
-            //const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
-            //const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
+            const classRegentTeacher = sessionStorage.getItem("classRegentTeacher");
+            const classRegentTeacher02 = sessionStorage.getItem("classRegentTeacher02");
             const physicalEducationTeacher = sessionStorage.getItem("physicalEducationTeacher");
 
-            //setclassRegentTeacher(JSON.parse(classRegentTeacher))
-            //setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
+            setclassRegentTeacher(JSON.parse(classRegentTeacher))
+            setclassRegentTeacher02(JSON.parse(classRegentTeacher02))
             setPhysicalEducationTeacher(JSON.parse(physicalEducationTeacher))
-            
+
 
             const id_class = sessionStorage.getItem("class-info");
             setId_employee(JSON.parse(id_employee));
@@ -87,27 +87,48 @@ const Grade = () => {
         console.log('id_employee:', id_employee);
         console.log('id_class:', id_class);
 
-       /*if(id_employee === physicalEducationTeacher) {
-            const res = await RecordClassTaught(day, month, year, plainDescription, id_employee, id_teacher02, id_class);
+        if (id_employee === physicalEducation) {
+
+            const res = await RecordClassTaught(
+                day,
+                month,
+                year,
+                plainDescription,
+                id_employee,
+                null,              // 👈 aqui passa null direto
+                id_class
+            );
+
             if (res) {
                 navigate(-1);
             } else {
                 setErrorMessage('Erro, Verifique os dados e tente novamente.');
             }
+
         } else {
-            const res = await RecordClassTaught(day, month, year, plainDescription, RegentTeacher, id_teacher02, id_class);
+
+            const res = await RecordClassTaught(
+                day,
+                month,
+                year,
+                plainDescription,
+                RegentTeacher,
+                id_teacher02 || null, // 👈 aqui resolve seu problema
+                id_class
+            );
+
             if (res) {
                 navigate(-1);
             } else {
                 setErrorMessage('Erro, Verifique os dados e tente novamente.');
             }
-        }*/
-        const res = await RecordClassTaught(day, month, year, plainDescription, id_employee, /*id_teacher02,*/ id_class);
+        }
+        /*const res = await RecordClassTaught(day, month, year, plainDescription, id_employee, id_teacher02, id_class);
         if (res) {
             navigate(-1);
         } else {
             setErrorMessage('Erro, Verifique os dados e tente novamente.');
-        }
+        }*/
     };
 
     const messageButtonClick = () => {
@@ -288,7 +309,7 @@ const Grade = () => {
                         )
                     )}
                     {/* Renderizando a descrição após ser salva */}
-                   {/* <DescriptionContainer>
+                    {/* <DescriptionContainer>
                         <h2>Descrição da Aula</h2>
                         <div style={{ textAlign: 'left', margin: '20px', maxWidth: '800px', overflowWrap: 'break-word' }}>
                             {stripHtml(description)}

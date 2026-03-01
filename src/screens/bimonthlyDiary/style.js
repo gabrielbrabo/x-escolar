@@ -70,13 +70,53 @@ export const ContLogo = styled.div`
  
   display: flex;
   justify-content: flex-start; /* PC: logo à esquerda */
-  width: auto;
+  align-items: center;
+  width: 100%;
+  gap:30px;
 
+  .h2indForm {
+    width: 40%;
+    margin: 0;
+    text-align: center;
+  }
+
+  .logo-individualForm {
+    //position: absolute;
+    //left: 0;
+    //height: 60px;
+  }
   @media (max-width: 600px) {
-    justify-content: center; /* Mobile: logo centralizada */
+    justify-content: center;
+    gap:0px; /* Mobile: logo centralizada */
     //align-items: center;
   }
 `;
+
+/*export const ContLogo = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center; /* centraliza o h2 *
+  align-items: center;
+  width: 100%;
+  padding: 10px 0;
+
+  h2 {
+    margin: 0;
+    text-align: center;
+  }
+
+  .logo-individualForm {
+    position: absolute;
+    left: 0;
+    height: 60px;
+  }
+
+  @media (max-width: 600px) {
+    .logo-individualForm {
+      height: 45px;
+    }
+  }
+`;*/
 
 /*export const Preview = styled.img`
   //position: static;
@@ -588,13 +628,24 @@ export const LessonsContainer = styled.div`
       text-align: center; /* 🔧 Força centralização na impressão */
     }
 
-    .cont-logo-classes {
+    /*.cont-logo-classes {
       display: flex !important;
       flex-direction: column !important;
-      margin-top: 12mm !important; /* margem superior para respeitar a folha */
+      margin-top: 12mm !important; /* margem superior para respeitar a folha 
       align-items: center !important;
       margin-bottom: 45px !important;
-    }
+    }*/
+
+      .cont-logo-classes {
+        display: flex !important;
+        flex-direction: row !important;   /* 🔥 muda para linha */
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 20px !important;
+        margin-top: 0mm !important;
+        margin-bottom: 10px !important;
+      }
+
 
     .logo-classes {
       max-width: 125px !important;  /* limita o tamanho da logo */
@@ -798,25 +849,37 @@ export const HiddenOnPrint = styled.div`
 
 export const PrintStyleLessons = createGlobalStyle`
   @media print {
+    html, body {
+      height: auto !important;
+      overflow: visible !important;
+    }
+
     body * {
       margin: 0;
       padding: 0;
     }
 
     .no-print {
-      display: none!important;
+      display: none !important;
     }
 
     ${ContainerTable} {
       break-inside: avoid !important;
       page-break-inside: avoid !important;
     }
-    ${StudentSection} {
+    /*${StudentSection} {
       width: 100%;
       display: flex;
       position: absolute;
       z-index: 99999;
+    }*/
+
+    ${StudentSection} {
+      width: 100%;
+      display: flex !important;
+      position: static !important;
     }
+
 
     @page {
       size: A4;
@@ -1335,7 +1398,7 @@ export const IndividualContainerDivs = styled.div`
   }
 `;
 
-export const IndividualPrintStyle = styled.div`
+/*export const IndividualPrintStyle = styled.div`
   @media print {
     body {
       margin: 0;
@@ -1351,7 +1414,7 @@ export const IndividualPrintStyle = styled.div`
       padding: 20px;
     }
   }
-`;
+`;*/
 
 export const IndividualStudentSection = styled.div`
   display: flex;
@@ -1389,6 +1452,13 @@ export const IndividualStudentSection = styled.div`
   }
 
   @media print {
+
+    //display: block !important;
+
+    page-break-inside: avoid;
+    break-inside: avoid;
+
+    page-break-after: auto;
     background: transparent;
     box-shadow: none;
     padding: 0;
@@ -1399,17 +1469,52 @@ export const IndividualStudentSection = styled.div`
     }
     .cont-logo-individualForm {
       display: flex !important;
-      flex-direction: column !important;
+      flex-direction: row !important;
       //margin-top: 5mm !important; /* margem superior para respeitar a folha */
       align-items: center !important;
-      margin-bottom: 30px !important;
+      margin-bottom: 0px !important;
     }
 
     .logo-individualForm {
       //max-width: 150px !important;  /* limita o tamanho da logo */
-      height: auto !important;
-      margin-top: 18mm !important;
+      //height: auto !important;
+      //margin-top: 18mm !important;
       //margin-top: 50px !important;
+    }
+  }
+`;
+
+export const IndividualPrintStyle = createGlobalStyle`
+  @media print {
+
+    html, body {
+      height: auto !important;
+      overflow: visible !important;
+    }
+
+    /* Remove qualquer limitação do layout principal */
+    #root, #root * {
+      overflow: visible !important;
+      height: auto !important;
+      max-height: none !important;
+    }
+
+    /* Esconde sidebar e menu */
+    .sidebar,
+    .menu,
+    .header,
+    button {
+      display: none !important;
+    }
+
+    #print-area {
+      display: block !important;
+      width: 100%;
+    }
+
+    @page {
+      size: A4;
+      margin: 5mm;
     }
   }
 `;
