@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 export const Container = styled.div`
     display: flex;
@@ -86,10 +87,22 @@ export const IndividualStudentSection = styled.div`
   }
 `;
 
-export const IndividualPrintStyle = styled.div`
+export const IndividualPrintStyle = createGlobalStyle`
   @media print {
+
+    html, body {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
     body * {
       visibility: hidden;
+    }
+
+    /* Remove centralização vertical do layout principal */
+    body > div {
+      display: block !important;
+      min-height: auto !important;
     }
 
     #print-area, #print-area * {
@@ -104,7 +117,43 @@ export const IndividualPrintStyle = styled.div`
       padding: 0;
     }
 
+    /* Remove layout flex do app inteiro */
+    body, #root {
+      display: block !important;
+    }
+
+    ${Container} {
+      display: block !important;
+      padding: 0 !important;
+      background: white !important;
+    }
+
+    ${IndividualContainerDivs} {
+      box-shadow: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      background: white !important;
+      max-width: 100% !important;
+    }
+
+    ${IndividualStudentSection} {
+      display: block !important;
+    }
+
+    /* Remove qualquer centralização herdada */
+    * {
+     //align-items: initial !important;
+      justify-content: initial !important;
+    }
+
     .no-print {
+      display: none !important;
+    }
+
+    /* Esconde logo do sistema (caso exista fora da ficha) */
+    header,
+    nav,
+    aside {
       display: none !important;
     }
 
@@ -115,7 +164,7 @@ export const IndividualPrintStyle = styled.div`
 
     @page {
       size: A4;
-      margin: 3mm;
+      margin: 5mm;
     }
   }
 `;

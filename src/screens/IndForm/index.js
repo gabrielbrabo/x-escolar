@@ -93,68 +93,71 @@ const StudentRecordDescription = () => {
             {loading ? (
                 <LoadingSpinner />
             ) : (
-                <IndividualContainerDivs id='print-area' >
-                    {!formData ? (
-                        <IndividualStudentSection>
-                            <h2>Nenhuma ficha individual encontrada</h2>
-                            <p>Este aluno ainda não possui ficha cadastrada.</p>
-                        </IndividualStudentSection>
-                    ) : (
-                        <IndividualPrintStyle>
-                            <CtnrBtt>
-                                <ButtonPrint className="no-print" onClick={handlePrint}>Imprimir</ButtonPrint>
-                            </CtnrBtt>
-                            <IndividualStudentSection id="printable-content-individualRecords">
-                                <ContLogo className="cont-logo-individualForm">
-                                    {(logoUrl) && (
-                                        <Preview className="logo-individualForm" src={logoUrl} alt="Logo da escola" />
-                                    )}
-                                    <h2>Relatório Individual</h2>
-                                </ContLogo>
-                                <h3>
-                                    {formData?.id_iStQuarter?.bimonthly ||
-                                        formData?.id_iiNdQuarter?.bimonthly ||
-                                        formData?.id_iiiRdQuarter?.bimonthly ||
-                                        formData?.id_ivThQuarter?.bimonthly ||
-                                        "Não informado"}
-                                </h3>
-                                <IndividualContainerTable >
-                                    <Span>
-                                        <div>Escola: <p>{formData.id_student?.id_school.name || "Não informado"}</p></div>
-                                        <div>Aluno: <p>{formData.id_student?.name || "Não informado"}</p></div>
-                                        <div>
-                                            Professor(a):
-                                            <p>{formData?.id_teacher?.name || "Não informado"}</p>
-                                        </div>
-                                        {formData?.id_teacher02 && (
-                                            <div>
-                                                Professor(a) 02: <p>{formData.id_teacher02.name}</p>
-                                            </div>
-                                        )}
-                                        <div>Serie: <p>{formData.id_class?.serie || "Não informado"}</p></div>
-                                        <div>Turma: <p>{formData.id_class?.name || "Não informado"}</p></div>
-                                    </Span>
-                                    <IndividualTableRow>
-                                        <IndividualDescriptionCell>
-                                            <div >
-                                                {formData ? (
-                                                    <div dangerouslySetInnerHTML={{ __html: formData.description }} />
-                                                ) : (
-                                                    <p>Nenhuma descrição</p>
-                                                )}
-                                            </div>
-                                        </IndividualDescriptionCell>
-                                    </IndividualTableRow>
-                                </IndividualContainerTable>
-
+                <>
+                    <IndividualPrintStyle />
+                    <IndividualContainerDivs id='print-area' >
+                        {!formData ? (
+                            <IndividualStudentSection>
+                                <h2>Nenhuma ficha individual encontrada</h2>
+                                <p>Este aluno ainda não possui ficha cadastrada.</p>
                             </IndividualStudentSection>
-                        </IndividualPrintStyle>
-                    )}
-                    <ToGoBack onClick={messageButtonClick}>
-                        <SignMessageButtonText>Voltar para a </SignMessageButtonText>
-                        <SignMessageButtonTextBold>lista de Alunos</SignMessageButtonTextBold>
-                    </ToGoBack>
-                </IndividualContainerDivs>
+                        ) : (
+                            <>
+                                <CtnrBtt>
+                                    <ButtonPrint className="no-print" onClick={handlePrint}>Imprimir</ButtonPrint>
+                                </CtnrBtt>
+                                <IndividualStudentSection id="printable-content-individualRecords">
+                                    <ContLogo className="cont-logo-individualForm">
+                                        {(logoUrl) && (
+                                            <Preview className="logo-individualForm" src={logoUrl} alt="Logo da escola" />
+                                        )}
+                                        <h2>Relatório Individual</h2>
+                                    </ContLogo>
+                                    <h3>
+                                        {formData?.id_iStQuarter?.bimonthly ||
+                                            formData?.id_iiNdQuarter?.bimonthly ||
+                                            formData?.id_iiiRdQuarter?.bimonthly ||
+                                            formData?.id_ivThQuarter?.bimonthly ||
+                                            "Não informado"}
+                                    </h3>
+                                    <IndividualContainerTable >
+                                        <Span>
+                                            <div>Escola: <p>{formData.id_student?.id_school.name || "Não informado"}</p></div>
+                                            <div>Aluno: <p>{formData.id_student?.name || "Não informado"}</p></div>
+                                            <div>
+                                                Professor(a):
+                                                <p>{formData?.id_teacher?.name || "Não informado"}</p>
+                                            </div>
+                                            {formData?.id_teacher02 && (
+                                                <div>
+                                                    Professor(a) 02: <p>{formData.id_teacher02.name}</p>
+                                                </div>
+                                            )}
+                                            <div>Serie: <p>{formData.id_class?.serie || "Não informado"}</p></div>
+                                            <div>Turma: <p>{formData.id_class?.name || "Não informado"}</p></div>
+                                        </Span>
+                                        <IndividualTableRow>
+                                            <IndividualDescriptionCell>
+                                                <div >
+                                                    {formData ? (
+                                                        <div dangerouslySetInnerHTML={{ __html: formData.description }} />
+                                                    ) : (
+                                                        <p>Nenhuma descrição</p>
+                                                    )}
+                                                </div>
+                                            </IndividualDescriptionCell>
+                                        </IndividualTableRow>
+                                    </IndividualContainerTable>
+
+                                </IndividualStudentSection>
+                            </>
+                        )}
+                        <ToGoBack onClick={messageButtonClick}>
+                            <SignMessageButtonText>Voltar para a </SignMessageButtonText>
+                            <SignMessageButtonTextBold>lista de Alunos</SignMessageButtonTextBold>
+                        </ToGoBack>
+                    </IndividualContainerDivs>
+                </>
             )}
         </Container>
     );
