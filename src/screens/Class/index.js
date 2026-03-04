@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GetClass, getSchoolYear } from '../../Api';
+import { GetClass, getSchoolYear, getIstQuarter } from '../../Api';
 import {
     Container,
     List,
@@ -28,6 +28,7 @@ const Cla$$ = () => {
     const [busca, setBusca] = useState("");
     const [filter, setFilter] = useState("");
     const [loading, setLoading] = useState(true);
+    const [assessmentRegime, setAssessmentRegime] = useState('');
 
     useEffect(() => {
         (async () => {
@@ -46,6 +47,21 @@ const Cla$$ = () => {
                 .map(y => y.year)
                 .filter((valor, indice, self) => self.indexOf(valor) === indice);
             setYear(Year);
+            console.log("y", Year)
+
+            // 🔹 pega o primeiro ano
+            const $yearClass = Year[0];
+            
+            console.log("yearClass", $yearClass);
+            const IstQuarter = await getIstQuarter($yearClass, JSON.parse(idSchool))
+            const i = IstQuarter.data.data.find(res => res) || null;
+            
+            const regime = i?.assessmentRegime;
+
+            console.log("regime", regime);
+
+            setAssessmentRegime(regime);
+
             setLoading(false);
             console.log(resClass)
         })();
@@ -121,9 +137,21 @@ const Cla$$ = () => {
 
                                 const diarios = Clss.dailyStatus || {};
 
-                                const temDiarioAberto = Object.values(diarios).some((bimestre) =>
-                                    Object.values(bimestre).some((status) => status !== "fechado")
-                                );
+                                // 🔹 Define automaticamente os períodos válidos
+                                const periodos = Object.keys(diarios).filter((periodo) => {
+                                    if (assessmentRegime?.toUpperCase() === "TRIMESTRAL") {
+                                        return periodo !== "4º BIMESTRE";
+                                    }
+                                    return true; // bimestral considera todos
+                                });
+
+                                // 🔹 Verifica se há algum aberto nos períodos válidos
+                                const temDiarioAberto = periodos.some((periodo) => {
+                                    const diario = diarios[periodo];
+                                    return Object.values(diario).some(
+                                        (status) => status !== "fechado"
+                                    );
+                                });
 
                                 return (
                                     <Emp
@@ -135,7 +163,6 @@ const Cla$$ = () => {
                                         </Span>
 
                                         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                                            {/* Bolinha */}
                                             <span
                                                 style={{
                                                     width: 8,
@@ -146,7 +173,6 @@ const Cla$$ = () => {
                                                 }}
                                             />
 
-                                            {/* Texto */}
                                             <span
                                                 style={{
                                                     color: temDiarioAberto ? "red" : "green",

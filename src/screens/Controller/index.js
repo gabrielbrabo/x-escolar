@@ -137,46 +137,49 @@ const Matter = () => {
         const idSchool = JSON.parse(sessionStorage.getItem('id-school'));
 
         try {
-            const hasOpen = await hasOpenDiary(idSchool, schoolYear);
-            console.log("res has diary", hasOpen);
+            const response = await hasOpenDiary(idSchool, schoolYear);
 
-            // Se não existir nenhuma turma registrada → avançar normalmente
-            if (!hasOpen?.data || !hasOpen.data.turmasComDiarioAberto) {
-                const nextYear = schoolYear + 1;
-                setFinalizingMessage("Finalizando ano letivo...");
-                await updateSchoolYear(idSchool, nextYear);
-                setFinalizingYear(false);
-                setShowModal(false);
-                // 🔹 Salva mensagem antes do reload
-                sessionStorage.setItem("notification", `Ano letivo alterado para ${nextYear}`);
-                window.location.reload();
-                return;
-            }
+            const { podeAvancar, turmasComDiarioAberto = [] } = response.data;
 
-            // Se todos os diários estiverem fechados → avançar
-            if (hasOpen.data.podeAvancar) {
-                const nextYear = schoolYear + 1;
+            // 🔹 Se regime for BIMESTRAL → mantém regra atual
+            if (assessmentRegime?.toUpperCase() === "BIMESTRAL") {
 
-                setFinalizingMessage("Criando histórico anual dos alunos, aguarde...");
-                // 🔹 1. Gera e salva históricos dos alunos
-                await generateStudentsHistory(idSchool, schoolYear);
+                if (podeAvancar) {
+                    await finalizarAno();
+                } else {
+                    setTurmasPendentes(turmasComDiarioAberto);
+                    setShowWarning(true);
+                    setFinalizingYear(false);
+                    setFinalizingMessage("");
+                }
 
-                setFinalizingMessage("Finalizando e atualizando ano letivo...");
-                // 🔹 2. Avança o ano letivo
-                await updateSchoolYear(idSchool, nextYear);
-
-                setFinalizingYear(false);
-                setShowModal(false);
-                // 🔹 Salva mensagem antes do reload
-                sessionStorage.setItem("notification", `Ano letivo alterado para ${nextYear}`);
-                window.location.reload();
             } else {
-                // ⚠️ Existem diários em aberto → abre modal de aviso
-                setTurmasPendentes(hasOpen.data.turmasComDiarioAberto || []);
-                setShowModal(false);
-                setShowWarning(true);
-                setFinalizingYear(false);
-                setFinalizingMessage("");
+
+                // 🔹 Se for TRIMESTRAL → ignorar 4º bimestre
+                const turmasComPendenciaTrimestral = turmasComDiarioAberto.filter((turma) => {
+
+                    const periodosTrimestrais = ["1º BIMESTRE", "2º BIMESTRE", "3º BIMESTRE"];
+
+                    return periodosTrimestrais.some((periodo) => {
+
+                        const diario = turma.dailyStatus?.[periodo];
+
+                        if (!diario) return true;
+
+                        return Object.values(diario).some(
+                            (status) => status !== "fechado"
+                        );
+                    });
+                });
+
+                if (turmasComPendenciaTrimestral.length === 0) {
+                    await finalizarAno();
+                } else {
+                    setTurmasPendentes(turmasComPendenciaTrimestral);
+                    setShowWarning(true);
+                    setFinalizingYear(false);
+                    setFinalizingMessage("");
+                }
             }
         } catch (err) {
             console.error("Erro ao verificar diário:", err);
@@ -184,6 +187,22 @@ const Matter = () => {
             setFinalizingMessage("");
             alert("Ocorreu um erro ao tentar avançar o ano letivo.");
         }
+    };
+
+    const finalizarAno = async () => {
+
+        const idSchool = JSON.parse(sessionStorage.getItem('id-school'));
+        const nextYear = schoolYear + 1;
+
+        setFinalizingMessage("Criando histórico anual dos alunos, aguarde...");
+        await generateStudentsHistory(idSchool, schoolYear);
+
+        setFinalizingMessage("Finalizando e atualizando ano letivo...");
+        await updateSchoolYear(idSchool, nextYear);
+
+        setFinalizingYear(false);
+        sessionStorage.setItem("notification", `Ano letivo alterado para ${nextYear}`);
+        window.location.reload();
     };
 
     const handleConfirmPreviousYear = async () => {
@@ -517,7 +536,7 @@ const Matter = () => {
                         <TurmaList>
                             {turmasPendentes.map((turma) => (
                                 <TurmaItem key={turma._id}>
-                                    {turma.serie} - {turma.shift}
+                                    {turma.name} - {turma.shift}
                                 </TurmaItem>
                             ))}
                         </TurmaList>
