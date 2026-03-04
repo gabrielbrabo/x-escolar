@@ -161,6 +161,9 @@ export const Btt02 = styled.button`
 `;
 
 export const Emp = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background: linear-gradient(135deg, #ffffff 0%, #f3fafd 100%);
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.08);

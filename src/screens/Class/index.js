@@ -36,7 +36,7 @@ const Cla$$ = () => {
             const schoolYear = await getSchoolYear(JSON.parse(idSchool))
             setFilter(JSON.stringify(schoolYear.data.data))
             console.log("schoolYear", schoolYear.data.data)
-            
+
             const positionAtEducationDepartment = localStorage.getItem("positionAtEducationDepartment")
             const resClass = await GetClass(JSON.parse(idSchool));
             setClss(resClass.data.data);
@@ -114,16 +114,52 @@ const Cla$$ = () => {
                             </DivNewEmp>
                         }
                         <p>Total de Turmas: {filteredClasses.length}</p>
-                        {filteredClasses.filter((fil) => (!filter || fil.year === filter))
+                        {filteredClasses
+                            .filter((fil) => (!filter || fil.year === filter))
                             .filter((val) => (!busca || val.name.includes(busca.toUpperCase())))
-                            .map((Clss) => (
-                                <Emp
-                                    onClick={() => classInformation(Clss)}
-                                    key={Clss._id}
-                                >
-                                    <Span style={{ color: "#003e4f" }}>{Clss.name}</Span>
-                                </Emp>
-                            ))}
+                            .map((Clss) => {
+
+                                const diarios = Clss.dailyStatus || {};
+
+                                const temDiarioAberto = Object.values(diarios).some((bimestre) =>
+                                    Object.values(bimestre).some((status) => status !== "fechado")
+                                );
+
+                                return (
+                                    <Emp
+                                        onClick={() => classInformation(Clss)}
+                                        key={Clss._id}
+                                    >
+                                        <Span style={{ color: "#003e4f" }}>
+                                            {Clss.name}
+                                        </Span>
+
+                                        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                                            {/* Bolinha */}
+                                            <span
+                                                style={{
+                                                    width: 8,
+                                                    height: 8,
+                                                    borderRadius: "50%",
+                                                    backgroundColor: temDiarioAberto ? "red" : "green",
+                                                    display: "inline-block"
+                                                }}
+                                            />
+
+                                            {/* Texto */}
+                                            <span
+                                                style={{
+                                                    color: temDiarioAberto ? "red" : "green",
+                                                    fontWeight: "bold"
+                                                }}
+                                            >
+                                                {temDiarioAberto ? "Diário em aberto" : "Diários fechados"}
+                                            </span>
+                                        </div>
+                                    </Emp>
+                                );
+                            })
+                        }
                     </List>
                 </ContainerDivs>
             )}
