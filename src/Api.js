@@ -422,6 +422,25 @@ export const GetEmployees = async (
         }, [])
 }
 
+export const UpdateEmployeeStatus = async (
+    idEmployee,
+    status
+) => {
+
+    return api.patch(`/employee/${idEmployee}/status`, {
+        status
+    })
+
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(
+                    error.response?.data?.message || "Erro ao atualizar status"
+                )
+                alert(result)
+            }
+        })
+}
+
 export const GetEmployeesEduDep = async (
     idEducationDepartment
 ) => {

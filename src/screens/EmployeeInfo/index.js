@@ -9,7 +9,8 @@ import {
     getIVthQuarter,
     getVthQuarter,
     getVIthQuarter,
-    getSchoolYear
+    getSchoolYear,
+    UpdateEmployeeStatus
 } from '../../Api'
 
 import {
@@ -68,7 +69,7 @@ const EmployeeInformation = () => {
     //const [year, setYear] = useState([])
     const [Clss, setClss] = useState([])
     const [employee, setEmployee] = useState([])
-    const [matter, setMatter] = useState("")
+    //const [matter, setMatter] = useState("")
     //const [filter, setFilter] = useState()
     const [position_at_school, setPosition_at_school] = useState([]);
     const [posi, setPosi] = useState();
@@ -128,7 +129,7 @@ const EmployeeInformation = () => {
                 }
             })
             console.log("cl", clss)
-            const mttr = res.data.data.find(res => {
+            /*const mttr = res.data.data.find(res => {
                 return res
             }).id_matter.map(res => {
                 if (res._id) {
@@ -142,9 +143,9 @@ const EmployeeInformation = () => {
                 } else {
                     return (null)
                 }
-            })
+            })*/
             setClss(clss)
-            setMatter(mttr)
+            //setMatter(mttr)
             setLoading(false);
             setSchool(School);
 
@@ -165,7 +166,7 @@ const EmployeeInformation = () => {
             //const res = await GetMatter(JSON.parse(idSchool));
 
             setbimonthly([i, ii, iii, iv, v, vi].filter(res => res !== null));
-            
+
         })()
 
     }, [id_employee])
@@ -253,11 +254,38 @@ const EmployeeInformation = () => {
         }
     }
 
-    //const nameEmployee = sessionStorage.getItem("name")
-    console.log("clas", matter)
-    console.log('posi', Clss)
-    console.log('employee', employee)
+    const handleToggleStatus = async () => {
 
+        const currentEmployee = employee.find(emp => emp)
+    
+        if (!currentEmployee) return;
+    
+        const isInactive = currentEmployee.status === "inactive";
+    
+        const newStatus = isInactive ? "active" : "inactive";
+    
+        const confirmAction = window.confirm(
+            `Deseja realmente ${isInactive ? "ATIVAR" : "INATIVAR"} este funcionário?`
+        );
+    
+        if (!confirmAction) return;
+    
+        const res = await UpdateEmployeeStatus(id_employee, newStatus);
+    
+        if (res) {
+    
+            setEmployee(prev =>
+                prev.map(emp =>
+                    emp._id === id_employee
+                        ? { ...emp, status: newStatus }
+                        : emp
+                )
+            );
+    
+            alert(`Funcionário ${isInactive ? "ativado" : "inativado"} com sucesso!`);
+        }
+    };
+    
     return (
         <Container>
             {loading ? (
@@ -274,8 +302,15 @@ const EmployeeInformation = () => {
 
                                     </ProfilePhoto>*/}
                                     < ProfileInfo>
-                                    <Span>{emp.name}</Span>
-                                        <Span>{emp.position_at_school}(A)</Span>
+                                        <Span>{emp.name}</Span>
+                                        <Span>
+                                            {emp.position_at_school}{" "}
+                                            (
+                                            {(emp.status === "inactive")
+                                                ? "🔴 Inativo"
+                                                : "🟢 Ativo"}
+                                            )
+                                        </Span>
                                         <Span>Codigo:{emp.EmployeeCode}</Span>
                                         <Span>{school}</Span>
                                         <Span>Celular: {emp.cellPhone}</Span>
@@ -329,23 +364,23 @@ const EmployeeInformation = () => {
                             </DivInfo>*/}
                             {!posi &&
                                 <Input>
-                                <h2>Diario</h2>
-                                <Label>Selecione o bimestre e click no botão abaixo.</Label>
-                                <Select
-                                    id="id-bimonthly"
-                                    value={Selectbimonthly}
-                                    onChange={(e) => setSelectbimonthly(e.target.value)}
-                                >
-                                    <option value="">Selecione</option>
-                                    {
-                                        bimonthly.map(res => (
-                                            <option key={res._id} value={JSON.stringify({ _id: res._id, bimonthly: res.bimonthly })}>{res.bimonthly}</option>
-                                        ))
-                                    }
-                                </Select>
-                                {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                                <Button onClick={handledaily}>Ver Diario</Button>
-                            </Input>}
+                                    <h2>Diario</h2>
+                                    <Label>Selecione o bimestre e click no botão abaixo.</Label>
+                                    <Select
+                                        id="id-bimonthly"
+                                        value={Selectbimonthly}
+                                        onChange={(e) => setSelectbimonthly(e.target.value)}
+                                    >
+                                        <option value="">Selecione</option>
+                                        {
+                                            bimonthly.map(res => (
+                                                <option key={res._id} value={JSON.stringify({ _id: res._id, bimonthly: res.bimonthly })}>{res.bimonthly}</option>
+                                            ))
+                                        }
+                                    </Select>
+                                    {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                    <Button onClick={handledaily}>Ver Diario</Button>
+                                </Input>}
                             <DivInfo>
                                 <TitleInfo>Turmas:</TitleInfo>
                                 {/*
@@ -406,7 +441,7 @@ const EmployeeInformation = () => {
                                             key={clss.id}
                                             onClick={() => { handleSelectClas(clss) }}
                                         >
-                                           <Span>Serie: {clss.serie}</Span> <Span> Nome: {clss.name}</Span>
+                                            <Span>Serie: {clss.serie}</Span> <Span> Nome: {clss.name}</Span>
                                         </ClassItem>
                                     ))}
                                 </ClassList>
@@ -414,6 +449,25 @@ const EmployeeInformation = () => {
                             </Modal>
                         </Backdrop>
                     }
+                    <ActionButtons style={{ marginTop: 30 }}>
+                        {employee.map(emp => {
+                            const isInactive = emp.status === "inactive";
+
+                            return (
+                                <Button
+                                    key={emp._id}
+                                    onClick={handleToggleStatus}
+                                    style={{
+                                        backgroundColor: isInactive ? "#5cb85c" : "#d9534f"
+                                    }}
+                                >
+                                    {isInactive
+                                        ? "Ativar Funcionário"
+                                        : "Inativar Funcionário"}
+                                </Button>
+                            );
+                        })}
+                    </ActionButtons>
                 </ContainerDivs>
             )}
         </Container>
