@@ -63,6 +63,7 @@ const Matter = () => {
     const [showAssessmentRegimeModal, setShowAssessmentRegimeModal] = useState(false);
 
     const [position_at_school, setPosition_at_school] = useState('');
+    const [blocked, setBlocked] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -70,6 +71,17 @@ const Matter = () => {
             const idSchool = JSON.parse(sessionStorage.getItem('id-school'));
             const res = await getSchoolYear(idSchool);
             setSchoolYear(res.data.data);
+
+            const schoolYearValue = res.data.data; // ano da escola
+            const currentYear = new Date().getFullYear();
+            const currentMonth = new Date().getMonth(); // 0-11
+
+            if (
+                Number(schoolYearValue) === currentYear &&
+                currentMonth > 1
+            ) {
+                setBlocked(true);
+            }
 
             const position = localStorage.getItem('position_at_school');
             setPosition_at_school(position);
@@ -479,6 +491,7 @@ const Matter = () => {
                 <ModalOverlay>
                     <ModalContent>
                         <h3>Atenção!</h3>
+
                         <p>
                             Verifique se todos os dados do ano letivo atual foram finalizados corretamente.
                             <br />
@@ -499,11 +512,27 @@ const Matter = () => {
                 <ModalOverlay>
                     <ModalContent>
                         <h3>⚠️ Atenção!</h3>
-                        <p>
-                            Antes de retroceder o ano letivo, verifique se isso é realmente necessário.
-                            <br />
-                            Essa ação impacta todos os professores e usuários, que verão apenas as turmas e informações do ano letivo configurado.
-                        </p>
+
+                        {blocked ? (
+                            <p>
+                                Ao retroceder o ano letivo, o Diário dos professores ficará indisponível
+                                enquanto o ano configurado for diferente do ano atual.
+                                <br /><br />
+                                Oriente os professores a aguardarem a regularização para evitar
+                                problemas com lançamentos e registros.
+                                <br /><br />
+                                O Diário voltará a ficar disponível assim que o ano letivo
+                                estiver configurado corretamente.
+                            </p>
+                        ) : (
+                            <p>
+                                Antes de retroceder o ano letivo, verifique se isso é realmente necessário.
+                                <br />
+                                Essa ação impacta todos os professores e usuários, que verão apenas as
+                                turmas e informações do ano letivo configurado.
+                            </p>
+                        )}
+
                         <ModalButtons>
                             <button onClick={handleConfirmPreviousYear}>Confirmar</button>
                             <button onClick={handleCancel}>Cancelar</button>

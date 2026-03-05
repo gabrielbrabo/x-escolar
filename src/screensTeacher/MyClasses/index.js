@@ -24,6 +24,7 @@ const MyCla$$ = () => {
     const [Clss, setClss] = useState([])
     const [filter, setFilter] = useState()
     // const [busca, setBusca] = useState()
+    const [blocked, setBlocked] = useState(false);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -31,7 +32,19 @@ const MyCla$$ = () => {
             setLoading(true);
             const idSchool = sessionStorage.getItem("id-school");
             const schoolYear = await getSchoolYear(JSON.parse(idSchool))
+
+            const schoolYearValue = schoolYear.data.data; // ano da escola
+            const currentYear = new Date().getFullYear();
+            const currentMonth = new Date().getMonth(); // 0-11
+
+            if (
+                Number(schoolYearValue) !== currentYear &&
+                currentMonth > 1
+            ) {
+                setBlocked(true);
+            }
             console.log("schoolYear", schoolYear)
+
             const id_employee = localStorage.getItem("Id_employee")
             const res = await EmpInfo(JSON.parse(id_employee))
             const clss = await res.data.data.find(res => {
@@ -89,6 +102,12 @@ const MyCla$$ = () => {
         setLoading(false);
     }
 
+    const handleLogout = () => {
+        sessionStorage.clear();
+        localStorage.clear();
+        navigate("/"); // ou "/login" se for sua rota de login
+    };
+
     return (
         <Container>
             {loading ?
@@ -124,7 +143,7 @@ const MyCla$$ = () => {
                             </Select>
                         </FormFilter>
                     </Search>
-                       <p> Clique para acessar a turma! 🚀</p>
+                    <p> Clique para acessar a turma! 🚀</p>
                     <List>
                         {
                             Clss.filter((fil) => {
@@ -158,6 +177,50 @@ const MyCla$$ = () => {
                             ))
                         }
                     </List>
+                    {blocked && (
+                        <div style={{
+                            position: "fixed",
+                            inset: 0,
+                            backdropFilter: "blur(6px)",
+                            backgroundColor: "rgba(0,0,0,0.4)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            zIndex: 9999
+                        }}>
+                            <div style={{
+                                background: "#fff",
+                                padding: "30px 40px",
+                                borderRadius: 12,
+                                textAlign: "center",
+                                maxWidth: 400,
+                                boxShadow: "0 10px 30px rgba(0,0,0,0.2)"
+                            }}>
+                                <h3 style={{ marginBottom: 15 }}>
+                                    ⚠ Diário indisponível
+                                </h3>
+                                <p style={{ fontSize: 14, lineHeight: 1.5 }}>
+                                    O diário está indisponível no momento.<br /><br />
+                                    Para mais informações, entre em contato com a supervisão ou direção da escola.
+                                </p>
+                                <button
+                                    onClick={handleLogout}
+                                    style={{
+                                        marginTop: 20,
+                                        padding: "10px 20px",
+                                        borderRadius: 8,
+                                        border: "none",
+                                        backgroundColor: "#d9534f",
+                                        color: "#fff",
+                                        fontWeight: "bold",
+                                        cursor: "pointer"
+                                    }}
+                                >
+                                    Sair
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </ContainerDivs>
             }
         </Container>
