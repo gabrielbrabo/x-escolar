@@ -191,7 +191,8 @@ const Employees = () => {
                                     onClick={() =>
                                         employeeInformation(employee)
                                     }
-                                    key={employee._id} >
+                                    key={employee._id}
+                                >
                                     <Span style={{ color: "#003e4f" }}>
                                         {employee.name}
                                     </Span>
@@ -203,7 +204,7 @@ const Employees = () => {
                                             marginRight: "20px"
                                         }}
                                     >
-                                        {employee.status === "inactive" ? "🔴 Inativo" : "🟢 Ativo"}
+                                        {employee.status === "inactive" ? "Inativo" : "Ativo"}
                                     </Span>
                                 </Emp>
                             ))
