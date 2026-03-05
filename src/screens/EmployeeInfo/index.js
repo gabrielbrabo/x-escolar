@@ -257,23 +257,33 @@ const EmployeeInformation = () => {
     const handleToggleStatus = async () => {
 
         const currentEmployee = employee.find(emp => emp)
-    
+
         if (!currentEmployee) return;
-    
+
         const isInactive = currentEmployee.status === "inactive";
-    
+
+        // 🔴 REGRA: professor com turma não pode ser inativado
+        if (
+            currentEmployee.position_at_school === "PROFESSOR" &&
+            Clss.length > 0 &&
+            !isInactive
+        ) {
+            alert("Este professor está vinculado a uma turma e não pode ser inativado.");
+            return;
+        }
+
         const newStatus = isInactive ? "active" : "inactive";
-    
+
         const confirmAction = window.confirm(
-            `Deseja realmente ${isInactive ? "ATIVAR" : "INATIVAR"} este funcionário?`
+            `Deseja realmente ${isInactive ? "REATIVAR" : "INATIVAR"} este funcionário?`
         );
-    
+
         if (!confirmAction) return;
-    
+
         const res = await UpdateEmployeeStatus(id_employee, newStatus);
-    
+
         if (res) {
-    
+
             setEmployee(prev =>
                 prev.map(emp =>
                     emp._id === id_employee
@@ -281,11 +291,11 @@ const EmployeeInformation = () => {
                         : emp
                 )
             );
-    
+
             alert(`Funcionário ${isInactive ? "ativado" : "inativado"} com sucesso!`);
         }
     };
-    
+
     return (
         <Container>
             {loading ? (
@@ -462,7 +472,7 @@ const EmployeeInformation = () => {
                                     }}
                                 >
                                     {isInactive
-                                        ? "Ativar Funcionário"
+                                        ? "Reativar Funcionário"
                                         : "Inativar Funcionário"}
                                 </Button>
                             );

@@ -48,7 +48,7 @@ export const List = styled.div`
 export const Emp = styled.div`
   display: flex;
   width: 100%;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   padding: 14px 16px;
   gap: 10px;

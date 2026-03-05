@@ -60,13 +60,23 @@ const Employees = () => {
         })()
     }, [filter])
 
-    employees.sort((a, b) =>
-        a.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").localeCompare(
-            b.name.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-            "pt-BR",
-            { sensitivity: "base" }
-        )
-    );
+    employees.sort((a, b) => {
+
+        // primeiro ordena por status
+        if (a.status !== b.status) {
+            return a.status === "inactive" ? 1 : -1
+        }
+
+        // depois ordena por nome
+        return a.name
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .localeCompare(
+                b.name.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+                "pt-BR",
+                { sensitivity: "base" }
+            )
+    });
 
     const normalizeString = (str) => {
         return str
@@ -182,7 +192,19 @@ const Employees = () => {
                                         employeeInformation(employee)
                                     }
                                     key={employee._id} >
-                                    <Span style={{ color: "#003e4f" }}>{employee.name}</Span>
+                                    <Span style={{ color: "#003e4f" }}>
+                                        {employee.name}
+                                    </Span>
+
+                                    <Span
+                                        style={{
+                                            color: employee.status === "inactive" ? "red" : "green",
+                                            fontWeight: "bold",
+                                            marginRight: "20px"
+                                        }}
+                                    >
+                                        {employee.status === "inactive" ? "🔴 Inativo" : "🟢 Ativo"}
+                                    </Span>
                                 </Emp>
                             ))
                         }
