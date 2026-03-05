@@ -52,7 +52,7 @@ const Employees = () => {
             const res = await GetMatter(JSON.parse(idSchool))
             //setStudent(response.data.data)
             setFilterMatter(res.data.data)
-            console.log(response)
+            console.log(response.data.data)
 
             sessionStorage.setItem("selectedFilter", filter);
 
@@ -80,7 +80,6 @@ const Employees = () => {
                 { sensitivity: "base" }
             );
     });
-    
     const normalizeString = (str) => {
         return str
             .normalize("NFD") // Separa os caracteres acentuados
@@ -121,7 +120,7 @@ const Employees = () => {
 
     //const loggedInEmployeeId = localStorage.getItem("Id_employee");
 
-    //console.log('res', employees)
+    console.log('res', employees)
 
     //console.log('matter', matter)
 
