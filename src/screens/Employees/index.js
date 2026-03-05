@@ -72,6 +72,7 @@ const Employees = () => {
 
         // ordem alfabética dentro do mesmo status
         return a.name
+            .trim()
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
             .localeCompare(
@@ -80,8 +81,10 @@ const Employees = () => {
                 { sensitivity: "base" }
             );
     });
+
     const normalizeString = (str) => {
         return str
+            .trim()
             .normalize("NFD") // Separa os caracteres acentuados
             .replace(/[\u0300-\u036f]/g, "") // Remove os acentos
             .replace(/[^\w\s]/gi, "") // Remove pontuações
@@ -95,16 +98,29 @@ const Employees = () => {
     })
 
     const filteredEmployees = employees
-        .filter(emp => !filter || emp.position_at_school === filter) // filtro por cargo
-        .filter(emp => !busca || normalizeString(emp.name).includes(normalizeString(busca))) // filtro por nome
-        .sort((a, b) =>
-            normalizeString(a.name).localeCompare(normalizeString(b.name)) // ordena por nome
-        );
+        .filter(emp => !filter || emp.position_at_school === filter)
+        .filter(emp =>
+            !busca ||
+            normalizeString(emp.name).includes(normalizeString(busca))
+        )
+        .sort((a, b) => {
 
-    /*if(filter) {
-        console.log('filter', filter)
-    }*/
+            // 🔹 1º - Ativo vem primeiro
+            const statusA = a.status === "inactive" ? 1 : 0;
+            const statusB = b.status === "inactive" ? 1 : 0;
 
+            if (statusA !== statusB) {
+                return statusA - statusB;
+            }
+
+            // 🔹 2º - Ordem alfabética
+            return normalizeString(a.name)
+                .localeCompare(
+                    normalizeString(b.name),
+                    "pt-BR",
+                    { sensitivity: "base" }
+                );
+        });
     const NewEmoloyee = async () => {
         navigate('/new/employees')
     }
@@ -173,7 +189,7 @@ const Employees = () => {
                     <List>
                         <p>Total de Funcionários Cadastrados: {filteredEmployees.length}</p>
                         {
-                            employees.filter((fil) => {
+                            filteredEmployees.filter((fil) => {
                                 if (!filter) {
                                     return (fil)
                                 } else if (fil.position_at_school === filter) {
