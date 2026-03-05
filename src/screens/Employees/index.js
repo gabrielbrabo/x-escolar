@@ -62,12 +62,15 @@ const Employees = () => {
 
     employees.sort((a, b) => {
 
-        // primeiro ordena por status
-        if (a.status !== b.status) {
-            return a.status === "inactive" ? 1 : -1
+        const statusA = a.status === "inactive" ? "inactive" : "active";
+        const statusB = b.status === "inactive" ? "inactive" : "active";
+
+        // prioridade de status
+        if (statusA !== statusB) {
+            return statusA === "inactive" ? 1 : -1;
         }
 
-        // depois ordena por nome
+        // ordem alfabética dentro do mesmo status
         return a.name
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
@@ -75,9 +78,9 @@ const Employees = () => {
                 b.name.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
                 "pt-BR",
                 { sensitivity: "base" }
-            )
+            );
     });
-
+    
     const normalizeString = (str) => {
         return str
             .normalize("NFD") // Separa os caracteres acentuados
