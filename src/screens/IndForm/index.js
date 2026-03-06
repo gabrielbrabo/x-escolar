@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getStudentIndividualForm, fetchLogo } from '../../Api';
+import { getStudentIndividualForm, fetchLogo, getSchoolYear, getIstQuarter } from '../../Api';
 import {
     Container,
     IndividualContainerDivs,
@@ -30,10 +30,19 @@ const StudentRecordDescription = () => {
     const { idBim } = useParams();
     const [loading, setLoading] = useState(false);
 
+    const [assessmentRegime, setAssessmentRegime] = useState('');
+
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             const idSchool = JSON.parse(sessionStorage.getItem("id-school"));
+
+            const schoolYear = await getSchoolYear(idSchool)
+            const IstQuarter = await getIstQuarter(schoolYear.data.data, idSchool)
+            const i = IstQuarter.data.data.find(res => res) || null;
+            const regime = i?.assessmentRegime;
+            console.log("regime", regime);
+            setAssessmentRegime(regime);
             const form = await getStudentIndividualForm(idStdt, bim, idBim)
             // Filtra os professores que não são o de Educação Física
 
@@ -88,6 +97,19 @@ const StudentRecordDescription = () => {
         window.print();
     };
 
+    const periodText = (
+        formData?.id_iStQuarter?.bimonthly ||
+        formData?.id_iiNdQuarter?.bimonthly ||
+        formData?.id_iiiRdQuarter?.bimonthly ||
+        formData?.id_ivThQuarter?.bimonthly ||
+        "Não informado"
+    );
+
+    const formattedPeriod =
+        assessmentRegime === "TRIMESTRAL"
+            ? periodText.replace("BIMESTRE", "TRIMESTRE")
+            : periodText;
+
     return (
         <Container>
             {loading ? (
@@ -113,13 +135,7 @@ const StudentRecordDescription = () => {
                                         )}
                                         <h2>Relatório Individual</h2>
                                     </ContLogo>
-                                    <h3>
-                                        {formData?.id_iStQuarter?.bimonthly ||
-                                            formData?.id_iiNdQuarter?.bimonthly ||
-                                            formData?.id_iiiRdQuarter?.bimonthly ||
-                                            formData?.id_ivThQuarter?.bimonthly ||
-                                            "Não informado"}
-                                    </h3>
+                                    <h3>{formattedPeriod}</h3>
                                     <IndividualContainerTable >
                                         <Span>
                                             <div>Escola: <p>{formData.id_student?.id_school.name || "Não informado"}</p></div>

@@ -10,7 +10,8 @@ import {
     getVthQuarter,
     getVIthQuarter,
     getSchoolYear,
-    UpdateEmployeeStatus
+    UpdateEmployeeStatus,
+    getAssessmentRegime
 } from '../../Api'
 
 import {
@@ -82,6 +83,7 @@ const EmployeeInformation = () => {
     const [school, setSchool] = useState(null);
     const [removeEmp, setRemoveEmp] = useState(false);
     const [errorMessage, setErrorMessage] = useState();
+    const [assessmentRegime, setAssessmentRegime] = useState('');
     const { id_employee } = useParams()
 
     useEffect(() => {
@@ -91,6 +93,14 @@ const EmployeeInformation = () => {
             const posi = localStorage.getItem("positionAtEducationDepartment");
             setPosi(posi)
             const idSchool = sessionStorage.getItem("id-school");
+
+            const response = await getAssessmentRegime(JSON.parse(idSchool))
+
+            if (response?.data?.data) {
+                setAssessmentRegime(response.data.data)
+                sessionStorage.setItem('assessmentRegime', response.data.data);
+            }
+
             const schoolYear = await getSchoolYear(JSON.parse(idSchool))
             //setPositionAtSchool(position);
             sessionStorage.setItem("EmployeeInformation", id_employee)
@@ -376,21 +386,41 @@ const EmployeeInformation = () => {
                                 <Input>
                                     <h2>Diario</h2>
                                     <Label>Selecione o bimestre e click no botão abaixo.</Label>
+
                                     <Select
                                         id="id-bimonthly"
                                         value={Selectbimonthly}
                                         onChange={(e) => setSelectbimonthly(e.target.value)}
                                     >
                                         <option value="">Selecione</option>
-                                        {
-                                            bimonthly.map(res => (
-                                                <option key={res._id} value={JSON.stringify({ _id: res._id, bimonthly: res.bimonthly })}>{res.bimonthly}</option>
+
+                                        {bimonthly
+                                            // se for trimestral, ignora o 4º bimestre
+                                            .filter(res => {
+                                                if (assessmentRegime !== 'TRIMESTRAL') return true
+                                                return !res.bimonthly.includes('4º')
+                                            })
+                                            .map(res => (
+                                                <option
+                                                    key={res._id}
+                                                    value={JSON.stringify({
+                                                        _id: res._id,
+                                                        bimonthly: res.bimonthly
+                                                    })}
+                                                >
+                                                    {assessmentRegime === 'TRIMESTRAL'
+                                                        ? res.bimonthly.replace('BIMESTRE', 'TRIMESTRE')
+                                                        : res.bimonthly}
+                                                </option>
                                             ))
                                         }
+
                                     </Select>
+
                                     {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                                     <Button onClick={handledaily}>Ver Diario</Button>
-                                </Input>}
+                                </Input>
+                            }
                             <DivInfo>
                                 <TitleInfo>Turmas:</TitleInfo>
                                 {/*

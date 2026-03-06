@@ -42,7 +42,9 @@ import {
   indexNumericalGradesCard,
   GetLogo,
   fetchLogo,
-  clssInfo
+  clssInfo,
+  getSchoolYear,
+  getIstQuarter
 } from '../../Api';
 
 import { IoCheckmarkSharp, IoCloseSharp } from "react-icons/io5";
@@ -82,6 +84,8 @@ const GradeIstquarter = () => {
 
   const { idClass } = useParams();
 
+  const [assessmentRegime, setAssessmentRegime] = useState('');
+
   useEffect(() => {
     (async () => {
       setLoading(true);
@@ -99,6 +103,13 @@ const GradeIstquarter = () => {
       setStdtName(stdtName)
       setNameSchool(nameSchool)
       setid_student(id_student)
+
+      const schoolYear = await getSchoolYear(idSchool)
+      const IstQuarter = await getIstQuarter(schoolYear.data.data, idSchool)
+      const i = IstQuarter.data.data.find(res => res) || null;
+      const regime = i?.assessmentRegime;
+      console.log("regime", regime);
+      setAssessmentRegime(regime);
 
       if (idlogo && /^[0-9a-fA-F]{24}$/.test(idlogo)) {
         const logo = await GetLogo(idlogo);
@@ -297,7 +308,7 @@ const GradeIstquarter = () => {
     return acc;
   }, []);
 
-  console.log("groupedGrades", groupedGrades)
+  const periodLabel = assessmentRegime === 'TRIMESTRAL' ? 'TRIM' : 'BIM';
   return (
     <Container>
       <GlobalStyle /> {/* Adicionando estilos globais */}
@@ -331,7 +342,12 @@ const GradeIstquarter = () => {
                 <h2>Boletim</h2>
               </ContLogo>
               <AddEmp>
-                <h3>1º Bimestre</h3>
+                {assessmentRegime === 'BIMESTRAL' && (
+                  <h3>1º Bimestre</h3>
+                )}
+                {assessmentRegime === 'TRIMESTRAL' && (
+                  <h3>1º Trimestre</h3>
+                )}
               </AddEmp>
               <DadosStdt>
                 <UpContainer>
@@ -388,7 +404,7 @@ const GradeIstquarter = () => {
                           <Grade>
                             <DivBimTable>
                               <DivBimRow>
-                                <DivBimHeader>1º Bim</DivBimHeader>
+                                <DivBimHeader>1º {periodLabel}</DivBimHeader>
                                 <DivBimCell
                                   grade={parseFloat(grd.grade) || 0}
                                   averageGrade={parseFloat(averageGrade) || 0}
@@ -405,23 +421,23 @@ const GradeIstquarter = () => {
                               </DivBimRow>
 
                               <DivBimRow>
-                                <DivBimHeader>2º Bim</DivBimHeader>
+                                <DivBimHeader>2º {periodLabel}</DivBimHeader>
                                 <DivBimCell /*grade={iiNdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}*/>
                                   {/*iiNdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade ||*/ "-"}
                                 </DivBimCell>
                               </DivBimRow>
                               <DivBimRow>
-                                <DivBimHeader>3º Bim</DivBimHeader>
+                                <DivBimHeader>3º {periodLabel}</DivBimHeader>
                                 <DivBimCell /*grade={iiiRdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}*/>
                                   {/*iiiRdQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade ||*/ "-"}
                                 </DivBimCell>
                               </DivBimRow>
-                              <DivBimRow>
-                                <DivBimHeader>4º Bim</DivBimHeader>
-                                <DivBimCell /*grade={ivThQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade || "N/A"}*/>
-                                  {/*ivThQuarter.find((q) => q.id_matter === grd.id_matter._id)?.studentGrade ||*/ "-"}
-                                </DivBimCell>
-                              </DivBimRow>
+                              {assessmentRegime !== 'TRIMESTRAL' && (
+                                <DivBimRow>
+                                  <DivBimHeader>4º {periodLabel}</DivBimHeader>
+                                  <DivBimCell>-</DivBimCell>
+                                </DivBimRow>
+                              )}
                             </DivBimTable>
                             {/*<SpanTotalGrade><p>Total</p>{grd.totalGrade}</SpanTotalGrade>
                           <SpanAverageGrade><p>Media</p>{grd.averageGrade}</SpanAverageGrade>*/}

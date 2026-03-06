@@ -16,7 +16,8 @@ import {
     GetMatter,
     DestroyNumericalGrade,
     updateNumericalGrade,
-    clssInfo
+    clssInfo,
+    getAssessmentRegime
 } from '../../Api'
 import Calendar from '../../components/CalendarUI/Calendar'
 
@@ -135,6 +136,8 @@ const Student = () => {
 
     const [update_id_grade, setUpdateIdGrade] = useState(null);
 
+    const [assessmentRegime, setAssessmentRegime] = useState('');
+
     const { id_student } = useParams()
     //console.log(currentYear)
 
@@ -143,6 +146,13 @@ const Student = () => {
             setLoading(true);
 
             const idSchool = sessionStorage.getItem("id-school");
+
+            const response = await getAssessmentRegime(JSON.parse(idSchool))
+
+            if (response?.data?.data) {
+                setAssessmentRegime(response.data.data)
+                sessionStorage.setItem('assessmentRegime', response.data.data);
+            }
 
             const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
             setassessmentFormat($assessmentFormat)
@@ -577,6 +587,12 @@ const Student = () => {
         }
     }
 
+    const periodText = SelectbihistoricGrades?.bim
+        ? (assessmentRegime === "TRIMESTRAL"
+            ? SelectbihistoricGrades.bim.replace("BIMESTRE", "TRIMESTRE")
+            : SelectbihistoricGrades.bim)
+        : "";
+
     return (
         <Container>
             {loading ?
@@ -654,17 +670,27 @@ const Student = () => {
                             }
                             <Input>
                                 <h3>Boletim</h3>
-                                <Label>Selecione o bimestre e click no botão abaixo.</Label>
+                                <Label>Selecione o periodo e click no botão abaixo.</Label>
                                 <Select
                                     id="id-bimonthly"
                                     value={Selectbimonthly}
                                     onChange={(e) => setSelectbimonthly(e.target.value)}
                                 >
                                     <option value="">Selecione</option>
-                                    {bimonthly.map(res => (
-                                        <option key={res._id} value={res._id}>{res.bimonthly}</option>
-                                    ))
-                                    },
+                                    {bimonthly
+                                        // 🔹 se for trimestral, ignora o 4º bimestre
+                                        .filter(res => {
+                                            if (assessmentRegime !== 'TRIMESTRAL') return true
+                                            return !res.bimonthly.includes('4º')
+                                        })
+                                        .map(res => (
+                                            <option key={res._id} value={res._id}>
+                                                {assessmentRegime === 'TRIMESTRAL'
+                                                    ? res.bimonthly.replace('BIMESTRE', 'TRIMESTRE')
+                                                    : res.bimonthly}
+                                            </option>
+                                        ))
+                                    }
 
                                     <option value="FinalConcepts">Resultado Final</option>
                                 </Select>
@@ -675,7 +701,7 @@ const Student = () => {
                             {assessmentFormat === "concept" &&
                                 <Input>
                                     <h3>Relatório Individual </h3>
-                                    <Label>Selecione o bimestre e click no botão abaixo.</Label>
+                                    <Label>Selecione o periodo e click no botão abaixo.</Label>
                                     <Select
                                         value={selectedBimId}
                                         onChange={(e) => {
@@ -690,11 +716,20 @@ const Student = () => {
                                         }}
                                     >
                                         <option value="">Selecione</option>
-                                        {bimonthly.map(res => (
-                                            <option key={res._id} value={res._id}>
-                                                {res.bimonthly}
-                                            </option>
-                                        ))}
+                                        {bimonthly
+                                            // 🔹 se for trimestral, ignora o 4º bimestre
+                                            .filter(res => {
+                                                if (assessmentRegime !== 'TRIMESTRAL') return true
+                                                return !res.bimonthly.includes('4º')
+                                            })
+                                            .map(res => (
+                                                <option key={res._id} value={res._id}>
+                                                    {assessmentRegime === 'TRIMESTRAL'
+                                                        ? res.bimonthly.replace('BIMESTRE', 'TRIMESTRE')
+                                                        : res.bimonthly}
+                                                </option>
+                                            ))
+                                        }
                                     </Select>
                                     {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                                     <Button onClick={signClickIndForm}>Ver Relatório </Button>
@@ -704,7 +739,7 @@ const Student = () => {
                                 <HistoricGradeContainer>
                                     <Input>
                                         <h3>Notas provenientes de outras escolas</h3>
-                                        <Label>Selecione o bimestre e click no botão abaixo.</Label>
+                                        <Label>Selecione o periodo e click no botão abaixo.</Label>
                                         <Select
                                             id="id-bimonthly"
                                             value={SelectbihistoricGrades?._id || ""}
@@ -717,9 +752,19 @@ const Student = () => {
                                             }}
                                         >
                                             <option value="">Selecione</option>
-                                            {bimonthly.map(res => (
-                                                <option key={res._id} value={res._id}>{res.bimonthly}</option>
-                                            ))
+                                            {bimonthly
+                                                // 🔹 se for trimestral, ignora o 4º bimestre
+                                                .filter(res => {
+                                                    if (assessmentRegime !== 'TRIMESTRAL') return true
+                                                    return !res.bimonthly.includes('4º')
+                                                })
+                                                .map(res => (
+                                                    <option key={res._id} value={res._id}>
+                                                        {assessmentRegime === 'TRIMESTRAL'
+                                                            ? res.bimonthly.replace('BIMESTRE', 'TRIMESTRE')
+                                                            : res.bimonthly}
+                                                    </option>
+                                                ))
                                             }
                                         </Select>
                                         <Button onClick={ReturnHistoryGrade}>Ver notas de outras escolas</Button>
@@ -732,7 +777,7 @@ const Student = () => {
                                         <h3>Notas provenientes de outras escolas</h3>
 
                                         <HeaderRow>
-                                            <h4>{SelectbihistoricGrades.bim}</h4>
+                                            <h4>{periodText}</h4>
 
                                             <AddHistoricButton
                                                 //disabled={open !== 'aberto'}
@@ -749,7 +794,7 @@ const Student = () => {
                                         </HeaderRow>
                                         {resHistoricGrade.length === 0 ? (
                                             <EmptyHistoricMessage>
-                                                Não há nenhuma nota proveniente de outras escolas para este bimestre.
+                                                Não há nenhuma nota proveniente de outras escolas para este periodo.
                                             </EmptyHistoricMessage>
                                         ) : (
                                             resHistoricGrade

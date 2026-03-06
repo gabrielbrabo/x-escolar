@@ -54,7 +54,7 @@ const HomeSchool = () => {
   const [selectedSchoolDays, setSelectedSchoolDays] = useState([]);
   const [selectedPeriodTitle, setSelectedPeriodTitle] = useState('');
 
-  const [selectedDate, setSelectedDate] = useState(null);
+  //const [selectedDate, setSelectedDate] = useState(null);
 
 
   useEffect(() => {
@@ -123,10 +123,108 @@ const HomeSchool = () => {
     setShowSchoolDaysModal(false);
     setSelectedSchoolDays([]);
     setSelectedPeriodTitle('');
-    setSelectedDate(null);
+    //setSelectedDate(null);
+  };
+  const renderCalendarMonths = () => {
+    if (!selectedSchoolDays || selectedSchoolDays.length === 0) return null;
+
+    const schoolDates = selectedSchoolDays.map(d =>
+      new Date(d.date).toISOString().split("T")[0]
+    );
+
+    const months = {};
+
+    selectedSchoolDays.forEach(d => {
+      const date = new Date(d.date);
+      const key = `${date.getFullYear()}-${date.getMonth()}`;
+
+      if (!months[key]) {
+        months[key] = {
+          year: date.getFullYear(),
+          month: date.getMonth()
+        };
+      }
+    });
+
+    const monthNames = [
+      "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+      "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+    ];
+
+    const weekDays = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SAB"];
+
+    return Object.values(months).map(({ year, month }) => {
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      const days = [];
+
+      for (let i = 0; i < firstDay; i++) {
+        days.push(<div key={"empty-" + i}></div>);
+      }
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const dateStr = new Date(year, month, d)
+          .toISOString()
+          .split("T")[0];
+
+        const isSchoolDay = schoolDates.includes(dateStr);
+
+        days.push(
+          <div
+            key={d}
+            style={{
+              padding: 8,
+              textAlign: "center",
+              borderRadius: 6,
+              background: isSchoolDay ? "#2e7d32" : "#f1f1f1",
+              color: isSchoolDay ? "#fff" : "#666",
+              fontWeight: isSchoolDay ? "bold" : "normal"
+            }}
+          >
+            {d}
+          </div>
+        );
+      }
+
+      return (
+        <div key={`${year}-${month}`} style={{ marginBottom: 30 }}>
+
+          <h4 style={{ textAlign: "center", marginBottom: 10 }}>
+            {monthNames[month]} {year}
+          </h4>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(7,1fr)",
+              gap: 5,
+              fontWeight: "bold",
+              textAlign: "center",
+              marginBottom: 6
+            }}
+          >
+            {weekDays.map(d => (
+              <div key={d}>{d}</div>
+            ))}
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(7,1fr)",
+              gap: 5
+            }}
+          >
+            {days}
+          </div>
+
+        </div>
+      );
+    });
   };
 
-  console.log("assessmentRegimea", assessmentRegime)
   const QuarterSection = ({ title, data, onEdit, onCreate }) => (
     <DivAddEmp>
       {data.length > 0 ? (
@@ -185,7 +283,7 @@ const HomeSchool = () => {
         <ContainerDivs>
           <ContainerYear>
             <h1>Período Avaliativo</h1>
-            
+
             <h2>Ano Letivo: {anoLetivo}</h2>
           </ContainerYear>
           <div
@@ -254,59 +352,44 @@ const HomeSchool = () => {
 
           {showSchoolDaysModal && (
             <ModalOverlay>
-              <ModalContent style={{
-                maxWidth: 800,
-                width: '90%',
-                maxHeight: '85vh'
-              }}>
+              <ModalContent
+                style={{
+                  maxWidth: 900,
+                  width: "95%",
+                  maxHeight: "85vh",
+                  overflowY: "auto",
+                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column"
+                }}
+              >
                 <h3>📅 Dias Letivos — {selectedPeriodTitle}</h3>
+
+                <p>
+                  Total de dias letivos: <b>{selectedSchoolDays.length}</b>
+                </p>
 
                 {selectedSchoolDays.length === 0 ? (
                   <p>Nenhum dia letivo cadastrado.</p>
                 ) : (
-                  <div
-                    style={{
-                      maxHeight: 300,
-                      overflowY: 'auto',
-                      marginTop: 10,
-                      border: '1px solid #ddd',
-                      borderRadius: 6,
-                      padding: 10
-                    }}
-                  >
-                    {[...selectedSchoolDays]
-                      .sort((a, b) => new Date(a.date) - new Date(b.date))
-                      .map((day, index) => {
-                        const isSelected = selectedDate === day.date;
-
-                        return (
-                          <div
-                            key={day._id || index}
-                            onClick={() => setSelectedDate(day.date)}
-                            style={{
-                              padding: '10px',
-                              marginBottom: 4,
-                              borderRadius: 6,
-                              cursor: 'pointer',
-                              backgroundColor: isSelected ? '#e6f4ea' : 'transparent',
-                              border: isSelected ? '1px solid #2e7d32' : '1px solid transparent',
-                              transition: 'all 0.2s ease'
-                            }}
-                          >
-                            {new Date(day.date).toLocaleDateString('pt-BR', {
-                              weekday: 'long',
-                              day: '2-digit',
-                              month: '2-digit',
-                              year: 'numeric'
-                            })}
-                          </div>
-                        );
-                      })
-                    }
+                  <div style={{ marginTop: 20 }}>
+                    {renderCalendarMonths()}
                   </div>
                 )}
 
-                <div className="modal-buttons">
+                {/* BOTÃO FLUTUANTE */}
+                <div
+                  style={{
+                    position: "sticky",
+                    bottom: 0,
+                    background: "transparent",
+                    padding: "15px",
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: 20,
+                    zIndex: 10
+                  }}
+                >
                   <button
                     className="modal-button cancel"
                     onClick={handleCloseSchoolDaysModal}
@@ -314,6 +397,7 @@ const HomeSchool = () => {
                     Fechar
                   </button>
                 </div>
+
               </ModalContent>
             </ModalOverlay>
           )}
