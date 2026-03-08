@@ -583,7 +583,7 @@ const Student = () => {
         if (assessmentFormat === "grade") {
             navigate(`/history/${id_student}/${studentName}`)
         } else {
-            alert("ainda não dosponivel")
+            alert("Disponível em breve")
         }
     }
 
