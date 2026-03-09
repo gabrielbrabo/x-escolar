@@ -500,7 +500,8 @@ export const updateEmployee = async (
     email,
     cellPhone,
     address,
-    position_at_school
+    position_at_school,
+    position_at_school_secondary
 ) => {
 
     return api.post(`/employee-update/${idEmployee}`, {
@@ -511,7 +512,8 @@ export const updateEmployee = async (
         email,
         cellPhone,
         address,
-        position_at_school
+        position_at_school,
+        position_at_school_secondary
     })
 
         .catch((error) => {

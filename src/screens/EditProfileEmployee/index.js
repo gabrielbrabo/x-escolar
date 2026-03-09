@@ -25,6 +25,7 @@ const EditProfile = () => {
     const [cellPhone, setCellPhone] = useState('');
     const [address, setAddress] = useState('');
     const [position_at_school, setPositionAtSchool] = useState('');
+    const [position_at_school_secondary, setPositionAtSchoolSecondary] = useState('');
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -42,8 +43,8 @@ const EditProfile = () => {
             setEmail(res.data.email || '');
             setCellPhone(res.data.cellPhone || '');
             setAddress(res.data.address || '');
-            setPositionAtSchool(res.data.position_at_school
-                );
+            setPositionAtSchool(res.data.position_at_school);
+            setPositionAtSchoolSecondary(res.data.position_at_school_secondary || '');
             setLoading(false);
         })();
     }, []);
@@ -61,7 +62,12 @@ const EditProfile = () => {
             return;
         }
         setLoading(true);
-        const res = await updateEmployee(employee._id, 
+        const secondaryPosition = position_at_school_secondary
+            ? position_at_school_secondary.toUpperCase()
+            : null;
+
+        const res = await updateEmployee(
+            employee._id,
             name.toUpperCase(),
             dateOfBirth,
             cpf,
@@ -69,7 +75,8 @@ const EditProfile = () => {
             email,
             cellPhone,
             address.toUpperCase(),
-            position_at_school.toUpperCase()
+            position_at_school.toUpperCase(),
+            secondaryPosition
         );
         console.log(
             "name", name, "dateofBirth", dateOfBirth,
@@ -116,6 +123,12 @@ const EditProfile = () => {
     const handleChangecellPhone = (e) => {
         setCellPhone(maskcellPhone(e.target.value));
     };
+
+    const positions = [
+        "DIRETOR/SUPERVISOR",
+        "SECRETARIO",
+        "PROFESSOR"
+    ];
 
     return (
         <Container>
@@ -172,7 +185,7 @@ const EditProfile = () => {
                             onChange={(e) => setAddress(e.target.value)}
                             type="text"
                         />
-                        <label>Cargo</label>
+                        <label>Cargo primário</label>
                         <Select
                             id="position_at_school"
                             value={position_at_school}
@@ -182,6 +195,26 @@ const EditProfile = () => {
                             <option value="DIRETOR/SUPERVISOR">DIRETOR/SUPERVISOR</option>
                             <option value="SECRETARIO">SECRETARIO</option>
                             <option value="PROFESSOR">PROFESSOR</option>
+                        </Select>
+                        <label>Cargo secundário</label>
+                        <Select
+                            value={position_at_school_secondary || ""}
+                            onChange={(e) => setPositionAtSchoolSecondary(e.target.value)}
+                        >
+                            {!position_at_school_secondary && (
+                                <option value="">Selecione</option>
+                            )}
+
+                            {positions
+                                .filter(pos => pos !== position_at_school)
+                                .map((pos) => (
+                                    <option key={pos} value={pos}>
+                                        {pos}
+                                    </option>
+                                ))
+                            }
+
+                            <option value="">Remover cargo secundário</option>
                         </Select>
                         {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                         <Btt01 onClick={handleSubmit}>Salvar Alterações</Btt01>

@@ -42,6 +42,14 @@ const NewEmployee = () => {
       setLoading(true);
       const idSchool = sessionStorage.getItem("id-school");
       setIdschool(JSON.parse(idSchool));
+      sessionStorage.removeItem('employeeName');
+      sessionStorage.removeItem('dateOfBirth');
+      sessionStorage.removeItem('employeeCPF');
+      sessionStorage.removeItem('employeeRG');
+      sessionStorage.removeItem('employeeEmail');
+      sessionStorage.removeItem('employeeCellPhone');
+      sessionStorage.removeItem('employeeAddress');
+      sessionStorage.removeItem('password');
       setLoading(false);
     };
     fetchSchoolId();

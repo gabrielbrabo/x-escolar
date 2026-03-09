@@ -42,7 +42,7 @@ const EmployeeAlreadyRegistered = () => {
       const Cpf = sessionStorage.getItem('employeeCPF');
       const Rg = sessionStorage.getItem('employeeRG');
       const Email = sessionStorage.getItem('employeeEmail');
-      const CellPhone= sessionStorage.getItem('employeeCellPhone');
+      const CellPhone = sessionStorage.getItem('employeeCellPhone');
       const Address = sessionStorage.getItem('employeeAddress');
       const Password = sessionStorage.getItem('password');
       const Confirmpassword = sessionStorage.getItem('password');
@@ -62,6 +62,17 @@ const EmployeeAlreadyRegistered = () => {
     };
     fetchSchoolId();
   }, []);
+
+  const clearEmployeeSession = () => {
+    sessionStorage.removeItem('employeeName');
+    sessionStorage.removeItem('dateOfBirth');
+    sessionStorage.removeItem('employeeCPF');
+    sessionStorage.removeItem('employeeRG');
+    sessionStorage.removeItem('employeeEmail');
+    sessionStorage.removeItem('employeeCellPhone');
+    sessionStorage.removeItem('employeeAddress');
+    sessionStorage.removeItem('password');
+  };
 
   const signClick = async () => {
     setLoading(true);
@@ -110,8 +121,10 @@ const EmployeeAlreadyRegistered = () => {
     );
 
     if (res) {
+      clearEmployeeSession(); // remove somente os dados dessa tela
       navigate(-2);
     } else {
+      clearEmployeeSession(); // remove somente os dados dessa tela
       setErrorMessage('Erro ao cadastrar. Verifique os dados e tente novamente.');
       navigate(-1)
     }

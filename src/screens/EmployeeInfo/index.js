@@ -331,6 +331,9 @@ const EmployeeInformation = () => {
                                                 : "🟢 Ativo"}
                                             )
                                         </Span>
+                                        {emp.position_at_school_secondary && (
+                                            <Span>Cargo secundário: {emp.position_at_school_secondary}</Span>
+                                        )}
                                         <Span>Codigo:{emp.EmployeeCode}</Span>
                                         <Span>{school}</Span>
                                         <Span>Celular: {emp.cellPhone}</Span>
