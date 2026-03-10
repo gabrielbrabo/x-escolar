@@ -216,6 +216,11 @@ const IndexAttendance = () => {
         RegentTeacher02,
         physicalEducation
     ]); // Isso assume que você tem a lista de alunos em "students"
+    useEffect(() => {
+        if (!editingStudent) return;
+
+        setEditingStatus(editingStudent.status);
+    }, [editingStudent]);
 
     if (selectedDate) {
         sessionStorage.setItem("selectedDate", selectedDate)
@@ -388,11 +393,13 @@ const IndexAttendance = () => {
 
     const startEditing = (checkedStdt) => {
         setEditingStudent(checkedStdt._id);
-        setEditingStatus(checkedStdt.status);
-        setNamestudent(checkedStdt)
+        setEditingStatus(""); // começa vazio
+        setNamestudent(checkedStdt);
     };
+
     const saveEdit = async () => {
         setLoading(true)
+        console.log("editingStatus", editingStatus)
         await updateAttendance(editingStudent, editingStatus)
         window.location.reload()
         //setLoading(false)
@@ -615,6 +622,7 @@ const IndexAttendance = () => {
                                 </>
                             )
                         )}
+
                     {editingStudent && (
                         <EditContainer>
                             <h3>Editando Frequencia de {namestudent.id_student.name}</h3>
@@ -624,27 +632,40 @@ const IndexAttendance = () => {
                                 disabled={excludedStudents.includes(stdt._id)} // Desativa se marcado
                                 onChange={(e) => setEditingStatus(e.target.value)}
                             >
+                                <option value="">Selecione</option>
                                 <option value="P">Presença</option>
                                 <option value="F">Falta</option>
                                 <option value="FJ">Falta Justificada (Atestado)</option>
                             </select>
-                            {<div className='not'>
+                            {
+                                <div className='not'>
 
-                                <label>Não adicionar</label>
-                                <input
-                                    type="checkbox"
-                                    checked={excludedStudents.includes(stdt._id)}
-                                    onChange={() => {
-                                        setExcludedStudents((prev) =>
-                                            prev.includes(stdt._id)
-                                                ? prev.filter((id) => id !== stdt._id) // Remove da lista
-                                                : [...prev, stdt._id] // Adiciona à lista
-                                        );
-                                        setEditingStatus('-')
+                                    <label>Não adicionar</label>
+                                    <input
+                                        type="checkbox"
+                                        checked={excludedStudents.includes(stdt._id)}
+                                        onChange={() => {
+                                            const isExcluded = excludedStudents.includes(stdt._id);
 
-                                    }}
-                                />
-                            </div>}
+                                            setExcludedStudents((prev) =>
+                                                isExcluded
+                                                    ? prev.filter((id) => id !== stdt._id)
+                                                    : [...prev, stdt._id]
+                                            );
+
+                                            if (isExcluded) {
+                                                // voltou a adicionar o aluno
+                                                setEditingStatus("P");
+                                            } else {
+                                                // marcou como não adicionar
+                                                setEditingStatus("-");
+                                            }
+                                        }}
+                                    />
+                                </div>
+                            },
+                            {console.log("editing", editingStatus)}
+
                             <BoxButtonEdit>
                                 <Btt02 onClick={saveEdit}>Salvar</Btt02>
                                 <Btt02 onClick={() => setEditingStudent(null)}>Cancelar</Btt02>
