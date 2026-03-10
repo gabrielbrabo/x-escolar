@@ -152,11 +152,10 @@ const TeacherAdd = () => {
                                 }
                                 return null
                             }).filter((fil) => {
-                                if (fil.position_at_school === "PROFESSOR") {
-                                    return (fil)
-                                } else {
-                                    return null
-                                }
+                                return (
+                                    fil.position_at_school === "PROFESSOR" ||
+                                    fil.position_at_school_secondary === "PROFESSOR"
+                                )
                             }).map(teacher => (
                                 <Emp
                                     onClick={() =>
@@ -188,7 +187,7 @@ const TeacherAdd = () => {
                                 <Div>
                                     <p>Voçê ira Adicionar as seguintes configurações:</p>
                                     <Span>   Professor: {name_teacher}</Span>
-                                   { /*<Span>   Materia: {name_matter}</Span>*/}
+                                    { /*<Span>   Materia: {name_matter}</Span>*/}
                                     <Span>   Turma: {serie}</Span>
                                     <Btt01 onClick={SignClick}>Adicionar</Btt01>
                                 </Div>

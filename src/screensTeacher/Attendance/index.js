@@ -214,6 +214,12 @@ const IndexAttendance = () => {
         physicalEducation
     ]); // Isso assume que você tem a lista de alunos em "students"
 
+    useEffect(() => {
+        if (!editingStudent) return;
+
+        setEditingStatus(editingStudent.status);
+    }, [editingStudent]);
+
     if (selectedDate) {
         sessionStorage.setItem("selectedDate", selectedDate)
         sessionStorage.setItem("day", day)
@@ -385,9 +391,10 @@ const IndexAttendance = () => {
 
     const startEditing = (checkedStdt) => {
         setEditingStudent(checkedStdt._id);
-        setEditingStatus(checkedStdt.status);
-        setNamestudent(checkedStdt)
+        setEditingStatus(""); // começa vazio
+        setNamestudent(checkedStdt);
     };
+
     const saveEdit = async () => {
         setLoading(true)
         await updateAttendance(editingStudent, editingStatus)
@@ -621,6 +628,7 @@ const IndexAttendance = () => {
                                 disabled={excludedStudents.includes(stdt._id)} // Desativa se marcado
                                 onChange={(e) => setEditingStatus(e.target.value)}
                             >
+                                <option value="">Selecione</option>
                                 <option value="P">Presença</option>
                                 <option value="F">Falta</option>
                                 <option value="FJ">Falta Justificada (Atestado)</option>
@@ -632,13 +640,21 @@ const IndexAttendance = () => {
                                     type="checkbox"
                                     checked={excludedStudents.includes(stdt._id)}
                                     onChange={() => {
-                                        setExcludedStudents((prev) =>
-                                            prev.includes(stdt._id)
-                                                ? prev.filter((id) => id !== stdt._id) // Remove da lista
-                                                : [...prev, stdt._id] // Adiciona à lista
-                                        );
-                                        setEditingStatus('-')
+                                        const isExcluded = excludedStudents.includes(stdt._id);
 
+                                        setExcludedStudents((prev) =>
+                                            isExcluded
+                                                ? prev.filter((id) => id !== stdt._id)
+                                                : [...prev, stdt._id]
+                                        );
+
+                                        if (isExcluded) {
+                                            // voltou a adicionar o aluno
+                                            setEditingStatus("P");
+                                        } else {
+                                            // marcou como não adicionar
+                                            setEditingStatus("-");
+                                        }
                                     }}
                                 />
                             </div>}
