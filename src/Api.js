@@ -212,6 +212,17 @@ export const generateStudentsHistory = async (idSchool, year) => {
             }
         });
 }
+export const generateStudentsHistoryConcept = async (idSchool, year) => {
+    return api.post('/register/history-concepts', {
+        idSchool, year
+    })
+        .catch((error) => {
+            if (error) {
+                const result = JSON.stringify(error.response.data.message);
+                alert(result);
+            }
+        });
+}
 
 export const CreateManualHistory = (payload) => {
     return api.post('/history-manual', payload)

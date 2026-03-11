@@ -7,6 +7,7 @@ import {
     deleteLogoSchool,
     hasOpenDiary,
     generateStudentsHistory,
+    generateStudentsHistoryConcept,
     updateAssessmentRegime,
     getAssessmentRegime,
 } from '../../Api';
@@ -58,7 +59,7 @@ const Matter = () => {
 
     const [notification, setNotification] = useState("");
 
-
+    const [assessmentFormat, setassessmentFormat] = useState('');
     const [assessmentRegime, setAssessmentRegime] = useState('');
     const [showAssessmentRegimeModal, setShowAssessmentRegimeModal] = useState(false);
 
@@ -85,6 +86,9 @@ const Matter = () => {
 
             const position = localStorage.getItem('position_at_school');
             setPosition_at_school(position);
+
+            const $assessmentFormat = sessionStorage.getItem('assessmentFormat')
+            setassessmentFormat($assessmentFormat)
 
             const response = await getAssessmentRegime(idSchool)
 
@@ -207,7 +211,14 @@ const Matter = () => {
         const nextYear = schoolYear + 1;
 
         setFinalizingMessage("Criando histórico anual dos alunos, aguarde...");
-        await generateStudentsHistory(idSchool, schoolYear);
+
+        if (assessmentFormat === "concept") {
+            await generateStudentsHistoryConcept(idSchool, schoolYear);
+        }
+
+        if (assessmentFormat === "grade") {
+            await generateStudentsHistory(idSchool, schoolYear);
+        }
 
         setFinalizingMessage("Finalizando e atualizando ano letivo...");
         await updateSchoolYear(idSchool, nextYear);
