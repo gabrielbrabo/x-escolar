@@ -62,6 +62,7 @@ import AddphysicalTeacher from "./screens/AddphysicalTeacher"
 
 import StudentInfo from "./screens/StudentInfo"
 import History from "./screens/History"
+import HistoryConcept from "./screens/HistoryConcept"
 import EmployeeInfo from "./screens/EmployeeInfo"
 import EmployeeInfoEduDep from "./screens/EmployeeInfoEduDep"
 import PerfilEmployeeEducationDepartment from "./screens/PerfilEmployeeEducationDepartment"
@@ -454,6 +455,11 @@ const AppRoutes = () => {
                     <Route exact path="/history/:id_student/:studentName" element={
                         <Private>
                             <History />
+                        </Private>
+                    } />
+                    <Route exact path="/history-concept/:id_student/:studentName" element={
+                        <Private>
+                            <HistoryConcept />
                         </Private>
                     } />
                     <Route exact path="/employee/info/:id_employee" element={

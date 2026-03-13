@@ -582,7 +582,10 @@ const Student = () => {
         const studentName = await student.map(student => (student.name))
         if (assessmentFormat === "grade") {
             navigate(`/history/${id_student}/${studentName}`)
-        } else {
+        } 
+        /*if (assessmentFormat === "concept") {
+            navigate(`/history-concept/${id_student}/${studentName}`)
+        }*/else {
             alert("Disponível em breve")
         }
     }

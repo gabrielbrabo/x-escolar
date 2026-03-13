@@ -98,8 +98,11 @@ const Employees = () => {
     })
 
     const filteredEmployees = employees
-        .filter(emp => !filter || emp.position_at_school === filter)
         .filter(emp =>
+            !filter ||
+            emp.position_at_school === filter ||
+            emp.position_at_school_secondary === filter
+        ).filter(emp =>
             !busca ||
             normalizeString(emp.name).includes(normalizeString(busca))
         )
@@ -188,45 +191,27 @@ const Employees = () => {
                     }
                     <List>
                         <p>Total de Funcionários Cadastrados: {filteredEmployees.length}</p>
-                        {
-                            filteredEmployees.filter((fil) => {
-                                if (!filter) {
-                                    return (fil)
-                                } else if (fil.position_at_school === filter) {
-                                    return (fil)
-                                }
-                                return null
-                            }).filter((val) => {
-                                if (!busca) return val;
-                                return normalizeString(val.name).includes(normalizeString(busca));
-                            })/*.filter((employee) => {
-                               if(employee._id !== JSON.parse(loggedInEmployeeId)) {
-                                    return employee
-                               }
-                               return null
-                            })*/.map(employee => (
-                                <Emp
-                                    onClick={() =>
-                                        employeeInformation(employee)
-                                    }
-                                    key={employee._id}
-                                >
-                                    <Span style={{ color: "#003e4f" }}>
-                                        {employee.name}
-                                    </Span>
 
-                                    <Span
-                                        style={{
-                                            color: employee.status === "inactive" ? "red" : "green",
-                                            fontWeight: "bold",
-                                            marginRight: "20px"
-                                        }}
-                                    >
-                                        {employee.status === "inactive" ? "Inativo" : "Ativo"}
-                                    </Span>
-                                </Emp>
-                            ))
-                        }
+                        {filteredEmployees.map(employee => (
+                            <Emp
+                                onClick={() => employeeInformation(employee)}
+                                key={employee._id}
+                            >
+                                <Span style={{ color: "#003e4f" }}>
+                                    {employee.name}
+                                </Span>
+
+                                <Span
+                                    style={{
+                                        color: employee.status === "inactive" ? "red" : "green",
+                                        fontWeight: "bold",
+                                        marginRight: "20px"
+                                    }}
+                                >
+                                    {employee.status === "inactive" ? "Inativo" : "Ativo"}
+                                </Span>
+                            </Emp>
+                        ))}
                     </List>
                 </>
             }
