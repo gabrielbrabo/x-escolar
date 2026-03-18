@@ -27,6 +27,7 @@ const Cla$$ = () => {
     const [positionAtEducationDepartment, setPositionAtEducationDepartment] = useState('')
     const [busca, setBusca] = useState("");
     const [filter, setFilter] = useState("");
+    const [schoolYear, setschoolYear] = useState("");
     const [loading, setLoading] = useState(true);
     const [assessmentRegime, setAssessmentRegime] = useState('');
 
@@ -36,6 +37,7 @@ const Cla$$ = () => {
 
             const schoolYear = await getSchoolYear(JSON.parse(idSchool))
             setFilter(JSON.stringify(schoolYear.data.data))
+            setschoolYear(JSON.stringify(schoolYear.data.data))
             console.log("schoolYear", schoolYear.data.data)
 
             const positionAtEducationDepartment = localStorage.getItem("positionAtEducationDepartment")
@@ -124,7 +126,7 @@ const Cla$$ = () => {
                                     sessionStorage.setItem("classYearFilter", e.target.value);
                                 }}
                             >
-                                <option value="">Todos{/*currentYear*/}</option>
+                                <option value={schoolYear}>{schoolYear}</option>
                                 {year.map((c, index) => (
                                     <option key={index} value={c}>
                                         {c}
