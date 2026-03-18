@@ -216,39 +216,30 @@ export default function Daily() {
     })
     : [];*/
 
+  const formatKey = (date) => {
+    if (!date) return "";
+
+    // Pega só a parte YYYY-MM-DD da string ISO
+    // Isso ignora completamente hora e fuso horário
+    return date.split("T")[0];
+  };
+
   const uniqueDates = data?.attendance
-    ? [
-      ...new Map(
-        data.attendance.map((att) => {
-          const d = new Date(att.date);
-
-          const normalized = new Date(
-            d.getUTCFullYear(),
-            d.getUTCMonth(),
-            d.getUTCDate()
-          );
-
-          return [normalized.getTime(), normalized];
-        })
-      ).values(),
-    ].sort((a, b) => a - b)
+    ? [...new Set(data.attendance.map((a) => formatKey(a.date)))].sort()
     : [];
 
-  const groupedByMonth = uniqueDates.reduce((acc, date) => {
-    const month = date.getUTCMonth(); // ✅ usa UTC
-
+  const groupedByMonth = uniqueDates.reduce((acc, dateStr) => {
+    const month = Number(dateStr.split("-")[1]) - 1; // pega mês da string YYYY-MM-DD
     if (!acc[month]) acc[month] = [];
-
-    acc[month].push(date);
-
+    acc[month].push(dateStr);
     return acc;
   }, {});
 
   const allDatesFlat = Object.entries(groupedByMonth).flatMap(
     ([month, dates], monthIndex) =>
-      dates.map((date) => ({
-        date,
-        isAlt: monthIndex % 2 === 0, // alterna cor
+      dates.map((dateStr) => ({
+        date: dateStr,
+        isAlt: monthIndex % 2 === 0,
       }))
   );
 
@@ -261,21 +252,10 @@ export default function Daily() {
     return months[month];
   };
 
-  const formatKey = (date) => {
-    if (!date) return "";
-
-    const d = new Date(date);
-
-    if (isNaN(d)) return "";
-
-    return `${d.getUTCFullYear()}-${d.getUTCMonth()}-${d.getUTCDate()}`;
-  };
-
-  const getAttendanceStatus = (studentId, date) => {
+  // Geral
+  const getAttendanceStatus = (studentId, dateKey) => {
     const match = data.attendance.find(
-      (a) =>
-        a.id_student === studentId &&
-        formatKey(a.date) === formatKey(date)
+      (a) => a.id_student === studentId && formatKey(a.date) === dateKey
     );
 
     if (!match) return <td className="status-cell">-</td>;
@@ -293,7 +273,6 @@ export default function Daily() {
       </td>
     );
   };
-
   const calculateTotals = (studentId) => {
     const filtered = data.attendance.filter((a) => a.id_student === studentId);
     return {
@@ -305,46 +284,28 @@ export default function Daily() {
 
   // 🔹 Datas únicas (Ed. Física)
   const uniqueDatesPhysical = data?.attendancePhysicalEducationTeacher
-    ? [
-      ...new Map(
-        data.attendancePhysicalEducationTeacher.map((att) => {
-          const d = new Date(att.date);
-
-          const normalized = new Date(
-            d.getUTCFullYear(),
-            d.getUTCMonth(),
-            d.getUTCDate()
-          );
-
-          return [normalized.getTime(), normalized];
-        })
-      ).values(),
-    ].sort((a, b) => a - b)
+    ? [...new Set(data.attendancePhysicalEducationTeacher.map((a) => formatKey(a.date)))].sort()
     : [];
 
-  const groupedByMonthPhysical = uniqueDatesPhysical.reduce((acc, date) => {
-    const month = date.getUTCMonth();
-
+  const groupedByMonthPhysical = uniqueDatesPhysical.reduce((acc, dateStr) => {
+    const month = Number(dateStr.split("-")[1]) - 1;
     if (!acc[month]) acc[month] = [];
-    acc[month].push(date);
-
+    acc[month].push(dateStr);
     return acc;
   }, {});
 
   const allDatesFlatPhysical = Object.entries(groupedByMonthPhysical).flatMap(
-    ([month, dates], index) =>
-      dates.map((date) => ({
-        date,
-        isAlt: index % 2 === 0,
+    ([month, dates], monthIndex) =>
+      dates.map((dateStr) => ({
+        date: dateStr,
+        isAlt: monthIndex % 2 === 0,
       }))
   );
 
   // 🔹 Status da chamada (Ed. Física)
-  const getAttendanceStatusPhysical = (studentId, date) => {
-    const match = data?.attendancePhysicalEducationTeacher?.find(
-      (a) =>
-        a.id_student === studentId &&
-        formatKey(a.date) === formatKey(date)
+  const getAttendanceStatusPhysical = (studentId, dateKey) => {
+    const match = data.attendancePhysicalEducationTeacher?.find(
+      (a) => a.id_student === studentId && formatKey(a.date) === dateKey
     );
 
     if (!match) return <td className="status-cell">-</td>;
@@ -352,10 +313,10 @@ export default function Daily() {
     return (
       <td
         className={`status-cell ${match.status === "P"
-          ? "presence"
-          : match.status === "FJ"
-            ? "justifiedAbsence"
-            : "absence"
+            ? "presence"
+            : match.status === "FJ"
+              ? "justifiedAbsence"
+              : "absence"
           }`}
       >
         {match.status}
@@ -1144,7 +1105,7 @@ export default function Daily() {
                               key={idx}
                               className={isAlt ? "month-alt" : "month-normal"}
                             >
-                              {date.getDate()}
+                              {date.split("-")[2]}
                             </th>
                           ))}
                         </tr>
@@ -1299,7 +1260,7 @@ export default function Daily() {
                               key={idx}
                               className={isAlt ? "month-alt" : "month-normal"}
                             >
-                              {date.getDate()}
+                              {date.split("-")[2]}
                             </th>
                           ))}
                         </tr>
