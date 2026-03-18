@@ -282,6 +282,15 @@ export const Table = styled.table`
   background-color: #fff;
   border: 1px solid #ddd;
   width: 100%;
+
+  /* 🔹 Meses alternados */
+  .month-alt {
+    background-color: #e0e0e0;
+  }
+
+  .month-normal {
+    background-color: #ffffff;
+  }
 `;
 
 export const TableHeader = styled.thead`
@@ -290,27 +299,27 @@ export const TableHeader = styled.thead`
     padding: 4px;
     text-align: center;
     font-size: 0.7em;
-    border: 1px solid #ddd;
+    border: 1px solid #666;
   }
 `;
 
 export const TableBody = styled.tbody`
   tr {
     &:nth-child(even) {
-      background-color: #f9f9f9;
+      background-color: transparent;
     }
   }
-  tr:hover {
-    background-color: #e0f0ff;
+  tr:hover td {
+    background-color: #e0f0ff !important;
     cursor: pointer;
   }
-  tr.selected-row {
-    background-color: #a8d0ff;
+  tr.selected-row td {
+    background-color: #a8d0ff !important;
   }
   td {
     padding: 3px;
     text-align: center;
-    border: 1px solid #ddd;
+    border: 1px solid #666;
     white-space: nowrap;
     text-overflow: ellipsis;
   }

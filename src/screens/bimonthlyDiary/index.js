@@ -201,26 +201,66 @@ export default function Daily() {
   const normalizeString = (str) =>
     str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s]/gi, "").toUpperCase();
 
-  const formatDisplayDate = (dateStr) => {
+  /*const formatDisplayDate = (dateStr) => {
     const date = new Date(dateStr);
     const day = String(date.getUTCDate()).padStart(2, "0");
     const month = String(date.getUTCMonth() + 1).padStart(2, "0");
     return `${day}/${month}`;
-  };
+  };*/
 
-  const uniqueDates = data
+  /*const uniqueDates = data
     ? [...new Set(data.attendance.map((att) => formatDisplayDate(att.date)))].sort((a, b) => {
       const [d1, m1] = a.split("/").map(Number);
       const [d2, m2] = b.split("/").map(Number);
       return m1 === m2 ? d1 - d2 : m1 - m2;
     })
+    : [];*/
+
+  const uniqueDates = data
+    ? [...new Set(data.attendance.map((att) => att.date))]
+      .map((date) => new Date(date))
+      .sort((a, b) => a - b)
     : [];
+
+  const groupedByMonth = uniqueDates.reduce((acc, date) => {
+    const month = date.getMonth(); // 0 a 11
+
+    if (!acc[month]) acc[month] = [];
+
+    acc[month].push(date);
+
+    return acc;
+  }, {});
+
+  const allDatesFlat = Object.entries(groupedByMonth).flatMap(
+    ([month, dates], monthIndex) =>
+      dates.map((date) => ({
+        date,
+        isAlt: monthIndex % 2 === 0, // alterna cor
+      }))
+  );
+
+  const getMonthName = (month) => {
+    const months = [
+      "JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL",
+      "MAIO", "JUNHO", "JULHO", "AGOSTO",
+      "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"
+    ];
+    return months[month];
+  };
+
+  const formatKey = (date) =>
+    new Date(date).toISOString().split("T")[0];
 
   const getAttendanceStatus = (studentId, date) => {
     const match = data.attendance.find(
-      (a) => a.id_student === studentId && formatDisplayDate(a.date) === date
+      (a) =>
+        a.id_student === studentId &&
+        formatKey(a.date) === formatKey(date)
     );
+
     if (!match) return <td className="status-cell">-</td>;
+
     return (
       <td
         className={`status-cell ${match.status === "P"
@@ -246,27 +286,47 @@ export default function Daily() {
 
   // 🔹 Datas únicas (Ed. Física)
   const uniqueDatesPhysical = data?.attendancePhysicalEducationTeacher
-    ? [...new Set(data.attendancePhysicalEducationTeacher.map((att) => formatDisplayDate(att.date)))]
-      .sort((a, b) => {
-        const [d1, m1] = a.split("/").map(Number);
-        const [d2, m2] = b.split("/").map(Number);
-        return m1 === m2 ? d1 - d2 : m1 - m2;
-      })
+    ? [...new Set(data.attendancePhysicalEducationTeacher.map((att) =>
+      new Date(att.date).toDateString()
+    ))]
+      .map((d) => new Date(d))
+      .sort((a, b) => a - b)
     : [];
+
+  const groupedByMonthPhysical = uniqueDatesPhysical.reduce((acc, date) => {
+    const month = date.getMonth();
+
+    if (!acc[month]) acc[month] = [];
+    acc[month].push(date);
+
+    return acc;
+  }, {});
+
+  const allDatesFlatPhysical = Object.entries(groupedByMonthPhysical).flatMap(
+    ([month, dates], index) =>
+      dates.map((date) => ({
+        date,
+        isAlt: index % 2 === 0,
+      }))
+  );
 
   // 🔹 Status da chamada (Ed. Física)
   const getAttendanceStatusPhysical = (studentId, date) => {
     const match = data?.attendancePhysicalEducationTeacher?.find(
-      (a) => a.id_student === studentId && formatDisplayDate(a.date) === date
+      (a) =>
+        a.id_student === studentId &&
+        new Date(a.date).toDateString() === date.toDateString()
     );
+
     if (!match) return <td className="status-cell">-</td>;
+
     return (
       <td
         className={`status-cell ${match.status === "P"
-          ? "presence"
-          : match.status === "FJ"
-            ? "justifiedAbsence"
-            : "absence"
+            ? "presence"
+            : match.status === "FJ"
+              ? "justifiedAbsence"
+              : "absence"
           }`}
       >
         {match.status}
@@ -330,8 +390,8 @@ export default function Daily() {
                 table { width: 100%; border-collapse: collapse; }
                 th, td { 
                   text-align: center;
-                  border: 1px solid #ddd;
-                  font-size: 8px;
+                  border: 1px solid #8c8c8c;
+                  font-size: 12px;
                   padding: 1px; 
                 }
                   tr {
@@ -339,6 +399,26 @@ export default function Daily() {
                   }
                   .name-cell {
                       text-align: start;
+                  }
+                      /* 🔥 FORÇA IMPRESSÃO DE CORES */
+                  * {
+                    -webkit-print-color-adjust: exact;
+                    print-color-adjust: exact;
+                  }
+
+                  /* 🔥 CORES DOS MESES */
+                  .month-alt {
+                    background-color: #d0d0d0 !important;
+                  }
+
+                  .month-normal {
+                    background-color: #ffffff !important;
+                  }
+
+                  /* 🔥 (EXTRA) separação mesmo sem cor */
+                  .month-alt,
+                  .month-normal {
+                    border-right: 1px solid #666;
                   }
                 @page {
                   size: A4 landscape; /* Define o formato da página como paisagem */
@@ -375,9 +455,18 @@ export default function Daily() {
                     display: none !important;
                   }
                      /* ✅ Classes de status */
-                     td.presence { color: green; }
-                    td.absence { color: red; }
-                    td.justifiedAbsence { color: #6a0dad; }
+                     td.presence { 
+                      color: green;
+                      font-weight: bold; 
+                    }
+                    td.absence { 
+                      color: red;
+                      font-weight: bold; 
+                    }
+                    td.justifiedAbsence { 
+                      color: #6a0dad;
+                      font-weight: bold; 
+                    }
 
                     th.total-presence { color: green; }
                     th.total-absence { color: red; }
@@ -414,8 +503,8 @@ export default function Daily() {
                 table { width: 100%; border-collapse: collapse; }
                 th, td { 
                   text-align: center;
-                  border: 1px solid #ddd;
-                  font-size: 8px;
+                  border: 1px solid #8c8c8c;
+                  font-size: 12px;
                   padding: 1px; 
                 }
                   tr {
@@ -423,6 +512,26 @@ export default function Daily() {
                   }
                   .name-cell {
                       text-align: start;
+                  }
+                       /* 🔥 FORÇA IMPRESSÃO DE CORES */
+                  * {
+                    -webkit-print-color-adjust: exact;
+                    print-color-adjust: exact;
+                  }
+
+                  /* 🔥 CORES DOS MESES */
+                  .month-alt {
+                    background-color: #d0d0d0 !important;
+                  }
+
+                  .month-normal {
+                    background-color: #ffffff !important;
+                  }
+
+                  /* 🔥 (EXTRA) separação mesmo sem cor */
+                  .month-alt,
+                  .month-normal {
+                    border-right: 1px solid #666;
                   }
                 @page {
                   size: A4 landscape; /* Define o formato da página como paisagem */
@@ -458,10 +567,19 @@ export default function Daily() {
                   .no-print {
                     display: none !important;
                   }
-                     /* ✅ Classes de status */
-                     td.presence { color: green; }
-                    td.absence { color: red; }
-                    td.justifiedAbsence { color: #6a0dad; }
+                      /* ✅ Classes de status */
+                     td.presence { 
+                      color: green;
+                      font-weight: bold; 
+                    }
+                    td.absence { 
+                      color: red;
+                      font-weight: bold; 
+                    }
+                    td.justifiedAbsence { 
+                      color: #6a0dad;
+                      font-weight: bold; 
+                    }
 
                     th.total-presence { color: green; }
                     th.total-absence { color: red; }
@@ -963,14 +1081,35 @@ export default function Daily() {
                   <ContTable>
                     <Table>
                       <TableHeader>
+                        {/* 🔹 Linha dos meses */}
                         <tr>
-                          <th className="name-cell">Nome do Aluno</th>
-                          {uniqueDates.map((date, idx) => (
-                            <th key={idx}>{date}</th>
+                          <th className="name-cell" rowSpan={2}>Nome do Aluno</th>
+
+                          {Object.entries(groupedByMonth).map(([month, dates], index) => (
+                            <th
+                              key={month}
+                              colSpan={dates.length}
+                              className={index % 2 === 0 ? "month-alt" : "month-normal"}
+                            >
+                              {getMonthName(Number(month))}
+                            </th>
                           ))}
-                          <th className="total-presence">Total P</th>
-                          <th className="total-absence">Total F</th>
-                          <th className="total-justifiedAbsence">Total FJ</th>
+
+                          <th className="total-presence" rowSpan={2}>Total P</th>
+                          <th className="total-absence" rowSpan={2}>Total F</th>
+                          <th className="total-justifiedAbsence" rowSpan={2}>Total FJ</th>
+                        </tr>
+
+                        {/* 🔹 Linha dos dias */}
+                        <tr>
+                          {allDatesFlat.map(({ date, isAlt }, idx) => (
+                            <th
+                              key={idx}
+                              className={isAlt ? "month-alt" : "month-normal"}
+                            >
+                              {date.getDate()}
+                            </th>
+                          ))}
                         </tr>
                       </TableHeader>
                       <TableBody>
@@ -987,7 +1126,14 @@ export default function Daily() {
                                 className={selectedStudentId === student._id ? 'selected-row' : ''}
                               >
                                 <td className="name-cell">{student.name}</td>
-                                {uniqueDates.map((date) => getAttendanceStatus(student._id, date))}
+                                {allDatesFlat.map(({ date, isAlt }) => {
+                                  const cell = getAttendanceStatus(student._id, date);
+
+                                  return React.cloneElement(cell, {
+                                    className: `${cell.props.className} ${isAlt ? "month-alt" : "month-normal"
+                                      }`,
+                                  });
+                                })}
                                 <td className="total-presence">{totals.totalPresence}</td>
                                 <td className="total-absence">{totals.totalAbsence}</td>
                                 <td className="total-justifiedAbsence">{totals.totalJustified}</td>
@@ -998,7 +1144,7 @@ export default function Daily() {
                           <>
                             <tr>
                               <td
-                                colSpan={uniqueDates.length + 4}
+                                colSpan={allDatesFlat.length + 4}
                                 style={{
                                   textAlign: "left",
                                   fontWeight: "bold",
@@ -1039,9 +1185,14 @@ export default function Daily() {
                                         </span>
                                       )}
                                     </td>
-                                    {uniqueDates.map((date) =>
-                                      getAttendanceStatus(student._id, date)
-                                    )}
+                                    {allDatesFlat.map(({ date, isAlt }) => {
+                                      const cell = getAttendanceStatus(student._id, date);
+
+                                      return React.cloneElement(cell, {
+                                        className: `${cell.props.className} ${isAlt ? "month-alt" : "month-normal"
+                                          }`,
+                                      });
+                                    })}
                                     <td className="total-presence">{totals.totalPresence}</td>
                                     <td className="total-absence">{totals.totalAbsence}</td>
                                     <td className="total-justifiedAbsence">{totals.totalJustified}</td>
@@ -1088,13 +1239,32 @@ export default function Daily() {
                     <Table>
                       <TableHeader>
                         <tr>
-                          <th className="name-cell">Nome do Aluno</th>
-                          {uniqueDatesPhysical.map((date, idx) => (
-                            <th key={idx}>{date}</th>
+                          <th className="name-cell" rowSpan={2}>Nome do Aluno</th>
+
+                          {Object.entries(groupedByMonthPhysical).map(([month, dates], index) => (
+                            <th
+                              key={month}
+                              colSpan={dates.length}
+                              className={index % 2 === 0 ? "month-alt" : "month-normal"}
+                            >
+                              {getMonthName(Number(month))}
+                            </th>
                           ))}
-                          <th className="total-presence">Total P</th>
-                          <th className="total-absence">Total F</th>
-                          <th className="total-justifiedAbsence">Total FJ</th>
+
+                          <th className="total-presence" rowSpan={2}>Total P</th>
+                          <th className="total-absence" rowSpan={2}>Total F</th>
+                          <th className="total-justifiedAbsence" rowSpan={2}>Total FJ</th>
+                        </tr>
+
+                        <tr>
+                          {allDatesFlatPhysical.map(({ date, isAlt }, idx) => (
+                            <th
+                              key={idx}
+                              className={isAlt ? "month-alt" : "month-normal"}
+                            >
+                              {date.getDate()}
+                            </th>
+                          ))}
                         </tr>
                       </TableHeader>
                       <TableBody>
@@ -1111,7 +1281,14 @@ export default function Daily() {
                                 className={selectedStudentId === student._id ? 'selected-row' : ''}
                               >
                                 <td className="name-cell">{student.name}</td>
-                                {uniqueDatesPhysical.map((date) => getAttendanceStatusPhysical(student._id, date))}
+                                {allDatesFlatPhysical.map(({ date, isAlt }) => {
+                                  const cell = getAttendanceStatusPhysical(student._id, date);
+
+                                  return React.cloneElement(cell, {
+                                    className: `${cell.props.className} ${isAlt ? "month-alt" : "month-normal"
+                                      }`,
+                                  });
+                                })}
                                 <td className="total-presence">{totals.totalPresence}</td>
                                 <td className="total-absence">{totals.totalAbsence}</td>
                                 <td className="total-justifiedAbsence">{totals.totalJustified}</td>
@@ -1123,7 +1300,7 @@ export default function Daily() {
                           <>
                             <tr>
                               <td
-                                colSpan={uniqueDatesPhysical.length + 4}
+                                colSpan={allDatesFlatPhysical.length + 4}
                                 style={{
                                   textAlign: "left",
                                   fontWeight: "bold",
@@ -1161,9 +1338,14 @@ export default function Daily() {
                                         </span>
                                       )}
                                     </td>
-                                    {uniqueDatesPhysical.map((date) =>
-                                      getAttendanceStatusPhysical(student._id, date)
-                                    )}
+                                    {allDatesFlatPhysical.map(({ date, isAlt }) => {
+                                      const cell = getAttendanceStatusPhysical(student._id, date);
+
+                                      return React.cloneElement(cell, {
+                                        className: `${cell.props.className} ${isAlt ? "month-alt" : "month-normal"
+                                          }`,
+                                      });
+                                    })}
                                     <td className="total-presence">{totals.totalPresence}</td>
                                     <td className="total-absence">{totals.totalAbsence}</td>
                                     <td className="total-justifiedAbsence">{totals.totalJustified}</td>
@@ -1550,254 +1732,6 @@ export default function Daily() {
                 <PrintStyleLessons />
               </StudentSection>
             </>
-            /*<>
-              <StudentSection id='print-area' >
-                <CtnrBtt>
-                  <ButtonPrint className="no-print" onClick={handlePrintClasses}>Imprimir</ButtonPrint>
-                </CtnrBtt>
-                <LessonsContainer>
-                  <ContLogo className="cont-logo-classes">
-                    {(logoUrl) && (
-                      <Preview className="logo-classes" src={logoUrl} alt="Logo da escola" />
-                    )}
-                    <h2>Registros de Aulas do {bimonthly}</h2>
-                  </ContLogo>
-                  <h4 className="total-aulas-lecionadas">
-                    Total de aulas lecionadas: {data?.id_recordClassTaught?.length || 0}
-                  </h4>
-
-                  <ContInfo className="info">
-                    <span><strong>Escola:</strong> {data.nameSchool}</span>
-                  </ContInfo>
-
-                  {data?.id_recordClassTaught?.length > 0 ? (
-                    data.id_recordClassTaught
-                      .sort((a, b) => new Date(a.year, a.month - 1, a.day) - new Date(b.year, b.month - 1, b.day))
-                      .map((res, index) => (
-                        <React.Fragment key={index}>
-                          <ContainerTable className="print-container-table">
-                            <Span>
-                              {Array.isArray(data.idRegentTeacher) &&
-                                data.idRegentTeacher.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
-                                <>
-                                  <div>Professor Titular: <p>{res.id_teacher.name}</p></div>
-                                  {data.nameRegentTeacher02 &&
-                                    data.nameRegentTeacher02 !== "Professor não definido" && (
-                                      <div>Professor Adjunto: <p>{data.nameRegentTeacher02}</p></div>
-                                    )}
-                                </>
-                              ) : Array.isArray(data.idRegentTeacher02) &&
-                                data.idRegentTeacher02.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
-                                <>
-                                  {data.nameRegentTeacher &&
-                                    data.nameRegentTeacher !== "Professor não definido" && (
-                                      <div>Professor Titular: <p>{data.nameRegentTeacher}</p></div>
-                                    )}
-                                  <div>Professor Adjunto: <p>{res.id_teacher.name}</p></div>
-                                </>
-                              ) : Array.isArray(data.idPhysicalEducationTeacher) &&
-                                data.idPhysicalEducationTeacher.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
-                                <div>Professor de Ed. Física: <p>{res.id_teacher.name}</p></div>
-                              ) : (
-                                <div>Professor Titular: <p>{res.id_teacher?.name || "Não definido"}</p></div>
-                              )}
-
-                              <div>Turma: <p>{data.nameClass}</p></div>
-                            </Span>
-                            <TableRow>
-                              <DateCell>{`${res.day}/${res.month}/${res.year}`}</DateCell>
-                              <DescriptionCell>
-                                <div className={`description ${expandedRows.includes(index) ? 'expanded' : 'collapsed'}`}>
-                                  <div
-                                    style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}
-                                    dangerouslySetInnerHTML={{
-                                      __html: expandedRows.includes(index) || printing
-                                        ? res.description
-                                        : getDescriptionPreview(res.description)
-                                    }}
-                                  />
-                                </div>
-                                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                  {!printing && (
-                                    <Button onClick={() => toggleRowExpansion(index)} className={HiddenOnPrint}>
-                                      {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
-                                    </Button>
-                                  )}
-                                  {expandedRows.includes(index) && positionAtSchool === 'DIRETOR/SUPERVISOR' && (
-                                    <Button onClick={() => handleEdit(index, res)} className={HiddenOnPrint}>
-                                      Editar
-                                    </Button>
-                                  )}
-                                </div>
-                              </DescriptionCell>
-                            </TableRow>
-                            {editingIndex === index && (
-                              <EditContainer>
-                                <div className="modal-content">
-                                  <h3>Editando Aula</h3>
-                                  <ReactQuill
-                                    theme="snow"
-                                    modules={{
-                                      toolbar: [
-                                        [{ 'font': [] }],
-                                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                                        ['bold', 'italic', 'underline'],
-                                        [{ 'color': [] }, { 'background': [] }],
-                                        ['clean']
-                                      ]
-                                    }}
-                                    value={editedDescription}
-                                    onChange={(e) => setEditedDescription(e)}
-                                    placeholder="Descrição da aula"
-                                    style={{
-                                      height: 'auto', // aumentado de 250px para 350px
-                                      maxHeight: '550px',
-                                      overflow: 'auto',
-                                      zIndex: 0,
-                                      position: 'relative'
-                                    }}
-                                  />
-                                  {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                                  <div style={{ position: 'relative', zIndex: 10, marginTop: '30px', }} className='BoxBtt'>
-                                    <ButtonEdit onClick={handleSaveEdit}>Salvar</ButtonEdit>
-                                    <ButtonEdit onClick={() => setEditingIndex(null)}>Cancelar</ButtonEdit>
-                                  </div>
-                                </div>
-                              </EditContainer>
-                            )}
-                          </ContainerTable>
-                        </React.Fragment>
-                      ))
-                  ) : (
-                    <InfoText>Nenhum dado de aulas encontrado para o {data.bimonthly}.</InfoText>
-                  )}
-                </LessonsContainer>
-                <PrintStyleLessons />
-              </StudentSection>
-              <StudentSection id='print-area' >
-                <CtnrBtt>
-                  <ButtonPrint className="no-print" onClick={handlePrintClasses}>Imprimir</ButtonPrint>
-                </CtnrBtt>
-                <LessonsContainer>
-                  <ContLogo className="cont-logo-classes">
-                    {(logoUrl) && (
-                      <Preview className="logo-classes" src={logoUrl} alt="Logo da escola" />
-                    )}
-                    <h2>Registros de Aulas do {bimonthly}</h2>
-                  </ContLogo>
-                  <h4 className="total-aulas-lecionadas">
-                    Total de aulas lecionadas: {data?.id_recordClassTaught?.length || 0}
-                  </h4>
-
-                  <ContInfo className="info">
-                    <span><strong>Escola:</strong> {data.nameSchool}</span>
-                  </ContInfo>
-
-                  {data?.id_recordClassTaught?.length > 0 ? (
-                    data.id_recordClassTaught
-                      .sort((a, b) => new Date(a.year, a.month - 1, a.day) - new Date(b.year, b.month - 1, b.day))
-                      .map((res, index) => (
-                        <React.Fragment key={index}>
-                          <ContainerTable className="print-container-table">
-                            <Span>
-                              {Array.isArray(data.idRegentTeacher) &&
-                                data.idRegentTeacher.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
-                                <>
-                                  <div>Professor Titular: <p>{res.id_teacher.name}</p></div>
-                                  {data.nameRegentTeacher02 &&
-                                    data.nameRegentTeacher02 !== "Professor não definido" && (
-                                      <div>Professor Adjunto: <p>{data.nameRegentTeacher02}</p></div>
-                                    )}
-                                </>
-                              ) : Array.isArray(data.idRegentTeacher02) &&
-                                data.idRegentTeacher02.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
-                                <>
-                                  {data.nameRegentTeacher &&
-                                    data.nameRegentTeacher !== "Professor não definido" && (
-                                      <div>Professor Titular: <p>{data.nameRegentTeacher}</p></div>
-                                    )}
-                                  <div>Professor Adjunto: <p>{res.id_teacher.name}</p></div>
-                                </>
-                              ) : Array.isArray(data.idPhysicalEducationTeacher) &&
-                                data.idPhysicalEducationTeacher.map(id => id.toString()).includes(res?.id_teacher?._id?.toString?.()) ? (
-                                <div>Professor de Ed. Física: <p>{res.id_teacher.name}</p></div>
-                              ) : (
-                                <div>Professor Titular: <p>{res.id_teacher?.name || "Não definido"}</p></div>
-                              )}
-
-                              <div>Turma: <p>{data.nameClass}</p></div>
-                            </Span>
-                            <TableRow>
-                              <DateCell>{`${res.day}/${res.month}/${res.year}`}</DateCell>
-                              <DescriptionCell>
-                                <div className={`description ${expandedRows.includes(index) ? 'expanded' : 'collapsed'}`}>
-                                  <div
-                                    style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}
-                                    dangerouslySetInnerHTML={{
-                                      __html: expandedRows.includes(index) || printing
-                                        ? res.description
-                                        : getDescriptionPreview(res.description)
-                                    }}
-                                  />
-                                </div>
-                                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                  {!printing && (
-                                    <Button onClick={() => toggleRowExpansion(index)} className={HiddenOnPrint}>
-                                      {expandedRows.includes(index) ? 'Ver Menos' : 'Ver Mais'}
-                                    </Button>
-                                  )}
-                                  {expandedRows.includes(index) && positionAtSchool === 'DIRETOR/SUPERVISOR' && (
-                                    <Button onClick={() => handleEdit(index, res)} className={HiddenOnPrint}>
-                                      Editar
-                                    </Button>
-                                  )}
-                                </div>
-                              </DescriptionCell>
-                            </TableRow>
-                            {editingIndex === index && (
-                              <EditContainer>
-                                <div className="modal-content">
-                                  <h3>Editando Aula</h3>
-                                  <ReactQuill
-                                    theme="snow"
-                                    modules={{
-                                      toolbar: [
-                                        [{ 'font': [] }],
-                                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                                        ['bold', 'italic', 'underline'],
-                                        [{ 'color': [] }, { 'background': [] }],
-                                        ['clean']
-                                      ]
-                                    }}
-                                    value={editedDescription}
-                                    onChange={(e) => setEditedDescription(e)}
-                                    placeholder="Descrição da aula"
-                                    style={{
-                                      height: 'auto', // aumentado de 250px para 350px
-                                      maxHeight: '550px',
-                                      overflow: 'auto',
-                                      zIndex: 0,
-                                      position: 'relative'
-                                    }}
-                                  />
-                                  {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                                  <div style={{ position: 'relative', zIndex: 10, marginTop: '30px', }} className='BoxBtt'>
-                                    <ButtonEdit onClick={handleSaveEdit}>Salvar</ButtonEdit>
-                                    <ButtonEdit onClick={() => setEditingIndex(null)}>Cancelar</ButtonEdit>
-                                  </div>
-                                </div>
-                              </EditContainer>
-                            )}
-                          </ContainerTable>
-                        </React.Fragment>
-                      ))
-                  ) : (
-                    <InfoText>Nenhum dado de aulas encontrado para o {data.bimonthly}.</InfoText>
-                  )}
-                </LessonsContainer>
-                <PrintStyleLessons />
-              </StudentSection>
-            </>*/
           )}
 
           {activeComponent === 'assessments' && (
