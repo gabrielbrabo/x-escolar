@@ -323,10 +323,10 @@ export default function Daily() {
     return (
       <td
         className={`status-cell ${match.status === "P"
-            ? "presence"
-            : match.status === "FJ"
-              ? "justifiedAbsence"
-              : "absence"
+          ? "presence"
+          : match.status === "FJ"
+            ? "justifiedAbsence"
+            : "absence"
           }`}
       >
         {match.status}
@@ -505,6 +505,12 @@ export default function Daily() {
             <head>
               <title>Impressão</title>
               <style>
+              .logo-print {
+                width: 150px !important;
+                height: auto !important;
+                max-width: 150px !important;
+                object-fit: contain;
+              }
                 body { font-family: Arial, sans-serif; margin: 20px; }
                 table { width: 100%; border-collapse: collapse; }
                 th, td { 
@@ -1215,7 +1221,7 @@ export default function Daily() {
                   <HeaderWrapper className="HeaderWrapper">
 
                     {(logoUrl) && (
-                      <Preview className="" src={logoUrl} alt="Logo da escola" />
+                      <Preview className="logo-print" src={logoUrl} alt="Logo da escola" />
                     )}
 
                     <ContInfo className="info">
