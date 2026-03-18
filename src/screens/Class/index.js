@@ -51,16 +51,24 @@ const Cla$$ = () => {
 
             // 🔹 pega o primeiro ano
             const $yearClass = Year[0];
-            
+
             console.log("yearClass", $yearClass);
             const IstQuarter = await getIstQuarter($yearClass, JSON.parse(idSchool))
             const i = IstQuarter.data.data.find(res => res) || null;
-            
+
             const regime = i?.assessmentRegime;
 
             console.log("regime", regime);
 
             setAssessmentRegime(regime);
+
+            const savedFilter = sessionStorage.getItem("classYearFilter");
+
+            if (savedFilter) {
+                setFilter(savedFilter);
+            } else {
+                setFilter(JSON.stringify(schoolYear.data.data));
+            }
 
             setLoading(false);
             console.log(resClass)
@@ -111,7 +119,10 @@ const Cla$$ = () => {
                             <Select
                                 id="position"
                                 value={filter}
-                                onChange={(e) => setFilter(e.target.value)}
+                                onChange={(e) => {
+                                    setFilter(e.target.value);
+                                    sessionStorage.setItem("classYearFilter", e.target.value);
+                                }}
                             >
                                 <option value="">Todos{/*currentYear*/}</option>
                                 {year.map((c, index) => (
