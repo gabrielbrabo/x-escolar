@@ -216,17 +216,16 @@ export default function Daily() {
     })
     : [];*/
 
-  const uniqueDates = data
+  const uniqueDates = data?.attendance
     ? [
       ...new Map(
         data.attendance.map((att) => {
           const d = new Date(att.date);
 
-          // 🔥 normaliza (remove hora)
           const normalized = new Date(
-            d.getFullYear(),
-            d.getMonth(),
-            d.getDate()
+            d.getUTCFullYear(),
+            d.getUTCMonth(),
+            d.getUTCDate()
           );
 
           return [normalized.getTime(), normalized];
@@ -236,7 +235,7 @@ export default function Daily() {
     : [];
 
   const groupedByMonth = uniqueDates.reduce((acc, date) => {
-    const month = date.getMonth(); // 0 a 11
+    const month = date.getUTCMonth(); // ✅ usa UTC
 
     if (!acc[month]) acc[month] = [];
 
@@ -262,8 +261,15 @@ export default function Daily() {
     return months[month];
   };
 
-  const formatKey = (date) =>
-    new Date(date).toISOString().split("T")[0];
+  const formatKey = (date) => {
+    if (!date) return "";
+
+    const d = new Date(date);
+
+    if (isNaN(d)) return "";
+
+    return `${d.getUTCFullYear()}-${d.getUTCMonth()}-${d.getUTCDate()}`;
+  };
 
   const getAttendanceStatus = (studentId, date) => {
     const match = data.attendance.find(
@@ -305,9 +311,9 @@ export default function Daily() {
           const d = new Date(att.date);
 
           const normalized = new Date(
-            d.getFullYear(),
-            d.getMonth(),
-            d.getDate()
+            d.getUTCFullYear(),
+            d.getUTCMonth(),
+            d.getUTCDate()
           );
 
           return [normalized.getTime(), normalized];
@@ -317,7 +323,7 @@ export default function Daily() {
     : [];
 
   const groupedByMonthPhysical = uniqueDatesPhysical.reduce((acc, date) => {
-    const month = date.getMonth();
+    const month = date.getUTCMonth();
 
     if (!acc[month]) acc[month] = [];
     acc[month].push(date);
@@ -338,7 +344,7 @@ export default function Daily() {
     const match = data?.attendancePhysicalEducationTeacher?.find(
       (a) =>
         a.id_student === studentId &&
-        new Date(a.date).toDateString() === date.toDateString()
+        formatKey(a.date) === formatKey(date)
     );
 
     if (!match) return <td className="status-cell">-</td>;
