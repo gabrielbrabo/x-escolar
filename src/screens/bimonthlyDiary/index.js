@@ -217,9 +217,22 @@ export default function Daily() {
     : [];*/
 
   const uniqueDates = data
-    ? [...new Set(data.attendance.map((att) => att.date))]
-      .map((date) => new Date(date))
-      .sort((a, b) => a - b)
+    ? [
+      ...new Map(
+        data.attendance.map((att) => {
+          const d = new Date(att.date);
+
+          // 🔥 normaliza (remove hora)
+          const normalized = new Date(
+            d.getFullYear(),
+            d.getMonth(),
+            d.getDate()
+          );
+
+          return [normalized.getTime(), normalized];
+        })
+      ).values(),
+    ].sort((a, b) => a - b)
     : [];
 
   const groupedByMonth = uniqueDates.reduce((acc, date) => {
@@ -286,11 +299,21 @@ export default function Daily() {
 
   // 🔹 Datas únicas (Ed. Física)
   const uniqueDatesPhysical = data?.attendancePhysicalEducationTeacher
-    ? [...new Set(data.attendancePhysicalEducationTeacher.map((att) =>
-      new Date(att.date).toDateString()
-    ))]
-      .map((d) => new Date(d))
-      .sort((a, b) => a - b)
+    ? [
+      ...new Map(
+        data.attendancePhysicalEducationTeacher.map((att) => {
+          const d = new Date(att.date);
+
+          const normalized = new Date(
+            d.getFullYear(),
+            d.getMonth(),
+            d.getDate()
+          );
+
+          return [normalized.getTime(), normalized];
+        })
+      ).values(),
+    ].sort((a, b) => a - b)
     : [];
 
   const groupedByMonthPhysical = uniqueDatesPhysical.reduce((acc, date) => {
@@ -388,9 +411,7 @@ export default function Daily() {
               <style>
               .logo-print {
                 width: 150px !important;
-                height: auto !important;
-                max-width: 150px !important;
-                object-fit: contain;
+                height: 150px !important;
               }
                 body { font-family: Arial, sans-serif; margin: 20px; }
                 table { width: 100%; border-collapse: collapse; }
@@ -507,9 +528,7 @@ export default function Daily() {
               <style>
               .logo-print {
                 width: 150px !important;
-                height: auto !important;
-                max-width: 150px !important;
-                object-fit: contain;
+                height: 150px !important;
               }
                 body { font-family: Arial, sans-serif; margin: 20px; }
                 table { width: 100%; border-collapse: collapse; }
