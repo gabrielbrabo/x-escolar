@@ -57,6 +57,7 @@ const Student = () => {
     //console.log("clss",Clss)
     const normalizeString = (str) => {
         return str
+            .trim() // 🔥 remove espaços no início e fim
             .normalize("NFD") // Separa caracteres acentuados
             .replace(/[\u0300-\u036f]/g, "") // Remove acentos
             .replace(/[^\w\s]/gi, "") // Remove pontuações
@@ -169,14 +170,12 @@ const Student = () => {
                                 if (!busca) return val;
                                 return normalizeString(val.name).includes(normalizeString(busca));
                             }).sort((a, b) => {
-                                // Colocar alunos com status 'ativo' no início, e 'transferido' ou 'inativo' no final
-                                if (a.status === "ativo" && b.status !== "ativo") {
-                                    return -1; // 'ativo' vem antes
-                                } else if (b.status === "ativo" && a.status !== "ativo") {
-                                    return 1; // 'ativo' vem depois
-                                } else {
-                                    return 0; // Mantém a ordem original para os demais status
-                                }
+                                // prioridade por status
+                                if (a.status === "ativo" && b.status !== "ativo") return -1;
+                                if (b.status === "ativo" && a.status !== "ativo") return 1;
+
+                                // 🔥 ordenação alfabética correta
+                                return normalizeString(a.name).localeCompare(normalizeString(b.name));
                             }).map(student => (
                                 <Emp
                                     onClick={() =>
