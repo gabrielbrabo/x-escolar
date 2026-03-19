@@ -160,7 +160,11 @@ const StudentsMunicipality = () => {
                                         inativo
                                     </span>
                                 )}
-
+                                {student.status === "concluido" && (
+                                    <span style={{ color: "blue", marginLeft: "8px", fontWeight: "bold" }}>
+                                        {student.status}
+                                    </span>
+                                )}
                             </Emp>
                         ))}
                     </List>

@@ -642,7 +642,12 @@ const Student = () => {
                                                     )}
                                                     <Span style={{ color: "green" }}>Data de Ingresso na Escola: {new Date(student.entryDate + "T00:00:00").toLocaleDateString('pt-BR')}</Span>
                                                     {student.departureDate ? (
-                                                        <Span style={{ color: "red" }}>Data de Saida: {new Date(student.departureDate + "T00:00:00").toLocaleDateString('pt-BR')}</Span>
+                                                        <Span style={{ color: student.status === "concluido" ? "blue" : "red" }}>
+                                                            {student.status === "concluido"
+                                                                ? "Data de Conclusão: "
+                                                                : "Data de Saída: "}
+                                                            {new Date(student.departureDate + "T00:00:00").toLocaleDateString('pt-BR')}
+                                                        </Span>
                                                     ) : (
                                                         <Span></Span>
                                                     )}
@@ -994,7 +999,7 @@ const Student = () => {
                                             value={selectedStatus.status}
                                             onChange={(e) => {
                                                 handleChangeStatus(student._id, e.target.value)
-                                                setExitDate(e.target.value === "transferido" || e.target.value === "inativo" ? new Date().toISOString().split('T')[0] : null);
+                                                setExitDate(e.target.value === "transferido" || e.target.value === "inativo" || e.target.value === "concluido" ? new Date().toISOString().split('T')[0] : null);
 
                                             }}
                                         >
@@ -1002,6 +1007,9 @@ const Student = () => {
                                             {student.status !== "ativo" && <option value="ativo">Ativar</option>}
                                             {student.status !== "transferido" && <option value="transferido">Transferir</option>}
                                             {student.status !== "inativo" && <option value="inativo">Inativar</option>}
+                                            {student.status !== "concluido" && (
+                                                <option value="concluido">Concluir</option>
+                                            )}
                                         </Select>
 
                                         {selectedStatus.value === "transferido" && (
@@ -1012,9 +1020,20 @@ const Student = () => {
                                             </p>
                                         )}
 
-                                        {(selectedStatus.value === "transferido" || selectedStatus.value === "inativo") && (
+
+                                        {selectedStatus.value === "concluido" && (
+                                            <p style={{ color: "green", fontWeight: "bold" }}>
+                                                ✔ O aluno será marcado como concluído.
+                                            </p>
+                                        )}
+
+                                        {(selectedStatus.value === "transferido" || selectedStatus.value === "inativo" || selectedStatus.value === "concluido") && (
                                             <div>
-                                                <label>Data de Saída: </label>
+                                                <label>
+                                                    {selectedStatus.value === "concluido"
+                                                        ? "Data de Conclusão: "
+                                                        : "Data de Saída: "}
+                                                </label>
                                                 <input
                                                     type="date"
                                                     value={exitDate}
