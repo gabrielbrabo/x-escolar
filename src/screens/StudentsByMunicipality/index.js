@@ -66,9 +66,20 @@ const StudentsMunicipality = () => {
         .filter(s => !filterSchool || s.id_school._id === filterSchool)
         .filter(s => !busca || normalizeString(s.name).includes(normalizeString(busca)))
         .sort((a, b) => {
-            if (a.status === "ativo" && b.status !== "ativo") return -1
-            if (b.status === "ativo" && a.status !== "ativo") return 1
-            return 0
+            const statusOrder = {
+                ativo: 0,
+                concluido: 1,
+                transferido: 2,
+                inativo: 3
+            }
+
+            const statusDiff = (statusOrder[a.status] ?? 99) - (statusOrder[b.status] ?? 99)
+            if (statusDiff !== 0) return statusDiff
+
+            return a.name.localeCompare(b.name, 'pt-BR', {
+                sensitivity: 'base',
+                ignorePunctuation: true
+            })
         })
 
     const StudentInformation = (student) => {
