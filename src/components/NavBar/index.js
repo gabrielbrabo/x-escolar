@@ -167,6 +167,7 @@ export function NavBar({ menuIsVisible, setMenuIsVisible }) {
         <nav>
           <a href="/schools" className={`nav__link ${isActive('/schools')}`}>Escolas</a>
           <a href="/employees-edu-dep" className={`nav__link ${isActive('/employees-edu-dep')}`}>Funcionários</a>
+          <a href="/studentsByMunicipality" className={`nav__link ${isActive('/studentsByMunicipality')}`}>Alunos</a>
         </nav>
       )}
     </Container>

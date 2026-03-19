@@ -70,7 +70,8 @@ import {
     Grade,
     EditOverlay,
     HeaderRow,
-    DivTopActions
+    DivTopActions,
+    SchoolDivider
 } from './style';
 
 /*import {
@@ -582,7 +583,7 @@ const Student = () => {
         const studentName = await student.map(student => (student.name))
         if (assessmentFormat === "grade") {
             navigate(`/history/${id_student}/${studentName}`)
-        } 
+        }
         /*if (assessmentFormat === "concept") {
             navigate(`/history-concept/${id_student}/${studentName}`)
         }*/else {
@@ -632,6 +633,8 @@ const Student = () => {
                                                     <Span>celular do Pai: {student.fatherCellPhone}</Span>
                                                     <Span>Endereço: {student.address}</Span>
                                                     <Span>RS: {student.registerStudent}</Span>
+                                                    <Span>Escola: {student.id_school.name}</Span>
+                                                    <SchoolDivider />
                                                     {student.admissionDate ? (
                                                         <Span>Data de Admissão: {new Date(student.admissionDate + "T00:00:00").toLocaleDateString('pt-BR')}</Span>
                                                     ) : (

@@ -759,3 +759,16 @@ export const DivTopActions = styled.div`
     }
   }
 `;
+
+
+export const SchoolDivider = styled.div`
+  width: 100%;
+  height: 4px;
+  margin: 0px 0 10px 0;
+  background: linear-gradient(
+    to bottom,
+    #f97316 50%,
+    #2563eb 50%
+  );
+  border-radius: 2px;
+`;

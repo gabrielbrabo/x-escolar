@@ -281,6 +281,12 @@ export const getSchoolsData = async (idSchools) => {
         });
 }
 
+export const GetStudentsBySchools = (idsSchools) => {
+    return api.post('/students/by-schools', {
+        idsSchools
+    })
+}
+
 export const getSchool = async (idSchool) => {
     console.log("idSchoolAPI", idSchool)
     return api.post('/get/school', {
